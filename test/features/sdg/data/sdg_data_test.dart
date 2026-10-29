@@ -198,7 +198,7 @@ void main() {
 
     test('Spanish text contains proper diacritics', () {
       final goal1 = data.goalMap[1]!;
-      expect(goal1.descriptionEs, contains('Más'));
+      expect(goal1.descriptionEs, contains('más'));
       expect(goal1.descriptionEs, contains('educación'));
       expect(goal1.descriptionEs, contains('protección'));
       expect(goal1.descriptionEs, contains('económicos'));

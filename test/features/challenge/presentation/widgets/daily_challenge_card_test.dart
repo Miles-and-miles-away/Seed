@@ -195,7 +195,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Desafío diario de acción'), findsOneWidget);
+      expect(find.text('Desafío diario'), findsOneWidget);
       expect(
         find.text(
           'Registra «Apagar las luces» para desbloquear el eco-dato de hoy',

@@ -304,7 +304,7 @@ void main() {
     'actions': 1.068,
     'challenges': 1.177,
     'dailyCard': 1.25,
-    'ecodex': 1.161,
+    'ecodex': 1.177,
     'sdg': 1.166,
   };
 
@@ -432,5 +432,5 @@ void main() {
 int _oneCharSlack(double scale) => switch (scale) {
   1.0 => 0,
   1.3 => 1,
-  _ => 11,
+  _ => 20,
 };

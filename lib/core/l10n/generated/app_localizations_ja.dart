@@ -154,20 +154,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String mascotEvolution(int stage) {
-    return '進化段階 $stage';
+    return '進化段階$stage';
   }
 
   @override
   String get mascotSelectionTitle => 'あなたの相棒を選ぼう';
 
   @override
-  String get mascotSelectionSubtitle => 'この小さな友達があなたのサステナビリティの旅に一緒に成長します！';
+  String get mascotSelectionSubtitle => 'この小さな相棒は、あなたのサステナブルな旅と一緒に成長していきます！';
 
   @override
   String get mascotNameLabel => '相棒に名前をつけよう';
 
   @override
-  String get mascotNameHint => '例：スプラウティ、リーフィ、バド...';
+  String get mascotNameHint => '例：めばえ、はっぱ、つぼみ...';
 
   @override
   String get mascotNameRequired => '名前を入力してください';
@@ -182,7 +182,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get evolutionTitle => '進化！';
 
   @override
-  String get evolutionSubtitle => 'あなたの相棒がもっと強くなりました！';
+  String get evolutionSubtitle => '相棒がさらに強くなりました！';
 
   @override
   String get evolutionContinue => 'すごい！';
@@ -194,10 +194,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profileStats => '統計';
 
   @override
-  String get profileTotalActions => '合計アクション';
+  String get profileTotalActions => 'アクション総数';
 
   @override
-  String get profileTotalCO2 => '合計CO₂削減量';
+  String get profileTotalCO2 => 'CO₂削減量の合計';
 
   @override
   String get profileMemberSince => '登録日';
@@ -303,7 +303,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get categoryCommunity => 'コミュニティ';
 
   @override
-  String get categoryAdvocacy => 'アドボカシー';
+  String get categoryAdvocacy => '働きかけ';
 
   @override
   String get categoryLearning => '学習';
@@ -394,7 +394,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get progressGoalsToday => '今日の目標';
 
   @override
-  String get progressGoalReached => '日目標達成！';
+  String get progressGoalReached => '今日の目標達成！';
 
   @override
   String get progressSunEmptyHint => '目標を達成して太陽を育てよう！';
@@ -409,24 +409,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get progressStartJourney => '始める';
 
   @override
-  String get progressTargetDescriptionEasy => '優しいスタート — 初心者にぴったり！';
+  String get progressTargetDescriptionEasy => 'ゆるやかなスタート。初心者にぴったり！';
 
   @override
-  String get progressTargetDescriptionModerate =>
-      'バランスの取れたチャレンジ — ほとんどのユーザーにおすすめ。';
+  String get progressTargetDescriptionModerate => 'バランスの取れたチャレンジ。ほとんどの人におすすめ。';
 
   @override
-  String get progressTargetDescriptionChallenge => '野心的！環境への影響を与えることに真剣です。';
+  String get progressTargetDescriptionChallenge => '意欲的！本気で変化を起こすつもりですね。';
 
   @override
-  String get progressTargetDescriptionExpert =>
-      'エキスパートレベル — あなたはサステナビリティチャンピオンです！';
+  String get progressTargetDescriptionExpert => 'エキスパートレベル。あなたはサステナビリティの達人です！';
 
   @override
   String get languageSettingsTitle => '言語';
 
   @override
-  String get languageSettingsDescription => '希望の言語を選択してください。アプリはすぐに更新されます。';
+  String get languageSettingsDescription => '希望の言語を選択してください。アプリの表示はすぐに切り替わります。';
 
   @override
   String get languageSettingsNote => 'アクションライブラリの一部のコンテンツは元の言語のままになる場合があります。';
@@ -601,10 +599,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sortShuffle => 'シャッフル';
 
   @override
-  String get sortAlphabeticalAZ => '名前 (あ→わ)';
+  String get sortAlphabeticalAZ => '名前（五十音順）';
 
   @override
-  String get sortAlphabeticalZA => '名前 (わ→あ)';
+  String get sortAlphabeticalZA => '名前（五十音逆順）';
 
   @override
   String get sortCo2HighToLow => 'CO₂ (多い順)';
@@ -619,7 +617,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sortPointsLowToHigh => 'ポイント (少ない順)';
 
   @override
-  String get filterBySDG => 'SDGでフィルター';
+  String get filterBySDG => 'SDGsで絞り込む';
 
   @override
   String get allCategories => 'すべて';
@@ -630,7 +628,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get sdgYourImpact => 'あなたの影響';
+  String get sdgYourImpact => 'あなたの貢献';
 
   @override
   String sdgActionsLogged(int count) {
@@ -644,7 +642,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String sdgCo2SavedForGoal(String amount) {
-    return 'この目標への$amount CO₂削減';
+    return 'この目標で$amountのCO₂を削減';
   }
 
   @override
@@ -658,7 +656,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get sdgLearnOnlyExplanation =>
-      'この目標は集団的な行動を必要とする体系的な問題に取り組んでいます。直接的な日々のアクションは記録できませんが、学ぶことで全体像を理解し、貢献する方法を見つけることができます。';
+      'この目標は、社会全体での取り組みが必要な構造的な問題に関わるものです。日々のアクションとして直接記録することはできませんが、学ぶことで全体像を理解し、貢献の方法を見つけることができます。';
 
   @override
   String get sdgWaysToContribute => '貢献する方法';
@@ -674,7 +672,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get learnOnlyDescription =>
-      'このアクションはより広いサステナビリティ目標を支援します。直接記録はできませんが、学ぶことで全体像を理解できます。';
+      'このアクションは、より広いサステナビリティの目標につながるものです。直接記録はできませんが、学ぶことで全体像が見えてきます。';
 
   @override
   String get learnOnlyRelatedSdgs => '関連する目標';
@@ -704,14 +702,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String eggDiscoveryMessage(String mascotName) {
-    return '一晩で、$mascotNameのそばに不思議なタマゴが現れました！';
+    return '夜のあいだに、$mascotNameのそばに不思議なタマゴが現れました！';
   }
 
   @override
   String get eggDiscoverySubtitle => '30日間毎日アクションを記録して孵化させよう。';
 
   @override
-  String get eggDiscoveryDismiss => 'わくわくする！';
+  String get eggDiscoveryDismiss => '楽しみ！';
 
   @override
   String get eggHatchingTitle => '孵化中！';
@@ -731,7 +729,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mascotCollectionTitle => 'マイマスコット';
 
   @override
-  String get mascotSwitchConfirm => 'マスコットを切り替える？';
+  String get mascotSwitchConfirm => 'マスコットを切り替えますか？';
 
   @override
   String mascotSwitchConfirmBody(String name) {
@@ -748,7 +746,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get maxEvolutionTitle => '最大進化！';
 
   @override
-  String get maxEvolutionSubtitle => 'あなたの相棒は最高の姿に到達しました！';
+  String get maxEvolutionSubtitle => '相棒が最終形態になりました！';
 
   @override
   String get maxEvolutionEggHint => 'タマゴを育てて新しい相棒を見つけよう！';
@@ -829,7 +827,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get notifAdd => '追加';
 
   @override
-  String get settingsPreferences => '設定';
+  String get settingsPreferences => '環境設定';
 
   @override
   String settingsVersionFormat(String version) {
@@ -851,7 +849,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsTapToAddReminders => 'タップしてリマインダーを追加';
 
   @override
-  String get settingsAllRemindersDisabled => '全リマインダーが無効';
+  String get settingsAllRemindersDisabled => 'すべてのリマインダーがオフ';
 
   @override
   String settingsRemindersPlusMore(String time, int count) {
@@ -889,16 +887,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get feedbackTitle => 'フィードバックを送る';
 
   @override
-  String get feedbackCategoryLabel => 'カテゴリー';
+  String get feedbackCategoryLabel => 'カテゴリ';
 
   @override
   String get feedbackCategoryBug => 'バグ報告';
 
   @override
-  String get feedbackCategoryFeature => '機能のリクエスト';
+  String get feedbackCategoryFeature => '機能の要望';
 
   @override
-  String get feedbackCategoryGeneral => '一般的なフィードバック';
+  String get feedbackCategoryGeneral => 'その他のご意見';
 
   @override
   String get feedbackDescriptionLabel => 'フィードバックの内容';
@@ -975,7 +973,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homePoints => 'ポイント';
 
   @override
-  String get myGoalTitle => 'マイゴール';
+  String get myGoalTitle => 'わたしの目標';
 
   @override
   String get myGoalEmptyPrompt => 'タップしてあなたの目標を設定しましょう';
@@ -990,7 +988,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get goalPickerCustomOption => '自分で書く';
 
   @override
-  String get goalPickerCustomHint => '私の目標は…';
+  String get goalPickerCustomHint => 'わたしの目標は…';
 
   @override
   String get personalGoalReduceFlights => '長距離フライトを減らす';
@@ -1033,7 +1031,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sdgProgressChartHint => 'タップで拡大';
 
   @override
-  String get sdgBadge => '国連SDG';
+  String get sdgBadge => '国連SDGs';
 
   @override
   String get buttonDelete => '削除';
@@ -1078,7 +1076,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authAcceptTermsError => '利用規約とプライバシーポリシーに同意してください';
 
   @override
-  String get authForgotPasswordTitle => 'パスワードをリセット';
+  String get authForgotPasswordTitle => 'パスワードの再設定';
 
   @override
   String get authForgotPasswordHint => 'メールアドレスを入力してください';
@@ -1088,7 +1086,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get authForgotPasswordSent =>
-      'このメールアドレスのアカウントが存在する場合、パスワードリセットリンクが送信されました。';
+      'このメールアドレスのアカウントが存在する場合、パスワード再設定用のリンクをお送りしました。';
 
   @override
   String get authVerifyEmailTitle => 'メール認証';
@@ -1097,11 +1095,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authCheckEmail => 'メールを確認してください';
 
   @override
-  String get authVerificationSentTo => '確認リンクを送信しました:';
+  String get authVerificationSentTo => '認証リンクを送信しました：';
 
   @override
   String get authVerifyInstructions =>
-      'メール内のリンクをクリックしてアカウントを認証し、ここに戻って下のボタンをタップしてください。';
+      'メール内のリンクを開いてアカウントを認証したら、ここに戻って下のボタンをタップしてください。';
 
   @override
   String get authChecking => '確認中...';
@@ -1123,7 +1121,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get authEmailNotVerified =>
-      'メールがまだ認証されていません。受信トレイを確認し、認証リンクをクリックしてください。';
+      'メールがまだ認証されていません。受信トレイを確認して、認証リンクを開いてください。';
 
   @override
   String get authValidationEmailRequired => 'メールアドレスを入力してください';
@@ -1189,10 +1187,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get ecoFactCategoryComparison => '比較';
 
   @override
-  String get ecoFactCategoryIndividual => '個人の影響';
+  String get ecoFactCategoryIndividual => '一人の力';
 
   @override
-  String get ecoFactCategoryMythBuster => '誤解を解く';
+  String get ecoFactCategoryMythBuster => 'よくある誤解';
 
   @override
   String get ecoFactCategoryNatureWonder => '自然の驚異';
@@ -1239,8 +1237,8 @@ class AppLocalizationsJa extends AppLocalizations {
       'consumption': '消費のアクションならどれでもOK',
       'water': '水のアクションならどれでもOK',
       'community': 'コミュニティのアクションならどれでもOK',
-      'advocacy': 'アドボカシーのアクションならどれでもOK',
-      'other': 'このカテゴリーのアクションならどれでもOK',
+      'advocacy': '働きかけのアクションならどれでもOK',
+      'other': 'このカテゴリのアクションならどれでもOK',
     });
     return '$_temp0';
   }
@@ -1255,7 +1253,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'consumption': '消費のアクションを記録して、今日のエコファクトを解除しよう',
       'water': '水のアクションを記録して、今日のエコファクトを解除しよう',
       'community': 'コミュニティのアクションを記録して、今日のエコファクトを解除しよう',
-      'advocacy': 'アドボカシーのアクションを記録して、今日のエコファクトを解除しよう',
+      'advocacy': '働きかけのアクションを記録して、今日のエコファクトを解除しよう',
       'other': 'アクションを記録して、今日のエコファクトを解除しよう',
     });
     return '$_temp0';
@@ -1275,7 +1273,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get challengeCompletedSnackbar => 'チャレンジ完了！エコファクトが解除されました！';
 
   @override
-  String get challengesScreenTitle => 'マルチデイチャレンジ';
+  String get challengesScreenTitle => '複数日チャレンジ';
 
   @override
   String get challengeStart => 'チャレンジ開始';
@@ -1290,7 +1288,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get challengeCompletedBadge => '完了';
 
   @override
-  String get challengeAvailable => '利用可能';
+  String get challengeAvailable => '挑戦可能';
 
   @override
   String get challengeAbandon => '中断';
@@ -1403,7 +1401,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get impactInfoIntro =>
-      '節約した CO2 を身近な例に換算しています。世界平均を使い、CO2 と CO2 換算（メタン、電力、食料ライフサイクル）を併用しているため、あくまで目安です。実際の効果は地域の電源構成や供給網によって変わります。';
+      '削減した CO2 を身近な例に換算しています。世界平均を使い、CO2 と CO2 換算（メタン、電力、食料ライフサイクル）を併用しているため、あくまで目安です。実際の効果は地域の電源構成や供給網によって変わります。';
 
   @override
   String get impactInfoFormulaLabel => '計算式';
@@ -1452,7 +1450,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get ecoDexNewDiscovery => '新しいエコ図鑑の発見！';
+  String get ecoDexNewDiscovery => 'エコ図鑑に新しい発見！';
 
   @override
   String get ecoDexNextUp => 'もうすぐ発見';
@@ -1474,7 +1472,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get ecoDexEmptyHint => '最初のアクションを記録して最初の発見をしましょう。';
+  String get ecoDexEmptyHint => '最初のアクションを記録して、初めての発見をしましょう。';
 
   @override
   String get ecoDexInfoTooltip => 'エコ図鑑について';
@@ -1484,7 +1482,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get ecoDexInfoBody =>
-      'エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、ストリークの継続、チャレンジの達成、エコ知識の閲覧など、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。発見でポイントは増えません。発見した知識そのものがごほうびです。';
+      'エコ図鑑は地球に関する事実を集めた百科事典です。アクションの記録、CO2の削減、連続記録の継続、チャレンジの達成、エコファクトを読むことなど、Seedを使ううちに自動で解放されます。ロック中のカードをタップすると発見のヒントが、発見済みのエントリーをタップすると詳しい事実が見られます。発見でポイントは増えません。発見した知識そのものがごほうびです。';
 
   @override
   String get transportCalculatorTitle => '移動のCO2計算';
@@ -1541,7 +1539,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transportDistanceInvalid => '0km以上の距離を入力してください';
 
   @override
-  String get transportDistanceEstimateNote => '直線距離からの概算です。実際の経路に合わせて編集できます。';
+  String get transportDistanceEstimateNote =>
+      '都市の位置からの概算です。実際の経路に合わせて編集してください。';
 
   @override
   String get transportDistanceUnknown => '不明';
@@ -1620,7 +1619,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transportGroupCar => '車・バイク';
 
   @override
-  String get transportGroupBus => 'バス';
+  String get transportGroupBus => 'バス・長距離バス';
 
   @override
   String get transportGroupTaxi => 'タクシー';
@@ -1716,7 +1715,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportComparisonFull(int max) {
-    return '比較は満杯です（$max件）';
+    return '比較枠がいっぱいです（最大$max件）';
   }
 
   @override
@@ -1726,7 +1725,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportOptionStaged(int count) {
-    return 'オプション$countを追加しました';
+    return '選択肢$countを追加しました';
   }
 
   @override
@@ -1736,7 +1735,7 @@ class AppLocalizationsJa extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$labelは$worseよりCO2eを$amount少なく排出します（$percent%減）';
+    return '$labelは$worseよりCO2eが$amount少なくなります（$percent%減）';
   }
 
   @override
@@ -1753,7 +1752,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get transportLogChoiceTitle => 'より環境に優しい選択をしますか？';
+  String get transportLogChoiceTitle => '環境にやさしいほうを選びますか？';
 
   @override
   String transportLogChoiceBody(String amount) {
@@ -1791,13 +1790,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get customActionBadge => 'カスタム';
 
   @override
-  String get actionReproduce => 'もう一度行う';
+  String get actionReproduce => 'もう一度記録';
 
   @override
   String get actionReproducedMessage => '再度記録しました';
 
   @override
-  String get foodCalculatorTitle => '食事の計算機';
+  String get foodCalculatorTitle => '食事のCO2計算';
 
   @override
   String get foodMethodologyTitle => '計算方法と出典';
@@ -1815,7 +1814,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get foodEditIngredient => '食材を編集';
 
   @override
-  String get foodSelectItem => '食品を選択';
+  String get foodSelectItem => '食材を選ぶ';
 
   @override
   String get foodChangeItem => '変更';
@@ -1899,7 +1898,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String foodComparisonFull(int max) {
-    return '比較は満杯です（$max件）';
+    return '比較枠がいっぱいです（最大$max件）';
   }
 
   @override
@@ -1909,7 +1908,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String foodOptionStaged(int count) {
-    return 'オプション$countを追加しました';
+    return '選択肢$countを追加しました';
   }
 
   @override
@@ -1925,16 +1924,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get foodGroupPrepared => '調理済み食品';
 
   @override
-  String get foodBasisDry => '乾燥重量 — 調理・浸水する前の重さで入力してください。';
+  String get foodBasisDry => '乾燥重量：調理・浸水する前の重さで入力してください。';
 
   @override
-  String get foodBasisDrained => '固形量 — 缶の汁を切った後の重さで入力してください。';
+  String get foodBasisDrained => '固形量：缶の汁を切った後の重さで入力してください。';
 
   @override
-  String get foodBasisEdible => '可食部の重量 — 殻・骨・皮を除いた重さで入力してください。';
+  String get foodBasisEdible => '可食部の重量：殻・骨・皮を除いた重さで入力してください。';
 
   @override
-  String get foodBasisConcentrate => '希釈前の重量 — 濃縮された状態の重さで入力してください。';
+  String get foodBasisConcentrate => '希釈前の重量：濃縮された状態の重さで入力してください。';
 
   @override
   String get foodBoundaryNarrower =>
@@ -1984,7 +1983,7 @@ class AppLocalizationsJa extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$labelは$worseよりCO2eを$amount少なく排出します（$percent%減）';
+    return '$labelは$worseよりCO2eが$amount少なくなります（$percent%減）';
   }
 
   @override
@@ -2127,7 +2126,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get energyAddUsage => '追加';
 
   @override
-  String get energyColumnEmptyHint => '家でしていることを追加してください';
+  String get energyColumnEmptyHint => '家でしていることを追加して、この習慣を組み立てましょう';
 
   @override
   String get energyNoPointsNote => 'この計算機は学ぶためのものです。ポイントは加算されず、記録もされません。';
@@ -2148,7 +2147,7 @@ class AppLocalizationsJa extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$label は $worse より $amount CO2e 少ない（$percent%減）';
+    return '$labelは$worseよりCO2eが$amount少なくなります（$percent%減）';
   }
 
   @override
@@ -2158,17 +2157,17 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energyComparisonSavesEquiv(String amount, int charges) {
-    return '$amount の削減、スマホ充電 約$charges回分の電力です';
+    return '$amountの削減です。スマホ充電およそ$charges回分の電力にあたります';
   }
 
   @override
   String energyComparisonSavesOnly(String amount) {
-    return '$amount の削減です';
+    return '$amountの削減です';
   }
 
   @override
   String energyPhoneChargesEquiv(int charges) {
-    return 'スマホ充電 約$charges回分の電力です';
+    return 'スマホ充電およそ$charges回分の電力にあたります';
   }
 
   @override
@@ -2186,7 +2185,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energyMethodologyBody(int grid) {
-    return 'このツールの数値はすべて学びのための概算で、末尾の出典まで遡れます。\n\n### 何を数えているか\n家庭で使うときに消費する電気・ガス（運用エネルギー）だけを数えます。移動計算機と同じ流儀で、ライフサイクル全体を数える食事計算機とは意図的に異なります。3つの計算機の結果を足し合わせないでください -- それぞれ別の問いに答えています。ガスは燃焼分のみで、上流分（約+17%）は移動計算機との整合のため含めていません。ここではポイントは付きません。エネルギー習慣の記録はアクションログで行います。\n\n### なぜ世界共通の1つの係数なのか\n電気のクリーンさは国によって大きく違います。同じ乾燥機1回分でも、英国では約0.6 kg、日本では約1.9 kg、インドでは約3.1 kgのCO2e -- 同じ行動で5倍の開きです。太陽光・風力・原子力か、石炭か。電気がどこから来るかは、何をするかと同じくらい効きます。\n\n国ごとの係数も検討しましたが、採用しませんでした。正確を期すには国、地域や電力会社（米国の平均1つの中に26地域分の幅が隠れています）、さらには時間帯まで必要になります。昼の太陽光が豊富な時間帯は、同じ電力網でも夕方のピークよりずっとクリーンだからです。しかもこれらの数値は動きます。英国の公式係数は1回の年次改定で26%下がりました。それぞれ勝手に古びる100個の数値を抱えるより、1つの数値で正直に概算するほうが誠実だと考えました。\n\n代わりに、3つのことをしています。\n\n**出典と年次を明記した世界平均を1つ。** Emberが公表する2025年の世界平均、$grid g CO2e/kWhを使います。日本の係数は約429 g/kWhでこれに近い一方、英国やフランスには高すぎ、インドやポーランドには低すぎる値です。\n\n**誰にとっても正しい比較。** この計算機の比較のほとんどは、同じ種類のエネルギーで動くもの同士です -- 湯船とシャワー、乾燥機と外干し、温水洗濯と冷水洗濯。そこでは電力係数が完全に打ち消し合います。湯船は10分のシャワーの約2.3倍。グラスゴーでも東京でもデリーでも同じです。絶対値は電力網で変わりますが、倍率は変わりません。\n\n**電力網次第で答えが変わる比較には、判定を出しません。** ガスと電気の比較だけは本当に逆転します。約241 g CO2e/kWhを下回る電力網では電気温水が、上回る電力網ではガスが有利です。英国はすでにこの線を下回り、日本は大きく上回っています。だから両方の数値を並べ、勝者は宣言しません。正直な答えはあなたの行動ではなく、住む場所で決まるからです。\n\n自分の電力網を確かめたい場合は、電力会社や政府のエネルギー統計が公表する係数を上の$gridと見比べてください。この計算機の数値がどちらに傾くか分かります。\n\n### 熱がすべて\n熱を作る・運ぶ行動（シャワー、湯船、乾燥、冷暖房）は、光や計算しかしない行動の20〜670倍のエネルギーを使います。扇風機は冷房グループの例外で、熱ではなく空気を動かすため、エアコン1時間の約8分の1しか使いません。下のランキングは各行動の標準的な1回分での比較です。冷蔵庫は1日約1 kWhですが、シャワーのように「短く使う」ことができないため一覧には入れていません。効くのは買い替え時の省エネ性能です。\n\n暖房4方式を同じ実測基準（資源エネルギー庁）で1時間あたりに換算すると:\n\n- エアコン暖房（ヒートポンプ）: 110 g CO2e\n- ガスファンヒーター: 181 g\n- 石油ファンヒーター: 245 g\n- 電気ストーブ（抵抗加熱）: 550 g\n\nエアコン暖房の排出は電気ストーブの約5分の1、ガスの約1.6分の1、灯油の約2.2分の1です。灯油は電気ストーブには勝ちますが、ヒートポンプには大きく負けます。だからこの4つは必ず並べて示します。\n\n### 実測値主義\nエアコンの数値は実使用1時間の実測平均（省エネルギーセンター経由・資源エネルギー庁）です。カタログの定格は全負荷での測定のため約2.5倍大きくなります。こたつはメーカー自身のサーモスタット平均実測値で、電気ストーブの約8分の1 -- ただしこのデータセットで最も不確かな数値です。設定温度のプリセットは±2℃までに制限しています。クールビズ・ウォームビズでおなじみの目安は1℃あたり冷房約13%・暖房約10%（環境省）ですが、資源エネルギー庁の実測からは15.2%・12.6%が導かれます。1℃あたりの節約は線形ではなく、概算として扱ってください。\n\n### 待機電力の本当のところ\n機器1台あたりの待機電力は1〜3Wから約0.5Wまで下がりましたが、機器の数がそれ以上に増えました。ローレンス・バークレー国立研究所によれば、家庭の待機電力は「ほぼ同じ量のまま、より多くの製品に分散した」状態です。待機電力は無視できるものでも、電気代の10%でもありません。\n\n### 照明\n消灯の数値は8.5WのLED電球（4時間で約15 g）を前提にしています。白熱電球なら同じ4時間で約110 g -- そして電球の交換は、消灯よりはるかに大きな削減になります。\n\n### 回避排出について\nアクションログの中古系アクション（中古車、古着、図書館）は「新品を買わない」という選択への評価です。2人が同じ回避製造を各自の記録に付けるのは矛盾しませんが、その2つを合算することはできません。製造は1回しか起きていないからです。';
+    return 'このツールの数値はすべて学びのための概算で、末尾の出典まで遡れます。\n\n### 何を数えているか\n家庭で使うときに消費する電気・ガス（運用エネルギー）だけを数えます。移動計算機と同じ流儀で、ライフサイクル全体を数える食事計算機とは意図的に異なります。3つの計算機の結果を足し合わせないでください。それぞれ別の問いに答えています。ガスは燃焼分のみで、上流分（約+17%）は移動計算機との整合のため含めていません。ここではポイントは付きません。エネルギー習慣の記録はアクションログで行います。\n\n### なぜ世界共通の1つの係数なのか\n電気のクリーンさは国によって大きく違います。同じ乾燥機1回分でも、英国では約0.6 kg、日本では約1.9 kg、インドでは約3.1 kgのCO2eと、同じ行動で5倍の開きです。太陽光・風力・原子力か、石炭か。電気がどこから来るかは、何をするかと同じくらい効きます。\n\n国ごとの係数も検討しましたが、採用しませんでした。正確を期すには国、地域や電力会社（米国の平均1つの中に26地域分の幅が隠れています）、さらには時間帯まで必要になります。昼の太陽光が豊富な時間帯は、同じ電力網でも夕方のピークよりずっとクリーンだからです。しかもこれらの数値は動きます。英国の公式係数は1回の年次改定で26%下がりました。それぞれ勝手に古びる100個の数値を抱えるより、1つの数値で正直に概算するほうが誠実だと考えました。\n\n代わりに、3つのことをしています。\n\n**出典と年次を明記した世界平均を1つ。** Emberが公表する2025年の世界平均、$grid g CO2e/kWhを使います。日本の係数は約429 g/kWhでこれに近い一方、英国やフランスには高すぎ、インドやポーランドには低すぎる値です。\n\n**誰にとっても正しい比較。** この計算機の比較のほとんどは、同じ種類のエネルギーで動くもの同士です。湯船とシャワー、乾燥機と外干し、温水洗濯と冷水洗濯。そこでは電力係数が完全に打ち消し合います。湯船は10分のシャワーの約2.3倍。グラスゴーでも東京でもデリーでも同じです。絶対値は電力網で変わりますが、倍率は変わりません。\n\n**電力網次第で答えが変わる比較には、判定を出しません。** ガスと電気の比較だけは本当に逆転します。約241 g CO2e/kWhを下回る電力網では電気温水が、上回る電力網ではガスが有利です。英国はすでにこの線を下回り、日本は大きく上回っています。だから両方の数値を並べ、勝者は宣言しません。正直な答えはあなたの行動ではなく、住む場所で決まるからです。\n\n自分の電力網を確かめたい場合は、電力会社や政府のエネルギー統計が公表する係数を上の$gridと見比べてください。この計算機の数値がどちらに傾くか分かります。\n\n### 熱がすべて\n熱を作る・運ぶ行動（シャワー、湯船、乾燥、冷暖房）は、光や計算しかしない行動の20〜670倍のエネルギーを使います。扇風機は冷房グループの例外で、熱ではなく空気を動かすため、エアコン1時間の約8分の1しか使いません。下のランキングは各行動の標準的な1回分での比較です。冷蔵庫は1日約1 kWhですが、シャワーのように「短く使う」ことができないため一覧には入れていません。効くのは買い替え時の省エネ性能です。\n\n暖房4方式を同じ実測基準（資源エネルギー庁）で1時間あたりに換算すると:\n\n- エアコン暖房（ヒートポンプ）: 110 g CO2e\n- ガスファンヒーター: 181 g\n- 石油ファンヒーター: 245 g\n- 電気ストーブ（抵抗加熱）: 550 g\n\nエアコン暖房の排出は電気ストーブの約5分の1、ガスの約1.6分の1、灯油の約2.2分の1です。灯油は電気ストーブには勝ちますが、ヒートポンプには大きく負けます。だからこの4つは必ず並べて示します。\n\n### 実測値主義\nエアコンの数値は実使用1時間の実測平均（省エネルギーセンター経由・資源エネルギー庁）です。カタログの定格は全負荷での測定のため約2.5倍大きくなります。こたつはメーカー自身のサーモスタット平均実測値で、電気ストーブの約8分の1ですが、このデータセットで最も不確かな数値です。設定温度のプリセットは±2℃までに制限しています。クールビズ・ウォームビズでおなじみの目安は1℃あたり冷房約13%・暖房約10%（環境省）ですが、資源エネルギー庁の実測からは15.2%・12.6%が導かれます。1℃あたりの節約は線形ではなく、概算として扱ってください。\n\n### 待機電力の本当のところ\n機器1台あたりの待機電力は1〜3Wから約0.5Wまで下がりましたが、機器の数がそれ以上に増えました。ローレンス・バークレー国立研究所によれば、家庭の待機電力は「ほぼ同じ量のまま、より多くの製品に分散した」状態です。待機電力は無視できるものでも、電気代の10%でもありません。\n\n### 照明\n消灯の数値は8.5WのLED電球（4時間で約15 g）を前提にしています。白熱電球なら同じ4時間で約110 g。そして電球の交換は、消灯よりはるかに大きな削減になります。\n\n### 回避排出について\nアクションログの中古系アクション（中古車、古着、図書館）は「新品を買わない」という選択への評価です。2人が同じ回避製造を各自の記録に付けるのは矛盾しませんが、その2つを合算することはできません。製造は1回しか起きていないからです。';
   }
 
   @override
@@ -2210,7 +2209,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get energyVerdictDifferentGroup =>
-      'この2つは種類が違うため、どちらが良いとは言えません。入浴とシャワー、乾燥機と自然乾燥のように、同じ種類のものを比べてください。';
+      'この2つは種類が違うため、どちらが良いとは言えません。湯船とシャワー、乾燥機と外干しのように、同じ種類のものを比べてください。';
 
   @override
   String get energyVerdictDifferentCarrier =>
@@ -2539,7 +2538,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walkthroughCalculators1 =>
-      '3つの計算ツールで2つの選択肢を並べて比べられます。交通：好きな手段を組み合わせた2つのルート。環境にやさしい方を選んだら、アクションとして記録できます。';
+      '3つの計算ツールで2つの選択肢を並べて比べられます。移動：好きな手段を組み合わせた2つのルート。環境にやさしい方を選んだら、アクションとして記録できます。';
 
   @override
   String get walkthroughCalculators2 => '食事：2つの献立を材料ごとに比較。軽い方を選んだら、こちらも記録できます。';

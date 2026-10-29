@@ -37,8 +37,8 @@
       "g_co2e_per_km": 0,
       "per_vehicle": false,
       "calculation_notes": "Zero operational emissions (no fuel, no electricity), consistent with the dataset scope. Metabolic food energy is excluded for all human-powered modes: OWID estimates cycling at 16-50 g/km depending on diet, but questions whether those calories are additional to a normal diet. The savings action bike_instead_of_car in co2_actions_database.json deliberately keeps the 16 g rider footprint inside its delta -- different role, do not sync these numbers.",
-      "calculation_notes_ja": "燃料も電力も使わないため運用時の排出はゼロで、データセットの対象範囲と一致します。人力の移動手段ではすべて、食事から得る代謝エネルギーを除外しています。OWIDは自転車の排出を食事内容に応じて16〜50 g/kmと見積もっていますが、そのカロリーが通常の食事に上乗せされるものかどうかには疑問を呈しています。co2_actions_database.jsonの削減アクションbike_instead_of_carは、乗る人の16 gのフットプリントを意図的に差分に含めています -- 役割が違うため、これらの数値を揃えないでください。",
-      "calculation_notes_es": "Cero emisiones operativas (ni combustible ni electricidad), en línea con el alcance del conjunto de datos. La energía metabólica de los alimentos se excluye en todos los modos de tracción humana: OWID estima la bicicleta en 16-50 g/km según la dieta, pero duda de que esas calorías se sumen a una dieta normal. La acción de ahorro bike_instead_of_car de co2_actions_database.json mantiene a propósito dentro de su diferencia los 16 g de huella del ciclista -- cumple otra función, así que no sincronices estas cifras.",
+      "calculation_notes_ja": "燃料も電力も使わないため運用時の排出はゼロで、データセットの対象範囲と一致します。人力の移動手段ではすべて、食事から得る代謝エネルギーを除外しています。OWIDは自転車の排出を食事内容に応じて16〜50 g/kmと見積もっていますが、そのカロリーが通常の食事に上乗せされるものかどうかには疑問を呈しています。co2_actions_database.jsonの削減アクションbike_instead_of_carは、乗る人の16 gのフットプリントを意図的に差分に含めています。役割が違うため、これらの数値を揃えないでください。",
+      "calculation_notes_es": "Cero emisiones operativas (ni combustible ni electricidad), en línea con el alcance del conjunto de datos. La energía metabólica de los alimentos se excluye en todos los modos de tracción humana: OWID estima la bicicleta en 16-50 g/km según la dieta, pero duda de que esas calorías se sumen a una dieta normal. La acción de ahorro bike_instead_of_car de co2_actions_database.json mantiene a propósito dentro de su diferencia los 16 g de huella del ciclista: cumple otra función, así que no sincronices estas cifras.",
       "calculation_notes_src_sha": "3f2e95ec674cbdc79b15b4b78a024a34b6a3bf7fcf0a3e0cb5eaf49474f00f5c",
       "sources": [
         {
@@ -174,13 +174,13 @@
       "group": "car",
       "name_en": "Petrol car (average)",
       "name_ja": "ガソリン車（平均）",
-      "name_es": "Coche de gasolina (promedio)",
+      "name_es": "Coche de gasolina (media)",
       "g_co2e_per_km": 162.72,
       "per_vehicle": true,
       "max_occupants": 4,
       "calculation_notes": "DEFRA 2025 average petrol car, vehicle-km. Cross-checked against OWID's 170 g/km (pre-2025 vintage) and US EPA's ~249 g/km CO2-only US-fleet figure -- magnitudes agree.",
-      "calculation_notes_ja": "DEFRA 2025のガソリン車平均、車両キロあたりの値です。OWIDの170 g/km（2025年より前のデータ）や、米国EPAによる米国の保有車両全体のCO2のみの値、約249 g/kmと照合しました -- 桁は一致しています。",
-      "calculation_notes_es": "Media de los coches de gasolina de DEFRA 2025, por vehículo-km. Contrastada con los 170 g/km de OWID (datos anteriores a 2025) y con la cifra de ~249 g/km de la US EPA para el parque de EE. UU., solo CO2 -- los órdenes de magnitud coinciden.",
+      "calculation_notes_ja": "DEFRA 2025のガソリン車平均、車両キロあたりの値です。OWIDの170 g/km（2025年より前のデータ）や、米国EPAによる米国の保有車両全体のCO2のみの値、約249 g/kmと照合しました。桁は一致しています。",
+      "calculation_notes_es": "Media de los coches de gasolina de DEFRA 2025, por vehículo-km. Contrastada con los 170 g/km de OWID (datos anteriores a 2025) y con la cifra de ~249 g/km de la US EPA para el parque de EE. UU., solo CO2; los órdenes de magnitud coinciden.",
       "calculation_notes_src_sha": "262781a134a72710f92a8d3bbb33b5930c6e122ba2180c2462bb5d886d32a179",
       "sources": [
         {
@@ -208,7 +208,7 @@
       "group": "car",
       "name_en": "Diesel car (average)",
       "name_ja": "ディーゼル車（平均）",
-      "name_es": "Coche diésel (promedio)",
+      "name_es": "Coche diésel (media)",
       "g_co2e_per_km": 173.04,
       "per_vehicle": true,
       "max_occupants": 4,
@@ -235,8 +235,8 @@
       "per_vehicle": true,
       "max_occupants": 4,
       "calculation_notes": "DEFRA 2025 full (non-plug-in) hybrid car average, vehicle-km. Plug-in hybrid was researched and deliberately dropped from v1: DEFRA's official figure (91.67) assumes charging discipline, while T&E/EEA real-world testing finds ~135 g/km -- neither number satisfies the 'honest, not generous' rule cleanly.",
-      "calculation_notes_ja": "DEFRA 2025のフルハイブリッド車（プラグインではないもの）の平均、車両キロあたりの値です。プラグインハイブリッドも調査しましたが、v1では意図的に見送りました。DEFRAの公式値（91.67）はこまめな充電を前提としている一方、T&E/EEAの実走試験では約135 g/kmとなっています -- どちらの数値も「甘くせず、正直に」というルールをすっきりとは満たしません。",
-      "calculation_notes_es": "Media de los coches híbridos convencionales (no enchufables) de DEFRA 2025, por vehículo-km. El híbrido enchufable se estudió y se descartó a propósito en la v1: la cifra oficial de DEFRA (91,67) da por hecho que se carga con disciplina, mientras que las pruebas en condiciones reales de T&E/EEA dan ~135 g/km -- ninguna de las dos cumple limpiamente la regla de «honesto, no generoso».",
+      "calculation_notes_ja": "DEFRA 2025のフルハイブリッド車（プラグインではないもの）の平均、車両キロあたりの値です。プラグインハイブリッドも調査しましたが、v1では意図的に見送りました。DEFRAの公式値（91.67）はこまめな充電を前提としている一方、T&E/EEAの実走試験では約135 g/kmとなっています。どちらの数値も「甘くせず、正直に」というルールをすっきりとは満たしません。",
+      "calculation_notes_es": "Media de los coches híbridos convencionales (no enchufables) de DEFRA 2025, por vehículo-km. El híbrido enchufable se estudió y se descartó a propósito en la v1: la cifra oficial de DEFRA (91,67) da por hecho que se carga con disciplina, mientras que las pruebas en condiciones reales de T&E/EEA dan ~135 g/km; ninguna de las dos cumple limpiamente la regla de «honesto, no generoso».",
       "calculation_notes_src_sha": "600e0e826b69c04deb8eefae0dfa4671fb92761d08c2e3798a6f56f949d50c2f",
       "sources": [
         {
@@ -274,7 +274,7 @@
       "group": "car",
       "name_en": "Motorbike (average)",
       "name_ja": "オートバイ（平均）",
-      "name_es": "Motocicleta (promedio)",
+      "name_es": "Motocicleta (media)",
       "g_co2e_per_km": 113.67,
       "per_vehicle": true,
       "max_occupants": 2,
@@ -295,7 +295,7 @@
       "id": "bus_city",
       "group": "bus",
       "name_en": "City bus",
-      "name_ja": "市内バス",
+      "name_ja": "路線バス",
       "name_es": "Autobús urbano",
       "g_co2e_per_km": 103.85,
       "per_vehicle": false,
@@ -343,8 +343,8 @@
       "per_vehicle": true,
       "max_occupants": 4,
       "calculation_notes": "DEFRA 2025 regular taxi, per VEHICLE-km, divided by the passenger count (stepper counts passengers, default 1). Basis per the DESNZ 2025 methodology para 5.39: average medium/large-car type-approval CO2 uplifted 40% for the real-world taxi duty cycle (TfL data) -- which is why a taxi km exceeds an average petrol-car km. DEFRA's per-passenger-km variant (148.61 = 208.06 / 1.4 assumed passengers, L.E.K. 2002) is NOT shipped: the dated occupancy assumption would be embedded invisibly. Deadheading (empty running between fares) is explicitly EXCLUDED by DEFRA (para 5.42), so the true door-to-door footprint is higher than shown: CARB's SB 1014 base-year inventory puts 2018 ride-hail deadhead miles at ~38.5%, and UCS 2020 finds a non-pooled ride-hail trip ~47% more polluting than the same private-car trip (~239 g/km applied to our car figure). The shipped 208.06 is therefore conservative.",
-      "calculation_notes_ja": "DEFRA 2025の一般タクシーの値で、旅客ではなく車両キロあたりです。これを乗客数で割ります（人数は「乗車人数」で選び、初期値は1人）。根拠はDESNZ 2025の算定方法の第5.39項です。中型・大型車の型式認証CO2の平均に、実際のタクシーの走行パターン（TfLのデータ）を反映して40%を上乗せしています -- タクシーの1 kmがガソリン車平均の1 kmより多く排出するのはこのためです。DEFRAの旅客キロあたりの版（148.61 = 208.06 / 想定乗客数1.4人、L.E.K. 2002）は採用していません。古い乗車人数の想定が見えない形で組み込まれてしまうためです。回送（客を乗せずに次の客まで走ること）はDEFRAが明示的に除外しているため（第5.42項）、実際のドアツードアのフットプリントは表示より大きくなります。CARBのSB 1014基準年インベントリでは、2018年の配車サービスの走行距離のうち回送が約38.5%を占めます。またUCS 2020によると、相乗りしない配車サービスの移動は、同じ移動を自家用車でする場合より排出が約47%多くなります（本アプリの自動車の値に当てはめると約239 g/km）。したがって、採用している208.06は控えめな値です。",
-      "calculation_notes_es": "Taxi convencional de DEFRA 2025, por VEHÍCULO-km, dividido entre el número de pasajeros (se elige en «Personas en el vehículo»; por defecto, 1). Base según el apartado 5.39 de la metodología de DESNZ 2025: el CO2 medio de homologación de los coches medianos y grandes, incrementado un 40% para reflejar el ciclo de uso real de un taxi (datos de TfL) -- por eso un km en taxi supera a un km en un coche de gasolina medio. La variante por pasajero-km de DEFRA (148,61 = 208,06 / 1,4 pasajeros supuestos, L.E.K. 2002) NO se usa: incorporaría de forma invisible una hipótesis de ocupación anticuada. DEFRA EXCLUYE explícitamente los recorridos en vacío, es decir, circular sin pasajero entre carreras (apartado 5.42), así que la huella real puerta a puerta es mayor que la mostrada: el inventario del año base de la ley SB 1014 de CARB cifra el recorrido en vacío de los VTC en 2018 en ~38,5%, y UCS 2020 concluye que un viaje en VTC no compartido contamina ~47% más que el mismo viaje en coche privado (~239 g/km aplicado a nuestra cifra de coche). Por tanto, los 208,06 que se usan son una cifra conservadora.",
+      "calculation_notes_ja": "DEFRA 2025の一般タクシーの値で、旅客ではなく車両キロあたりです。これを乗客数で割ります（人数は「乗車人数」で選び、初期値は1人）。根拠はDESNZ 2025の算定方法の第5.39項です。中型・大型車の型式認証CO2の平均に、実際のタクシーの走行パターン（TfLのデータ）を反映して40%を上乗せしています。タクシーの1 kmがガソリン車平均の1 kmより多く排出するのはこのためです。DEFRAの旅客キロあたりの版（148.61 = 208.06 / 想定乗客数1.4人、L.E.K. 2002）は採用していません。古い乗車人数の想定が見えない形で組み込まれてしまうためです。回送（客を乗せずに次の客まで走ること）はDEFRAが明示的に除外しているため（第5.42項）、実際のドアツードアのフットプリントは表示より大きくなります。CARBのSB 1014基準年インベントリでは、2018年の配車サービスの走行距離のうち回送が約38.5%を占めます。またUCS 2020によると、相乗りしない配車サービスの移動は、同じ移動を自家用車でする場合より排出が約47%多くなります（本アプリの自動車の値に当てはめると約239 g/km）。したがって、採用している208.06は控えめな値です。",
+      "calculation_notes_es": "Taxi convencional de DEFRA 2025, por VEHÍCULO-km, dividido entre el número de pasajeros (se elige en «Personas en el vehículo»; por defecto, 1). Base según el apartado 5.39 de la metodología de DESNZ 2025: el CO2 medio de homologación de los coches medianos y grandes, incrementado un 40% para reflejar el ciclo de uso real de un taxi (datos de TfL); por eso un km en taxi supera a un km en un coche de gasolina medio. La variante por pasajero-km de DEFRA (148,61 = 208,06 / 1,4 pasajeros supuestos, L.E.K. 2002) NO se usa: incorporaría de forma invisible una hipótesis de ocupación anticuada. DEFRA EXCLUYE explícitamente los recorridos en vacío, es decir, circular sin pasajero entre carreras (apartado 5.42), así que la huella real puerta a puerta es mayor que la mostrada: el inventario del año base de la ley SB 1014 de CARB cifra el recorrido en vacío de los VTC en 2018 en ~38,5%, y UCS 2020 concluye que un viaje en VTC no compartido contamina ~47% más que el mismo viaje en coche privado (~239 g/km aplicado a nuestra cifra de coche). Por tanto, los 208,06 que se usan son una cifra conservadora.",
       "calculation_notes_src_sha": "dfdc227b2f22af752deded5a56c5ef5b8d97e49254783d33dc08272c172364ed",
       "sources": [
         {
@@ -403,8 +403,8 @@
       "g_co2e_per_km": 4.46,
       "per_vehicle": false,
       "calculation_notes": "DEFRA 2025 international rail, per passenger-km. Eurostar-weighted and French-nuclear-specific -- NOT generic high-speed rail. Treat as order-of-magnitude only: the 2026 release raises this figure ~2.5x to ~11 g/pkm after significant changes in service patterns and rolling stock utilisation; revisit at the next data pass.",
-      "calculation_notes_ja": "DEFRA 2025の国際鉄道、旅客キロあたりの値です。ユーロスターの比重が大きく、フランスの原子力発電に特有の値です -- 高速鉄道一般の値ではありません。桁の目安としてのみ扱ってください。2026年版では運行形態と車両運用の大きな変化を受けて、この値が約2.5倍の約11 g/pkmに引き上げられています。次回のデータ更新で見直します。",
-      "calculation_notes_es": "Tren internacional de DEFRA 2025, por pasajero-km. Ponderado por Eurostar y propio de la energía nuclear francesa -- NO es una cifra genérica de la alta velocidad. Tómala solo como orden de magnitud: la edición de 2026 eleva esta cifra ~2,5 veces, hasta ~11 g/pkm, tras cambios importantes en los patrones de servicio y en el uso del material rodante; se revisará en la próxima actualización de datos.",
+      "calculation_notes_ja": "DEFRA 2025の国際鉄道、旅客キロあたりの値です。ユーロスターの比重が大きく、フランスの原子力発電に特有の値で、高速鉄道一般の値ではありません。桁の目安としてのみ扱ってください。2026年版では運行形態と車両運用の大きな変化を受けて、この値が約2.5倍の約11 g/pkmに引き上げられています。次回のデータ更新で見直します。",
+      "calculation_notes_es": "Tren internacional de DEFRA 2025, por pasajero-km. Ponderado por Eurostar y propio de la energía nuclear francesa; NO es una cifra genérica de la alta velocidad. Tómala solo como orden de magnitud: la edición de 2026 eleva esta cifra ~2,5 veces, hasta ~11 g/pkm, tras cambios importantes en los patrones de servicio y en el uso del material rodante; se revisará en la próxima actualización de datos.",
       "calculation_notes_src_sha": "6ca092a46e85128b7f28b6d6a7fc44cd6e075bc2aa6146dcad0a0d2c04a18f6d",
       "sources": [
         {
@@ -505,8 +505,8 @@
       "g_co2e_per_km": 18.71,
       "per_vehicle": false,
       "calculation_notes": "DEFRA 2025 ferry foot-passenger average, per passenger-km. Boarding with a car is a different factor -- see ferry_car (129.33 g/pkm), roughly 7x this figure.",
-      "calculation_notes_ja": "DEFRA 2025のフェリー徒歩乗船客の平均、旅客キロあたりの値です。車で乗船する場合は別の係数です -- 「フェリー（自動車同乗）」（129.33 g/pkm）を参照してください。この値のおよそ7倍です。",
-      "calculation_notes_es": "Media de los pasajeros a pie en ferri de DEFRA 2025, por pasajero-km. Embarcar con coche usa otro factor -- consulta «Ferri (pasajero con coche)» (129,33 g/pkm), unas 7 veces esta cifra.",
+      "calculation_notes_ja": "DEFRA 2025のフェリー徒歩乗船客の平均、旅客キロあたりの値です。車で乗船する場合は別の係数です。「フェリー（自動車同乗）」（129.33 g/pkm）を参照してください。この値のおよそ7倍です。",
+      "calculation_notes_es": "Media de los pasajeros a pie en ferri de DEFRA 2025, por pasajero-km. Embarcar con coche usa otro factor: consulta «Ferri (pasajero con coche)» (129,33 g/pkm), unas 7 veces esta cifra.",
       "calculation_notes_src_sha": "e0912da52e4f6cfd235d650a2207bfddd3e2915c5bcf5fc195f15dfe2c5e4aa6",
       "sources": [
         {
@@ -568,8 +568,8 @@
       "g_co2e_per_km": 125.76,
       "per_vehicle": false,
       "calculation_notes": "DEFRA 2025 short-haul international economy, per passenger-km, includes radiative forcing. Notably lower per-km than a solo average petrol car (162.72) -- the car only wins once it carries 2+ occupants. This is an intentional, non-hidden result the comparison view surfaces.",
-      "calculation_notes_ja": "DEFRA 2025の短距離国際線エコノミー、旅客キロあたりの値で、放射強制力を含みます。1人で乗る平均的なガソリン車（162.72）よりkmあたりで明らかに低くなります -- 車が勝つのは2人以上で乗ったときだけです。これは意図した結果で、比較画面で隠さずに示しています。",
-      "calculation_notes_es": "Clase turista internacional de corta distancia de DEFRA 2025, por pasajero-km, con forzamiento radiativo. Es notablemente más baja por km que un coche de gasolina medio con una sola persona (162,72) -- el coche solo gana cuando lleva 2 o más ocupantes. Es un resultado intencionado y no oculto que la vista de comparación pone de relieve.",
+      "calculation_notes_ja": "DEFRA 2025の短距離国際線エコノミー、旅客キロあたりの値で、放射強制力を含みます。1人で乗る平均的なガソリン車（162.72）よりkmあたりで明らかに低くなります。車が勝つのは2人以上で乗ったときだけです。これは意図した結果で、比較画面で隠さずに示しています。",
+      "calculation_notes_es": "Clase turista internacional de corta distancia de DEFRA 2025, por pasajero-km, con forzamiento radiativo. Es notablemente más baja por km que un coche de gasolina medio con una sola persona (162,72); el coche solo gana cuando lleva 2 o más ocupantes. Es un resultado intencionado y no oculto que la vista de comparación pone de relieve.",
       "calculation_notes_src_sha": "ea56979f69bf1431ef0fa2c1c8d672a8d02a7a4c2b71d4ac987aea9cb6e76f34",
       "sources": [
         {

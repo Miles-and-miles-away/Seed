@@ -34,7 +34,7 @@ the calculators' notes.
 - **Source names**: copy sourceEn verbatim -- NEVER translate.
 - **No dash joins**: never join clauses with ` -- ` (English keeps it);
   use a comma or a full stop instead (a semicolon where natural).
-- **Billions/trillions**: use "mil millones" (not "billón"); "billón" =
+- **Billions/trillions**: write billions as «X.000 millones» (16.000 millones, 1.400 millones), not «X mil millones» and not "billón"; "billón" =
   trillion in Spanish.
 
 Older eco-fact and Eco-Dex text predates this file and still contains Latin

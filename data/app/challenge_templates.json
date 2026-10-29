@@ -137,10 +137,10 @@
       "targetDays": 7,
       "titleEn": "Green Transport Week",
       "titleEs": "Semana de transporte verde",
-      "titleJa": "グリーン交通ウィーク",
+      "titleJa": "エコ移動ウィーク",
       "descriptionEn": "Log a Transport action every day for 7 days.",
       "descriptionEs": "Registra una acción de transporte cada día durante 7 días.",
-      "descriptionJa": "7日間毎日交通のアクションを記録しよう。"
+      "descriptionJa": "7日間毎日移動のアクションを記録しよう。"
     },
     {
       "id": "md_streak_14",
@@ -148,7 +148,7 @@
       "targetDays": 14,
       "titleEn": "Two-Week Streak",
       "titleEs": "Racha de dos semanas",
-      "titleJa": "2週間チャレンジ",
+      "titleJa": "2週間連続チャレンジ",
       "descriptionEn": "Log any action every day for 14 days.",
       "descriptionEs": "Registra cualquier acción cada día durante 14 días.",
       "descriptionJa": "14日間毎日何かのアクションを記録しよう。"
@@ -159,7 +159,7 @@
       "targetDays": 30,
       "titleEn": "Monthly Momentum",
       "titleEs": "Impulso mensual",
-      "titleJa": "月間モメンタム",
+      "titleJa": "30日連続チャレンジ",
       "descriptionEn": "Log any action every day for 30 days.",
       "descriptionEs": "Registra cualquier acción cada día durante 30 días.",
       "descriptionJa": "30日間毎日何かのアクションを記録しよう。"

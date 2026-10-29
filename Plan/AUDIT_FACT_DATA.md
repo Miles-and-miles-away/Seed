@@ -421,6 +421,24 @@ should cite from this list where possible.
 - **Nature / Science** - Peer-reviewed research
 - **WRAP UK** - Waste, food waste, circular economy
 - **European Commission** - EU environmental policy
+- **IUCN, IPBES, IRENA, UNFCCC, UNICEF, UN Volunteers,
+  Eurostat, EEA** - UN bodies and intergovernmental agencies
+  in their own fields
+- **Project Drawdown** - climate solutions, accepted for its
+  own analyses, not for figures it relays from others
+- **Oxfam** - inequality figures built on Stockholm
+  Environment Institute data; cite the release that names
+  the data source
+- **Global Tipping Points Report** - university-led
+  consortium report on climate tipping points
+- **Stockholm Resilience Centre** - the planetary
+  boundaries framework it originated, with the peer-reviewed
+  paper behind each update
+
+Owner decision: the last three are named NGOs and consortia
+accepted on their own work. A peer-reviewed journal counts
+whatever its name, but an article typed "Opinion" is cited
+as opinion, not as a finding.
 
 Avoid: blogs, opinion pieces, industry-funded studies
 without independent verification, social media posts,

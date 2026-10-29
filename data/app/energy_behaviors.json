@@ -407,7 +407,7 @@
       "kwh_per_unit": 1.3,
       "name_en": "Washing machine, warm (40 C)",
       "name_ja": "洗濯機（40℃）",
-      "name_es": "Lavado en templado (40 °C)",
+      "name_es": "Lavado templado (40 °C)",
       "confidence": "high",
       "presets": [
         {
@@ -1044,8 +1044,8 @@
       ],
       "default_preset_id": "cycle_plus_four",
       "calculation_notes": "0.16 kWh for the cycle (the rice_cooker row: 158 Wh measured, 163 Wh corroborated) plus 4 x 16.5 Wh/h keeping warm = 0.226 kWh, all on the same measured basis. Ships as one figure because keeping warm never happens without a cycle first (owner call 2026-09-02): held alone it ranked below the cycle and read as though holding rice were the cheaper option, which is not a choice anyone has. The 4 hours is the guideline the source states -- past about 4 hours reheating in a microwave uses less than holding, and past 7-8 hours cooking twice does. RESEARCH_ENERGY section 3.4.",
-      "calculation_notes_ja": "炊飯1回分の0.16 kWh（「炊飯器（1回炊飯）」の値：実測158 Wh、裏付け163 Wh）に保温4 × 16.5 Wh/hを加えて0.226 kWhで、すべて同じ実測基準です。保温は必ず炊飯のあとに行うものなので、1つの値にまとめています（オーナー判断、2026-09-02）。保温だけを単独で載せると炊飯より下位に並び、ご飯を保温するほうが安い選択肢であるかのように読めてしまいますが、そのような選択肢は誰にもありません。4時間は出典が示す目安です -- 約4時間を超えると電子レンジで温め直すほうが保温より少なく、7〜8時間を超えると炊き直すほうが少なくなります。RESEARCH_ENERGY 3.4節に基づきます。",
-      "calculation_notes_es": "0,16 kWh del ciclo (la fila de «Arrocera, un ciclo»: 158 Wh medidos, 163 Wh corroborados) más 4 × 16,5 Wh/h manteniendo caliente = 0,226 kWh, todo sobre la misma base medida. Va como una sola cifra porque mantener caliente nunca ocurre sin un ciclo previo (decisión del responsable, 2026-09-02): por separado quedaba por debajo del ciclo y parecía que mantener el arroz caliente fuera la opción más barata, una elección que nadie tiene. Las 4 horas son la pauta que da la fuente -- pasadas unas 4 horas, recalentar en el microondas gasta menos que mantenerlo caliente, y pasadas 7-8 horas, también gasta menos cocinar dos veces. Según RESEARCH_ENERGY, sección 3.4.",
+      "calculation_notes_ja": "炊飯1回分の0.16 kWh（「炊飯器（1回炊飯）」の値：実測158 Wh、裏付け163 Wh）に保温4 × 16.5 Wh/hを加えて0.226 kWhで、すべて同じ実測基準です。保温は必ず炊飯のあとに行うものなので、1つの値にまとめています（オーナー判断、2026-09-02）。保温だけを単独で載せると炊飯より下位に並び、ご飯を保温するほうが安い選択肢であるかのように読めてしまいますが、そのような選択肢は誰にもありません。4時間は出典が示す目安です。約4時間を超えると電子レンジで温め直すほうが保温より少なく、7〜8時間を超えると炊き直すほうが少なくなります。RESEARCH_ENERGY 3.4節に基づきます。",
+      "calculation_notes_es": "0,16 kWh del ciclo (la fila de «Arrocera, un ciclo»: 158 Wh medidos, 163 Wh corroborados) más 4 × 16,5 Wh/h manteniendo caliente = 0,226 kWh, todo sobre la misma base medida. Va como una sola cifra porque mantener caliente nunca ocurre sin un ciclo previo (decisión del responsable, 2026-09-02): por separado quedaba por debajo del ciclo y parecía que mantener el arroz caliente fuera la opción más barata, una elección que nadie tiene. Las 4 horas son la pauta que da la fuente: pasadas unas 4 horas, recalentar en el microondas gasta menos que mantenerlo caliente, y pasadas 7-8 horas, también gasta menos cocinar dos veces. Según RESEARCH_ENERGY, sección 3.4.",
       "calculation_notes_src_sha": "6ead9c4b413902bf785f1f775043e8530a0c93f01b20f77c804d190fd91cd7e8",
       "sources": [
         {

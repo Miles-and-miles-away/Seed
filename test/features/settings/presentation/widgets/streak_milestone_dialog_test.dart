@@ -101,7 +101,7 @@ void main() {
           await revealButton(tester);
 
           expect(tester.takeException(), isNull);
-          expect(find.text('¡2 semanas de racha!'), findsOneWidget);
+          expect(find.text('¡Racha de 2 semanas!'), findsOneWidget);
           await tearDownTree(tester);
         },
       );

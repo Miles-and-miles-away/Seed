@@ -12,7 +12,7 @@ import '../../fact_games/figure_digits.dart';
 const _maxFigureLength = 18;
 const _locales = ['en', 'ja', 'es'];
 const _blank = '____';
-const _playableFloor = 11;
+const _playableFloor = 70;
 
 // Eco-Dex entries stand in as facts numbered after the year's days.
 const _firstDexDay = 1000;

@@ -60,7 +60,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get authConfirmPassword => 'Confirmar contraseña';
 
   @override
-  String get authForgotPassword => '¿Olvidaste tu contraseña?';
+  String get authForgotPassword => '¿Has olvidado tu contraseña?';
 
   @override
   String get authContinueWithGoogle => 'Continuar con Google';
@@ -73,7 +73,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String homeWelcome(String name) {
-    return '¡Bienvenido de nuevo, $name!';
+    return '¡Hola de nuevo, $name!';
   }
 
   @override
@@ -84,7 +84,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get homeNoActions =>
-      'Aún no hay acciones registradas. ¡Comienza tu viaje!';
+      'Aún no hay acciones registradas. ¡Empieza tu aventura!';
 
   @override
   String get actionLogTitle => 'Registrar acción';
@@ -94,11 +94,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String actionLogged(int points) {
-    return '¡Acción registrada! $points puntos ganados';
+    return '¡Acción registrada! Has ganado $points puntos';
   }
 
   @override
-  String get noActionsFound => 'No se encontraron acciones';
+  String get noActionsFound => 'No se han encontrado acciones';
 
   @override
   String get actionHistoryTitle => 'Historial de acciones';
@@ -113,7 +113,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addNoteOptional => 'Añadir una nota (opcional)';
 
   @override
-  String get noteHint => 'Ej.: Usé mi propia bolsa en la tienda';
+  String get noteHint => 'Ej.: He llevado mi propia bolsa a la tienda';
 
   @override
   String pointsLabel(int count) {
@@ -152,7 +152,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get mascotRename => 'Renombrar';
+  String get mascotRename => 'Cambiar nombre';
 
   @override
   String mascotEvolution(int stage) {
@@ -164,7 +164,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get mascotSelectionSubtitle =>
-      '¡Este pequeño amigo crecerá contigo en tu viaje hacia la sostenibilidad!';
+      '¡Este pequeño amigo crecerá contigo en tu camino hacia la sostenibilidad!';
 
   @override
   String get mascotNameLabel => 'Dale un nombre a tu compañero';
@@ -173,10 +173,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get mascotNameHint => 'Ej.: Brotecito, Hojita, Capullo...';
 
   @override
-  String get mascotNameRequired => 'Por favor ingresa un nombre';
+  String get mascotNameRequired => 'Introduce un nombre';
 
   @override
-  String get mascotNameTooLong => 'El nombre debe tener 20 caracteres o menos';
+  String get mascotNameTooLong =>
+      'El nombre no puede superar los 20 caracteres';
 
   @override
   String get mascotSelectionConfirm => '¡Crezcamos juntos!';
@@ -200,7 +201,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileTotalActions => 'Total de acciones';
 
   @override
-  String get profileTotalCO2 => 'Total CO₂ ahorrado';
+  String get profileTotalCO2 => 'Total de CO₂ ahorrado';
 
   @override
   String get profileMemberSince => 'Miembro desde';
@@ -283,7 +284,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get subscriptionPremium => 'Premium';
 
   @override
-  String get subscriptionUpgrade => 'Actualizar a Premium';
+  String get subscriptionUpgrade => 'Pasar a Premium';
 
   @override
   String get categoryRecycling => 'Reciclaje';
@@ -307,22 +308,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get categoryCommunity => 'Comunidad';
 
   @override
-  String get categoryAdvocacy => 'Defensa';
+  String get categoryAdvocacy => 'Activismo';
 
   @override
   String get categoryLearning => 'Aprendizaje';
 
   @override
-  String get errorGeneric => 'Algo salió mal. Por favor intenta de nuevo.';
+  String get errorGeneric => 'Algo ha ido mal. Inténtalo de nuevo.';
 
   @override
   String get errorNetwork => 'Sin conexión a internet.';
 
   @override
-  String get errorAuth => 'Error de autenticación. Por favor intenta de nuevo.';
+  String get errorAuth => 'Error de autenticación. Inténtalo de nuevo.';
 
   @override
-  String get errorOpenLink => 'No se pudo abrir el enlace.';
+  String get errorOpenLink => 'No se ha podido abrir el enlace.';
 
   @override
   String get errorActionTooSoon => 'Espera unos segundos entre acciones.';
@@ -336,35 +337,34 @@ class AppLocalizationsEs extends AppLocalizations {
       'Ya existe una cuenta con este correo electrónico.';
 
   @override
-  String get errorAuthInvalidEmail =>
-      'Por favor ingresa un correo electrónico válido.';
+  String get errorAuthInvalidEmail => 'Introduce un correo electrónico válido.';
 
   @override
   String get errorAuthOperationNotAllowed =>
-      'Este método de inicio de sesión no está habilitado. Por favor contacta a soporte.';
+      'Este método de inicio de sesión no está activado. Ponte en contacto con el soporte.';
 
   @override
   String get errorAuthWeakPassword =>
-      'La contraseña es muy débil. Por favor usa al menos 6 caracteres.';
+      'La contraseña es demasiado débil. Usa al menos 6 caracteres.';
 
   @override
   String get errorAuthUserDisabled =>
-      'Esta cuenta ha sido deshabilitada. Por favor contacta a soporte.';
+      'Esta cuenta ha sido desactivada. Ponte en contacto con el soporte.';
 
   @override
   String get errorAuthInvalidCredentials =>
-      'Correo o contraseña inválidos. Por favor intenta de nuevo.';
+      'Correo o contraseña incorrectos. Inténtalo de nuevo.';
 
   @override
   String get errorAuthTooManyRequests =>
-      'Demasiados intentos. Por favor espera un momento e intenta de nuevo.';
+      'Demasiados intentos. Espera un momento e inténtalo de nuevo.';
 
   @override
   String get errorAuthNetwork =>
-      'Error de red. Por favor verifica tu conexión a internet.';
+      'Error de red. Comprueba tu conexión a internet.';
 
   @override
-  String get errorAuthSignInCancelled => 'Se canceló el inicio de sesión.';
+  String get errorAuthSignInCancelled => 'Se ha cancelado el inicio de sesión.';
 
   @override
   String get errorAuthSignInOffline =>
@@ -372,15 +372,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorAuthAccountExistsWithDifferentCredential =>
-      'Ya existe una cuenta con este correo usando otro método de inicio de sesión.';
+      'Ya existe una cuenta con este correo que usa otro método de inicio de sesión.';
 
   @override
   String get errorAuthLinkExpired =>
-      'Este enlace ha expirado. Por favor solicita uno nuevo.';
+      'Este enlace ha caducado. Solicita uno nuevo.';
 
   @override
   String get errorAuthLinkInvalid =>
-      'Este enlace es inválido. Por favor solicita uno nuevo.';
+      'Este enlace no es válido. Solicita uno nuevo.';
 
   @override
   String get buttonSave => 'Guardar';
@@ -421,34 +421,34 @@ class AppLocalizationsEs extends AppLocalizations {
       '¿Cuántas acciones ecológicas quieres completar cada día?';
 
   @override
-  String get progressStartJourney => 'Comenzar mi viaje';
+  String get progressStartJourney => 'Empezar mi camino';
 
   @override
   String get progressTargetDescriptionEasy =>
-      'Un comienzo suave — ¡perfecto para principiantes!';
+      'Un comienzo tranquilo. ¡Perfecto para principiantes!';
 
   @override
   String get progressTargetDescriptionModerate =>
-      'Un desafío equilibrado — recomendado para la mayoría.';
+      'Un desafío equilibrado, recomendado para la mayoría.';
 
   @override
   String get progressTargetDescriptionChallenge =>
-      '¡Ambicioso! Estás comprometido con hacer un impacto.';
+      '¡Ambicioso! Te has propuesto marcar la diferencia.';
 
   @override
   String get progressTargetDescriptionExpert =>
-      'Nivel experto — ¡eres un campeón de la sostenibilidad!';
+      'Nivel experto. ¡La sostenibilidad es lo tuyo!';
 
   @override
   String get languageSettingsTitle => 'Idioma';
 
   @override
   String get languageSettingsDescription =>
-      'Elige tu idioma preferido. La aplicación se actualizará inmediatamente.';
+      'Elige tu idioma preferido. La app se actualizará al instante.';
 
   @override
   String get languageSettingsNote =>
-      'Parte del contenido de la biblioteca de acciones puede permanecer en su idioma original.';
+      'Parte del contenido de la biblioteca de acciones puede seguir en su idioma original.';
 
   @override
   String get languageNameEnglish => 'Inglés';
@@ -508,14 +508,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get accountSettingsDeleteAccountWarning =>
-      'Esta acción no se puede deshacer. Todos tus datos serán eliminados permanentemente.';
+      'Esta acción no se puede deshacer. Todos tus datos se eliminarán de forma permanente.';
 
   @override
   String get accountSettingsDeleteConfirmTitle => '¿Eliminar cuenta?';
 
   @override
   String get accountSettingsDeleteConfirmMessage =>
-      '¿Estás seguro de que quieres eliminar tu cuenta? Esto eliminará permanentemente todos tus datos incluyendo tu mascota, historial de acciones y progreso.';
+      '¿Seguro que quieres eliminar tu cuenta? Se eliminarán de forma permanente todos tus datos, incluidos tu mascota, tu historial de acciones y tu progreso.';
 
   @override
   String get accountSettingsDeleteConfirmButton => 'Eliminar mi cuenta';
@@ -539,15 +539,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get accountSettingsPasswordMismatch => 'Las contraseñas no coinciden';
 
   @override
-  String get accountSettingsEmailUpdated => 'Correo actualizado exitosamente';
+  String get accountSettingsEmailUpdated => 'Correo actualizado correctamente';
 
   @override
   String get accountSettingsPasswordUpdated =>
-      'Contraseña actualizada exitosamente';
+      'Contraseña actualizada correctamente';
 
   @override
   String get accountSettingsReauthRequired =>
-      'Por favor ingresa tu contraseña nuevamente para continuar';
+      'Vuelve a introducir tu contraseña para continuar';
 
   @override
   String get accountSettingsProfile => 'Perfil';
@@ -560,7 +560,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get accountSettingsDisplayNameUpdated =>
-      'Nombre actualizado exitosamente';
+      'Nombre actualizado correctamente';
 
   @override
   String get accountSettingsDisplayNameRequired => 'Introduce un nombre';
@@ -585,16 +585,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String streakMilestoneWeeks(int count) {
-    return '¡$count semanas de racha!';
+    return '¡Racha de $count semanas!';
   }
 
   @override
   String streakMilestoneDays(int count) {
-    return '¡Has registrado acciones por $count días seguidos!';
+    return '¡Has registrado acciones durante $count días seguidos!';
   }
 
   @override
-  String get streakMilestoneKeepGoing => '¡Sigue con el increíble trabajo!';
+  String get streakMilestoneKeepGoing =>
+      '¡Sigue así, lo estás haciendo genial!';
 
   @override
   String get streakMilestoneContinue => 'Continuar';
@@ -604,7 +605,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get streakBrokenMessage =>
-      '¡No te preocupes! Comienza una nueva racha hoy.';
+      '¡No te preocupes! Empieza una nueva racha hoy.';
 
   @override
   String streakBrokenPrevious(int count) {
@@ -612,7 +613,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get streakBrokenStartNew => 'Comenzar nueva racha';
+  String get streakBrokenStartNew => 'Empezar una nueva racha';
 
   @override
   String get sortLabel => 'Ordenar';
@@ -632,16 +633,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sortAlphabeticalZA => 'Nombre (Z-A)';
 
   @override
-  String get sortCo2HighToLow => 'CO₂ (Mayor a menor)';
+  String get sortCo2HighToLow => 'CO₂ (de mayor a menor)';
 
   @override
-  String get sortCo2LowToHigh => 'CO₂ (Menor a mayor)';
+  String get sortCo2LowToHigh => 'CO₂ (de menor a mayor)';
 
   @override
-  String get sortPointsHighToLow => 'Puntos (Mayor a menor)';
+  String get sortPointsHighToLow => 'Puntos (de mayor a menor)';
 
   @override
-  String get sortPointsLowToHigh => 'Puntos (Menor a mayor)';
+  String get sortPointsLowToHigh => 'Puntos (de menor a mayor)';
 
   @override
   String get filterBySDG => 'Filtrar por ODS';
@@ -732,12 +733,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String eggDiscoveryMessage(String mascotName) {
-    return 'Durante la noche, un huevo misterioso apareció junto a $mascotName.';
+    return '¡Esta noche ha aparecido un huevo misterioso junto a $mascotName!';
   }
 
   @override
   String get eggDiscoverySubtitle =>
-      'Registra acciones todos los días durante 30 días para incubarlo.';
+      'Registra acciones todos los días durante 30 días para que eclosione.';
 
   @override
   String get eggDiscoveryDismiss => '¡Qué emocionante!';
@@ -810,43 +811,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notifSmartTitle => 'Recordatorios inteligentes';
 
   @override
-  String get notifSmartOnlyTitle => 'Solo recordar si no hay acción hoy';
+  String get notifSmartOnlyTitle => 'Recordar solo si hoy no hay acciones';
 
   @override
   String get notifSmartOnlySubtitle =>
-      'Omitir recordatorios los días que ya registraste';
+      'Omitir los recordatorios los días en que ya hayas registrado algo';
 
   @override
   String get notifSmartDescription =>
       'Cuando está activado, los recordatorios solo aparecerán si no has registrado acciones sostenibles ese día.';
 
   @override
-  String get notifReminderTimesTitle => 'Horarios de recordatorio';
+  String get notifReminderTimesTitle => 'Horas de recordatorio';
 
   @override
   String get notifNoReminders => 'Sin recordatorios configurados';
 
   @override
-  String get notifAddReminder =>
-      'Agrega un recordatorio para recibir notificaciones';
+  String get notifAddReminder => 'Añade un recordatorio para recibir avisos';
 
   @override
-  String get notifAddReminderTime => 'Agregar horario de recordatorio';
+  String get notifAddReminderTime => 'Añadir hora de recordatorio';
 
   @override
-  String get notifMaxReminders => 'Máximo 5 recordatorios permitidos';
+  String get notifMaxReminders => 'Máximo 5 recordatorios';
 
   @override
-  String get notifEditTime => 'Editar horario de recordatorio';
+  String get notifEditTime => 'Editar hora del recordatorio';
 
   @override
-  String get notifSelectTime => 'Seleccionar horario de recordatorio';
+  String get notifSelectTime => 'Seleccionar hora del recordatorio';
 
   @override
   String get notifLabelTitle => 'Etiqueta del recordatorio';
 
   @override
-  String get notifLabelHint => 'Ej.: Mañana, Después del trabajo...';
+  String get notifLabelHint => 'Ej.: Por la mañana, Al salir del trabajo...';
 
   @override
   String get notifLabelOptional => 'Etiqueta (opcional)';
@@ -860,7 +860,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get notifAdd => 'Agregar';
+  String get notifAdd => 'Añadir';
 
   @override
   String get settingsPreferences => 'Preferencias';
@@ -882,7 +882,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsOneReminder => '1 recordatorio configurado';
 
   @override
-  String get settingsTapToAddReminders => 'Toca para agregar recordatorios';
+  String get settingsTapToAddReminders => 'Toca para añadir recordatorios';
 
   @override
   String get settingsAllRemindersDisabled =>
@@ -894,7 +894,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get settingsErrorLoading => 'Error al cargar ajustes';
+  String get settingsErrorLoading => 'Error al cargar los ajustes';
 
   @override
   String get settingsSupport => 'Soporte';
@@ -904,7 +904,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsFeedbackSubtitle =>
-      'Reporta un error o comparte tu opinión';
+      'Informa de un error o cuéntanos tu opinión';
 
   @override
   String get aboutLegal => 'Legal';
@@ -914,13 +914,14 @@ class AppLocalizationsEs extends AppLocalizations {
       'Seed ayuda a registrar acciones sostenibles alineadas con los Objetivos de Desarrollo Sostenible de la ONU.';
 
   @override
-  String get aboutFooterMade => 'Hecho con cuidado para nuestro planeta.';
+  String get aboutFooterMade => 'Hecho con cariño por nuestro planeta.';
 
   @override
   String get aboutSdgIconsCredit => 'Iconos de los ODS: Naciones Unidas';
 
   @override
-  String get aboutSubtitleTracker => 'Seed - Rastreador de hábitos sostenibles';
+  String get aboutSubtitleTracker =>
+      'Seed - Seguimiento de hábitos sostenibles';
 
   @override
   String get feedbackTitle => 'Enviar comentarios';
@@ -929,23 +930,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get feedbackCategoryLabel => 'Categoría';
 
   @override
-  String get feedbackCategoryBug => 'Reporte de error';
+  String get feedbackCategoryBug => 'Informe de error';
 
   @override
-  String get feedbackCategoryFeature => 'Solicitud de función';
+  String get feedbackCategoryFeature => 'Sugerencia de función';
 
   @override
-  String get feedbackCategoryGeneral => 'Comentario general';
+  String get feedbackCategoryGeneral => 'Comentarios generales';
 
   @override
-  String get feedbackDescriptionLabel => 'Describe tus comentarios';
+  String get feedbackDescriptionLabel => 'Escribe tu comentario';
 
   @override
   String get feedbackDescriptionHint => 'Cuéntanos lo que piensas...';
 
   @override
   String get feedbackMetadataNote =>
-      'Incluimos la siguiente información para ayudarnos a investigar: versión de la app, dispositivo y SO, idioma y tu ID de cuenta.';
+      'Para ayudarnos a investigar, se incluye esta información: versión de la app, dispositivo y sistema operativo, idioma y tu ID de cuenta.';
 
   @override
   String feedbackMetaAppVersion(String version) {
@@ -960,16 +961,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get feedbackMailFailed =>
-      'No se pudo abrir tu aplicación de correo. Inténtalo de nuevo.';
+      'No se ha podido abrir tu app de correo. Inténtalo de nuevo.';
 
   @override
-  String get mascotEvolutionTimeline => 'Línea de evolución';
+  String get mascotEvolutionTimeline => 'Etapas de evolución';
 
   @override
   String get mascotNextEvolution => 'Próxima evolución';
 
   @override
-  String get mascotStatsTitle => 'Nuestro viaje';
+  String get mascotStatsTitle => 'Nuestra historia';
 
   @override
   String get mascotStatBirthday => 'Cumpleaños';
@@ -1022,7 +1023,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Toca para establecer tu meta de sostenibilidad';
 
   @override
-  String get myGoalUpdated => 'Meta actualizada exitosamente';
+  String get myGoalUpdated => 'Meta actualizada correctamente';
 
   @override
   String get goalPickerTitle => 'Elige tu meta';
@@ -1038,24 +1039,23 @@ class AppLocalizationsEs extends AppLocalizations {
       'Reducir los vuelos de larga distancia';
 
   @override
-  String get personalGoalPlantBased => 'Comer más comidas a base de plantas';
+  String get personalGoalPlantBased => 'Comer más platos vegetales';
 
   @override
   String get personalGoalLessPlastic => 'Eliminar el plástico de un solo uso';
 
   @override
-  String get personalGoalWalkBike =>
-      'Caminar o ir en bicicleta en lugar de conducir';
+  String get personalGoalWalkBike => 'Ir a pie o en bici en vez de en coche';
 
   @override
-  String get personalGoalLessFoodWaste => 'Desperdiciar menos comida';
+  String get personalGoalLessFoodWaste => 'Tirar menos comida';
 
   @override
   String get personalGoalBuyLess => 'Comprar menos y reutilizar más';
 
   @override
   String get personalGoalInspireOthers =>
-      'Inspirar a amigos y familiares a actuar';
+      'Animar a amigos y familiares a actuar';
 
   @override
   String get personalGoalSaveWorld => 'Salvar el mundo';
@@ -1077,7 +1077,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sdgProgressChartHint => 'Toca para ampliar';
 
   @override
-  String get sdgBadge => 'ODS ONU';
+  String get sdgBadge => 'ODS de la ONU';
 
   @override
   String get buttonDelete => 'Eliminar';
@@ -1086,32 +1086,32 @@ class AppLocalizationsEs extends AppLocalizations {
   String get buttonSkip => 'Omitir';
 
   @override
-  String get authWelcomeBack => 'Bienvenido de nuevo';
+  String get authWelcomeBack => 'Hola de nuevo';
 
   @override
   String get authSignInSubtitle =>
-      'Inicia sesión para continuar tu viaje sostenible';
+      'Inicia sesión para continuar tu camino sostenible';
 
   @override
   String get authSignIn => 'Iniciar sesión';
 
   @override
-  String get authOrContinueWith => 'o continuar con';
+  String get authOrContinueWith => 'o continúa con';
 
   @override
-  String get authNoAccount => '¿No tienes una cuenta?';
+  String get authNoAccount => '¿No tienes cuenta?';
 
   @override
   String get authCreateAccount => 'Crear cuenta';
 
   @override
-  String get authCreateAccountSubtitle => 'Comienza tu viaje sostenible hoy';
+  String get authCreateAccountSubtitle => 'Empieza hoy tu camino sostenible';
 
   @override
   String get authOrSignUpWith => 'o regístrate con';
 
   @override
-  String get authHaveAccount => '¿Ya tienes una cuenta?';
+  String get authHaveAccount => '¿Ya tienes cuenta?';
 
   @override
   String get authAgreePrefix => 'Acepto los ';
@@ -1121,13 +1121,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get authAcceptTermsError =>
-      'Por favor acepta los Términos de servicio y la Política de privacidad';
+      'Debes aceptar los Términos de servicio y la Política de privacidad';
 
   @override
   String get authForgotPasswordTitle => 'Restablecer contraseña';
 
   @override
-  String get authForgotPasswordHint => 'Ingresa tu correo electrónico';
+  String get authForgotPasswordHint => 'Introduce tu correo electrónico';
 
   @override
   String get authForgotPasswordSend => 'Enviar';
@@ -1143,17 +1143,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get authCheckEmail => 'Revisa tu correo';
 
   @override
-  String get authVerificationSentTo => 'Enviamos un enlace de verificación a:';
+  String get authVerificationSentTo =>
+      'Hemos enviado un enlace de verificación a:';
 
   @override
   String get authVerifyInstructions =>
-      'Haz clic en el enlace del correo para verificar tu cuenta, luego regresa aquí y toca el botón de abajo.';
+      'Abre el enlace del correo para verificar tu cuenta y, después, vuelve aquí y toca el botón de abajo.';
 
   @override
   String get authChecking => 'Verificando...';
 
   @override
-  String get authVerifiedButton => 'Ya verifiqué mi correo';
+  String get authVerifiedButton => 'Ya he verificado mi correo';
 
   @override
   String get authVerificationSent => '¡Correo de verificación enviado!';
@@ -1165,29 +1166,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get authDifferentEmail => 'Usar otro correo';
 
   @override
-  String get authEmailVerified => '¡Correo verificado! ¡Bienvenido a Seed!';
+  String get authEmailVerified =>
+      '¡Correo verificado! ¡Te damos la bienvenida a Seed!';
 
   @override
   String get authEmailNotVerified =>
-      'Correo aún no verificado. Revisa tu bandeja de entrada y haz clic en el enlace de verificación.';
+      'El correo aún no está verificado. Revisa tu bandeja de entrada y abre el enlace de verificación.';
 
   @override
-  String get authValidationEmailRequired => 'Por favor ingresa tu correo';
+  String get authValidationEmailRequired => 'Introduce tu correo';
 
   @override
-  String get authValidationEmailInvalid => 'Por favor ingresa un correo válido';
+  String get authValidationEmailInvalid => 'Introduce un correo válido';
 
   @override
-  String get authValidationPasswordRequired =>
-      'Por favor ingresa tu contraseña';
+  String get authValidationPasswordRequired => 'Introduce tu contraseña';
 
   @override
   String get authValidationPasswordShort =>
       'La contraseña debe tener al menos 6 caracteres';
 
   @override
-  String get authValidationConfirmRequired =>
-      'Por favor confirma tu contraseña';
+  String get authValidationConfirmRequired => 'Confirma tu contraseña';
 
   @override
   String pointsAbbreviated(int count) {
@@ -1212,7 +1212,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dayDetailNoActions => 'No hay acciones registradas este día';
 
   @override
-  String get dayDetailFactLocked => 'No se desbloqueó ningún eco-dato este día';
+  String get dayDetailFactLocked => 'Ningún eco-dato desbloqueado este día';
 
   @override
   String get ecoFactTitle => 'Eco-dato del día';
@@ -1244,7 +1244,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ecoFactCategoryIndividual => 'Impacto individual';
 
   @override
-  String get ecoFactCategoryMythBuster => 'Desmitificador';
+  String get ecoFactCategoryMythBuster => 'Desmontando mitos';
 
   @override
   String get ecoFactCategoryNatureWonder => 'Maravilla natural';
@@ -1268,13 +1268,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get challengeCompleted => '¡Completado!';
 
   @override
-  String get challengeNotCompleted => 'Aún no completado';
+  String get challengeNotCompleted => 'Aún sin completar';
 
   @override
   String get challengeSeeFact => 'Ver el eco-dato de hoy';
 
   @override
-  String get challengeOverline => 'Desafío diario de acción';
+  String get challengeOverline => 'Desafío diario';
 
   @override
   String challengeLogAction(String action) {
@@ -1289,9 +1289,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'food': 'Vale cualquier acción de alimentación',
       'energy': 'Vale cualquier acción de energía',
       'consumption': 'Vale cualquier acción de consumo',
-      'water': 'Vale cualquier acción de agua',
-      'community': 'Vale cualquier acción de comunidad',
-      'advocacy': 'Vale cualquier acción de defensa',
+      'water': 'Vale cualquier acción relacionada con el agua',
+      'community': 'Vale cualquier acción comunitaria',
+      'advocacy': 'Vale cualquier acción de activismo',
       'other': 'Vale cualquier acción de esta categoría',
     });
     return '$_temp0';
@@ -1311,11 +1311,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'consumption':
           'Registra una acción de consumo para desbloquear el eco-dato de hoy',
       'water':
-          'Registra una acción de agua para desbloquear el eco-dato de hoy',
+          'Registra una acción relacionada con el agua para desbloquear el eco-dato de hoy',
       'community':
-          'Registra una acción de comunidad para desbloquear el eco-dato de hoy',
+          'Registra una acción comunitaria para desbloquear el eco-dato de hoy',
       'advocacy':
-          'Registra una acción de defensa para desbloquear el eco-dato de hoy',
+          'Registra una acción de activismo para desbloquear el eco-dato de hoy',
       'other': 'Registra una acción para desbloquear el eco-dato de hoy',
     });
     return '$_temp0';
@@ -1323,7 +1323,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String challengeStreakDays(int days) {
-    return 'Racha de $days días de desafío';
+    return 'Racha de desafíos: $days días';
   }
 
   @override
@@ -1415,24 +1415,24 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String comparisonVsYesterday(String percent) {
-    return '$percent% vs. ayer';
+    return '$percent% frente a ayer';
   }
 
   @override
   String comparisonVsLastWeek(String percent) {
-    return '$percent% vs. semana pasada';
+    return '$percent% frente a la semana pasada';
   }
 
   @override
   String comparisonVsLastMonth(String percent) {
-    return '$percent% vs. mes pasado';
+    return '$percent% frente al mes pasado';
   }
 
   @override
   String get trendChartTitle => 'Tendencia diaria';
 
   @override
-  String get trendChartAverageLabel => 'promedio';
+  String get trendChartAverageLabel => 'media';
 
   @override
   String get trendChartTrendLabel => 'tendencia';
@@ -1456,7 +1456,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get equivPhoneChargesLabel => 'cargas de móvil';
 
   @override
-  String get equivBurgersLabel => 'hamburguesas de carne';
+  String get equivBurgersLabel => 'hamburguesas de ternera';
 
   @override
   String get impactInfoTooltip => 'Cómo lo calculamos';
@@ -1466,7 +1466,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get impactInfoIntro =>
-      'Traducimos el CO2 que has evitado a comparaciones cotidianas. Las cifras son orientativas: usamos promedios globales y mezclamos CO2 con CO2 equivalente (metano, electricidad, ciclo de vida alimentario), así que tu impacto real depende de la red eléctrica local y la cadena de suministro.';
+      'Convertimos el CO2 que has ahorrado en comparaciones cotidianas. Las cifras son orientativas: usamos medias mundiales y mezclamos CO2 con CO2 equivalente (metano, electricidad, ciclo de vida alimentario), así que tu impacto real depende de la red eléctrica local y la cadena de suministro.';
 
   @override
   String get impactInfoFormulaLabel => 'Fórmula';
@@ -1484,11 +1484,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get equivPhoneChargesExplainer =>
-      'Electricidad de red necesaria para cargar por completo un móvil medio, basada en la combinación eléctrica nacional de EE. UU. Las redes más limpias (p. ej., Noruega) consumen menos; las más dependientes del carbón, más.';
+      'Electricidad de red necesaria para cargar por completo un móvil medio, según el mix eléctrico nacional de EE. UU. Las redes más limpias (p. ej., Noruega) consumen menos; las más dependientes del carbón, más.';
 
   @override
   String get equivBurgersExplainer =>
-      'Emisiones del ciclo de vida completo de una hamburguesa de carne (113 g de carne), desde la ganadería hasta el comercio. Una hamburguesa de pollo emite unas 10 veces menos; una de alubias, unas 50 veces menos.';
+      'Emisiones del ciclo de vida completo de una hamburguesa de ternera (113 g de carne), desde la ganadería hasta el comercio. Una hamburguesa de pollo emite unas 10 veces menos; una de alubias, unas 50 veces menos.';
 
   @override
   String equivFormulaTemplate(String factor) {
@@ -1504,7 +1504,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get ecoDexLocked => 'No descubierto';
+  String get ecoDexLocked => 'Por descubrir';
 
   @override
   String get ecoDexViewSource => 'Ver fuente';
@@ -1515,7 +1515,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get ecoDexNewDiscovery => '¡Nuevo descubrimiento en Eco-Dex!';
+  String get ecoDexNewDiscovery => '¡Nuevo descubrimiento en el Eco-Dex!';
 
   @override
   String get ecoDexNextUp => 'Próximos';
@@ -1533,7 +1533,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String ecoDexDiscoveryMoreQueued(int count) {
-    return '+$count más en cola';
+    return '+$count más pendientes';
   }
 
   @override
@@ -1548,7 +1548,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ecoDexInfoBody =>
-      'El Eco-Dex es tu enciclopedia de datos sobre nuestro planeta. Las entradas se desbloquean automáticamente al usar Seed: registrar acciones, ahorrar CO2, mantener rachas, completar retos y leer datos ecológicos. Toca una tarjeta bloqueada para ver una pista sobre cómo descubrirla, y toca una entrada descubierta para leer su dato completo. Los descubrimientos no otorgan puntos: cada uno te recompensa con conocimiento.';
+      'El Eco-Dex es tu enciclopedia de datos sobre nuestro planeta. Las entradas se desbloquean automáticamente al usar Seed: registrar acciones, ahorrar CO2, mantener rachas, completar desafíos y leer eco-datos. Toca una tarjeta bloqueada para ver una pista sobre cómo descubrirla, y toca una entrada descubierta para leer su dato completo. Los descubrimientos no dan puntos: cada uno te recompensa con conocimiento.';
 
   @override
   String get transportCalculatorTitle => 'Transporte';
@@ -1567,7 +1567,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exploreTransportSubtitle =>
-      'Dos rutas, cualquier mezcla de medios';
+      'Dos rutas, cualquier combinación de medios';
 
   @override
   String get exploreFoodSubtitle => 'Dos platos, ingrediente por ingrediente';
@@ -1577,7 +1577,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exploreEnergyRankedSubtitle =>
-      'Los hábitos diarios clasificados por energía';
+      'Hábitos cotidianos ordenados por energía';
 
   @override
   String get exploreQuizSubtitle => '¿Cuál emite más CO2?';
@@ -1596,7 +1596,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get transportEditLeg => 'Editar tramo';
 
   @override
-  String get transportSelectMode => 'Elige un modo de transporte';
+  String get transportSelectMode => 'Elige un medio de transporte';
 
   @override
   String get transportChangeMode => 'Cambiar';
@@ -1610,7 +1610,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get transportDistanceEstimateNote =>
-      'Estimación derivada de la ubicación de las ciudades. Edítala según tu ruta.';
+      'Estimación a partir de la ubicación de las ciudades. Ajústala a tu ruta.';
 
   @override
   String get transportDistanceUnknown => 'Desconocida';
@@ -1691,7 +1691,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get transportGroupCar => 'Coche y moto';
 
   @override
-  String get transportGroupBus => 'Autobús';
+  String get transportGroupBus => 'Autobús y autocar';
 
   @override
   String get transportGroupTaxi => 'Taxi';
@@ -1717,7 +1717,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get transportBasisJetRf =>
-      'Incluye el mismo incremento de gran altitud (forzamiento radiativo) que los vuelos';
+      'Incluye el mismo recargo por gran altitud (forzamiento radiativo) que los vuelos';
 
   @override
   String get transportBasisZeroDirect => '0 emisiones directas';
@@ -1747,7 +1747,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get co2eDefinitionBody =>
-      'El CO2e cuenta el metano y otros gases de efecto invernadero como su equivalente en CO2, para que una hamburguesa y un vuelo se comparen de forma justa.';
+      'El CO2e cuenta el metano y otros gases de efecto invernadero como su equivalente en CO2, para que una hamburguesa y un vuelo se comparen en igualdad de condiciones.';
 
   @override
   String get calculatorOptionA => 'Opción A';
@@ -1770,7 +1770,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get transportColumnEmptyHint =>
-      'Toca «Añadir tramo» para empezar este viaje';
+      'Toca «Añadir tramo» para empezar este trayecto';
 
   @override
   String get calculatorNeedBothOptions =>
@@ -1825,11 +1825,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportMethodologyBody(int grid) {
-    return 'Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los modos eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que pueden no sumarse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya son por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Siguiendo a DESNZ 2025, los factores de vuelos y jets privados incluyen un incremento del 1,7x (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo incremento, así que la comparación es equivalente.\n\n### Modos eléctricos y la red\nLos coches eléctricos, las bicis y patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de $grid g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Promedios, no tu trayecto exacto\nLos factores son promedios por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos modos están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.';
+    return 'Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los medios eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que no tienen por qué añadirse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya se miden por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Según DESNZ 2025, los factores de vuelos y jets privados incluyen un recargo de 1,7 (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo recargo, así que se comparan en igualdad de condiciones.\n\n### Medios eléctricos y la red\nLos coches eléctricos, las bicis y los patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de $grid g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Medias, no tu trayecto exacto\nLos factores son medias por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos medios están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.';
   }
 
   @override
-  String get transportLogChoiceTitle => '¿Tomar la opción más ecológica?';
+  String get transportLogChoiceTitle => '¿Eliges la opción más ecológica?';
 
   @override
   String transportLogChoiceBody(String amount) {
@@ -1843,7 +1843,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportChoiceLoggedMessage(String amount) {
-    return 'Registrado. Acumulaste $amount CO2e.';
+    return 'Registrado. Has acumulado $amount CO2e.';
   }
 
   @override
@@ -1869,7 +1869,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get customActionBadge => 'Personalizada';
 
   @override
-  String get actionReproduce => 'Hacerlo de nuevo';
+  String get actionReproduce => 'Repetir';
 
   @override
   String get actionReproducedMessage => 'Registrado de nuevo';
@@ -1885,7 +1885,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodMealEmpty =>
-      'Añade un ingrediente para construir tu comida y ver su huella de CO2e.';
+      'Añade un ingrediente para crear tu comida y ver su huella de CO2e.';
 
   @override
   String get foodAddIngredient => 'Añadir';
@@ -2021,7 +2021,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodBoundaryNarrower =>
-      'Se ha medido sobre una cadena de suministro más corta que la mayoría de los alimentos de aquí, así que parece más bajo.';
+      'Se ha medido sobre una cadena de suministro más corta que la mayoría de los alimentos de aquí, así que su cifra sale más baja en comparación.';
 
   @override
   String get foodPickerRecents => 'Recientes';
@@ -2035,17 +2035,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String foodVerdictTooClose(int percent) {
-    return 'Estas dos comidas están a menos del $percent% una de otra. La mayoría de los alimentos de aquí comparten un promedio con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.';
+    return 'Estas dos comidas están a menos del $percent% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.';
   }
 
   @override
   String foodVerdictCrossSource(int percent) {
-    return 'Estas comidas se miden con estudios distintos, y uno de ellos abarca una cadena de suministro más corta. Parte de cualquier diferencia podría deberse a eso y no a algo real, así que necesitaríamos que una emitiera menos de la mitad que la otra -- en torno al $percent% -- antes de decir cuál es mejor.';
+    return 'Estas comidas se miden con estudios distintos, y uno de ellos abarca una cadena de suministro más corta. Parte de cualquier diferencia podría deberse a eso y no a algo real, así que necesitaríamos que una emitiera menos de la mitad que la otra (en torno al $percent%) antes de decir cuál es mejor.';
   }
 
   @override
   String foodVerdictTiedBasis(int percent) {
-    return 'Esta diferencia se apoya en ingredientes que comparten una misma cifra de investigación de origen. Cuando dos de ellos no coinciden, esa discrepancia es una decisión contable del estudio original y no algo medido en el campo. Si se descuenta, estas comidas quedan a menos del $percent% una de otra, así que no declaramos una ganadora. Arriba tienes ambos totales.';
+    return 'Esta diferencia se apoya en ingredientes que comparten una misma cifra de investigación de origen. Cuando dos de ellos no coinciden, esa discrepancia es una decisión contable del estudio original y no algo medido en el campo. Si se deja eso a un lado, estas comidas quedan a menos del $percent% una de otra, así que no declaramos una ganadora. Arriba tienes ambos totales.';
   }
 
   @override
@@ -2054,12 +2054,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
-    return 'El problema es $item, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su promedio hasta $ratio veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al $percent% superaría esa incertidumbre; esta no lo hace. Puedes registrar la comida como una acción normal.';
+    return 'El problema es $item, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su media hasta $ratio veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al $percent% superaría esa incertidumbre; esta no llega. Puedes registrar la comida como una acción normal.';
   }
 
   @override
   String get foodComparisonTooClose =>
-      'Estas dos opciones están demasiado igualadas. Por debajo de una diferencia del 20%, la brecha queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.';
+      'Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.';
 
   @override
   String foodComparisonDelta(
@@ -2098,7 +2098,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String foodChoiceLoggedMessage(String amount) {
-    return 'Registrado. Acumulaste $amount CO2e.';
+    return 'Registrado. Has acumulado $amount CO2e.';
   }
 
   @override
@@ -2108,11 +2108,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodActionsEntryTitle =>
-      'Registrar una acción de comida personalizada';
+      'Registrar una acción de alimentación personalizada';
 
   @override
   String get foodMethodologyBody =>
-      'Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio -- cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado --, según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un límite más amplio que el alcance solo operativo de la calculadora de transporte, así que nunca sumes cifras de las dos herramientas. Las cifras son las medias del estudio ponderadas por producción e incluyen las pérdidas de la cadena de suministro, no sus medianas, porque las medias representan mejor el impacto global total.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg CO2e por 100 g de proteína, y el tomate de 0,45 kg CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### Por qué no siempre declaramos una ganadora\nCada cifra de aquí es un promedio de miles de granjas, y esas granjas no se reparten de forma uniforme alrededor de él. Una minoría de productores de impacto muy alto empuja el promedio por encima de lo que sería una granja típica, y por eso el estudio publica también un valor intermedio: la cifra que deja la mitad de la producción mundial a cada lado. En la mayoría de los alimentos ambos valores quedan cerca. En algunos no: el chocolate negro promedia 46,65 kg CO2e/kg frente a un valor intermedio de 18,7, y el pescado de piscifactoría 13,63 frente a 5,1.\n\nUsamos los promedios, porque representan el impacto mundial total y no la granja típica. La consecuencia es que dos alimentos con cifras próximas pueden intercambiar posiciones según cuál de los dos valores se mire. Por eso esta herramienta solo afirma que una comida es mejor que otra cuando la diferencia llega al 20%; por debajo de eso muestra ambos totales y te deja la comparación a ti.\n\nEse 20% está comprobado, no elegido por comodidad. En todas las parejas de alimentos de aquí para las que el estudio publica ambas cifras, una diferencia del 20% o más apunta en la misma dirección con cualquiera de las dos. Hay tres excepciones, porque su propio promedio y su valor intermedio difieren en más del doble: el chocolate negro, el pescado de piscifactoría y los frutos secos de árbol. En esos casos ninguna diferencia es fiable, así que nunca se usan para declarar una ganadora. Y cuando la comparación cruza dos estudios distintos -- algunos alimentos de aquí se miden con una segunda fuente que abarca una cadena de suministro más corta -- exigimos que una comida emita menos de la mitad que la otra, porque una diferencia menor podría ser solo el reflejo de lo que cada estudio contabilizó.\n\n### \'Ecológico\' y \'local\'\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la \'ternera local\' sigue teniendo una huella mucho mayor que las \'alubias importadas\', y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que la distancia que viajó o cómo se cultivó.';
+      'Cada cifra de esta herramienta es una estimación con fines educativos, trazable hasta las fuentes que se enumeran abajo.\n\n### Qué se cuenta\nCada factor abarca todo el ciclo de vida del alimento, de la cuna al comercio (cambio de uso del suelo, cultivo, pienso, procesado, transporte y envasado), según el metaanálisis de Poore & Nemecek de 2018 (unas 38.000 granjas), publicado por Our World in Data. Se excluyen la energía de cocinado en casa y el desperdicio alimentario doméstico. Es un alcance más amplio que el de la calculadora de transporte, que solo cuenta la energía operativa, así que nunca sumes cifras de las dos herramientas. Las cifras son las medias del estudio ponderadas por producción e incluyen las pérdidas de la cadena de suministro, no sus medianas, porque las medias representan mejor el impacto global total.\n\n### Una cifra, enorme dispersión\nEstas son medias globales por categoría. Un mismo alimento puede variar de 10 a 50 veces entre productores: la ternera va de unos 9 a 105 kg CO2e por 100 g de proteína, y el tomate de 0,45 kg CO2e/kg al aire libre y de temporada a 2,20 en invernadero con calefacción. Usa las cifras para comparar alimentos, no para juzgar una granja concreta.\n\n### Por qué no siempre declaramos una ganadora\nCada cifra de aquí es una media de miles de granjas, y esas granjas no se reparten de forma uniforme alrededor de ella. Una minoría de productores de impacto muy alto empuja la media por encima de lo que sería una granja típica, y por eso el estudio publica también un valor intermedio: la cifra que deja la mitad de la producción mundial a cada lado. En la mayoría de los alimentos ambos valores quedan cerca. En algunos no: el chocolate negro tiene una media de 46,65 kg CO2e/kg frente a un valor intermedio de 18,7, y el pescado de piscifactoría 13,63 frente a 5,1.\n\nUsamos las medias, porque representan el impacto mundial total y no la granja típica. La consecuencia es que dos alimentos con cifras próximas pueden intercambiar posiciones según cuál de los dos valores se mire. Por eso esta herramienta solo afirma que una comida es mejor que otra cuando la diferencia llega al 20%; por debajo de eso muestra ambos totales y te deja la comparación a ti.\n\nEse 20% está comprobado, no elegido por comodidad. En todas las parejas de alimentos de aquí para las que el estudio publica ambas cifras, una diferencia del 20% o más apunta en la misma dirección con cualquiera de las dos. Hay tres excepciones, porque su propia media y su valor intermedio difieren en más del doble: el chocolate negro, el pescado de piscifactoría y los frutos secos. En esos casos ninguna diferencia es fiable, así que nunca se usan para declarar una ganadora. Y cuando la comparación cruza dos estudios distintos (algunos alimentos de aquí se miden con una segunda fuente que abarca una cadena de suministro más corta), exigimos que una comida emita menos de la mitad que la otra, porque una diferencia menor podría ser solo el reflejo de lo que cada estudio contabilizó.\n\n### «Ecológico» y «local»\nAquí no hay descuento por ecológico ni por local, y es deliberado. El transporte suele ser menos del 10% de la huella de un alimento, así que la ternera local sigue teniendo una huella mucho mayor que las alubias importadas, y lo ecológico suele ser similar o mayor por kg. Lo que comes importa mucho más que lo lejos que haya viajado o cómo se haya producido.';
 
   @override
   String get energyGroupHotWater => 'Agua caliente';
@@ -2151,7 +2151,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get energyBehaviorScienceTooltip => 'De dónde viene este número';
 
   @override
-  String get energyLowConfidenceNote => 'La cifra menos precisa de estos datos';
+  String get energyLowConfidenceNote => 'La cifra menos fiable de estos datos';
 
   @override
   String energyFactorPerMinute(String kwh) {
@@ -2218,7 +2218,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get energyNoPointsNote =>
-      'Esta calculadora es para aprender. No otorga puntos ni registra nada.';
+      'Esta calculadora es para aprender. No da puntos ni registra nada.';
 
   @override
   String get energyPresetsLabel => 'Cantidades habituales';
@@ -2236,12 +2236,12 @@ class AppLocalizationsEs extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$label usa $amount CO2e menos que $worse ($percent% menos)';
+    return '$label emite $amount CO2e menos que $worse ($percent% menos)';
   }
 
   @override
   String energyComparisonRatio(String worse, String multiple, String label) {
-    return '$worse emite $multiple veces el CO2e de $label';
+    return '$worse emite $multiple veces más CO2e que $label';
   }
 
   @override
@@ -2249,15 +2249,15 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       charges,
       locale: localeName,
-      other: 'unas $charges cargas de móvil',
+      other: '$charges cargas de móvil',
       one: 'una carga de móvil',
     );
-    return 'Eso es $amount menos, $_temp0 de electricidad';
+    return 'Ahorras $amount, el equivalente en electricidad a $_temp0';
   }
 
   @override
   String energyComparisonSavesOnly(String amount) {
-    return 'Eso es $amount menos';
+    return 'Ahorras $amount';
   }
 
   @override
@@ -2268,17 +2268,17 @@ class AppLocalizationsEs extends AppLocalizations {
       other: 'unas $charges cargas de móvil',
       one: 'una carga de móvil',
     );
-    return 'Eso equivale a $_temp0 de electricidad';
+    return 'Equivale en electricidad a $_temp0';
   }
 
   @override
   String energyGridBasisNote(int grid) {
-    return 'Las cifras en gramos asumen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025)';
+    return 'Las cifras en gramos suponen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025)';
   }
 
   @override
   String energyGridBasisNoteRatio(int grid) {
-    return 'Las cifras en gramos asumen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025); el múltiplo vale en cualquier red';
+    return 'Las cifras en gramos suponen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025); el múltiplo se mantiene en cualquier red';
   }
 
   @override
@@ -2286,7 +2286,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyMethodologyBody(int grid) {
-    return 'Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se otorgan puntos: los hábitos de energía se registran en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces por una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nConsideramos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red funcionando con solar de mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos $grid g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hiciste.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el $grid de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición termostatada de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos segura de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz asumen un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.';
+    return 'Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg de CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos $grid g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el $grid de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.';
   }
 
   @override
@@ -2294,11 +2294,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get energyRankedIntro =>
-      'Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de una hora de luz LED. Cada fila indica bajo el nombre su propia base (un uso, una hora o un día). Esto ordena la energía consumida, que es la parte que deciden tus hábitos.';
+      'Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de una hora de luz LED. Cada fila indica su base (un uso, una hora o un día) debajo del nombre. Esto ordena la energía consumida, que es la parte que deciden tus hábitos.';
 
   @override
   String get energyRankedGasNote =>
-      'Los aparatos de gas están en la misma lista, porque aquí se ordena la energía. Ojo a un detalle: un calentador de gas usa más energía que uno eléctrico para el mismo baño y, aun así, con la red media mundial de hoy emite menos. Por debajo de unos 241 g CO2e por kWh eléctrico se invierte y gana la electricidad. La energía que usas es lo que eliges tú; lo limpia que sea la red depende de tu país y mejora cada año.';
+      'Los aparatos de gas están en la misma lista, porque aquí se ordena por energía. Ojo a un detalle: un calentador de gas usa más energía que uno eléctrico para el mismo baño y, aun así, con la red media mundial de hoy emite menos. Por debajo de unos 241 g CO2e por kWh de electricidad, el resultado se invierte y gana la electricidad. La energía que usas es lo que eliges tú; lo limpia que sea la red depende de tu país y mejora cada año.';
 
   @override
   String energyRankedMultiple(String multiple) {
@@ -2306,7 +2306,7 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get energyComparisonNoVerdict => 'Aquí no hay un ganador';
+  String get energyComparisonNoVerdict => 'Aquí no hay ganador';
 
   @override
   String get energyVerdictDifferentGroup =>
@@ -2314,7 +2314,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get energyVerdictDifferentCarrier =>
-      'Una funciona con gas y la otra con electricidad, y cuál resulta más limpia depende de la red eléctrica de tu zona, no de lo que hiciste. Por debajo de unos 241 g CO2e por kWh gana la eléctrica; por encima, el gas. Por eso se muestran ambas cifras sin declarar un ganador.';
+      'Una funciona con gas y la otra con electricidad, y cuál resulta más limpia depende de la red eléctrica de tu zona, no de lo que hayas hecho. Por debajo de unos 241 g CO2e por kWh gana la eléctrica; por encima, el gas. Por eso se muestran ambas cifras sin declarar un ganador.';
 
   @override
   String energyVerdictTooClose(int percent) {
@@ -2335,7 +2335,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyExploreIntro(String anchorUnit) {
-    return 'Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de $anchorUnit. Ordena la energía consumida, y los múltiplos valen en cualquier red.';
+    return 'Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de $anchorUnit. Ordena la energía consumida, y los múltiplos se mantienen en cualquier red.';
   }
 
   @override
@@ -2542,7 +2542,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factGamesLockedBody(int needed) {
-    return 'Completa desafíos diarios para desbloquear eco-datos. La mayoría incluye una cifra clave; los juegos empiezan cuando tengas $needed de ellos.';
+    return 'Completa desafíos diarios para desbloquear eco-datos. La mayoría incluye una cifra clave; los juegos empiezan cuando tengas $needed de esos eco-datos.';
   }
 
   @override
@@ -2635,7 +2635,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get walkthroughLogAction1 =>
-      'Este es el corazón de Seed. Elige algo que hayas hecho hoy y yo contaré el carbono que ahorraste.';
+      'Este es el corazón de Seed. Elige algo que hayas hecho hoy y yo contaré el carbono que has ahorrado.';
 
   @override
   String get walkthroughDailyChallenge1 =>
@@ -2643,7 +2643,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get walkthroughSdg1 =>
-      'Los 17 ODS son la lista de tareas del mundo. Cada uno muestra sus metas, el progreso hasta ahora y acciones que ayudan.';
+      'Los 17 ODS son la lista de tareas del mundo. Cada uno muestra sus metas, los avances hasta ahora y las acciones que ayudan.';
 
   @override
   String get walkthroughEcoFact1 =>
@@ -2651,31 +2651,31 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get walkthroughCalculators1 =>
-      'Tres calculadoras comparan dos opciones. Transporte: dos rutas, cualquier mezcla de medios. ¿Elegiste la más verde? Regístrala como acción.';
+      'Tres calculadoras comparan dos opciones. Transporte: dos rutas, cualquier combinación de medios. ¿Has elegido la más ecológica? Regístrala como acción.';
 
   @override
   String get walkthroughCalculators2 =>
-      'Comida: dos platos, ingrediente por ingrediente. ¿Elegiste el más ligero? Regístralo también.';
+      'Comida: dos platos, ingrediente por ingrediente. ¿Has elegido el más ligero? Regístralo también.';
 
   @override
   String get walkthroughCalculators3 =>
-      'Energía del hogar: dos rutinas, de la ducha a la secadora. Enseña, nunca puntúa.';
+      'Energía del hogar: dos rutinas, de la ducha a la secadora. Enseña, pero nunca puntúa.';
 
   @override
   String get walkthroughCalculators4 =>
-      'Debajo, «A dónde va tu energía»: los hábitos diarios clasificados, medidos en horas de LED, cargas de móvil, litros de hervidor u horas de ventilador.';
+      'Debajo, «A dónde va tu energía»: hábitos cotidianos ordenados, medidos en horas de LED, cargas de móvil, litros de hervidor u horas de ventilador.';
 
   @override
   String get walkthroughQuiz1 =>
-      'Dos cosas, una pregunta: ¿cuál emite más CO2? Haz una racha. Sin puntos, solo para presumir.';
+      'Dos cosas, una pregunta: ¿cuál emite más CO2? Encadena una racha. Sin puntos, solo para presumir.';
 
   @override
   String get walkthroughProgress1 =>
-      'Calendario: cada día que registraste algo, y tu meta diaria.';
+      'Calendario: cada día en que has registrado algo, y tu meta diaria.';
 
   @override
   String get walkthroughProgress2 =>
-      'Impacto: el carbono que has ahorrado, traducido en árboles, kilómetros en coche, cargas de móvil y hamburguesas.';
+      'Impacto: el carbono que has ahorrado, convertido en árboles, kilómetros en coche, cargas de móvil y hamburguesas.';
 
   @override
   String get walkthroughProgress3 =>

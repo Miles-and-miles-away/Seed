@@ -131,7 +131,7 @@ void main() {
 
           expect(tester.takeException(), isNull);
           final label = tester.renderObject<RenderParagraph>(
-            find.text('hamburguesas de carne'),
+            find.text('hamburguesas de ternera'),
           );
           expect(label.didExceedMaxLines, isFalse);
         });

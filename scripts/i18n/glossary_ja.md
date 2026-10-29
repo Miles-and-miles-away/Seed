@@ -94,7 +94,7 @@
 
 ### Example 1 (comparison category)
 **English**: If you went fully plant-based for just one month, you would save roughly 80 kg of CO2 -- equivalent to driving 500 km in a petrol car.
-**Japanese**: 1か月間完全に植物性の食事に切り替えるだけで、約80 kgのCO2を節約できます。これはガソリン車で500 km走行するのに相当します。
+**Japanese**: 1か月間完全に植物性の食事に切り替えるだけで、約80 kgのCO2を削減できます。これはガソリン車で500 km走行するのに相当します。
 
 ### Example 2 (positiveNews category)
 **English**: The global tree-planting movement has planted over 16 billion trees since 2020. Ethiopia set a world record by planting 350 million trees in a single day in 2019.
