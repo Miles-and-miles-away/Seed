@@ -283,7 +283,7 @@ with a one-line description; every tile pushes its full-screen route.
 - Functionality: two sections of `ExploreTile`s, each a tinted disc
   (category colour, icon in its readable tone; the quiz takes the
   scheme's primary, Fact pairs `categoryLearning` blue grey, Fact recall
-  `categoryConsumption` purple), title, subtitle and chevron. While the
+  `categoryAdvocacy` pink), title, subtitle and chevron. While the
   user has fewer than 3 unlocked eco-facts with a key figure, both fact
   game tiles read "N of 3 eco-facts with a number" and a lock replaces
   the chevron (one lock for both); they stay tappable and open the

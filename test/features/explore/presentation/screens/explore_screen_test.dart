@@ -252,7 +252,7 @@ void main() {
           'Where your energy goes': AppColors.categoryEnergy,
           'Higher or lower?': theme.colorScheme.primary,
           'Fact pairs': AppColors.categoryLearning,
-          'Fact recall': AppColors.categoryConsumption,
+          'Fact recall': AppColors.categoryAdvocacy,
         };
         for (final MapEntry(key: title, value: colour) in expected.entries) {
           final icon = tester.widget<Icon>(

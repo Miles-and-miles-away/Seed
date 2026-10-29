@@ -74,10 +74,10 @@ final factPairsEntry = ExploreEntry(
   route: appRoutes.factPairs,
 );
 
-/// Purple, unused by the other tiles, tells the two fact games apart.
+/// Pink stays clear of the info tones and of the other tiles' colours.
 final factRecallEntry = ExploreEntry(
   icon: Icons.psychology_outlined,
-  color: AppColors.categoryConsumption,
+  color: AppColors.categoryAdvocacy,
   title: (l10n) => l10n.factRecallTitle,
   subtitle: (l10n) => l10n.factRecallSubtitle,
   route: appRoutes.factRecall,
