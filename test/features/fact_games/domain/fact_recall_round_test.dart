@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
 import 'package:seed_app/features/fact_games/domain/figure_text.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 
 import '../fact_games_fixtures.dart';
 
@@ -15,15 +16,19 @@ FactRecallRound _deal(
   List<EcoFact>? allPlayable,
   String locale = 'en',
   int seed = 1,
-  Set<int> avoidDays = const {},
+  Set<String> avoidIds = const {},
 }) => FactRecallRound.deal(
-  pool: pool,
-  allPlayable: allPlayable ?? pool,
-  locale: locale,
+  pool: ecoGameFacts(pool, locale),
+  allPlayable: ecoGameFacts(allPlayable ?? pool, locale),
   blank: _blank,
   random: Random(seed),
-  avoidDays: avoidDays,
+  avoidIds: avoidIds,
 );
+
+List<(GameFact, GameFact)> _decoyPairs(List<EcoFact> facts) {
+  final resolved = ecoGameFacts(facts, 'en');
+  return decoyPairs(resolved.first, resolved, _blank);
+}
 
 /// A playable fact whose text in every language is [text].
 EcoFact _factWithText(int day, String figure, String text) => EcoFact(
@@ -39,8 +44,8 @@ EcoFact _factWithText(int day, String figure, String text) => EcoFact(
   keyFigureEs: figure,
 );
 
-Set<int> _decoyDays(List<(EcoFact, EcoFact)> pairs) => {
-  for (final (a, b) in pairs) ...[a.dayOfYear, b.dayOfYear],
+Set<String> _decoyIds(List<(GameFact, GameFact)> pairs) => {
+  for (final (a, b) in pairs) ...[a.id, b.id],
 };
 
 void main() {
@@ -58,7 +63,7 @@ void main() {
       ];
       for (var seed = 0; seed < 20; seed++) {
         final figures = [
-          for (final q in _deal(pool, seed: seed).questions) q.fact.keyFigureEn,
+          for (final q in _deal(pool, seed: seed).questions) q.fact.figureEn,
         ];
         expect(figures, hasLength(4));
         expect(figures.toSet(), hasLength(4));
@@ -69,12 +74,12 @@ void main() {
       final round = _deal(playableFacts(12));
       for (final q in round.questions) {
         expect(q.options, hasLength(3));
-        expect(q.options.where((o) => o == q.fact.keyFigureEn), hasLength(1));
-        expect(q.answer, q.fact.keyFigureEn);
-        expect(q.revealed, q.fact.factEn);
+        expect(q.options.where((o) => o == q.fact.figure), hasLength(1));
+        expect(q.answer, q.fact.figure);
+        expect(q.revealed, q.fact.text);
         expect(q.blanked, q.revealed.replaceAll(q.answer, _blank));
         expect(q.blanked, isNot(contains(q.answer)));
-        expect(q.title, q.fact.nameEn);
+        expect(q.title, q.fact.title);
       }
     });
 
@@ -85,10 +90,10 @@ void main() {
       ];
       final round = _deal(pool, locale: 'ja');
       for (final q in round.questions) {
-        expect(q.answer, q.fact.keyFigureJa);
+        expect(q.answer, endsWith('キロ'));
         expect(q.options.every((o) => o.endsWith('キロ')), isTrue);
-        expect(q.title, q.fact.nameJa);
-        expect(q.blanked, q.fact.factJa.replaceAll(q.answer, _blank));
+        expect(q.title, startsWith('タイトル'));
+        expect(q.blanked, q.fact.text.replaceAll(q.answer, _blank));
       }
     });
 
@@ -100,26 +105,26 @@ void main() {
       }
     });
 
-    test('avoidDays is honoured while the pool allows', () {
+    test('avoidIds is honoured while the pool allows', () {
       final pool = playableFacts(10);
       final first = _deal(pool);
-      final second = _deal(pool, seed: 2, avoidDays: first.askedDays);
-      expect(second.askedDays.intersection(first.askedDays), isEmpty);
+      final second = _deal(pool, seed: 2, avoidIds: first.askedIds);
+      expect(second.askedIds.intersection(first.askedIds), isEmpty);
 
       final small = playableFacts(7);
       final a = _deal(small);
-      final b = _deal(small, seed: 2, avoidDays: a.askedDays);
-      final leftOut = {for (final f in small) f.dayOfYear}
-        ..removeAll(a.askedDays);
-      expect(b.askedDays.containsAll(leftOut), isTrue);
+      final b = _deal(small, seed: 2, avoidIds: a.askedIds);
+      final leftOut = {for (final f in small) 'fact:${f.dayOfYear}'}
+        ..removeAll(a.askedIds);
+      expect(b.askedIds.containsAll(leftOut), isTrue);
       expect(b.questions, hasLength(5));
     });
 
     test('Play again with a pool of three re-asks the same three', () {
       final pool = playableFacts(3);
       final first = _deal(pool);
-      final again = _deal(pool, seed: 3, avoidDays: first.askedDays);
-      expect(again.askedDays, first.askedDays);
+      final again = _deal(pool, seed: 3, avoidIds: first.askedIds);
+      expect(again.askedIds, first.askedIds);
     });
   });
 
@@ -132,8 +137,8 @@ void main() {
         playableFact(4, figure: '1-2 kg'),
         playableFact(5, figure: '3 tonnes'),
       ];
-      final pairs = decoyPairs(facts.first, facts, 'en', _blank);
-      expect(_decoyDays(pairs), {2, 3});
+      final pairs = _decoyPairs(facts);
+      expect(_decoyIds(pairs), {'fact:2', 'fact:3'});
     });
 
     test('then the unit key, never a pair sharing a shape the answer '
@@ -145,10 +150,10 @@ void main() {
         playableFact(4, figure: '3-4 kg'),
         playableFact(5, figure: '3 tonnes'),
       ];
-      final pairs = decoyPairs(facts.first, facts, 'en', _blank);
+      final pairs = _decoyPairs(facts);
       expect(
-        {for (final (a, b) in pairs) (a.dayOfYear, b.dayOfYear)},
-        {(2, 3), (2, 4)},
+        {for (final (a, b) in pairs) (a.id, b.id)},
+        {('fact:2', 'fact:3'), ('fact:2', 'fact:4')},
       );
     });
 
@@ -163,15 +168,21 @@ void main() {
         playableFact(7, figure: '6 litres'),
         playableFact(8, figure: '8 hours'),
       ];
-      final pairs = decoyPairs(facts.first, facts, 'en', _blank);
+      final pairs = _decoyPairs(facts);
       expect(
-        {for (final (a, b) in pairs) (a.dayOfYear, b.dayOfYear)},
-        {(2, 3), (2, 4), (2, 5), (3, 5), (4, 5)},
+        {for (final (a, b) in pairs) (a.id, b.id)},
+        {
+          ('fact:2', 'fact:3'),
+          ('fact:2', 'fact:4'),
+          ('fact:2', 'fact:5'),
+          ('fact:3', 'fact:5'),
+          ('fact:4', 'fact:5'),
+        },
       );
       for (final (a, b) in pairs) {
         for (final decoy in [a, b]) {
           expect(
-            figureFamilies[figureUnitKey(decoy.keyFigureEn)],
+            figureFamilies[figureUnitKey(decoy.figureEn)],
             figureFamilies['kg'],
           );
         }
@@ -185,8 +196,8 @@ void main() {
         playableFact(8, figure: '40%'),
         playableFact(9, figure: '30%'),
       ];
-      final pairs = decoyPairs(facts.first, facts, 'en', _blank);
-      expect(_decoyDays(pairs), {2, 8, 9});
+      final pairs = _decoyPairs(facts);
+      expect(_decoyIds(pairs), {'fact:2', 'fact:8', 'fact:9'});
       expect(pairs, hasLength(3));
     });
 
@@ -198,9 +209,9 @@ void main() {
         playableFact(4, figure: '30%'),
         playableFact(5, figure: '40%'),
       ];
-      final pairs = decoyPairs(facts.first, facts, 'en', _blank);
+      final pairs = _decoyPairs(facts);
       // 5% sits only inside 85%, so it is still a fair decoy.
-      expect(_decoyDays(pairs), {3, 4, 5});
+      expect(_decoyIds(pairs), {'fact:3', 'fact:4', 'fact:5'});
     });
 
     test('is empty when no pair is valid', () {
@@ -209,7 +220,7 @@ void main() {
         playableFact(2, figure: '7 kg'),
         playableFact(3, figure: '9%'),
       ];
-      expect(decoyPairs(facts.first, facts, 'en', _blank), isEmpty);
+      expect(_decoyPairs(facts), isEmpty);
     });
   });
 

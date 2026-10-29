@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 
 /// Pairs on a full board; smaller pools get [factGamesMinFacts] pairs.
 const factPairsMaxPairs = 6;
@@ -16,35 +16,30 @@ enum FactFace { title, figure }
 class FactCard {
   const FactCard({required this.fact, required this.face, required this.text});
 
-  final EcoFact fact;
+  final GameFact fact;
   final FactFace face;
   final String text;
 
   /// Two cards pair when this matches.
-  int get factDay => fact.dayOfYear;
+  String get factId => fact.id;
 }
 
 enum FlipResult { ignored, first, match, miss }
 
-/// A dealt board and its play state. Strings are resolved at deal time,
-/// so a board belongs to one locale.
+/// A dealt board and its play state. Its facts are resolved for one
+/// locale, so a board belongs to that locale.
 class FactPairsBoard {
   FactPairsBoard._(this.cards);
 
   /// Deals up to [factPairsMaxPairs] facts with distinct figures from
   /// [pool], cut to [factGamesMinFacts] when fewer were found, so every
   /// row of the grid is full.
-  factory FactPairsBoard.deal(
-    List<EcoFact> pool,
-    String locale,
-    Random random,
-  ) {
+  factory FactPairsBoard.deal(List<GameFact> pool, Random random) {
     final figures = <String>{};
-    final dealt = <EcoFact>[];
+    final dealt = <GameFact>[];
     for (final fact in [...pool]..shuffle(random)) {
       if (dealt.length == factPairsMaxPairs) break;
-      // EN is canonical: JA and ES can write one value two ways.
-      if (fact.isPlayable && figures.add(fact.keyFigureEn)) dealt.add(fact);
+      if (figures.add(fact.figureEn)) dealt.add(fact);
     }
     assert(
       dealt.length >= factGamesMinFacts,
@@ -56,12 +51,8 @@ class FactPairsBoard {
     return FactPairsBoard._(
       [
         for (final fact in pairs) ...[
-          FactCard(fact: fact, face: FactFace.title, text: fact.name(locale)),
-          FactCard(
-            fact: fact,
-            face: FactFace.figure,
-            text: fact.keyFigure(locale)!,
-          ),
+          FactCard(fact: fact, face: FactFace.title, text: fact.title),
+          FactCard(fact: fact, face: FactFace.figure, text: fact.figure),
         ],
       ]..shuffle(random),
     );
@@ -100,7 +91,7 @@ class FactPairsBoard {
     }
     final first = _faceUp.single;
     _moves += 1;
-    if (cards[first].factDay == cards[index].factDay) {
+    if (cards[first].factId == cards[index].factId) {
       _faceUp.clear();
       _matched.addAll([first, index]);
       return FlipResult.match;

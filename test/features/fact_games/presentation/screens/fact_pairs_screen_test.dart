@@ -16,6 +16,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
@@ -52,9 +53,9 @@ List<String> _cardTexts(WidgetTester tester) => [
 
 /// Both card indices of each pair on [board], in deal order.
 List<(int, int)> _pairs(FactPairsBoard board) {
-  final byDay = <int, List<int>>{};
+  final byDay = <String, List<int>>{};
   for (final (i, card) in board.cards.indexed) {
-    byDay.putIfAbsent(card.factDay, () => []).add(i);
+    byDay.putIfAbsent(card.factId, () => []).add(i);
   }
   return [for (final pair in byDay.values) (pair.first, pair.last)];
 }
@@ -62,7 +63,7 @@ List<(int, int)> _pairs(FactPairsBoard board) {
 /// Two face-down cards that do not pair.
 (int, int) _miss(FactPairsBoard board) {
   final other = board.cards.indexed
-      .firstWhere((e) => e.$2.factDay != board.cards.first.factDay)
+      .firstWhere((e) => e.$2.factId != board.cards.first.factId)
       .$1;
   return (0, other);
 }
@@ -137,7 +138,9 @@ void main() {
     locale: locale,
     theme: theme,
     overrides: [
-      factGamesPoolProvider.overrideWith((_) async => pool ?? playableFacts(6)),
+      factGamesPoolProvider.overrideWith(
+        (_, locale) async => ecoGameFacts(pool ?? playableFacts(6), locale),
+      ),
       analyticsServiceProvider.overrideWithValue(
         analytics ?? _RecordingAnalytics(),
       ),
@@ -146,7 +149,7 @@ void main() {
   );
 
   FactPairsBoard firstDeal(List<EcoFact> pool, [String locale = 'en']) =>
-      FactPairsBoard.deal(pool, locale, Random(_seed));
+      FactPairsBoard.deal(ecoGameFacts(pool, locale), Random(_seed));
 
   group('locked', () {
     for (final count in [0, 1, 2]) {
@@ -208,7 +211,9 @@ void main() {
         ProviderScope(
           overrides: [
             languageStoreOverride(),
-            factGamesPoolProvider.overrideWith((_) async => playableFacts(1)),
+            factGamesPoolProvider.overrideWith(
+              (_, locale) async => ecoGameFacts(playableFacts(1), locale),
+            ),
             analyticsServiceProvider.overrideWithValue(_RecordingAnalytics()),
           ],
           child: MaterialApp.router(
@@ -239,7 +244,7 @@ void main() {
       await _tapCard(tester, b);
 
       final fact = board.cards[a].fact;
-      for (final text in [fact.nameEn, fact.factEn]) {
+      for (final text in [fact.title, fact.text]) {
         final finder = find.descendant(
           of: find.byType(InfoSheet),
           matching: find.text(text),
@@ -296,8 +301,8 @@ void main() {
       final analytics = _RecordingAnalytics();
       final pool = playableFacts(8);
       final random = Random(_seed);
-      final board = FactPairsBoard.deal(pool, 'en', random);
-      final next = FactPairsBoard.deal(pool, 'en', random);
+      final board = FactPairsBoard.deal(ecoGameFacts(pool, 'en'), random);
+      final next = FactPairsBoard.deal(ecoGameFacts(pool, 'en'), random);
       await tester.pumpWidget(buildScreen(pool: pool, analytics: analytics));
       await tester.pumpAndSettle();
       expect(analytics.events, ['opened']);
@@ -632,7 +637,7 @@ void main() {
       final container = ProviderScope.containerOf(
         tester.element(find.byType(FactPairsScreen)),
       );
-      expect(container.read(factGamesPoolProvider).value, hasLength(9));
+      expect(container.read(factGamesPoolProvider('en')).value, hasLength(9));
       expect(_cardTexts(tester), before);
       expect(_stateOf(tester, 0), FactCardState.faceUp);
     });
@@ -641,15 +646,17 @@ void main() {
       sizeViewport(tester);
       final pool = playableFacts(8);
       final random = Random(_seed);
-      FactPairsBoard.deal(pool, 'en', random);
-      final japanese = FactPairsBoard.deal(pool, 'ja', random);
+      FactPairsBoard.deal(ecoGameFacts(pool, 'en'), random);
+      final japanese = FactPairsBoard.deal(ecoGameFacts(pool, 'ja'), random);
       final locale = ValueNotifier(const Locale('en'));
       addTearDown(locale.dispose);
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             languageStoreOverride(),
-            factGamesPoolProvider.overrideWith((_) async => pool),
+            factGamesPoolProvider.overrideWith(
+              (_, locale) async => ecoGameFacts(pool, locale),
+            ),
             analyticsServiceProvider.overrideWithValue(_RecordingAnalytics()),
           ],
           child: ValueListenableBuilder(

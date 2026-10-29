@@ -22,7 +22,8 @@ class FactGameExploreTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pool = ref.watch(factGamesPoolProvider).value;
+    final locale = Localizations.localeOf(context).languageCode;
+    final pool = ref.watch(factGamesPoolProvider(locale)).value;
     final count = pool == null ? null : distinctFigureCount(pool);
     final locked = count != null && count < factGamesMinFacts;
     return ExploreTile(

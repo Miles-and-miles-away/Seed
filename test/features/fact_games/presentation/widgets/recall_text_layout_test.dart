@@ -9,6 +9,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_question_card.dart';
 
@@ -67,12 +68,12 @@ List<String> _badBreaks(
         'inside "$figure": $lines',
 ];
 
-RecallQuestion _question(EcoFact fact, String language, String blank) {
-  final figure = fact.keyFigure(language)!;
-  final text = fact.fact(language);
+RecallQuestion _question(GameFact fact, String blank) {
+  final figure = fact.figure;
+  final text = fact.text;
   return RecallQuestion(
     fact: fact,
-    title: fact.name(language),
+    title: fact.title,
     blanked: text.replaceAll(figure, blank),
     revealed: text,
     options: [figure, figure, figure],
@@ -141,7 +142,8 @@ void main() {
           final blank = l10n.factRecallBlank.characters.join(wordJoiner);
           final cleanBlank = l10n.factRecallBlank;
           final questions = [
-            for (final fact in playable) _question(fact, language, blank),
+            for (final fact in ecoGameFacts(playable, language))
+              _question(fact, blank),
           ];
           await pumpAll(tester, language, width, scale, [
             for (final (i, q) in questions.indexed) ...[

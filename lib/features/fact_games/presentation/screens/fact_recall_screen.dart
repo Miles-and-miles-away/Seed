@@ -7,9 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
-import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/presentation/providers/fact_games_providers.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_games_locked_view.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
@@ -21,7 +21,7 @@ import 'package:seed_app/shared/widgets/widgets.dart';
 /// a guard for iOS accessibility text sizes.
 const _answersMaxHeightFactor = 0.45;
 
-/// Fact recall: each question blanks an unlocked eco-fact's key figure
+/// Fact recall: each question blanks an unlocked fact's key figure
 /// and offers it with two other facts' figures.
 ///
 /// Nothing is awarded, logged or persisted, and there is no best score.
@@ -59,10 +59,10 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
   }
 
   void _deal(
-    List<EcoFact> pool,
-    List<EcoFact> allPlayable,
+    List<GameFact> pool,
+    List<GameFact> allPlayable,
     String locale, {
-    Set<int> avoidDays = const {},
+    Set<String> avoidIds = const {},
   }) {
     _roundLocale = locale;
     if (distinctFigureCount(pool) < factGamesMinFacts) {
@@ -72,13 +72,12 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
     final round = FactRecallRound.deal(
       pool: pool,
       allPlayable: allPlayable,
-      locale: locale,
       // Joined so a Japanese line never splits the blank.
       blank: AppLocalizations.of(
         context,
       ).factRecallBlank.characters.join(wordJoiner),
       random: _random,
-      avoidDays: avoidDays,
+      avoidIds: avoidIds,
     );
     // Data that breaks the decoy rule deals nothing: locked, not a crash.
     _round = round.questions.isEmpty ? null : round;
@@ -126,11 +125,11 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
 
   void _playAgain(
     FactRecallRound last,
-    List<EcoFact> pool,
-    List<EcoFact> allPlayable,
+    List<GameFact> pool,
+    List<GameFact> allPlayable,
     String locale,
   ) {
-    setState(() => _deal(pool, allPlayable, locale, avoidDays: last.askedDays));
+    setState(() => _deal(pool, allPlayable, locale, avoidIds: last.askedIds));
     final round = _round;
     if (round != null) {
       _announce(_questionAnnouncement(AppLocalizations.of(context), round));
@@ -140,8 +139,9 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final poolAsync = ref.watch(factGamesPoolProvider);
-    final allAsync = ref.watch(factGamesAllPlayableProvider);
+    final locale = Localizations.localeOf(context).languageCode;
+    final poolAsync = ref.watch(factGamesPoolProvider(locale));
+    final allAsync = ref.watch(factGamesAllPlayableProvider(locale));
     final pool = poolAsync.value;
     final allPlayable = allAsync.value;
     Widget body;
@@ -151,7 +151,6 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
           ? const Center(child: ErrorDisplay())
           : const Center(child: CircularProgressIndicator());
     } else {
-      final locale = Localizations.localeOf(context).languageCode;
       // Only a new locale or a newly playable pool deals; a reload does not.
       if (_roundLocale != locale || _round == null) {
         _deal(pool, allPlayable, locale);

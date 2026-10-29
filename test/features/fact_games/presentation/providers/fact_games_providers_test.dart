@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -17,8 +18,8 @@ void main() {
       userOverride(user),
       ecoFactsProvider.overrideWith((_) async => facts),
     ]);
-    final pool = await container.read(factGamesPoolProvider.future);
-    return [for (final fact in pool) fact.dayOfYear];
+    final pool = await container.read(factGamesPoolProvider('en').future);
+    return [for (final fact in pool) int.parse(fact.id.split(':').last)];
   }
 
   group('factGamesPoolProvider', () {
@@ -68,10 +69,12 @@ void main() {
         userOverride(null),
         ecoFactsProvider.overrideWith((_) async => facts),
       ]);
-      final all = await container.read(factGamesAllPlayableProvider.future);
+      final all = await container.read(
+        factGamesAllPlayableProvider('en').future,
+      );
       expect(
-        [for (final fact in all) fact.dayOfYear],
-        [for (var day = 1; day <= 10; day++) day],
+        [for (final fact in all) fact.id],
+        [for (var day = 1; day <= 10; day++) 'fact:$day'],
       );
     });
   });
@@ -79,12 +82,14 @@ void main() {
   group('distinctFigureCount', () {
     test('counts each EN figure once and skips unplayable facts', () {
       expect(
-        distinctFigureCount([
-          playableFact(1, figure: '5 kg'),
-          playableFact(2, figure: '5 kg'),
-          playableFact(3),
-          unplayableFact(4),
-        ]),
+        distinctFigureCount(
+          ecoGameFacts([
+            playableFact(1, figure: '5 kg'),
+            playableFact(2, figure: '5 kg'),
+            playableFact(3),
+            unplayableFact(4),
+          ], 'en'),
+        ),
         2,
       );
     });

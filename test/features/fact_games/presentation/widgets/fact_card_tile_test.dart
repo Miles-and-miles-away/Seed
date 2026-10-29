@@ -9,6 +9,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -90,17 +91,9 @@ void main() {
             final faceWidth =
                 (width - 2 * spacingXxl - (columns - 1) * spacingSm) / columns;
             final cards = [
-              for (final fact in playable) ...[
-                FactCard(
-                  fact: fact,
-                  face: FactFace.title,
-                  text: fact.name(language),
-                ),
-                FactCard(
-                  fact: fact,
-                  face: FactFace.figure,
-                  text: fact.keyFigure(language)!,
-                ),
+              for (final fact in ecoGameFacts(playable, language)) ...[
+                FactCard(fact: fact, face: FactFace.title, text: fact.title),
+                FactCard(fact: fact, face: FactFace.figure, text: fact.figure),
               ],
             ];
             sizeViewport(tester, size: Size(width, 800));

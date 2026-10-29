@@ -6,6 +6,7 @@ import 'package:seed_app/features/eco_fact/data/eco_facts_data.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
 import 'package:seed_app/features/fact_games/domain/figure_text.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 
 import '../../fact_games/figure_digits.dart';
 
@@ -140,10 +141,11 @@ void main() {
 
   test('every figure has two valid decoys in each language', () {
     final unaskable = [
-      for (final fact in dexFacts)
-        for (final locale in _locales)
-          if (decoyPairs(fact, allPlayable, locale, _blank).isEmpty)
-            '${fact.nameEn} $locale: ${fact.keyFigure(locale)}',
+      for (final locale in _locales)
+        if (ecoGameFacts(allPlayable, locale) case final candidates)
+          for (final fact in ecoGameFacts(dexFacts, locale))
+            if (decoyPairs(fact, candidates, _blank).isEmpty)
+              '${fact.title} $locale: ${fact.figure}',
     ];
     expect(unaskable, isEmpty);
   });

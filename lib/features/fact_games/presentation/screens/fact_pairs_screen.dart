@@ -7,16 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/presentation/providers/fact_games_providers.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_games_locked_view.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
-/// Fact pairs: a memory game matching each unlocked eco-fact's title to
+/// Fact pairs: a memory game matching each unlocked fact's title to
 /// its key figure. Each match opens the fact in a sheet.
 ///
 /// Nothing is awarded, logged or persisted, and there is no best score:
@@ -54,12 +54,12 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
     super.dispose();
   }
 
-  void _deal(List<EcoFact> pool, String locale) {
+  void _deal(List<GameFact> pool, String locale) {
     _missTimer?.cancel();
     _boardLocale = locale;
     _board = distinctFigureCount(pool) < factGamesMinFacts
         ? null
-        : FactPairsBoard.deal(pool, locale, _random);
+        : FactPairsBoard.deal(pool, _random);
   }
 
   void _announce(String message) => SemanticsService.sendAnnouncement(
@@ -100,12 +100,7 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
             }
           });
         }
-        final locale = _boardLocale!;
-        InfoSheet.show(
-          context,
-          title: card.fact.name(locale),
-          body: card.fact.fact(locale),
-        );
+        InfoSheet.show(context, title: card.fact.title, body: card.fact.text);
       case FlipResult.miss:
         _missTimer = Timer(durationCelebration, () {
           if (mounted) setState(board.hideMiss);
@@ -117,7 +112,7 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
   }
 
   /// The button goes with the panel, so the new board is announced.
-  void _playAgain(List<EcoFact> pool, String locale) {
+  void _playAgain(List<GameFact> pool, String locale) {
     setState(() => _deal(pool, locale));
     final board = _board;
     if (board != null) {
@@ -130,14 +125,15 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final poolAsync = ref.watch(factGamesPoolProvider);
+    final locale = Localizations.localeOf(context).languageCode;
+    final poolAsync = ref.watch(factGamesPoolProvider(locale));
     final pool = poolAsync.value;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.factPairsTitle)),
       body: switch (pool) {
         null when poolAsync.hasError => const Center(child: ErrorDisplay()),
         null => const Center(child: CircularProgressIndicator()),
-        final pool => _buildBody(context, l10n, pool),
+        final pool => _buildBody(context, l10n, pool, locale),
       },
     );
   }
@@ -145,9 +141,9 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
   Widget _buildBody(
     BuildContext context,
     AppLocalizations l10n,
-    List<EcoFact> pool,
+    List<GameFact> pool,
+    String locale,
   ) {
-    final locale = Localizations.localeOf(context).languageCode;
     // Only a new locale or a newly playable pool deals; a reload does not.
     if (_boardLocale != locale || _board == null) _deal(pool, locale);
     final board = _board;

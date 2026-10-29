@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
 import 'package:seed_app/features/fact_games/domain/figure_text.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 
 /// Questions in a full round; smaller pools ask each distinct figure once.
 const factRecallRoundLength = 5;
@@ -21,7 +21,7 @@ class RecallQuestion {
     required this.answerIndex,
   });
 
-  final EcoFact fact;
+  final GameFact fact;
   final String title;
 
   /// The fact text with its figure replaced by the blank.
@@ -37,41 +37,36 @@ class RecallQuestion {
   String get answer => options[answerIndex];
 }
 
-/// Valid decoy pairs for [fact] in [locale]: the pairs of the first tier
-/// that has any. Empty means the fact cannot be asked, which the data
-/// rule forbids.
+/// Valid decoy pairs for [fact] among [candidates], resolved in the same
+/// locale: the pairs of the first tier that has any. Empty means the fact
+/// cannot be asked, which the data rule forbids.
 ///
-/// Candidates are other facts' figures, one per value, in the answer's
+/// Candidates are other facts' figures, one per value (the first in
+/// [candidates] order), in the answer's
 /// unit or family and not already in the blanked text. Tiers prefer the
 /// answer's shape, then its unit; no pair shares a shape the answer
 /// lacks, so the answer is never the odd one out by format alone.
-List<(EcoFact, EcoFact)> decoyPairs(
-  EcoFact fact,
-  List<EcoFact> allPlayable,
-  String locale,
+List<(GameFact, GameFact)> decoyPairs(
+  GameFact fact,
+  List<GameFact> candidates,
   String blank,
 ) {
-  final answer = fact.keyFigure(locale)!;
-  final blanked = fact.fact(locale).replaceAll(answer, blank);
-  final byValue = <String, EcoFact>{};
-  final byDay = [...allPlayable]
-    ..sort((a, b) => a.dayOfYear.compareTo(b.dayOfYear));
-  for (final candidate in byDay) {
-    if (!candidate.isPlayable || candidate.keyFigureEn == fact.keyFigureEn) {
-      continue;
-    }
-    final figure = candidate.keyFigure(locale)!;
-    if (wholeNumberMatches(figure, blanked).isNotEmpty) continue;
-    byValue.putIfAbsent(candidate.keyFigureEn, () => candidate);
+  final answer = fact.figure;
+  final blanked = fact.text.replaceAll(answer, blank);
+  final byValue = <String, GameFact>{};
+  for (final candidate in candidates) {
+    if (candidate.figureEn == fact.figureEn) continue;
+    if (wholeNumberMatches(candidate.figure, blanked).isNotEmpty) continue;
+    byValue.putIfAbsent(candidate.figureEn, () => candidate);
   }
 
-  final key = figureUnitKey(fact.keyFigureEn);
+  final key = figureUnitKey(fact.figureEn);
   final family = figureFamilies[key];
   final shape = figureShape(answer);
-  String shapeOf(EcoFact f) => figureShape(f.keyFigure(locale)!);
+  String shapeOf(GameFact f) => figureShape(f.figure);
   final related = [
     for (final candidate in byValue.values)
-      if (figureUnitKey(candidate.keyFigureEn) case final k
+      if (figureUnitKey(candidate.figureEn) case final k
           when k == key || (family != null && figureFamilies[k] == family))
         candidate,
   ];
@@ -82,7 +77,7 @@ List<(EcoFact, EcoFact)> decoyPairs(
     ],
     [
       for (final c in related)
-        if (figureUnitKey(c.keyFigureEn) == key) c,
+        if (figureUnitKey(c.figureEn) == key) c,
     ],
     related,
   ]) {
@@ -98,21 +93,20 @@ List<(EcoFact, EcoFact)> decoyPairs(
   return const [];
 }
 
-/// A dealt round and its play state. Strings are resolved at deal time,
-/// so a round belongs to one locale.
+/// A dealt round and its play state. Its facts are resolved for one
+/// locale, so a round belongs to that locale.
 class FactRecallRound {
   FactRecallRound._(this.questions);
 
   /// Asks up to [factRecallRoundLength] facts from [pool] with distinct
-  /// figures, those outside [avoidDays] first, so a new round asks new
+  /// figures, those outside [avoidIds] first, so a new round asks new
   /// facts where the pool allows. Decoys come from [allPlayable].
   factory FactRecallRound.deal({
-    required List<EcoFact> pool,
-    required List<EcoFact> allPlayable,
-    required String locale,
+    required List<GameFact> pool,
+    required List<GameFact> allPlayable,
     required String blank,
     required Random random,
-    Set<int> avoidDays = const {},
+    Set<String> avoidIds = const {},
   }) {
     assert(
       distinctFigureCount(pool) >= factGamesMinFacts,
@@ -122,25 +116,23 @@ class FactRecallRound {
     final figures = <String>{};
     final questions = <RecallQuestion>[];
     for (final fact in [
-      ...shuffled.where((f) => !avoidDays.contains(f.dayOfYear)),
-      ...shuffled.where((f) => avoidDays.contains(f.dayOfYear)),
+      ...shuffled.where((f) => !avoidIds.contains(f.id)),
+      ...shuffled.where((f) => avoidIds.contains(f.id)),
     ]) {
       if (questions.length == factRecallRoundLength) break;
-      // EN is canonical: JA and ES can write one value two ways.
-      if (!fact.isPlayable || figures.contains(fact.keyFigureEn)) continue;
-      final pairs = decoyPairs(fact, allPlayable, locale, blank);
-      assert(pairs.isNotEmpty, 'Day ${fact.dayOfYear} has no decoys');
+      if (figures.contains(fact.figureEn)) continue;
+      final pairs = decoyPairs(fact, allPlayable, blank);
+      assert(pairs.isNotEmpty, '${fact.id} has no decoys');
       if (pairs.isEmpty) continue;
-      figures.add(fact.keyFigureEn);
+      figures.add(fact.figureEn);
       final (a, b) = pairs[random.nextInt(pairs.length)];
-      final answer = fact.keyFigure(locale)!;
-      final options = [answer, a.keyFigure(locale)!, b.keyFigure(locale)!]
-        ..shuffle(random);
-      final text = fact.fact(locale);
+      final answer = fact.figure;
+      final options = [answer, a.figure, b.figure]..shuffle(random);
+      final text = fact.text;
       questions.add(
         RecallQuestion(
           fact: fact,
-          title: fact.name(locale),
+          title: fact.title,
           blanked: text.replaceAll(answer, blank),
           revealed: text,
           options: List.unmodifiable(options),
@@ -188,6 +180,6 @@ class FactRecallRound {
     _chosen = null;
   }
 
-  /// Days asked in this round, passed as `avoidDays` to the next deal.
-  Set<int> get askedDays => {for (final q in questions) q.fact.dayOfYear};
+  /// Facts asked in this round, passed as `avoidIds` to the next deal.
+  Set<String> get askedIds => {for (final q in questions) q.fact.id};
 }

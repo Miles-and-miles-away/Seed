@@ -19,6 +19,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/explore/explore.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
@@ -43,8 +44,9 @@ const _factGames = {
 };
 
 /// The fact games' pool, unlocked unless given.
-Override _pool([List<EcoFact>? pool]) =>
-    factGamesPoolProvider.overrideWith((_) async => pool ?? playableFacts(3));
+Override _pool([List<EcoFact>? pool]) => factGamesPoolProvider.overrideWith(
+  (_, locale) async => ecoGameFacts(pool ?? playableFacts(3), locale),
+);
 
 void main() {
   // Roboto for every case, so a run of one group lays out like the file.

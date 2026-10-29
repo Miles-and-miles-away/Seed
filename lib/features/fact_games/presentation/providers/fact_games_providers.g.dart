@@ -8,16 +8,16 @@ part of 'fact_games_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Unlocked facts the fact games can deal, one per dayOfYear.
+/// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
 ///
 /// Unlocked or viewed, as the inbox counts them: older reads predate
 /// `unlockedFactDates`. Unread facts are included, so a match shows the
 /// user a fact they skipped.
 
 @ProviderFor(factGamesPool)
-final factGamesPoolProvider = FactGamesPoolProvider._();
+final factGamesPoolProvider = FactGamesPoolFamily._();
 
-/// Unlocked facts the fact games can deal, one per dayOfYear.
+/// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
 ///
 /// Unlocked or viewed, as the inbox counts them: older reads predate
 /// `unlockedFactDates`. Unread facts are included, so a match shows the
@@ -26,85 +26,173 @@ final factGamesPoolProvider = FactGamesPoolProvider._();
 final class FactGamesPoolProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<EcoFact>>,
-          List<EcoFact>,
-          FutureOr<List<EcoFact>>
+          AsyncValue<List<GameFact>>,
+          List<GameFact>,
+          FutureOr<List<GameFact>>
         >
-    with $FutureModifier<List<EcoFact>>, $FutureProvider<List<EcoFact>> {
-  /// Unlocked facts the fact games can deal, one per dayOfYear.
+    with $FutureModifier<List<GameFact>>, $FutureProvider<List<GameFact>> {
+  /// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
   ///
   /// Unlocked or viewed, as the inbox counts them: older reads predate
   /// `unlockedFactDates`. Unread facts are included, so a match shows the
   /// user a fact they skipped.
-  FactGamesPoolProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'factGamesPoolProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  FactGamesPoolProvider._({
+    required FactGamesPoolFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'factGamesPoolProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$factGamesPoolHash();
 
+  @override
+  String toString() {
+    return r'factGamesPoolProvider'
+        ''
+        '($argument)';
+  }
+
   @$internal
   @override
-  $FutureProviderElement<List<EcoFact>> $createElement(
+  $FutureProviderElement<List<GameFact>> $createElement(
     $ProviderPointer pointer,
   ) => $FutureProviderElement(pointer);
 
   @override
-  FutureOr<List<EcoFact>> create(Ref ref) {
-    return factGamesPool(ref);
+  FutureOr<List<GameFact>> create(Ref ref) {
+    final argument = this.argument as String;
+    return factGamesPool(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FactGamesPoolProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
-String _$factGamesPoolHash() => r'a009f57b706aa792f8a4ac2425828ac907fc4114';
+String _$factGamesPoolHash() => r'a6bc4b7c02fcc24db9250ac06ba5d2be51024c16';
+
+/// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
+///
+/// Unlocked or viewed, as the inbox counts them: older reads predate
+/// `unlockedFactDates`. Unread facts are included, so a match shows the
+/// user a fact they skipped.
+
+final class FactGamesPoolFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<List<GameFact>>, String> {
+  FactGamesPoolFamily._()
+    : super(
+        retry: null,
+        name: r'factGamesPoolProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
+  ///
+  /// Unlocked or viewed, as the inbox counts them: older reads predate
+  /// `unlockedFactDates`. Unread facts are included, so a match shows the
+  /// user a fact they skipped.
+
+  FactGamesPoolProvider call(String locale) =>
+      FactGamesPoolProvider._(argument: locale, from: this);
+
+  @override
+  String toString() => r'factGamesPoolProvider';
+}
 
 /// Every playable fact, locked or not: Fact recall's decoy candidates.
 
 @ProviderFor(factGamesAllPlayable)
-final factGamesAllPlayableProvider = FactGamesAllPlayableProvider._();
+final factGamesAllPlayableProvider = FactGamesAllPlayableFamily._();
 
 /// Every playable fact, locked or not: Fact recall's decoy candidates.
 
 final class FactGamesAllPlayableProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<EcoFact>>,
-          List<EcoFact>,
-          FutureOr<List<EcoFact>>
+          AsyncValue<List<GameFact>>,
+          List<GameFact>,
+          FutureOr<List<GameFact>>
         >
-    with $FutureModifier<List<EcoFact>>, $FutureProvider<List<EcoFact>> {
+    with $FutureModifier<List<GameFact>>, $FutureProvider<List<GameFact>> {
   /// Every playable fact, locked or not: Fact recall's decoy candidates.
-  FactGamesAllPlayableProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'factGamesAllPlayableProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  FactGamesAllPlayableProvider._({
+    required FactGamesAllPlayableFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'factGamesAllPlayableProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$factGamesAllPlayableHash();
 
+  @override
+  String toString() {
+    return r'factGamesAllPlayableProvider'
+        ''
+        '($argument)';
+  }
+
   @$internal
   @override
-  $FutureProviderElement<List<EcoFact>> $createElement(
+  $FutureProviderElement<List<GameFact>> $createElement(
     $ProviderPointer pointer,
   ) => $FutureProviderElement(pointer);
 
   @override
-  FutureOr<List<EcoFact>> create(Ref ref) {
-    return factGamesAllPlayable(ref);
+  FutureOr<List<GameFact>> create(Ref ref) {
+    final argument = this.argument as String;
+    return factGamesAllPlayable(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FactGamesAllPlayableProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
 String _$factGamesAllPlayableHash() =>
-    r'9d357352b0f61595b2c1d350f38c7646370b4029';
+    r'34f4f71d38ecac29ce7f58c2bdd75846a8e0362e';
+
+/// Every playable fact, locked or not: Fact recall's decoy candidates.
+
+final class FactGamesAllPlayableFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<List<GameFact>>, String> {
+  FactGamesAllPlayableFamily._()
+    : super(
+        retry: null,
+        name: r'factGamesAllPlayableProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// Every playable fact, locked or not: Fact recall's decoy candidates.
+
+  FactGamesAllPlayableProvider call(String locale) =>
+      FactGamesAllPlayableProvider._(argument: locale, from: this);
+
+  @override
+  String toString() => r'factGamesAllPlayableProvider';
+}

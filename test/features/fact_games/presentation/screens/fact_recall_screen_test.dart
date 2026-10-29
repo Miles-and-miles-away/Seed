@@ -14,6 +14,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_question_card.dart';
@@ -55,14 +56,13 @@ FactRecallRound _firstDeal(
   List<EcoFact>? allPlayable,
   String locale = 'en',
   Random? random,
-  Set<int> avoidDays = const {},
+  Set<String> avoidIds = const {},
 }) => FactRecallRound.deal(
-  pool: pool,
-  allPlayable: allPlayable ?? pool,
-  locale: locale,
+  pool: ecoGameFacts(pool, locale),
+  allPlayable: ecoGameFacts(allPlayable ?? pool, locale),
   blank: _blank(locale),
   random: random ?? Random(_seed),
-  avoidDays: avoidDays,
+  avoidIds: avoidIds,
 );
 
 String _cardTitle(WidgetTester tester) => tester
@@ -120,9 +120,11 @@ void main() {
       locale: locale,
       theme: theme,
       overrides: [
-        factGamesPoolProvider.overrideWith((_) async => facts),
+        factGamesPoolProvider.overrideWith(
+          (_, locale) async => ecoGameFacts(facts, locale),
+        ),
         factGamesAllPlayableProvider.overrideWith(
-          (_) async => allPlayable ?? facts,
+          (_, locale) async => ecoGameFacts(allPlayable ?? facts, locale),
         ),
         analyticsServiceProvider.overrideWithValue(
           analytics ?? _RecordingAnalytics(),
@@ -158,7 +160,7 @@ void main() {
       final pool = playableFacts(6);
       final random = Random(_seed);
       final round = _firstDeal(pool, random: random);
-      final next = _firstDeal(pool, random: random, avoidDays: round.askedDays);
+      final next = _firstDeal(pool, random: random, avoidIds: round.askedIds);
       await tester.pumpWidget(buildScreen(pool: pool, analytics: analytics));
       await tester.pumpAndSettle();
       expect(analytics.events, ['opened']);
@@ -220,10 +222,7 @@ void main() {
       expect(find.text('Score: 0'), findsOneWidget);
       expect(_cardTitle(tester), next.questions.first.title);
       // The one fact the first round left out comes first.
-      expect(
-        round.askedDays,
-        isNot(contains(next.questions.first.fact.dayOfYear)),
-      );
+      expect(round.askedIds, isNot(contains(next.questions.first.fact.id)));
       expect(analytics.events, ['opened', 'finished:5:4']);
     });
 
@@ -555,7 +554,7 @@ void main() {
       final container = ProviderScope.containerOf(
         tester.element(find.byType(FactRecallScreen)),
       );
-      expect(container.read(factGamesPoolProvider).value, hasLength(9));
+      expect(container.read(factGamesPoolProvider('en')).value, hasLength(9));
       expect(find.text('Question 2 of 5'), findsOneWidget);
       expect(_cardTitle(tester), title);
     });
@@ -577,8 +576,12 @@ void main() {
         ProviderScope(
           overrides: [
             languageStoreOverride(),
-            factGamesPoolProvider.overrideWith((_) async => pool),
-            factGamesAllPlayableProvider.overrideWith((_) async => pool),
+            factGamesPoolProvider.overrideWith(
+              (_, locale) async => ecoGameFacts(pool, locale),
+            ),
+            factGamesAllPlayableProvider.overrideWith(
+              (_, locale) async => ecoGameFacts(pool, locale),
+            ),
             analyticsServiceProvider.overrideWithValue(analytics),
           ],
           child: ValueListenableBuilder(

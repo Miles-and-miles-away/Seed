@@ -3,22 +3,26 @@ import 'dart:math';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
+import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 
 import '../fact_games_fixtures.dart';
 
 void main() {
   FactPairsBoard deal(int facts, {int seed = 1, String locale = 'en'}) =>
-      FactPairsBoard.deal(playableFacts(facts), locale, Random(seed));
+      FactPairsBoard.deal(
+        ecoGameFacts(playableFacts(facts), locale),
+        Random(seed),
+      );
 
   /// Indices of the two cards of the pair holding [index].
   int partnerOf(FactPairsBoard board, int index) => board.cards.indexed
       .firstWhere(
-        (e) => e.$1 != index && e.$2.factDay == board.cards[index].factDay,
+        (e) => e.$1 != index && e.$2.factId == board.cards[index].factId,
       )
       .$1;
 
   int nonPartnerOf(FactPairsBoard board, int index) => board.cards.indexed
-      .firstWhere((e) => e.$2.factDay != board.cards[index].factDay)
+      .firstWhere((e) => e.$2.factId != board.cards[index].factId)
       .$1;
 
   group('deal', () {
@@ -32,15 +36,15 @@ void main() {
 
     test('every fact gives one title card and one figure card', () {
       final board = deal(8);
-      final days = {for (final card in board.cards) card.factDay};
+      final days = {for (final card in board.cards) card.factId};
       expect(days, hasLength(6));
       for (final day in days) {
-        final pair = board.cards.where((c) => c.factDay == day).toList();
+        final pair = board.cards.where((c) => c.factId == day).toList();
         expect(pair.map((c) => c.face), unorderedEquals(FactFace.values));
         final title = pair.firstWhere((c) => c.face == FactFace.title);
         final figure = pair.firstWhere((c) => c.face == FactFace.figure);
-        expect(title.text, title.fact.nameEn);
-        expect(figure.text, figure.fact.keyFigureEn);
+        expect(title.text, title.fact.title);
+        expect(figure.text, figure.fact.figure);
       }
     });
 
@@ -49,10 +53,9 @@ void main() {
       for (final card in board.cards) {
         expect(
           card.text,
-          card.face == FactFace.title
-              ? card.fact.nameJa
-              : card.fact.keyFigureJa,
+          card.face == FactFace.title ? card.fact.title : card.fact.figure,
         );
+        expect(card.fact.title, startsWith('タイトル'));
       }
     });
 
@@ -62,7 +65,10 @@ void main() {
           playableFact(day, figure: '${day % 7} kg'),
       ];
       for (var seed = 0; seed < 20; seed++) {
-        final board = FactPairsBoard.deal(pool, 'en', Random(seed));
+        final board = FactPairsBoard.deal(
+          ecoGameFacts(pool, 'en'),
+          Random(seed),
+        );
         final figures = [
           for (final c in board.cards)
             if (c.face == FactFace.figure) c.text,
@@ -78,7 +84,10 @@ void main() {
         playableFact(7),
       ];
       for (var seed = 0; seed < 10; seed++) {
-        final board = FactPairsBoard.deal(pool, 'en', Random(seed));
+        final board = FactPairsBoard.deal(
+          ecoGameFacts(pool, 'en'),
+          Random(seed),
+        );
         expect(board.cards, hasLength(6));
       }
     });
@@ -91,9 +100,12 @@ void main() {
         ...playableFacts(6),
       ];
       for (var seed = 0; seed < 20; seed++) {
-        final board = FactPairsBoard.deal(pool, 'ja', Random(seed));
-        final days = {for (final c in board.cards) c.factDay};
-        expect(days.containsAll([166, 290]), isFalse);
+        final board = FactPairsBoard.deal(
+          ecoGameFacts(pool, 'ja'),
+          Random(seed),
+        );
+        final ids = {for (final c in board.cards) c.factId};
+        expect(ids.containsAll(['fact:166', 'fact:290']), isFalse);
       }
     });
   });
@@ -144,12 +156,12 @@ void main() {
 
     test('finished after the last match', () {
       final board = deal(3);
-      final days = {for (final c in board.cards) c.factDay}.toList();
+      final days = {for (final c in board.cards) c.factId}.toList();
       for (final (i, day) in days.indexed) {
         expect(board.finished, isFalse);
         final pair = [
           for (final (j, c) in board.cards.indexed)
-            if (c.factDay == day) j,
+            if (c.factId == day) j,
         ];
         board
           ..flip(pair.first)
