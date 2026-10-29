@@ -1632,21 +1632,24 @@
   {
     "dayOfYear": 80,
     "category": "natureWonder",
-    "factEn": "Forests absorb about 2.6 billion tonnes of CO2 per year -- roughly 30% of human emissions. A single mature tree absorbs about 22 kg of CO2 annually.",
-    "factEs": "Los bosques absorben aproximadamente 2.600 millones de toneladas de CO2 al año, cerca del 30% de las emisiones humanas. Un solo árbol maduro absorbe aproximadamente 22 kg de CO2 anualmente.",
-    "factJa": "森林は年間約26億トンのCO2を吸収しています。これは人間の排出量の約30%に相当します。成熟した木1本は年間約22 kgのCO2を吸収します。",
-    "sourceEn": "UN Food and Agriculture Organization",
-    "sourceEs": "UN Food and Agriculture Organization",
-    "sourceJa": "UN Food and Agriculture Organization",
-    "sourceUrl": "https://www.fao.org/state-of-forests/en/",
+    "factEn": "The world's forests hold an estimated 714 gigatonnes of carbon, and 46% of it is in the soil, FAO's 2025 forest assessment finds. The global stock is similar to 1990, but it has fallen in South America and Africa while rising in East Asia, Europe and North America.",
+    "factEs": "Los bosques del mundo almacenan unas 714 gigatoneladas de carbono, y el 46% está en el suelo, según la evaluación forestal de la FAO de 2025. La reserva mundial es similar a la de 1990, pero ha disminuido en Sudamérica y África mientras aumentaba en Asia Oriental, Europa y Norteamérica.",
+    "factJa": "世界の森林には推定714ギガトンの炭素が蓄えられており、その46%は土壌にあるとFAOの2025年森林資源評価は報告しています。世界全体の蓄積量は1990年とほぼ同じですが、南米とアフリカでは減少し、東アジア、ヨーロッパ、北米では増加しました。",
+    "sourceEn": "FAO Global Forest Resources Assessment 2025",
+    "sourceEs": "FAO Global Forest Resources Assessment 2025",
+    "sourceJa": "FAO Global Forest Resources Assessment 2025",
+    "sourceUrl": "https://doi.org/10.4060/cd6709en",
     "relatedSdgs": [
       13,
       15
     ],
     "unWorldDay": "International Day of Forests",
-    "nameEn": "Forests Breathe for Us",
-    "nameEs": "Bosques que respiran",
-    "nameJa": "森がCO2を吸う"
+    "nameEn": "Forests Hold Carbon",
+    "nameEs": "Bosques que guardan carbono",
+    "nameJa": "森は炭素の貯蔵庫",
+    "keyFigureEn": "46%",
+    "keyFigureEs": "46%",
+    "keyFigureJa": "46%"
   },
   {
     "dayOfYear": 81,
@@ -4491,9 +4494,9 @@
   {
     "dayOfYear": 221,
     "category": "individual",
-    "factEn": "Indigenous peoples protect 80% of the world's remaining biodiversity, despite making up less than 5% of the global population. Supporting indigenous land rights is a powerful conservation strategy.",
-    "factEs": "Los pueblos indígenas protegen el 80% de la biodiversidad restante del mundo, a pesar de representar menos del 5% de la población mundial. Apoyar los derechos territoriales indígenas es una poderosa estrategia de conservación.",
-    "factJa": "先住民族は世界人口の5%未満を占めるに過ぎませんが、地球上に残る生物多様性の80%を守っています。先住民族の土地権を支持することは、非常に効果的な自然保護の戦略です。",
+    "factEn": "Indigenous Peoples make up 6.2% of the global population but manage or hold tenure rights to roughly one-fifth of the world's surface area, including over half of the planet's remaining intact forests, the World Bank reports. Indigenous-held lands consistently show lower deforestation rates than comparable landscapes.",
+    "factEs": "Los pueblos indígenas representan el 6,2% de la población mundial, pero gestionan o tienen derechos de tenencia sobre aproximadamente una quinta parte de la superficie terrestre, incluida más de la mitad de los bosques intactos que quedan en el planeta, según el Banco Mundial. Las tierras en manos indígenas muestran sistemáticamente tasas de deforestación más bajas que paisajes comparables.",
+    "factJa": "先住民族は世界人口の6.2%にすぎませんが、地球の地表の約5分の1を管理または保有しており、そこには地球に残る手つかずの森林の半分以上が含まれると世界銀行は報告しています。先住民族が保有する土地は、同等の土地に比べて森林減少率が一貫して低くなっています。",
     "sourceEn": "World Bank",
     "sourceEs": "World Bank",
     "sourceJa": "World Bank",
@@ -4506,9 +4509,9 @@
     "nameEn": "Indigenous Guardians",
     "nameEs": "Guardianes indígenas",
     "nameJa": "先住民が自然を守る",
-    "keyFigureEn": "80%",
-    "keyFigureEs": "80%",
-    "keyFigureJa": "80%"
+    "keyFigureEn": "6.2%",
+    "keyFigureEs": "6,2%",
+    "keyFigureJa": "6.2%"
   },
   {
     "dayOfYear": 222,
@@ -6874,20 +6877,20 @@
   {
     "dayOfYear": 337,
     "category": "natureWonder",
-    "factEn": "Wolves reintroduced to Yellowstone in 1995 triggered a trophic cascade. By reducing elk browsing, wolves allowed willow and other riparian plants to regrow along streams -- 20 years of monitoring showed major increases in vegetation. A landmark example of how predators shape ecosystems.",
-    "factEs": "Los lobos reintroducidos en Yellowstone en 1995 desencadenaron una cascada trófica. Al reducir el pastoreo de los alces, los lobos permitieron que los sauces y otras plantas ribereñas volvieran a crecer a lo largo de los arroyos; 20 años de seguimiento mostraron grandes aumentos en la vegetación. Un ejemplo emblemático de cómo los depredadores moldean los ecosistemas.",
-    "factJa": "1995年にイエローストーンに再導入されたオオカミは、栄養カスケードを引き起こしました。オオカミがエルクの食害を抑えたことで、ヤナギなどの河岸植物が川沿いに回復しました。20年間の観測により植生の大幅な増加が確認されました。捕食者が生態系を形づくることを示す代表的な事例です。",
-    "sourceEn": "Ripple et al., Global Ecology and Conservation 2025",
-    "sourceEs": "Ripple et al., Global Ecology and Conservation 2025",
-    "sourceJa": "Ripple et al., Global Ecology and Conservation 2025",
-    "sourceUrl": "https://www.sciencedirect.com/science/article/pii/S2351989425000290",
+    "factEn": "Most researchers agree that Yellowstone's wolves changed how elk behave, and many studies link the wolves' presence to willow growth on the park's northern range. Not all scientists agree the link is causal, the Park Service notes: some point to groundwater and a warming climate instead, and long-term research continues.",
+    "factEs": "La mayoría de los investigadores coinciden en que los lobos de Yellowstone cambiaron el comportamiento de los alces, y muchos estudios relacionan la presencia de los lobos con el crecimiento de los sauces en la zona norte del parque. No todos los científicos aceptan que la relación sea causal, señala el Servicio de Parques Nacionales: algunos apuntan en cambio al agua subterránea y a un clima más cálido, y la investigación a largo plazo continúa.",
+    "factJa": "イエローストーンのオオカミがエルクの行動を変えたことには多くの研究者が同意しており、公園北部でのオオカミの存在とヤナギの成長を結びつける研究も数多くあります。ただし、この関係が因果的だと認めない科学者もいると国立公園局は指摘しています。地下水や温暖化が原因だとする見方もあり、長期的な研究が続いています。",
+    "sourceEn": "US National Park Service",
+    "sourceEs": "US National Park Service",
+    "sourceJa": "US National Park Service",
+    "sourceUrl": "https://www.nps.gov/places/000/lamar-valley-trophic-cascades.htm",
     "relatedSdgs": [
       15
     ],
     "unWorldDay": null,
-    "nameEn": "Wolves Reshape Rivers",
-    "nameEs": "Los lobos moldean los ríos",
-    "nameJa": "オオカミが川辺を変える"
+    "nameEn": "Wolves and Willows",
+    "nameEs": "Lobos y sauces",
+    "nameJa": "オオカミとヤナギ"
   },
   {
     "dayOfYear": 338,
