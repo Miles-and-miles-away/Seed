@@ -217,9 +217,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     _decks[QuizDomain.energy] = QuizDeck(
       cards: [
         for (final behavior in behaviors)
-          // Gas never deals: its ordering against electricity is a fact
-          // about the user's grid (rule 28).
-          if (behavior.carrier != EnergyCarrier.gas)
+          if (isQuizEnergy(behavior))
             withScience(
               energyQuizCard(
                 l10n,
@@ -242,9 +240,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     _decks[QuizDomain.food] = QuizDeck(
       cards: [
         for (final item in items)
-          // Tier 1 only, so every pair is within one source tier and the
-          // ordinary bar applies rather than the cross-tier one.
-          if (item.sourceTier == 1 && item.defaultServing != null)
+          if (isQuizFood(item))
             withScience(
               foodQuizCard(l10n, locale, item),
               (context) => showFoodScienceSheet(
@@ -260,10 +256,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     _decks[QuizDomain.transport] = QuizDeck(
       cards: [
         for (final mode in modes)
-          // Per-vehicle modes state a vehicle-km, so they cannot be
-          // ranked against per-passenger rows without an occupancy the
-          // quiz has no way to ask for.
-          if (!mode.perVehicle)
+          if (isQuizTransport(mode))
             withScience(
               transportQuizCard(l10n, locale, mode),
               (context) => showTransportScienceSheet(

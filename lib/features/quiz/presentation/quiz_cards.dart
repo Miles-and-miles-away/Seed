@@ -65,6 +65,21 @@ enum QuizDomain {
   };
 }
 
+/// Energy behaviours a deck deals. Gas never deals: its ordering against
+/// electricity is a fact about the user's grid (rule 28).
+bool isQuizEnergy(EnergyBehavior behavior) =>
+    behavior.carrier != EnergyCarrier.gas;
+
+/// Food items a deck deals: tier 1 only, so every pair is within one
+/// source tier and the ordinary bar applies rather than the cross-tier one.
+bool isQuizFood(FoodItem item) =>
+    item.sourceTier == 1 && item.defaultServing != null;
+
+/// Transport modes a deck deals. Per-vehicle modes state a vehicle-km, so
+/// they cannot be ranked against per-passenger rows without an occupancy
+/// the quiz has no way to ask for.
+bool isQuizTransport(TransportMode mode) => !mode.perVehicle;
+
 /// An energy behaviour at its default preset. With an anchor
 /// ([anchorKwh] above zero) the reveal leads with the multiple and the
 /// grams follow (rule 26); without one it states grams alone.
