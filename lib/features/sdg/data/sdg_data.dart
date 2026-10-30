@@ -15,6 +15,9 @@ class SdgGoal {
     this.shortTitleEs = '',
     this.descriptionJa = '',
     this.descriptionEs = '',
+    this.keyFigureEn = '',
+    this.keyFigureJa = '',
+    this.keyFigureEs = '',
   });
 
   factory SdgGoal.fromJson(Map<String, dynamic> json) {
@@ -32,6 +35,9 @@ class SdgGoal {
       shortTitleEs: json['shortTitleEs'] as String? ?? '',
       descriptionJa: json['descriptionJa'] as String? ?? '',
       descriptionEs: json['descriptionEs'] as String? ?? '',
+      keyFigureEn: json['keyFigureEn'] as String? ?? '',
+      keyFigureJa: json['keyFigureJa'] as String? ?? '',
+      keyFigureEs: json['keyFigureEs'] as String? ?? '',
     );
   }
 
@@ -47,6 +53,12 @@ class SdgGoal {
   final String shortTitleEs;
   final String descriptionJa;
   final String descriptionEs;
+
+  /// Headline figure, verbatim in each language's description; all set or
+  /// all empty.
+  final String keyFigureEn;
+  final String keyFigureJa;
+  final String keyFigureEs;
 
   String title(String locale) => switch (locale) {
     'ja' when titleJa.isNotEmpty => titleJa,
@@ -65,6 +77,16 @@ class SdgGoal {
     'es' when descriptionEs.isNotEmpty => descriptionEs,
     _ => descriptionEn,
   };
+
+  /// A blank figure in JA or ES stays unset rather than falling back to EN.
+  String? keyFigure(String locale) {
+    final figure = switch (locale) {
+      'ja' => keyFigureJa,
+      'es' => keyFigureEs,
+      _ => keyFigureEn,
+    };
+    return figure.isEmpty ? null : figure;
+  }
 
   String iconAsset(String locale) {
     final code = switch (locale) {

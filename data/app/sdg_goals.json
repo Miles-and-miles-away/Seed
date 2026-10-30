@@ -10,7 +10,10 @@
     "shortTitleJa": "貧困をなくそう",
     "shortTitleEs": "Fin de la pobreza",
     "descriptionJa": "あらゆる場所で、あらゆる形態の貧困に終止符を打つ。2026年には、推定で10人に1人にあたる8億人以上が1日3ドル未満の極度の貧困の中で暮らし、健康、教育、水と衛生へのアクセスといった最も基本的なニーズを満たすのに苦労しています。その大半はサハラ以南のアフリカで暮らしています。社会的保護制度、経済的資源への平等な権利、気候関連の災害などの危機の影響を受けた人々への支援を求めています。",
-    "descriptionEs": "Poner fin a la pobreza en todas sus formas en todo el mundo. Se estima que en 2026 más de 800 millones de personas, 1 de cada 10, siguen viviendo en pobreza extrema con menos de 3 dólares al día, y luchan por cubrir necesidades tan básicas como la salud, la educación y el acceso al agua y al saneamiento. La mayoría vive en el África subsahariana. El objetivo pide sistemas de protección social, igualdad de derechos sobre los recursos económicos y apoyo a las personas afectadas por desastres climáticos y otras crisis."
+    "descriptionEs": "Poner fin a la pobreza en todas sus formas en todo el mundo. Se estima que en 2026 más de 800 millones de personas, 1 de cada 10, siguen viviendo en pobreza extrema con menos de 3 dólares al día, y luchan por cubrir necesidades tan básicas como la salud, la educación y el acceso al agua y al saneamiento. La mayoría vive en el África subsahariana. El objetivo pide sistemas de protección social, igualdad de derechos sobre los recursos económicos y apoyo a las personas afectadas por desastres climáticos y otras crisis.",
+    "keyFigureEn": "800 million",
+    "keyFigureJa": "8億",
+    "keyFigureEs": "800 millones"
   },
   {
     "number": 2,
@@ -23,7 +26,10 @@
     "shortTitleJa": "飢餓をゼロに",
     "shortTitleEs": "Hambre cero",
     "descriptionJa": "飢餓に終止符を打ち、食料の安定確保と栄養状態の改善を達成するとともに、持続可能な農業を推進する。世界の飢餓は2022年をピークに3年連続で減少しています。それでも2025年には推定6億4,500万人が飢餓に直面しました。農業は世界の労働者の約4分の1を雇用しています。",
-    "descriptionEs": "Poner fin al hambre, lograr la seguridad alimentaria, mejorar la nutrición y promover la agricultura sostenible. El hambre en el mundo alcanzó su máximo en 2022 y ha disminuido durante tres años seguidos. Aun así, se estima que 645 millones de personas pasaron hambre en 2025. La agricultura emplea a cerca de una cuarta parte de los trabajadores del mundo."
+    "descriptionEs": "Poner fin al hambre, lograr la seguridad alimentaria, mejorar la nutrición y promover la agricultura sostenible. El hambre en el mundo alcanzó su máximo en 2022 y ha disminuido durante tres años seguidos. Aun así, se estima que 645 millones de personas pasaron hambre en 2025. La agricultura emplea a cerca de una cuarta parte de los trabajadores del mundo.",
+    "keyFigureEn": "645 million",
+    "keyFigureJa": "6億4,500万",
+    "keyFigureEs": "645 millones"
   },
   {
     "number": 3,
@@ -50,7 +56,10 @@
     "shortTitleJa": "質の高い教育",
     "shortTitleEs": "Educación",
     "descriptionJa": "すべての人に包摂的かつ公平で質の高い教育を提供し、生涯学習の機会を促進する。教育は社会経済的な地位の向上を可能にし、貧困から脱出するための鍵です。2000年から2015年にかけて、教育へのアクセスと就学率の向上に大きな進歩がありました。しかしその後は停滞し、2024年時点で2億7,300万人の子どもと若者が学校に通えていません。",
-    "descriptionEs": "Garantizar una educación inclusiva y equitativa de calidad y promover oportunidades de aprendizaje permanente para todos. La educación permite la movilidad socioeconómica ascendente y es clave para escapar de la pobreza. Entre 2000 y 2015 se lograron avances importantes en el acceso a la educación. Sin embargo, desde entonces el progreso se ha estancado y 273 millones de niños y jóvenes seguían sin escolarizar en 2024."
+    "descriptionEs": "Garantizar una educación inclusiva y equitativa de calidad y promover oportunidades de aprendizaje permanente para todos. La educación permite la movilidad socioeconómica ascendente y es clave para escapar de la pobreza. Entre 2000 y 2015 se lograron avances importantes en el acceso a la educación. Sin embargo, desde entonces el progreso se ha estancado y 273 millones de niños y jóvenes seguían sin escolarizar en 2024.",
+    "keyFigureEn": "273 million",
+    "keyFigureJa": "2億7,300万",
+    "keyFigureEs": "273 millones"
   },
   {
     "number": 5,
@@ -76,7 +85,10 @@
     "shortTitleJa": "安全な水",
     "shortTitleEs": "Agua limpia",
     "descriptionJa": "すべての人に水と衛生へのアクセスと持続可能な管理を確保する。2022年には、世界人口の約半数が1年のうち少なくとも一時期、深刻な水不足に直面しました。2015年から2024年にかけて9億6,100万人が安全に管理された飲料水を利用できるようになりましたが、2024年時点でも4人に1人がまだ利用できていません。",
-    "descriptionEs": "Garantizar la disponibilidad y la gestión sostenible del agua y el saneamiento para todos. En 2022, aproximadamente la mitad de la población mundial sufrió escasez grave de agua durante al menos parte del año. Entre 2015 y 2024, 961 millones de personas obtuvieron acceso a agua potable gestionada de forma segura, pero 1 de cada 4 personas seguía sin tenerla en 2024."
+    "descriptionEs": "Garantizar la disponibilidad y la gestión sostenible del agua y el saneamiento para todos. En 2022, aproximadamente la mitad de la población mundial sufrió escasez grave de agua durante al menos parte del año. Entre 2015 y 2024, 961 millones de personas obtuvieron acceso a agua potable gestionada de forma segura, pero 1 de cada 4 personas seguía sin tenerla en 2024.",
+    "keyFigureEn": "961 million",
+    "keyFigureJa": "9億6,100万",
+    "keyFigureEs": "961 millones"
   },
   {
     "number": 7,
@@ -103,7 +115,10 @@
     "shortTitleJa": "働きがいと成長",
     "shortTitleEs": "Trabajo decente",
     "descriptionJa": "すべての人のための持続的、包摂的かつ持続可能な経済成長、完全かつ生産的な雇用およびディーセント・ワークを推進する。2025年の世界の失業率は4.9%でしたが、労働者の約58%は、契約も保護も安定した収入もないインフォーマルな仕事に就いていました。仕事があっても貧困から抜け出せるとは限らず、2025年には2億8,400万人の労働者が極度の貧困の中で暮らしていました。2025年には、若者の5人に1人が就業も就学も職業訓練もしていませんでした。",
-    "descriptionEs": "Promover el crecimiento económico sostenido, inclusivo y sostenible, el empleo pleno y productivo y el trabajo decente para todos. El desempleo mundial se situó en el 4,9% en 2025, pero casi el 58% de los trabajadores tenía un empleo informal, sin contrato, protección ni ingresos fiables. Tener un empleo no garantiza salir de la pobreza: 284 millones de trabajadores vivían en pobreza extrema en 2025. En 2025, uno de cada cinco jóvenes ni estudiaba, ni trabajaba ni recibía formación."
+    "descriptionEs": "Promover el crecimiento económico sostenido, inclusivo y sostenible, el empleo pleno y productivo y el trabajo decente para todos. El desempleo mundial se situó en el 4,9% en 2025, pero casi el 58% de los trabajadores tenía un empleo informal, sin contrato, protección ni ingresos fiables. Tener un empleo no garantiza salir de la pobreza: 284 millones de trabajadores vivían en pobreza extrema en 2025. En 2025, uno de cada cinco jóvenes ni estudiaba, ni trabajaba ni recibía formación.",
+    "keyFigureEn": "284 million",
+    "keyFigureJa": "2億8,400万",
+    "keyFigureEs": "284 millones"
   },
   {
     "number": 9,
@@ -130,7 +145,10 @@
     "shortTitleJa": "不平等の是正",
     "shortTitleEs": "Igualdad",
     "descriptionJa": "国内および国家間の不平等を是正する。所得格差は依然として非常に大きく、2025年には最も裕福な10%が世界の総所得の53%を得る一方、最も貧しい半数の人々が得たのはわずか8%でした。富はさらに偏っており、最も裕福な10%が世界の富の4分の3を所有しています。この格差には低所得者を支援する健全な政策が必要です。",
-    "descriptionEs": "Reducir la desigualdad en los países y entre ellos. La desigualdad de ingresos sigue siendo muy alta. En 2025, el 10% más rico obtuvo el 53% de la renta mundial total, mientras que la mitad más pobre obtuvo solo el 8%. La riqueza está aún más concentrada: el 10% más rico posee tres cuartas partes de ella. Estas disparidades requieren políticas sólidas para empoderar a las personas con menos ingresos."
+    "descriptionEs": "Reducir la desigualdad en los países y entre ellos. La desigualdad de ingresos sigue siendo muy alta. En 2025, el 10% más rico obtuvo el 53% de la renta mundial total, mientras que la mitad más pobre obtuvo solo el 8%. La riqueza está aún más concentrada: el 10% más rico posee tres cuartas partes de ella. Estas disparidades requieren políticas sólidas para empoderar a las personas con menos ingresos.",
+    "keyFigureEn": "53%",
+    "keyFigureJa": "53%",
+    "keyFigureEs": "53%"
   },
   {
     "number": 11,
@@ -156,7 +174,10 @@
     "shortTitleJa": "責任ある消費と生産",
     "shortTitleEs": "Consumo responsable",
     "descriptionJa": "持続可能な消費と生産のパターンを確保する。経済成長と持続可能な開発を達成するには、商品と資源の生産・消費方法を変えることで、エコロジカル・フットプリントを早急に削減する必要があります。農業は世界最大の水使用者であり、2023年には世界の淡水取水量の72%を占めました。",
-    "descriptionEs": "Garantizar modalidades de consumo y producción sostenibles. Para lograr el crecimiento económico y el desarrollo sostenible es urgente reducir nuestra huella ecológica cambiando la forma en que producimos y consumimos bienes y recursos. La agricultura es el mayor consumidor de agua a nivel mundial y en 2023 representó el 72% de todas las extracciones de agua dulce."
+    "descriptionEs": "Garantizar modalidades de consumo y producción sostenibles. Para lograr el crecimiento económico y el desarrollo sostenible es urgente reducir nuestra huella ecológica cambiando la forma en que producimos y consumimos bienes y recursos. La agricultura es el mayor consumidor de agua a nivel mundial y en 2023 representó el 72% de todas las extracciones de agua dulce.",
+    "keyFigureEn": "72%",
+    "keyFigureJa": "72%",
+    "keyFigureEs": "72%"
   },
   {
     "number": 13,
@@ -195,7 +216,10 @@
     "shortTitleJa": "陸の豊かさ",
     "shortTitleEs": "Vida terrestre",
     "descriptionJa": "陸上生態系の保護、回復および持続可能な利用の推進、森林の持続可能な管理、砂漠化への対処、土地劣化の阻止および逆転、ならびに生物多様性損失の阻止を図る。人間の生活は食料と生計のために海と同様に陸地に依存しています。森林は世界の陸地の32%を覆い、数百万の種に重要な生息地を提供しています。",
-    "descriptionEs": "Proteger, restablecer y promover el uso sostenible de los ecosistemas terrestres, gestionar sosteniblemente los bosques, luchar contra la desertificación, detener e invertir la degradación de las tierras y detener la pérdida de biodiversidad. Los bosques cubren el 32% de la superficie terrestre mundial y proporcionan hábitats vitales para millones de especies."
+    "descriptionEs": "Proteger, restablecer y promover el uso sostenible de los ecosistemas terrestres, gestionar sosteniblemente los bosques, luchar contra la desertificación, detener e invertir la degradación de las tierras y detener la pérdida de biodiversidad. Los bosques cubren el 32% de la superficie terrestre mundial y proporcionan hábitats vitales para millones de especies.",
+    "keyFigureEn": "32%",
+    "keyFigureJa": "32%",
+    "keyFigureEs": "32%"
   },
   {
     "number": 16,
