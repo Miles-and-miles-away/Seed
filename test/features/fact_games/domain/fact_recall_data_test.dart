@@ -28,6 +28,20 @@ void main() {
     expect(unaskable, isEmpty);
   });
 
+  test('no decoy puts a number below 1 before a scale word', () {
+    final belowOne = RegExp(
+      r'(?<![\d.,])0[.,]\d+\s*(?:million|billion|trillion|mill|bill)',
+    );
+    final bad = [
+      for (final locale in _locales)
+        for (final fact in playable[locale]!)
+          for (final (a, b) in decoyPairs(fact, playable[locale]!, _blank))
+            for (final decoy in [a, b])
+              if (belowOne.hasMatch(decoy)) '${fact.id} $locale: $decoy',
+    ];
+    expect(bad, isEmpty);
+  });
+
   test("every figure's unit key is in a family", () {
     final unplaced = {
       for (final fact in playable['en']!)

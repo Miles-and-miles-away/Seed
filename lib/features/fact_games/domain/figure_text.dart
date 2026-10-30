@@ -17,6 +17,11 @@ final _plusAfterDigit = RegExp(r'(?<=\d)\+');
 final _numberParts = RegExp(r'[\d\s.,]');
 final _whitespace = RegExp(r'\s+');
 final _jaScale = RegExp('[兆億万]');
+final _scaleWord = RegExp(
+  r'\b(?:million|billion|trillion|millón|millones|billón|billones)\b',
+  caseSensitive: false,
+  unicode: true,
+);
 
 /// Occurrences of [figure] in [text] that stand as a whole number: not
 /// after a digit, `.` or `,`, and, when [figure] ends in a digit, not
@@ -91,7 +96,8 @@ const _minScaledRatio = 1.8;
 /// survives rounding.
 ///
 /// [unitKey] is the figure's [figureUnitKey]: a share never passes 100%
-/// and a multiple never drops to 1x.
+/// and a multiple never drops to 1x. A number before a scale word never
+/// drops below 1: "0,9 billones" is written "900.000 millones".
 List<(String, String)> scaledDecoyPairs(
   String figure,
   String locale,
@@ -113,6 +119,7 @@ List<(String, String)> scaledDecoyPairs(
   ];
   final decimals = [for (final f in fractions) f.length];
   final family = figureFamilies[unitKey];
+  final scaleWord = _scaleWord.hasMatch(figure);
 
   List<double>? scaled(double factor) {
     final values = <double>[];
@@ -120,6 +127,7 @@ List<(String, String)> scaledDecoyPairs(
       final v = _round(_twoFigures(n * factor), decimals[i]);
       if (v <= 0 ||
           (numbers.length == 1 && v == 1) ||
+          (scaleWord && v < 1) ||
           (unitKey == '%' && v > 100) ||
           (family == 'times' && v <= 1)) {
         return null;

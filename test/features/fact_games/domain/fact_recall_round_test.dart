@@ -195,6 +195,22 @@ void main() {
       ]);
     });
 
+    test('a number before a scale word never drops below 1', () {
+      final trillion = [
+        playableFact(1, figure: r'$1.8 trillion', figureEs: '1,8 billones'),
+      ];
+      expect(_decoyPairs(trillion), [(r'$3.6 trillion', r'$7.2 trillion')]);
+      expect(_decoyPairs(trillion, locale: 'es'), [
+        ('3,6 billones', '7,2 billones'),
+      ]);
+      expect(
+        _decoyPairs([
+          playableFact(1, figure: '1.2 million', figureEs: '1,2 millones'),
+        ], locale: 'es'),
+        [('2,4 millones', '4,8 millones')],
+      );
+    });
+
     test('a share never passes 100% when scaled', () {
       final facts = [playableFact(1, figure: '60%')];
       expect(_decoyPairs(facts), [('15%', '30%')]);
