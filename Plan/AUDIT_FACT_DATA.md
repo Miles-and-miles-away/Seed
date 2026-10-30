@@ -97,7 +97,8 @@ of the text. A fact without one still unlocks and reads as usual.
   share a format the answer lacks. A Japanese scale compound
   (`1億3,200万`) and a lone `1` are never scaled, and a number before a
   scale word never scales below 1 (`1,8 billones` gives `3,6 billones`,
-  never `0,9 billones`). A unit outside the families (`MW`, `km/h`,
+  never `0,9 billones`); in English it carries up at 1,000 (`1.8
+  billion`, never `1,800 million`). A unit outside the families (`MW`, `km/h`,
   `volts`) or one with no partner leaves the figure unaskable; drop it
   (or, when a new unit is right, add it to a family in
   `figure_text.dart` on purpose).

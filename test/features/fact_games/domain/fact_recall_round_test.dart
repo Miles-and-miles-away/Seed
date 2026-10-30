@@ -211,6 +211,25 @@ void main() {
       );
     });
 
+    test('an English scale word carries up at 1,000, never on both '
+        'decoys', () {
+      expect(_decoyPairs([playableFact(1, figure: '450 million')]), [
+        ('110 million', '230 million'),
+        ('230 million', '900 million'),
+        ('900 million', '1.8 billion'),
+      ]);
+      expect(_decoyPairs([playableFact(1, figure: '645 million')]), [
+        ('160 million', '320 million'),
+        ('320 million', '1.3 billion'),
+      ]);
+      expect(
+        _decoyPairs([
+          playableFact(1, figure: '645 million', figureEs: '645 millones'),
+        ], locale: 'es'),
+        contains(('320 millones', '1.300 millones')),
+      );
+    });
+
     test('a share never passes 100% when scaled', () {
       final facts = [playableFact(1, figure: '60%')];
       expect(_decoyPairs(facts), [('15%', '30%')]);

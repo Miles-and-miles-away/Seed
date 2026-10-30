@@ -22,6 +22,11 @@ final _scaleWord = RegExp(
   caseSensitive: false,
   unicode: true,
 );
+final _englishScaleWord = RegExp(r'\b(million|billion)\b');
+const _englishScaleUp = {'million': 'billion', 'billion': 'trillion'};
+
+/// A number before an English scale word carries up from here.
+const _scaleCarry = 1000;
 
 /// Occurrences of [figure] in [text] that stand as a whole number: not
 /// after a digit, `.` or `,`, and, when [figure] ends in a digit, not
@@ -95,14 +100,19 @@ const _minScaledRatio = 1.8;
 /// scale compound, is a lone 1 (its noun is singular), or no step
 /// survives rounding.
 ///
-/// [unitKey] is the figure's [figureUnitKey]: a share never passes 100%
-/// and a multiple never drops to 1x. A number before a scale word never
-/// drops below 1: "0,9 billones" is written "900.000 millones".
+/// [unitKey] is the figure's [figureUnitKey]: a multiple never drops to
+/// 1x, and a percentage never passes 100% while [shareCap] holds, since a
+/// share cannot; a comparison ("160% more") can. A number before a scale
+/// word never drops below 1: "0,9 billones" is written "900.000
+/// millones". In English it carries up at 1,000 instead: "1,800 million"
+/// is written "1.8 billion", and two carried decoys never pair against an
+/// uncarried answer, which would leave the answer the odd one out.
 List<(String, String)> scaledDecoyPairs(
   String figure,
   String locale,
-  String unitKey,
-) {
+  String unitKey, {
+  bool shareCap = true,
+}) {
   final matches = figureNumber.allMatches(figure).toList();
   if (matches.isEmpty || matches.any((m) => _jaScale.hasMatch(m[0]!))) {
     return const [];
@@ -120,6 +130,11 @@ List<(String, String)> scaledDecoyPairs(
   final decimals = [for (final f in fractions) f.length];
   final family = figureFamilies[unitKey];
   final scaleWord = _scaleWord.hasMatch(figure);
+  final englishScale = locale == 'en'
+      ? _englishScaleWord.firstMatch(figure)
+      : null;
+  bool carries(List<double> values) =>
+      englishScale != null && values.every((v) => v >= _scaleCarry);
 
   List<double>? scaled(double factor) {
     final values = <double>[];
@@ -128,11 +143,17 @@ List<(String, String)> scaledDecoyPairs(
       if (v <= 0 ||
           (numbers.length == 1 && v == 1) ||
           (scaleWord && v < 1) ||
-          (unitKey == '%' && v > 100) ||
+          (shareCap && unitKey == '%' && v > 100) ||
           (family == 'times' && v <= 1)) {
         return null;
       }
       values.add(v);
+    }
+    // A range half carried would read "600 million-1.2 billion".
+    if (englishScale != null &&
+        values.any((v) => v >= _scaleCarry) &&
+        !carries(values)) {
+      return null;
     }
     return values;
   }
@@ -142,18 +163,25 @@ List<(String, String)> scaledDecoyPairs(
   ].every((ratio) => ratio >= _minScaledRatio);
 
   String write(List<double> values) {
+    final carried = carries(values);
     var out = figure;
+    if (carried) {
+      final word = englishScale!;
+      out = out.replaceRange(word.start, word.end, _englishScaleUp[word[1]]!);
+    }
     for (var i = matches.length - 1; i >= 0; i--) {
       out = out.replaceRange(
         matches[i].start,
         matches[i].end,
-        formatDecimal(
-          values[i],
-          locale,
-          maxDigits: decimals[i],
-          // "4.30" is written to the cent, so its decoys are too.
-          minDigits: fractions[i].endsWith('0') ? decimals[i] : 0,
-        ),
+        carried
+            ? formatDecimal(values[i] / _scaleCarry, locale, maxDigits: 1)
+            : formatDecimal(
+                values[i],
+                locale,
+                maxDigits: decimals[i],
+                // "4.30" is written to the cent, so its decoys are too.
+                minDigits: fractions[i].endsWith('0') ? decimals[i] : 0,
+              ),
       );
     }
     return out;
@@ -161,10 +189,11 @@ List<(String, String)> scaledDecoyPairs(
 
   return [
     for (final (low, high) in _scaleSteps)
-      if ((scaled(low), scaled(high)) case (
-        final a?,
-        final b?,
-      ) when apart(a, numbers) && apart(b, numbers) && apart(a, b))
+      if ((scaled(low), scaled(high)) case (final a?, final b?)
+          when apart(a, numbers) &&
+              apart(b, numbers) &&
+              apart(a, b) &&
+              !(carries(a) && carries(b)))
         (write(a), write(b)),
   ];
 }

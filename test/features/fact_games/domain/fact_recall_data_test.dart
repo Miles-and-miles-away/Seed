@@ -42,6 +42,17 @@ void main() {
     expect(bad, isEmpty);
   });
 
+  test('no English decoy has 1,000 or more of a scale word', () {
+    final uncarried = RegExp(r'\d,\d{3}(?:\.\d+)? (?:million|billion)');
+    final bad = [
+      for (final fact in playable['en']!)
+        for (final (a, b) in decoyPairs(fact, playable['en']!, _blank))
+          for (final decoy in [a, b])
+            if (uncarried.hasMatch(decoy)) '${fact.id}: $decoy',
+    ];
+    expect(bad, isEmpty);
+  });
+
   test("every figure's unit key is in a family", () {
     final unplaced = {
       for (final fact in playable['en']!)
