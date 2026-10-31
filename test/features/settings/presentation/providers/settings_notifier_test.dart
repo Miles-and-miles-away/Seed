@@ -192,15 +192,18 @@ void main() {
       expect((await settingsField())[AppConstants.fieldThemeMode], 'dark');
     });
 
-    test('updateLanguage persists both copies and logs', () async {
-      final c = await container();
+    test(
+      'updateLanguage persists both copies; the pick logs, not this',
+      () async {
+        final c = await container();
 
-      await c.read(settingsProvider.notifier).updateLanguage('ja');
+        await c.read(settingsProvider.notifier).updateLanguage('ja');
 
-      expect((await settingsField())[AppConstants.fieldLanguage], 'ja');
-      expect((await userDoc())[AppConstants.fieldLanguage], 'ja');
-      expect(analytics.events, ['language:ja']);
-    });
+        expect((await settingsField())[AppConstants.fieldLanguage], 'ja');
+        expect((await userDoc())[AppConstants.fieldLanguage], 'ja');
+        expect(analytics.events, isEmpty);
+      },
+    );
 
     test(
       'markWalkthroughFound accumulates and resetWalkthrough logs',

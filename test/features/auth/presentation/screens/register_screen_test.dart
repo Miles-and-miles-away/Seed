@@ -357,4 +357,43 @@ void main() {
       ).called(1);
     });
   });
+  for (final width in testPhoneWidths) {
+    testWidgets('the Japanese account row fits at ${width}pt', (tester) async {
+      sizeViewport(tester, size: Size(width, 1600));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const RegisterScreen(),
+          firebaseAuth: mockFirebaseAuth,
+          firestore: fakeFirestore,
+          locale: const Locale('ja'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('アカウントをお持ちの方'), findsOneWidget);
+    });
+  }
+
+  testWidgets('the Japanese account row wraps where a Row would overflow', (
+    tester,
+  ) async {
+    sizeViewport(tester, size: const Size(320, 1600));
+    tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpWidget(
+      createTestWidget(
+        child: const RegisterScreen(),
+        firebaseAuth: mockFirebaseAuth,
+        firestore: fakeFirestore,
+        locale: const Locale('ja'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    final prompt = tester.getRect(find.text('アカウントをお持ちの方'));
+    final link = tester.getRect(find.widgetWithText(TextButton, 'サインイン'));
+    expect(link.top, greaterThanOrEqualTo(prompt.bottom));
+  });
 }

@@ -10,6 +10,7 @@ export 'data/models/user_settings_model.dart';
 export 'data/repositories/settings_repository.dart';
 
 // Presentation layer - Providers
+export 'presentation/providers/language_sync_provider.dart';
 export 'presentation/providers/settings_providers.dart';
 
 // Presentation layer - Screens
@@ -21,6 +22,9 @@ export 'presentation/screens/notification_settings_screen.dart';
 export 'presentation/screens/settings_screen.dart';
 
 // Presentation layer - Widgets
+export 'presentation/widgets/language_picker_sheet.dart';
+export 'presentation/widgets/language_tile.dart';
+export 'presentation/widgets/settings_icon_button.dart';
 export 'presentation/widgets/settings_section.dart';
 export 'presentation/widgets/settings_tile.dart';
 export 'presentation/widgets/streak_milestone_dialog.dart';

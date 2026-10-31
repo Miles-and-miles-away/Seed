@@ -191,7 +191,9 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       accentColor: ActionCategory.food.color,
       icon: foodGroupIcon(item.group),
       name: item.name(locale),
-      detail: l10n.foodGramsValue(ingredient.grams.round().toString()),
+      detail: l10n.foodGramsValue(
+        formatDecimal(ingredient.grams, locale, maxDigits: 0),
+      ),
       grams: FoodCalculator.ingredientCo2eGrams(item, ingredient),
       removeTooltip: l10n.calculatorRemoveEntry,
       onTap: () =>
@@ -253,7 +255,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
           accentColor: ActionCategory.food.color,
           headline: l10n.foodComparisonDelta(
             bestLabel,
-            formatCO2Compact(summary.deltaGrams.round()),
+            formatCO2Compact(summary.deltaGrams.round(), l10n.localeName),
             worstLabel,
             summary.deltaPercent.round(),
           ),
@@ -305,7 +307,15 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       VerdictBlock.tiedBasisFlips => l10n.foodVerdictTiedBasisFlips,
       VerdictBlock.uncertainItem => l10n.foodVerdictUncertainItem(
         check.item?.name(locale) ?? '',
-        check.item?.statisticRatio?.toStringAsFixed(1) ?? '',
+        switch (check.item?.statisticRatio) {
+          final ratio? => formatDecimal(
+            ratio,
+            l10n.localeName,
+            minDigits: 1,
+            maxDigits: 1,
+          ),
+          null => '',
+        },
         percent,
       ),
       _ => l10n.foodVerdictTooClose(percent),
@@ -333,7 +343,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
           co2Grams: deltaGrams.round(),
         ),
     successMessage: l10n.foodChoiceLoggedMessage(
-      formatCO2Compact(deltaGrams.round()),
+      formatCO2Compact(deltaGrams.round(), l10n.localeName),
     ),
     onSuccess: () => ref.read(mealOptionsProvider.notifier).clear(),
   );

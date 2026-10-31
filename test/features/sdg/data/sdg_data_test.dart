@@ -12,7 +12,6 @@ void main() {
         'shortTitle': 'No Poverty',
         'description': 'End poverty in all its forms.',
         'color': 'E5233D',
-        'iconUrl': 'https://example.com/icon.jpg',
       });
 
       expect(goal.number, 1);
@@ -20,7 +19,6 @@ void main() {
       expect(goal.shortTitleEn, 'No Poverty');
       expect(goal.descriptionEn, 'End poverty in all its forms.');
       expect(goal.color.toARGB32(), const Color(0xFFE5233D).toARGB32());
-      expect(goal.iconUrl, 'https://example.com/icon.jpg');
     });
 
     test('fromJson parses hex color correctly', () {
@@ -30,7 +28,6 @@ void main() {
         'shortTitle': 'No Poverty',
         'description': 'End poverty.',
         'color': 'E5233D',
-        'iconUrl': 'https://example.com/icon.jpg',
       });
 
       expect(goal.color, const Color(0xFFE5233D));
@@ -44,7 +41,6 @@ void main() {
         'shortTitle': 'Education',
         'description': 'Education for all.',
         'color': 'C5192D',
-        'iconUrl': 'https://example.com/icon.jpg',
         'isLearnOnly': true,
       });
 
@@ -58,7 +54,6 @@ void main() {
         'shortTitle': 'No Poverty',
         'description': 'End poverty.',
         'color': 'E5233D',
-        'iconUrl': 'https://example.com/icon.jpg',
       });
 
       expect(goal.titleJa, '');
@@ -95,23 +90,54 @@ void main() {
         expect(goal.titleEn, isNotEmpty);
         expect(goal.shortTitleEn, isNotEmpty);
         expect(goal.descriptionEn, isNotEmpty);
-        expect(goal.iconUrl, isNotEmpty);
-        expect(goal.iconUrl, startsWith('https://'));
       }
     });
 
-    test('all goals have valid UN SDG icon URLs', () {
+    test('every goal has a bundled icon in each app language', () {
       for (final goal in data.goals) {
-        expect(goal.iconUrl, contains('sdgs.un.org'));
-        expect(goal.iconUrl, endsWith('.jpg'));
+        for (final locale in ['en', 'ja', 'es']) {
+          final path = goal.iconAsset(locale);
+          expect(path, contains('/$locale/'));
+          expect(rootBundle.load(path), completes, reason: path);
+        }
       }
+    });
+
+    test('an unsupported locale falls back to the English icon', () {
+      expect(
+        data.goals.first.iconAsset('fr'),
+        data.goals.first.iconAsset('en'),
+      );
     });
 
     test('goal 1 is No Poverty', () {
       final goal = data.goals[0];
       expect(goal.number, 1);
       expect(goal.titleEn, 'No Poverty');
-      expect(goal.color.toARGB32(), const Color(0xFFE5233D).toARGB32());
+      expect(goal.color.toARGB32(), const Color(0xFFE5243B).toARGB32());
+    });
+
+    test('goal colours are the UN guideline palette', () {
+      const palette = [
+        0xFFE5243B,
+        0xFFDDA63A,
+        0xFF4C9F38,
+        0xFFC5192D,
+        0xFFFF3A21,
+        0xFF26BDE2,
+        0xFFFCC30B,
+        0xFFA21942,
+        0xFFFD6925,
+        0xFFDD1367,
+        0xFFFD9D24,
+        0xFFBF8B2E,
+        0xFF3F7E44,
+        0xFF0A97D9,
+        0xFF56C02B,
+        0xFF00689D,
+        0xFF19486A,
+      ];
+      expect(data.goals.map((g) => g.color.toARGB32()), palette);
     });
 
     test('goal 13 is Climate Action', () {
@@ -172,7 +198,7 @@ void main() {
 
     test('Spanish text contains proper diacritics', () {
       final goal1 = data.goalMap[1]!;
-      expect(goal1.descriptionEs, contains('Más'));
+      expect(goal1.descriptionEs, contains('más'));
       expect(goal1.descriptionEs, contains('educación'));
       expect(goal1.descriptionEs, contains('protección'));
       expect(goal1.descriptionEs, contains('económicos'));

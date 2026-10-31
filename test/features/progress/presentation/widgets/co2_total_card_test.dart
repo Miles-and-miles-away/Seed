@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/widgets/co2_total_card.dart';
@@ -8,7 +9,7 @@ import '../../../../helpers/test_helpers.dart';
 
 void main() {
   group('Co2TotalCard', () {
-    testWidgets('renders zero state as "0.0 kg"', (tester) async {
+    testWidgets('renders zero state as "0.0${unitSpace}kg"', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           scaffold: true,
@@ -23,7 +24,7 @@ void main() {
         ),
       );
 
-      expect(find.text('0.0 kg'), findsOneWidget);
+      expect(find.text('0.0${unitSpace}kg'), findsOneWidget);
       expect(find.text('CO2 saved today'), findsOneWidget);
     });
 
@@ -42,7 +43,7 @@ void main() {
         ),
       );
 
-      expect(find.text('0.4 kg'), findsOneWidget);
+      expect(find.text('0.4${unitSpace}kg'), findsOneWidget);
     });
 
     testWidgets('renders large total formatted with one decimal', (
@@ -62,7 +63,7 @@ void main() {
         ),
       );
 
-      expect(find.text('42.0 kg'), findsOneWidget);
+      expect(find.text('42.0${unitSpace}kg'), findsOneWidget);
       expect(find.text('CO2 saved all time'), findsOneWidget);
     });
 

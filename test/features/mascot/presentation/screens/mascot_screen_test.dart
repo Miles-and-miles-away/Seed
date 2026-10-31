@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
@@ -60,6 +61,46 @@ void main() {
   }
 
   group('MascotScreen', () {
+    testWidgets('while loading, offers a titled app bar with back', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            userOverride(_testUser),
+            activeMascotProvider.overrideWith((_) => Stream.value(null)),
+          ],
+          child: Builder(
+            builder: (context) => TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const MascotScreen()),
+              ),
+              child: const Text('open'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+
+      final appBar = find.byType(AppBar);
+      expect(
+        find.descendant(of: appBar, matching: find.text('Mascot')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: appBar, matching: find.byType(BackButton)),
+        findsOneWidget,
+      );
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      await tester.tap(find.byType(BackButton));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(MascotScreen), findsNothing);
+    });
+
     testWidgets('renders the Our Journey section and mascot name', (
       tester,
     ) async {
@@ -79,7 +120,7 @@ void main() {
       // DateFormat.yMMMd('en') for DateTime(2026, 1, 1).
       expect(find.text('Jan 1, 2026'), findsOneWidget);
       // formatCO2Compact(1500) -> "1.5kg".
-      expect(find.text('1.5kg'), findsOneWidget);
+      expect(find.text('1.5${unitSpace}kg'), findsOneWidget);
       // Exact count depends on today's date; just assert the label exists.
       expect(find.text('Days together'), findsOneWidget);
 

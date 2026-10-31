@@ -19,7 +19,7 @@ _UserSettingsModel _$UserSettingsModelFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       smartRemindersEnabled: json['smartRemindersEnabled'] as bool? ?? true,
-      language: json['language'] as String? ?? 'en',
+      language: json['language'] as String?,
       hasSeenOnboarding: json['hasSeenOnboarding'] as bool? ?? false,
       seenStreakMilestones:
           (json['seenStreakMilestones'] as Map<String, dynamic>?)?.map(

@@ -77,7 +77,7 @@ void main() {
       await pumpScreen(tester);
 
       // Check for the icons used in the settings tiles
-      expect(find.byIcon(Icons.info_outline), findsOneWidget);
+      expect(find.byIcon(Icons.tag), findsOneWidget);
       expect(find.byIcon(Icons.privacy_tip_outlined), findsOneWidget);
       expect(find.byIcon(Icons.description_outlined), findsOneWidget);
       expect(find.byIcon(Icons.source_outlined), findsOneWidget);

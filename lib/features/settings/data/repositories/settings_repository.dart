@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/shared/data/language_store.dart';
 
 import '../models/notification_schedule_model.dart';
 import '../models/user_settings_model.dart';
@@ -23,25 +24,26 @@ class SettingsRepository {
       _firestore.collection(AppConstants.collectionUsers).doc().id;
 
   /// Parses the settings field out of a user document, falling back to
-  /// defaults (with the user's top-level language preference) when the
-  /// document or field is missing.
+  /// defaults when the document or field is missing or malformed.
   UserSettingsModel _settingsFromData(Map<String, dynamic>? data) {
-    if (data == null) return UserSettingsModel.defaultSettings();
-
-    // Malformed remote data falls back to defaults, keeping the language.
-    final language = data[AppConstants.fieldLanguage];
-    final fallback = UserSettingsModel.defaultSettings(
-      language: language is String ? language : 'en',
-    );
-    final settingsData = data[AppConstants.fieldSettings];
+    final fallback = UserSettingsModel.defaultSettings();
+    final settingsData = data?[AppConstants.fieldSettings];
     if (settingsData is! Map<String, dynamic>) return fallback;
 
+    // Rules do not check settings.language; an unknown code reads as unset.
+    final language = settingsData[AppConstants.fieldLanguage];
+    final supported = language is String && isSupportedLanguage(language)
+        ? language
+        : null;
     try {
-      return UserSettingsModel.fromJson(settingsData);
+      return UserSettingsModel.fromJson(
+        settingsData,
+      ).copyWith(language: supported);
     } on Object {
-      // Keep the walkthrough found list, or the tour replays every start.
+      // Keep the language and found list, or the tour replays every start.
       final found = settingsData[AppConstants.fieldWalkthroughFound];
       return fallback.copyWith(
+        language: supported,
         walkthroughFound: found is List
             ? found.whereType<String>().toList()
             : const [],
@@ -89,6 +91,23 @@ class SettingsRepository {
     await _userDoc(uid).update({
       '${AppConstants.fieldSettings}.${AppConstants.fieldLanguage}': language,
       AppConstants.fieldLanguage: language,
+    });
+  }
+
+  /// Writes [language] to an account that never chose one. A transaction
+  /// reads the server copy, so offline it throws rather than guess.
+  Future<void> backfillLanguage(String uid, String language) {
+    return _firestore.runTransaction((transaction) async {
+      final doc = await transaction.get(_userDoc(uid));
+      final settings = doc.data()?[AppConstants.fieldSettings];
+      if (!doc.exists ||
+          (settings is Map && settings[AppConstants.fieldLanguage] != null)) {
+        return;
+      }
+      transaction.update(_userDoc(uid), {
+        '${AppConstants.fieldSettings}.${AppConstants.fieldLanguage}': language,
+        AppConstants.fieldLanguage: language,
+      });
     });
   }
 

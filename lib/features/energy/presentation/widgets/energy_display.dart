@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 
 /// Icon for a comparable group (dataset `comparable_group` values).
@@ -76,7 +77,7 @@ String energyUsageDetailLabel(
   EnergyBehavior behavior,
   double units,
 ) {
-  final text = _unitsText(units);
+  final text = _unitsText(units, l10n.localeName);
   // The units text is pre-formatted, so ICU plurals cannot see the
   // number; exactly-one gets its own key ("1 hour", not "1 hours").
   final one = units == 1;
@@ -101,7 +102,7 @@ String energyBehaviorFactorLabel(
   AppLocalizations l10n,
   EnergyBehavior behavior,
 ) {
-  final text = _kwhText(behavior.kwhPerUnit);
+  final text = _kwhText(behavior.kwhPerUnit, l10n.localeName);
   return switch (behavior.unit) {
     EnergyUnit.minute => l10n.energyFactorPerMinute(text),
     EnergyUnit.hour => l10n.energyFactorPerHour(text),
@@ -110,30 +111,28 @@ String energyBehaviorFactorLabel(
   };
 }
 
-/// Four decimals below 0.01, three below 1, two above, then trailing
-/// zeros stripped -- enough for a subtitle without false exactness.
+/// Up to four decimals below 0.01, three below 1, two above, trailing
+/// zeros dropped -- enough for a subtitle without false exactness.
 ///
-/// The stripping matters: 0.8 kWh formatted to three decimals reads
-/// "0.800", which claims a precision the standby figure emphatically
-/// does not have. The dataset stores the unrounded value; only display
-/// rounds.
-String _kwhText(double kwh) {
-  if (kwh == 0) return '0';
+/// Dropping them matters: 0.8 kWh to three decimals reads "0.800", which
+/// claims a precision the standby figure emphatically does not have.
+/// The dataset stores the unrounded value; only display rounds.
+String _kwhText(double kwh, String locale) {
   final digits = kwh < 0.01
       ? 4
       : kwh < 1
       ? 3
       : 2;
-  final text = kwh.toStringAsFixed(digits);
-  if (!text.contains('.')) return text;
-  return text.replaceFirst(RegExp(r'0+$'), '').replaceFirst(RegExp(r'\.$'), '');
+  return formatDecimal(kwh, locale, maxDigits: digits);
 }
 
-/// Drops a trailing ".0" so "10 minutes" does not read "10.0 minutes",
-/// but keeps a real fraction (the setpoint presets are 1.35783).
-String _unitsText(double units) => units == units.roundToDouble()
-    ? units.round().toString()
-    : units.toStringAsFixed(2);
+/// Whole units without a decimal, so "10 minutes" does not read "10.0
+/// minutes", but a real fraction keeps two (the setpoint presets are
+/// 1.35783).
+String _unitsText(double units, String locale) {
+  final digits = units == units.roundToDouble() ? 0 : 2;
+  return formatDecimal(units, locale, minDigits: digits, maxDigits: digits);
+}
 
 /// The E7 multiple, locale-aware: one decimal below 10x ("2.3"),
 /// whole numbers above ("373") where a decimal would be false
@@ -155,7 +154,7 @@ Widget energyBehaviorSheetHeader(
   return Column(
     children: [
       Text(
-        behavior.name(locale),
+        keepUnitsTogether(behavior.name(locale)),
         textAlign: TextAlign.center,
         style: theme.textTheme.titleLarge?.copyWith(
           fontWeight: FontWeight.bold,

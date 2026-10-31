@@ -8,6 +8,7 @@ import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_ima
 import 'package:seed_app/shared/widgets/balanced_text.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Full-screen celebration shown when the user discovers an Eco-Dex
 /// entry. The fact itself is the reward, so it takes center stage.
@@ -42,79 +43,82 @@ class EcoDexCelebrationScreen extends StatelessWidget {
       children: [
         const TimedConfettiLayer(),
         SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CelebrationTitle(l10n.ecoDexDiscoveryTitle),
-                const SizedBox(height: spacingSm),
-                // The unlock condition sits directly under the title:
-                // it is the answer to "what did I just do?".
-                BalancedText(
-                  entry.hint(locale),
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: opacityHeavy),
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
-                const SizedBox(height: spacingXxl),
-                Container(
-                      width: 140,
-                      height: 140,
-                      padding: const EdgeInsets.all(spacingLg),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: ClipOval(
-                        child: EcoDexEntryImage(
-                          iconName: entry.iconName,
-                          size: 96,
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CelebrationTitle(l10n.ecoDexDiscoveryTitle),
+                  const SizedBox(height: spacingSm),
+                  // The unlock condition sits directly under the title:
+                  // it is the answer to "what did I just do?".
+                  BalancedText(
+                    entry.hint(locale),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: Colors.white.withValues(alpha: opacityHeavy),
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                  const SizedBox(height: spacingXxl),
+                  Container(
+                        width: 140,
+                        height: 140,
+                        padding: const EdgeInsets.all(spacingLg),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
+                        child: ClipOval(
+                          child: EcoDexEntryImage(
+                            iconName: entry.iconName,
+                            size: 96,
+                          ),
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(duration: 400.ms)
+                      .scale(
+                        begin: const Offset(0.3, 0.3),
+                        end: const Offset(1, 1),
+                        curve: Curves.elasticOut,
+                        duration: 800.ms,
                       ),
-                    )
-                    .animate()
-                    .fadeIn(duration: 400.ms)
-                    .scale(
-                      begin: const Offset(0.3, 0.3),
-                      end: const Offset(1, 1),
-                      curve: Curves.elasticOut,
-                      duration: 800.ms,
-                    ),
-                const SizedBox(height: spacingXxl),
-                Text(
-                  l10n.ecoDexEntryTitle(entry.name(locale)),
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
-                const SizedBox(height: spacingMd),
-                Text(
-                  entry.fact(locale),
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: Colors.white.withValues(alpha: opacityHeavy),
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                const SizedBox(height: spacingHuge),
-                CelebrationButton(
-                  label: l10n.ecoDexDiscoveryAcknowledge,
-                  onPressed: onDismiss,
-                  delay: 800.ms,
-                ),
-                if (remainingInQueue > 0) ...[
-                  const SizedBox(height: spacingMd),
+                  const SizedBox(height: spacingXxl),
                   Text(
-                    l10n.ecoDexDiscoveryMoreQueued(remainingInQueue),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.white.withValues(alpha: opacityMedium),
+                    l10n.ecoDexEntryTitle(entry.name(locale)),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                  const SizedBox(height: spacingMd),
+                  PhraseText(
+                    entry.fact(locale),
+                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: opacityHeavy),
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
+                  const SizedBox(height: spacingHuge),
+                  CelebrationButton(
+                    label: l10n.ecoDexDiscoveryAcknowledge,
+                    onPressed: onDismiss,
+                    delay: 800.ms,
+                  ),
+                  if (remainingInQueue > 0) ...[
+                    const SizedBox(height: spacingMd),
+                    Text(
+                      l10n.ecoDexDiscoveryMoreQueued(remainingInQueue),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.white.withValues(alpha: opacityMedium),
+                      ),
+                    ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),

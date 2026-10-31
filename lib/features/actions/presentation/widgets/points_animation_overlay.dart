@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide Durations;
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 
 /// An animated overlay that shows points earned and auto-dismisses.
 class PointsAnimationOverlay extends StatefulWidget {
@@ -133,7 +134,7 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
                     ),
                     const SizedBox(width: spacingSm),
                     Text(
-                      '${widget.points} points',
+                      AppLocalizations.of(context).pointsLabel(widget.points),
                       style: theme.textTheme.headlineMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

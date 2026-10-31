@@ -9,9 +9,9 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/settings_providers.dart';
+import '../widgets/language_tile.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
-import 'language_settings_screen.dart';
 
 /// Main settings screen showing all settings categories.
 class SettingsScreen extends ConsumerWidget {
@@ -43,7 +43,9 @@ class SettingsScreen extends ConsumerWidget {
                 children: [
                   SettingsTile(
                     title: l10n.settingsLanguage,
-                    subtitle: _languageDisplayName(settings.language),
+                    subtitle: nativeLanguageName(
+                      ref.watch(currentLanguageProvider),
+                    ),
                     leading: const Icon(Icons.language_outlined),
                     onTap: () => context.push(appRoutes.settingsLanguage),
                   ),
@@ -108,7 +110,7 @@ class SettingsScreen extends ConsumerWidget {
                   SettingsTile(
                     title: l10n.settingsReplayWalkthrough,
                     subtitle: l10n.settingsReplayWalkthroughSubtitle,
-                    leading: const Icon(Icons.explore_outlined),
+                    leading: const Icon(Icons.replay),
                     showChevron: false,
                     onTap: () => _confirmReplayWalkthrough(context, ref),
                   ),
@@ -160,14 +162,6 @@ class SettingsScreen extends ConsumerWidget {
     unawaited(ref.read(settingsProvider.notifier).resetWalkthrough());
     context.go(appRoutes.home);
   }
-
-  /// Native name for [languageCode]; unknown codes fall back to English.
-  String _languageDisplayName(String languageCode) => supportedLanguages
-      .firstWhere(
-        (l) => l.code == languageCode,
-        orElse: () => supportedLanguages.first,
-      )
-      .nativeName;
 }
 
 /// Compact system / light / dark picker for the theme tile. Icon-only
@@ -195,6 +189,10 @@ class _ThemeModeSelector extends StatelessWidget {
 
     return SegmentedButton<ThemeMode>(
       showSelectedIcon: false,
+      style: SegmentedButton.styleFrom(
+        visualDensity: VisualDensity.compact,
+        padding: const EdgeInsets.symmetric(horizontal: spacingSm),
+      ),
       segments: [
         for (final mode in ThemeMode.values)
           ButtonSegment(

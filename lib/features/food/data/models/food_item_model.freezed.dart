@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FoodItem {
 
- String get id; String get group; String get nameEn; String get nameJa; String get nameEs; double get kgCo2ePerKg; List<ServingPreset> get servings; List<String> get searchTermsEn; List<String> get searchTermsJa; List<String> get searchTermsEs; String get calculationNotes; List<EmissionSource> get sources; String get weightBasis; String get entryMode; String get defaultServingId; int get sourceTier; String? get tieGroup;/// How far this item's own published mean and median diverge, as a
+ String get id; String get group; String get nameEn; String get nameJa; String get nameEs; double get kgCo2ePerKg; List<ServingPreset> get servings; List<String> get searchTermsEn; List<String> get searchTermsJa; List<String> get searchTermsEs; String get calculationNotes; String get calculationNotesJa; String get calculationNotesEs; List<EmissionSource> get sources; String get weightBasis; String get entryMode; String get defaultServingId; int get sourceTier; String? get tieGroup;/// How far this item's own published mean and median diverge, as a
 /// ratio, when the source publishes both and they differ enough to
 /// matter. Null for everything else.
 ///
@@ -37,20 +37,20 @@ $FoodItemCopyWith<FoodItem> get copyWith => _$FoodItemCopyWithImpl<FoodItem>(thi
 @override
 bool operator ==(Object other) {
   final _this = this as FoodItem;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FoodItem&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.group, _this.group) || other.group == _this.group)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&(identical(other.kgCo2ePerKg, _this.kgCo2ePerKg) || other.kgCo2ePerKg == _this.kgCo2ePerKg)&&const DeepCollectionEquality().equals(other.servings, _this.servings)&&const DeepCollectionEquality().equals(other.searchTermsEn, _this.searchTermsEn)&&const DeepCollectionEquality().equals(other.searchTermsJa, _this.searchTermsJa)&&const DeepCollectionEquality().equals(other.searchTermsEs, _this.searchTermsEs)&&(identical(other.calculationNotes, _this.calculationNotes) || other.calculationNotes == _this.calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _this.sources)&&(identical(other.weightBasis, _this.weightBasis) || other.weightBasis == _this.weightBasis)&&(identical(other.entryMode, _this.entryMode) || other.entryMode == _this.entryMode)&&(identical(other.defaultServingId, _this.defaultServingId) || other.defaultServingId == _this.defaultServingId)&&(identical(other.sourceTier, _this.sourceTier) || other.sourceTier == _this.sourceTier)&&(identical(other.tieGroup, _this.tieGroup) || other.tieGroup == _this.tieGroup)&&(identical(other.statisticRatio, _this.statisticRatio) || other.statisticRatio == _this.statisticRatio));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FoodItem&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.group, _this.group) || other.group == _this.group)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&(identical(other.kgCo2ePerKg, _this.kgCo2ePerKg) || other.kgCo2ePerKg == _this.kgCo2ePerKg)&&const DeepCollectionEquality().equals(other.servings, _this.servings)&&const DeepCollectionEquality().equals(other.searchTermsEn, _this.searchTermsEn)&&const DeepCollectionEquality().equals(other.searchTermsJa, _this.searchTermsJa)&&const DeepCollectionEquality().equals(other.searchTermsEs, _this.searchTermsEs)&&(identical(other.calculationNotes, _this.calculationNotes) || other.calculationNotes == _this.calculationNotes)&&(identical(other.calculationNotesJa, _this.calculationNotesJa) || other.calculationNotesJa == _this.calculationNotesJa)&&(identical(other.calculationNotesEs, _this.calculationNotesEs) || other.calculationNotesEs == _this.calculationNotesEs)&&const DeepCollectionEquality().equals(other.sources, _this.sources)&&(identical(other.weightBasis, _this.weightBasis) || other.weightBasis == _this.weightBasis)&&(identical(other.entryMode, _this.entryMode) || other.entryMode == _this.entryMode)&&(identical(other.defaultServingId, _this.defaultServingId) || other.defaultServingId == _this.defaultServingId)&&(identical(other.sourceTier, _this.sourceTier) || other.sourceTier == _this.sourceTier)&&(identical(other.tieGroup, _this.tieGroup) || other.tieGroup == _this.tieGroup)&&(identical(other.statisticRatio, _this.statisticRatio) || other.statisticRatio == _this.statisticRatio));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as FoodItem;
-  return Object.hash(runtimeType,_this.id,_this.group,_this.nameEn,_this.nameJa,_this.nameEs,_this.kgCo2ePerKg,const DeepCollectionEquality().hash(_this.servings),const DeepCollectionEquality().hash(_this.searchTermsEn),const DeepCollectionEquality().hash(_this.searchTermsJa),const DeepCollectionEquality().hash(_this.searchTermsEs),_this.calculationNotes,const DeepCollectionEquality().hash(_this.sources),_this.weightBasis,_this.entryMode,_this.defaultServingId,_this.sourceTier,_this.tieGroup,_this.statisticRatio);
+  return Object.hashAll([runtimeType,_this.id,_this.group,_this.nameEn,_this.nameJa,_this.nameEs,_this.kgCo2ePerKg,const DeepCollectionEquality().hash(_this.servings),const DeepCollectionEquality().hash(_this.searchTermsEn),const DeepCollectionEquality().hash(_this.searchTermsJa),const DeepCollectionEquality().hash(_this.searchTermsEs),_this.calculationNotes,_this.calculationNotesJa,_this.calculationNotesEs,const DeepCollectionEquality().hash(_this.sources),_this.weightBasis,_this.entryMode,_this.defaultServingId,_this.sourceTier,_this.tieGroup,_this.statisticRatio]);
 }
 
 @override
 String toString() {
   final _this = this as FoodItem;
-  return 'FoodItem(id: ${_this.id}, group: ${_this.group}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs}, kgCo2ePerKg: ${_this.kgCo2ePerKg}, servings: ${_this.servings}, searchTermsEn: ${_this.searchTermsEn}, searchTermsJa: ${_this.searchTermsJa}, searchTermsEs: ${_this.searchTermsEs}, calculationNotes: ${_this.calculationNotes}, sources: ${_this.sources}, weightBasis: ${_this.weightBasis}, entryMode: ${_this.entryMode}, defaultServingId: ${_this.defaultServingId}, sourceTier: ${_this.sourceTier}, tieGroup: ${_this.tieGroup}, statisticRatio: ${_this.statisticRatio})';
+  return 'FoodItem(id: ${_this.id}, group: ${_this.group}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs}, kgCo2ePerKg: ${_this.kgCo2ePerKg}, servings: ${_this.servings}, searchTermsEn: ${_this.searchTermsEn}, searchTermsJa: ${_this.searchTermsJa}, searchTermsEs: ${_this.searchTermsEs}, calculationNotes: ${_this.calculationNotes}, calculationNotesJa: ${_this.calculationNotesJa}, calculationNotesEs: ${_this.calculationNotesEs}, sources: ${_this.sources}, weightBasis: ${_this.weightBasis}, entryMode: ${_this.entryMode}, defaultServingId: ${_this.defaultServingId}, sourceTier: ${_this.sourceTier}, tieGroup: ${_this.tieGroup}, statisticRatio: ${_this.statisticRatio})';
 }
 
 
@@ -61,7 +61,7 @@ abstract mixin class $FoodItemCopyWith<$Res>  {
   factory $FoodItemCopyWith(FoodItem value, $Res Function(FoodItem) _then) = _$FoodItemCopyWithImpl;
 @useResult
 $Res call({
- String id, String group, String nameEn, String nameJa, String nameEs, double kgCo2ePerKg, List<ServingPreset> servings, List<String> searchTermsEn, List<String> searchTermsJa, List<String> searchTermsEs, String calculationNotes, List<EmissionSource> sources, String weightBasis, String entryMode, String defaultServingId, int sourceTier, String? tieGroup, double? statisticRatio
+ String id, String group, String nameEn, String nameJa, String nameEs, double kgCo2ePerKg, List<ServingPreset> servings, List<String> searchTermsEn, List<String> searchTermsJa, List<String> searchTermsEs, String calculationNotes, String calculationNotesJa, String calculationNotesEs, List<EmissionSource> sources, String weightBasis, String entryMode, String defaultServingId, int sourceTier, String? tieGroup, double? statisticRatio
 });
 
 
@@ -78,7 +78,7 @@ class _$FoodItemCopyWithImpl<$Res>
 
 /// Create a copy of FoodItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? group = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? kgCo2ePerKg = null,Object? servings = null,Object? searchTermsEn = null,Object? searchTermsJa = null,Object? searchTermsEs = null,Object? calculationNotes = null,Object? sources = null,Object? weightBasis = null,Object? entryMode = null,Object? defaultServingId = null,Object? sourceTier = null,Object? tieGroup = freezed,Object? statisticRatio = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? group = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? kgCo2ePerKg = null,Object? servings = null,Object? searchTermsEn = null,Object? searchTermsJa = null,Object? searchTermsEs = null,Object? calculationNotes = null,Object? calculationNotesJa = null,Object? calculationNotesEs = null,Object? sources = null,Object? weightBasis = null,Object? entryMode = null,Object? defaultServingId = null,Object? sourceTier = null,Object? tieGroup = freezed,Object? statisticRatio = freezed,}) {
   return _then(FoodItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,group: null == group ? _self.group : group // ignore: cast_nullable_to_non_nullable
@@ -91,6 +91,8 @@ as List<ServingPreset>,searchTermsEn: null == searchTermsEn ? _self.searchTermsE
 as List<String>,searchTermsJa: null == searchTermsJa ? _self.searchTermsJa : searchTermsJa // ignore: cast_nullable_to_non_nullable
 as List<String>,searchTermsEs: null == searchTermsEs ? _self.searchTermsEs : searchTermsEs // ignore: cast_nullable_to_non_nullable
 as List<String>,calculationNotes: null == calculationNotes ? _self.calculationNotes : calculationNotes // ignore: cast_nullable_to_non_nullable
+as String,calculationNotesJa: null == calculationNotesJa ? _self.calculationNotesJa : calculationNotesJa // ignore: cast_nullable_to_non_nullable
+as String,calculationNotesEs: null == calculationNotesEs ? _self.calculationNotesEs : calculationNotesEs // ignore: cast_nullable_to_non_nullable
 as String,sources: null == sources ? _self.sources : sources // ignore: cast_nullable_to_non_nullable
 as List<EmissionSource>,weightBasis: null == weightBasis ? _self.weightBasis : weightBasis // ignore: cast_nullable_to_non_nullable
 as String,entryMode: null == entryMode ? _self.entryMode : entryMode // ignore: cast_nullable_to_non_nullable
@@ -183,10 +185,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String group,  String nameEn,  String nameJa,  String nameEs,  double kgCo2ePerKg,  List<ServingPreset> servings,  List<String> searchTermsEn,  List<String> searchTermsJa,  List<String> searchTermsEs,  String calculationNotes,  List<EmissionSource> sources,  String weightBasis,  String entryMode,  String defaultServingId,  int sourceTier,  String? tieGroup,  double? statisticRatio)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String group,  String nameEn,  String nameJa,  String nameEs,  double kgCo2ePerKg,  List<ServingPreset> servings,  List<String> searchTermsEn,  List<String> searchTermsJa,  List<String> searchTermsEs,  String calculationNotes,  String calculationNotesJa,  String calculationNotesEs,  List<EmissionSource> sources,  String weightBasis,  String entryMode,  String defaultServingId,  int sourceTier,  String? tieGroup,  double? statisticRatio)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FoodItem() when $default != null:
-return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_that.kgCo2ePerKg,_that.servings,_that.searchTermsEn,_that.searchTermsJa,_that.searchTermsEs,_that.calculationNotes,_that.sources,_that.weightBasis,_that.entryMode,_that.defaultServingId,_that.sourceTier,_that.tieGroup,_that.statisticRatio);case _:
+return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_that.kgCo2ePerKg,_that.servings,_that.searchTermsEn,_that.searchTermsJa,_that.searchTermsEs,_that.calculationNotes,_that.calculationNotesJa,_that.calculationNotesEs,_that.sources,_that.weightBasis,_that.entryMode,_that.defaultServingId,_that.sourceTier,_that.tieGroup,_that.statisticRatio);case _:
   return orElse();
 
 }
@@ -204,10 +206,10 @@ return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String group,  String nameEn,  String nameJa,  String nameEs,  double kgCo2ePerKg,  List<ServingPreset> servings,  List<String> searchTermsEn,  List<String> searchTermsJa,  List<String> searchTermsEs,  String calculationNotes,  List<EmissionSource> sources,  String weightBasis,  String entryMode,  String defaultServingId,  int sourceTier,  String? tieGroup,  double? statisticRatio)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String group,  String nameEn,  String nameJa,  String nameEs,  double kgCo2ePerKg,  List<ServingPreset> servings,  List<String> searchTermsEn,  List<String> searchTermsJa,  List<String> searchTermsEs,  String calculationNotes,  String calculationNotesJa,  String calculationNotesEs,  List<EmissionSource> sources,  String weightBasis,  String entryMode,  String defaultServingId,  int sourceTier,  String? tieGroup,  double? statisticRatio)  $default,) {final _that = this;
 switch (_that) {
 case _FoodItem():
-return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_that.kgCo2ePerKg,_that.servings,_that.searchTermsEn,_that.searchTermsJa,_that.searchTermsEs,_that.calculationNotes,_that.sources,_that.weightBasis,_that.entryMode,_that.defaultServingId,_that.sourceTier,_that.tieGroup,_that.statisticRatio);case _:
+return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_that.kgCo2ePerKg,_that.servings,_that.searchTermsEn,_that.searchTermsJa,_that.searchTermsEs,_that.calculationNotes,_that.calculationNotesJa,_that.calculationNotesEs,_that.sources,_that.weightBasis,_that.entryMode,_that.defaultServingId,_that.sourceTier,_that.tieGroup,_that.statisticRatio);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -224,10 +226,10 @@ return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String group,  String nameEn,  String nameJa,  String nameEs,  double kgCo2ePerKg,  List<ServingPreset> servings,  List<String> searchTermsEn,  List<String> searchTermsJa,  List<String> searchTermsEs,  String calculationNotes,  List<EmissionSource> sources,  String weightBasis,  String entryMode,  String defaultServingId,  int sourceTier,  String? tieGroup,  double? statisticRatio)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String group,  String nameEn,  String nameJa,  String nameEs,  double kgCo2ePerKg,  List<ServingPreset> servings,  List<String> searchTermsEn,  List<String> searchTermsJa,  List<String> searchTermsEs,  String calculationNotes,  String calculationNotesJa,  String calculationNotesEs,  List<EmissionSource> sources,  String weightBasis,  String entryMode,  String defaultServingId,  int sourceTier,  String? tieGroup,  double? statisticRatio)?  $default,) {final _that = this;
 switch (_that) {
 case _FoodItem() when $default != null:
-return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_that.kgCo2ePerKg,_that.servings,_that.searchTermsEn,_that.searchTermsJa,_that.searchTermsEs,_that.calculationNotes,_that.sources,_that.weightBasis,_that.entryMode,_that.defaultServingId,_that.sourceTier,_that.tieGroup,_that.statisticRatio);case _:
+return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_that.kgCo2ePerKg,_that.servings,_that.searchTermsEn,_that.searchTermsJa,_that.searchTermsEs,_that.calculationNotes,_that.calculationNotesJa,_that.calculationNotesEs,_that.sources,_that.weightBasis,_that.entryMode,_that.defaultServingId,_that.sourceTier,_that.tieGroup,_that.statisticRatio);case _:
   return null;
 
 }
@@ -239,7 +241,7 @@ return $default(_that.id,_that.group,_that.nameEn,_that.nameJa,_that.nameEs,_tha
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _FoodItem extends FoodItem {
-  const _FoodItem({required this.id, required this.group, required this.nameEn, required this.nameJa, required this.nameEs, required this.kgCo2ePerKg,  List<ServingPreset> servings = const [],  List<String> searchTermsEn = const [],  List<String> searchTermsJa = const [],  List<String> searchTermsEs = const [], this.calculationNotes = '',  List<EmissionSource> sources = const [], this.weightBasis = 'as_purchased', this.entryMode = 'grams', this.defaultServingId = '', this.sourceTier = 1, this.tieGroup, this.statisticRatio}): _servings = servings,_searchTermsEn = searchTermsEn,_searchTermsJa = searchTermsJa,_searchTermsEs = searchTermsEs,_sources = sources,super._();
+  const _FoodItem({required this.id, required this.group, required this.nameEn, required this.nameJa, required this.nameEs, required this.kgCo2ePerKg,  List<ServingPreset> servings = const [],  List<String> searchTermsEn = const [],  List<String> searchTermsJa = const [],  List<String> searchTermsEs = const [], this.calculationNotes = '', this.calculationNotesJa = '', this.calculationNotesEs = '',  List<EmissionSource> sources = const [], this.weightBasis = 'as_purchased', this.entryMode = 'grams', this.defaultServingId = '', this.sourceTier = 1, this.tieGroup, this.statisticRatio}): _servings = servings,_searchTermsEn = searchTermsEn,_searchTermsJa = searchTermsJa,_searchTermsEs = searchTermsEs,_sources = sources,super._();
   factory _FoodItem.fromJson(Map<String, dynamic> json) => _$FoodItemFromJson(json);
 
 @override final  String id;
@@ -277,6 +279,8 @@ class _FoodItem extends FoodItem {
 }
 
 @override@JsonKey() final  String calculationNotes;
+@override@JsonKey() final  String calculationNotesJa;
+@override@JsonKey() final  String calculationNotesEs;
  final  List<EmissionSource> _sources;
 @override@JsonKey() List<EmissionSource> get sources {
   if (_sources is EqualUnmodifiableListView) return _sources;
@@ -311,18 +315,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FoodItem&&(identical(other.id, id) || other.id == id)&&(identical(other.group, group) || other.group == group)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.kgCo2ePerKg, kgCo2ePerKg) || other.kgCo2ePerKg == kgCo2ePerKg)&&const DeepCollectionEquality().equals(other.servings, _servings)&&const DeepCollectionEquality().equals(other.searchTermsEn, _searchTermsEn)&&const DeepCollectionEquality().equals(other.searchTermsJa, _searchTermsJa)&&const DeepCollectionEquality().equals(other.searchTermsEs, _searchTermsEs)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _sources)&&(identical(other.weightBasis, weightBasis) || other.weightBasis == weightBasis)&&(identical(other.entryMode, entryMode) || other.entryMode == entryMode)&&(identical(other.defaultServingId, defaultServingId) || other.defaultServingId == defaultServingId)&&(identical(other.sourceTier, sourceTier) || other.sourceTier == sourceTier)&&(identical(other.tieGroup, tieGroup) || other.tieGroup == tieGroup)&&(identical(other.statisticRatio, statisticRatio) || other.statisticRatio == statisticRatio));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FoodItem&&(identical(other.id, id) || other.id == id)&&(identical(other.group, group) || other.group == group)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&(identical(other.kgCo2ePerKg, kgCo2ePerKg) || other.kgCo2ePerKg == kgCo2ePerKg)&&const DeepCollectionEquality().equals(other.servings, _servings)&&const DeepCollectionEquality().equals(other.searchTermsEn, _searchTermsEn)&&const DeepCollectionEquality().equals(other.searchTermsJa, _searchTermsJa)&&const DeepCollectionEquality().equals(other.searchTermsEs, _searchTermsEs)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&(identical(other.calculationNotesJa, calculationNotesJa) || other.calculationNotesJa == calculationNotesJa)&&(identical(other.calculationNotesEs, calculationNotesEs) || other.calculationNotesEs == calculationNotesEs)&&const DeepCollectionEquality().equals(other.sources, _sources)&&(identical(other.weightBasis, weightBasis) || other.weightBasis == weightBasis)&&(identical(other.entryMode, entryMode) || other.entryMode == entryMode)&&(identical(other.defaultServingId, defaultServingId) || other.defaultServingId == defaultServingId)&&(identical(other.sourceTier, sourceTier) || other.sourceTier == sourceTier)&&(identical(other.tieGroup, tieGroup) || other.tieGroup == tieGroup)&&(identical(other.statisticRatio, statisticRatio) || other.statisticRatio == statisticRatio));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,group,nameEn,nameJa,nameEs,kgCo2ePerKg,const DeepCollectionEquality().hash(_servings),const DeepCollectionEquality().hash(_searchTermsEn),const DeepCollectionEquality().hash(_searchTermsJa),const DeepCollectionEquality().hash(_searchTermsEs),calculationNotes,const DeepCollectionEquality().hash(_sources),weightBasis,entryMode,defaultServingId,sourceTier,tieGroup,statisticRatio);
+    return Object.hashAll([runtimeType,id,group,nameEn,nameJa,nameEs,kgCo2ePerKg,const DeepCollectionEquality().hash(_servings),const DeepCollectionEquality().hash(_searchTermsEn),const DeepCollectionEquality().hash(_searchTermsJa),const DeepCollectionEquality().hash(_searchTermsEs),calculationNotes,calculationNotesJa,calculationNotesEs,const DeepCollectionEquality().hash(_sources),weightBasis,entryMode,defaultServingId,sourceTier,tieGroup,statisticRatio]);
 }
 
 @override
 String toString() {
-    return 'FoodItem(id: $id, group: $group, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, kgCo2ePerKg: $kgCo2ePerKg, servings: $servings, searchTermsEn: $searchTermsEn, searchTermsJa: $searchTermsJa, searchTermsEs: $searchTermsEs, calculationNotes: $calculationNotes, sources: $sources, weightBasis: $weightBasis, entryMode: $entryMode, defaultServingId: $defaultServingId, sourceTier: $sourceTier, tieGroup: $tieGroup, statisticRatio: $statisticRatio)';
+    return 'FoodItem(id: $id, group: $group, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, kgCo2ePerKg: $kgCo2ePerKg, servings: $servings, searchTermsEn: $searchTermsEn, searchTermsJa: $searchTermsJa, searchTermsEs: $searchTermsEs, calculationNotes: $calculationNotes, calculationNotesJa: $calculationNotesJa, calculationNotesEs: $calculationNotesEs, sources: $sources, weightBasis: $weightBasis, entryMode: $entryMode, defaultServingId: $defaultServingId, sourceTier: $sourceTier, tieGroup: $tieGroup, statisticRatio: $statisticRatio)';
 }
 
 
@@ -333,7 +337,7 @@ abstract mixin class _$FoodItemCopyWith<$Res> implements $FoodItemCopyWith<$Res>
   factory _$FoodItemCopyWith(_FoodItem value, $Res Function(_FoodItem) _then) = __$FoodItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String group, String nameEn, String nameJa, String nameEs, double kgCo2ePerKg, List<ServingPreset> servings, List<String> searchTermsEn, List<String> searchTermsJa, List<String> searchTermsEs, String calculationNotes, List<EmissionSource> sources, String weightBasis, String entryMode, String defaultServingId, int sourceTier, String? tieGroup, double? statisticRatio
+ String id, String group, String nameEn, String nameJa, String nameEs, double kgCo2ePerKg, List<ServingPreset> servings, List<String> searchTermsEn, List<String> searchTermsJa, List<String> searchTermsEs, String calculationNotes, String calculationNotesJa, String calculationNotesEs, List<EmissionSource> sources, String weightBasis, String entryMode, String defaultServingId, int sourceTier, String? tieGroup, double? statisticRatio
 });
 
 
@@ -350,7 +354,7 @@ class __$FoodItemCopyWithImpl<$Res>
 
 /// Create a copy of FoodItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? group = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? kgCo2ePerKg = null,Object? servings = null,Object? searchTermsEn = null,Object? searchTermsJa = null,Object? searchTermsEs = null,Object? calculationNotes = null,Object? sources = null,Object? weightBasis = null,Object? entryMode = null,Object? defaultServingId = null,Object? sourceTier = null,Object? tieGroup = freezed,Object? statisticRatio = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? group = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? kgCo2ePerKg = null,Object? servings = null,Object? searchTermsEn = null,Object? searchTermsJa = null,Object? searchTermsEs = null,Object? calculationNotes = null,Object? calculationNotesJa = null,Object? calculationNotesEs = null,Object? sources = null,Object? weightBasis = null,Object? entryMode = null,Object? defaultServingId = null,Object? sourceTier = null,Object? tieGroup = freezed,Object? statisticRatio = freezed,}) {
   return _then(_FoodItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,group: null == group ? _self.group : group // ignore: cast_nullable_to_non_nullable
@@ -363,6 +367,8 @@ as List<ServingPreset>,searchTermsEn: null == searchTermsEn ? _self._searchTerms
 as List<String>,searchTermsJa: null == searchTermsJa ? _self._searchTermsJa : searchTermsJa // ignore: cast_nullable_to_non_nullable
 as List<String>,searchTermsEs: null == searchTermsEs ? _self._searchTermsEs : searchTermsEs // ignore: cast_nullable_to_non_nullable
 as List<String>,calculationNotes: null == calculationNotes ? _self.calculationNotes : calculationNotes // ignore: cast_nullable_to_non_nullable
+as String,calculationNotesJa: null == calculationNotesJa ? _self.calculationNotesJa : calculationNotesJa // ignore: cast_nullable_to_non_nullable
+as String,calculationNotesEs: null == calculationNotesEs ? _self.calculationNotesEs : calculationNotesEs // ignore: cast_nullable_to_non_nullable
 as String,sources: null == sources ? _self._sources : sources // ignore: cast_nullable_to_non_nullable
 as List<EmissionSource>,weightBasis: null == weightBasis ? _self.weightBasis : weightBasis // ignore: cast_nullable_to_non_nullable
 as String,entryMode: null == entryMode ? _self.entryMode : entryMode // ignore: cast_nullable_to_non_nullable

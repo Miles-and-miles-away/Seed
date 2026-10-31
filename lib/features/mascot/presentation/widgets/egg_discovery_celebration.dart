@@ -10,6 +10,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/mascot_providers.dart';
 
 /// Full-screen celebration shown when a mysterious egg appears.
@@ -131,8 +132,9 @@ class _EggDiscoveryCelebrationState
                 // Message
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: spacingXxxl),
-                  child: Text(
+                  child: PhraseText(
                     l10n.eggDiscoveryMessage(mascot?.name ?? ''),
+                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxxl,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: Colors.white,
                       height: 1.5,
@@ -146,8 +148,9 @@ class _EggDiscoveryCelebrationState
                 // Subtitle
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: spacingHuge),
-                  child: Text(
+                  child: PhraseText(
                     l10n.eggDiscoverySubtitle,
+                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingHuge,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.white70,
                     ),

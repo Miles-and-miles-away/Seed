@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_category_tabs.dart';
+import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_filter_chips.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
@@ -87,7 +88,7 @@ void main() {
       // Kept different.
       expect(sdg.shape, isA<RoundedRectangleBorder>());
       expect(category.shape, isNull);
-      expect(sdg.avatar, isA<CircleAvatar>());
+      expect(sdg.avatar, isA<SdgNumberBadge>());
       expect(category.avatar, isA<Icon>());
     });
 
@@ -189,7 +190,7 @@ void main() {
       await tester.pumpWidget(buildChips());
       await tester.pumpAndSettle();
 
-      expect(find.byType(CircleAvatar), findsAtLeast(3));
+      expect(find.byType(SdgNumberBadge), findsAtLeast(3));
     });
 
     testWidgets('has the shared filter-row height', (tester) async {
@@ -268,10 +269,10 @@ void main() {
       await tester.pumpAndSettle();
 
       final sdg1 = testData.goals.firstWhere((g) => g.number == 1);
-      expect(sdg1.color, const Color(0xFFE5233D));
+      expect(sdg1.color, const Color(0xFFE5243B));
 
       final sdg13 = testData.goals.firstWhere((g) => g.number == 13);
-      expect(sdg13.color, const Color(0xFF407F46));
+      expect(sdg13.color, const Color(0xFF3F7E44));
     });
   });
 }

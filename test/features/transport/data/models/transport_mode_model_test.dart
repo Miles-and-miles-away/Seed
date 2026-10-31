@@ -76,4 +76,33 @@ void main() {
       expect(mode.name('fr'), 'Cycling');
     });
   });
+
+  group('TransportMode.notes', () {
+    Map<String, dynamic> json({String ja = '', String es = ''}) => {
+      'id': 'walk',
+      'group': 'active',
+      'name_en': 'Walking',
+      'name_ja': '徒歩',
+      'name_es': 'Caminar',
+      'g_co2e_per_km': 0,
+      'calculation_notes': '0 g/km by scope convention.',
+      'calculation_notes_ja': ja,
+      'calculation_notes_es': es,
+    };
+
+    test('resolves locale', () {
+      final mode = TransportMode.fromJson(
+        json(ja: '慣例により0 g/kmです。', es: '0 g/km por convención.'),
+      );
+      expect(mode.notes('ja'), '慣例により0 g/kmです。');
+      expect(mode.notes('es'), '0 g/km por convención.');
+      expect(mode.notes('en'), '0 g/km by scope convention.');
+    });
+
+    test('falls back to English when a translation is empty', () {
+      final mode = TransportMode.fromJson(json(es: '0 g/km por convención.'));
+      expect(mode.notes('ja'), '0 g/km by scope convention.');
+      expect(mode.notes('fr'), '0 g/km by scope convention.');
+    });
+  });
 }

@@ -32,20 +32,15 @@ const _actionNoSdgs = ActionModel(
   isLearnOnly: true,
 );
 
+// Names a different transport action than [_action] logs.
 const _transportDaily = DailyChallengeTemplate(
-  id: 'daily-transport',
+  actionId: 'bike_short_trip',
   category: 'transport',
-  titleEn: 'Use clean transport',
-  titleEs: '',
-  titleJa: '',
 );
 
 const _waterDaily = DailyChallengeTemplate(
-  id: 'daily-water',
+  actionId: 'shorter_shower',
   category: 'water',
-  titleEn: 'Save water',
-  titleEs: '',
-  titleJa: '',
 );
 
 const _mdTransport = MultiDayChallengeTemplate(
@@ -601,7 +596,7 @@ void main() {
   });
 
   group('logAction — daily challenge', () {
-    test('marks challenge completed when category matches', () async {
+    test('a different action in the same category completes it', () async {
       await seedUser({});
 
       final result = await repository.logAction(
@@ -721,7 +716,7 @@ void main() {
           (await getUser()).data()![AppConstants.fieldRecentChallengeIds]
               as List<dynamic>;
       expect(ids, hasLength(AppConstants.recentChallengeIdsLimit));
-      expect(ids.first, 'daily-transport');
+      expect(ids.first, 'bike_short_trip');
     });
   });
 

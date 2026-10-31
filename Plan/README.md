@@ -51,6 +51,8 @@ data rules live here.
   retrospectively in August 2026; the archive also absorbed the
   delivered v2 item spec.
 - [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)
+- [PDR_FACT_GAMES.md](./PDR_FACT_GAMES.md) -- Fact pairs and Fact
+  recall: sources, lock, rotation, decoys, calculator comparisons.
 
 ## Design and operations
 

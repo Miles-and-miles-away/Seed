@@ -14,6 +14,8 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 const String _googleServerClientId =
     '49522523534-9qnjjncgea403kq4364bvc55lf9u40r8.apps.googleusercontent.com';
 
+const String _appleProviderId = 'apple.com';
+
 /// Firebase Auth operations.
 class AuthRemoteDataSource {
   AuthRemoteDataSource({
@@ -36,7 +38,7 @@ class AuthRemoteDataSource {
       return AuthException(code: 'sign-in-offline', message: message);
     }
     return AuthException(
-      code: cancelled ? 'sign-in-cancelled' : failureCode,
+      code: cancelled ? authCodeSignInCancelled : failureCode,
       message: message,
     );
   }
@@ -110,15 +112,11 @@ class AuthRemoteDataSource {
     return _firebaseAuth.signInWithCredential(credential);
   }
 
-  Future<UserCredential> signInWithApple() async {
-    final AuthorizationCredentialAppleID appleCredential;
+  Future<AuthorizationCredentialAppleID> _appleCredential(
+    List<AppleIDAuthorizationScopes> scopes,
+  ) async {
     try {
-      appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
+      return await SignInWithApple.getAppleIDCredential(scopes: scopes);
     } on SignInWithAppleAuthorizationException catch (e) {
       throw await _socialSignInFailure(
         cancelled: e.code == AuthorizationErrorCode.canceled,
@@ -126,13 +124,35 @@ class AuthRemoteDataSource {
         message: 'Apple sign-in failed: ${e.code.name} ${e.message}',
       );
     }
+  }
 
-    final oauthCredential = OAuthProvider('apple.com').credential(
+  Future<UserCredential> signInWithApple() async {
+    final appleCredential = await _appleCredential([
+      AppleIDAuthorizationScopes.email,
+      AppleIDAuthorizationScopes.fullName,
+    ]);
+
+    final oauthCredential = OAuthProvider(_appleProviderId).credential(
       idToken: appleCredential.identityToken,
       accessToken: appleCredential.authorizationCode,
     );
 
     return _firebaseAuth.signInWithCredential(oauthCredential);
+  }
+
+  /// Whether the signed-in user has Sign in with Apple linked.
+  bool get isAppleUser =>
+      _firebaseAuth.currentUser?.providerData.any(
+        (p) => p.providerId == _appleProviderId,
+      ) ??
+      false;
+
+  /// Re-prompts for a fresh Apple code; must run before the user is deleted.
+  Future<void> revokeAppleSignIn() async {
+    final appleCredential = await _appleCredential(const []);
+    await _firebaseAuth.revokeTokenWithAuthorizationCode(
+      appleCredential.authorizationCode,
+    );
   }
 
   Future<void> signOut() async {

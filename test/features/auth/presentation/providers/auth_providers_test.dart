@@ -1,4 +1,5 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -6,6 +7,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -99,6 +101,30 @@ void main() {
       final user = c.read(currentUserProvider).value;
       expect(user?.uid, 'abc');
       expect(user?.points, 42);
+    });
+
+    test('recovers a signed-in user whose doc was never created', () async {
+      final firestore = FakeFirebaseFirestore();
+      final auth = createMockFirebaseAuth(
+        currentUser: createMockUser(uid: 'abc', email: 'abc@example.com'),
+      );
+      final c = ProviderContainer(
+        overrides: [
+          firebaseAuthProvider.overrideWithValue(auth),
+          firestoreProvider.overrideWithValue(firestore),
+          languageStoreOverride(),
+          osLocalesProvider.overrideWithBuild((_, _) => const [Locale('ja')]),
+        ],
+      );
+      addTearDown(c.dispose);
+
+      c.listen(currentUserProvider, (_, _) {});
+      await settle();
+
+      final user = c.read(currentUserProvider).value;
+      expect(user?.uid, 'abc');
+      expect(user?.email, 'abc@example.com');
+      expect(user?.language, 'ja');
     });
   });
 }

@@ -24,7 +24,7 @@ mixin _$EnergyBehavior {
 /// Allowlist semantics: a new behavior compares with nothing until
 /// someone deliberately groups it. A blocklist would rot the first
 /// time an entry was added.
- String get comparableGroup; EnergyCarrier get carrier; EnergyUnit get unit; double get kwhPerUnit; String get nameEn; String get nameJa; String get nameEs; List<UsagePreset> get presets; String get defaultPresetId; String get calculationNotes; List<EmissionSource> get sources;/// How well-sourced the factor is: `high`, `medium_high`, `medium`
+ String get comparableGroup; EnergyCarrier get carrier; EnergyUnit get unit; double get kwhPerUnit; String get nameEn; String get nameJa; String get nameEs; List<UsagePreset> get presets; String get defaultPresetId; String get calculationNotes; String get calculationNotesJa; String get calculationNotesEs; List<EmissionSource> get sources;/// How well-sourced the factor is: `high`, `medium_high`, `medium`
 /// or `low`, mirroring RESEARCH_ENERGY.md section 4.
 ///
 /// Only `standby` is `low`, and it is the only entry that gets a
@@ -47,20 +47,20 @@ $EnergyBehaviorCopyWith<EnergyBehavior> get copyWith => _$EnergyBehaviorCopyWith
 @override
 bool operator ==(Object other) {
   final _this = this as EnergyBehavior;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EnergyBehavior&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.comparableGroup, _this.comparableGroup) || other.comparableGroup == _this.comparableGroup)&&(identical(other.carrier, _this.carrier) || other.carrier == _this.carrier)&&(identical(other.unit, _this.unit) || other.unit == _this.unit)&&(identical(other.kwhPerUnit, _this.kwhPerUnit) || other.kwhPerUnit == _this.kwhPerUnit)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&const DeepCollectionEquality().equals(other.presets, _this.presets)&&(identical(other.defaultPresetId, _this.defaultPresetId) || other.defaultPresetId == _this.defaultPresetId)&&(identical(other.calculationNotes, _this.calculationNotes) || other.calculationNotes == _this.calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _this.sources)&&(identical(other.confidence, _this.confidence) || other.confidence == _this.confidence));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EnergyBehavior&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.comparableGroup, _this.comparableGroup) || other.comparableGroup == _this.comparableGroup)&&(identical(other.carrier, _this.carrier) || other.carrier == _this.carrier)&&(identical(other.unit, _this.unit) || other.unit == _this.unit)&&(identical(other.kwhPerUnit, _this.kwhPerUnit) || other.kwhPerUnit == _this.kwhPerUnit)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs)&&const DeepCollectionEquality().equals(other.presets, _this.presets)&&(identical(other.defaultPresetId, _this.defaultPresetId) || other.defaultPresetId == _this.defaultPresetId)&&(identical(other.calculationNotes, _this.calculationNotes) || other.calculationNotes == _this.calculationNotes)&&(identical(other.calculationNotesJa, _this.calculationNotesJa) || other.calculationNotesJa == _this.calculationNotesJa)&&(identical(other.calculationNotesEs, _this.calculationNotesEs) || other.calculationNotesEs == _this.calculationNotesEs)&&const DeepCollectionEquality().equals(other.sources, _this.sources)&&(identical(other.confidence, _this.confidence) || other.confidence == _this.confidence));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as EnergyBehavior;
-  return Object.hash(runtimeType,_this.id,_this.comparableGroup,_this.carrier,_this.unit,_this.kwhPerUnit,_this.nameEn,_this.nameJa,_this.nameEs,const DeepCollectionEquality().hash(_this.presets),_this.defaultPresetId,_this.calculationNotes,const DeepCollectionEquality().hash(_this.sources),_this.confidence);
+  return Object.hash(runtimeType,_this.id,_this.comparableGroup,_this.carrier,_this.unit,_this.kwhPerUnit,_this.nameEn,_this.nameJa,_this.nameEs,const DeepCollectionEquality().hash(_this.presets),_this.defaultPresetId,_this.calculationNotes,_this.calculationNotesJa,_this.calculationNotesEs,const DeepCollectionEquality().hash(_this.sources),_this.confidence);
 }
 
 @override
 String toString() {
   final _this = this as EnergyBehavior;
-  return 'EnergyBehavior(id: ${_this.id}, comparableGroup: ${_this.comparableGroup}, carrier: ${_this.carrier}, unit: ${_this.unit}, kwhPerUnit: ${_this.kwhPerUnit}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs}, presets: ${_this.presets}, defaultPresetId: ${_this.defaultPresetId}, calculationNotes: ${_this.calculationNotes}, sources: ${_this.sources}, confidence: ${_this.confidence})';
+  return 'EnergyBehavior(id: ${_this.id}, comparableGroup: ${_this.comparableGroup}, carrier: ${_this.carrier}, unit: ${_this.unit}, kwhPerUnit: ${_this.kwhPerUnit}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs}, presets: ${_this.presets}, defaultPresetId: ${_this.defaultPresetId}, calculationNotes: ${_this.calculationNotes}, calculationNotesJa: ${_this.calculationNotesJa}, calculationNotesEs: ${_this.calculationNotesEs}, sources: ${_this.sources}, confidence: ${_this.confidence})';
 }
 
 
@@ -71,7 +71,7 @@ abstract mixin class $EnergyBehaviorCopyWith<$Res>  {
   factory $EnergyBehaviorCopyWith(EnergyBehavior value, $Res Function(EnergyBehavior) _then) = _$EnergyBehaviorCopyWithImpl;
 @useResult
 $Res call({
- String id, String comparableGroup, EnergyCarrier carrier, EnergyUnit unit, double kwhPerUnit, String nameEn, String nameJa, String nameEs, List<UsagePreset> presets, String defaultPresetId, String calculationNotes, List<EmissionSource> sources, String confidence
+ String id, String comparableGroup, EnergyCarrier carrier, EnergyUnit unit, double kwhPerUnit, String nameEn, String nameJa, String nameEs, List<UsagePreset> presets, String defaultPresetId, String calculationNotes, String calculationNotesJa, String calculationNotesEs, List<EmissionSource> sources, String confidence
 });
 
 
@@ -88,7 +88,7 @@ class _$EnergyBehaviorCopyWithImpl<$Res>
 
 /// Create a copy of EnergyBehavior
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? comparableGroup = null,Object? carrier = null,Object? unit = null,Object? kwhPerUnit = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? presets = null,Object? defaultPresetId = null,Object? calculationNotes = null,Object? sources = null,Object? confidence = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? comparableGroup = null,Object? carrier = null,Object? unit = null,Object? kwhPerUnit = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? presets = null,Object? defaultPresetId = null,Object? calculationNotes = null,Object? calculationNotesJa = null,Object? calculationNotesEs = null,Object? sources = null,Object? confidence = null,}) {
   return _then(EnergyBehavior(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,comparableGroup: null == comparableGroup ? _self.comparableGroup : comparableGroup // ignore: cast_nullable_to_non_nullable
@@ -101,6 +101,8 @@ as String,nameEs: null == nameEs ? _self.nameEs : nameEs // ignore: cast_nullabl
 as String,presets: null == presets ? _self.presets : presets // ignore: cast_nullable_to_non_nullable
 as List<UsagePreset>,defaultPresetId: null == defaultPresetId ? _self.defaultPresetId : defaultPresetId // ignore: cast_nullable_to_non_nullable
 as String,calculationNotes: null == calculationNotes ? _self.calculationNotes : calculationNotes // ignore: cast_nullable_to_non_nullable
+as String,calculationNotesJa: null == calculationNotesJa ? _self.calculationNotesJa : calculationNotesJa // ignore: cast_nullable_to_non_nullable
+as String,calculationNotesEs: null == calculationNotesEs ? _self.calculationNotesEs : calculationNotesEs // ignore: cast_nullable_to_non_nullable
 as String,sources: null == sources ? _self.sources : sources // ignore: cast_nullable_to_non_nullable
 as List<EmissionSource>,confidence: null == confidence ? _self.confidence : confidence // ignore: cast_nullable_to_non_nullable
 as String,
@@ -188,10 +190,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String comparableGroup,  EnergyCarrier carrier,  EnergyUnit unit,  double kwhPerUnit,  String nameEn,  String nameJa,  String nameEs,  List<UsagePreset> presets,  String defaultPresetId,  String calculationNotes,  List<EmissionSource> sources,  String confidence)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String comparableGroup,  EnergyCarrier carrier,  EnergyUnit unit,  double kwhPerUnit,  String nameEn,  String nameJa,  String nameEs,  List<UsagePreset> presets,  String defaultPresetId,  String calculationNotes,  String calculationNotesJa,  String calculationNotesEs,  List<EmissionSource> sources,  String confidence)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EnergyBehavior() when $default != null:
-return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kwhPerUnit,_that.nameEn,_that.nameJa,_that.nameEs,_that.presets,_that.defaultPresetId,_that.calculationNotes,_that.sources,_that.confidence);case _:
+return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kwhPerUnit,_that.nameEn,_that.nameJa,_that.nameEs,_that.presets,_that.defaultPresetId,_that.calculationNotes,_that.calculationNotesJa,_that.calculationNotesEs,_that.sources,_that.confidence);case _:
   return orElse();
 
 }
@@ -209,10 +211,10 @@ return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kw
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String comparableGroup,  EnergyCarrier carrier,  EnergyUnit unit,  double kwhPerUnit,  String nameEn,  String nameJa,  String nameEs,  List<UsagePreset> presets,  String defaultPresetId,  String calculationNotes,  List<EmissionSource> sources,  String confidence)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String comparableGroup,  EnergyCarrier carrier,  EnergyUnit unit,  double kwhPerUnit,  String nameEn,  String nameJa,  String nameEs,  List<UsagePreset> presets,  String defaultPresetId,  String calculationNotes,  String calculationNotesJa,  String calculationNotesEs,  List<EmissionSource> sources,  String confidence)  $default,) {final _that = this;
 switch (_that) {
 case _EnergyBehavior():
-return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kwhPerUnit,_that.nameEn,_that.nameJa,_that.nameEs,_that.presets,_that.defaultPresetId,_that.calculationNotes,_that.sources,_that.confidence);case _:
+return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kwhPerUnit,_that.nameEn,_that.nameJa,_that.nameEs,_that.presets,_that.defaultPresetId,_that.calculationNotes,_that.calculationNotesJa,_that.calculationNotesEs,_that.sources,_that.confidence);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -229,10 +231,10 @@ return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kw
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String comparableGroup,  EnergyCarrier carrier,  EnergyUnit unit,  double kwhPerUnit,  String nameEn,  String nameJa,  String nameEs,  List<UsagePreset> presets,  String defaultPresetId,  String calculationNotes,  List<EmissionSource> sources,  String confidence)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String comparableGroup,  EnergyCarrier carrier,  EnergyUnit unit,  double kwhPerUnit,  String nameEn,  String nameJa,  String nameEs,  List<UsagePreset> presets,  String defaultPresetId,  String calculationNotes,  String calculationNotesJa,  String calculationNotesEs,  List<EmissionSource> sources,  String confidence)?  $default,) {final _that = this;
 switch (_that) {
 case _EnergyBehavior() when $default != null:
-return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kwhPerUnit,_that.nameEn,_that.nameJa,_that.nameEs,_that.presets,_that.defaultPresetId,_that.calculationNotes,_that.sources,_that.confidence);case _:
+return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kwhPerUnit,_that.nameEn,_that.nameJa,_that.nameEs,_that.presets,_that.defaultPresetId,_that.calculationNotes,_that.calculationNotesJa,_that.calculationNotesEs,_that.sources,_that.confidence);case _:
   return null;
 
 }
@@ -244,7 +246,7 @@ return $default(_that.id,_that.comparableGroup,_that.carrier,_that.unit,_that.kw
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _EnergyBehavior extends EnergyBehavior {
-  const _EnergyBehavior({required this.id, required this.comparableGroup, required this.carrier, required this.unit, required this.kwhPerUnit, required this.nameEn, required this.nameJa, required this.nameEs,  List<UsagePreset> presets = const [], this.defaultPresetId = '', this.calculationNotes = '',  List<EmissionSource> sources = const [], this.confidence = 'medium'}): _presets = presets,_sources = sources,super._();
+  const _EnergyBehavior({required this.id, required this.comparableGroup, required this.carrier, required this.unit, required this.kwhPerUnit, required this.nameEn, required this.nameJa, required this.nameEs,  List<UsagePreset> presets = const [], this.defaultPresetId = '', this.calculationNotes = '', this.calculationNotesJa = '', this.calculationNotesEs = '',  List<EmissionSource> sources = const [], this.confidence = 'medium'}): _presets = presets,_sources = sources,super._();
   factory _EnergyBehavior.fromJson(Map<String, dynamic> json) => _$EnergyBehaviorFromJson(json);
 
 @override final  String id;
@@ -272,6 +274,8 @@ class _EnergyBehavior extends EnergyBehavior {
 
 @override@JsonKey() final  String defaultPresetId;
 @override@JsonKey() final  String calculationNotes;
+@override@JsonKey() final  String calculationNotesJa;
+@override@JsonKey() final  String calculationNotesEs;
  final  List<EmissionSource> _sources;
 @override@JsonKey() List<EmissionSource> get sources {
   if (_sources is EqualUnmodifiableListView) return _sources;
@@ -303,18 +307,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _EnergyBehavior&&(identical(other.id, id) || other.id == id)&&(identical(other.comparableGroup, comparableGroup) || other.comparableGroup == comparableGroup)&&(identical(other.carrier, carrier) || other.carrier == carrier)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.kwhPerUnit, kwhPerUnit) || other.kwhPerUnit == kwhPerUnit)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&const DeepCollectionEquality().equals(other.presets, _presets)&&(identical(other.defaultPresetId, defaultPresetId) || other.defaultPresetId == defaultPresetId)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&const DeepCollectionEquality().equals(other.sources, _sources)&&(identical(other.confidence, confidence) || other.confidence == confidence));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _EnergyBehavior&&(identical(other.id, id) || other.id == id)&&(identical(other.comparableGroup, comparableGroup) || other.comparableGroup == comparableGroup)&&(identical(other.carrier, carrier) || other.carrier == carrier)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.kwhPerUnit, kwhPerUnit) || other.kwhPerUnit == kwhPerUnit)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs)&&const DeepCollectionEquality().equals(other.presets, _presets)&&(identical(other.defaultPresetId, defaultPresetId) || other.defaultPresetId == defaultPresetId)&&(identical(other.calculationNotes, calculationNotes) || other.calculationNotes == calculationNotes)&&(identical(other.calculationNotesJa, calculationNotesJa) || other.calculationNotesJa == calculationNotesJa)&&(identical(other.calculationNotesEs, calculationNotesEs) || other.calculationNotesEs == calculationNotesEs)&&const DeepCollectionEquality().equals(other.sources, _sources)&&(identical(other.confidence, confidence) || other.confidence == confidence));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,comparableGroup,carrier,unit,kwhPerUnit,nameEn,nameJa,nameEs,const DeepCollectionEquality().hash(_presets),defaultPresetId,calculationNotes,const DeepCollectionEquality().hash(_sources),confidence);
+    return Object.hash(runtimeType,id,comparableGroup,carrier,unit,kwhPerUnit,nameEn,nameJa,nameEs,const DeepCollectionEquality().hash(_presets),defaultPresetId,calculationNotes,calculationNotesJa,calculationNotesEs,const DeepCollectionEquality().hash(_sources),confidence);
 }
 
 @override
 String toString() {
-    return 'EnergyBehavior(id: $id, comparableGroup: $comparableGroup, carrier: $carrier, unit: $unit, kwhPerUnit: $kwhPerUnit, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, presets: $presets, defaultPresetId: $defaultPresetId, calculationNotes: $calculationNotes, sources: $sources, confidence: $confidence)';
+    return 'EnergyBehavior(id: $id, comparableGroup: $comparableGroup, carrier: $carrier, unit: $unit, kwhPerUnit: $kwhPerUnit, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs, presets: $presets, defaultPresetId: $defaultPresetId, calculationNotes: $calculationNotes, calculationNotesJa: $calculationNotesJa, calculationNotesEs: $calculationNotesEs, sources: $sources, confidence: $confidence)';
 }
 
 
@@ -325,7 +329,7 @@ abstract mixin class _$EnergyBehaviorCopyWith<$Res> implements $EnergyBehaviorCo
   factory _$EnergyBehaviorCopyWith(_EnergyBehavior value, $Res Function(_EnergyBehavior) _then) = __$EnergyBehaviorCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String comparableGroup, EnergyCarrier carrier, EnergyUnit unit, double kwhPerUnit, String nameEn, String nameJa, String nameEs, List<UsagePreset> presets, String defaultPresetId, String calculationNotes, List<EmissionSource> sources, String confidence
+ String id, String comparableGroup, EnergyCarrier carrier, EnergyUnit unit, double kwhPerUnit, String nameEn, String nameJa, String nameEs, List<UsagePreset> presets, String defaultPresetId, String calculationNotes, String calculationNotesJa, String calculationNotesEs, List<EmissionSource> sources, String confidence
 });
 
 
@@ -342,7 +346,7 @@ class __$EnergyBehaviorCopyWithImpl<$Res>
 
 /// Create a copy of EnergyBehavior
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? comparableGroup = null,Object? carrier = null,Object? unit = null,Object? kwhPerUnit = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? presets = null,Object? defaultPresetId = null,Object? calculationNotes = null,Object? sources = null,Object? confidence = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? comparableGroup = null,Object? carrier = null,Object? unit = null,Object? kwhPerUnit = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,Object? presets = null,Object? defaultPresetId = null,Object? calculationNotes = null,Object? calculationNotesJa = null,Object? calculationNotesEs = null,Object? sources = null,Object? confidence = null,}) {
   return _then(_EnergyBehavior(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,comparableGroup: null == comparableGroup ? _self.comparableGroup : comparableGroup // ignore: cast_nullable_to_non_nullable
@@ -355,6 +359,8 @@ as String,nameEs: null == nameEs ? _self.nameEs : nameEs // ignore: cast_nullabl
 as String,presets: null == presets ? _self._presets : presets // ignore: cast_nullable_to_non_nullable
 as List<UsagePreset>,defaultPresetId: null == defaultPresetId ? _self.defaultPresetId : defaultPresetId // ignore: cast_nullable_to_non_nullable
 as String,calculationNotes: null == calculationNotes ? _self.calculationNotes : calculationNotes // ignore: cast_nullable_to_non_nullable
+as String,calculationNotesJa: null == calculationNotesJa ? _self.calculationNotesJa : calculationNotesJa // ignore: cast_nullable_to_non_nullable
+as String,calculationNotesEs: null == calculationNotesEs ? _self.calculationNotesEs : calculationNotesEs // ignore: cast_nullable_to_non_nullable
 as String,sources: null == sources ? _self._sources : sources // ignore: cast_nullable_to_non_nullable
 as List<EmissionSource>,confidence: null == confidence ? _self.confidence : confidence // ignore: cast_nullable_to_non_nullable
 as String,

@@ -6,6 +6,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/challenge.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
@@ -14,9 +15,11 @@ import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
+import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 
 /// The main home screen of the Seed app
@@ -47,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
                 centerTitle: true,
-                actions: const [MailIconButton()],
+                actions: const [MailIconButton(), SettingsIconButton()],
               ),
 
               // Main content
@@ -82,8 +85,9 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: spacingSm),
-                    Text(
+                    PhraseText(
                       l10n.homeExploreGoalsSubtitle,
+                      minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -141,10 +145,14 @@ class HomeScreen extends ConsumerWidget {
     return MascotHousing(
       child: Column(
         children: [
-          // Mascot display
-          GestureDetector(
-            onTap: () => context.push(appRoutes.mascot),
-            child: const MascotDisplay(size: 160),
+          Semantics(
+            container: true,
+            button: true,
+            label: l10n.mascotLinkTitle,
+            child: GestureDetector(
+              onTap: () => context.push(appRoutes.mascot),
+              child: const MascotDisplay(size: 160),
+            ),
           ),
 
           const SizedBox(height: spacingMd),
@@ -162,7 +170,9 @@ class HomeScreen extends ConsumerWidget {
 
           // Evolution stage badge
           StageBadge(
-            label: '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
+            label: stageName == null
+                ? l10n.levelLabel(mascot?.mascotLevel ?? 1)
+                : l10n.stageWithLevel(stageName, mascot?.mascotLevel ?? 1),
             background: colorScheme.primary.withValues(alpha: opacitySubtle),
             foreground: colorScheme.primary,
           ),
@@ -186,7 +196,7 @@ class HomeScreen extends ConsumerWidget {
               _buildQuickStat(
                 context,
                 Icons.star_outline,
-                '${user?.points ?? 0}',
+                formatDecimal(user?.points ?? 0, locale, maxDigits: 0),
                 l10n.homePoints,
                 colorScheme.primary,
               ),
@@ -285,8 +295,9 @@ class HomeScreen extends ConsumerWidget {
 
           const SizedBox(height: spacingSm),
 
-          Text(
+          PhraseText(
             l10n.mascotSelectionSubtitle,
+            minLineWidth: phraseNarrowestScreenWidth - 4 * spacingXxl,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onPrimaryContainer.withValues(
                 alpha: opacityHeavy,

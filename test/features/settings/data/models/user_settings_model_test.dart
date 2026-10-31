@@ -11,7 +11,7 @@ void main() {
         expect(model.notificationsEnabled, isFalse);
         expect(model.reminderSchedules, isEmpty);
         expect(model.smartRemindersEnabled, isTrue);
-        expect(model.language, 'en');
+        expect(model.language, isNull);
         expect(model.hasSeenOnboarding, isFalse);
         expect(model.seenStreakMilestones, isEmpty);
         expect(model.streakGracePeriodUsed, isFalse);
@@ -44,18 +44,12 @@ void main() {
       test('defaultSettings() creates correct default reminder', () {
         final model = UserSettingsModel.defaultSettings();
 
-        expect(model.language, 'en');
+        expect(model.language, isNull);
         expect(model.reminderSchedules, hasLength(1));
         expect(model.reminderSchedules.first.id, 'default_morning');
         expect(model.reminderSchedules.first.hour, 9);
         expect(model.reminderSchedules.first.minute, 0);
         expect(model.reminderSchedules.first.label, 'Morning');
-      });
-
-      test('defaultSettings() accepts custom language', () {
-        final model = UserSettingsModel.defaultSettings(language: 'es');
-
-        expect(model.language, 'es');
       });
     });
 
@@ -98,7 +92,7 @@ void main() {
         expect(model.notificationsEnabled, isFalse);
         expect(model.reminderSchedules, isEmpty);
         expect(model.smartRemindersEnabled, isTrue);
-        expect(model.language, 'en');
+        expect(model.language, isNull);
       });
 
       test('handles empty reminderSchedules array', () {
@@ -170,7 +164,7 @@ void main() {
         final copy = original.copyWith(language: 'ja');
 
         expect(copy.language, 'ja');
-        expect(original.language, 'en');
+        expect(original.language, isNull);
       });
     });
 
