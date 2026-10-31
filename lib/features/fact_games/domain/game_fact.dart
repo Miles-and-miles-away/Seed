@@ -20,6 +20,7 @@ class GameFact {
     required this.id,
     required this.kind,
     required this.title,
+    required this.clue,
     required this.text,
     required this.figure,
     required this.figureEn,
@@ -32,6 +33,11 @@ class GameFact {
   final String id;
   final GameFactKind kind;
   final String title;
+
+  /// What [figure] measures: the Fact pairs face, since a title alone
+  /// gives no hint which figure it pairs with. Empty keeps the fact out
+  /// of Fact pairs; Fact recall still asks it.
+  final String clue;
 
   /// Contains [figure] exactly once.
   final String text;
@@ -71,6 +77,7 @@ List<GameFact> ecoGameFacts(Iterable<EcoFact> facts, String locale) => [
         id: 'fact:${fact.dayOfYear}',
         kind: GameFactKind.ecoFact,
         title: fact.name(locale),
+        clue: fact.clue(locale),
         text: fact.fact(locale),
         figure: fact.keyFigure(locale)!,
         figureEn: fact.keyFigureEn,
@@ -92,6 +99,7 @@ List<GameFact> sdgGameFacts(Iterable<SdgGoal> goals, String locale) => [
           id: 'sdg:${goal.number}',
           kind: GameFactKind.sdg,
           title: goal.shortTitle(locale),
+          clue: goal.clue(locale),
           text: text,
           figure: figure,
           figureEn: figureEn,
@@ -110,6 +118,7 @@ List<GameFact> ecoDexGameFacts(Iterable<EcoDexEntry> entries, String locale) =>
             id: 'ecodex:${entry.id}',
             kind: GameFactKind.ecoDex,
             title: entry.name(locale),
+            clue: entry.clue(locale),
             text: entry.fact(locale),
             figure: figure,
             figureEn: entry.keyFigureEn,
@@ -135,6 +144,7 @@ List<GameFact> actionGameFacts(Iterable<ActionModel> actions, String locale) =>
               id: 'action:${action.id}',
               kind: GameFactKind.action,
               title: action.name(locale),
+              clue: action.name(locale),
               text: text,
               figure: figure,
               figureEn: figureEn,

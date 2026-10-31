@@ -647,7 +647,8 @@ drag up the one you think produces more carbon.
 ## Fact Pairs (`/fact-pairs`)
 
 Pushed full-screen route. A memory game over facts from across the app:
-turn two cards at a time to match each fact's title to its key figure.
+turn two cards at a time to match each fact's clue (what the figure
+measures, such as "Share of world CO2 from aviation") to its key figure.
 Decisions in `PDR_FACT_GAMES.md`.
 - Reached from: the Explore tab (Fact pairs tile, `style`).
 - Pool: eco-facts whose date is in `unlockedFactDates` or
@@ -655,7 +656,7 @@ Decisions in `PDR_FACT_GAMES.md`.
   figure (unread facts count, so a match can show a fact the user
   skipped); every SDG goal and library action with a key figure, since
   their screens are open to all; and discovered Eco-Dex entries with a
-  key figure. Sources take turns, so no two cards in a row on the deal
+  key figure. A fact with no clue is left out. Sources take turns, so no two cards in a row on the deal
   come from one source while another has facts left.
 - Board: 6 pairs (3 x 4) from 6 distinct figures, 3 pairs (3 x 2) from 3
   to 5. Never two equal figures on one board, compared on `keyFigureEn`
@@ -675,9 +676,12 @@ Decisions in `PDR_FACT_GAMES.md`.
   scrolling: an eco-fact's text and source, an SDG goal's whole
   description (both in the info sheet), an action's info sheet
   (`ActionScienceBottomSheet`) or the Eco-Dex entry's sheet
-  (`EcoDexEntrySheet`), the same sheets Fact recall opens. The last
-  match also scrolls the finish panel (move count and "Play again")
-  into view behind the sheet. Screen readers
+  (`EcoDexEntrySheet`), the same sheets Fact recall opens. Tapping a
+  matched card opens its fact again. The last match opens no sheet:
+  it scrolls the finish panel (move count and "Play again") into view
+  and plays the win celebration (`GameWinCelebration`: confetti, and
+  the mascot rising from the bottom edge to smile, then sinking back;
+  no confetti or slide under reduced motion). Screen readers
   hear each turned card, then "Pair found" or "Not a pair", in one
   announcement, plus the finish line on the last match and the new
   board's pair count after Play again.
@@ -755,7 +759,8 @@ figures.
   `/energy-calculator`). Closing the sheet or Back returns to the same
   question.
   After the last question "See score" replaces the body with the score
-  and "Play again". Screen readers hear the card as one label (the
+  and "Play again"; a perfect round also plays the win celebration
+  (see Fact Pairs). Screen readers hear the card as one label (the
   blank read as "blank"), the verdict on each answer, the new question
   after Next and the score at the end.
 - The round is widget state: a pool reload keeps the question, a locale

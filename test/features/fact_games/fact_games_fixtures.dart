@@ -31,6 +31,9 @@ EcoFact playableFact(
     keyFigureEn: en,
     keyFigureJa: ja,
     keyFigureEs: es,
+    clueEn: 'Clue $day',
+    clueJa: 'ヒント$day',
+    clueEs: 'Pista $day',
   );
 }
 
@@ -53,6 +56,7 @@ GameFact kindFact(
   String id,
   GameFactKind kind, {
   String? figure,
+  String? clue,
   bool recallOnly = false,
 }) {
   final value = figure ?? '${id.hashCode.abs() % 1000 + 2} kg';
@@ -60,6 +64,7 @@ GameFact kindFact(
     id: id,
     kind: kind,
     title: 'Title $id',
+    clue: clue ?? 'Clue $id',
     text: 'Fact $id says $value.',
     figure: value,
     figureEn: value,

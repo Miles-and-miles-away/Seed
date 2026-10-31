@@ -27,14 +27,14 @@ membership the comparisons reuse).
 
 Two games in `lib/features/fact_games/`, reached from the Explore tab:
 
-- **Fact pairs** turns two cards at a time to match a fact's title to
+- **Fact pairs** turns two cards at a time to match a fact's clue to
   its key figure.
 - **Fact recall** blanks a fact's key figure and offers it with two
   decoys.
 
 Both deal a `GameFact` (`game_fact.dart`): a fact from any source,
 resolved for one locale, with an id unique across sources, a title, a
-text that states the figure once, the figure, and `figureEn`, the
+clue, a text that states the figure once, the figure, and `figureEn`, the
 canonical value key. Nothing is awarded, logged or persisted.
 
 ## 2. Sources
@@ -217,6 +217,17 @@ fact came from, so no screen looks it up again.
 same in both games: an eco-fact's text with its source, an SDG goal's
 whole description and an action's own info sheet (the game text is one
 sentence of each), and an Eco-Dex entry's own sheet.
+A matched card opens it again. The last match opens nothing: the win
+celebration is its reward, and a sheet would cover it.
+
+**FG-D15 -- A pairs card shows a clue, not the title.** Titles are
+names ("Getting Started"), so a title card gave no hint which figure
+it pairs with. The clue (`clueEn/Ja/Es`, 3 to 10 English words) says
+what the figure measures and never contains it. An action's clue is
+its name, which already says what was done. A fact whose figure makes
+no guessable clue (a hypothetical, a bare target) has empty clues and
+stays out of Fact pairs; Fact recall still asks it, since the blank
+sits in the fact's own sentence.
 
 ## 7. Copy
 

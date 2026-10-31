@@ -17,6 +17,7 @@ import 'package:seed_app/features/fact_games/presentation/providers/fact_games_p
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_games_locked_view.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_question_card.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/game_win_celebration.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
@@ -185,6 +186,14 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
           onPlayAgain: () =>
               _playAgain(round, pool, calculator, allPlayable, locale),
         );
+        if (round.correct == round.questions.length) {
+          body = Stack(
+            children: [
+              body,
+              Positioned.fill(child: GameWinCelebration(key: ObjectKey(round))),
+            ],
+          );
+        }
       } else {
         body = _questionBody(context, l10n, round);
         panel = _AnswerPanel(

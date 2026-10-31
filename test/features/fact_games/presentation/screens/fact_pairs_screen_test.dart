@@ -19,6 +19,7 @@ import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
 import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/game_win_celebration.dart';
 import 'package:seed_app/features/progress/presentation/screens/progress_screen.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
@@ -294,7 +295,7 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('a finished board shows the moves and deals again', (
+    testWidgets('a finished board celebrates, reopens facts and deals again', (
       tester,
     ) async {
       sizeViewport(tester);
@@ -318,8 +319,22 @@ void main() {
       expect(find.text('All pairs found in 7 moves'), findsOneWidget);
       expect(analytics.events, ['opened', 'finished:6:7']);
 
+      expect(find.byType(InfoSheet), findsNothing);
+      expect(find.byType(GameWinCelebration), findsOneWidget);
+      final (a, _) = _pairs(board).first;
+      await _tapCard(tester, a);
+      expect(
+        find.descendant(
+          of: find.byType(InfoSheet),
+          matching: find.text(board.cards[a].fact.title),
+        ),
+        findsOneWidget,
+      );
+      await _closeSheet(tester);
+
       await tester.tap(find.text('Play again'));
       await tester.pumpAndSettle();
+      expect(find.byType(GameWinCelebration), findsNothing);
       expect(find.text('Pairs: 0 of 6'), findsOneWidget);
       expect(find.text('Moves: 0'), findsOneWidget);
       expect(find.text('Play again'), findsNothing);
@@ -404,6 +419,8 @@ void main() {
           label: '${board.cards[a].text}, matched',
           isButton: true,
           hasEnabledState: true,
+          isEnabled: true,
+          hasTapAction: true,
         ),
       );
       semantics.dispose();

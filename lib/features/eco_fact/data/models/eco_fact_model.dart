@@ -18,6 +18,9 @@ class EcoFact {
     this.keyFigureEn = '',
     this.keyFigureJa = '',
     this.keyFigureEs = '',
+    this.clueEn = '',
+    this.clueJa = '',
+    this.clueEs = '',
   });
 
   factory EcoFact.fromJson(Map<String, dynamic> json) {
@@ -43,6 +46,9 @@ class EcoFact {
       keyFigureEn: json['keyFigureEn'] as String? ?? '',
       keyFigureJa: json['keyFigureJa'] as String? ?? '',
       keyFigureEs: json['keyFigureEs'] as String? ?? '',
+      clueEn: json['clueEn'] as String? ?? '',
+      clueJa: json['clueJa'] as String? ?? '',
+      clueEs: json['clueEs'] as String? ?? '',
     );
   }
 
@@ -66,6 +72,11 @@ class EcoFact {
   final String keyFigureJa;
   final String keyFigureEs;
 
+  /// What the key figure measures, short enough for a Fact pairs card.
+  final String clueEn;
+  final String clueJa;
+  final String clueEs;
+
   String name(String locale) => switch (locale) {
     'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
@@ -82,6 +93,12 @@ class EcoFact {
     'ja' when sourceJa.isNotEmpty => sourceJa,
     'es' when sourceEs.isNotEmpty => sourceEs,
     _ => sourceEn,
+  };
+
+  String clue(String locale) => switch (locale) {
+    'ja' when clueJa.isNotEmpty => clueJa,
+    'es' when clueEs.isNotEmpty => clueEs,
+    _ => clueEn,
   };
 
   /// A blank figure in JA or ES stays unset rather than falling back to EN.

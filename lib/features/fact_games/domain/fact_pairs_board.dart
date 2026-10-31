@@ -9,8 +9,11 @@ import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 /// Pairs on a full board; smaller pools get [factGamesMinFacts] pairs.
 const factPairsMaxPairs = 6;
 
-/// One face of a card: a fact's title or its figure.
-enum FactFace { title, figure }
+/// A fact Fact pairs can deal: not recall-only, and with a clue face.
+bool pairable(GameFact fact) => !fact.recallOnly && fact.clue.isNotEmpty;
+
+/// One face of a card: a fact's clue or its figure.
+enum FactFace { clue, figure }
 
 @immutable
 class FactCard {
@@ -33,7 +36,7 @@ class FactPairsBoard {
 
   /// Deals up to [factPairsMaxPairs] facts with distinct figures from
   /// [pool], kinds in turn, cut to [factGamesMinFacts] when fewer were
-  /// found, so every row of the grid is full. Recall-only facts never
+  /// found, so every row of the grid is full. Only [pairable] facts
   /// deal.
   factory FactPairsBoard.deal(List<GameFact> pool, Random random) {
     final figures = <String>{};
@@ -41,7 +44,7 @@ class FactPairsBoard {
       pool,
       count: factPairsMaxPairs,
       random: random,
-      accept: (fact) => !fact.recallOnly && figures.add(fact.figureEn),
+      accept: (fact) => pairable(fact) && figures.add(fact.figureEn),
     );
     assert(
       dealt.length >= factGamesMinFacts,
@@ -53,7 +56,7 @@ class FactPairsBoard {
     return FactPairsBoard._(
       [
         for (final fact in pairs) ...[
-          FactCard(fact: fact, face: FactFace.title, text: fact.title),
+          FactCard(fact: fact, face: FactFace.clue, text: fact.clue),
           FactCard(fact: fact, face: FactFace.figure, text: fact.figure),
         ],
       ]..shuffle(random),

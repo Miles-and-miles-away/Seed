@@ -20,7 +20,10 @@
     "nameJa": "軽やかなフットプリント",
     "keyFigureEn": "46.4%",
     "keyFigureEs": "46,4%",
-    "keyFigureJa": "46.4%"
+    "keyFigureJa": "46.4%",
+    "clueEn": "Water use of a vegan diet versus heavy meat-eating",
+    "clueJa": "肉中心の食事と比べたヴィーガン食の水使用量",
+    "clueEs": "Uso de agua de la dieta vegana frente a la muy carnívora"
   },
   {
     "dayOfYear": 2,
@@ -80,7 +83,10 @@
     "nameJa": "ハンドドライヤーの真実",
     "keyFigureEn": "1,300 times",
     "keyFigureEs": "1.300 veces",
-    "keyFigureJa": "1,300倍"
+    "keyFigureJa": "1,300倍",
+    "clueEn": "How many more germs jet dryers spread than towels",
+    "clueJa": "ペーパータオルと比べたジェット式ドライヤーの菌",
+    "clueEs": "Gérmenes que propaga un secador de chorro frente al papel"
   },
   {
     "dayOfYear": 5,
@@ -121,7 +127,10 @@
     "nameJa": "修理する権利",
     "keyFigureEn": "10 years",
     "keyFigureEs": "10 años",
-    "keyFigureJa": "10年間"
+    "keyFigureJa": "10年間",
+    "clueEn": "How long EU appliance repairs must be offered",
+    "clueJa": "EUで家電の修理提供が義務付けられる期間",
+    "clueEs": "Tiempo que deben ofrecerse reparaciones de electrodomésticos en la UE"
   },
   {
     "dayOfYear": 7,
@@ -143,7 +152,10 @@
     "nameJa": "献立で食品ロス減",
     "keyFigureEn": "25%",
     "keyFigureEs": "25%",
-    "keyFigureJa": "25%"
+    "keyFigureJa": "25%",
+    "clueEn": "Food waste cut by weekly meal planning",
+    "clueJa": "週ごとの献立計画で減らせる食品ロス",
+    "clueEs": "Reducción del desperdicio de alimentos con el menú semanal"
   },
   {
     "dayOfYear": 8,
@@ -165,7 +177,10 @@
     "nameJa": "緑だったサハラ",
     "keyFigureEn": "6,000 years",
     "keyFigureEs": "6.000 años",
-    "keyFigureJa": "6,000年"
+    "keyFigureJa": "6,000年",
+    "clueEn": "How long ago the Sahara was green",
+    "clueJa": "サハラ砂漠が緑豊かだったのは何年前",
+    "clueEs": "Cuánto hace que el Sáhara era verde"
   },
   {
     "dayOfYear": 9,
@@ -186,7 +201,10 @@
     "nameJa": "森のインターネット",
     "keyFigureEn": "90%",
     "keyFigureEs": "90%",
-    "keyFigureJa": "90%"
+    "keyFigureJa": "90%",
+    "clueEn": "Share of land plants partnered with fungi",
+    "clueJa": "菌類と共生する陸上植物の割合",
+    "clueEs": "Proporción de plantas terrestres asociadas a hongos"
   },
   {
     "dayOfYear": 10,
@@ -208,7 +226,10 @@
     "nameJa": "アイドリングは無駄",
     "keyFigureEn": "10 seconds",
     "keyFigureEs": "10 segundos",
-    "keyFigureJa": "10秒"
+    "keyFigureJa": "10秒",
+    "clueEn": "Idling time that costs more fuel than a restart",
+    "clueJa": "再始動より燃料を使うアイドリング時間",
+    "clueEs": "Tiempo al ralentí que gasta más que volver a arrancar"
   },
   {
     "dayOfYear": 11,
@@ -230,7 +251,10 @@
     "nameJa": "土地をあまり使わない食事",
     "keyFigureEn": "80%",
     "keyFigureEs": "80%",
-    "keyFigureJa": "80%"
+    "keyFigureJa": "80%",
+    "clueEn": "Share of farmland used for meat and dairy",
+    "clueJa": "肉と乳製品に使われる農地の割合",
+    "clueEs": "Proporción de tierras agrícolas para carne y lácteos"
   },
   {
     "dayOfYear": 12,
@@ -253,7 +277,10 @@
     "nameJa": "牛乳よりオーツ",
     "keyFigureEn": "3.2 kg",
     "keyFigureEs": "3,2 kg",
-    "keyFigureJa": "3.2 kg"
+    "keyFigureJa": "3.2 kg",
+    "clueEn": "CO2 per litre of dairy milk",
+    "clueJa": "牛乳リットル当たりのCO2",
+    "clueEs": "CO2 por litro de leche de vaca"
   },
   {
     "dayOfYear": 13,
@@ -329,7 +356,10 @@
     "nameJa": "永久凍土の炭素爆弾",
     "keyFigureEn": "80 times",
     "keyFigureEs": "80 veces",
-    "keyFigureJa": "80倍"
+    "keyFigureJa": "80倍",
+    "clueEn": "How much more potent methane is than CO2",
+    "clueJa": "メタンの温室効果がCO2より強い倍率",
+    "clueEs": "Cuánto más potente es el metano que el CO2"
   },
   {
     "dayOfYear": 17,
@@ -351,7 +381,10 @@
     "nameJa": "船は意外と効率的",
     "keyFigureEn": "40 times",
     "keyFigureEs": "40 veces",
-    "keyFigureJa": "40倍"
+    "keyFigureJa": "40倍",
+    "clueEn": "How much more fuel-efficient shipping is than air freight",
+    "clueJa": "海運の燃費効率が航空貨物より高い倍率",
+    "clueEs": "Cuánto más eficiente es el transporte marítimo que el aéreo"
   },
   {
     "dayOfYear": 18,
@@ -373,7 +406,10 @@
     "nameJa": "母子保健の前進",
     "keyFigureEn": "40%",
     "keyFigureEs": "40%",
-    "keyFigureJa": "40%"
+    "keyFigureJa": "40%",
+    "clueEn": "Fall in global maternal mortality this century",
+    "clueJa": "今世紀の世界の妊産婦死亡率の低下",
+    "clueEs": "Descenso de la mortalidad materna mundial en este siglo"
   },
   {
     "dayOfYear": 19,
@@ -432,7 +468,10 @@
     "nameJa": "デンマークの風力",
     "keyFigureEn": "55%",
     "keyFigureEs": "55%",
-    "keyFigureJa": "55%"
+    "keyFigureJa": "55%",
+    "clueEn": "Denmark's share of electricity from wind",
+    "clueJa": "デンマークの電力に占める風力の割合",
+    "clueEs": "Proporción de la electricidad danesa de origen eólico"
   },
   {
     "dayOfYear": 22,
@@ -453,7 +492,10 @@
     "nameJa": "ザトウクジラの復活",
     "keyFigureEn": "25,000",
     "keyFigureEs": "25.000",
-    "keyFigureJa": "2万5,000"
+    "keyFigureJa": "2万5,000",
+    "clueEn": "Humpback whales now in the South Atlantic",
+    "clueJa": "現在の南大西洋のザトウクジラの数",
+    "clueEs": "Ballenas jorobadas que hay hoy en el Atlántico Sur"
   },
   {
     "dayOfYear": 23,
@@ -511,7 +553,10 @@
     "nameJa": "アルベドの連鎖",
     "keyFigureEn": "90%",
     "keyFigureEs": "90%",
-    "keyFigureJa": "90%"
+    "keyFigureJa": "90%",
+    "clueEn": "Share of sunlight that snow reflects",
+    "clueJa": "雪が反射する太陽光の割合",
+    "clueEs": "Proporción de luz solar que refleja la nieve"
   },
   {
     "dayOfYear": 26,
@@ -533,7 +578,10 @@
     "nameJa": "世界一安い電力",
     "keyFigureEn": "99%",
     "keyFigureEs": "99%",
-    "keyFigureJa": "99%"
+    "keyFigureJa": "99%",
+    "clueEn": "Drop in the cost of solar panels",
+    "clueJa": "太陽光パネルのコストの下落率",
+    "clueEs": "Caída del coste de los paneles solares"
   },
   {
     "dayOfYear": 27,
@@ -554,7 +602,10 @@
     "nameJa": "魚が作る砂浜",
     "keyFigureEn": "380 kg",
     "keyFigureEs": "380 kg",
-    "keyFigureJa": "380 kg"
+    "keyFigureJa": "380 kg",
+    "clueEn": "Sand one parrotfish produces in a year",
+    "clueJa": "ブダイ一匹が一年間に作る砂の量",
+    "clueEs": "Arena que produce un pez loro en un año"
   },
   {
     "dayOfYear": 28,
@@ -576,7 +627,10 @@
     "nameJa": "シャワーより牛肉",
     "keyFigureEn": "15,400 litres",
     "keyFigureEs": "15.400 litros",
-    "keyFigureJa": "1万5,400リットル"
+    "keyFigureJa": "1万5,400リットル",
+    "clueEn": "Water needed per kg of beef",
+    "clueJa": "牛肉キロ当たりに必要な水の量",
+    "clueEs": "Agua necesaria por kg de carne de vacuno"
   },
   {
     "dayOfYear": 29,
@@ -616,7 +670,10 @@
     "nameJa": "チリの太陽光",
     "keyFigureEn": "30%",
     "keyFigureEs": "30%",
-    "keyFigureJa": "30%"
+    "keyFigureJa": "30%",
+    "clueEn": "Chile's share of electricity from solar and wind",
+    "clueJa": "チリの電力に占める太陽光と風力の割合",
+    "clueEs": "Proporción de la electricidad chilena solar y eólica"
   },
   {
     "dayOfYear": 31,
@@ -638,7 +695,10 @@
     "nameJa": "バルト海の浄化",
     "keyFigureEn": "50%",
     "keyFigureEs": "50%",
-    "keyFigureJa": "50%"
+    "keyFigureJa": "50%",
+    "clueEn": "Cut in Baltic phosphorus loads",
+    "clueJa": "バルト海のリン負荷の削減率",
+    "clueEs": "Reducción de la carga de fósforo en el Báltico"
   },
   {
     "dayOfYear": 32,
@@ -660,7 +720,10 @@
     "nameJa": "マイボトル生活",
     "keyFigureEn": "50 billion",
     "keyFigureEs": "50.000 millones",
-    "keyFigureJa": "500億"
+    "keyFigureJa": "500億",
+    "clueEn": "Plastic water bottles bought yearly in the US",
+    "clueJa": "米国で毎年買われるペットボトルの数",
+    "clueEs": "Botellas de agua de plástico que compra EE. UU. al año"
   },
   {
     "dayOfYear": 33,
@@ -682,7 +745,10 @@
     "nameJa": "炭素を蓄える湿地",
     "keyFigureEn": "3%",
     "keyFigureEs": "3%",
-    "keyFigureJa": "3%"
+    "keyFigureJa": "3%",
+    "clueEn": "Share of land surface covered by peatlands",
+    "clueJa": "泥炭地が覆う陸地の割合",
+    "clueEs": "Proporción de la superficie terrestre que cubren las turberas"
   },
   {
     "dayOfYear": 34,
@@ -740,7 +806,10 @@
     "nameJa": "布おむつの利点",
     "keyFigureEn": "500 kg",
     "keyFigureEs": "500 kg",
-    "keyFigureJa": "500 kg"
+    "keyFigureJa": "500 kg",
+    "clueEn": "Waste saved per child with reusable nappies",
+    "clueJa": "布おむつで子ども一人当たり減らせるごみ",
+    "clueEs": "Residuos evitados por bebé con pañales reutilizables"
   },
   {
     "dayOfYear": 37,
@@ -781,7 +850,10 @@
     "nameJa": "アーモンド対牛乳",
     "keyFigureEn": "12 litres",
     "keyFigureEs": "12 litros",
-    "keyFigureJa": "12リットル"
+    "keyFigureJa": "12リットル",
+    "clueEn": "Water used to grow a single almond",
+    "clueJa": "アーモンド一粒の栽培に使う水",
+    "clueEs": "Agua para cultivar una sola almendra"
   },
   {
     "dayOfYear": 39,
@@ -804,7 +876,10 @@
     "nameJa": "コンクリートの隠れた排出",
     "keyFigureEn": "8%",
     "keyFigureEs": "8%",
-    "keyFigureJa": "8%"
+    "keyFigureJa": "8%",
+    "clueEn": "Cement's share of global CO2 emissions",
+    "clueJa": "世界のCO2排出に占めるセメントの割合",
+    "clueEs": "Proporción de las emisiones mundiales de CO2 que causa el cemento"
   },
   {
     "dayOfYear": 40,
@@ -883,7 +958,10 @@
     "nameJa": "韓国の生ごみ再生",
     "keyFigureEn": "95%",
     "keyFigureEs": "95%",
-    "keyFigureJa": "95%"
+    "keyFigureJa": "95%",
+    "clueEn": "Share of food waste South Korea recycles",
+    "clueJa": "韓国がリサイクルする食品廃棄物の割合",
+    "clueEs": "Proporción del desperdicio de alimentos que recicla Corea del Sur"
   },
   {
     "dayOfYear": 44,
@@ -904,7 +982,10 @@
     "nameJa": "アリとシロアリの力",
     "keyFigureEn": "36%",
     "keyFigureEs": "36%",
-    "keyFigureJa": "36%"
+    "keyFigureJa": "36%",
+    "clueEn": "Crop yield boost from ants and termites",
+    "clueJa": "アリとシロアリによる作物収量の増加",
+    "clueEs": "Aumento de cosechas gracias a hormigas y termitas"
   },
   {
     "dayOfYear": 45,
@@ -925,7 +1006,10 @@
     "nameJa": "未知の深海",
     "keyFigureEn": "28.7%",
     "keyFigureEs": "28,7%",
-    "keyFigureJa": "28.7%"
+    "keyFigureJa": "28.7%",
+    "clueEn": "Share of the seafloor mapped by modern sonar",
+    "clueJa": "最新ソナーで地図化された海底の割合",
+    "clueEs": "Proporción del fondo marino cartografiado con sonar moderno"
   },
   {
     "dayOfYear": 46,
@@ -964,7 +1048,10 @@
     "nameJa": "包装なしの青果",
     "keyFigureEn": "8,800 tonnes",
     "keyFigureEs": "8.800 toneladas",
-    "keyFigureJa": "8,800トン"
+    "keyFigureJa": "8,800トン",
+    "clueEn": "Plastic saved yearly by selling loose produce",
+    "clueJa": "包装なしの青果販売で毎年減らせるプラスチック",
+    "clueEs": "Plástico evitado al año vendiendo productos frescos a granel"
   },
   {
     "dayOfYear": 48,
@@ -986,7 +1073,10 @@
     "nameJa": "グリーン水素に限る",
     "keyFigureEn": "95%",
     "keyFigureEs": "95%",
-    "keyFigureJa": "95%"
+    "keyFigureJa": "95%",
+    "clueEn": "Share of hydrogen made from natural gas",
+    "clueJa": "天然ガスから作られる水素の割合",
+    "clueEs": "Proporción del hidrógeno producido con gas natural"
   },
   {
     "dayOfYear": 49,
@@ -1007,7 +1097,10 @@
     "nameJa": "地球最大の生物",
     "keyFigureEn": "2,400 years",
     "keyFigureEs": "2.400 años",
-    "keyFigureJa": "2,400年"
+    "keyFigureJa": "2,400年",
+    "clueEn": "Age of the largest organism on Earth",
+    "clueJa": "地球最大の生物の推定年齢",
+    "clueEs": "Edad del mayor organismo de la Tierra"
   },
   {
     "dayOfYear": 50,
@@ -1087,7 +1180,10 @@
     "nameJa": "グレート・グリーン・ウォール",
     "keyFigureEn": "100 million",
     "keyFigureEs": "100 millones",
-    "keyFigureJa": "1億"
+    "keyFigureJa": "1億",
+    "clueEn": "Hectares the Great Green Wall aims to restore",
+    "clueJa": "グレート・グリーン・ウォールの回復目標面積",
+    "clueEs": "Hectáreas que la Gran Muralla Verde quiere restaurar"
   },
   {
     "dayOfYear": 54,
@@ -1127,7 +1223,10 @@
     "nameJa": "一本のオークの恵み",
     "keyFigureEn": "2,300 species",
     "keyFigureEs": "2.300 especies",
-    "keyFigureJa": "2,300種"
+    "keyFigureJa": "2,300種",
+    "clueEn": "Species a single mature oak can support",
+    "clueJa": "成熟したオーク一本が支える種の数",
+    "clueEs": "Especies que puede sostener un roble maduro"
   },
   {
     "dayOfYear": 56,
@@ -1149,7 +1248,10 @@
     "nameJa": "太陽光で電化",
     "keyFigureEn": "91%",
     "keyFigureEs": "91%",
-    "keyFigureJa": "91%"
+    "keyFigureJa": "91%",
+    "clueEn": "Share of the world with electricity access",
+    "clueJa": "電気を利用できる世界人口の割合",
+    "clueEs": "Proporción del mundo con acceso a la electricidad"
   },
   {
     "dayOfYear": 57,
@@ -1171,7 +1273,10 @@
     "nameJa": "家庭堆肥の力",
     "keyFigureEn": "150 kg",
     "keyFigureEs": "150 kg",
-    "keyFigureJa": "150 kg"
+    "keyFigureJa": "150 kg",
+    "clueEn": "Organic waste one home composter diverts yearly",
+    "clueJa": "家庭のコンポストで毎年減らせる有機ごみ",
+    "clueEs": "Residuos orgánicos que el compostaje doméstico evita al año"
   },
   {
     "dayOfYear": 58,
@@ -1213,7 +1318,10 @@
     "nameJa": "パタゴニアの決断",
     "keyFigureEn": "100%",
     "keyFigureEs": "100%",
-    "keyFigureJa": "100%"
+    "keyFigureJa": "100%",
+    "clueEn": "Share of Patagonia's profits funding nature",
+    "clueJa": "環境保護に充てられるパタゴニアの利益の割合",
+    "clueEs": "Proporción de los beneficios de Patagonia para causas ambientales"
   },
   {
     "dayOfYear": 60,
@@ -1254,7 +1362,10 @@
     "nameJa": "マイ容器を持参",
     "keyFigureEn": "10 billion",
     "keyFigureEs": "10.000 millones",
-    "keyFigureJa": "100億"
+    "keyFigureJa": "100億",
+    "clueEn": "Single-use cups and packaging used yearly in the UK",
+    "clueJa": "英国で毎年使われる使い捨て容器の数",
+    "clueEs": "Vasos y envases de un solo uso que se usan al año en el Reino Unido"
   },
   {
     "dayOfYear": 62,
@@ -1295,7 +1406,10 @@
     "nameJa": "ヘンプの底力",
     "keyFigureEn": "8 to 15 tonnes",
     "keyFigureEs": "8 a 15 toneladas",
-    "keyFigureJa": "8〜15トン"
+    "keyFigureJa": "8〜15トン",
+    "clueEn": "CO2 absorbed by a hectare of hemp",
+    "clueJa": "麻一ヘクタールが吸収するCO2",
+    "clueEs": "CO2 que absorbe una hectárea de cáñamo"
   },
   {
     "dayOfYear": 64,
@@ -1317,7 +1431,10 @@
     "nameJa": "照明より暖房",
     "keyFigureEn": "10 times",
     "keyFigureEs": "10 veces",
-    "keyFigureJa": "10倍"
+    "keyFigureJa": "10倍",
+    "clueEn": "How much more heating and cooling matter than lights",
+    "clueJa": "冷暖房の影響が照明より大きい倍率",
+    "clueEs": "Cuánto más impacto tiene la climatización que la luz"
   },
   {
     "dayOfYear": 65,
@@ -1338,7 +1455,10 @@
     "nameJa": "海の酸素生産者",
     "keyFigureEn": "1 million",
     "keyFigureEs": "1 millón",
-    "keyFigureJa": "100万"
+    "keyFigureJa": "100万",
+    "clueEn": "Bacteria in a millilitre of ocean water",
+    "clueJa": "海水一ミリリットル中の細菌の数",
+    "clueEs": "Bacterias en un mililitro de agua de mar"
   },
   {
     "dayOfYear": 66,
@@ -1359,7 +1479,10 @@
     "nameJa": "冷蔵庫の裏を掃除",
     "keyFigureEn": "10-15%",
     "keyFigureEs": "10-15%",
-    "keyFigureJa": "10〜15%"
+    "keyFigureJa": "10〜15%",
+    "clueEn": "Fridge efficiency gain from cleaning the coils",
+    "clueJa": "放熱コイル掃除による冷蔵庫の効率改善",
+    "clueEs": "Mejora de eficiencia de la nevera al limpiar el serpentín"
   },
   {
     "dayOfYear": 67,
@@ -1438,7 +1561,10 @@
     "nameJa": "有鉛ガソリン廃止",
     "keyFigureEn": "1.2 million",
     "keyFigureEs": "1,2 millones",
-    "keyFigureJa": "120万"
+    "keyFigureJa": "120万",
+    "clueEn": "Premature deaths prevented yearly by unleaded petrol",
+    "clueJa": "有鉛ガソリン廃止で毎年防げる早期死亡",
+    "clueEs": "Muertes prematuras evitadas al año por la gasolina sin plomo"
   },
   {
     "dayOfYear": 71,
@@ -1461,7 +1587,10 @@
     "nameJa": "地産地消の限界",
     "keyFigureEn": "6%",
     "keyFigureEs": "6%",
-    "keyFigureJa": "6%"
+    "keyFigureJa": "6%",
+    "clueEn": "Transport's share of food's carbon footprint",
+    "clueJa": "食品のカーボンフットプリントに占める輸送の割合",
+    "clueEs": "Proporción de la huella de carbono de los alimentos debida al transporte"
   },
   {
     "dayOfYear": 72,
@@ -1483,7 +1612,10 @@
     "nameJa": "循環するアムステルダム",
     "keyFigureEn": "20%",
     "keyFigureEs": "20%",
-    "keyFigureJa": "20%"
+    "keyFigureJa": "20%",
+    "clueEn": "Recycled material required in new Amsterdam buildings",
+    "clueJa": "アムステルダムの新築に義務付けられた再生材の割合",
+    "clueEs": "Material reciclado exigido en edificios nuevos de Ámsterdam"
   },
   {
     "dayOfYear": 73,
@@ -1504,7 +1636,10 @@
     "nameJa": "良い服を長く",
     "keyFigureEn": "65%",
     "keyFigureEs": "65%",
-    "keyFigureJa": "65%"
+    "keyFigureJa": "65%",
+    "clueEn": "Fashion footprint cut from longer-lasting clothes",
+    "clueJa": "長持ちする服で減らせるファッションのフットプリント",
+    "clueEs": "Reducción de la huella de la moda con ropa más duradera"
   },
   {
     "dayOfYear": 74,
@@ -1525,7 +1660,10 @@
     "nameJa": "テッポウエビの衝撃",
     "keyFigureEn": "4,700 degrees C",
     "keyFigureEs": "4.700 grados C",
-    "keyFigureJa": "4,700度C"
+    "keyFigureJa": "4,700度C",
+    "clueEn": "Heat of a pistol shrimp's snap bubble",
+    "clueJa": "テッポウエビの気泡が達する温度",
+    "clueEs": "Temperatura de la burbuja del camarón pistola"
   },
   {
     "dayOfYear": 75,
@@ -1548,7 +1686,10 @@
     "nameJa": "クリーン投資の勝利",
     "keyFigureEn": "$1.8 trillion",
     "keyFigureEs": "1,8 billones",
-    "keyFigureJa": "1兆8,000億ドル"
+    "keyFigureJa": "1兆8,000億ドル",
+    "clueEn": "Global clean energy investment in a year",
+    "clueJa": "一年間の世界のクリーンエネルギー投資額",
+    "clueEs": "Inversión mundial en energía limpia en un año"
   },
   {
     "dayOfYear": 76,
@@ -1569,7 +1710,10 @@
     "nameJa": "アルミホイルはリサイクルできる",
     "keyFigureEn": "100%",
     "keyFigureEs": "100%",
-    "keyFigureJa": "100%"
+    "keyFigureJa": "100%",
+    "clueEn": "How recyclable aluminium foil is",
+    "clueJa": "アルミホイルのリサイクル可能な割合",
+    "clueEs": "Cuánto se puede reciclar el papel de aluminio"
   },
   {
     "dayOfYear": 77,
@@ -1590,7 +1734,10 @@
     "nameJa": "アルミ缶は永遠",
     "keyFigureEn": "5 hours",
     "keyFigureEs": "5 horas",
-    "keyFigureJa": "5時間"
+    "keyFigureJa": "5時間",
+    "clueEn": "Laptop run time from one recycled can",
+    "clueJa": "アルミ缶一個のリサイクルで動くノートPCの時間",
+    "clueEs": "Tiempo que funciona un portátil con una lata reciclada"
   },
   {
     "dayOfYear": 78,
@@ -1630,7 +1777,10 @@
     "nameJa": "賞味期限の誤解",
     "keyFigureEn": "10%",
     "keyFigureEs": "10%",
-    "keyFigureJa": "10%"
+    "keyFigureJa": "10%",
+    "clueEn": "Share of EU food waste from date-label confusion",
+    "clueJa": "期限表示の誤解によるEUの食品ロスの割合",
+    "clueEs": "Proporción del desperdicio de alimentos de la UE por confundir fechas"
   },
   {
     "dayOfYear": 80,
@@ -1652,7 +1802,10 @@
     "nameJa": "森は炭素の貯蔵庫",
     "keyFigureEn": "46%",
     "keyFigureEs": "46%",
-    "keyFigureJa": "46%"
+    "keyFigureJa": "46%",
+    "clueEn": "Share of forest carbon held in the soil",
+    "clueJa": "森林の炭素のうち土壌に蓄えられる割合",
+    "clueEs": "Proporción del carbono forestal que está en el suelo"
   },
   {
     "dayOfYear": 81,
@@ -1730,7 +1883,10 @@
     "nameJa": "節水シャワーヘッド",
     "keyFigureEn": "7,000 litres",
     "keyFigureEs": "7.000 litros",
-    "keyFigureJa": "7,000リットル"
+    "keyFigureJa": "7,000リットル",
+    "clueEn": "Water a low-flow showerhead saves yearly",
+    "clueJa": "節水シャワーヘッドで毎年節約できる水",
+    "clueEs": "Agua que ahorra al año una alcachofa de bajo caudal"
   },
   {
     "dayOfYear": 85,
@@ -1807,7 +1963,10 @@
     "nameJa": "キガリ改正の効果",
     "keyFigureEn": "0.5 degrees C",
     "keyFigureEs": "0,5 grados C",
-    "keyFigureJa": "0.5度C"
+    "keyFigureJa": "0.5度C",
+    "clueEn": "Warming the Kigali Amendment could avoid",
+    "clueJa": "キガリ改正で回避できる温暖化",
+    "clueEs": "Calentamiento que podría evitar la Enmienda de Kigali"
   },
   {
     "dayOfYear": 89,
@@ -1829,7 +1988,10 @@
     "nameJa": "埋立地のメタン",
     "keyFigureEn": "2.01 billion",
     "keyFigureEs": "2.010 millones",
-    "keyFigureJa": "20億1,000万"
+    "keyFigureJa": "20億1,000万",
+    "clueEn": "Tonnes of municipal waste the world makes yearly",
+    "clueJa": "世界で毎年出る一般廃棄物（トン）",
+    "clueEs": "Toneladas de residuos urbanos que genera el mundo al año"
   },
   {
     "dayOfYear": 90,
@@ -1888,7 +2050,10 @@
     "nameJa": "洗濯物は自然乾燥",
     "keyFigureEn": "1.7 kg",
     "keyFigureEs": "1,7 kg",
-    "keyFigureJa": "1.7 kg"
+    "keyFigureJa": "1.7 kg",
+    "clueEn": "CO2 saved by air-drying one laundry load",
+    "clueJa": "洗濯物一回分の自然乾燥で減らせるCO2",
+    "clueEs": "CO2 que se ahorra al secar al aire una colada"
   },
   {
     "dayOfYear": 93,
@@ -1948,7 +2113,10 @@
     "nameJa": "海の森、コンブ",
     "keyFigureEn": "60 cm",
     "keyFigureEs": "60 cm",
-    "keyFigureJa": "60 cm"
+    "keyFigureJa": "60 cm",
+    "clueEn": "Daily growth of kelp forests",
+    "clueJa": "ケルプの森の一日の成長量",
+    "clueEs": "Crecimiento diario de los bosques de kelp"
   },
   {
     "dayOfYear": 96,
@@ -1969,7 +2137,10 @@
     "nameJa": "水の大半は農業に",
     "keyFigureEn": "72%",
     "keyFigureEs": "72%",
-    "keyFigureJa": "72%"
+    "keyFigureJa": "72%",
+    "clueEn": "Farming's share of global freshwater withdrawals",
+    "clueJa": "世界の淡水取水に占める農業の割合",
+    "clueEs": "Proporción de las extracciones mundiales de agua dulce para la agricultura"
   },
   {
     "dayOfYear": 97,
@@ -1992,7 +2163,10 @@
     "nameJa": "大気汚染と命",
     "keyFigureEn": "7 million",
     "keyFigureEs": "7 millones",
-    "keyFigureJa": "700万"
+    "keyFigureJa": "700万",
+    "clueEn": "Yearly premature deaths from all air pollution",
+    "clueJa": "大気汚染全体による年間の早期死亡",
+    "clueEs": "Muertes prematuras anuales por toda la contaminación del aire"
   },
   {
     "dayOfYear": 98,
@@ -2013,7 +2187,10 @@
     "nameJa": "最強生物クマムシ",
     "keyFigureEn": "1,000 times",
     "keyFigureEs": "1.000 veces",
-    "keyFigureJa": "1,000倍"
+    "keyFigureJa": "1,000倍",
+    "clueEn": "Radiation a tardigrade survives versus a human",
+    "clueJa": "人間と比べたクマムシの放射線耐性",
+    "clueEs": "Radiación que soporta un tardígrado frente a un humano"
   },
   {
     "dayOfYear": 99,
@@ -2054,7 +2231,10 @@
     "nameJa": "公海保護条約",
     "keyFigureEn": "60%",
     "keyFigureEs": "60%",
-    "keyFigureJa": "60%"
+    "keyFigureJa": "60%",
+    "clueEn": "Share of the ocean the High Seas Treaty covers",
+    "clueJa": "公海条約が対象とする海の割合",
+    "clueEs": "Proporción del océano que cubre el Tratado de Alta Mar"
   },
   {
     "dayOfYear": 101,
@@ -2114,7 +2294,10 @@
     "nameJa": "カキが海を濾す",
     "keyFigureEn": "190 litres",
     "keyFigureEs": "190 litros",
-    "keyFigureJa": "190リットル"
+    "keyFigureJa": "190リットル",
+    "clueEn": "Water an adult oyster filters each day",
+    "clueJa": "成体のカキが一日にろ過する水",
+    "clueEs": "Agua que filtra al día una ostra adulta"
   },
   {
     "dayOfYear": 104,
@@ -2136,7 +2319,10 @@
     "nameJa": "レジ袋禁止の成果",
     "keyFigureEn": "80%",
     "keyFigureEs": "80%",
-    "keyFigureJa": "80%"
+    "keyFigureJa": "80%",
+    "clueEn": "Drop in waterway plastic litter after bag bans",
+    "clueJa": "レジ袋禁止後の水路のプラスチックごみ減少",
+    "clueEs": "Caída de los residuos plásticos en ríos tras prohibir las bolsas"
   },
   {
     "dayOfYear": 105,
@@ -2159,7 +2345,10 @@
     "nameJa": "EVが世界で急増",
     "keyFigureEn": "20%",
     "keyFigureEs": "20%",
-    "keyFigureJa": "20%"
+    "keyFigureJa": "20%",
+    "clueEn": "Global growth in electric car sales",
+    "clueJa": "世界の電気自動車販売の伸び",
+    "clueEs": "Crecimiento mundial de las ventas de coches eléctricos"
   },
   {
     "dayOfYear": 106,
@@ -2181,7 +2370,10 @@
     "nameJa": "成長と排出の切り離し",
     "keyFigureEn": "40%",
     "keyFigureEs": "40%",
-    "keyFigureJa": "40%"
+    "keyFigureJa": "40%",
+    "clueEn": "Fall in global CO2 per unit of GDP",
+    "clueJa": "GDP当たりの世界のCO2排出の減少",
+    "clueEs": "Caída del CO2 mundial por unidad de PIB"
   },
   {
     "dayOfYear": 107,
@@ -2202,7 +2394,10 @@
     "nameJa": "衣類リサイクルの現実",
     "keyFigureEn": "1%",
     "keyFigureEs": "1%",
-    "keyFigureJa": "1%"
+    "keyFigureJa": "1%",
+    "clueEn": "Share of textile waste made into new clothes",
+    "clueJa": "新しい服に再生される繊維廃棄物の割合",
+    "clueEs": "Proporción de residuos textiles convertidos en ropa nueva"
   },
   {
     "dayOfYear": 108,
@@ -2241,7 +2436,10 @@
     "nameJa": "サンゴ礁が命を守る",
     "keyFigureEn": "25%",
     "keyFigureEs": "25%",
-    "keyFigureJa": "25%"
+    "keyFigureJa": "25%",
+    "clueEn": "Share of marine species supported by coral reefs",
+    "clueJa": "サンゴ礁が支える海洋生物種の割合",
+    "clueEs": "Proporción de especies marinas que dependen de los arrecifes de coral"
   },
   {
     "dayOfYear": 110,
@@ -2262,7 +2460,10 @@
     "nameJa": "完璧より前進",
     "keyFigureEn": "50%",
     "keyFigureEs": "50%",
-    "keyFigureJa": "50%"
+    "keyFigureJa": "50%",
+    "clueEn": "",
+    "clueJa": "",
+    "clueEs": ""
   },
   {
     "dayOfYear": 111,
@@ -2285,7 +2486,10 @@
     "nameJa": "女子教育が気候を変える",
     "keyFigureEn": "85 gigatonnes",
     "keyFigureEs": "85 gigatoneladas",
-    "keyFigureJa": "85ギガトン"
+    "keyFigureJa": "85ギガトン",
+    "clueEn": "Emissions cut from girls' education and family planning",
+    "clueJa": "女子教育と家族計画による排出削減量",
+    "clueEs": "Emisiones evitadas con educación de niñas y planificación familiar"
   },
   {
     "dayOfYear": 112,
@@ -2307,7 +2511,10 @@
     "nameJa": "保護区が拡大",
     "keyFigureEn": "17%",
     "keyFigureEs": "17%",
-    "keyFigureJa": "17%"
+    "keyFigureJa": "17%",
+    "clueEn": "Share of world land in protected areas",
+    "clueJa": "保護区が占める世界の陸地の割合",
+    "clueEs": "Proporción de la superficie terrestre mundial en áreas protegidas"
   },
   {
     "dayOfYear": 113,
@@ -2367,7 +2574,10 @@
     "nameJa": "鋼より強いクモ糸",
     "keyFigureEn": "5 times",
     "keyFigureEs": "5 veces",
-    "keyFigureJa": "5倍"
+    "keyFigureJa": "5倍",
+    "clueEn": "How much stronger spider silk is than steel",
+    "clueJa": "クモの糸が鋼鉄より強い倍率",
+    "clueEs": "Cuánto más resistente es la seda de araña que el acero"
   },
   {
     "dayOfYear": 116,
@@ -2389,7 +2599,10 @@
     "nameJa": "ノートPCで省エネ",
     "keyFigureEn": "80%",
     "keyFigureEs": "80%",
-    "keyFigureJa": "80%"
+    "keyFigureJa": "80%",
+    "clueEn": "Electricity a laptop saves over a desktop",
+    "clueJa": "ノートPCがデスクトップより節約できる電力",
+    "clueEs": "Electricidad que ahorra un portátil frente a un ordenador de sobremesa"
   },
   {
     "dayOfYear": 117,
@@ -2411,7 +2624,10 @@
     "nameJa": "会議はリモートで",
     "keyFigureEn": "9 g",
     "keyFigureEs": "9 g",
-    "keyFigureJa": "9 g"
+    "keyFigureJa": "9 g",
+    "clueEn": "CO2 from a short video call",
+    "clueJa": "短いビデオ通話によるCO2",
+    "clueEs": "CO2 de una videollamada corta"
   },
   {
     "dayOfYear": 118,
@@ -2470,7 +2686,10 @@
     "nameJa": "EUは排出を削減",
     "keyFigureEn": "32%",
     "keyFigureEs": "32%",
-    "keyFigureJa": "32%"
+    "keyFigureJa": "32%",
+    "clueEn": "Drop in EU carbon emissions as its economy grew",
+    "clueJa": "経済成長の中でのEUの炭素排出の減少",
+    "clueEs": "Caída de las emisiones de carbono de la UE mientras crecía su economía"
   },
   {
     "dayOfYear": 121,
@@ -2529,7 +2748,10 @@
     "nameJa": "オーガニックコットンの一長一短",
     "keyFigureEn": "91%",
     "keyFigureEs": "91%",
-    "keyFigureJa": "91%"
+    "keyFigureJa": "91%",
+    "clueEn": "Irrigation water organic cotton saves",
+    "clueJa": "オーガニックコットンが節約する灌漑用水",
+    "clueEs": "Agua de riego que ahorra el algodón ecológico"
   },
   {
     "dayOfYear": 124,
@@ -2551,7 +2773,10 @@
     "nameJa": "冷水で洗う",
     "keyFigureEn": "90%",
     "keyFigureEs": "90%",
-    "keyFigureJa": "90%"
+    "keyFigureJa": "90%",
+    "clueEn": "Water heating's share of washing machine energy",
+    "clueJa": "洗濯機のエネルギーに占める水の加熱の割合",
+    "clueEs": "Proporción de la energía de la lavadora para calentar el agua"
   },
   {
     "dayOfYear": 125,
@@ -2573,7 +2798,10 @@
     "nameJa": "スマホを長く使う",
     "keyFigureEn": "70-80 kg",
     "keyFigureEs": "70-80 kg",
-    "keyFigureJa": "70〜80 kg"
+    "keyFigureJa": "70〜80 kg",
+    "clueEn": "Carbon footprint of a new smartphone",
+    "clueJa": "新しいスマートフォンのカーボンフットプリント",
+    "clueEs": "Huella de carbono de un móvil nuevo"
   },
   {
     "dayOfYear": 126,
@@ -2633,7 +2861,10 @@
     "nameJa": "プラを食べる菌",
     "keyFigureEn": "200 species",
     "keyFigureEs": "200 especies",
-    "keyFigureJa": "200種"
+    "keyFigureJa": "200種",
+    "clueEn": "Fungi species found to degrade plastic",
+    "clueJa": "プラスチックを分解できる菌類の種の数",
+    "clueEs": "Especies de hongos capaces de degradar plástico"
   },
   {
     "dayOfYear": 129,
@@ -2692,7 +2923,10 @@
     "nameJa": "シンガポールの再生水",
     "keyFigureEn": "40%",
     "keyFigureEs": "40%",
-    "keyFigureJa": "40%"
+    "keyFigureJa": "40%",
+    "clueEn": "Share of Singapore's water demand met by NEWater",
+    "clueJa": "NEWaterが賄うシンガポールの水需要の割合",
+    "clueEs": "Proporción de la demanda de agua de Singapur que cubre NEWater"
   },
   {
     "dayOfYear": 132,
@@ -2714,7 +2948,10 @@
     "nameJa": "作物の多様性不足",
     "keyFigureEn": "75%",
     "keyFigureEs": "75%",
-    "keyFigureJa": "75%"
+    "keyFigureJa": "75%",
+    "clueEn": "Share of world food from a few species",
+    "clueJa": "少数の種に頼る世界の食料の割合",
+    "clueEs": "Proporción de los alimentos del mundo que aportan unas pocas especies"
   },
   {
     "dayOfYear": 133,
@@ -2774,7 +3011,10 @@
     "nameJa": "リサイクルだけでは不足",
     "keyFigureEn": "9%",
     "keyFigureEs": "9%",
-    "keyFigureJa": "9%"
+    "keyFigureJa": "9%",
+    "clueEn": "Share of all plastic ever recycled",
+    "clueJa": "これまでにリサイクルされたプラスチックの割合",
+    "clueEs": "Proporción de todo el plástico que se ha reciclado"
   },
   {
     "dayOfYear": 136,
@@ -2833,7 +3073,10 @@
     "nameJa": "鍋に蓋を",
     "keyFigureEn": "30%",
     "keyFigureEs": "30%",
-    "keyFigureJa": "30%"
+    "keyFigureJa": "30%",
+    "clueEn": "Cooking energy saved by using a pot lid",
+    "clueJa": "鍋に蓋をして減らせる調理エネルギー",
+    "clueEs": "Energía que se ahorra al cocinar con tapa"
   },
   {
     "dayOfYear": 139,
@@ -2854,7 +3097,10 @@
     "nameJa": "画面を暗めに",
     "keyFigureEn": "20%",
     "keyFigureEs": "20%",
-    "keyFigureJa": "20%"
+    "keyFigureJa": "20%",
+    "clueEn": "Monitor energy saved by lowering brightness",
+    "clueJa": "画面の明るさを下げて減らせる電力",
+    "clueEs": "Energía del monitor que se ahorra bajando el brillo"
   },
   {
     "dayOfYear": 140,
@@ -2876,7 +3122,10 @@
     "nameJa": "蜂が食を支える",
     "keyFigureEn": "35%",
     "keyFigureEs": "35%",
-    "keyFigureJa": "35%"
+    "keyFigureJa": "35%",
+    "clueEn": "Share of food crops pollinated by bees",
+    "clueJa": "ミツバチが受粉を担う食用作物の割合",
+    "clueEs": "Proporción de cultivos alimentarios que polinizan las abejas"
   },
   {
     "dayOfYear": 141,
@@ -2897,7 +3146,10 @@
     "nameJa": "パンダの復活",
     "keyFigureEn": "68%",
     "keyFigureEs": "68%",
-    "keyFigureJa": "68%"
+    "keyFigureJa": "68%",
+    "clueEn": "Growth in giant panda numbers in recent decades",
+    "clueJa": "ここ数十年のジャイアントパンダの増加率",
+    "clueEs": "Crecimiento del número de pandas gigantes en las últimas décadas"
   },
   {
     "dayOfYear": 142,
@@ -3051,7 +3303,10 @@
     "nameJa": "紛争と環境破壊",
     "keyFigureEn": "70%",
     "keyFigureEs": "70%",
-    "keyFigureJa": "70%"
+    "keyFigureJa": "70%",
+    "clueEn": "Share of armed conflicts tied to natural resources",
+    "clueJa": "天然資源の搾取が絡む武力紛争の割合",
+    "clueEs": "Proporción de conflictos armados ligados a recursos naturales"
   },
   {
     "dayOfYear": 150,
@@ -3073,7 +3328,10 @@
     "nameJa": "再エネで走る都市",
     "keyFigureEn": "70%",
     "keyFigureEs": "70%",
-    "keyFigureJa": "70%"
+    "keyFigureJa": "70%",
+    "clueEn": "Renewable power share of the greenest cities",
+    "clueJa": "最もグリーンな都市の電力に占める再エネの割合",
+    "clueEs": "Proporción de electricidad renovable en las ciudades más verdes"
   },
   {
     "dayOfYear": 151,
@@ -3095,7 +3353,10 @@
     "nameJa": "タバコ栽培の代償",
     "keyFigureEn": "5%",
     "keyFigureEs": "5%",
-    "keyFigureJa": "5%"
+    "keyFigureJa": "5%",
+    "clueEn": "Tobacco farming's share of global deforestation",
+    "clueJa": "世界の森林伐採に占めるタバコ栽培の割合",
+    "clueEs": "Proporción de la deforestación mundial que causa el cultivo de tabaco"
   },
   {
     "dayOfYear": 152,
@@ -3191,7 +3452,10 @@
     "nameJa": "海に流れるプラ",
     "keyFigureEn": "8 million",
     "keyFigureEs": "8 millones",
-    "keyFigureJa": "800万"
+    "keyFigureJa": "800万",
+    "clueEn": "Tonnes of plastic entering the ocean every year",
+    "clueJa": "毎年海に流れ込むプラスチック（トン）",
+    "clueEs": "Toneladas de plástico que llegan al océano al año"
   },
   {
     "dayOfYear": 157,
@@ -3231,7 +3495,10 @@
     "nameJa": "世界規模の食品ロス",
     "keyFigureEn": "132 kg",
     "keyFigureEs": "132 kg",
-    "keyFigureJa": "132 kg"
+    "keyFigureJa": "132 kg",
+    "clueEn": "Food wasted per person in a year",
+    "clueJa": "一人当たり一年間に廃棄された食品",
+    "clueEs": "Alimentos desperdiciados por persona en un año"
   },
   {
     "dayOfYear": 159,
@@ -3292,7 +3559,10 @@
     "nameJa": "パーム油の選び方",
     "keyFigureEn": "4-10 times",
     "keyFigureEs": "4 a 10 veces",
-    "keyFigureJa": "4〜10倍"
+    "keyFigureJa": "4〜10倍",
+    "clueEn": "Extra land other oils need versus palm oil",
+    "clueJa": "パーム油と比べて他の油が余分に使う土地",
+    "clueEs": "Tierra extra que necesitan otros aceites frente al de palma"
   },
   {
     "dayOfYear": 162,
@@ -3314,7 +3584,10 @@
     "nameJa": "畜産と気候",
     "keyFigureEn": "12%",
     "keyFigureEs": "12%",
-    "keyFigureJa": "12%"
+    "keyFigureJa": "12%",
+    "clueEn": "Livestock's share of global greenhouse gas emissions",
+    "clueJa": "世界の温室効果ガス排出に占める畜産の割合",
+    "clueEs": "Proporción de las emisiones mundiales de gases de efecto invernadero del ganado"
   },
   {
     "dayOfYear": 163,
@@ -3336,7 +3609,10 @@
     "nameJa": "児童労働の実態",
     "keyFigureEn": "160 million",
     "keyFigureEs": "160 millones",
-    "keyFigureJa": "1億6,000万"
+    "keyFigureJa": "1億6,000万",
+    "clueEn": "Children engaged in child labour worldwide",
+    "clueJa": "世界で児童労働に従事する子どもの数",
+    "clueEs": "Niños sometidos a trabajo infantil en el mundo"
   },
   {
     "dayOfYear": 164,
@@ -3357,7 +3633,10 @@
     "nameJa": "魚のクリーニング所",
     "keyFigureEn": "37%",
     "keyFigureEs": "37%",
-    "keyFigureJa": "37%"
+    "keyFigureJa": "37%",
+    "clueEn": "Fish lost on reefs without cleaner wrasses",
+    "clueJa": "ホンソメワケベラがいないサンゴ礁で減る魚",
+    "clueEs": "Peces que pierden los arrecifes sin lábridos limpiadores"
   },
   {
     "dayOfYear": 165,
@@ -3379,7 +3658,10 @@
     "nameJa": "飢餓の減少",
     "keyFigureEn": "43 million",
     "keyFigureEs": "43 millones",
-    "keyFigureJa": "4,300万"
+    "keyFigureJa": "4,300万",
+    "clueEn": "Fewer people facing hunger than at the peak",
+    "clueJa": "ピーク時より減った飢餓に直面する人の数",
+    "clueEs": "Cuántas personas menos pasan hambre que en el pico"
   },
   {
     "dayOfYear": 166,
@@ -3402,7 +3684,10 @@
     "nameJa": "適応投資の回収",
     "keyFigureEn": "2 to 10 dollars",
     "keyFigureEs": "2 a 10 dólares",
-    "keyFigureJa": "2〜10ドル"
+    "keyFigureJa": "2〜10ドル",
+    "clueEn": "Return on each dollar spent on adaptation",
+    "clueJa": "適応策への投資一ドル当たりの見返り",
+    "clueEs": "Rendimiento de cada dólar invertido en adaptación"
   },
   {
     "dayOfYear": 167,
@@ -3443,7 +3728,10 @@
     "nameJa": "砂漠化の進行",
     "keyFigureEn": "12 million",
     "keyFigureEs": "12 millones",
-    "keyFigureJa": "1,200万"
+    "keyFigureJa": "1,200万",
+    "clueEn": "Hectares of productive land lost to desertification yearly",
+    "clueJa": "砂漠化で毎年失われる農地（ヘクタール）",
+    "clueEs": "Hectáreas de tierra productiva perdidas al año por la desertificación"
   },
   {
     "dayOfYear": 169,
@@ -3484,7 +3772,10 @@
     "nameJa": "ネズミのない島",
     "keyFigureEn": "760 times",
     "keyFigureEs": "760 veces",
-    "keyFigureJa": "760倍"
+    "keyFigureJa": "760倍",
+    "clueEn": "Seabird density on rat-free versus rat-infested islands",
+    "clueJa": "ネズミのいる島と比べた、いない島の海鳥密度",
+    "clueEs": "Densidad de aves marinas en islas sin ratas frente a islas con ratas"
   },
   {
     "dayOfYear": 171,
@@ -3505,7 +3796,10 @@
     "nameJa": "冷凍庫の霜取り",
     "keyFigureEn": "30%",
     "keyFigureEs": "30%",
-    "keyFigureJa": "30%"
+    "keyFigureJa": "30%",
+    "clueEn": "Freezer efficiency gain from regular defrosting",
+    "clueJa": "定期的な霜取りによる冷凍庫の効率改善",
+    "clueEs": "Mejora de eficiencia del congelador al descongelarlo a menudo"
   },
   {
     "dayOfYear": 172,
@@ -3584,7 +3878,10 @@
     "nameJa": "ビットコインの電力",
     "keyFigureEn": "99.9%",
     "keyFigureEs": "99,9%",
-    "keyFigureJa": "99.9%"
+    "keyFigureJa": "99.9%",
+    "clueEn": "Energy proof-of-stake saves over proof-of-work",
+    "clueJa": "プルーフ・オブ・ステーク型の省エネ率",
+    "clueEs": "Energía que ahorra la prueba de participación frente a la de trabajo"
   },
   {
     "dayOfYear": 176,
@@ -3605,7 +3902,10 @@
     "nameJa": "圧力鍋で時短省エネ",
     "keyFigureEn": "70%",
     "keyFigureEs": "70%",
-    "keyFigureJa": "70%"
+    "keyFigureJa": "70%",
+    "clueEn": "Cooking energy saved with a pressure cooker",
+    "clueJa": "圧力鍋で減らせる調理エネルギー",
+    "clueEs": "Energía de cocción que ahorra la olla exprés"
   },
   {
     "dayOfYear": 177,
@@ -3628,7 +3928,10 @@
     "nameJa": "政策が再エネを加速",
     "keyFigureEn": "130",
     "keyFigureEs": "130",
-    "keyFigureJa": "130"
+    "keyFigureJa": "130",
+    "clueEn": "Countries with feed-in tariffs or renewable auctions",
+    "clueJa": "固定価格買取制度や再エネ入札のある国の数",
+    "clueEs": "Países con primas o subastas de energía renovable"
   },
   {
     "dayOfYear": 178,
@@ -3650,7 +3953,10 @@
     "nameJa": "それでもEVが有利",
     "keyFigureEn": "30-50%",
     "keyFigureEs": "30-50%",
-    "keyFigureJa": "30〜50%"
+    "keyFigureJa": "30〜50%",
+    "clueEn": "Lifetime CO2 cut of EVs on a coal-heavy grid",
+    "clueJa": "石炭依存の電力網でもEVで減る生涯CO2",
+    "clueEs": "CO2 que evita un coche eléctrico en su vida útil con red de carbón"
   },
   {
     "dayOfYear": 179,
@@ -3823,7 +4129,10 @@
     "nameJa": "使い切り棚",
     "keyFigureEn": "20%",
     "keyFigureEs": "20%",
-    "keyFigureJa": "20%"
+    "keyFigureJa": "20%",
+    "clueEn": "Food waste cut by a use-it-up fridge shelf",
+    "clueJa": "冷蔵庫の使い切り棚で減らせる食品ロス",
+    "clueEs": "Desperdicio de alimentos evitado con un estante de «consumir pronto»"
   },
   {
     "dayOfYear": 188,
@@ -3845,7 +4154,10 @@
     "nameJa": "LEDの巨大な効果",
     "keyFigureEn": "75%",
     "keyFigureEs": "75%",
-    "keyFigureJa": "75%"
+    "keyFigureJa": "75%",
+    "clueEn": "Energy LEDs save versus incandescent bulbs",
+    "clueJa": "LEDが白熱電球より節約するエネルギー",
+    "clueEs": "Energía que ahorran los LED frente a las incandescentes"
   },
   {
     "dayOfYear": 189,
@@ -3867,7 +4179,10 @@
     "nameJa": "まとめ調理で節電",
     "keyFigureEn": "30%",
     "keyFigureEs": "30%",
-    "keyFigureJa": "30%"
+    "keyFigureJa": "30%",
+    "clueEn": "Cooking energy saved by weekly batch-cooking",
+    "clueJa": "まとめて作り置きして減らせる調理エネルギー",
+    "clueEs": "Energía que se ahorra al cocinar por lotes cada semana"
   },
   {
     "dayOfYear": 190,
@@ -3888,7 +4203,10 @@
     "nameJa": "電子レンジで省エネ",
     "keyFigureEn": "80%",
     "keyFigureEs": "80%",
-    "keyFigureJa": "80%"
+    "keyFigureJa": "80%",
+    "clueEn": "Energy a microwave saves over an oven",
+    "clueJa": "電子レンジがオーブンより節約するエネルギー",
+    "clueEs": "Energía que ahorra el microondas frente al horno"
   },
   {
     "dayOfYear": 191,
@@ -3909,7 +4227,10 @@
     "nameJa": "数える食虫植物",
     "keyFigureEn": "20 seconds",
     "keyFigureEs": "20 segundos",
-    "keyFigureJa": "20秒"
+    "keyFigureJa": "20秒",
+    "clueEn": "Window for a flytrap's two touches",
+    "clueJa": "ハエトリソウが二回の接触を受け付ける時間",
+    "clueEs": "Plazo de la venus atrapamoscas para dos toques"
   },
   {
     "dayOfYear": 192,
@@ -3949,7 +4270,10 @@
     "nameJa": "水漏れを直そう",
     "keyFigureEn": "400 litres",
     "keyFigureEs": "400 litros",
-    "keyFigureJa": "400リットル"
+    "keyFigureJa": "400リットル",
+    "clueEn": "Water a leaking toilet can waste daily",
+    "clueJa": "水漏れトイレが一日に無駄にする水",
+    "clueEs": "Agua que puede perder al día un inodoro con fugas"
   },
   {
     "dayOfYear": 194,
@@ -3971,7 +4295,10 @@
     "nameJa": "シロアリ建築の知恵",
     "keyFigureEn": "90%",
     "keyFigureEs": "90%",
-    "keyFigureJa": "90%"
+    "keyFigureJa": "90%",
+    "clueEn": "Cooling energy saved by termite-inspired buildings",
+    "clueJa": "シロアリ塚を模した建物で減る冷房エネルギー",
+    "clueEs": "Energía de refrigeración que ahorran los edificios inspirados en termiteros"
   },
   {
     "dayOfYear": 195,
@@ -4106,7 +4433,10 @@
     "nameJa": "アイスランドの地熱",
     "keyFigureEn": "90%",
     "keyFigureEs": "90%",
-    "keyFigureJa": "90%"
+    "keyFigureJa": "90%",
+    "clueEn": "Share of Iceland's homes heated by geothermal",
+    "clueJa": "地熱で暖房されるアイスランドの住宅の割合",
+    "clueEs": "Proporción de hogares de Islandia con calefacción geotérmica"
   },
   {
     "dayOfYear": 202,
@@ -4128,7 +4458,10 @@
     "nameJa": "チーズよりアボカド",
     "keyFigureEn": "2 kg",
     "keyFigureEs": "2 kg",
-    "keyFigureJa": "2 kg"
+    "keyFigureJa": "2 kg",
+    "clueEn": "CO2 per kg of air-freighted avocados",
+    "clueJa": "空輸アボカドのキロ当たりのCO2",
+    "clueEs": "CO2 por kg de aguacate transportado en avión"
   },
   {
     "dayOfYear": 203,
@@ -4149,7 +4482,10 @@
     "nameJa": "量り売りのすすめ",
     "keyFigureEn": "40%",
     "keyFigureEs": "40%",
-    "keyFigureJa": "40%"
+    "keyFigureJa": "40%",
+    "clueEn": "Packaging waste cut by buying in bulk",
+    "clueJa": "量り売りで減らせる包装ごみ",
+    "clueEs": "Residuos de envases que se evitan comprando a granel"
   },
   {
     "dayOfYear": 204,
@@ -4189,7 +4525,10 @@
     "nameJa": "小魚で資源を守る",
     "keyFigureEn": "62.4%",
     "keyFigureEs": "62,4%",
-    "keyFigureJa": "62.4%"
+    "keyFigureJa": "62.4%",
+    "clueEn": "Share of marine fish stocks fished sustainably",
+    "clueJa": "持続可能に漁獲される海洋魚類資源の割合",
+    "clueEs": "Proporción de poblaciones de peces marinos pescadas de forma sostenible"
   },
   {
     "dayOfYear": 206,
@@ -4231,7 +4570,10 @@
     "nameJa": "マングローブの守り",
     "keyFigureEn": "35%",
     "keyFigureEs": "35%",
-    "keyFigureJa": "35%"
+    "keyFigureJa": "35%",
+    "clueEn": "Share of world mangroves lost in recent decades",
+    "clueJa": "ここ数十年で失われた世界のマングローブの割合",
+    "clueEs": "Proporción de manglares del mundo perdidos en las últimas décadas"
   },
   {
     "dayOfYear": 208,
@@ -4271,7 +4613,10 @@
     "nameJa": "空気圧を確認",
     "keyFigureEn": "3%",
     "keyFigureEs": "3%",
-    "keyFigureJa": "3%"
+    "keyFigureJa": "3%",
+    "clueEn": "Fuel efficiency gain from inflated tyres",
+    "clueJa": "タイヤの適正空気圧による燃費改善",
+    "clueEs": "Mejora del consumo con los neumáticos bien inflados"
   },
   {
     "dayOfYear": 210,
@@ -4331,7 +4676,10 @@
     "nameJa": "衛生投資の価値",
     "keyFigureEn": "$4.30",
     "keyFigureEs": "4,30 dólares",
-    "keyFigureJa": "4.30ドル"
+    "keyFigureJa": "4.30ドル",
+    "clueEn": "Return per dollar spent on clean water",
+    "clueJa": "安全な水への投資一ドル当たりの見返り",
+    "clueEs": "Rendimiento por dólar invertido en agua limpia"
   },
   {
     "dayOfYear": 213,
@@ -4353,7 +4701,10 @@
     "nameJa": "大豆を直接食べる",
     "keyFigureEn": "10 times",
     "keyFigureEs": "10 veces",
-    "keyFigureJa": "10倍"
+    "keyFigureJa": "10倍",
+    "clueEn": "Extra protein from eating soy instead of beef",
+    "clueJa": "牛肉より大豆を直接食べて得るたんぱく質の倍率",
+    "clueEs": "Proteína extra al comer soja en vez de carne de vacuno"
   },
   {
     "dayOfYear": 214,
@@ -4413,7 +4764,10 @@
     "nameJa": "ドイツの太陽光記録",
     "keyFigureEn": "68%",
     "keyFigureEs": "68%",
-    "keyFigureJa": "68%"
+    "keyFigureJa": "68%",
+    "clueEn": "Germany's power demand met by solar in one day",
+    "clueJa": "ある日ドイツの電力需要を太陽光が賄った割合",
+    "clueEs": "Demanda eléctrica alemana cubierta por energía solar en un solo día"
   },
   {
     "dayOfYear": 217,
@@ -4492,7 +4846,10 @@
     "nameJa": "グリーン料金プラン",
     "keyFigureEn": "1-2 tonnes",
     "keyFigureEs": "1-2 toneladas",
-    "keyFigureJa": "1〜2トン"
+    "keyFigureJa": "1〜2トン",
+    "clueEn": "Yearly CO2 cut from a green energy tariff",
+    "clueJa": "グリーン電力プランで減らせる年間CO2",
+    "clueEs": "CO2 anual que evita una tarifa de energía verde"
   },
   {
     "dayOfYear": 221,
@@ -4514,7 +4871,10 @@
     "nameJa": "先住民が自然を守る",
     "keyFigureEn": "6.2%",
     "keyFigureEs": "6,2%",
-    "keyFigureJa": "6.2%"
+    "keyFigureJa": "6.2%",
+    "clueEn": "Indigenous Peoples' share of world population",
+    "clueJa": "世界人口に占める先住民族の割合",
+    "clueEs": "Proporción de la población mundial formada por pueblos indígenas"
   },
   {
     "dayOfYear": 222,
@@ -4575,7 +4935,10 @@
     "nameJa": "若者たちの気候ストライキ",
     "keyFigureEn": "14 million",
     "keyFigureEs": "14 millones",
-    "keyFigureJa": "1,400万"
+    "keyFigureJa": "1,400万",
+    "clueEn": "Students who joined climate strikes",
+    "clueJa": "気候ストライキに参加した学生の数",
+    "clueEs": "Estudiantes que se unieron a las huelgas por el clima"
   },
   {
     "dayOfYear": 225,
@@ -4597,7 +4960,10 @@
     "nameJa": "青い血のカブトガニ",
     "keyFigureEn": "450 million",
     "keyFigureEs": "450 millones",
-    "keyFigureJa": "4億5,000万"
+    "keyFigureJa": "4億5,000万",
+    "clueEn": "Years horseshoe crabs have existed",
+    "clueJa": "カブトガニが地球に存在してきた年数",
+    "clueEs": "Años que llevan existiendo los cangrejos herradura"
   },
   {
     "dayOfYear": 226,
@@ -4657,7 +5023,10 @@
     "nameJa": "工具をシェア",
     "keyFigureEn": "13 minutes",
     "keyFigureEs": "13 minutos",
-    "keyFigureJa": "13分"
+    "keyFigureJa": "13分",
+    "clueEn": "Lifetime use of a typical power drill",
+    "clueJa": "電動ドリルが生涯に使われる時間",
+    "clueEs": "Tiempo de uso de un taladro eléctrico en toda su vida útil"
   },
   {
     "dayOfYear": 229,
@@ -4678,7 +5047,10 @@
     "nameJa": "識字率の上昇",
     "keyFigureEn": "87%",
     "keyFigureEs": "87%",
-    "keyFigureJa": "87%"
+    "keyFigureJa": "87%",
+    "clueEn": "Global literacy rate today",
+    "clueJa": "現在の世界の識字率",
+    "clueEs": "Tasa de alfabetización mundial actual"
   },
   {
     "dayOfYear": 230,
@@ -4720,7 +5092,10 @@
     "nameJa": "気候移民の現実",
     "keyFigureEn": "21.5 million",
     "keyFigureEs": "21,5 millones",
-    "keyFigureJa": "2,150万"
+    "keyFigureJa": "2,150万",
+    "clueEn": "People displaced yearly by climate disasters",
+    "clueJa": "気候災害で毎年避難を強いられる人の数",
+    "clueEs": "Personas desplazadas al año por desastres climáticos"
   },
   {
     "dayOfYear": 232,
@@ -4761,7 +5136,10 @@
     "nameJa": "スマホの長い旅",
     "keyFigureEn": "50,000 km",
     "keyFigureEs": "50.000 km",
-    "keyFigureJa": "5万 km"
+    "keyFigureJa": "5万 km",
+    "clueEn": "Distance a phone's rare earths travel",
+    "clueJa": "スマホのレアアースが移動する距離",
+    "clueEs": "Distancia que recorren las tierras raras de un móvil"
   },
   {
     "dayOfYear": 234,
@@ -4783,7 +5161,10 @@
     "nameJa": "年金を緑に",
     "keyFigureEn": "21 times",
     "keyFigureEs": "21 veces",
-    "keyFigureJa": "21倍"
+    "keyFigureJa": "21倍",
+    "clueEn": "How much more a green pension cuts than other swaps",
+    "clueJa": "他の対策と比べたグリーン年金の削減効果",
+    "clueEs": "Cuánto más reduce un plan de pensiones verde que otros cambios"
   },
   {
     "dayOfYear": 235,
@@ -4840,7 +5221,10 @@
     "nameJa": "中国の植林計画",
     "keyFigureEn": "24%",
     "keyFigureEs": "24%",
-    "keyFigureJa": "24%"
+    "keyFigureJa": "24%",
+    "clueEn": "China's forest cover today",
+    "clueJa": "現在の中国の森林被覆率",
+    "clueEs": "Cobertura forestal actual de China"
   },
   {
     "dayOfYear": 238,
@@ -4899,7 +5283,10 @@
     "nameJa": "綿よりヘンプ",
     "keyFigureEn": "10,000 litres",
     "keyFigureEs": "10.000 litros",
-    "keyFigureJa": "1万リットル"
+    "keyFigureJa": "1万リットル",
+    "clueEn": "Water needed per kg of cotton",
+    "clueJa": "綿キロ当たりに必要な水の量",
+    "clueEs": "Agua necesaria por kg de algodón"
   },
   {
     "dayOfYear": 241,
@@ -4920,7 +5307,10 @@
     "nameJa": "クジラが海を肥やす",
     "keyFigureEn": "430 million",
     "keyFigureEs": "430 millones",
-    "keyFigureJa": "4億3,000万"
+    "keyFigureJa": "4億3,000万",
+    "clueEn": "Tonnes of krill whales ate yearly before whaling",
+    "clueJa": "捕鯨前にクジラが毎年食べたオキアミ（トン）",
+    "clueEs": "Toneladas de kril que comían al año las ballenas antes de su caza"
   },
   {
     "dayOfYear": 242,
@@ -4979,7 +5369,10 @@
     "nameJa": "SUVの重い負担",
     "keyFigureEn": "20%",
     "keyFigureEs": "20%",
-    "keyFigureJa": "20%"
+    "keyFigureJa": "20%",
+    "clueEn": "Extra CO2 per km from an SUV",
+    "clueJa": "SUVがキロ当たり余分に出すCO2",
+    "clueEs": "CO2 extra por km de un SUV"
   },
   {
     "dayOfYear": 245,
@@ -5000,7 +5393,10 @@
     "nameJa": "深海のプラごみ",
     "keyFigureEn": "94%",
     "keyFigureEs": "94%",
-    "keyFigureJa": "94%"
+    "keyFigureJa": "94%",
+    "clueEn": "Share of ocean plastic on the seafloor",
+    "clueJa": "海底にある海洋プラスチックの割合",
+    "clueEs": "Proporción del plástico oceánico en el fondo marino"
   },
   {
     "dayOfYear": 246,
@@ -5040,7 +5436,10 @@
     "nameJa": "不用品に第二の人生を",
     "keyFigureEn": "$3,000",
     "keyFigureEs": "$3.000",
-    "keyFigureJa": "3,000ドル"
+    "keyFigureJa": "3,000ドル",
+    "clueEn": "Value of unused items in a US home",
+    "clueJa": "米国の家庭で使われていない物の価値",
+    "clueEs": "Valor de los objetos sin usar de un hogar estadounidense"
   },
   {
     "dayOfYear": 248,
@@ -5080,7 +5479,10 @@
     "nameJa": "旬を食べる",
     "keyFigureEn": "30%",
     "keyFigureEs": "30%",
-    "keyFigureJa": "30%"
+    "keyFigureJa": "30%",
+    "clueEn": "Food emissions cut by eating seasonally",
+    "clueJa": "旬の食材を選んで減らせる食事の排出量",
+    "clueEs": "Emisiones de la comida que se evitan comiendo de temporada"
   },
   {
     "dayOfYear": 250,
@@ -5103,7 +5505,10 @@
     "nameJa": "化石燃料と命",
     "keyFigureEn": "4.2 million",
     "keyFigureEs": "4,2 millones",
-    "keyFigureJa": "420万"
+    "keyFigureJa": "420万",
+    "clueEn": "Yearly deaths from burning fossil fuels",
+    "clueJa": "化石燃料の燃焼による年間の早期死亡",
+    "clueEs": "Muertes anuales por la quema de combustibles fósiles"
   },
   {
     "dayOfYear": 251,
@@ -5125,7 +5530,10 @@
     "nameJa": "トラの復活",
     "keyFigureEn": "4,500",
     "keyFigureEs": "4.500",
-    "keyFigureJa": "4,500"
+    "keyFigureJa": "4,500",
+    "clueEn": "Wild tigers counted in the latest estimate",
+    "clueJa": "最新推計の野生のトラの数",
+    "clueEs": "Tigres salvajes según la última estimación"
   },
   {
     "dayOfYear": 252,
@@ -5221,7 +5629,10 @@
     "nameJa": "待機電力の隠れ費用",
     "keyFigureEn": "GBP 1.3 billion",
     "keyFigureEs": "1.300 millones",
-    "keyFigureJa": "13億ポンド"
+    "keyFigureJa": "13億ポンド",
+    "clueEn": "Yearly UK cost of standby power",
+    "clueJa": "英国の待機電力の年間コスト",
+    "clueEs": "Coste anual del modo de espera en el Reino Unido"
   },
   {
     "dayOfYear": 257,
@@ -5242,7 +5653,10 @@
     "nameJa": "ムクドリの群舞",
     "keyFigureEn": "750,000",
     "keyFigureEs": "750.000",
-    "keyFigureJa": "75万"
+    "keyFigureJa": "75万",
+    "clueEn": "Starlings in the largest murmurations",
+    "clueJa": "最大級のムクドリの群れの羽数",
+    "clueEs": "Estorninos en las mayores bandadas"
   },
   {
     "dayOfYear": 258,
@@ -5283,7 +5697,10 @@
     "nameJa": "オゾン層保護の成功",
     "keyFigureEn": "2 million",
     "keyFigureEs": "2 millones",
-    "keyFigureJa": "200万"
+    "keyFigureJa": "200万",
+    "clueEn": "Skin cancer cases prevented yearly by the Montreal Protocol",
+    "clueJa": "モントリオール議定書で毎年防がれる皮膚がん",
+    "clueEs": "Casos de cáncer de piel evitados al año por el Protocolo de Montreal"
   },
   {
     "dayOfYear": 260,
@@ -5304,7 +5721,10 @@
     "nameJa": "古いスマホから金属",
     "keyFigureEn": "16 tonnes",
     "keyFigureEs": "16 toneladas",
-    "keyFigureJa": "16トン"
+    "keyFigureJa": "16トン",
+    "clueEn": "Copper recovered from recycling a million phones",
+    "clueJa": "百万台のスマホのリサイクルで回収できる銅",
+    "clueEs": "Cobre recuperado al reciclar un millón de móviles"
   },
   {
     "dayOfYear": 261,
@@ -5401,7 +5821,10 @@
     "nameJa": "ヒートポンプに軍配",
     "keyFigureEn": "3-4 times",
     "keyFigureEs": "3-4 veces",
-    "keyFigureJa": "3〜4倍"
+    "keyFigureJa": "3〜4倍",
+    "clueEn": "How much more efficient a heat pump is than gas",
+    "clueJa": "ヒートポンプがガスボイラーより効率的な倍率",
+    "clueEs": "Cuánto más eficiente es una bomba de calor que el gas"
   },
   {
     "dayOfYear": 266,
@@ -5422,7 +5845,10 @@
     "nameJa": "無着陸世界記録",
     "keyFigureEn": "11,000 km",
     "keyFigureEs": "11.000 km",
-    "keyFigureJa": "1万1,000 km"
+    "keyFigureJa": "1万1,000 km",
+    "clueEn": "Non-stop flight of the bar-tailed godwit",
+    "clueJa": "オオソリハシシギの無着陸飛行距離",
+    "clueEs": "Distancia del vuelo sin escalas de la aguja colipinta"
   },
   {
     "dayOfYear": 267,
@@ -5482,7 +5908,10 @@
     "nameJa": "原生林を守ろう",
     "keyFigureEn": "41-84%",
     "keyFigureEs": "41-84%",
-    "keyFigureJa": "41〜84%"
+    "keyFigureJa": "41〜84%",
+    "clueEn": "Large trees' share of mature forest carbon",
+    "clueJa": "成熟林の炭素に占める大木の割合",
+    "clueEs": "Proporción del carbono del bosque maduro en los árboles grandes"
   },
   {
     "dayOfYear": 270,
@@ -5543,7 +5972,10 @@
     "nameJa": "もし食品ロスが国だったら",
     "keyFigureEn": "24%",
     "keyFigureEs": "24%",
-    "keyFigureJa": "24%"
+    "keyFigureJa": "24%",
+    "clueEn": "Share of food emissions from lost or wasted food",
+    "clueJa": "食料の排出のうち食品ロス由来の割合",
+    "clueEs": "Proporción de las emisiones alimentarias por alimentos perdidos o desperdiciados"
   },
   {
     "dayOfYear": 273,
@@ -5565,7 +5997,10 @@
     "nameJa": "図書館を使う",
     "keyFigureEn": "4 kg",
     "keyFigureEs": "4 kg",
-    "keyFigureJa": "4 kg"
+    "keyFigureJa": "4 kg",
+    "clueEn": "Lifecycle carbon footprint of one book",
+    "clueJa": "本一冊のライフサイクルのカーボンフットプリント",
+    "clueEs": "Huella de carbono de un libro en su ciclo de vida"
   },
   {
     "dayOfYear": 274,
@@ -5587,7 +6022,10 @@
     "nameJa": "大気浄化法の効果",
     "keyFigureEn": "$32",
     "keyFigureEs": "$32",
-    "keyFigureJa": "32ドル"
+    "keyFigureJa": "32ドル",
+    "clueEn": "Benefits per dollar of US clean air rules",
+    "clueJa": "米国大気浄化法の一ドル当たりの便益",
+    "clueEs": "Beneficios por dólar de la Ley de Aire Limpio estadounidense"
   },
   {
     "dayOfYear": 275,
@@ -5610,7 +6048,10 @@
     "nameJa": "砂漠の垂直農場",
     "keyFigureEn": "95%",
     "keyFigureEs": "95%",
-    "keyFigureJa": "95%"
+    "keyFigureJa": "95%",
+    "clueEn": "Water Dubai's vertical farm saves",
+    "clueJa": "ドバイの垂直農場が節約する水",
+    "clueEs": "Agua que ahorra la granja vertical de Dubái"
   },
   {
     "dayOfYear": 276,
@@ -5632,7 +6073,10 @@
     "nameJa": "海草の驚異",
     "keyFigureEn": "0.1%",
     "keyFigureEs": "0,1%",
-    "keyFigureJa": "0.1%"
+    "keyFigureJa": "0.1%",
+    "clueEn": "Share of ocean floor covered by seagrass",
+    "clueJa": "海草藻場が覆う海底の割合",
+    "clueEs": "Proporción del fondo marino cubierta por praderas marinas"
   },
   {
     "dayOfYear": 277,
@@ -5654,7 +6098,10 @@
     "nameJa": "買い替えが正解のことも",
     "keyFigureEn": "40%",
     "keyFigureEs": "40%",
-    "keyFigureJa": "40%"
+    "keyFigureJa": "40%",
+    "clueEn": "Extra energy an old fridge uses",
+    "clueJa": "古い冷蔵庫が余分に使うエネルギー",
+    "clueEs": "Energía extra que gasta una nevera antigua"
   },
   {
     "dayOfYear": 278,
@@ -5696,7 +6143,10 @@
     "nameJa": "マイクロファイバー汚染",
     "keyFigureEn": "500,000 tonnes",
     "keyFigureEs": "500.000 toneladas",
-    "keyFigureJa": "50万トン"
+    "keyFigureJa": "50万トン",
+    "clueEn": "Microfibres from laundry reaching the ocean yearly",
+    "clueJa": "洗濯で毎年海に出るマイクロファイバー",
+    "clueEs": "Microfibras del lavado que llegan al océano al año"
   },
   {
     "dayOfYear": 280,
@@ -5738,7 +6188,10 @@
     "nameJa": "不揃いな野菜を選ぼう",
     "keyFigureEn": "40%",
     "keyFigureEs": "40%",
-    "keyFigureJa": "40%"
+    "keyFigureJa": "40%",
+    "clueEn": "Share of produce rejected for its looks",
+    "clueJa": "見た目で規格外となる青果の割合",
+    "clueEs": "Proporción de fruta y verdura rechazada por su aspecto"
   },
   {
     "dayOfYear": 282,
@@ -5760,7 +6213,10 @@
     "nameJa": "ファッションと水",
     "keyFigureEn": "93 billion",
     "keyFigureEs": "93.000 millones",
-    "keyFigureJa": "930億"
+    "keyFigureJa": "930億",
+    "clueEn": "Cubic metres of water fashion uses yearly",
+    "clueJa": "ファッション産業が毎年使う水（立方メートル）",
+    "clueEs": "Metros cúbicos de agua que usa al año la moda"
   },
   {
     "dayOfYear": 283,
@@ -5820,7 +6276,10 @@
     "nameJa": "地衣類のパイオニア",
     "keyFigureEn": "400 million",
     "keyFigureEs": "400 millones",
-    "keyFigureJa": "4億"
+    "keyFigureJa": "4億",
+    "clueEn": "Years lichens have existed",
+    "clueJa": "地衣類が地球に存在してきた年数",
+    "clueEs": "Años que llevan existiendo los líquenes"
   },
   {
     "dayOfYear": 286,
@@ -5860,7 +6319,10 @@
     "nameJa": "電子ごみの山",
     "keyFigureEn": "22.3%",
     "keyFigureEs": "22,3%",
-    "keyFigureJa": "22.3%"
+    "keyFigureJa": "22.3%",
+    "clueEn": "Share of e-waste properly collected and recycled",
+    "clueJa": "適切に回収・リサイクルされた電子廃棄物の割合",
+    "clueEs": "Proporción de residuos electrónicos recogidos y reciclados correctamente"
   },
   {
     "dayOfYear": 288,
@@ -5882,7 +6344,10 @@
     "nameJa": "女性農家の格差",
     "keyFigureEn": "24%",
     "keyFigureEs": "24%",
-    "keyFigureJa": "24%"
+    "keyFigureJa": "24%",
+    "clueEn": "Productivity gap of women farmers",
+    "clueJa": "女性農業者の生産性の格差",
+    "clueEs": "Brecha de productividad de las agricultoras"
   },
   {
     "dayOfYear": 289,
@@ -5905,7 +6370,10 @@
     "nameJa": "食は十分にある",
     "keyFigureEn": "645 million",
     "keyFigureEs": "645 millones",
-    "keyFigureJa": "6億4,500万"
+    "keyFigureJa": "6億4,500万",
+    "clueEn": "People who went hungry in a year",
+    "clueJa": "一年間に飢えに苦しんだ人の数",
+    "clueEs": "Personas que pasaron hambre en un año"
   },
   {
     "dayOfYear": 290,
@@ -5928,7 +6396,10 @@
     "nameJa": "貧困と気候変動",
     "keyFigureEn": "132 million",
     "keyFigureEs": "132 millones",
-    "keyFigureJa": "1億3,200万"
+    "keyFigureJa": "1億3,200万",
+    "clueEn": "People climate change could push into poverty",
+    "clueJa": "気候変動で極度の貧困に陥りうる人の数",
+    "clueEs": "Personas que el cambio climático podría empujar a la pobreza"
   },
   {
     "dayOfYear": 291,
@@ -5951,7 +6422,10 @@
     "nameJa": "自然＝持続可能ではない",
     "keyFigureEn": "16%",
     "keyFigureEs": "16%",
-    "keyFigureJa": "16%"
+    "keyFigureJa": "16%",
+    "clueEn": "Cotton's share of world insecticide use",
+    "clueJa": "世界の殺虫剤使用に占める綿花の割合",
+    "clueEs": "Proporción del uso mundial de insecticidas que corresponde al algodón"
   },
   {
     "dayOfYear": 292,
@@ -6030,7 +6504,10 @@
     "nameJa": "自転車道を建設",
     "keyFigureEn": "250 tonnes",
     "keyFigureEs": "250 toneladas",
-    "keyFigureJa": "250トン"
+    "keyFigureJa": "250トン",
+    "clueEn": "CO2 from building a kilometre of road",
+    "clueJa": "道路一キロの建設で出るCO2",
+    "clueEs": "CO2 de construir un kilómetro de carretera"
   },
   {
     "dayOfYear": 296,
@@ -6052,7 +6529,10 @@
     "nameJa": "富と排出量",
     "keyFigureEn": "50%",
     "keyFigureEs": "50%",
-    "keyFigureJa": "50%"
+    "keyFigureJa": "50%",
+    "clueEn": "Emissions share of the wealthiest tenth",
+    "clueJa": "最も裕福な一割が占める排出の割合",
+    "clueEs": "Proporción de las emisiones del diez por ciento más rico"
   },
   {
     "dayOfYear": 297,
@@ -6074,7 +6554,10 @@
     "nameJa": "パリ協定の意味",
     "keyFigureEn": "194",
     "keyFigureEs": "194",
-    "keyFigureJa": "194"
+    "keyFigureJa": "194",
+    "clueEn": "Parties to the Paris Agreement",
+    "clueJa": "パリ協定の締約国・機関の数",
+    "clueEs": "Partes del Acuerdo de París"
   },
   {
     "dayOfYear": 298,
@@ -6134,7 +6617,10 @@
     "nameJa": "海運の脱炭素",
     "keyFigureEn": "77%",
     "keyFigureEs": "77%",
-    "keyFigureJa": "77%"
+    "keyFigureJa": "77%",
+    "clueEn": "Cut in shipping sulphur emissions under IMO rules",
+    "clueJa": "IMO規制による海運の硫黄排出の削減率",
+    "clueEs": "Reducción de las emisiones de azufre del transporte marítimo con la OMI"
   },
   {
     "dayOfYear": 301,
@@ -6233,7 +6719,10 @@
     "nameJa": "プラントベース食品の急成長",
     "keyFigureEn": "$29.4 billion",
     "keyFigureEs": "$29.400 millones",
-    "keyFigureJa": "294億ドル"
+    "keyFigureJa": "294億ドル",
+    "clueEn": "Value of the plant-based food market",
+    "clueJa": "植物性食品市場の規模",
+    "clueEs": "Valor del mercado de alimentos vegetales"
   },
   {
     "dayOfYear": 306,
@@ -6255,7 +6744,10 @@
     "nameJa": "アホウドリの飛翔",
     "keyFigureEn": "10,000 km",
     "keyFigureEs": "10.000 km",
-    "keyFigureJa": "1万 km"
+    "keyFigureJa": "1万 km",
+    "clueEn": "Distance an albatross glides without flapping",
+    "clueJa": "アホウドリが羽ばたかずに飛べる距離",
+    "clueEs": "Distancia que planea un albatros sin aletear"
   },
   {
     "dayOfYear": 307,
@@ -6297,7 +6789,10 @@
     "nameJa": "循環経済の将来",
     "keyFigureEn": "106 billion",
     "keyFigureEs": "106.000 millones",
-    "keyFigureJa": "1,060億"
+    "keyFigureJa": "1,060億",
+    "clueEn": "Tonnes of resources the world uses each year",
+    "clueJa": "世界が毎年使う資源（トン）",
+    "clueEs": "Toneladas de recursos que usa el mundo al año"
   },
   {
     "dayOfYear": 309,
@@ -6338,7 +6833,10 @@
     "nameJa": "湾岸戦争の油田火災",
     "keyFigureEn": "1 billion",
     "keyFigureEs": "1.000 millones",
-    "keyFigureJa": "10億"
+    "keyFigureJa": "10億",
+    "clueEn": "Barrels of oil released by Gulf War well fires",
+    "clueJa": "湾岸戦争の油井炎上で放出された石油（バレル）",
+    "clueEs": "Barriles de petróleo liberados por los pozos en llamas de la Guerra del Golfo"
   },
   {
     "dayOfYear": 311,
@@ -6360,7 +6858,10 @@
     "nameJa": "コウモリが畑を守る",
     "keyFigureEn": "$23 billion",
     "keyFigureEs": "$23.000 millones",
-    "keyFigureJa": "230億ドル"
+    "keyFigureJa": "230億ドル",
+    "clueEn": "Yearly value of bat pest control to US farms",
+    "clueJa": "米国農業でのコウモリの害虫駆除の年間価値",
+    "clueEs": "Valor anual del control de plagas de los murciélagos para granjas estadounidenses"
   },
   {
     "dayOfYear": 312,
@@ -6382,7 +6883,10 @@
     "nameJa": "余ったら即冷凍",
     "keyFigureEn": "30%",
     "keyFigureEs": "30%",
-    "keyFigureJa": "30%"
+    "keyFigureJa": "30%",
+    "clueEn": "Household food waste prevented by freezing leftovers",
+    "clueJa": "残り物の即日冷凍で防げる家庭の食品ロス",
+    "clueEs": "Desperdicio de alimentos doméstico que se evita congelando las sobras"
   },
   {
     "dayOfYear": 313,
@@ -6459,7 +6963,10 @@
     "nameJa": "深海の光",
     "keyFigureEn": "75%",
     "keyFigureEs": "75%",
-    "keyFigureJa": "75%"
+    "keyFigureJa": "75%",
+    "clueEn": "Share of deep-sea creatures that make light",
+    "clueJa": "自ら発光する深海生物の割合",
+    "clueEs": "Proporción de criaturas abisales que producen luz"
   },
   {
     "dayOfYear": 317,
@@ -6519,7 +7026,10 @@
     "nameJa": "エコモードで洗う",
     "keyFigureEn": "20%",
     "keyFigureEs": "20%",
-    "keyFigureJa": "20%"
+    "keyFigureJa": "20%",
+    "clueEn": "Energy saved by a dishwasher's eco mode",
+    "clueJa": "食洗機のエコモードで減らせるエネルギー",
+    "clueEs": "Energía que ahorra el modo eco del lavavajillas"
   },
   {
     "dayOfYear": 320,
@@ -6541,7 +7051,10 @@
     "nameJa": "空調の電力急増",
     "keyFigureEn": "10%",
     "keyFigureEs": "10%",
-    "keyFigureJa": "10%"
+    "keyFigureJa": "10%",
+    "clueEn": "Air conditioning's share of world electricity",
+    "clueJa": "世界の電力に占める冷房の割合",
+    "clueEs": "Proporción de la electricidad mundial que consume el aire acondicionado"
   },
   {
     "dayOfYear": 321,
@@ -6562,7 +7075,10 @@
     "nameJa": "世界最大の花",
     "keyFigureEn": "3 metres",
     "keyFigureEs": "3 metros",
-    "keyFigureJa": "3 m"
+    "keyFigureJa": "3 m",
+    "clueEn": "Height of the titan arum's flower cluster",
+    "clueJa": "ショクダイオオコンニャクの花序の高さ",
+    "clueEs": "Altura de la inflorescencia del aro gigante"
   },
   {
     "dayOfYear": 322,
@@ -6621,7 +7137,10 @@
     "nameJa": "ペーパーレスを選ぼう",
     "keyFigureEn": "10 billion",
     "keyFigureEs": "10.000 millones",
-    "keyFigureJa": "100億"
+    "keyFigureJa": "100億",
+    "clueEn": "Paper receipts saved yearly by going digital in the US",
+    "clueJa": "米国で電子化により毎年減らせる紙レシート",
+    "clueEs": "Recibos de papel evitados al año en EE. UU. al pasar a lo digital"
   },
   {
     "dayOfYear": 325,
@@ -6643,7 +7162,10 @@
     "nameJa": "ウルグアイの達成",
     "keyFigureEn": "98%",
     "keyFigureEs": "98%",
-    "keyFigureJa": "98%"
+    "keyFigureJa": "98%",
+    "clueEn": "Uruguay's share of electricity from renewables",
+    "clueJa": "ウルグアイの電力に占める再エネの割合",
+    "clueEs": "Proporción de la electricidad de Uruguay de origen renovable"
   },
   {
     "dayOfYear": 326,
@@ -6666,7 +7188,10 @@
     "nameJa": "市民科学に参加",
     "keyFigureEn": "150",
     "keyFigureEs": "150",
-    "keyFigureJa": "150"
+    "keyFigureJa": "150",
+    "clueEn": "Yearly studies built on citizen science",
+    "clueJa": "市民科学が貢献した年間の査読論文数",
+    "clueEs": "Estudios anuales basados en la ciencia ciudadana"
   },
   {
     "dayOfYear": 327,
@@ -6707,7 +7232,10 @@
     "nameJa": "レアアース独占",
     "keyFigureEn": "90%",
     "keyFigureEs": "90%",
-    "keyFigureJa": "90%"
+    "keyFigureJa": "90%",
+    "clueEn": "China's share of rare earth processing",
+    "clueJa": "中国が担うレアアース加工の割合",
+    "clueEs": "Proporción del procesado de tierras raras que hace China"
   },
   {
     "dayOfYear": 329,
@@ -6728,7 +7256,10 @@
     "nameJa": "世界最速の植物",
     "keyFigureEn": "91 cm",
     "keyFigureEs": "91 cm",
-    "keyFigureJa": "91 cm"
+    "keyFigureJa": "91 cm",
+    "clueEn": "Daily growth of the fastest bamboo",
+    "clueJa": "最も成長の速い竹の一日の成長量",
+    "clueEs": "Crecimiento diario del bambú más rápido"
   },
   {
     "dayOfYear": 330,
@@ -6751,7 +7282,10 @@
     "nameJa": "道路交通の排出",
     "keyFigureEn": "24%",
     "keyFigureEs": "24%",
-    "keyFigureJa": "24%"
+    "keyFigureJa": "24%",
+    "clueEn": "Transport's share of global CO2 emissions",
+    "clueJa": "世界のCO2排出に占める運輸部門の割合",
+    "clueEs": "Proporción de las emisiones mundiales de CO2 debida al transporte"
   },
   {
     "dayOfYear": 331,
@@ -6772,7 +7306,10 @@
     "nameJa": "厚手カーテンで保温",
     "keyFigureEn": "17%",
     "keyFigureEs": "17%",
-    "keyFigureJa": "17%"
+    "keyFigureJa": "17%",
+    "clueEn": "Window heat loss cut by closing curtains",
+    "clueJa": "カーテンを閉めて減らせる窓からの熱損失",
+    "clueEs": "Pérdida de calor por ventanas que se evita con cortinas"
   },
   {
     "dayOfYear": 332,
@@ -6794,7 +7331,10 @@
     "nameJa": "お弁当箱で脱プラ",
     "keyFigureEn": "6 kg",
     "keyFigureEs": "6 kg",
-    "keyFigureJa": "6 kg"
+    "keyFigureJa": "6 kg",
+    "clueEn": "Plastic waste avoided yearly by packing lunch",
+    "clueJa": "弁当持参で毎年減らせるプラスチックごみ",
+    "clueEs": "Residuos plásticos que se evitan al año llevando la comida"
   },
   {
     "dayOfYear": 333,
@@ -6816,7 +7356,10 @@
     "nameJa": "サケが森を育てる",
     "keyFigureEn": "500 metres",
     "keyFigureEs": "500 metros",
-    "keyFigureJa": "500 m"
+    "keyFigureJa": "500 m",
+    "clueEn": "How far from rivers salmon feed trees",
+    "clueJa": "サケの栄養が川から木に届く距離",
+    "clueEs": "Distancia del río a la que el salmón abona los árboles"
   },
   {
     "dayOfYear": 334,
@@ -6838,7 +7381,10 @@
     "nameJa": "洋上風力の低価格",
     "keyFigureEn": "63%",
     "keyFigureEs": "63%",
-    "keyFigureJa": "63%"
+    "keyFigureJa": "63%",
+    "clueEn": "Drop in the cost of offshore wind",
+    "clueJa": "洋上風力のコストの下落率",
+    "clueEs": "Caída del coste de la eólica marina"
   },
   {
     "dayOfYear": 335,
@@ -6915,7 +7461,10 @@
     "nameJa": "自然に投資する",
     "keyFigureEn": "$200 billion",
     "keyFigureEs": "$200.000 millones",
-    "keyFigureJa": "2,000億ドル"
+    "keyFigureJa": "2,000億ドル",
+    "clueEn": "Yearly investment in nature-based solutions",
+    "clueJa": "自然を活用した解決策への年間投資",
+    "clueEs": "Inversión anual en soluciones basadas en la naturaleza"
   },
   {
     "dayOfYear": 339,
@@ -6956,7 +7505,10 @@
     "nameJa": "カーボンネガティブなブータン",
     "keyFigureEn": "60%",
     "keyFigureEs": "60%",
-    "keyFigureJa": "60%"
+    "keyFigureJa": "60%",
+    "clueEn": "Share of Bhutan's land that must stay forested",
+    "clueJa": "ブータンで森林として残すべき国土の割合",
+    "clueEs": "Proporción del territorio de Bután que debe seguir siendo bosque"
   },
   {
     "dayOfYear": 341,
@@ -7014,7 +7566,10 @@
     "nameJa": "クリスマスツリー選び",
     "keyFigureEn": "10-20 years",
     "keyFigureEs": "10-20 años",
-    "keyFigureJa": "10〜20年間"
+    "keyFigureJa": "10〜20年間",
+    "clueEn": "Years a fake tree needs to beat a real one",
+    "clueJa": "人工ツリーが本物に勝つのに必要な年数",
+    "clueEs": "Años que debe usarse un árbol artificial para superar a uno real"
   },
   {
     "dayOfYear": 344,
@@ -7054,7 +7609,10 @@
     "nameJa": "山は水の源",
     "keyFigureEn": "30 years",
     "keyFigureEs": "30 años",
-    "keyFigureJa": "30年"
+    "keyFigureJa": "30年",
+    "clueEn": "Time until mountain communities face water shortages",
+    "clueJa": "山岳地域が深刻な水不足に直面するまでの期間",
+    "clueEs": "Plazo hasta la escasez de agua en las comunidades de montaña"
   },
   {
     "dayOfYear": 346,
@@ -7114,7 +7672,10 @@
     "nameJa": "極から極へ",
     "keyFigureEn": "70,000 km",
     "keyFigureEs": "70.000 km",
-    "keyFigureJa": "7万 km"
+    "keyFigureJa": "7万 km",
+    "clueEn": "Distance the Arctic tern migrates each year",
+    "clueJa": "キョクアジサシが毎年渡る距離",
+    "clueEs": "Distancia que migra al año el charrán ártico"
   },
   {
     "dayOfYear": 349,
@@ -7136,7 +7697,10 @@
     "nameJa": "森林減少が鈍化",
     "keyFigureEn": "10.9 million",
     "keyFigureEs": "10,9 millones",
-    "keyFigureJa": "1,090万"
+    "keyFigureJa": "1,090万",
+    "clueEn": "Hectares of forest lost yearly in the latest decade",
+    "clueJa": "直近十年に毎年失われた森林（ヘクタール）",
+    "clueEs": "Hectáreas de bosque perdidas al año en la última década"
   },
   {
     "dayOfYear": 350,
@@ -7157,7 +7721,10 @@
     "nameJa": "ハクトウワシの復活",
     "keyFigureEn": "71,400",
     "keyFigureEs": "71.400",
-    "keyFigureJa": "7万1,400"
+    "keyFigureJa": "7万1,400",
+    "clueEn": "Bald eagle nesting pairs after recovery",
+    "clueJa": "回復後のハクトウワシのつがいの数",
+    "clueEs": "Parejas reproductoras de pigargo americano tras su recuperación"
   },
   {
     "dayOfYear": 351,
@@ -7178,7 +7745,10 @@
     "nameJa": "夜はシャットダウン",
     "keyFigureEn": "50 kg",
     "keyFigureEs": "50 kg",
-    "keyFigureJa": "50 kg"
+    "keyFigureJa": "50 kg",
+    "clueEn": "Yearly CO2 saved by shutting down your computer",
+    "clueJa": "パソコンの電源を切って毎年減らせるCO2",
+    "clueEs": "CO2 que se ahorra al año apagando el ordenador"
   },
   {
     "dayOfYear": 352,
@@ -7199,7 +7769,10 @@
     "nameJa": "もらい物を回そう",
     "keyFigureEn": "4 billion",
     "keyFigureEs": "4.000 millones",
-    "keyFigureJa": "40億"
+    "keyFigureJa": "40億",
+    "clueEn": "Gifts returned or thrown away each year",
+    "clueJa": "毎年返品・廃棄される贈り物の数",
+    "clueEs": "Regalos devueltos o tirados al año"
   },
   {
     "dayOfYear": 353,
@@ -7279,7 +7852,10 @@
     "nameJa": "非効率な建物",
     "keyFigureEn": "8.2 gigatonnes",
     "keyFigureEs": "8,2 gigatoneladas",
-    "keyFigureJa": "82億トン"
+    "keyFigureJa": "82億トン",
+    "clueEn": "CO2 better building standards could save",
+    "clueJa": "建物基準の改善で削減できるCO2",
+    "clueEs": "CO2 que podrían ahorrar mejores normas de edificación"
   },
   {
     "dayOfYear": 357,
@@ -7300,7 +7876,10 @@
     "nameJa": "充電池を選ぼう",
     "keyFigureEn": "500",
     "keyFigureEs": "500",
-    "keyFigureJa": "500"
+    "keyFigureJa": "500",
+    "clueEn": "Disposable batteries one rechargeable set replaces",
+    "clueJa": "充電池一組で置き換えられる使い捨て電池",
+    "clueEs": "Pilas desechables que sustituye un juego recargable"
   },
   {
     "dayOfYear": 358,
@@ -7321,7 +7900,10 @@
     "nameJa": "エコノミーで飛ぼう",
     "keyFigureEn": "3x",
     "keyFigureEs": "3 veces",
-    "keyFigureJa": "3倍"
+    "keyFigureJa": "3倍",
+    "clueEn": "Business class footprint versus economy",
+    "clueJa": "エコノミーと比べたビジネスクラスの排出量",
+    "clueEs": "Huella de la clase business frente a la turista"
   },
   {
     "dayOfYear": 359,
@@ -7361,7 +7943,10 @@
     "nameJa": "宇宙から見えるサンゴ礁",
     "keyFigureEn": "1,500 species",
     "keyFigureEs": "1.500 especies",
-    "keyFigureJa": "1,500種"
+    "keyFigureJa": "1,500種",
+    "clueEn": "Fish species on the Great Barrier Reef",
+    "clueJa": "グレートバリアリーフの魚の種の数",
+    "clueEs": "Especies de peces de la Gran Barrera de Coral"
   },
   {
     "dayOfYear": 361,
@@ -7383,7 +7968,10 @@
     "nameJa": "貧困の後退",
     "keyFigureEn": "2.3 billion",
     "keyFigureEs": "2.300 millones",
-    "keyFigureJa": "23億"
+    "keyFigureJa": "23億",
+    "clueEn": "",
+    "clueJa": "",
+    "clueEs": ""
   },
   {
     "dayOfYear": 362,
@@ -7459,7 +8047,10 @@
     "nameJa": "一歩は世界を変える",
     "keyFigureEn": "1.5 degrees C",
     "keyFigureEs": "1,5 grados C",
-    "keyFigureJa": "1.5度C"
+    "keyFigureJa": "1.5度C",
+    "clueEn": "",
+    "clueJa": "",
+    "clueEs": ""
   },
   {
     "dayOfYear": 366,
@@ -7481,6 +8072,9 @@
     "nameJa": "うるう日の排出",
     "keyFigureEn": "100 million",
     "keyFigureEs": "100 millones",
-    "keyFigureJa": "1億"
+    "keyFigureJa": "1億",
+    "clueEn": "Tonnes of CO2 added by one extra leap day",
+    "clueJa": "うるう日一日分で増えるCO2（トン）",
+    "clueEs": "Toneladas de CO2 que añade un día bisiesto extra"
   }
 ]

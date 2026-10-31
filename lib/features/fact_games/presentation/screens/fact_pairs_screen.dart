@@ -16,11 +16,13 @@ import 'package:seed_app/features/fact_games/presentation/fact_source.dart';
 import 'package:seed_app/features/fact_games/presentation/providers/fact_games_providers.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_games_locked_view.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/game_win_celebration.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// Fact pairs: a memory game matching each unlocked fact's title to
-/// its key figure. Each match opens the fact in a sheet.
+/// its key figure. Each match but the last opens the fact in a sheet,
+/// as does a tap on a matched card; the last plays the celebration.
 ///
 /// Nothing is awarded, logged or persisted, and there is no best score:
 /// boards differ in size, so a best would mislead.
@@ -60,7 +62,7 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
   void _deal(List<GameFact> pool, String locale) {
     _missTimer?.cancel();
     _boardLocale = locale;
-    _board = distinctFigureCount(pool) < factGamesMinFacts
+    _board = distinctFigureCount(pool.where(pairable)) < factGamesMinFacts
         ? null
         : FactPairsBoard.deal(pool, _random);
   }
@@ -92,7 +94,6 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
           ref
               .read(analyticsServiceProvider)
               .logFactPairsFinished(pairs: board.pairCount, moves: board.moves);
-          // Scrolled behind the sheet, so the panel is waiting when it closes.
           WidgetsBinding.instance.addPostFrameCallback((_) {
             final panel = _finishKey.currentContext;
             if (panel != null && panel.mounted) {
@@ -102,6 +103,9 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
               );
             }
           });
+          // The celebration is the last match's reward; a sheet would
+          // hide it, and the matched card still opens the fact.
+          return;
         }
         showFactSheet(context, card.fact);
       case FlipResult.miss:
@@ -160,7 +164,7 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
     final theme = Theme.of(context);
     final noteStyle = theme.caption;
     final wide = MediaQuery.textScalerOf(context).scale(14) > 14;
-    return SingleChildScrollView(
+    final game = SingleChildScrollView(
       padding: const EdgeInsets.all(spacingXxl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -206,7 +210,9 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
                       : board.faceUp.contains(i)
                       ? FactCardState.faceUp
                       : FactCardState.faceDown,
-                  onTap: board.matched.contains(i) || board.faceUp.contains(i)
+                  onTap: board.matched.contains(i)
+                      ? () => showFactSheet(context, card.fact)
+                      : board.faceUp.contains(i)
                       ? null
                       : () => _flip(board, i),
                 ),
@@ -236,6 +242,13 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
           Text(l10n.quizNoPointsNote, style: noteStyle),
         ],
       ),
+    );
+    if (!board.finished) return game;
+    return Stack(
+      children: [
+        game,
+        Positioned.fill(child: GameWinCelebration(key: ObjectKey(board))),
+      ],
     );
   }
 }

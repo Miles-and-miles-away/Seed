@@ -18,6 +18,9 @@ class SdgGoal {
     this.keyFigureEn = '',
     this.keyFigureJa = '',
     this.keyFigureEs = '',
+    this.clueEn = '',
+    this.clueJa = '',
+    this.clueEs = '',
   });
 
   factory SdgGoal.fromJson(Map<String, dynamic> json) {
@@ -38,6 +41,9 @@ class SdgGoal {
       keyFigureEn: json['keyFigureEn'] as String? ?? '',
       keyFigureJa: json['keyFigureJa'] as String? ?? '',
       keyFigureEs: json['keyFigureEs'] as String? ?? '',
+      clueEn: json['clueEn'] as String? ?? '',
+      clueJa: json['clueJa'] as String? ?? '',
+      clueEs: json['clueEs'] as String? ?? '',
     );
   }
 
@@ -60,6 +66,11 @@ class SdgGoal {
   final String keyFigureJa;
   final String keyFigureEs;
 
+  /// What the key figure measures, short enough for a Fact pairs card.
+  final String clueEn;
+  final String clueJa;
+  final String clueEs;
+
   String title(String locale) => switch (locale) {
     'ja' when titleJa.isNotEmpty => titleJa,
     'es' when titleEs.isNotEmpty => titleEs,
@@ -76,6 +87,12 @@ class SdgGoal {
     'ja' when descriptionJa.isNotEmpty => descriptionJa,
     'es' when descriptionEs.isNotEmpty => descriptionEs,
     _ => descriptionEn,
+  };
+
+  String clue(String locale) => switch (locale) {
+    'ja' when clueJa.isNotEmpty => clueJa,
+    'es' when clueEs.isNotEmpty => clueEs,
+    _ => clueEn,
   };
 
   /// A blank figure in JA or ES stays unset rather than falling back to EN.

@@ -13,7 +13,10 @@
     "descriptionEs": "Poner fin a la pobreza en todas sus formas en todo el mundo. En 2026, más de 800 millones de personas siguen viviendo en pobreza extrema con menos de 3 dólares al día, y luchan por cubrir necesidades tan básicas como la salud, la educación y el acceso al agua y al saneamiento. Se estima que son 1 de cada 10 personas. La mayoría vive en el África subsahariana. El objetivo pide sistemas de protección social, igualdad de derechos sobre los recursos económicos y apoyo a las personas afectadas por desastres climáticos y otras crisis.",
     "keyFigureEn": "800 million",
     "keyFigureJa": "8億",
-    "keyFigureEs": "800 millones"
+    "keyFigureEs": "800 millones",
+    "clueEn": "People still living in extreme poverty",
+    "clueJa": "極度の貧困で暮らす人の数",
+    "clueEs": "Personas que aún viven en la pobreza extrema"
   },
   {
     "number": 2,
@@ -29,7 +32,10 @@
     "descriptionEs": "Poner fin al hambre, lograr la seguridad alimentaria, mejorar la nutrición y promover la agricultura sostenible. El hambre en el mundo alcanzó su máximo en 2022 y ha disminuido durante tres años seguidos. Aun así, se estima que el 7,8% de la población mundial pasó hambre en 2025. La agricultura emplea a cerca de una cuarta parte de los trabajadores del mundo.",
     "keyFigureEn": "7.8%",
     "keyFigureJa": "7.8%",
-    "keyFigureEs": "7,8%"
+    "keyFigureEs": "7,8%",
+    "clueEn": "Share of the world facing hunger",
+    "clueJa": "飢餓に直面する世界人口の割合",
+    "clueEs": "Proporción de la población mundial que pasa hambre"
   },
   {
     "number": 3,
@@ -59,7 +65,10 @@
     "descriptionEs": "Garantizar una educación inclusiva y equitativa de calidad y promover oportunidades de aprendizaje permanente para todos. La educación permite la movilidad socioeconómica ascendente y es clave para escapar de la pobreza. Entre 2000 y 2015 se lograron avances importantes en el acceso a la educación. Sin embargo, desde entonces el progreso se ha estancado y 273 millones de niños y jóvenes seguían sin escolarizar en 2024.",
     "keyFigureEn": "273 million",
     "keyFigureJa": "2億7,300万",
-    "keyFigureEs": "273 millones"
+    "keyFigureEs": "273 millones",
+    "clueEn": "Children and young people out of school",
+    "clueJa": "学校に通えない子どもと若者の数",
+    "clueEs": "Niños y jóvenes sin escolarizar"
   },
   {
     "number": 5,
@@ -88,7 +97,10 @@
     "descriptionEs": "Garantizar la disponibilidad y la gestión sostenible del agua y el saneamiento para todos. En 2022, aproximadamente la mitad de la población mundial sufrió escasez grave de agua durante al menos parte del año. Entre 2015 y 2024, 961 millones de personas obtuvieron acceso a agua potable gestionada de forma segura, pero 1 de cada 4 personas seguía sin tenerla en 2024.",
     "keyFigureEn": "961 million",
     "keyFigureJa": "9億6,100万",
-    "keyFigureEs": "961 millones"
+    "keyFigureEs": "961 millones",
+    "clueEn": "People who gained safe drinking water",
+    "clueJa": "安全な飲み水を得た人の数",
+    "clueEs": "Personas que lograron acceso a agua potable segura"
   },
   {
     "number": 7,
@@ -118,7 +130,10 @@
     "descriptionEs": "Promover el crecimiento económico sostenido, inclusivo y sostenible, el empleo pleno y productivo y el trabajo decente para todos. El desempleo mundial se situó en el 4,9% en 2025, pero casi el 58% de los trabajadores tenía un empleo informal, sin contrato, protección ni ingresos fiables. Tener un empleo no garantiza salir de la pobreza: 284 millones de trabajadores vivían en pobreza extrema en 2025. En 2025, uno de cada cinco jóvenes ni estudiaba, ni trabajaba ni recibía formación.",
     "keyFigureEn": "284 million",
     "keyFigureJa": "2億8,400万",
-    "keyFigureEs": "284 millones"
+    "keyFigureEs": "284 millones",
+    "clueEn": "Workers still living in extreme poverty",
+    "clueJa": "極度の貧困で暮らす労働者の数",
+    "clueEs": "Trabajadores que aún viven en la pobreza extrema"
   },
   {
     "number": 9,
@@ -148,7 +163,10 @@
     "descriptionEs": "Reducir la desigualdad en los países y entre ellos. La desigualdad de ingresos sigue siendo muy alta. En 2025, el 10% más rico obtuvo el 53% de la renta mundial total, mientras que la mitad más pobre obtuvo solo el 8%. La riqueza está aún más concentrada: el 10% más rico posee tres cuartas partes de ella. Estas disparidades requieren políticas sólidas para empoderar a las personas con menos ingresos.",
     "keyFigureEn": "53%",
     "keyFigureJa": "53%",
-    "keyFigureEs": "53%"
+    "keyFigureEs": "53%",
+    "clueEn": "Global income share of the richest tenth",
+    "clueJa": "最も裕福な一割が得る世界所得の割合",
+    "clueEs": "Proporción de la renta mundial del diez por ciento más rico"
   },
   {
     "number": 11,
@@ -177,7 +195,10 @@
     "descriptionEs": "Garantizar modalidades de consumo y producción sostenibles. Para lograr el crecimiento económico y el desarrollo sostenible es urgente reducir nuestra huella ecológica cambiando la forma en que producimos y consumimos bienes y recursos. La agricultura es el mayor consumidor de agua a nivel mundial y entre 2015 y 2023 mejoró su eficiencia en el uso del agua un 39%, más que cualquier otro sector.",
     "keyFigureEn": "39%",
     "keyFigureJa": "39%",
-    "keyFigureEs": "39%"
+    "keyFigureEs": "39%",
+    "clueEn": "Gain in farming's water use efficiency",
+    "clueJa": "農業の水利用効率の改善率",
+    "clueEs": "Mejora de la eficiencia hídrica de la agricultura"
   },
   {
     "number": 13,
@@ -219,7 +240,10 @@
     "descriptionEs": "Proteger, restablecer y promover el uso sostenible de los ecosistemas terrestres, gestionar sosteniblemente los bosques, luchar contra la desertificación, detener e invertir la degradación de las tierras y detener la pérdida de biodiversidad. Los bosques cubren el 32% de la superficie terrestre mundial y proporcionan hábitats vitales para millones de especies.",
     "keyFigureEn": "32%",
     "keyFigureJa": "32%",
-    "keyFigureEs": "32%"
+    "keyFigureEs": "32%",
+    "clueEn": "Share of the world's land under forest",
+    "clueJa": "森林が覆う世界の陸地の割合",
+    "clueEs": "Proporción de la superficie terrestre cubierta de bosques"
   },
   {
     "number": 16,

@@ -246,14 +246,16 @@ GameFact _fact(
   AppLocalizations en,
 ) {
   final figure = comparisonFigure(l10n, ratio);
+  final title = switch (c.kind) {
+    GameFactKind.food => l10n.foodCalculatorTitle,
+    GameFactKind.transport => l10n.transportCalculatorTitle,
+    _ => l10n.energyCalculatorTitle,
+  };
   return GameFact(
     id: c.id,
     kind: c.kind,
-    title: switch (c.kind) {
-      GameFactKind.food => l10n.foodCalculatorTitle,
-      GameFactKind.transport => l10n.transportCalculatorTitle,
-      _ => l10n.energyCalculatorTitle,
-    },
+    title: title,
+    clue: title,
     text: keepUnitsTogether(c.sentence(l10n, figure)),
     figure: figure,
     figureEn: comparisonFigure(en, ratio),

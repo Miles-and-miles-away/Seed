@@ -95,7 +95,7 @@ class FactCardTile extends StatelessWidget {
       ),
       FactCardState.faceUp => (
         scheme.surfaceContainerHigh,
-        card.face == FactFace.title ? scheme.onSurface : scheme.primary,
+        card.face == FactFace.clue ? scheme.onSurface : scheme.primary,
       ),
       FactCardState.matched => (
         scheme.tertiaryContainer,
@@ -131,8 +131,8 @@ class FactCardTile extends StatelessWidget {
   }
 
   Widget _text(BuildContext context, ThemeData theme, Color color) {
-    final isTitle = card.face == FactFace.title;
-    final style = isTitle
+    final isClue = card.face == FactFace.clue;
+    final style = isClue
         ? theme.textTheme.labelMedium?.copyWith(
             fontWeight: FontWeight.w600,
             color: color,
@@ -148,7 +148,7 @@ class FactCardTile extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) => Center(
         child: NoWordBreak(
-          child: isTitle
+          child: isClue
               ? PhraseText(
                   card.text,
                   minLineWidth: constraints.maxWidth,

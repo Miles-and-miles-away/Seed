@@ -20,6 +20,9 @@ class EcoDexEntry {
     this.keyFigureEn = '',
     this.keyFigureJa = '',
     this.keyFigureEs = '',
+    this.clueEn = '',
+    this.clueJa = '',
+    this.clueEs = '',
   });
 
   factory EcoDexEntry.fromJson(Map<String, dynamic> json) {
@@ -43,6 +46,9 @@ class EcoDexEntry {
       keyFigureEn: json['keyFigureEn'] as String? ?? '',
       keyFigureJa: json['keyFigureJa'] as String? ?? '',
       keyFigureEs: json['keyFigureEs'] as String? ?? '',
+      clueEn: json['clueEn'] as String? ?? '',
+      clueJa: json['clueJa'] as String? ?? '',
+      clueEs: json['clueEs'] as String? ?? '',
     );
   }
 
@@ -66,6 +72,11 @@ class EcoDexEntry {
   final String keyFigureJa;
   final String keyFigureEs;
 
+  /// What the key figure measures, short enough for a Fact pairs card.
+  final String clueEn;
+  final String clueJa;
+  final String clueEs;
+
   String name(String locale) => switch (locale) {
     'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
@@ -82,6 +93,12 @@ class EcoDexEntry {
     'ja' when hintJa.isNotEmpty => hintJa,
     'es' when hintEs.isNotEmpty => hintEs,
     _ => hintEn,
+  };
+
+  String clue(String locale) => switch (locale) {
+    'ja' when clueJa.isNotEmpty => clueJa,
+    'es' when clueEs.isNotEmpty => clueEs,
+    _ => clueEn,
   };
 
   /// A blank figure in JA or ES stays unset rather than falling back to EN.

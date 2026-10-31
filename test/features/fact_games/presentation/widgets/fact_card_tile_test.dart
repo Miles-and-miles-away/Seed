@@ -109,8 +109,8 @@ void main() {
                 ...ecoGameFacts(playable, language),
                 ...sdgGameFacts(goals, language),
                 ...ecoDexGameFacts(entries, language),
-              ]) ...[
-                FactCard(fact: fact, face: FactFace.title, text: fact.title),
+              ].where(pairable)) ...[
+                FactCard(fact: fact, face: FactFace.clue, text: fact.clue),
                 FactCard(fact: fact, face: FactFace.figure, text: fact.figure),
               ],
             ];

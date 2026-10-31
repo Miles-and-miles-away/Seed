@@ -34,16 +34,16 @@ void main() {
       });
     }
 
-    test('every fact gives one title card and one figure card', () {
+    test('every fact gives one clue card and one figure card', () {
       final board = deal(8);
       final days = {for (final card in board.cards) card.factId};
       expect(days, hasLength(6));
       for (final day in days) {
         final pair = board.cards.where((c) => c.factId == day).toList();
         expect(pair.map((c) => c.face), unorderedEquals(FactFace.values));
-        final title = pair.firstWhere((c) => c.face == FactFace.title);
+        final clue = pair.firstWhere((c) => c.face == FactFace.clue);
         final figure = pair.firstWhere((c) => c.face == FactFace.figure);
-        expect(title.text, title.fact.title);
+        expect(clue.text, clue.fact.clue);
         expect(figure.text, figure.fact.figure);
       }
     });
@@ -53,7 +53,7 @@ void main() {
       for (final card in board.cards) {
         expect(
           card.text,
-          card.face == FactFace.title ? card.fact.title : card.fact.figure,
+          card.face == FactFace.clue ? card.fact.clue : card.fact.figure,
         );
         expect(card.fact.title, startsWith('タイトル'));
       }
@@ -110,14 +110,16 @@ void main() {
     });
   });
 
-  test('recall-only facts never reach a board', () {
+  test('recall-only and clueless facts never reach a board', () {
     for (var seed = 0; seed < 20; seed++) {
       final board = FactPairsBoard.deal([
         ...ecoGameFacts(playableFacts(4), 'en'),
         for (var i = 0; i < 6; i++)
           kindFact('food:$i', GameFactKind.food, recallOnly: true),
+        for (var i = 0; i < 6; i++)
+          kindFact('sdg:$i', GameFactKind.sdg, clue: ''),
       ], Random(seed));
-      expect(board.cards.where((c) => c.fact.recallOnly), isEmpty);
+      expect(board.cards.where((c) => !pairable(c.fact)), isEmpty);
       expect(board.pairCount, 3);
     }
   });
