@@ -652,6 +652,8 @@ measures, such as "Share of world CO2 from aviation") to its key figure.
 Decisions in `PDR_FACT_GAMES.md`.
 - Reached from: the Explore tab (Fact pairs tile, `style`).
 - Pool: eco-facts whose date is in `unlockedFactDates` or
+- A right answer that beats the session best plays a one-second confetti
+  burst (no mascot; none under reduced motion). A tie does not.
   `viewedFactDates` (the inbox's rule), one per `dayOfYear`, with a key
   figure (unread facts count, so a match can show a fact the user
   skipped); every SDG goal and library action with a key figure, since

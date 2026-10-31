@@ -30,6 +30,7 @@ import 'package:seed_app/features/transport/presentation/widgets/transport_scien
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/domain/quiz_deck.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 /// The two tokens ride opposite ends of one diameter, so lifting either
@@ -44,6 +45,8 @@ const _wheelCommitThreshold = 0.3;
 /// Radians per pixel of finger travel: slow enough that the wheel feels
 /// weighted rather than skittish.
 const _dragToTurn = 0.01;
+
+const _bestBurstDuration = Duration(seconds: 1);
 
 /// Height assumed until the tokens have been laid out once.
 const _tokenHeightFallback = 140.0;
@@ -108,6 +111,9 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
   QuizDomain? _domain;
   final _pair = <QuizCard?>[null, null];
   int _streak = 0;
+
+  /// Counts personal bests this visit; keys a fresh confetti burst.
+  int _bestBursts = 0;
   bool _revealed = false;
   bool _wasCorrect = false;
   List<QuizCard> _ladder = const [];
@@ -333,7 +339,9 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     if (_revealed || first == null || second == null) return;
     final actual = first.magnitude > second.magnitude ? 0 : 1;
     final correct = higherIndex == actual;
+    var newBest = false;
     if (correct) {
+      newBest = _streak + 1 > ref.read(quizBestStreakProvider);
       ref.read(quizBestStreakProvider.notifier).record(_streak + 1);
     } else {
       ref.read(analyticsServiceProvider).logQuizStreakEnded(streak: _streak);
@@ -346,6 +354,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
       _dragTurn = 0;
       _revealed = true;
       _wasCorrect = correct;
+      if (newBest) _bestBursts += 1;
       if (correct) {
         _streak += 1;
         _ladder = [_pair[higherIndex]!, _pair[1 - higherIndex]!, ..._ladder];
@@ -405,6 +414,9 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
       _higherIndex = null;
     }
     final theme = Theme.of(context);
+    final reduceMotion =
+        MediaQuery.disableAnimationsOf(context) ||
+        MediaQuery.reduceMotionOf(context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _measureTokens();
     });
@@ -418,7 +430,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     final noteStyle = theme.caption;
     final zoneStyle = theme.overline;
 
-    return ListView(
+    final list = ListView(
       padding: const EdgeInsets.all(spacingXxl),
       children: [
         Row(
@@ -576,6 +588,20 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
           l10n.quizNoPointsNote,
           minLineWidth: _pageMinLineWidth,
           style: noteStyle,
+        ),
+      ],
+    );
+    if (_bestBursts == 0 || reduceMotion) return list;
+    return Stack(
+      children: [
+        list,
+        Positioned.fill(
+          child: IgnorePointer(
+            child: TimedConfettiLayer(
+              key: ValueKey(_bestBursts),
+              runFor: _bestBurstDuration,
+            ),
+          ),
         ),
       ],
     );

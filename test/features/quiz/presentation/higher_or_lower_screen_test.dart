@@ -18,6 +18,7 @@ import 'package:seed_app/features/settings/data/models/user_settings_model.dart'
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
+import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 import '../../../helpers/dataset_helpers.dart';
@@ -229,6 +230,38 @@ void main() {
       expect(find.text('Not this time'), findsOneWidget);
       expect(find.text('Streak: 0'), findsOneWidget);
       expect(find.text('Best: 2'), findsOneWidget);
+    });
+
+    testWidgets('each new personal best bursts confetti, a tie does not', (
+      tester,
+    ) async {
+      Key? burstKey() => tester
+          .widgetList<TimedConfettiLayer>(find.byType(TimedConfettiLayer))
+          .singleOrNull
+          ?.key;
+
+      Future<void> next() async {
+        await tester.ensureVisible(find.text('Keep going'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Keep going'));
+        await tester.pumpAndSettle();
+      }
+
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      expect(burstKey(), isNull);
+
+      await answer(tester, correctly: true);
+      expect(burstKey(), const ValueKey(1));
+      await next();
+      await answer(tester, correctly: true);
+      expect(burstKey(), const ValueKey(2));
+      await next();
+      await answer(tester, correctly: false);
+      await next();
+      await answer(tester, correctly: true);
+      expect(find.text('Streak: 1'), findsOneWidget);
+      expect(burstKey(), const ValueKey(2));
     });
 
     testWidgets('an exhausted deck offers a restart, not an error', (
