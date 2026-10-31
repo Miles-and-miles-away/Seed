@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/core/utils/decimal_input.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
@@ -117,7 +118,10 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
             energyBehaviorSheetHeader(context, l10n, widget.behavior),
             const SizedBox(height: spacingLg),
             if (widget.behavior.presets.isNotEmpty) ...[
-              Text(l10n.energyPresetsLabel, style: theme.textTheme.titleSmall),
+              Text(
+                l10n.energyPresetsLabel.toUpperCase(),
+                style: theme.overline,
+              ),
               const SizedBox(height: spacingSm),
               Wrap(
                 spacing: spacingSm,

@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
 import 'package:seed_app/features/energy/presentation/providers/energy_providers.dart';
@@ -414,13 +415,8 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     final first = _pair[0];
     final second = _pair[1];
     final domain = _domain ?? QuizDomain.energy;
-    final noteStyle = theme.textTheme.bodySmall?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
-    final zoneStyle = theme.textTheme.labelLarge?.copyWith(
-      color: theme.colorScheme.outline,
-      letterSpacing: 1.2,
-    );
+    final noteStyle = theme.caption;
+    final zoneStyle = theme.overline;
 
     return ListView(
       padding: const EdgeInsets.all(spacingXxl),
@@ -550,12 +546,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
         ],
         if (_ladder.isNotEmpty) ...[
           const SizedBox(height: spacingXxl),
-          Text(
-            l10n.quizLadderHeading,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          Text(l10n.quizLadderHeading.toUpperCase(), style: zoneStyle),
           const SizedBox(height: spacingSm),
           for (final card in _ladder)
             Padding(

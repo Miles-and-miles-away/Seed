@@ -147,14 +147,14 @@ void main() {
 
     testWidgets('shows group headers until the user searches', (tester) async {
       await tester.pumpWidget(harness(onSelected: (_) {}));
-      expect(find.text('Meat'), findsOneWidget);
+      expect(find.text('MEAT'), findsOneWidget);
 
       await tester.enterText(find.byType(TextField), 'tofu');
       await tester.pump();
 
       expect(find.text('Tofu'), findsOneWidget);
       expect(find.text('Beef'), findsNothing);
-      expect(find.text('Meat'), findsNothing);
+      expect(find.text('MEAT'), findsNothing);
     });
 
     testWidgets('a non-matching query says so instead of going blank', (
@@ -223,7 +223,7 @@ void main() {
       await tester.pumpWidget(buildPickerWith(_items, const ['tofu']));
       await tester.pumpAndSettle();
 
-      expect(find.text('Recent'), findsOneWidget);
+      expect(find.text('RECENT'), findsOneWidget);
       // Once under Recent, once under its own group heading.
       expect(find.text('Tofu'), findsNWidgets(2));
     });
@@ -233,7 +233,7 @@ void main() {
     ) async {
       await tester.pumpWidget(buildPickerWith(_items, const ['unicorn']));
       await tester.pumpAndSettle();
-      expect(find.text('Recent'), findsNothing);
+      expect(find.text('RECENT'), findsNothing);
     });
 
     testWidgets('a row shows per kg and per realistic serving', (tester) async {

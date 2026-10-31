@@ -190,9 +190,8 @@ class SdgCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: spacingSm),
               child: Text(
                 goal.shortTitle(locale),
-                style: const TextStyle(
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: Colors.white,
-                  fontSize: 11,
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,

@@ -113,7 +113,6 @@ class MascotCollectionSection extends ConsumerWidget {
             Text(
               AppLocalizations.of(context).mascotLevelShort(mascot.mascotLevel),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                fontSize: 10,
                 color: colorScheme.onSurfaceVariant,
               ),
             ),

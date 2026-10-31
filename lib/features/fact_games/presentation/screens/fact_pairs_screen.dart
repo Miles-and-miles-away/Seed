@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
@@ -157,9 +158,7 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
     if (board == null) return const Center(child: ErrorDisplay());
 
     final theme = Theme.of(context);
-    final noteStyle = theme.textTheme.bodySmall?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
+    final noteStyle = theme.caption;
     final wide = MediaQuery.textScalerOf(context).scale(14) > 14;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(spacingXxl),

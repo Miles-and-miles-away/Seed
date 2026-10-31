@@ -196,10 +196,9 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           ),
           child: Text(
             AppLocalizations.of(context).sdgGoalNumber(goal.number),
-            style: const TextStyle(
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 14,
             ),
           ),
         ),
@@ -215,7 +214,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           ),
           child: Text(
             AppLocalizations.of(context).sdgBadge,
-            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+            style: Theme.of(context).textTheme.labelLarge,
           ),
         ),
       ],
@@ -289,10 +288,9 @@ class _GoalNavButton extends StatelessWidget {
               if (isPrevious) const SizedBox(width: 6),
               Text(
                 '${goal.number}',
-                style: TextStyle(
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: goal.color,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
                 ),
               ),
               if (!isPrevious) const SizedBox(width: 6),

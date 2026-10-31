@@ -99,7 +99,7 @@ void main() {
       await tester.tap(find.text('About this Goal'));
       await tester.pumpAndSettle();
 
-      expect(find.text('UN Targets'), findsOneWidget);
+      expect(find.text('UN TARGETS'), findsOneWidget);
     });
 
     testWidgets('shows correct target count for goal 13', (tester) async {
@@ -202,7 +202,7 @@ void main() {
       await tester.tap(find.text('About this Goal'));
       await tester.pumpAndSettle();
 
-      expect(find.text('UN Targets'), findsOneWidget);
+      expect(find.text('UN TARGETS'), findsOneWidget);
       expect(find.text('17.1'), findsOneWidget);
     });
 

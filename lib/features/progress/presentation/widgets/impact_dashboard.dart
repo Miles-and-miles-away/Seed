@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
@@ -61,10 +62,8 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
                     term: Padding(
                       padding: const EdgeInsets.only(left: spacingXs),
                       child: Text(
-                        l10n.equivalentToHeader,
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
+                        l10n.equivalentToHeader.toUpperCase(),
+                        style: theme.overline,
                       ),
                     ),
                     tooltip: l10n.impactInfoTooltip,

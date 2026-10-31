@@ -116,8 +116,8 @@ class Co2TrendChart extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.trendChartTitle,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

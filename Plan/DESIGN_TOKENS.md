@@ -258,29 +258,39 @@ number, label, and thin line in `#212121` or `#424242`.
 
 ## 4. Typography
 
-**No custom font is declared.** `pubspec.yaml`'s `fonts:` block is
-commented out, there is no `google_fonts` dependency, and
-`app_theme.dart` sets no `textTheme` or `fontFamily`. So typography is
-Material 3 defaults: Roboto on Android, San Francisco on iOS.
+**No custom font.** Roboto on Android, San Francisco on iOS.
 
-The only `fontFamily` anywhere in `lib/` is a `'monospace'` for numeric
-values in `equivalency_info_sheet.dart`.
+**Five sizes, set once in `app_theme.dart`.** Every Material role maps
+onto one of them, so screens use `textTheme` roles and never set
+`fontSize`. A test fails on any `fontSize:` outside the theme, except a
+computed glyph size.
 
-**Design against type scale roles, not pixel sizes.** Roles actually used
-in the progress feature, with their Material 3 default values:
+| Size | Roles | Use |
+|---|---|---|
+| 12 | `labelSmall`, `labelMedium`, `bodySmall` | overlines, captions, chips, badges |
+| 14 | `labelLarge`, `titleSmall`, `bodyMedium` | body text, buttons |
+| 16 | `titleMedium`, `bodyLarge` | card and section titles, a value under an overline |
+| 22 | `titleLarge`, `headlineSmall` | screen and sheet titles, reveal figures |
+| 28 | `headlineMedium` and up | hero numbers, celebrations |
 
-| Role | Size / line height | Weight | Tracking | Used for |
-|---|---|---|---|---|
-| `titleSmall` | 14 / 20 | 500, overridden to **w600** in both charts | 0.1 | chart card titles |
-| `bodySmall` | 12 / 16 | 400 | 0.4 | tooltip text |
-| `labelSmall` | 11 / 16 | 500 | 0.5 | axis labels, legend text |
+12 is the floor. Weights, tracking and line heights stay Material defaults.
 
-Frequency across the progress widgets, as a guide to what the feature
-leans on: `bodyMedium` 9, `titleMedium` 7, `labelSmall` 6, `bodySmall` 4,
-`titleSmall` 3, `titleLarge` 3.
+**Hierarchy.**
+- A title is bold and larger than the text under it.
+- An overline labels a value or a section: `theme.overline`
+  (`text_styles.dart`), uppercase text, never bold.
+- A caption sits below what it describes: `theme.caption`.
+- A hero number is the one thing allowed to be larger than its label.
 
-Chart titles are `titleSmall` with `fontWeight: FontWeight.w600`. Match
-that for a new chart card.
+**Colour.** `onSurface` for titles and body, `onSurfaceVariant` for
+overlines and captions, `primary` only for interactive text. Domain and
+SDG ink stay where the data supplies it.
+
+Chart card titles are `titleMedium` bold, like every other card title.
+
+**Font families.** `equivalency_info_sheet.dart` sets `'monospace'` for
+numeric values; `energy_explore_sheet.dart` sets an icon font for its
+glyph wall.
 
 ---
 
@@ -495,7 +505,7 @@ Rules:
 - [ ] Legible in greyscale.
 - [ ] Spacing and radii come from `ui_constants.dart` names.
 - [ ] Card is `surfaceContainerLow` + `borderRadiusMd`.
-- [ ] Title is `titleSmall` at `w600`.
+- [ ] Title is `titleMedium` bold; labels use `theme.overline`.
 - [ ] Widget takes its entity as a parameter, reads no provider.
 - [ ] Every string is localised; checked at JA width.
 - [ ] Any explainer uses the shared info widgets.

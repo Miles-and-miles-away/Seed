@@ -106,7 +106,6 @@ class EvolutionTimeline extends StatelessWidget {
             color: isUnlocked
                 ? colorScheme.primary
                 : colorScheme.onSurface.withValues(alpha: opacityMedium),
-            fontSize: 10,
           ),
         ),
       ],

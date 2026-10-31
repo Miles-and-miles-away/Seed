@@ -207,7 +207,7 @@ void main() {
     ) async {
       await pumpHomeScreen(tester);
 
-      expect(find.text('My Goal'), findsOneWidget);
+      expect(find.text('MY GOAL'), findsOneWidget);
       expect(find.text('Tap to set your sustainability goal'), findsOneWidget);
 
       await disposeAndFlush(tester);

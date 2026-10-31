@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 
 /// Section heading in a grouped picker list.
 class GroupHeading extends StatelessWidget {
@@ -13,12 +14,7 @@ class GroupHeading extends StatelessWidget {
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(spacingLg, spacingMd, spacingLg, 0),
-      child: Text(
-        text,
-        style: theme.textTheme.titleSmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-      ),
+      child: Text(text.toUpperCase(), style: theme.overline),
     );
   }
 }

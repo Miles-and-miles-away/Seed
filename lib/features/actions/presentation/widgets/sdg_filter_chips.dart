@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/presentation/widgets/filter_chip_row.dart';
+import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import '../providers/actions_providers.dart';
 
@@ -53,7 +54,9 @@ class SdgFilterChips extends ConsumerWidget {
           onAccent: Colors.white,
           shape: shape,
           // The checkmark takes the badge's place when selected.
-          avatar: isSelected ? null : _numberBadge(sdg.number, sdg.color),
+          avatar: isSelected
+              ? null
+              : SdgNumberBadge('${sdg.number}', sdg.color, diameter: 24),
           onTap: () =>
               isSelected ? notifier.clear() : notifier.select(sdg.number),
         );
@@ -61,16 +64,3 @@ class SdgFilterChips extends ConsumerWidget {
     );
   }
 }
-
-Widget _numberBadge(int number, Color color) => CircleAvatar(
-  backgroundColor: color,
-  radius: 12,
-  child: Text(
-    '$number',
-    style: const TextStyle(
-      color: Colors.white,
-      fontSize: 10,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-);

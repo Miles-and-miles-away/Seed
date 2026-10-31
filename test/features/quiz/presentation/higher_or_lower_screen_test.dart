@@ -258,12 +258,12 @@ void main() {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
 
-      expect(find.text('Ladder so far'), findsNothing);
+      expect(find.text('LADDER SO FAR'), findsNothing);
       await answer(tester, correctly: true);
 
       // The play area is tall, so the ladder sits below the fold.
-      await tester.scrollUntilVisible(find.text('Ladder so far'), 200);
-      expect(find.text('Ladder so far'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('LADDER SO FAR'), 200);
+      expect(find.text('LADDER SO FAR'), findsOneWidget);
       // Both cards of a correct pair are listed.
       expect(find.text('dryer'), findsAtLeast(1));
       expect(find.text('led_bulb'), findsAtLeast(1));
@@ -274,7 +274,7 @@ void main() {
       await tester.tap(find.text('Keep going'));
       await tester.pumpAndSettle();
       await answer(tester, correctly: false);
-      expect(find.text('Ladder so far'), findsNothing);
+      expect(find.text('LADDER SO FAR'), findsNothing);
     });
 
     testWidgets('no figures until the answer is in', (tester) async {
@@ -591,9 +591,9 @@ void main() {
       expect(find.text('Streak: 0'), findsOneWidget);
       expect(find.text('Right!'), findsNothing);
       expect(inSheet(find.text('dryer')), findsOneWidget);
-      expect(inSheet(find.text('Type')), findsOneWidget);
+      expect(inSheet(find.text('TYPE')), findsOneWidget);
       expect(inSheet(find.text('Laundry: drying')), findsOneWidget);
-      expect(inSheet(find.text('Amount compared')), findsOneWidget);
+      expect(inSheet(find.text('AMOUNT COMPARED')), findsOneWidget);
       expect(inSheet(find.text('1 use')), findsOneWidget);
       expect(
         inSheet(find.textContaining('the multiple holds on any grid')),

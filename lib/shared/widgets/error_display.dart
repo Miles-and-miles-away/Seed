@@ -35,7 +35,9 @@ class ErrorDisplay extends StatelessWidget {
     if (compact) {
       final messageText = Text(
         message ?? l10n.errorGeneric,
-        style: TextStyle(color: colorScheme.error, fontSize: 13),
+        style: Theme.of(
+          context,
+        ).textTheme.bodySmall?.copyWith(color: colorScheme.error),
         textAlign: TextAlign.center,
       );
       if (onRetry == null) return messageText;

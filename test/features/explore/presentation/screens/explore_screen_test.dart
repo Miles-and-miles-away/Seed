@@ -85,9 +85,9 @@ void main() {
 
       expect(find.byType(ExploreTile), findsNWidgets(_titles.length));
       final order = [
-        'Calculators',
+        'CALCULATORS',
         ..._titles.take(3),
-        'Learn and play',
+        'LEARN AND PLAY',
         ..._titles.skip(3),
       ];
       final tops = [for (final t in order) tester.getTopLeft(find.text(t)).dy];

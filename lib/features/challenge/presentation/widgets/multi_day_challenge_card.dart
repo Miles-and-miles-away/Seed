@@ -95,7 +95,7 @@ class MultiDayChallengeCard extends ConsumerWidget {
                     PhraseText(
                       template.title(locale),
                       minLineWidth: _titleMinLineWidth,
-                      style: theme.textTheme.titleSmall?.copyWith(
+                      style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),

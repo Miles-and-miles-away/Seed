@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/quiz/presentation/quiz_cards.dart';
 import 'package:seed_app/shared/domain/quiz_deck.dart';
 import 'package:seed_app/shared/widgets/info_affordance.dart';
@@ -50,9 +51,7 @@ class QuizTokenCard extends StatelessWidget {
         style: style,
       ),
     );
-    final noteStyle = theme.textTheme.bodySmall?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
+    final noteStyle = theme.caption;
     return Card(
       margin: const EdgeInsets.all(_cardMargin),
       semanticContainer: false,

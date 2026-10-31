@@ -92,7 +92,9 @@ class _FullScreenProgressChart extends StatelessWidget {
           AppLocalizations.of(
             context,
           ).sdgGoalNumberTitle(goal.number, goal.shortTitle(locale)),
-          style: const TextStyle(color: Colors.white, fontSize: 16),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: Colors.white),
         ),
       ),
       body: InteractiveViewer(

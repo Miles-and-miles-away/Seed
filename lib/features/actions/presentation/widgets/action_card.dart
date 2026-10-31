@@ -210,14 +210,14 @@ class ActionCard extends ConsumerWidget {
       children: [
         for (var i = 0; i < visibleCount; i++) ...[
           if (i > 0) const SizedBox(width: 3),
-          sdgNumberBadge(
+          SdgNumberBadge(
             '${parsedNumbers[i]}',
             goalMap[parsedNumbers[i]]?.color ?? Colors.grey,
           ),
         ],
         if (remainingCount > 0) ...[
           const SizedBox(width: 3),
-          sdgNumberBadge('+$remainingCount', Colors.grey.shade400, fontSize: 8),
+          SdgNumberBadge('+$remainingCount', Colors.grey.shade400),
         ],
       ],
     );

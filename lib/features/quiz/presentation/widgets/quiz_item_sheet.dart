@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/quiz/presentation/quiz_cards.dart';
 import 'package:seed_app/shared/domain/quiz_deck.dart';
 import 'package:seed_app/shared/widgets/info_sheet.dart';
@@ -50,9 +51,7 @@ class QuizItemSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final labelStyle = theme.textTheme.labelMedium?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
+    final labelStyle = theme.overline;
     final valueStyle = theme.textTheme.bodyLarge?.copyWith(
       color: theme.colorScheme.onSurface,
     );
@@ -62,7 +61,10 @@ class QuizItemSheet extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: spacingMd),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [text(label, labelStyle), text(value, valueStyle)],
+        children: [
+          text(label.toUpperCase(), labelStyle),
+          text(value, valueStyle),
+        ],
       ),
     );
     return InfoSheet.custom(

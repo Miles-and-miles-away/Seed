@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_dialog_header.dart';
@@ -78,10 +79,8 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                 if (action.relatedSdgs.isNotEmpty) ...[
                   const SizedBox(height: spacingLg),
                   Text(
-                    l10n.learnOnlyRelatedSdgs,
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    l10n.learnOnlyRelatedSdgs.toUpperCase(),
+                    style: theme.overline,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: spacingSm),
@@ -133,11 +132,10 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
       runSpacing: 6,
       children: [
         for (final number in parsedSdgNumbers(sdgNumbers))
-          sdgNumberBadge(
+          SdgNumberBadge(
             '$number',
             goalMap[number]?.color ?? Colors.grey,
             diameter: 28,
-            fontSize: 12,
           ),
       ],
     );

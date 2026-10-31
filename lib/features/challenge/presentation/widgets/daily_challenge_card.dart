@@ -8,6 +8,7 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
@@ -151,8 +152,8 @@ class _IncompleteCard extends StatelessWidget {
                         children: [
                           _CardText(
                             title,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
                               color: colorScheme.onSurface,
                             ),
                           ),
@@ -267,12 +268,9 @@ class _Overline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _CardText(
-    l10n.challengeOverline,
+    l10n.challengeOverline.toUpperCase(),
     minLineWidth: _overlineMinLineWidth,
-    style: theme.textTheme.labelMedium?.copyWith(
-      fontWeight: FontWeight.w600,
-      color: theme.colorScheme.onSurfaceVariant,
-    ),
+    style: theme.overline,
   );
 }
 

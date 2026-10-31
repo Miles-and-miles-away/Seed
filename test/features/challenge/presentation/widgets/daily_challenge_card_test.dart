@@ -168,7 +168,7 @@ void main() {
       await tester.pumpWidget(_buildCard(user: _user()));
       await tester.pumpAndSettle();
 
-      expect(find.text('Daily action challenge'), findsOneWidget);
+      expect(find.text('DAILY ACTION CHALLENGE'), findsOneWidget);
       expect(
         find.text("Log 'Turn Off Lights' to unlock today's eco-fact"),
         findsOneWidget,
@@ -195,7 +195,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Desafío diario'), findsOneWidget);
+      expect(find.text('DESAFÍO DIARIO'), findsOneWidget);
       expect(
         find.text(
           'Registra «Apagar las luces» para desbloquear el eco-dato de hoy',
@@ -263,7 +263,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Daily action challenge'));
+      await tester.tap(find.text('DAILY ACTION CHALLENGE'));
       await tester.pumpAndSettle();
 
       expect(find.text('Action Log'), findsOneWidget);
@@ -323,7 +323,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Daily action challenge'), findsOneWidget);
+      expect(find.text('DAILY ACTION CHALLENGE'), findsOneWidget);
       expect(find.byIcon(Icons.check_circle), findsOneWidget);
       await tester.tap(find.byIcon(Icons.check_circle));
       await tester.pumpAndSettle();
@@ -346,7 +346,7 @@ void main() {
       await tester.pumpWidget(_buildCard(user: _user(streak: 5)));
       await tester.pumpAndSettle();
 
-      final node = tester.getSemantics(find.text('Daily action challenge'));
+      final node = tester.getSemantics(find.text('DAILY ACTION CHALLENGE'));
       expect(node, isSemantics(isButton: true, hasTapAction: true));
       expect(node.label.split('\n'), contains('5 day challenge streak'));
       expect(node.label.split('\n'), isNot(contains('5')));
@@ -536,7 +536,7 @@ void main() {
 
           final overline = lookupAppLocalizations(
             Locale(language),
-          ).challengeOverline;
+          ).challengeOverline.toUpperCase();
           expect(renderedLines(tester, find.text(overline)), hasLength(1));
         });
       }
@@ -626,9 +626,9 @@ void main() {
             ),
           ]),
         );
-        await pumpUntilFound(tester, find.text('Daily action challenge'));
+        await pumpUntilFound(tester, find.text('DAILY ACTION CHALLENGE'));
 
-        await tester.tap(find.text('Daily action challenge'));
+        await tester.tap(find.text('DAILY ACTION CHALLENGE'));
         await pumpUntilFound(tester, find.byType(WalkthroughOverlay));
         expect(find.text('Action Log'), findsNothing);
 

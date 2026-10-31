@@ -82,7 +82,6 @@ class EggProgressWidget extends ConsumerWidget {
               AppConstants.eggHatchingStreakRequired,
             ),
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              fontSize: 10,
               color: colorScheme.onSurfaceVariant,
             ),
           ),

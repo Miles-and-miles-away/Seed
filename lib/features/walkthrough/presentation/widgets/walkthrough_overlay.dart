@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
@@ -271,8 +272,8 @@ class _Checklist extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          l10n.walkthroughChecklistTitle,
-          style: theme.textTheme.titleSmall?.copyWith(
+          l10n.walkthroughChecklistTitle.toUpperCase(),
+          style: theme.overline?.copyWith(
             color: Colors.white.withValues(alpha: opacityStrong),
           ),
         ),

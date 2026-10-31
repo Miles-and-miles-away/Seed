@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/explore/presentation/explore_entries.dart';
 import 'package:seed_app/features/explore/presentation/widgets/explore_tile.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
@@ -119,13 +120,7 @@ class _SectionHeader extends StatelessWidget {
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: spacingSm),
-      child: Text(
-        text,
-        style: theme.textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-      ),
+      child: Text(text.toUpperCase(), style: theme.overline),
     );
   }
 }

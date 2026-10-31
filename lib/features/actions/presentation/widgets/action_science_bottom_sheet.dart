@@ -91,8 +91,7 @@ class ActionScienceBottomSheet extends StatelessWidget {
                     config: markdownConfigFor(context).copy(
                       configs: [
                         PConfig(
-                          textStyle: TextStyle(
-                            fontSize: 16,
+                          textStyle: theme.textTheme.bodyLarge!.copyWith(
                             fontWeight: FontWeight.w500,
                             height: 1.7,
                             color: theme.colorScheme.onSurface,

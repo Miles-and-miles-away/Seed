@@ -74,9 +74,9 @@ void main() {
           ),
         ),
       );
-      expect(find.text('Hot water'), findsOneWidget);
-      expect(find.text('Laundry: washing'), findsOneWidget);
-      expect(find.text('Devices'), findsOneWidget);
+      expect(find.text('HOT WATER'), findsOneWidget);
+      expect(find.text('LAUNDRY: WASHING'), findsOneWidget);
+      expect(find.text('DEVICES'), findsOneWidget);
     });
 
     testWidgets('shows the kWh factor in the behavior unit', (tester) async {
@@ -126,7 +126,7 @@ void main() {
           ),
         ),
       );
-      expect(find.text('Recently used'), findsOneWidget);
+      expect(find.text('RECENTLY USED'), findsOneWidget);
       // Once as a recent, once in its own group: a shortcut, not a move.
       expect(find.text('Hot wash'), findsNWidgets(2));
     });
@@ -167,7 +167,7 @@ void main() {
         ),
       );
       expect(tester.takeException(), isNull);
-      expect(find.text('Recently used'), findsNothing);
+      expect(find.text('RECENTLY USED'), findsNothing);
     });
   });
 

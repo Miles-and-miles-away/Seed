@@ -134,7 +134,7 @@ void main() {
         sizeViewport(tester);
         await pumpProfile(tester, hasMascot: false);
 
-        expect(find.text('Statistics'), findsOneWidget);
+        expect(find.text('STATISTICS'), findsOneWidget);
         expect(find.text('Your mascot'), findsNothing);
       });
 

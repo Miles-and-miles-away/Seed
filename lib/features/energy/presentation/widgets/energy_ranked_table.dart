@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
@@ -89,9 +90,7 @@ class EnergyRankedTable extends StatelessWidget {
               : a.behavior.name(locale).compareTo(b.behavior.name(locale));
         });
     final maxRankedKwh = ranked.isEmpty ? 0.0 : ranked.first.kwh;
-    final noteStyle = theme.textTheme.bodySmall?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
+    final noteStyle = theme.caption;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

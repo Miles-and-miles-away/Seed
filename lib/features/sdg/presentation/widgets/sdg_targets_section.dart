@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/data/sdg_targets.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
@@ -99,12 +100,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
         const SizedBox(height: spacingXl),
         const Divider(height: 1),
         const SizedBox(height: spacingLg),
-        Text(
-          l10n.sdgTargetsTitle,
-          style: theme.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(l10n.sdgTargetsTitle.toUpperCase(), style: theme.overline),
         const SizedBox(height: spacingMd),
         ...targets.map(
           (t) => _TargetRow(
@@ -149,10 +145,9 @@ class _TargetRow extends StatelessWidget {
             ),
             child: Text(
               target.code,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: goalColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 12,
               ),
             ),
           ),

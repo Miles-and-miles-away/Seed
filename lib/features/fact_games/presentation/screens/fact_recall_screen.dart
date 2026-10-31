@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
@@ -207,9 +208,7 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
     FactRecallRound round,
   ) {
     final theme = Theme.of(context);
-    final noteStyle = theme.textTheme.bodySmall?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
+    final noteStyle = theme.caption;
     return ListView(
       // A new round, after a locale change too, opens at the top.
       key: ObjectKey(round),

@@ -200,12 +200,12 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('0.0${unitSpace}kg'), findsOneWidget);
-      expect(find.text('Equivalent to'), findsNothing);
+      expect(find.text('EQUIVALENT TO'), findsNothing);
       expect(find.byType(EquivalencyRow), findsNothing);
     });
 
     for (final (part, target) in [
-      ('term', find.text('Equivalent to')),
+      ('term', find.text('EQUIVALENT TO')),
       ('glyph', find.byType(InfoGlyph)),
     ]) {
       testWidgets('the header $part opens the equivalency explainer', (

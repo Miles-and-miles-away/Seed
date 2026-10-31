@@ -187,7 +187,7 @@ void main() {
         ),
       );
       await pumpUntilFound(tester, find.byType(WalkthroughOverlay));
-      expect(find.text('Things to find'), findsOneWidget);
+      expect(find.text('THINGS TO FIND'), findsOneWidget);
 
       rebuild(() {});
       await tester.pump();
@@ -332,12 +332,12 @@ void main() {
       await pumpTrigger(tester, WalkthroughItem.calculators);
 
       expect(find.text('Next'), findsOneWidget);
-      expect(find.text('Things to find'), findsNothing);
+      expect(find.text('THINGS TO FIND'), findsNothing);
       await tapButton(tester, 'Next');
       await tapButton(tester, 'Next');
       await tapButton(tester, 'Next');
       expect(find.text('Got it'), findsOneWidget);
-      expect(find.text('Things to find'), findsOneWidget);
+      expect(find.text('THINGS TO FIND'), findsOneWidget);
       // sdg, ecoFact and the current item are ticked; four remain.
       expect(find.byIcon(Icons.check_circle), findsNWidgets(3));
       expect(find.byIcon(Icons.radio_button_unchecked), findsNWidgets(4));
