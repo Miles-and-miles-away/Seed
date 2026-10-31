@@ -1685,8 +1685,8 @@
   "quizLadderHeading": "Ladder so far",
   "quizNoPointsNote": "Just for fun. No points, and nothing is logged.",
   "factPairsTitle": "Fact pairs",
-  "factPairsSubtitle": "Match each eco-fact to its number",
-  "factPairsRules": "Turn over two cards at a time. Find each eco-fact's number.",
+  "factPairsSubtitle": "Match each fact to its number",
+  "factPairsRules": "Turn over two cards at a time. Find each fact's number.",
   "factPairsFound": "Pairs: {found} of {total}",
   "@factPairsFound": {
     "placeholders": {
@@ -1736,8 +1736,8 @@
     }
   },
   "factGamesPlayAgain": "Play again",
-  "factGamesLockedTitle": "Unlock eco-facts to play",
-  "factGamesLockedBody": "Complete daily challenges to unlock eco-facts. Most have a key number; the games start when {needed} of those are ready.",
+  "factGamesLockedTitle": "Discover Eco-Dex entries to play",
+  "factGamesLockedBody": "This game opens once you have discovered {needed} Eco-Dex entries. Log actions and complete challenges to discover them, and the ones you find can turn up here as questions.",
   "@factGamesLockedBody": {
     "placeholders": {
       "needed": {
@@ -1745,7 +1745,7 @@
       }
     }
   },
-  "factGamesLockedProgress": "{count} of {needed} eco-facts with a number",
+  "factGamesLockedProgress": "{count} of {needed} Eco-Dex entries discovered",
   "@factGamesLockedProgress": {
     "placeholders": {
       "count": {
@@ -1756,10 +1756,10 @@
       }
     }
   },
-  "factGamesGoToChallenge": "Today's challenge",
+  "factGamesGoToEcoDex": "Open the Eco-Dex",
   "factRecallTitle": "Fact recall",
-  "factRecallSubtitle": "Fill in the number in each eco-fact",
-  "factRecallRules": "Pick the number that completes each eco-fact.",
+  "factRecallSubtitle": "Fill in the number in each fact",
+  "factRecallRules": "Pick the number that completes each fact.",
   "factRecallProgress": "Question {index} of {total}",
   "@factRecallProgress": {
     "placeholders": {
@@ -1795,6 +1795,10 @@
       }
     }
   },
+  "factRecallExploreFact": "Explore this fact",
+  "@factRecallExploreFact": {
+    "description": "After a wrong answer: opens the screen the fact comes from."
+  },
   "factRecallNext": "Next question",
   "factRecallSeeScore": "See score",
   "factRecallFinished": "{correct} of {total} correct",
@@ -1809,6 +1813,171 @@
     }
   },
   "factRecallYourWrongAnswer": "your answer, wrong",
+  "factRecallTimes": "{count, plural, =1{{multiple} time} other{{multiple} times}}",
+  "@factRecallTimes": {
+    "description": "A multiple in a calculator comparison: the figure Fact recall blanks.",
+    "placeholders": {
+      "count": {
+        "type": "num"
+      },
+      "multiple": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallBeefTofu": "Per 100 g, beef produces about {figure} as much CO2e as tofu.",
+  "@factRecallBeefTofu": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallChickenBeans": "Per 100 g, chicken produces about {figure} as much CO2e as dried beans and lentils.",
+  "@factRecallChickenBeans": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallBeefChicken": "Per 100 g, beef produces about {figure} as much CO2e as chicken.",
+  "@factRecallBeefChicken": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallMilkOat": "Per 100 ml, cow's milk produces about {figure} as much CO2e as oat milk.",
+  "@factRecallMilkOat": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallFlightShinkansen": "Per passenger per kilometre, a domestic flight emits about {figure} as much CO2e as the Shinkansen.",
+  "@factRecallFlightShinkansen": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallPrivateJet": "Per passenger per kilometre, a private jet emits about {figure} as much CO2e as a long-haul economy flight.",
+  "@factRecallPrivateJet": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallBulbs": "Per hour, an incandescent bulb emits about {figure} as much CO2e as an LED bulb.",
+  "@factRecallBulbs": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallShowers": "Per minute, a shower with electric hot water emits about {figure} as much CO2e as one with a heat pump.",
+  "@factRecallShowers": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallWashes": "Per load, a 60 °C wash emits about {figure} as much CO2e as a 20 °C wash.",
+  "@factRecallWashes": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallCooling": "Per hour, an air conditioner on cooling emits about {figure} as much CO2e as an electric fan.",
+  "@factRecallCooling": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallDishwasher": "Per cycle, a dishwasher's normal programme emits about {figure} more CO2e than its eco programme.",
+  "@factRecallDishwasher": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallLambPork": "Per 100 g, lamb produces about {figure} as much CO2e as pork.",
+  "@factRecallLambPork": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallFerry": "Per passenger per kilometre, a ferry passenger with a car emits about {figure} as much CO2e as a foot passenger.",
+  "@factRecallFerry": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallDryers": "Per load, a conventional tumble dryer emits about {figure} as much CO2e as a heat-pump dryer.",
+  "@factRecallDryers": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallCarCoach": "Per passenger per kilometre, driving alone in an average petrol car emits about {figure} as much CO2e as a long-distance coach.",
+  "@factRecallCarCoach": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallCarBus": "Per passenger per kilometre, driving alone in an average petrol car emits about {figure} more CO2e than a city bus.",
+  "@factRecallCarBus": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
+  "factRecallCarRail": "Per passenger per kilometre, driving alone in an average petrol car emits about {figure} as much CO2e as local or national rail.",
+  "@factRecallCarRail": {
+    "description": "A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.",
+    "placeholders": {
+      "figure": {
+        "type": "String"
+      }
+    }
+  },
   "walkthroughIntro1": "Hi, I'm {name}. Seed turns small everyday choices into a habit, and I grow as you go.",
   "@walkthroughIntro1": {
     "placeholders": {

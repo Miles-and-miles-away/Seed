@@ -90,10 +90,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 child: ExploreTile(entry: quizEntry, dimmed: shown != null),
               ),
               const SizedBox(height: spacingSm),
-              FactGameExploreTile(entry: factPairsEntry, dimmed: shown != null),
+              FactGameExploreTile(
+                entry: factPairsEntry,
+                needed: factPairsMinEcoDex,
+                dimmed: shown != null,
+              ),
               const SizedBox(height: spacingSm),
               FactGameExploreTile(
                 entry: factRecallEntry,
+                needed: factRecallMinEcoDex,
                 dimmed: shown != null,
               ),
             ],

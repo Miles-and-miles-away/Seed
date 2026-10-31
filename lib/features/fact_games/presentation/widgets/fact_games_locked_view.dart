@@ -4,19 +4,24 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
+import 'package:seed_app/features/progress/presentation/screens/progress_screen.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 const _lockSize = 48.0;
 
-/// Shown by every fact game until [count] reaches [factGamesMinFacts]:
-/// why it is locked, how far along the user is, and the way to today's
-/// challenge, which unlocks the next fact.
+/// Shown by a fact game until the user has discovered [needed] Eco-Dex
+/// entries: why it is locked, how far along the user is, and the way to
+/// the Eco-Dex.
 class FactGamesLockedView extends StatelessWidget {
-  const FactGamesLockedView({required this.count, super.key});
+  const FactGamesLockedView({
+    required this.count,
+    required this.needed,
+    super.key,
+  });
 
-  /// Distinct figures in the user's pool.
+  /// Eco-Dex entries the user has discovered.
   final int count;
+  final int needed;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,7 @@ class FactGamesLockedView extends StatelessWidget {
             ),
             const SizedBox(height: spacingSm),
             PhraseText(
-              l10n.factGamesLockedBody(factGamesMinFacts),
+              l10n.factGamesLockedBody(needed),
               minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -53,7 +58,7 @@ class FactGamesLockedView extends StatelessWidget {
             ),
             const SizedBox(height: spacingLg),
             Text(
-              l10n.factGamesLockedProgress(count, factGamesMinFacts),
+              l10n.factGamesLockedProgress(count, needed),
               textAlign: TextAlign.center,
               style: theme.textTheme.labelLarge?.copyWith(
                 color: theme.colorScheme.primary,
@@ -61,8 +66,9 @@ class FactGamesLockedView extends StatelessWidget {
             ),
             const SizedBox(height: spacingLg),
             FilledButton.tonal(
-              onPressed: () => context.go(appRoutes.home),
-              child: Text(l10n.factGamesGoToChallenge),
+              onPressed: () =>
+                  context.go('${appRoutes.progress}?tab=$progressTabEcoDex'),
+              child: Text(l10n.factGamesGoToEcoDex),
             ),
           ],
         ),

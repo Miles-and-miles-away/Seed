@@ -16,10 +16,7 @@ import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
-import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/explore/explore.dart';
-import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
@@ -39,14 +36,13 @@ const _titles = [
 ];
 
 const _factGames = {
-  'Fact pairs': 'Match each eco-fact to its number',
-  'Fact recall': 'Fill in the number in each eco-fact',
+  'Fact pairs': 'Match each fact to its number',
+  'Fact recall': 'Fill in the number in each fact',
 };
 
-/// The fact games' pool, unlocked unless given.
-Override _pool([List<EcoFact>? pool]) => factGamesPoolProvider.overrideWith(
-  (_, locale) async => ecoGameFacts(pool ?? playableFacts(3), locale),
-);
+/// Eco-Dex discoveries: enough to open both fact games unless given.
+Override _discovered([int count = factRecallMinEcoDex]) =>
+    discoveredEntries(count);
 
 void main() {
   // Roboto for every case, so a run of one group lays out like the file.
@@ -56,11 +52,11 @@ void main() {
     Locale locale = const Locale('en'),
     ThemeData? theme,
     TextScaler textScaler = TextScaler.noScaling,
-    List<EcoFact>? pool,
+    int discovered = factRecallMinEcoDex,
   }) => createTestWidget(
     locale: locale,
     theme: theme,
-    overrides: [_pool(pool)],
+    overrides: [_discovered(discovered)],
     child: MediaQuery(
       data: MediaQueryData(textScaler: textScaler),
       child: const ExploreScreen(),
@@ -107,15 +103,15 @@ void main() {
       tester,
     ) async {
       sizeViewport(tester);
-      await tester.pumpWidget(buildScreen(pool: playableFacts(2)));
+      await tester.pumpWidget(buildScreen(discovered: 4));
       await tester.pumpAndSettle();
 
-      for (final title in _factGames.keys) {
+      for (final (title, needed) in [('Fact pairs', 5), ('Fact recall', 10)]) {
         final tile = find.widgetWithText(ExploreTile, title);
         expect(
           find.descendant(
             of: tile,
-            matching: find.text('2 of 3 eco-facts with a number'),
+            matching: find.text('4 of $needed Eco-Dex entries discovered'),
           ),
           findsOneWidget,
           reason: title,
@@ -133,47 +129,80 @@ void main() {
       }
     });
 
-    testWidgets('both fact games unlock together when the user doc changes', (
-      tester,
-    ) async {
+    testWidgets('each fact game opens at its own count as the user doc '
+        'changes', (tester) async {
       sizeViewport(tester);
       final users = StreamController<AppUserModel?>();
       addTearDown(users.close);
-      AppUserModel user(int days) => AppUserModel(
+      AppUserModel user(int entries) => AppUserModel(
         uid: 'u',
         email: 'e',
-        unlockedFactDates: [
-          for (var day = 1; day <= days; day++) '2026-01-0$day',
-        ],
+        ecodexDiscovered: [for (var i = 0; i < entries; i++) 'entry_$i'],
       );
+      bool locked(String title) => find
+          .descendant(
+            of: find.widgetWithText(ExploreTile, title),
+            matching: find.byIcon(Icons.lock_outline),
+          )
+          .evaluate()
+          .isNotEmpty;
       await tester.pumpWidget(
         createTestWidget(
-          overrides: [
-            currentUserProvider.overrideWith((_) => users.stream),
-            ecoFactsProvider.overrideWith((_) async => playableFacts(5)),
-          ],
+          overrides: [currentUserProvider.overrideWith((_) => users.stream)],
           child: const ExploreScreen(),
         ),
       );
-      users.add(user(2));
+      users.add(user(4));
       await tester.pumpAndSettle();
-      expect(find.text('2 of 3 eco-facts with a number'), findsNWidgets(2));
+      expect((locked('Fact pairs'), locked('Fact recall')), (true, true));
 
-      users.add(user(3));
+      users.add(user(5));
       await tester.pumpAndSettle();
+      expect((locked('Fact pairs'), locked('Fact recall')), (false, true));
+      expect(find.text('5 of 10 Eco-Dex entries discovered'), findsOneWidget);
+
+      users.add(user(10));
+      await tester.pumpAndSettle();
+      expect((locked('Fact pairs'), locked('Fact recall')), (false, false));
       for (final MapEntry(key: title, value: subtitle) in _factGames.entries) {
-        final tile = find.widgetWithText(ExploreTile, title);
         expect(
-          find.descendant(of: tile, matching: find.text(subtitle)),
+          find.descendant(
+            of: find.widgetWithText(ExploreTile, title),
+            matching: find.text(subtitle),
+          ),
           findsOneWidget,
           reason: title,
         );
-        expect(
-          find.descendant(of: tile, matching: find.byIcon(Icons.lock_outline)),
-          findsNothing,
-          reason: title,
-        );
       }
+    });
+
+    testWidgets('no progress or lock while the user doc loads', (tester) async {
+      sizeViewport(tester);
+      final users = StreamController<AppUserModel?>();
+      addTearDown(users.close);
+      Finder lock(String title) => find.descendant(
+        of: find.widgetWithText(ExploreTile, title),
+        matching: find.byIcon(Icons.lock_outline),
+      );
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [currentUserProvider.overrideWith((_) => users.stream)],
+          child: const ExploreScreen(),
+        ),
+      );
+      await tester.pump();
+      for (final title in _factGames.keys) {
+        expect(lock(title), findsNothing, reason: title);
+      }
+      expect(find.textContaining('Eco-Dex entries discovered'), findsNothing);
+
+      users.add(const AppUserModel(uid: 'u', email: 'e'));
+      await tester.pumpAndSettle();
+      for (final title in _factGames.keys) {
+        expect(lock(title), findsOneWidget, reason: title);
+      }
+      expect(find.text('0 of 5 Eco-Dex entries discovered'), findsOneWidget);
+      expect(find.text('0 of 10 Eco-Dex entries discovered'), findsOneWidget);
     });
 
     testWidgets('unlocked fact games show their subtitles and chevrons', (
@@ -301,7 +330,7 @@ void main() {
       addTearDown(router.dispose);
       await tester.pumpWidget(
         ProviderScope(
-          overrides: [languageStoreOverride(), _pool()],
+          overrides: [languageStoreOverride(), _discovered()],
           child: MaterialApp.router(
             routerConfig: router,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -348,7 +377,7 @@ void main() {
                 ),
               ),
             ),
-            _pool(),
+            _discovered(),
           ],
           child: const MediaQuery(
             data: MediaQueryData(disableAnimations: true),
@@ -471,7 +500,7 @@ void main() {
       locale: const Locale('en'),
       overrides: [
         ...walkthroughOverrides(settings: Stream.value(settingsWith(found))),
-        _pool(),
+        _discovered(),
       ],
       child: MediaQuery(
         data: MediaQueryData(textScaler: textScaler),
@@ -497,7 +526,7 @@ void main() {
             ...walkthroughOverrides(
               settings: Stream.value(settingsWith([WalkthroughItem.intro])),
             ),
-            _pool(),
+            _discovered(),
           ],
           child: Scaffold(
             body: const ExploreScreen(),

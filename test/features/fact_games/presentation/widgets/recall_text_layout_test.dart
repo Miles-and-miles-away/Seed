@@ -7,11 +7,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
+import 'package:seed_app/features/eco_dex/data/eco_dex_entries_data.dart';
+import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
+import 'package:seed_app/features/energy/data/energy_behaviors_data.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
 import 'package:seed_app/features/fact_games/domain/game_fact.dart';
+import 'package:seed_app/features/fact_games/presentation/calculator_facts.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_question_card.dart';
+import 'package:seed_app/features/food/data/food_items_data.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
+import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
+import 'package:seed_app/features/transport/data/transport_modes_data.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -83,9 +91,32 @@ RecallQuestion _question(GameFact fact, String blank) {
 
 void main() {
   late List<EcoFact> playable;
+  late List<SdgGoal> goals;
+  late List<EcoDexEntry> entries;
+  late Map<String, double> ratios;
+
+  /// Every fact Fact recall can ask in [language], calculator comparisons
+  /// included; action text is in Firestore and is not bundled.
+  List<GameFact> askable(String language) => [
+    ...ecoGameFacts(playable, language),
+    ...sdgGameFacts(goals, language),
+    ...ecoDexGameFacts(entries, language),
+    ...calculatorGameFacts(
+      ratios,
+      lookupAppLocalizations(Locale(language)),
+      lookupAppLocalizations(const Locale('en')),
+    ),
+  ];
 
   setUpAll(() async {
     await loadTestFonts();
+    goals = (await loadSdgGoals()).goals;
+    entries = (await loadEcoDexData()).entries;
+    ratios = comparisonRatios(
+      foods: await loadFoodItems(),
+      modes: await loadTransportModes(),
+      behaviors: await loadEnergyBehaviors(),
+    );
     final json =
         jsonDecode(File('data/app/eco_facts.json').readAsStringSync())
             as List<dynamic>;
@@ -142,8 +173,7 @@ void main() {
           final blank = l10n.factRecallBlank.characters.join(wordJoiner);
           final cleanBlank = l10n.factRecallBlank;
           final questions = [
-            for (final fact in ecoGameFacts(playable, language))
-              _question(fact, blank),
+            for (final fact in askable(language)) _question(fact, blank),
           ];
           await pumpAll(tester, language, width, scale, [
             for (final (i, q) in questions.indexed) ...[

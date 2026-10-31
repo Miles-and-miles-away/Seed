@@ -85,7 +85,12 @@ List<(String, String)> decoyPairs(
   ]);
   if (sameShape.isNotEmpty) return sameShape;
   final scaled = [
-    for (final (a, b) in scaledDecoyPairs(answer, fact.locale, key))
+    for (final (a, b) in scaledDecoyPairs(
+      answer,
+      fact.locale,
+      key,
+      comparison: fact.recallOnly,
+    ))
       if (fair(a) && fair(b)) (a, b),
   ];
   if (scaled.isNotEmpty) return scaled;
@@ -108,8 +113,10 @@ class FactRecallRound {
   FactRecallRound._(this.questions);
 
   /// Asks up to [factRecallRoundLength] facts from [pool] with distinct
-  /// figures, those outside [avoidIds] first, so a new round asks new
-  /// facts where the pool allows. Decoys come from [allPlayable].
+  /// figures, kinds in turn, those outside [avoidIds] first, so a new
+  /// round asks new facts where the pool allows. Decoys come from
+  /// [allPlayable]; a recall-only fact's are its own figure scaled, since
+  /// another fact's multiple could sit too close to it.
   factory FactRecallRound.deal({
     required List<GameFact> pool,
     required List<GameFact> allPlayable,
@@ -121,19 +128,34 @@ class FactRecallRound {
       distinctFigureCount(pool) >= factGamesMinFacts,
       'Deal only from a pool with $factGamesMinFacts distinct figures',
     );
-    final shuffled = [...pool]..shuffle(random);
     final figures = <String>{};
+    final decoys = <String, List<(String, String)>>{};
+    final facts = dealInTurn(
+      pool,
+      count: factRecallRoundLength,
+      random: random,
+      avoidIds: avoidIds,
+      accept: (fact) {
+        if (figures.contains(fact.figureEn)) return false;
+        final pairs = decoyPairs(
+          fact,
+          fact.recallOnly ? const [] : allPlayable,
+          blank,
+        );
+        // Action text comes from Firestore, so it may predate the data rule.
+        assert(
+          pairs.isNotEmpty || fact.kind == GameFactKind.action,
+          '${fact.id} has no decoys',
+        );
+        if (pairs.isEmpty) return false;
+        figures.add(fact.figureEn);
+        decoys[fact.id] = pairs;
+        return true;
+      },
+    );
     final questions = <RecallQuestion>[];
-    for (final fact in [
-      ...shuffled.where((f) => !avoidIds.contains(f.id)),
-      ...shuffled.where((f) => avoidIds.contains(f.id)),
-    ]) {
-      if (questions.length == factRecallRoundLength) break;
-      if (figures.contains(fact.figureEn)) continue;
-      final pairs = decoyPairs(fact, allPlayable, blank);
-      assert(pairs.isNotEmpty, '${fact.id} has no decoys');
-      if (pairs.isEmpty) continue;
-      figures.add(fact.figureEn);
+    for (final fact in facts) {
+      final pairs = decoys[fact.id]!;
       final (a, b) = pairs[random.nextInt(pairs.length)];
       final answer = fact.figure;
       final options = [answer, a, b]..shuffle(random);

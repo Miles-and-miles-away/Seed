@@ -131,6 +131,70 @@ void main() {
     });
   });
 
+  group('kinds and recall-only facts', () {
+    final eco = [
+      for (var day = 1; day <= 6; day++)
+        kindFact('fact:$day', GameFactKind.ecoFact, figure: '${day}0 kg'),
+      kindFact('fact:7', GameFactKind.ecoFact, figure: '4 times'),
+      kindFact('fact:8', GameFactKind.ecoFact, figure: '8 times'),
+    ];
+    final calculator = [
+      kindFact(
+        'food:a',
+        GameFactKind.food,
+        figure: '4.3 times',
+        recallOnly: true,
+      ),
+      kindFact('food:b', GameFactKind.food, figure: '49%', recallOnly: true),
+      kindFact(
+        'energy:a',
+        GameFactKind.energy,
+        figure: '22 times',
+        recallOnly: true,
+      ),
+    ];
+
+    test('a round never asks one source twice in a row', () {
+      for (var seed = 0; seed < 40; seed++) {
+        final round = FactRecallRound.deal(
+          pool: [...eco, ...calculator],
+          allPlayable: eco,
+          blank: _blank,
+          random: Random(seed),
+        );
+        final groups = [for (final q in round.questions) q.fact.dealGroup];
+        expect(groups, hasLength(factRecallRoundLength));
+        for (var i = 1; i < groups.length; i++) {
+          expect(groups[i], isNot(groups[i - 1]), reason: 'seed $seed $groups');
+        }
+      }
+    });
+
+    test("a recall-only fact's decoys are multiples of its own figure", () {
+      const scaled = {
+        '2.1 times',
+        '8.6 times',
+        '17 times',
+        '2.9 times',
+        '6.4 times',
+        '9.7 times',
+      };
+      for (var seed = 0; seed < 40; seed++) {
+        final round = FactRecallRound.deal(
+          pool: [...eco, ...calculator],
+          allPlayable: eco,
+          blank: _blank,
+          random: Random(seed),
+        );
+        for (final q in round.questions) {
+          if (q.fact.id != 'food:a') continue;
+          final decoys = {...q.options}..remove(q.answer);
+          expect(scaled.containsAll(decoys), isTrue, reason: '$decoys');
+        }
+      }
+    });
+  });
+
   group('decoyPairs', () {
     test("prefers the answer's shape", () {
       final facts = [
@@ -209,6 +273,24 @@ void main() {
         ], locale: 'es'),
         [('2,4 millones', '4,8 millones')],
       );
+    });
+
+    test('a comparison scales past 100%, so its answer can sit low', () {
+      final comparison = kindFact(
+        'transport:a',
+        GameFactKind.transport,
+        figure: '57%',
+        recallOnly: true,
+      );
+      expect(decoyPairs(comparison, const [], _blank), [
+        ('14%', '29%'),
+        ('29%', '110%'),
+        ('110%', '230%'),
+        ('25%', '38%'),
+        ('38%', '86%'),
+        ('86%', '130%'),
+      ]);
+      expect(_decoyPairs([playableFact(1, figure: '57%')]), [('14%', '29%')]);
     });
 
     test('an English scale word carries up at 1,000, never on both '

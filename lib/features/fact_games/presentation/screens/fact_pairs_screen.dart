@@ -7,9 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
 import 'package:seed_app/features/fact_games/domain/game_fact.dart';
+import 'package:seed_app/features/fact_games/presentation/fact_source.dart';
 import 'package:seed_app/features/fact_games/presentation/providers/fact_games_providers.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_games_locked_view.dart';
@@ -100,7 +102,7 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
             }
           });
         }
-        InfoSheet.show(context, title: card.fact.title, body: card.fact.text);
+        showFactSheet(context, card.fact);
       case FlipResult.miss:
         _missTimer = Timer(durationCelebration, () {
           if (mounted) setState(board.hideMiss);
@@ -144,12 +146,15 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
     List<GameFact> pool,
     String locale,
   ) {
+    final discovered = ref.watch(ecoDexDiscoveredCountProvider);
+    if (discovered < factPairsMinEcoDex) {
+      return FactGamesLockedView(count: discovered, needed: factPairsMinEcoDex);
+    }
     // Only a new locale or a newly playable pool deals; a reload does not.
     if (_boardLocale != locale || _board == null) _deal(pool, locale);
     final board = _board;
-    if (board == null) {
-      return FactGamesLockedView(count: distinctFigureCount(pool));
-    }
+    // Open to everyone, so a pool too small to deal means its data failed.
+    if (board == null) return const Center(child: ErrorDisplay());
 
     final theme = Theme.of(context);
     final noteStyle = theme.textTheme.bodySmall?.copyWith(

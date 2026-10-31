@@ -7,9 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
+import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/fact_games/domain/fact_games_pool.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
 import 'package:seed_app/features/fact_games/domain/game_fact.dart';
+import 'package:seed_app/features/fact_games/presentation/fact_source.dart';
 import 'package:seed_app/features/fact_games/presentation/providers/fact_games_providers.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_games_locked_view.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
@@ -21,8 +23,9 @@ import 'package:seed_app/shared/widgets/widgets.dart';
 /// a guard for iOS accessibility text sizes.
 const _answersMaxHeightFactor = 0.45;
 
-/// Fact recall: each question blanks an unlocked fact's key figure
-/// and offers it with two other facts' figures.
+/// Fact recall: each question blanks the key figure of a fact or a
+/// calculator comparison and offers it with two decoys. It opens once the
+/// user has discovered [factRecallMinEcoDex] Eco-Dex entries.
 ///
 /// Nothing is awarded, logged or persisted, and there is no best score.
 class FactRecallScreen extends ConsumerStatefulWidget {
@@ -60,17 +63,19 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
 
   void _deal(
     List<GameFact> pool,
+    List<GameFact> calculator,
     List<GameFact> allPlayable,
     String locale, {
     Set<String> avoidIds = const {},
   }) {
     _roundLocale = locale;
-    if (distinctFigureCount(pool) < factGamesMinFacts) {
+    final dealable = [...pool, ...calculator];
+    if (distinctFigureCount(dealable) < factGamesMinFacts) {
       _round = null;
       return;
     }
     final round = FactRecallRound.deal(
-      pool: pool,
+      pool: dealable,
       allPlayable: allPlayable,
       // Joined so a Japanese line never splits the blank.
       blank: AppLocalizations.of(
@@ -126,10 +131,14 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
   void _playAgain(
     FactRecallRound last,
     List<GameFact> pool,
+    List<GameFact> calculator,
     List<GameFact> allPlayable,
     String locale,
   ) {
-    setState(() => _deal(pool, allPlayable, locale, avoidIds: last.askedIds));
+    setState(
+      () =>
+          _deal(pool, calculator, allPlayable, locale, avoidIds: last.askedIds),
+    );
     final round = _round;
     if (round != null) {
       _announce(_questionAnnouncement(AppLocalizations.of(context), round));
@@ -142,26 +151,38 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
     final locale = Localizations.localeOf(context).languageCode;
     final poolAsync = ref.watch(factGamesPoolProvider(locale));
     final allAsync = ref.watch(factGamesAllPlayableProvider(locale));
+    final calculatorAsync = ref.watch(factGamesCalculatorFactsProvider(locale));
     final pool = poolAsync.value;
     final allPlayable = allAsync.value;
+    final calculator = calculatorAsync.value;
+    final discovered = ref.watch(ecoDexDiscoveredCountProvider);
     Widget body;
     Widget? panel;
-    if (pool == null || allPlayable == null) {
-      body = poolAsync.hasError || allAsync.hasError
+    if (pool == null || allPlayable == null || calculator == null) {
+      body = poolAsync.hasError || allAsync.hasError || calculatorAsync.hasError
           ? const Center(child: ErrorDisplay())
           : const Center(child: CircularProgressIndicator());
     } else {
       // Only a new locale or a newly playable pool deals; a reload does not.
-      if (_roundLocale != locale || _round == null) {
-        _deal(pool, allPlayable, locale);
+      if (discovered >= factRecallMinEcoDex &&
+          (_roundLocale != locale || _round == null)) {
+        _deal(pool, calculator, allPlayable, locale);
       }
       final round = _round;
-      if (round == null) {
-        body = FactGamesLockedView(count: distinctFigureCount(pool));
+      if (discovered < factRecallMinEcoDex) {
+        body = FactGamesLockedView(
+          count: discovered,
+          needed: factRecallMinEcoDex,
+        );
+      } else if (round == null) {
+        // Open to everyone, so a pool too small to deal means its data
+        // failed.
+        body = const Center(child: ErrorDisplay());
       } else if (round.finished) {
         body = _FinishPanel(
           round: round,
-          onPlayAgain: () => _playAgain(round, pool, allPlayable, locale),
+          onPlayAgain: () =>
+              _playAgain(round, pool, calculator, allPlayable, locale),
         );
       } else {
         body = _questionBody(context, l10n, round);
@@ -169,6 +190,7 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
           round: round,
           onAnswer: (option) => _answer(round, option),
           onNext: () => _next(round),
+          onExplore: () => openFactSource(context, round.question.fact),
         );
       }
     }
@@ -235,11 +257,15 @@ class _AnswerPanel extends StatelessWidget {
     required this.round,
     required this.onAnswer,
     required this.onNext,
+    required this.onExplore,
   });
 
   final FactRecallRound round;
   final ValueChanged<int> onAnswer;
   final VoidCallback onNext;
+
+  /// Opens where the current fact lives; offered after a wrong answer.
+  final VoidCallback onExplore;
 
   @override
   Widget build(BuildContext context) {
@@ -288,6 +314,15 @@ class _AnswerPanel extends StatelessWidget {
                         : theme.colorScheme.error,
                   ),
                 ),
+                if (!right)
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: TextButton.icon(
+                      onPressed: onExplore,
+                      icon: const Icon(Icons.explore_outlined),
+                      label: Text(l10n.factRecallExploreFact),
+                    ),
+                  ),
                 const SizedBox(height: spacingSm),
               ],
               ConstrainedBox(

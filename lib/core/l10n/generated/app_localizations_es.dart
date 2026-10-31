@@ -2491,11 +2491,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get factPairsTitle => 'Parejas de datos';
 
   @override
-  String get factPairsSubtitle => 'Une cada eco-dato con su cifra';
+  String get factPairsSubtitle => 'Une cada dato con su cifra';
 
   @override
   String get factPairsRules =>
-      'Da la vuelta a dos cartas cada vez y encuentra la cifra de cada eco-dato.';
+      'Da la vuelta a dos cartas cada vez y encuentra la cifra de cada dato.';
 
   @override
   String factPairsFound(int found, int total) {
@@ -2538,29 +2538,29 @@ class AppLocalizationsEs extends AppLocalizations {
   String get factGamesPlayAgain => 'Jugar otra vez';
 
   @override
-  String get factGamesLockedTitle => 'Desbloquea eco-datos para jugar';
+  String get factGamesLockedTitle => 'Descubre entradas del Eco-Dex para jugar';
 
   @override
   String factGamesLockedBody(int needed) {
-    return 'Completa desafíos diarios para desbloquear eco-datos. La mayoría incluye una cifra clave; los juegos empiezan cuando tengas $needed de esos eco-datos.';
+    return 'Este juego se abre cuando descubras $needed entradas del Eco-Dex. Descúbrelas registrando acciones y completando desafíos; las que encuentres pueden aparecer aquí como preguntas.';
   }
 
   @override
   String factGamesLockedProgress(int count, int needed) {
-    return '$count de $needed eco-datos con cifra';
+    return '$count de $needed entradas del Eco-Dex descubiertas';
   }
 
   @override
-  String get factGamesGoToChallenge => 'El desafío de hoy';
+  String get factGamesGoToEcoDex => 'Abrir el Eco-Dex';
 
   @override
   String get factRecallTitle => 'Recuerda la cifra';
 
   @override
-  String get factRecallSubtitle => 'Completa la cifra de cada eco-dato';
+  String get factRecallSubtitle => 'Completa la cifra de cada dato';
 
   @override
-  String get factRecallRules => 'Elige la cifra que completa cada eco-dato.';
+  String get factRecallRules => 'Elige la cifra que completa cada dato.';
 
   @override
   String factRecallProgress(int index, int total) {
@@ -2584,6 +2584,9 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get factRecallExploreFact => 'Explorar este dato';
+
+  @override
   String get factRecallNext => 'Siguiente pregunta';
 
   @override
@@ -2602,6 +2605,102 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get factRecallYourWrongAnswer => 'tu respuesta, incorrecta';
+
+  @override
+  String factRecallTimes(num count, String multiple) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$multiple veces',
+      one: '$multiple vez',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String factRecallBeefTofu(String figure) {
+    return 'Por cada 100 g, la carne de vacuno genera cerca de $figure más CO2e que el tofu.';
+  }
+
+  @override
+  String factRecallChickenBeans(String figure) {
+    return 'Por cada 100 g, el pollo genera cerca de $figure más CO2e que las alubias y lentejas secas.';
+  }
+
+  @override
+  String factRecallBeefChicken(String figure) {
+    return 'Por cada 100 g, la carne de vacuno genera cerca de $figure más CO2e que el pollo.';
+  }
+
+  @override
+  String factRecallMilkOat(String figure) {
+    return 'Por cada 100 ml, la leche de vaca genera cerca de $figure más CO2e que la bebida de avena.';
+  }
+
+  @override
+  String factRecallFlightShinkansen(String figure) {
+    return 'Por pasajero y kilómetro, un vuelo nacional emite cerca de $figure más CO2e que el Shinkansen.';
+  }
+
+  @override
+  String factRecallPrivateJet(String figure) {
+    return 'Por pasajero y kilómetro, un jet privado emite cerca de $figure más CO2e que un vuelo de larga distancia en clase turista.';
+  }
+
+  @override
+  String factRecallBulbs(String figure) {
+    return 'Por hora, una bombilla incandescente emite cerca de $figure más CO2e que una bombilla LED.';
+  }
+
+  @override
+  String factRecallShowers(String figure) {
+    return 'Por minuto, una ducha con agua caliente eléctrica emite cerca de $figure más CO2e que una con bomba de calor.';
+  }
+
+  @override
+  String factRecallWashes(String figure) {
+    return 'Por colada, un lavado a 60 °C emite cerca de $figure más CO2e que uno a 20 °C.';
+  }
+
+  @override
+  String factRecallCooling(String figure) {
+    return 'Por hora, un aire acondicionado en modo refrigeración emite cerca de $figure más CO2e que un ventilador.';
+  }
+
+  @override
+  String factRecallDishwasher(String figure) {
+    return 'Por ciclo, el programa normal del lavavajillas emite cerca de un $figure más CO2e que el programa eco.';
+  }
+
+  @override
+  String factRecallLambPork(String figure) {
+    return 'Por cada 100 g, el cordero genera cerca de $figure más CO2e que el cerdo.';
+  }
+
+  @override
+  String factRecallFerry(String figure) {
+    return 'Por pasajero y kilómetro, quien viaja en ferri con coche emite cerca de $figure más CO2e que quien embarca a pie.';
+  }
+
+  @override
+  String factRecallDryers(String figure) {
+    return 'Por colada, una secadora con resistencia emite cerca de $figure más CO2e que una con bomba de calor.';
+  }
+
+  @override
+  String factRecallCarCoach(String figure) {
+    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de $figure más CO2e que un autocar de larga distancia.';
+  }
+
+  @override
+  String factRecallCarBus(String figure) {
+    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de un $figure más CO2e que un autobús urbano.';
+  }
+
+  @override
+  String factRecallCarRail(String figure) {
+    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de $figure más CO2e que el tren nacional o de cercanías.';
+  }
 
   @override
   String walkthroughIntro1(String name) {

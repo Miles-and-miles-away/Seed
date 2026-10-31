@@ -8,20 +8,24 @@ part of 'fact_games_providers.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
+/// Facts the fact games can deal in [locale]: the user's unlocked
+/// eco-facts (one per dayOfYear), their discovered Eco-Dex entries, and
+/// every SDG and action fact, whose screens are open to all.
 ///
-/// Unlocked or viewed, as the inbox counts them: older reads predate
-/// `unlockedFactDates`. Unread facts are included, so a match shows the
-/// user a fact they skipped.
+/// Eco-facts count when unlocked or viewed, as the inbox counts them:
+/// older reads predate `unlockedFactDates`. Unread facts are included, so
+/// a match shows the user a fact they skipped.
 
 @ProviderFor(factGamesPool)
 final factGamesPoolProvider = FactGamesPoolFamily._();
 
-/// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
+/// Facts the fact games can deal in [locale]: the user's unlocked
+/// eco-facts (one per dayOfYear), their discovered Eco-Dex entries, and
+/// every SDG and action fact, whose screens are open to all.
 ///
-/// Unlocked or viewed, as the inbox counts them: older reads predate
-/// `unlockedFactDates`. Unread facts are included, so a match shows the
-/// user a fact they skipped.
+/// Eco-facts count when unlocked or viewed, as the inbox counts them:
+/// older reads predate `unlockedFactDates`. Unread facts are included, so
+/// a match shows the user a fact they skipped.
 
 final class FactGamesPoolProvider
     extends
@@ -31,11 +35,13 @@ final class FactGamesPoolProvider
           FutureOr<List<GameFact>>
         >
     with $FutureModifier<List<GameFact>>, $FutureProvider<List<GameFact>> {
-  /// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
+  /// Facts the fact games can deal in [locale]: the user's unlocked
+  /// eco-facts (one per dayOfYear), their discovered Eco-Dex entries, and
+  /// every SDG and action fact, whose screens are open to all.
   ///
-  /// Unlocked or viewed, as the inbox counts them: older reads predate
-  /// `unlockedFactDates`. Unread facts are included, so a match shows the
-  /// user a fact they skipped.
+  /// Eco-facts count when unlocked or viewed, as the inbox counts them:
+  /// older reads predate `unlockedFactDates`. Unread facts are included, so
+  /// a match shows the user a fact they skipped.
   FactGamesPoolProvider._({
     required FactGamesPoolFamily super.from,
     required String super.argument,
@@ -80,13 +86,15 @@ final class FactGamesPoolProvider
   }
 }
 
-String _$factGamesPoolHash() => r'a6bc4b7c02fcc24db9250ac06ba5d2be51024c16';
+String _$factGamesPoolHash() => r'0639bc077ae709cc849be31fafe419e92e5de708';
 
-/// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
+/// Facts the fact games can deal in [locale]: the user's unlocked
+/// eco-facts (one per dayOfYear), their discovered Eco-Dex entries, and
+/// every SDG and action fact, whose screens are open to all.
 ///
-/// Unlocked or viewed, as the inbox counts them: older reads predate
-/// `unlockedFactDates`. Unread facts are included, so a match shows the
-/// user a fact they skipped.
+/// Eco-facts count when unlocked or viewed, as the inbox counts them:
+/// older reads predate `unlockedFactDates`. Unread facts are included, so
+/// a match shows the user a fact they skipped.
 
 final class FactGamesPoolFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<GameFact>>, String> {
@@ -99,11 +107,13 @@ final class FactGamesPoolFamily extends $Family
         isAutoDispose: true,
       );
 
-  /// Unlocked facts the fact games can deal in [locale], one per dayOfYear.
+  /// Facts the fact games can deal in [locale]: the user's unlocked
+  /// eco-facts (one per dayOfYear), their discovered Eco-Dex entries, and
+  /// every SDG and action fact, whose screens are open to all.
   ///
-  /// Unlocked or viewed, as the inbox counts them: older reads predate
-  /// `unlockedFactDates`. Unread facts are included, so a match shows the
-  /// user a fact they skipped.
+  /// Eco-facts count when unlocked or viewed, as the inbox counts them:
+  /// older reads predate `unlockedFactDates`. Unread facts are included, so
+  /// a match shows the user a fact they skipped.
 
   FactGamesPoolProvider call(String locale) =>
       FactGamesPoolProvider._(argument: locale, from: this);
@@ -112,12 +122,12 @@ final class FactGamesPoolFamily extends $Family
   String toString() => r'factGamesPoolProvider';
 }
 
-/// Every playable fact, locked or not: Fact recall's decoy candidates.
+/// Every text fact, locked or not: Fact recall's decoy candidates.
 
 @ProviderFor(factGamesAllPlayable)
 final factGamesAllPlayableProvider = FactGamesAllPlayableFamily._();
 
-/// Every playable fact, locked or not: Fact recall's decoy candidates.
+/// Every text fact, locked or not: Fact recall's decoy candidates.
 
 final class FactGamesAllPlayableProvider
     extends
@@ -127,7 +137,7 @@ final class FactGamesAllPlayableProvider
           FutureOr<List<GameFact>>
         >
     with $FutureModifier<List<GameFact>>, $FutureProvider<List<GameFact>> {
-  /// Every playable fact, locked or not: Fact recall's decoy candidates.
+  /// Every text fact, locked or not: Fact recall's decoy candidates.
   FactGamesAllPlayableProvider._({
     required FactGamesAllPlayableFamily super.from,
     required String super.argument,
@@ -173,9 +183,9 @@ final class FactGamesAllPlayableProvider
 }
 
 String _$factGamesAllPlayableHash() =>
-    r'34f4f71d38ecac29ce7f58c2bdd75846a8e0362e';
+    r'b6619ea9addc4ef00ad28906b10aa1ab46e8a5ee';
 
-/// Every playable fact, locked or not: Fact recall's decoy candidates.
+/// Every text fact, locked or not: Fact recall's decoy candidates.
 
 final class FactGamesAllPlayableFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<GameFact>>, String> {
@@ -188,11 +198,107 @@ final class FactGamesAllPlayableFamily extends $Family
         isAutoDispose: true,
       );
 
-  /// Every playable fact, locked or not: Fact recall's decoy candidates.
+  /// Every text fact, locked or not: Fact recall's decoy candidates.
 
   FactGamesAllPlayableProvider call(String locale) =>
       FactGamesAllPlayableProvider._(argument: locale, from: this);
 
   @override
   String toString() => r'factGamesAllPlayableProvider';
+}
+
+/// Calculator comparisons in [locale], Fact recall only: always available
+/// and never counted towards the lock. A calculator whose data fails to
+/// load gives no comparisons rather than an error.
+
+@ProviderFor(factGamesCalculatorFacts)
+final factGamesCalculatorFactsProvider = FactGamesCalculatorFactsFamily._();
+
+/// Calculator comparisons in [locale], Fact recall only: always available
+/// and never counted towards the lock. A calculator whose data fails to
+/// load gives no comparisons rather than an error.
+
+final class FactGamesCalculatorFactsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<GameFact>>,
+          List<GameFact>,
+          FutureOr<List<GameFact>>
+        >
+    with $FutureModifier<List<GameFact>>, $FutureProvider<List<GameFact>> {
+  /// Calculator comparisons in [locale], Fact recall only: always available
+  /// and never counted towards the lock. A calculator whose data fails to
+  /// load gives no comparisons rather than an error.
+  FactGamesCalculatorFactsProvider._({
+    required FactGamesCalculatorFactsFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'factGamesCalculatorFactsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$factGamesCalculatorFactsHash();
+
+  @override
+  String toString() {
+    return r'factGamesCalculatorFactsProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<List<GameFact>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<GameFact>> create(Ref ref) {
+    final argument = this.argument as String;
+    return factGamesCalculatorFacts(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FactGamesCalculatorFactsProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$factGamesCalculatorFactsHash() =>
+    r'be47441485db46f66fc8555cedc043f0c18c1682';
+
+/// Calculator comparisons in [locale], Fact recall only: always available
+/// and never counted towards the lock. A calculator whose data fails to
+/// load gives no comparisons rather than an error.
+
+final class FactGamesCalculatorFactsFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<List<GameFact>>, String> {
+  FactGamesCalculatorFactsFamily._()
+    : super(
+        retry: null,
+        name: r'factGamesCalculatorFactsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  /// Calculator comparisons in [locale], Fact recall only: always available
+  /// and never counted towards the lock. A calculator whose data fails to
+  /// load gives no comparisons rather than an error.
+
+  FactGamesCalculatorFactsProvider call(String locale) =>
+      FactGamesCalculatorFactsProvider._(argument: locale, from: this);
+
+  @override
+  String toString() => r'factGamesCalculatorFactsProvider';
 }

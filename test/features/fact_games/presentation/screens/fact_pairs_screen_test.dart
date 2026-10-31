@@ -19,6 +19,7 @@ import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
 import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
+import 'package:seed_app/features/progress/presentation/screens/progress_screen.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
@@ -131,6 +132,7 @@ void main() {
 
   Widget buildScreen({
     List<EcoFact>? pool,
+    int discovered = factPairsMinEcoDex,
     Locale locale = const Locale('en'),
     ThemeData? theme,
     _RecordingAnalytics? analytics,
@@ -138,6 +140,7 @@ void main() {
     locale: locale,
     theme: theme,
     overrides: [
+      discoveredEntries(discovered),
       factGamesPoolProvider.overrideWith(
         (_, locale) async => ecoGameFacts(pool ?? playableFacts(6), locale),
       ),
@@ -152,53 +155,49 @@ void main() {
       FactPairsBoard.deal(ecoGameFacts(pool, locale), Random(_seed));
 
   group('locked', () {
-    for (final count in [0, 1, 2]) {
-      testWidgets('with $count ready facts', (tester) async {
+    for (final count in [0, factPairsMinEcoDex - 1]) {
+      testWidgets('with $count discovered Eco-Dex entries', (tester) async {
         sizeViewport(tester);
-        await tester.pumpWidget(buildScreen(pool: playableFacts(count)));
+        await tester.pumpWidget(buildScreen(discovered: count));
         await tester.pumpAndSettle();
 
         expect(find.byType(FactGamesLockedView), findsOneWidget);
         expect(find.byIcon(Icons.lock_outline), findsOneWidget);
-        expect(find.text('Unlock eco-facts to play'), findsOneWidget);
+        expect(find.text('Discover Eco-Dex entries to play'), findsOneWidget);
         expect(
           find.text(
-            'Complete daily challenges to unlock eco-facts. Most have a '
-            'key number; the games start when 3 of those are ready.',
+            'This game opens once you have discovered 5 Eco-Dex entries. '
+            'Log actions and complete challenges to discover them, and the '
+            'ones you find can turn up here as questions.',
           ),
           findsOneWidget,
         );
         expect(
-          find.text('$count of 3 eco-facts with a number'),
+          find.text('$count of 5 Eco-Dex entries discovered'),
           findsOneWidget,
         );
         expect(find.byType(FactCardTile), findsNothing);
       });
     }
 
-    testWidgets('counts facts with distinct figures', (tester) async {
+    testWidgets('opens at exactly the needed entries', (tester) async {
       sizeViewport(tester);
-      await tester.pumpWidget(
-        buildScreen(
-          pool: [
-            for (var day = 1; day <= 4; day++) playableFact(day, figure: '1%'),
-          ],
-        ),
-      );
+      await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
-      expect(find.text('1 of 3 eco-facts with a number'), findsOneWidget);
+      expect(find.byType(FactGamesLockedView), findsNothing);
+      expect(find.byType(FactCardTile), findsWidgets);
     });
 
-    testWidgets("the button goes to Home, where today's challenge is", (
-      tester,
-    ) async {
+    testWidgets('the button opens the Eco-Dex', (tester) async {
       sizeViewport(tester);
       final router = GoRouter(
         initialLocation: appRoutes.factPairs,
         routes: [
           GoRoute(
-            path: appRoutes.home,
-            builder: (_, _) => const Scaffold(body: Text('home stub')),
+            path: appRoutes.progress,
+            builder: (_, state) => Scaffold(
+              body: Text('progress ${state.uri.queryParameters['tab']}'),
+            ),
           ),
           GoRoute(
             path: appRoutes.factPairs,
@@ -211,6 +210,7 @@ void main() {
         ProviderScope(
           overrides: [
             languageStoreOverride(),
+            discoveredEntries(0),
             factGamesPoolProvider.overrideWith(
               (_, locale) async => ecoGameFacts(playableFacts(1), locale),
             ),
@@ -225,9 +225,9 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text("Today's challenge"));
+      await tester.tap(find.text('Open the Eco-Dex'));
       await tester.pumpAndSettle();
-      expect(find.text('home stub'), findsOneWidget);
+      expect(find.text('progress $progressTabEcoDex'), findsOneWidget);
     });
   });
 
@@ -244,7 +244,7 @@ void main() {
       await _tapCard(tester, b);
 
       final fact = board.cards[a].fact;
-      for (final text in [fact.title, fact.text]) {
+      for (final text in [fact.title, '${fact.text}\n\nSource: Source']) {
         final finder = find.descendant(
           of: find.byType(InfoSheet),
           matching: find.text(text),
@@ -619,6 +619,8 @@ void main() {
           overrides: [
             currentUserProvider.overrideWith((_) => users.stream),
             ecoFactsProvider.overrideWith((_) async => facts),
+            ...emptyTextSources(),
+            discoveredEntries(factPairsMinEcoDex),
             analyticsServiceProvider.overrideWithValue(_RecordingAnalytics()),
           ],
           child: FactPairsScreen(random: Random(_seed)),
@@ -654,6 +656,7 @@ void main() {
         ProviderScope(
           overrides: [
             languageStoreOverride(),
+            discoveredEntries(factPairsMinEcoDex),
             factGamesPoolProvider.overrideWith(
               (_, locale) async => ecoGameFacts(pool, locale),
             ),

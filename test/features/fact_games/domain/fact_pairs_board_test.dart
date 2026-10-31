@@ -110,6 +110,18 @@ void main() {
     });
   });
 
+  test('recall-only facts never reach a board', () {
+    for (var seed = 0; seed < 20; seed++) {
+      final board = FactPairsBoard.deal([
+        ...ecoGameFacts(playableFacts(4), 'en'),
+        for (var i = 0; i < 6; i++)
+          kindFact('food:$i', GameFactKind.food, recallOnly: true),
+      ], Random(seed));
+      expect(board.cards.where((c) => c.fact.recallOnly), isEmpty);
+      expect(board.pairCount, 3);
+    }
+  });
+
   group('flip', () {
     test('first, then match for the partner', () {
       final board = deal(6);

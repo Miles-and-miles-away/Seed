@@ -13,6 +13,8 @@ and targets remain accurate, well-sourced, and consistent.
 |------|---------|---------|
 | `eco_facts.json` | Daily eco-facts shown to users (one per day of year) | 366 |
 | `sdg_targets.json` | Official UN SDG targets for all 17 goals | 169 |
+| `sdg_goals.json` | Goal descriptions; Key Figures applies to `keyFigureEn/Ja/Es` | 17 |
+| `eco_dex_entries.json` | Eco-Dex entries; Key Figures applies to `keyFigureEn/Ja/Es` | 108 |
 
 ---
 
@@ -64,7 +66,11 @@ The three `keyFigure*` fields are optional (see Key Figures below).
 
 The fact games (Fact pairs, Fact recall) deal only facts with a key
 figure: they pair the title with the figure, or blank the figure out
-of the text. A fact without one still unlocks and reads as usual.
+of the text. A fact without one still unlocks and reads as usual. The
+rules below hold for the key figures of `sdg_goals.json` and
+`eco_dex_entries.json` too; an SDG goal's game text is the sentence of
+its description that carries the figure, so the rules apply to that
+sentence. Game decisions are in `PDR_FACT_GAMES.md`.
 
 - All three fields present or all three absent.
 - Each is a verbatim substring of the fact text in its language, so

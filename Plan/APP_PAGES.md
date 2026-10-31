@@ -283,11 +283,13 @@ with a one-line description; every tile pushes its full-screen route.
 - Functionality: two sections of `ExploreTile`s, each a tinted disc
   (category colour, icon in its readable tone; the quiz takes the
   scheme's primary, Fact pairs `categoryLearning` blue grey, Fact recall
-  `categoryAdvocacy` pink), title, subtitle and chevron. While the
-  user has fewer than 3 unlocked eco-facts with a key figure, both fact
-  game tiles read "N of 3 eco-facts with a number" and a lock replaces
-  the chevron (one lock for both); they stay tappable and open the
-  game's locked view. The calculators
+  `categoryAdvocacy` pink), title, subtitle and chevron. Until the
+  user has discovered enough Eco-Dex entries (5 for Fact pairs, 10 for
+  Fact recall), a fact game tile reads "N of M Eco-Dex entries
+  discovered" and a lock replaces the chevron; it stays tappable and
+  opens the game's locked view. Until the user document has loaded the
+  tile shows neither, so an unlocked user never sees a lock flash. The
+  calculators
   walkthrough pops here with a spotlight on the tile each page explains
   (transport, food, home energy, then the ranking), the bubble in the
   taller band beside it with its button always on screen; a tile off
@@ -644,13 +646,17 @@ drag up the one you think produces more carbon.
 
 ## Fact Pairs (`/fact-pairs`)
 
-Pushed full-screen route. A memory game over the user's own eco-facts:
+Pushed full-screen route. A memory game over facts from across the app:
 turn two cards at a time to match each fact's title to its key figure.
+Decisions in `PDR_FACT_GAMES.md`.
 - Reached from: the Explore tab (Fact pairs tile, `style`).
-- Pool: every fact whose date is in `unlockedFactDates` or
-  `viewedFactDates` (the inbox's rule), one per `dayOfYear`, that carries
-  a key figure (`EcoFact.isPlayable`). Unread facts count, so a match
-  can show a fact the user skipped.
+- Pool: eco-facts whose date is in `unlockedFactDates` or
+  `viewedFactDates` (the inbox's rule), one per `dayOfYear`, with a key
+  figure (unread facts count, so a match can show a fact the user
+  skipped); every SDG goal and library action with a key figure, since
+  their screens are open to all; and discovered Eco-Dex entries with a
+  key figure. Sources take turns, so no two cards in a row on the deal
+  come from one source while another has facts left.
 - Board: 6 pairs (3 x 4) from 6 distinct figures, 3 pairs (3 x 2) from 3
   to 5. Never two equal figures on one board, compared on `keyFigureEn`
   because JA and ES can write one value two ways. Three columns at text
@@ -665,15 +671,21 @@ turn two cards at a time to match each fact's title to its key figure.
   (figures in bold primary), matched `tertiaryContainer` with a check.
 - Interaction: tap to turn (a 3D flip, none under reduced motion). A
   miss stays up for 1.2 s, and taps meanwhile are ignored. A match
-  opens the fact in the info sheet over the board, so it never depends
-  on scrolling; the last match also scrolls the finish panel (move
-  count and "Play again") into view behind the sheet. Screen readers
+  opens the fact in full over the board, so it never depends on
+  scrolling: an eco-fact's text and source, an SDG goal's whole
+  description (both in the info sheet), an action's info sheet
+  (`ActionScienceBottomSheet`) or the Eco-Dex entry's sheet
+  (`EcoDexEntrySheet`), the same sheets Fact recall opens. The last
+  match also scrolls the finish panel (move count and "Play again")
+  into view behind the sheet. Screen readers
   hear each turned card, then "Pair found" or "Not a pair", in one
   announcement, plus the finish line on the last match and the new
   board's pair count after Play again.
-- Locked (fewer than 3 distinct figures): a centred lock, why, the
-  progress count and a "Today's challenge" button that goes to Home.
-  The locked view and pool are shared by the fact games.
+- Locked until 5 Eco-Dex entries are discovered: a centred lock, a
+  line saying the game opens once enough Eco-Dex entries are
+  discovered, the progress count and an "Open the Eco-Dex" button
+  (Progress, Eco-Dex tab). The Explore tile shows the same count and a
+  lock. The locked view and pool are shared by the fact games.
 - The board is widget state: a pool reload keeps it, a locale change
   deals a new one. Awards nothing and persists nothing; no best score,
   since board sizes differ. Analytics: `fact_pairs_opened`,
@@ -682,26 +694,52 @@ turn two cards at a time to match each fact's title to its key figure.
 
 ## Fact Recall (`/fact-recall`)
 
-Pushed full-screen route. A quiz over the user's own eco-facts: each
-question blanks a fact's key figure and offers three figures.
+Pushed full-screen route. A quiz over facts from across the app and the
+calculators: each question blanks a fact's key figure and offers three
+figures.
 - Reached from: the Explore tab (Fact recall tile, `psychology_outlined`).
-- Pool and lock: the same as Fact pairs (shared provider and locked
-  view). A round asks up to 5 facts with distinct figures; "Play again"
-  asks facts the last round left out first.
-- Decoys: two other facts' real key figures in the answer's exact
+- Pool and lock: the same pool as Fact pairs plus the calculator
+  comparisons, which every user gets; locked until 10 Eco-Dex entries
+  are discovered (shared locked view). A round asks up to 5 facts with
+  distinct figures, taking sources in turn (eco-facts, SDG goals,
+  action info, Eco-Dex entries, and the calculator comparisons as one
+  source, in a shuffled order) so no two questions in a row come from
+  one source while another has facts left; "Play again" asks facts the
+  last round left out first.
+- Calculator comparisons: a curated set in `calculator_facts.dart`, each
+  two items on one basis (food per 100 g or 100 ml, transport per
+  passenger-km, with a car at one occupant and said to be driven alone,
+  energy per unit of electricity, where the grid factor cancels), drawn
+  from Higher or Lower's deck items plus those cars. The multiple is
+  computed from the data at runtime: "N times" with one decimal under
+  10x, whole above, and a whole percentage more under 2x. The sentence
+  is per comparison in the ARB files; the title is the calculator's
+  name. A comparison whose data no longer fits its sentence drops out.
+- Decoys: a calculator comparison's decoys are always its own figure
+  scaled (below), since another fact's multiple could sit too close.
+  Other facts take two other facts' real key figures in the answer's exact
   format where there are any, drawn from every playable fact (locked
   ones too; a decoy is a bare number with no title). Otherwise the
   answer's own numbers scaled (a quarter, half, double, four times,
-  rounded to two significant figures), so a range gets ranges; the
-  answer then sits low, middle or high. Otherwise real figures in the
+  rounded to two significant figures, at least 1.8x apart), so a range
+  gets ranges; the answer then sits low, middle or high. Scaling never
+  drops a multiple to 1x or below (a comparison's to below 2x, a
+  format its answer never takes; a comparison also scales by 1.5x and
+  2.25x, at least 1.4x apart, so its answer can still sit in the
+  middle), takes a share past 100% (a
+  comparison's "N% more" may pass it), or puts a number below 1 before a
+  scale word ("0,9 billones"); in English 1,000 of a scale word carries
+  up ("1.8 billion"). Otherwise real figures in the
   answer's unit or its family (mass, time, money and so on). A decoy is
-  never a figure the blanked text already states as a whole number,
-  and the answer is never the only one written differently.
+  never a figure the blanked text already states whole ("20 °C" in the
+  text does not rule out "20 times"), and the answer is never the only
+  one written differently.
 - Layout: the rule line, a wrapping status row (question N of 5,
   score), the question card (title, then the text with a blank; after
   an answer the full text with the figure in bold primary) and the
   no-points footnote, scrolling. A panel pinned at the bottom holds the
-  result line ("Right!" or "Not this time. It's X."), the three answers
+  result line ("Right!" or "Not this time. It's X."; after a wrong
+  answer an "Explore this fact" link beneath it), the three answers
   and Next, so they never leave the screen; Next is always there,
   disabled until the question is answered, and the answers scroll inside
   the panel only past 45% of the screen height. Card text wraps between
@@ -710,6 +748,12 @@ question blanks a fact's key figure and offers three figures.
 - Interaction: one tap answers and locks the three; the right answer
   turns `tertiaryContainer` with a check, a wrong choice
   `errorContainer` with a cross. Next scrolls the body back to the top.
+  "Explore this fact" shows the fact in full in the same sheet a Fact
+  pairs match opens (eco-fact with its source, SDG goal, action info,
+  Eco-Dex entry), over the round; a calculator comparison instead
+  pushes its calculator (`/food-calculator`, `/transport-calculator`,
+  `/energy-calculator`). Closing the sheet or Back returns to the same
+  question.
   After the last question "See score" replaces the body with the score
   and "Play again". Screen readers hear the card as one label (the
   blank read as "blank"), the verdict on each answer, the new question

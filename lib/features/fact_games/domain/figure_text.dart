@@ -94,6 +94,13 @@ const _scaleSteps = [(0.25, 0.5), (0.5, 2.0), (2.0, 4.0)];
 /// Least ratio between two figures' numbers once rounded: 2x before it.
 const _minScaledRatio = 1.8;
 
+/// A comparison's extra 1.5x steps: its decoys never go below 2x, so
+/// without them an answer under 4x could only sit lowest.
+const _comparisonSteps = [(1 / 2.25, 1 / 1.5), (1 / 1.5, 1.5), (1.5, 2.25)];
+
+/// [_minScaledRatio] for a comparison's 1.5x steps.
+const _minComparisonRatio = 1.4;
+
 /// Decoy pairs made by scaling [figure]'s own numbers, in [locale]'s
 /// number style, so a range answer gets range decoys: "10-20 years" gives
 /// "5-10 years" and "20-40 years". Empty when [figure] has a Japanese
@@ -101,8 +108,10 @@ const _minScaledRatio = 1.8;
 /// survives rounding.
 ///
 /// [unitKey] is the figure's [figureUnitKey]: a multiple never drops to
-/// 1x, and a percentage never passes 100% while [shareCap] holds, since a
-/// share cannot; a comparison ("160% more") can. A number before a scale
+/// 1x, and a percentage never passes 100%, since a share cannot. A
+/// [comparison] ("160% more") can pass it, and its multiple never drops
+/// below 2x, a format its own answer never takes; it also scales by 1.5x
+/// and 2.25x, at least 1.4x apart. A number before a scale
 /// word never drops below 1: "0,9 billones" is written "900.000
 /// millones". In English it carries up at 1,000 instead: "1,800 million"
 /// is written "1.8 billion", and two carried decoys never pair against an
@@ -111,7 +120,7 @@ List<(String, String)> scaledDecoyPairs(
   String figure,
   String locale,
   String unitKey, {
-  bool shareCap = true,
+  bool comparison = false,
 }) {
   final matches = figureNumber.allMatches(figure).toList();
   if (matches.isEmpty || matches.any((m) => _jaScale.hasMatch(m[0]!))) {
@@ -143,8 +152,8 @@ List<(String, String)> scaledDecoyPairs(
       if (v <= 0 ||
           (numbers.length == 1 && v == 1) ||
           (scaleWord && v < 1) ||
-          (shareCap && unitKey == '%' && v > 100) ||
-          (family == 'times' && v <= 1)) {
+          (!comparison && unitKey == '%' && v > 100) ||
+          (family == 'times' && (v <= 1 || (comparison && v < 2)))) {
         return null;
       }
       values.add(v);
@@ -158,9 +167,13 @@ List<(String, String)> scaledDecoyPairs(
     return values;
   }
 
-  bool apart(List<double> a, List<double> b) => [
-    for (var i = 0; i < a.length; i++) max(a[i], b[i]) / min(a[i], b[i]),
-  ].every((ratio) => ratio >= _minScaledRatio);
+  bool apart(List<double> a, List<double> b) =>
+      [
+        for (var i = 0; i < a.length; i++) max(a[i], b[i]) / min(a[i], b[i]),
+      ].every(
+        (ratio) =>
+            ratio >= (comparison ? _minComparisonRatio : _minScaledRatio),
+      );
 
   String write(List<double> values) {
     final carried = carries(values);
@@ -188,7 +201,10 @@ List<(String, String)> scaledDecoyPairs(
   }
 
   return [
-    for (final (low, high) in _scaleSteps)
+    for (final (low, high) in [
+      ..._scaleSteps,
+      if (comparison) ..._comparisonSteps,
+    ])
       if ((scaled(low), scaled(high)) case (final a?, final b?)
           when apart(a, numbers) &&
               apart(b, numbers) &&

@@ -4196,13 +4196,13 @@ abstract class AppLocalizations {
   /// No description provided for @factPairsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Match each eco-fact to its number'**
+  /// **'Match each fact to its number'**
   String get factPairsSubtitle;
 
   /// No description provided for @factPairsRules.
   ///
   /// In en, this message translates to:
-  /// **'Turn over two cards at a time. Find each eco-fact\'s number.'**
+  /// **'Turn over two cards at a time. Find each fact\'s number.'**
   String get factPairsRules;
 
   /// No description provided for @factPairsFound.
@@ -4256,26 +4256,26 @@ abstract class AppLocalizations {
   /// No description provided for @factGamesLockedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Unlock eco-facts to play'**
+  /// **'Discover Eco-Dex entries to play'**
   String get factGamesLockedTitle;
 
   /// No description provided for @factGamesLockedBody.
   ///
   /// In en, this message translates to:
-  /// **'Complete daily challenges to unlock eco-facts. Most have a key number; the games start when {needed} of those are ready.'**
+  /// **'This game opens once you have discovered {needed} Eco-Dex entries. Log actions and complete challenges to discover them, and the ones you find can turn up here as questions.'**
   String factGamesLockedBody(int needed);
 
   /// No description provided for @factGamesLockedProgress.
   ///
   /// In en, this message translates to:
-  /// **'{count} of {needed} eco-facts with a number'**
+  /// **'{count} of {needed} Eco-Dex entries discovered'**
   String factGamesLockedProgress(int count, int needed);
 
-  /// No description provided for @factGamesGoToChallenge.
+  /// No description provided for @factGamesGoToEcoDex.
   ///
   /// In en, this message translates to:
-  /// **'Today\'s challenge'**
-  String get factGamesGoToChallenge;
+  /// **'Open the Eco-Dex'**
+  String get factGamesGoToEcoDex;
 
   /// No description provided for @factRecallTitle.
   ///
@@ -4286,13 +4286,13 @@ abstract class AppLocalizations {
   /// No description provided for @factRecallSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Fill in the number in each eco-fact'**
+  /// **'Fill in the number in each fact'**
   String get factRecallSubtitle;
 
   /// No description provided for @factRecallRules.
   ///
   /// In en, this message translates to:
-  /// **'Pick the number that completes each eco-fact.'**
+  /// **'Pick the number that completes each fact.'**
   String get factRecallRules;
 
   /// No description provided for @factRecallProgress.
@@ -4325,6 +4325,12 @@ abstract class AppLocalizations {
   /// **'Not this time. It\'s {figure}.'**
   String factRecallWrong(String figure);
 
+  /// After a wrong answer: opens the screen the fact comes from.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore this fact'**
+  String get factRecallExploreFact;
+
   /// No description provided for @factRecallNext.
   ///
   /// In en, this message translates to:
@@ -4348,6 +4354,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'your answer, wrong'**
   String get factRecallYourWrongAnswer;
+
+  /// A multiple in a calculator comparison: the figure Fact recall blanks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{multiple} time} other{{multiple} times}}'**
+  String factRecallTimes(num count, String multiple);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g, beef produces about {figure} as much CO2e as tofu.'**
+  String factRecallBeefTofu(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g, chicken produces about {figure} as much CO2e as dried beans and lentils.'**
+  String factRecallChickenBeans(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g, beef produces about {figure} as much CO2e as chicken.'**
+  String factRecallBeefChicken(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 ml, cow\'s milk produces about {figure} as much CO2e as oat milk.'**
+  String factRecallMilkOat(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, a domestic flight emits about {figure} as much CO2e as the Shinkansen.'**
+  String factRecallFlightShinkansen(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, a private jet emits about {figure} as much CO2e as a long-haul economy flight.'**
+  String factRecallPrivateJet(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per hour, an incandescent bulb emits about {figure} as much CO2e as an LED bulb.'**
+  String factRecallBulbs(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per minute, a shower with electric hot water emits about {figure} as much CO2e as one with a heat pump.'**
+  String factRecallShowers(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per load, a 60 °C wash emits about {figure} as much CO2e as a 20 °C wash.'**
+  String factRecallWashes(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per hour, an air conditioner on cooling emits about {figure} as much CO2e as an electric fan.'**
+  String factRecallCooling(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per cycle, a dishwasher\'s normal programme emits about {figure} more CO2e than its eco programme.'**
+  String factRecallDishwasher(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g, lamb produces about {figure} as much CO2e as pork.'**
+  String factRecallLambPork(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, a ferry passenger with a car emits about {figure} as much CO2e as a foot passenger.'**
+  String factRecallFerry(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per load, a conventional tumble dryer emits about {figure} as much CO2e as a heat-pump dryer.'**
+  String factRecallDryers(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, driving alone in an average petrol car emits about {figure} as much CO2e as a long-distance coach.'**
+  String factRecallCarCoach(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, driving alone in an average petrol car emits about {figure} more CO2e than a city bus.'**
+  String factRecallCarBus(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, driving alone in an average petrol car emits about {figure} as much CO2e as local or national rail.'**
+  String factRecallCarRail(String figure);
 
   /// No description provided for @walkthroughIntro1.
   ///

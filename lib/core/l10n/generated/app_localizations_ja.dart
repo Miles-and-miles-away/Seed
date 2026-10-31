@@ -2387,10 +2387,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get factPairsTitle => 'ファクトペア';
 
   @override
-  String get factPairsSubtitle => 'エコファクトと数字をペアにしよう';
+  String get factPairsSubtitle => 'ファクトと数字をペアにしよう';
 
   @override
-  String get factPairsRules => 'カードを2枚ずつめくって、エコファクトとその数字を見つけよう。';
+  String get factPairsRules => 'カードを2枚ずつめくって、ファクトとその数字を見つけよう。';
 
   @override
   String factPairsFound(int found, int total) {
@@ -2432,29 +2432,29 @@ class AppLocalizationsJa extends AppLocalizations {
   String get factGamesPlayAgain => 'もう一度遊ぶ';
 
   @override
-  String get factGamesLockedTitle => 'エコファクトを解除して遊ぼう';
+  String get factGamesLockedTitle => 'エコ図鑑を集めて遊ぼう';
 
   @override
   String factGamesLockedBody(int needed) {
-    return '今日のチャレンジを達成するとエコファクトが解除されます。多くは数字を含みます。そうしたファクトが$neededつそろうと遊べます。';
+    return '$needed件のエコ図鑑エントリーを発見すると、このゲームが開きます。アクションを記録したりチャレンジを達成したりして発見しよう。見つけたエントリーは、ここで問題として出てくることがあります。';
   }
 
   @override
   String factGamesLockedProgress(int count, int needed) {
-    return '数字のあるエコファクト $count/$needed';
+    return '発見したエコ図鑑エントリー $count/$needed';
   }
 
   @override
-  String get factGamesGoToChallenge => '今日のチャレンジ';
+  String get factGamesGoToEcoDex => 'エコ図鑑を開く';
 
   @override
   String get factRecallTitle => 'ファクトクイズ';
 
   @override
-  String get factRecallSubtitle => 'エコファクトの数字を当てよう';
+  String get factRecallSubtitle => 'ファクトの数字を当てよう';
 
   @override
-  String get factRecallRules => 'エコファクトに入る数字を選ぼう。';
+  String get factRecallRules => 'ファクトに入る数字を選ぼう。';
 
   @override
   String factRecallProgress(int index, int total) {
@@ -2478,6 +2478,9 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get factRecallExploreFact => 'このファクトを見に行く';
+
+  @override
   String get factRecallNext => '次の問題';
 
   @override
@@ -2490,6 +2493,96 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get factRecallYourWrongAnswer => 'あなたの答え、不正解';
+
+  @override
+  String factRecallTimes(num count, String multiple) {
+    return '$multiple倍';
+  }
+
+  @override
+  String factRecallBeefTofu(String figure) {
+    return '100gあたりで比べると、牛肉のCO2eは豆腐の約$figureです。';
+  }
+
+  @override
+  String factRecallChickenBeans(String figure) {
+    return '100gあたりで比べると、鶏肉のCO2eは乾燥豆・レンズ豆の約$figureです。';
+  }
+
+  @override
+  String factRecallBeefChicken(String figure) {
+    return '100gあたりで比べると、牛肉のCO2eは鶏肉の約$figureです。';
+  }
+
+  @override
+  String factRecallMilkOat(String figure) {
+    return '100mlあたりで比べると、牛乳のCO2eはオーツミルクの約$figureです。';
+  }
+
+  @override
+  String factRecallFlightShinkansen(String figure) {
+    return '乗客1人・1kmあたりで比べると、国内線のCO2eは新幹線の約$figureです。';
+  }
+
+  @override
+  String factRecallPrivateJet(String figure) {
+    return '乗客1人・1kmあたりで比べると、プライベートジェットのCO2eは長距離国際線（エコノミー）の約$figureです。';
+  }
+
+  @override
+  String factRecallBulbs(String figure) {
+    return '1時間あたりで比べると、白熱電球のCO2eはLED電球の約$figureです。';
+  }
+
+  @override
+  String factRecallShowers(String figure) {
+    return '1分あたりで比べると、電気給湯のシャワーのCO2eはヒートポンプ給湯のシャワーの約$figureです。';
+  }
+
+  @override
+  String factRecallWashes(String figure) {
+    return '1回の洗濯あたりで比べると、60℃洗いのCO2eは20℃洗いの約$figureです。';
+  }
+
+  @override
+  String factRecallCooling(String figure) {
+    return '1時間あたりで比べると、エアコン冷房のCO2eは扇風機の約$figureです。';
+  }
+
+  @override
+  String factRecallDishwasher(String figure) {
+    return '1回あたりで比べると、食洗機の標準コースのCO2eはエココースより約$figure多いです。';
+  }
+
+  @override
+  String factRecallLambPork(String figure) {
+    return '100gあたりで比べると、ラム肉のCO2eは豚肉の約$figureです。';
+  }
+
+  @override
+  String factRecallFerry(String figure) {
+    return '乗客1人・1kmあたりで比べると、車で乗船するフェリー客のCO2eは徒歩で乗船する客の約$figureです。';
+  }
+
+  @override
+  String factRecallDryers(String figure) {
+    return '1回の乾燥あたりで比べると、ヒーター式乾燥機のCO2eはヒートポンプ式乾燥機の約$figureです。';
+  }
+
+  @override
+  String factRecallCarCoach(String figure) {
+    return '乗客1人・1kmあたりで比べると、平均的なガソリン車を1人で運転するときのCO2eは長距離バスの約$figureです。';
+  }
+
+  @override
+  String factRecallCarBus(String figure) {
+    return '乗客1人・1kmあたりで比べると、平均的なガソリン車を1人で運転するときのCO2eは路線バスより約$figure多いです。';
+  }
+
+  @override
+  String factRecallCarRail(String figure) {
+    return '乗客1人・1kmあたりで比べると、平均的なガソリン車を1人で運転するときのCO2eは在来線・国内鉄道の約$figureです。';
+  }
 
   @override
   String walkthroughIntro1(String name) {

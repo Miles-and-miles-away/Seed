@@ -9,17 +9,26 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/eco_dex/data/eco_dex_entries_data.dart';
+import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
+import 'package:seed_app/features/energy/data/energy_behaviors_data.dart';
 import 'package:seed_app/features/fact_games/domain/fact_recall_round.dart';
 import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
+import 'package:seed_app/features/fact_games/presentation/calculator_facts.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_question_card.dart';
+import 'package:seed_app/features/food/data/food_items_data.dart';
+import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/transport/data/transport_modes_data.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
+import 'package:seed_app/shared/widgets/widgets.dart';
 
 import '../../../../helpers/test_helpers.dart';
 import '../../fact_games_fixtures.dart';
@@ -93,10 +102,17 @@ List<EcoFact> _longestPool(List<EcoFact> facts, String locale) {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late List<EcoFact> realPlayable;
+  late Map<String, double> ratios;
 
   setUpAll(() async {
     await loadTestFonts();
+    ratios = comparisonRatios(
+      foods: await loadFoodItems(),
+      modes: await loadTransportModes(),
+      behaviors: await loadEnergyBehaviors(),
+    );
     final json =
         jsonDecode(File('data/app/eco_facts.json').readAsStringSync())
             as List<dynamic>;
@@ -111,6 +127,8 @@ void main() {
   Widget buildScreen({
     List<EcoFact>? pool,
     List<EcoFact>? allPlayable,
+    List<GameFact> calculator = const [],
+    int discovered = factRecallMinEcoDex,
     Locale locale = const Locale('en'),
     ThemeData? theme,
     _RecordingAnalytics? analytics,
@@ -120,11 +138,15 @@ void main() {
       locale: locale,
       theme: theme,
       overrides: [
+        discoveredEntries(discovered),
         factGamesPoolProvider.overrideWith(
           (_, locale) async => ecoGameFacts(facts, locale),
         ),
         factGamesAllPlayableProvider.overrideWith(
           (_, locale) async => ecoGameFacts(allPlayable ?? facts, locale),
+        ),
+        factGamesCalculatorFactsProvider.overrideWith(
+          (_, _) async => calculator,
         ),
         analyticsServiceProvider.overrideWithValue(
           analytics ?? _RecordingAnalytics(),
@@ -135,23 +157,129 @@ void main() {
   }
 
   group('locked', () {
-    for (final count in [0, 2]) {
-      testWidgets('with $count ready facts', (tester) async {
+    for (final count in [0, factRecallMinEcoDex - 1]) {
+      testWidgets('with $count discovered Eco-Dex entries', (tester) async {
         sizeViewport(tester);
-        await tester.pumpWidget(buildScreen(pool: playableFacts(count)));
+        await tester.pumpWidget(buildScreen(discovered: count));
         await tester.pumpAndSettle();
 
         expect(find.byType(FactGamesLockedView), findsOneWidget);
         expect(
-          find.text('$count of 3 eco-facts with a number'),
+          find.text('$count of 10 Eco-Dex entries discovered'),
           findsOneWidget,
         );
         expect(find.byType(RecallAnswerButton), findsNothing);
       });
     }
+
+    testWidgets('opens at exactly $factRecallMinEcoDex discovered entries', (
+      tester,
+    ) async {
+      sizeViewport(tester);
+      await tester.pumpWidget(buildScreen());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(FactGamesLockedView), findsNothing);
+      expect(find.byType(RecallAnswerButton), findsNWidgets(3));
+    });
   });
 
   group('a round', () {
+    for (final locale in ['en', 'ja', 'es']) {
+      testWidgets('a wrong answer offers to explore the fact in $locale, a '
+          'right one does not', (tester) async {
+        sizeViewport(tester);
+        final l10n = lookupAppLocalizations(Locale(locale));
+        await tester.pumpWidget(buildScreen(locale: Locale(locale)));
+        await tester.pumpAndSettle();
+        final explore = find.text(l10n.factRecallExploreFact);
+
+        var q = tester
+            .widget<RecallQuestionCard>(find.byType(RecallQuestionCard))
+            .question;
+        await _tapAnswer(tester, (q.answerIndex + 1) % 3);
+        expect(explore, findsOneWidget);
+        expect(find.byIcon(Icons.explore_outlined), findsOneWidget);
+
+        await _tapNext(tester);
+        q = tester
+            .widget<RecallQuestionCard>(find.byType(RecallQuestionCard))
+            .question;
+        await _tapAnswer(tester, q.answerIndex);
+        expect(explore, findsNothing);
+      });
+    }
+
+    for (final locale in ['en', 'ja', 'es']) {
+      testWidgets('calculator comparisons join it in $locale, never the '
+          'same source twice in a row', (tester) async {
+        sizeViewport(tester);
+        final calculator = calculatorGameFacts(
+          ratios,
+          lookupAppLocalizations(Locale(locale)),
+          lookupAppLocalizations(const Locale('en')),
+        );
+        await tester.pumpWidget(
+          buildScreen(calculator: calculator, locale: Locale(locale)),
+        );
+        await tester.pumpAndSettle();
+
+        final groups = <FactDealGroup>[];
+        for (var i = 0; i < factRecallRoundLength; i++) {
+          final card = tester.widget<RecallQuestionCard>(
+            find.byType(RecallQuestionCard),
+          );
+          groups.add(card.question.fact.dealGroup);
+          expect(card.question.fact.locale, locale);
+          await _tapAnswer(tester, 0);
+          await _tapNext(tester);
+        }
+        expect(groups.toSet().length, greaterThan(1));
+        for (var i = 1; i < groups.length; i++) {
+          expect(groups[i], isNot(groups[i - 1]), reason: '$groups');
+        }
+      });
+    }
+
+    testWidgets('deals calculator comparisons when the text sources fail', (
+      tester,
+    ) async {
+      sizeViewport(tester);
+      final calculator = calculatorGameFacts(
+        ratios,
+        lookupAppLocalizations(const Locale('en')),
+        lookupAppLocalizations(const Locale('en')),
+      );
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            currentUserProvider.overrideWith(
+              (_) => Stream.value(const AppUserModel(uid: 'u', email: 'e')),
+            ),
+            ecoFactsProvider.overrideWith((_) async => const []),
+            sdgGoalsDataProvider.overrideWith((_) async => throw Exception()),
+            actionLibraryProvider.overrideWith((_) async => throw Exception()),
+            ecoDexDataProvider.overrideWith(
+              (_) async => const EcoDexData(categories: [], entries: []),
+            ),
+            discoveredEntries(factRecallMinEcoDex),
+            factGamesCalculatorFactsProvider.overrideWith(
+              (_, _) async => calculator,
+            ),
+            analyticsServiceProvider.overrideWithValue(_RecordingAnalytics()),
+          ],
+          child: FactRecallScreen(random: Random(_seed)),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ErrorDisplay), findsNothing);
+      final card = tester.widget<RecallQuestionCard>(
+        find.byType(RecallQuestionCard),
+      );
+      expect(card.question.fact.recallOnly, isTrue);
+    });
+
     testWidgets('right and wrong answers, the finish and Play again', (
       tester,
     ) async {
@@ -341,8 +469,10 @@ void main() {
                       ? l10n.quizCorrect
                       : l10n.factRecallWrong(q.answer),
                 );
+                final right = q.answerIndex == 0;
                 for (final finder in [
                   result,
+                  if (!right) find.text(l10n.factRecallExploreFact),
                   for (var a = 0; a < 3; a++) _answerAt(a),
                   _next,
                 ]) {
@@ -357,15 +487,21 @@ void main() {
                 }
                 expect(tester.takeException(), isNull);
                 // Measured: 268dp at 1.0, as designed; at 2.0, 288dp, or
-                // 328dp when the result line wraps.
+                // 328dp when the result line wraps. A wrong answer adds the
+                // explore link above the answers.
                 final panel = find.ancestor(
                   of: _next,
                   matching: find.byType(SafeArea),
                 );
-                expect(
-                  tester.getSize(panel.first).height,
-                  scale == 1 ? 268 : anyOf(288, 328),
-                );
+                expect(tester.getSize(panel.first).height, switch ((
+                  scale == 1,
+                  right,
+                )) {
+                  (true, true) => 268,
+                  (true, false) => 316,
+                  (false, true) => anyOf(288, 328),
+                  (false, false) => anyOf(376, 408),
+                });
 
                 await tester.drag(_body, const Offset(0, -400));
                 await tester.pumpAndSettle();
@@ -536,6 +672,11 @@ void main() {
           overrides: [
             currentUserProvider.overrideWith((_) => users.stream),
             ecoFactsProvider.overrideWith((_) async => facts),
+            ...emptyTextSources(),
+            discoveredEntries(factRecallMinEcoDex),
+            factGamesCalculatorFactsProvider.overrideWith(
+              (_, _) async => const [],
+            ),
             analyticsServiceProvider.overrideWithValue(_RecordingAnalytics()),
           ],
           child: FactRecallScreen(random: Random(_seed)),
@@ -576,11 +717,15 @@ void main() {
         ProviderScope(
           overrides: [
             languageStoreOverride(),
+            discoveredEntries(factRecallMinEcoDex),
             factGamesPoolProvider.overrideWith(
               (_, locale) async => ecoGameFacts(pool, locale),
             ),
             factGamesAllPlayableProvider.overrideWith(
               (_, locale) async => ecoGameFacts(pool, locale),
+            ),
+            factGamesCalculatorFactsProvider.overrideWith(
+              (_, _) async => const [],
             ),
             analyticsServiceProvider.overrideWithValue(analytics),
           ],

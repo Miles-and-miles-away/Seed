@@ -32,15 +32,17 @@ class FactPairsBoard {
   FactPairsBoard._(this.cards);
 
   /// Deals up to [factPairsMaxPairs] facts with distinct figures from
-  /// [pool], cut to [factGamesMinFacts] when fewer were found, so every
-  /// row of the grid is full.
+  /// [pool], kinds in turn, cut to [factGamesMinFacts] when fewer were
+  /// found, so every row of the grid is full. Recall-only facts never
+  /// deal.
   factory FactPairsBoard.deal(List<GameFact> pool, Random random) {
     final figures = <String>{};
-    final dealt = <GameFact>[];
-    for (final fact in [...pool]..shuffle(random)) {
-      if (dealt.length == factPairsMaxPairs) break;
-      if (figures.add(fact.figureEn)) dealt.add(fact);
-    }
+    final dealt = dealInTurn(
+      pool,
+      count: factPairsMaxPairs,
+      random: random,
+      accept: (fact) => !fact.recallOnly && figures.add(fact.figureEn),
+    );
     assert(
       dealt.length >= factGamesMinFacts,
       'Deal only from a pool with $factGamesMinFacts distinct figures',

@@ -2460,11 +2460,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get factPairsTitle => 'Fact pairs';
 
   @override
-  String get factPairsSubtitle => 'Match each eco-fact to its number';
+  String get factPairsSubtitle => 'Match each fact to its number';
 
   @override
   String get factPairsRules =>
-      'Turn over two cards at a time. Find each eco-fact\'s number.';
+      'Turn over two cards at a time. Find each fact\'s number.';
 
   @override
   String factPairsFound(int found, int total) {
@@ -2507,29 +2507,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get factGamesPlayAgain => 'Play again';
 
   @override
-  String get factGamesLockedTitle => 'Unlock eco-facts to play';
+  String get factGamesLockedTitle => 'Discover Eco-Dex entries to play';
 
   @override
   String factGamesLockedBody(int needed) {
-    return 'Complete daily challenges to unlock eco-facts. Most have a key number; the games start when $needed of those are ready.';
+    return 'This game opens once you have discovered $needed Eco-Dex entries. Log actions and complete challenges to discover them, and the ones you find can turn up here as questions.';
   }
 
   @override
   String factGamesLockedProgress(int count, int needed) {
-    return '$count of $needed eco-facts with a number';
+    return '$count of $needed Eco-Dex entries discovered';
   }
 
   @override
-  String get factGamesGoToChallenge => 'Today\'s challenge';
+  String get factGamesGoToEcoDex => 'Open the Eco-Dex';
 
   @override
   String get factRecallTitle => 'Fact recall';
 
   @override
-  String get factRecallSubtitle => 'Fill in the number in each eco-fact';
+  String get factRecallSubtitle => 'Fill in the number in each fact';
 
   @override
-  String get factRecallRules => 'Pick the number that completes each eco-fact.';
+  String get factRecallRules => 'Pick the number that completes each fact.';
 
   @override
   String factRecallProgress(int index, int total) {
@@ -2553,6 +2553,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get factRecallExploreFact => 'Explore this fact';
+
+  @override
   String get factRecallNext => 'Next question';
 
   @override
@@ -2565,6 +2568,102 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get factRecallYourWrongAnswer => 'your answer, wrong';
+
+  @override
+  String factRecallTimes(num count, String multiple) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$multiple times',
+      one: '$multiple time',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String factRecallBeefTofu(String figure) {
+    return 'Per 100 g, beef produces about $figure as much CO2e as tofu.';
+  }
+
+  @override
+  String factRecallChickenBeans(String figure) {
+    return 'Per 100 g, chicken produces about $figure as much CO2e as dried beans and lentils.';
+  }
+
+  @override
+  String factRecallBeefChicken(String figure) {
+    return 'Per 100 g, beef produces about $figure as much CO2e as chicken.';
+  }
+
+  @override
+  String factRecallMilkOat(String figure) {
+    return 'Per 100 ml, cow\'s milk produces about $figure as much CO2e as oat milk.';
+  }
+
+  @override
+  String factRecallFlightShinkansen(String figure) {
+    return 'Per passenger per kilometre, a domestic flight emits about $figure as much CO2e as the Shinkansen.';
+  }
+
+  @override
+  String factRecallPrivateJet(String figure) {
+    return 'Per passenger per kilometre, a private jet emits about $figure as much CO2e as a long-haul economy flight.';
+  }
+
+  @override
+  String factRecallBulbs(String figure) {
+    return 'Per hour, an incandescent bulb emits about $figure as much CO2e as an LED bulb.';
+  }
+
+  @override
+  String factRecallShowers(String figure) {
+    return 'Per minute, a shower with electric hot water emits about $figure as much CO2e as one with a heat pump.';
+  }
+
+  @override
+  String factRecallWashes(String figure) {
+    return 'Per load, a 60 °C wash emits about $figure as much CO2e as a 20 °C wash.';
+  }
+
+  @override
+  String factRecallCooling(String figure) {
+    return 'Per hour, an air conditioner on cooling emits about $figure as much CO2e as an electric fan.';
+  }
+
+  @override
+  String factRecallDishwasher(String figure) {
+    return 'Per cycle, a dishwasher\'s normal programme emits about $figure more CO2e than its eco programme.';
+  }
+
+  @override
+  String factRecallLambPork(String figure) {
+    return 'Per 100 g, lamb produces about $figure as much CO2e as pork.';
+  }
+
+  @override
+  String factRecallFerry(String figure) {
+    return 'Per passenger per kilometre, a ferry passenger with a car emits about $figure as much CO2e as a foot passenger.';
+  }
+
+  @override
+  String factRecallDryers(String figure) {
+    return 'Per load, a conventional tumble dryer emits about $figure as much CO2e as a heat-pump dryer.';
+  }
+
+  @override
+  String factRecallCarCoach(String figure) {
+    return 'Per passenger per kilometre, driving alone in an average petrol car emits about $figure as much CO2e as a long-distance coach.';
+  }
+
+  @override
+  String factRecallCarBus(String figure) {
+    return 'Per passenger per kilometre, driving alone in an average petrol car emits about $figure more CO2e than a city bus.';
+  }
+
+  @override
+  String factRecallCarRail(String figure) {
+    return 'Per passenger per kilometre, driving alone in an average petrol car emits about $figure as much CO2e as local or national rail.';
+  }
 
   @override
   String walkthroughIntro1(String name) {

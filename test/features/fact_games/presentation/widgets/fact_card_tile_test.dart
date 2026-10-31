@@ -7,10 +7,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
+import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
 import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -61,17 +63,29 @@ Set<int> _jaTitleBreaks(String title, int cap) {
 
 void main() {
   late List<EcoFact> playable;
+  late List<SdgGoal> goals;
+  late List<EcoDexEntry> entries;
+
+  dynamic readJson(String path) => jsonDecode(File(path).readAsStringSync());
 
   setUpAll(() async {
     await loadTestFonts();
-    final json =
-        jsonDecode(File('data/app/eco_facts.json').readAsStringSync())
-            as List<dynamic>;
     playable = [
-      for (final e in json)
+      for (final e in readJson('data/app/eco_facts.json') as List<dynamic>)
         if (EcoFact.fromJson(e as Map<String, dynamic>) case final fact
             when fact.isPlayable)
           fact,
+    ];
+    goals = [
+      for (final e in readJson('data/app/sdg_goals.json') as List<dynamic>)
+        SdgGoal.fromJson(e as Map<String, dynamic>),
+    ];
+    entries = [
+      for (final e
+          in (readJson('data/app/eco_dex_entries.json')
+                  as Map<String, dynamic>)['entries']
+              as List<dynamic>)
+        EcoDexEntry.fromJson(e as Map<String, dynamic>),
     ];
   });
 
@@ -91,7 +105,11 @@ void main() {
             final faceWidth =
                 (width - 2 * spacingXxl - (columns - 1) * spacingSm) / columns;
             final cards = [
-              for (final fact in ecoGameFacts(playable, language)) ...[
+              for (final fact in [
+                ...ecoGameFacts(playable, language),
+                ...sdgGameFacts(goals, language),
+                ...ecoDexGameFacts(entries, language),
+              ]) ...[
                 FactCard(fact: fact, face: FactFace.title, text: fact.title),
                 FactCard(fact: fact, face: FactFace.figure, text: fact.figure),
               ],

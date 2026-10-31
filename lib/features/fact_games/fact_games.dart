@@ -1,4 +1,4 @@
-/// Games over the user's unlocked eco-facts: Fact pairs and Fact recall,
+/// Games over facts from across the app: Fact pairs and Fact recall,
 /// on a shared pool, lock and Explore tile.
 library;
 
