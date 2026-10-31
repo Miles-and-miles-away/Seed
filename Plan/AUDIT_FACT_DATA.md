@@ -176,7 +176,10 @@ Before adding a fact, search existing facts for:
 Search `eco_dex_entries.json` as well: the two files draw
 on the same source pool, and a statistic that already
 carries one entry's `keyFigureEn` must not become another
-entry's key figure.
+entry's key figure. `cross_file_key_figure_test.dart` fails
+on any `keyFigureEn` an Eco-Dex entry or SDG goal shares
+with another entry until the group is reviewed as distinct
+statistics and listed there.
 
 Two facts on the same broad topic (e.g., cycling) are
 fine if they present distinct angles. Two facts with the

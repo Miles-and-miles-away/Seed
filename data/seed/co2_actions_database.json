@@ -511,11 +511,11 @@
       "name_en": "Train Instead of Flight",
       "name_ja": "飛行機の代わりに電車",
       "name_es": "Tren en vez de avión",
-      "description_en": "Take a train instead of a short-haul flight",
-      "description_ja": "短距離フライトの代わりに電車を利用",
-      "description_es": "Ir en tren en vez de coger un vuelo de corta distancia",
-      "co2_grams": 110000,
-      "calculation_notes": "500km; ~200g/km flight vs 40g rail",
+      "description_en": "Take a train instead of a domestic flight",
+      "description_ja": "国内線の代わりに電車を利用",
+      "description_es": "Ir en tren en vez de coger un vuelo nacional",
+      "co2_grams": 96000,
+      "calculation_notes": "per 500 km trip: DEFRA 2025 domestic flight 229.28 g CO2e/pkm (average passenger, radiative forcing included) minus DEFRA 2025 national rail 35.46 g CO2e/pkm = 193.82 g/km x 500 km = 96,910 g, rounded down to 96,000 g (savings always round DOWN). The same factors as flight_domestic and rail_national in data/app/transport_modes.json.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -529,16 +529,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "Robeco/BEIS DEFRA",
-          "url": "https://www.robeco.com/en-uk/insights/2020/02/short-haul-flights-are-the-worst-offenders-for-co",
-          "quote": "Aircraft on routes of 700 kilometers or less emit more carbon dioxide per person for every kilometer traveled than long-haul flights: 251 grams per km for short haul compared to 195 g/km for long haul.",
-          "accessed": "2026-01-31"
+          "name": "OpenCO2.net",
+          "url": "https://www.openco2.net/en/emission-factor/2171/",
+          "quote": "229,28 g/hkm",
+          "accessed": "2026-07-17"
         },
         {
-          "name": "DEFRA Methodology",
-          "url": "https://www.carbonkit.net/categories/DEFRA_journey_based_flight_methodology",
-          "quote": "Each scenario is represented by an illustrative distance which represents the typical flight distance for the associated distance categorization, as well as the following per passenger emissions factors (expressed in terms of kg CO2e per km).",
-          "accessed": "2026-01-31"
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Rail > National rail | Scope 3 | 0.03546 | passenger.km",
+          "accessed": "2026-07-17"
         }
       ]
     },
@@ -769,10 +769,10 @@
           "accessed": "2026-10-27"
         },
         {
-          "name": "FAO, Global Food Losses and Food Waste: Extent, Causes and Prevention (2011)",
-          "url": "https://www.fao.org/4/mb060e/mb060e00.htm",
-          "quote": "roughly one-third of food produced for human consumption is lost or wasted globally",
-          "accessed": "2026-10-27"
+          "name": "UN News, on the UNEP Food Waste Index Report 2024",
+          "url": "https://news.un.org/en/node/1148036",
+          "quote": "latest data from 2022 shows 1.05 billion tonnes of food went to waste.",
+          "accessed": "2026-10-31"
         }
       ]
     },

@@ -47,7 +47,7 @@
     },
     {
       "goal": 2,
-      "figureEn": "645 million",
+      "figureEn": "7.8%",
       "source": "The State of Food Security and Nutrition in the World 2026",
       "publisher": "FAO, IFAD, UNICEF, WFP and WHO",
       "url": "https://www.fao.org/newsroom/detail/sofi-2026--hunger-not-inevitable--fao-says-as-global-hunger-report-shows-progress/en",
@@ -183,8 +183,8 @@
     },
     {
       "goal": 12,
-      "figureEn": "72%",
-      "source": "The Sustainable Development Goals Extended Report 2026, Goal 6 (indicator 6.4.2, FAO AQUASTAT data)",
+      "figureEn": "39%",
+      "source": "The Sustainable Development Goals Extended Report 2026, Goal 6 (indicator 6.4.1, FAO AQUASTAT data)",
       "publisher": "UN DESA / FAO",
       "url": "https://unstats.un.org/sdgs/report/2026/extended-report/Extended-Report-2026_Goal-6.pdf",
       "referenceYear": 2023

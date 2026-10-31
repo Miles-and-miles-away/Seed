@@ -13,6 +13,10 @@ It never edits the data. A person reviews every proposal against the
 fact and writes the accepted ones as keyFigureEn/Ja/Es into
 data/app/eco_facts.json (rules under Key Figures in Plan/AUDIT_FACT_DATA.md).
 
+It reads eco_facts.json only. A figure shared with an Eco-Dex entry or
+an SDG goal is caught by test/features/eco_fact/data/
+cross_file_key_figure_test.dart, which fails until the pair is reviewed.
+
     conda activate seed
     python scripts/generators/propose_fact_key_figures.py OUT.json
 """

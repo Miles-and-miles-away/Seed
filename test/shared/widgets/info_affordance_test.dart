@@ -13,9 +13,9 @@ import '../../helpers/test_helpers.dart';
 const _tooltip = 'How we calculate this';
 const _term = 'Equivalent to';
 const _longTerms = {
-  'ja': '牛肉や羊肉の代わりに植物性の食事を選んで、今日の食事から温室効果ガスの排出を減らそう',
+  'ja': '牛肉の代わりに植物性の食事を選んで、今日の食事から温室効果ガスの排出を減らそう',
   'es':
-      'Elige hoy una comida vegetal en lugar de ternera o cordero y reduce '
+      'Elige hoy una comida vegetal en vez de carne de vacuno y reduce '
       'las emisiones de tu plato',
 };
 

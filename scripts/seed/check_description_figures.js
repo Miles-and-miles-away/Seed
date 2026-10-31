@@ -31,15 +31,23 @@ const BRACKET_RESTATEMENT = new RegExp(
 const LINK_TARGET = /\]\([^)]*\)/g;
 const SENTENCE_END = { en: /[.!?](?=\s|$)/, ja: /。/, es: /[.!?](?=\s|$)/ };
 
-// Bold as displayed: co2_grams rounded to the bold's own unit and decimals.
+// co2_grams as formatCO2Compact shows it: one decimal in t or kg, whole g.
+function displayedGrams(co2) {
+  const tenthsOfKg = Math.round(co2 / 100);
+  if (tenthsOfKg >= 10000) return Math.round(co2 / 1e5) * 1e5;
+  if (co2 >= 1000) return tenthsOfKg * 100;
+  return co2;
+}
+
+// The bold must equal co2_grams at the precision the app displays it.
 function boldError(lang, bold, co2) {
   const match = bold.match(new RegExp(`^([\\d.,]+) ?${UNIT[lang]}$`));
   const number = match && match[1].match(NUMBER[lang]);
   if (!number) return 'malformed figure';
-  const decimals = number[2] || '';
-  const value = Number(`${number[1].replace(/[.,]/g, '')}.${decimals || 0}`);
-  const expected = Number((co2 / GRAMS_PER_UNIT[match[2]]).toFixed(decimals.length));
-  return value === expected ? null : `displays ${expected}`;
+  const value = Number(`${number[1].replace(/[.,]/g, '')}.${number[2] || 0}`);
+  const grams = Math.round(value * GRAMS_PER_UNIT[match[2]]);
+  const expected = displayedGrams(co2);
+  return grams === expected ? null : `is ${grams} g, the app displays ${expected} g`;
 }
 
 function firstSentenceEnd(lang, text) {

@@ -313,6 +313,7 @@ fall in a believable range relative to existing actions.
 | Air dry laundry | 1500 | 2 | 3 | 2 | ~26 | instance |
 | Secondhand clothing | 15000 | 2 | 3 | 3 | ~78 | instance |
 | Install LED | 25000 | 1 | 1 | 3 | ~63 | one-time |
+| Train instead of flight | 96000 | 3 | 1 | 4 | ~156 | instance |
 | Fix water leak | 100000 | 3 | 1 | 4 | ~153 | one-time |
 | Donate textiles | 40000 | 2 | 2 | 3 | ~101 | instance |
 | Install solar | 2500000 | 5 | 1 | 5 | ~735 | one-time |

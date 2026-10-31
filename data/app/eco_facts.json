@@ -2,22 +2,25 @@
   {
     "dayOfYear": 1,
     "category": "comparison",
-    "factEn": "If you went fully plant-based for just one month, you would save roughly 80 kg of CO2 -- equivalent to driving 500 km in a petrol car.",
-    "factEs": "Si adoptaras una dieta 100% vegetal durante solo un mes, ahorrarías aproximadamente 80 kg de CO2, equivalente a conducir 500 km en un coche de gasolina.",
-    "factJa": "1か月間完全に植物性の食事に切り替えるだけで、約80 kgのCO2を削減できます。これはガソリン車で500 km走行するのに相当します。",
-    "sourceEn": "Scarborough et al., Climatic Change 2014 / DEFRA 2025",
-    "sourceEs": "Scarborough et al., Climatic Change 2014 / DEFRA 2025",
-    "sourceJa": "Scarborough et al., Climatic Change 2014 / DEFRA 2025",
-    "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4372775/",
+    "factEn": "A 2023 study of 55,504 people in the UK found that vegans' diets caused about a quarter of the greenhouse gas emissions of the diets of people eating 100 g or more of meat a day, and used 46.4% of the water.",
+    "factEs": "Un estudio de 2023 con 55.504 personas del Reino Unido halló que las dietas veganas causaban aproximadamente una cuarta parte de las emisiones de gases de efecto invernadero de las dietas de quienes comen 100 g o más de carne al día, y usaban el 46,4% del agua.",
+    "factJa": "英国の5万5,504人を対象とした2023年の研究によると、ヴィーガンの食事による温室効果ガス排出量は、1日に100 g以上の肉を食べる人の食事の約4分の1で、水の使用量は46.4%でした。",
+    "sourceEn": "Scarborough et al., Nature Food 2023",
+    "sourceEs": "Scarborough et al., Nature Food 2023",
+    "sourceJa": "Scarborough et al., Nature Food 2023",
+    "sourceUrl": "https://www.nature.com/articles/s43016-023-00795-w",
     "relatedSdgs": [
       2,
       12,
       13
     ],
     "unWorldDay": "Veganuary",
-    "nameEn": "A Plant-Based Month",
-    "nameEs": "Un mes vegetal",
-    "nameJa": "プラントベースの1か月"
+    "nameEn": "A Lighter Footprint",
+    "nameEs": "Una huella más ligera",
+    "nameJa": "軽やかなフットプリント",
+    "keyFigureEn": "46.4%",
+    "keyFigureEs": "46,4%",
+    "keyFigureJa": "46.4%"
   },
   {
     "dayOfYear": 2,
@@ -210,9 +213,9 @@
   {
     "dayOfYear": 11,
     "category": "comparison",
-    "factEn": "A vegan diet uses about 75% less farmland than a meat-based diet. If the world shifted to plant-based food, we could return an estimated 3.1 billion hectares to nature -- an area larger than Africa.",
-    "factEs": "Una dieta vegana utiliza aproximadamente un 75% menos de tierras agrícolas que una dieta basada en carne. Si el mundo adoptara una alimentación vegetal, podríamos devolver unos 3.100 millones de hectáreas a la naturaleza, una superficie mayor que África.",
-    "factJa": "ヴィーガン食は、肉食中心の食事と比べて農地の使用量が約75%少なくなります。世界中で植物性の食事に切り替えれば、推定31億ヘクタールの土地を自然に返すことができます。これはアフリカ大陸より広い面積です。",
+    "factEn": "Around 80% of the world's farmland is used for meat and dairy. If everyone shifted to a plant-based diet, farmland use would shrink from 4.1 billion hectares to 1 billion, freeing an area the size of North America and Brazil combined.",
+    "factEs": "Aproximadamente el 80% de las tierras agrícolas del mundo se destina a la carne y los lácteos. Si todo el mundo adoptara una dieta vegetal, la superficie agrícola pasaría de 4.100 millones de hectáreas a 1.000 millones, lo que liberaría un área del tamaño de América del Norte y Brasil juntos.",
+    "factJa": "世界の農地の約80%は肉と乳製品の生産に使われています。すべての人が植物性の食事に切り替えれば、農地は41億ヘクタールから10億ヘクタールに縮小し、北米とブラジルを合わせた広さの土地が空きます。",
     "sourceEn": "Poore & Nemecek, Science 2018",
     "sourceEs": "Poore & Nemecek, Science 2018",
     "sourceJa": "Poore & Nemecek, Science 2018",
@@ -225,9 +228,9 @@
     "nameEn": "A Land-Light Diet",
     "nameEs": "Una dieta que ahorra tierra",
     "nameJa": "土地をあまり使わない食事",
-    "keyFigureEn": "75%",
-    "keyFigureEs": "75%",
-    "keyFigureJa": "75%"
+    "keyFigureEn": "80%",
+    "keyFigureEs": "80%",
+    "keyFigureJa": "80%"
   },
   {
     "dayOfYear": 12,
@@ -3294,9 +3297,9 @@
   {
     "dayOfYear": 162,
     "category": "comparison",
-    "factEn": "Livestock are responsible for an estimated 12% of global greenhouse gas emissions, equaling 6.2 billion tonnes of CO2 equivalent per year. Cattle alone account for about 62% of all livestock-related greenhouse gases, mostly as methane from digestion.",
-    "factEs": "La ganadería es responsable de aproximadamente el 12% de las emisiones globales de gases de efecto invernadero, lo que equivale a 6.200 millones de toneladas de CO2 equivalente al año. Solo el ganado vacuno representa aproximadamente el 62% de todos los gases de efecto invernadero relacionados con la ganadería, sobre todo en forma de metano procedente de la digestión.",
-    "factJa": "家畜は世界の温室効果ガス排出量の推定12%を占め、CO2換算で年間62億トンに相当します。牛だけで家畜関連の温室効果ガスの約62%を排出しており、そのほとんどは消化によるメタンです。",
+    "factEn": "Counting their supply chains, from feed and land-use change to transport, livestock were responsible for an estimated 12% of global greenhouse gas emissions in 2015, equalling 6.2 billion tonnes of CO2 equivalent. Cattle alone account for about 62% of all livestock-related greenhouse gases, mostly as methane from digestion.",
+    "factEs": "Contando sus cadenas de suministro, desde la producción de piensos y el cambio de uso del suelo hasta el transporte, la ganadería fue responsable de aproximadamente el 12% de las emisiones globales de gases de efecto invernadero en 2015, lo que equivale a 6.200 millones de toneladas de CO2 equivalente. Solo el ganado vacuno representa aproximadamente el 62% de todos los gases de efecto invernadero relacionados con la ganadería, sobre todo en forma de metano procedente de la digestión.",
+    "factJa": "飼料生産や土地利用の変化から輸送までのサプライチェーンを含めると、家畜は2015年に世界の温室効果ガス排出量の推定12%を占め、CO2換算で62億トンに相当しました。牛だけで家畜関連の温室効果ガスの約62%を排出しており、そのほとんどは消化によるメタンです。",
     "sourceEn": "FAO Pathways towards Lower Emissions, 2023",
     "sourceEs": "FAO Pathways towards Lower Emissions, 2023",
     "sourceJa": "FAO Pathways towards Lower Emissions, 2023",
@@ -3930,12 +3933,12 @@
   {
     "dayOfYear": 193,
     "category": "mythBuster",
-    "factEn": "Turning off the tap while brushing your teeth saves up to 15 litres each time you brush. But a single toilet leak can waste up to 400 litres per day -- fixing leaks saves far more water than shorter brushing.",
-    "factEs": "Cerrar el grifo mientras te cepillas los dientes ahorra hasta 15 litros cada vez. Pero una sola fuga en el inodoro puede desperdiciar hasta 400 litros al día. Reparar fugas ahorra mucha más agua que cepillarse más rápido.",
-    "factJa": "歯を磨くときに蛇口を閉めると、1回の歯磨きで最大15リットルの水を節約できます。しかし、トイレの水漏れは1日最大400リットルを無駄にすることがあります。水漏れを修理する方が、歯磨きを短くするよりはるかに多くの水を節約できます。",
-    "sourceEn": "Waterwise / US EPA WaterSense",
-    "sourceEs": "Waterwise / US EPA WaterSense",
-    "sourceJa": "Waterwise / US EPA WaterSense",
+    "factEn": "Turning off the tap while you brush your teeth is a good habit, but a single leaking toilet can waste up to 400 litres of water a day -- fixing leaks saves far more water than shorter brushing.",
+    "factEs": "Cerrar el grifo mientras te cepillas los dientes es un buen hábito, pero una sola fuga en el inodoro puede desperdiciar hasta 400 litros de agua al día. Reparar fugas ahorra mucha más agua que cepillarse más rápido.",
+    "factJa": "歯磨き中に蛇口を閉めるのは良い習慣ですが、トイレの水漏れは1日最大400リットルの水を無駄にすることがあります。水漏れを修理する方が、歯磨きを短くするよりはるかに多くの水を節約できます。",
+    "sourceEn": "Waterwise",
+    "sourceEs": "Waterwise",
+    "sourceJa": "Waterwise",
     "sourceUrl": "https://www.waterwise.org.uk/how-to-save-water/",
     "relatedSdgs": [
       6
@@ -5890,7 +5893,7 @@
     "sourceEn": "UN Food and Agriculture Organization (FAOSTAT 2025, SOFI 2026)",
     "sourceEs": "UN Food and Agriculture Organization (FAOSTAT 2025, SOFI 2026)",
     "sourceJa": "UN Food and Agriculture Organization (FAOSTAT 2025, SOFI 2026)",
-    "sourceUrl": "https://www.fao.org/newsroom/detail/sofi-2026--hunger-not-inevitable--fao-says-as-global-hunger-report-shows-progress/en",
+    "sourceUrl": "https://www.fao.org/statistics/highlights-archive/highlights-detail/food-balance-sheets-2010-2023",
     "relatedSdgs": [
       1,
       2,
@@ -6054,9 +6057,9 @@
   {
     "dayOfYear": 297,
     "category": "positiveNews",
-    "factEn": "The Paris Agreement, adopted at COP21 in December 2015, is a legally binding international treaty on climate change. It entered into force on 4 November 2016 and, as of January 2026, has 194 Parties.",
-    "factEs": "El Acuerdo de París, adoptado en la COP21 en diciembre de 2015, es un tratado internacional jurídicamente vinculante sobre el cambio climático. Entró en vigor el 4 de noviembre de 2016 y, a fecha de enero de 2026, cuenta con 194 Partes.",
-    "factJa": "2015年12月のCOP21で採択されたパリ協定は、気候変動に関する法的拘束力を持つ国際条約です。2016年11月4日に発効し、2026年1月時点で194の締約国が参加しています。",
+    "factEn": "The Paris Agreement, adopted at COP21 in December 2015, is a legally binding international treaty on climate change. It entered into force on 4 November 2016 and, as of October 2026, has 194 Parties.",
+    "factEs": "El Acuerdo de París, adoptado en la COP21 en diciembre de 2015, es un tratado internacional jurídicamente vinculante sobre el cambio climático. Entró en vigor el 4 de noviembre de 2016 y, a fecha de octubre de 2026, cuenta con 194 Partes.",
+    "factJa": "2015年12月のCOP21で採択されたパリ協定は、気候変動に関する法的拘束力を持つ国際条約です。2016年11月4日に発効し、2026年10月時点で194の締約国が参加しています。",
     "sourceEn": "UNFCCC",
     "sourceEs": "UNFCCC",
     "sourceJa": "UNFCCC",
@@ -6277,9 +6280,9 @@
   {
     "dayOfYear": 308,
     "category": "comparison",
-    "factEn": "Global resource use has grown from 30 billion tonnes in 1970 to 106 billion tonnes a year, and extracting and processing those materials accounts for over 60% of planet-warming emissions. The UN's resource panel projects that circular solutions (refuse, reduce, reuse, repair, recycle) and lower consumption could peak extraction by 2040 while the economy keeps growing.",
-    "factEs": "El uso mundial de recursos ha pasado de 30.000 millones de toneladas en 1970 a 106.000 millones de toneladas al año, y extraer y procesar esos materiales genera más del 60% de las emisiones que calientan el planeta. El panel de recursos de la ONU calcula que las soluciones circulares (rechazar, reducir, reutilizar, reparar y reciclar) y un menor consumo podrían hacer que la extracción toque techo en 2040 mientras la economía sigue creciendo.",
-    "factJa": "世界の資源利用は1970年の300億トンから年間1,060億トンに増え、その採掘と加工が地球温暖化をもたらす排出量の60%以上を占めています。国連の資源パネルは、リフューズ、リデュース、リユース、リペア、リサイクルといった循環型の解決策と消費の抑制によって、経済を成長させながら2040年までに採掘量を頭打ちにできると予測しています。",
+    "factEn": "Global resource use has grown from 30 billion tonnes in 1970 to 106 billion tonnes a year, and extracting and processing those materials accounts for over 60% of planet-warming emissions. The UN's resource panel projects that systemic shifts, from renewable energy and efficiency to walkable cities, diets with less animal protein and less food waste, could peak extraction by 2040 while the economy keeps growing.",
+    "factEs": "El uso mundial de recursos ha pasado de 30.000 millones de toneladas en 1970 a 106.000 millones de toneladas al año, y extraer y procesar esos materiales genera más del 60% de las emisiones que calientan el planeta. El panel de recursos de la ONU calcula que cambios sistémicos, desde la energía renovable y la eficiencia hasta ciudades transitables a pie, dietas con menos proteína animal y menos desperdicio de alimentos, podrían hacer que la extracción toque techo en 2040 mientras la economía sigue creciendo.",
+    "factJa": "世界の資源利用は1970年の300億トンから年間1,060億トンに増え、その採掘と加工が地球温暖化をもたらす排出量の60%以上を占めています。国連の資源パネルは、再生可能エネルギーと省エネから、歩きやすい都市、動物性たんぱく質の少ない食事、食品ロスの削減まで、システム全体の転換によって、経済を成長させながら2040年までに採掘量を頭打ちにできると予測しています。",
     "sourceEn": "UNEP International Resource Panel, Global Resources Outlook 2024",
     "sourceEs": "UNEP International Resource Panel, Global Resources Outlook 2024",
     "sourceJa": "UNEP International Resource Panel, Global Resources Outlook 2024",
