@@ -325,9 +325,15 @@ void main() {
       await pumpRedirects(tester);
       await pumpRedirects(tester);
 
-      expect(find.byType(MascotScreen), findsNothing);
+      expect(find.byType(MascotScreen, skipOffstage: false), findsNothing);
       expect(find.byType(ProfileScreen), findsOneWidget);
       expect(selectedTab(tester), profileTabIndex);
+
+      await tapTab(tester, 'Home');
+
+      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(find.byType(MascotScreen, skipOffstage: false), findsNothing);
+      expect(locationOf(tester), appRoutes.home);
 
       await disposeAndFlush(tester);
     });

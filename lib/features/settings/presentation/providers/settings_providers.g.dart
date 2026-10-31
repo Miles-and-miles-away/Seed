@@ -160,23 +160,29 @@ final class CanAddReminderProvider extends $FunctionalProvider<bool, bool, bool>
 
 String _$canAddReminderHash() => r'db58b759b124fe64354cd95fb054ab493fe793d1';
 
-/// The app language: an OS-side change made after this device's last
-/// pick, else the account's choice, else this device's pick, else the
-/// OS language. Computed, never stored.
+/// The app language: the account's choice, else this device's pick,
+/// else the OS language. Computed, never stored. On Android 13+ the app
+/// owns its per-app locale, so an OS-side change made after the last
+/// pick is the user editing this app's language and wins on that device.
+/// Elsewhere an OS change is the whole device and never overrides a pick.
 
 @ProviderFor(currentLanguage)
 final currentLanguageProvider = CurrentLanguageProvider._();
 
-/// The app language: an OS-side change made after this device's last
-/// pick, else the account's choice, else this device's pick, else the
-/// OS language. Computed, never stored.
+/// The app language: the account's choice, else this device's pick,
+/// else the OS language. Computed, never stored. On Android 13+ the app
+/// owns its per-app locale, so an OS-side change made after the last
+/// pick is the user editing this app's language and wins on that device.
+/// Elsewhere an OS change is the whole device and never overrides a pick.
 
 final class CurrentLanguageProvider
     extends $FunctionalProvider<String, String, String>
     with $Provider<String> {
-  /// The app language: an OS-side change made after this device's last
-  /// pick, else the account's choice, else this device's pick, else the
-  /// OS language. Computed, never stored.
+  /// The app language: the account's choice, else this device's pick,
+  /// else the OS language. Computed, never stored. On Android 13+ the app
+  /// owns its per-app locale, so an OS-side change made after the last
+  /// pick is the user editing this app's language and wins on that device.
+  /// Elsewhere an OS change is the whole device and never overrides a pick.
   CurrentLanguageProvider._()
     : super(
         from: null,
@@ -210,7 +216,7 @@ final class CurrentLanguageProvider
   }
 }
 
-String _$currentLanguageHash() => r'b4922b1151c1117739aa756a20c5cb4678a3beea';
+String _$currentLanguageHash() => r'e8e0d2163b8e08a05a63b7783e37da0a3f46ae4a';
 
 /// Returns whether notifications are enabled.
 

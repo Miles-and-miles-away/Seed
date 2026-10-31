@@ -47,12 +47,16 @@ class UserRemoteDataSource {
 
   /// Waits for the server's view of the doc, then creates [user] only if
   /// it is still missing, so an offline read never overwrites a real doc.
-  Future<void> createUserIfAbsent(AppUserModel user) async {
+  /// Skips the write once [isCurrent] says the user has signed out.
+  Future<void> createUserIfAbsent(
+    AppUserModel user, {
+    required bool Function() isCurrent,
+  }) async {
     final ref = _usersCollection.doc(user.uid);
     final serverSnap = await ref
         .snapshots(includeMetadataChanges: true)
         .firstWhere((snap) => !snap.metadata.isFromCache);
-    if (serverSnap.exists) return;
+    if (serverSnap.exists || !isCurrent()) return;
     final data = _newUserData(user);
     await _firestore.runTransaction((tx) async {
       if (!(await tx.get(ref)).exists) tx.set(ref, data);

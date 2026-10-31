@@ -810,10 +810,11 @@ Feature postponed; no UI entry points to this route.
   A pick applies to this device and the account (and, on Android 13+,
   the system per-app language, which also follows the account's
   language at sign-in unless an OS-side change is active). The language
-  shown is the device
-  language until a pick; an OS per-app or system language change made
-  after the last pick wins on that device only. Signing out keeps the
-  language on screen.
+  shown is the device language until a pick. A pick is sticky: changing
+  the phone's language afterwards does not change the app's. The one
+  exception is the Android 13+ per-app language, which the app itself
+  sets and so follows when the user edits it in system settings.
+  Signing out keeps the language on screen.
 
 ### Account Settings (`.../settings/account`)
 - Links: `/login` (on account deletion)

@@ -78,14 +78,15 @@ void main() {
     });
 
     for (final signedIn in [false, true]) {
-      test('an OS change after the pick wins (signed in: $signedIn)', () async {
+      test('an OS change after the pick is ignored off Android 13+ '
+          '(signed in: $signedIn)', () async {
         final c = await _container(
           os: 'ja',
           stored: _picked('en', 'en'),
           signedIn: signedIn,
           account: 'en',
         );
-        expect(c.read(currentLanguageProvider), 'ja');
+        expect(c.read(currentLanguageProvider), 'en');
       });
     }
 
@@ -142,6 +143,14 @@ void main() {
       expect(calls.last.method, 'set');
       expect(calls.last.arguments, 'es');
       expect(store.value, _picked('es', 'es'));
+    });
+
+    test('on Android 13+ a per-app change after the pick wins', () async {
+      handle((call) => call.method == 'sdk' ? 33 : true);
+      final store = MemoryLanguageStore(_picked('en', 'en'));
+      final c = await started(store, os: 'ja');
+
+      expect(c.read(currentLanguageProvider), 'ja');
     });
 
     test('below Android 13 the pick records the OS language', () async {
@@ -223,6 +232,28 @@ void main() {
       await device.markFirstLaunchDone();
 
       expect(store.saved, [_picked('es', 'en')]);
+    });
+
+    test('re-picking the stored language under an OS override sets it '
+        'again', () async {
+      late final ProviderContainer c;
+      handle((call) {
+        if (call.method == 'sdk') return 33;
+        c.read(osLocalesProvider.notifier).update([
+          Locale(call.arguments as String),
+        ]);
+        return true;
+      });
+      final store = MemoryLanguageStore(_picked('ja', 'ja'));
+      c = await started(store);
+      expect(c.read(currentLanguageProvider), 'en');
+
+      await c.read(deviceLanguageProvider.notifier).pick('ja');
+
+      expect(calls.last.method, 'set');
+      expect(calls.last.arguments, 'ja');
+      expect(store.saved, isEmpty);
+      expect(c.read(currentLanguageProvider), 'ja');
     });
 
     test('markFirstLaunchDone keeps the pick', () async {

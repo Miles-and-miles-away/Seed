@@ -38,7 +38,7 @@ class AuthRemoteDataSource {
       return AuthException(code: 'sign-in-offline', message: message);
     }
     return AuthException(
-      code: cancelled ? 'sign-in-cancelled' : failureCode,
+      code: cancelled ? authCodeSignInCancelled : failureCode,
       message: message,
     );
   }

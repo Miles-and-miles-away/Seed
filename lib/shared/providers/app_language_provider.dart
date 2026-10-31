@@ -17,7 +17,7 @@ const _methodSdk = 'sdk';
 const _methodSet = 'set';
 
 /// First Android SDK with a per-app language setting (Android 13).
-const _perAppLocaleMinSdk = 33;
+const perAppLocaleMinSdk = 33;
 
 /// Overridden in main() with the store loaded before runApp.
 final languageStoreProvider = Provider<LanguageStore>(
@@ -99,18 +99,22 @@ class DeviceLanguage extends _$DeviceLanguage {
   }
 
   /// Writes state and the snapshot before the Android per-app locale, so
-  /// the didChangeLocales echo lands on the non-override state.
+  /// the didChangeLocales echo lands on the non-override state. An
+  /// unchanged pick still reaches Android when an OS override hides it.
   Future<void> _set(String code, {required bool resetSnap}) async {
     final sdk = ref.read(androidSdkProvider).value ?? 0;
-    final applies = resetSnap && sdk >= _perAppLocaleMinSdk;
+    final applies = resetSnap && sdk >= perAppLocaleMinSdk;
     final os = resolveOsLanguage(ref.read(osLocalesProvider));
     final snap = resetSnap ? (applies ? code : os) : (state.pick?.os ?? os);
     final next = (
       pick: (language: code, os: snap),
       firstLaunchDone: state.firstLaunchDone,
     );
-    if (next == state) return;
-    await _save(next);
+    if (next != state) {
+      await _save(next);
+    } else if (!applies || os == code) {
+      return;
+    }
     if (!applies || (await _invoke<bool>(_methodSet, code) ?? false)) return;
     if (!ref.mounted || state.pick?.language != code) return;
     await _save((

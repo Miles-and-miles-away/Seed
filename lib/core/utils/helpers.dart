@@ -68,11 +68,16 @@ String formatDecimal(
   required int maxDigits,
   int minDigits = 0,
 }) {
-  final format = NumberFormat.decimalPattern(locale)
-    ..minimumFractionDigits = minDigits
-    ..maximumFractionDigits = maxDigits;
+  final format = _decimalFormats.putIfAbsent(
+    (locale, minDigits, maxDigits),
+    () => NumberFormat.decimalPattern(locale)
+      ..minimumFractionDigits = minDigits
+      ..maximumFractionDigits = maxDigits,
+  );
   return format.format(value);
 }
+
+final _decimalFormats = <(String, int, int), NumberFormat>{};
 
 /// CO2 in compact form: "3.4 t", "1.2 kg", "500 g" (separators per
 /// [locale], [unitSpace] before the unit).

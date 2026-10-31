@@ -50,14 +50,18 @@ T _setting<T>(Ref ref, T Function(UserSettingsModel) pick, T fallback) {
 @riverpod
 bool canAddReminder(Ref ref) => _setting(ref, (s) => s.canAddReminder, false);
 
-/// The app language: an OS-side change made after this device's last
-/// pick, else the account's choice, else this device's pick, else the
-/// OS language. Computed, never stored.
+/// The app language: the account's choice, else this device's pick,
+/// else the OS language. Computed, never stored. On Android 13+ the app
+/// owns its per-app locale, so an OS-side change made after the last
+/// pick is the user editing this app's language and wins on that device.
+/// Elsewhere an OS change is the whole device and never overrides a pick.
 @riverpod
 String currentLanguage(Ref ref) {
   final os = resolveOsLanguage(ref.watch(osLocalesProvider));
   final stored = ref.watch(deviceLanguageProvider).pick;
-  if (stored != null && os != stored.os) return os;
+  final perApp =
+      (ref.watch(androidSdkProvider).value ?? 0) >= perAppLocaleMinSdk;
+  if (perApp && stored != null && os != stored.os) return os;
   final account = ref.watch(userIdProvider) == null
       ? null
       : ref.watch(pendingLanguagePushProvider) ??

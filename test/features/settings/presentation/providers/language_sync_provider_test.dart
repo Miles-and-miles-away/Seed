@@ -58,14 +58,17 @@ void main() {
   Future<void> settle() => pumpEventQueue();
 
   /// The sync running in a container whose auth and settings streams the
-  /// test drives. Nothing is signed in until [signIn].
+  /// test drives. Nothing is signed in until [signIn]. [sdk] is the
+  /// Android SDK level; null is any platform without a per-app locale.
   Future<ProviderContainer> start({
     String os = 'en',
     MemoryLanguageStore? store,
+    int? sdk,
   }) async {
     final c = ProviderContainer(
       overrides: [
         languageStoreOverride(store ?? MemoryLanguageStore()),
+        androidSdkProvider.overrideWith((_) async => sdk),
         osLocalesProvider.overrideWithBuild((_, _) => [Locale(os)]),
         authStateChangesProvider.overrideWith((_) => auth.stream),
         userOverride(const AppUserModel(uid: _uid, email: 'e')),
@@ -102,9 +105,9 @@ void main() {
 
   String current(ProviderContainer c) => c.read(currentLanguageProvider);
 
-  test('cold start after an OS change keeps the OS language', () async {
+  test('cold start after a per-app change keeps the OS language', () async {
     final store = MemoryLanguageStore(_picked('en', 'en'));
-    final c = await start(os: 'ja', store: store);
+    final c = await start(os: 'ja', store: store, sdk: 33);
     expect(current(c), 'ja');
 
     await signIn();
@@ -209,7 +212,7 @@ void main() {
 
   test('a live account change is adopted and ends an OS override', () async {
     final store = MemoryLanguageStore(_picked('en', 'en'));
-    final c = await start(os: 'ja', store: store);
+    final c = await start(os: 'ja', store: store, sdk: 33);
     await signIn();
     await emit('en');
     expect(current(c), 'ja');
@@ -222,7 +225,7 @@ void main() {
 
   test('the baseline mirror keeps an OS override', () async {
     final store = MemoryLanguageStore(_picked('en', 'en'));
-    final c = await start(os: 'ja', store: store);
+    final c = await start(os: 'ja', store: store, sdk: 33);
     await signIn();
     await emit('es');
 
@@ -232,6 +235,17 @@ void main() {
     auth.add(null);
     await settle();
     expect(current(c), 'ja');
+  });
+
+  test('off Android 13+ a device language change never overrides', () async {
+    final store = MemoryLanguageStore(_picked('en', 'en'));
+    final c = await start(os: 'ja', store: store);
+    expect(current(c), 'en');
+
+    await signIn();
+    await emit('es');
+
+    expect(current(c), 'es');
   });
 
   test('sign-out keeps the account language on screen', () async {

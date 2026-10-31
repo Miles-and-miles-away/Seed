@@ -203,7 +203,7 @@ final class DeviceLanguageProvider
   }
 }
 
-String _$deviceLanguageHash() => r'ba945078ace21edbb453f997faee4d2a8c7ebd8b';
+String _$deviceLanguageHash() => r'a05833a91656e78a28b025379cd0f9a5f93f32cb';
 
 /// This device's stored pick, its OS snapshot and the first-launch flag.
 

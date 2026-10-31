@@ -165,16 +165,29 @@ void main() {
     test('ensureUserDoc creates only via createUserIfAbsent', () async {
       final user = fakeFirebaseUser();
       when(() => authDs.currentUser).thenReturn(user);
-      when(() => userDs.createUserIfAbsent(any())).thenAnswer((_) async {});
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
 
       await repository.ensureUserDoc(language: 'es');
 
-      final created =
-          verify(() => userDs.createUserIfAbsent(captureAny())).captured.single
-              as AppUserModel;
+      final captured = verify(
+        () => userDs.createUserIfAbsent(
+          captureAny(),
+          isCurrent: captureAny(named: 'isCurrent'),
+        ),
+      ).captured;
+      final created = captured.first as AppUserModel;
+      final isCurrent = captured.last as bool Function();
       expect(created.uid, uid);
       expect(created.email, email);
       expect(created.language, 'es');
+      expect(isCurrent(), isTrue);
+      when(() => authDs.currentUser).thenReturn(null);
+      expect(isCurrent(), isFalse);
       verifyNever(() => userDs.createUser(any()));
     });
 
@@ -183,7 +196,12 @@ void main() {
 
       await repository.ensureUserDoc(language: 'es');
 
-      verifyNever(() => userDs.createUserIfAbsent(any()));
+      verifyNever(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      );
     });
   });
 
@@ -423,6 +441,20 @@ void main() {
 
         verify(() => userDs.deleteUser()).called(1);
       });
+
+      for (final failure in [
+        AuthException(code: 'apple-sign-in-failed'),
+        AuthException(code: 'sign-in-offline'),
+      ]) {
+        test('still deletes when the Apple prompt fails: '
+            '${failure.code}', () async {
+          when(() => authDs.revokeAppleSignIn()).thenThrow(failure);
+
+          await repository.deleteAccount();
+
+          verifyInOrder([() => userDs.deleteUser(), () => authDs.signOut()]);
+        });
+      }
 
       test('does not delete when the Apple prompt is cancelled', () async {
         when(

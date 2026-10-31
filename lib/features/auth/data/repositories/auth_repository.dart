@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/app_logger.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 
 import '../datasources/auth_remote_datasource.dart';
 import '../datasources/user_remote_datasource.dart';
@@ -127,6 +128,7 @@ class AuthRepository {
     if (firebaseUser == null) return;
     await _userDataSource.createUserIfAbsent(
       _newUserModel(firebaseUser, language),
+      isCurrent: () => currentUser?.uid == firebaseUser.uid,
     );
   }
 
@@ -212,12 +214,13 @@ class AuthRepository {
   /// handled by the UI before this call. Signs out locally afterwards
   /// to clear the now-invalid session.
   Future<void> deleteAccount() async {
-    // A cancelled Apple prompt aborts deletion; a failed revocation does not.
+    // A cancelled Apple prompt aborts deletion; any other failure does not.
     if (defaultTargetPlatform == TargetPlatform.iOS &&
         _authDataSource.isAppleUser) {
       try {
         await _authDataSource.revokeAppleSignIn();
-      } on FirebaseAuthException catch (e, stackTrace) {
+      } on Exception catch (e, stackTrace) {
+        if (e is AuthException && e.code == authCodeSignInCancelled) rethrow;
         appLogger.error(
           'Auth: Apple token revocation failed',
           error: e,

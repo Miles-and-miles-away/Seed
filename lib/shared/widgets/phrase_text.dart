@@ -121,12 +121,28 @@ class PhraseText extends StatelessWidget {
     if (MediaQuery.boldTextOf(context)) {
       effective = effective.merge(const TextStyle(fontWeight: FontWeight.bold));
     }
+    final align = textAlign ?? defaults.textAlign ?? TextAlign.start;
+    final direction = Directionality.of(context);
+    final scaler = textScaler ?? MediaQuery.textScalerOf(context);
+    final key = (
+      joined,
+      clean,
+      effective,
+      align,
+      direction,
+      scaler,
+      maxLines,
+      width,
+    );
+    final cached = _ellipsiseMemo.remove(key);
+    if (cached != null) return _ellipsiseMemo[key] = cached;
+
     bool exceeds(InlineSpan span) {
       final painter = TextPainter(
         text: TextSpan(style: effective, children: [span]),
-        textAlign: textAlign ?? defaults.textAlign ?? TextAlign.start,
-        textDirection: Directionality.of(context),
-        textScaler: textScaler ?? MediaQuery.textScalerOf(context),
+        textAlign: align,
+        textDirection: direction,
+        textScaler: scaler,
         maxLines: maxLines,
       )..layout(maxWidth: width);
       final result = painter.didExceedMaxLines;
@@ -134,7 +150,11 @@ class PhraseText extends StatelessWidget {
       return result;
     }
 
-    return exceeds(joined) && !exceeds(clean);
+    final result = exceeds(joined) && !exceeds(clean);
+    if (_ellipsiseMemo.length >= _ellipsiseMemoCapacity) {
+      _ellipsiseMemo.remove(_ellipsiseMemo.keys.first);
+    }
+    return _ellipsiseMemo[key] = result;
   }
 
   InlineSpan _wrapped(BuildContext context, InlineSpan span, Locale locale) {
@@ -228,6 +248,21 @@ InlineSpan wrapPhraseSpan(InlineSpan root, String Function(String) wrap) {
 }
 
 final _joinerUnit = wordJoiner.codeUnitAt(0);
+
+const _ellipsiseMemoCapacity = 512;
+
+typedef _EllipsiseKey = (
+  InlineSpan,
+  InlineSpan,
+  TextStyle,
+  TextAlign,
+  TextDirection,
+  TextScaler,
+  int?,
+  double,
+);
+
+final _ellipsiseMemo = <_EllipsiseKey, bool>{};
 
 double _largestFontSize(InlineSpan span, double inherited) {
   final own = span.style?.fontSize ?? inherited;
