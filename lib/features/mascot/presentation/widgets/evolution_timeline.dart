@@ -19,63 +19,105 @@ class EvolutionTimeline extends StatelessWidget {
   final List<EvolutionStageModel> stages;
   final int currentStage;
 
+  static const _stageFlex = 4;
+  static const _timelineHeight = 140.0;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final locale = Localizations.localeOf(context).languageCode;
 
     return SizedBox(
-      height: 140,
-      child: Row(
-        children: List.generate(stages.length * 2 - 1, (index) {
-          if (index.isOdd) {
-            final stageIndex = index ~/ 2;
-            final isUnlocked = currentStage > stageIndex + 1;
-            return Expanded(
-              child: Container(
-                height: 4,
-                margin: const EdgeInsets.symmetric(horizontal: spacingXs),
-                decoration: BoxDecoration(
-                  color: isUnlocked
-                      ? colorScheme.primary
-                      : colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(2),
+      height: _timelineHeight,
+      child: Column(
+        children: [
+          Expanded(
+            child: Row(
+              children: _stagesAndGaps(
+                (i) => _buildStageCard(i, colorScheme),
+                (i) => Container(
+                  height: 4,
+                  margin: const EdgeInsets.symmetric(horizontal: spacingXs),
+                  decoration: BoxDecoration(
+                    color: currentStage > i + 1
+                        ? colorScheme.primary
+                        : colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
-            );
-          }
-
-          final stageIndex = index ~/ 2;
-          final stage = stages[stageIndex];
-          final isCurrentStage = currentStage == stageIndex + 1;
-          final isUnlocked = currentStage >= stageIndex + 1;
-          final stageName = stage.name(locale);
-
-          return Expanded(
-            flex: 2,
-            child: _buildStageCard(
-              context,
-              stage,
-              stageName,
-              isCurrentStage,
-              isUnlocked,
-              colorScheme,
             ),
-          );
-        }),
+          ),
+          const SizedBox(height: spacingXs),
+          // Names share one row, so a wrapped name shortens no card.
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _stagesAndGaps(
+              (i) => _buildStageLabel(context, i, locale, colorScheme),
+              (_) => const SizedBox.shrink(),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildStageCard(
+  /// One flexed child per stage with a narrower one between each pair, so
+  /// the card row and the name row share the same columns.
+  List<Widget> _stagesAndGaps(
+    Widget Function(int stageIndex) stage,
+    Widget Function(int stageIndex) gap,
+  ) {
+    return List.generate(stages.length * 2 - 1, (index) {
+      final stageIndex = index ~/ 2;
+      return index.isOdd
+          ? Expanded(child: gap(stageIndex))
+          : Expanded(flex: _stageFlex, child: stage(stageIndex));
+    });
+  }
+
+  Widget _buildStageLabel(
     BuildContext context,
-    EvolutionStageModel stage,
-    String stageName,
-    bool isCurrentStage,
-    bool isUnlocked,
+    int stageIndex,
+    String locale,
     ColorScheme colorScheme,
   ) {
+    final stage = stages[stageIndex];
+    final isCurrentStage = currentStage == stageIndex + 1;
+    final isUnlocked = currentStage >= stageIndex + 1;
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      children: [
+        Text(
+          stage.name(locale),
+          style: textTheme.labelSmall?.copyWith(
+            color: isUnlocked
+                ? colorScheme.onSurface
+                : colorScheme.onSurface.withValues(alpha: opacityHalf),
+            fontWeight: isCurrentStage ? FontWeight.bold : null,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        Text(
+          AppLocalizations.of(context).mascotLevelShort(stage.level),
+          style: textTheme.labelSmall?.copyWith(
+            color: isUnlocked
+                ? colorScheme.primary
+                : colorScheme.onSurface.withValues(alpha: opacityMedium),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStageCard(int stageIndex, ColorScheme colorScheme) {
+    final stage = stages[stageIndex];
+    final isCurrentStage = currentStage == stageIndex + 1;
+    final isUnlocked = currentStage >= stageIndex + 1;
     Widget card = Container(
+      height: double.infinity,
       padding: const EdgeInsets.all(spacingSm),
       decoration: BoxDecoration(
         color: isCurrentStage
@@ -90,70 +132,41 @@ class EvolutionTimeline extends StatelessWidget {
             ? Border.all(color: colorScheme.primary, width: 2)
             : null,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: isUnlocked
-                ? MascotImage(
-                    assetPath: stage.assetPath,
-                    artboardName: stage.artboardName,
-                    onRiveInit: pauseRive,
-                  )
-                : ColorFiltered(
-                    colorFilter: const ColorFilter.matrix(<double>[
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0.4,
-                      0,
-                    ]),
-                    child: MascotImage(
-                      assetPath: stage.assetPath,
-                      artboardName: stage.artboardName,
-                      onRiveInit: pauseRive,
-                    ),
-                  ),
-          ),
-          const SizedBox(height: spacingXs),
-          Text(
-            stageName,
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: isUnlocked
-                  ? colorScheme.onSurface
-                  : colorScheme.onSurface.withValues(alpha: opacityHalf),
-              fontWeight: isCurrentStage ? FontWeight.bold : null,
+      child: isUnlocked
+          ? MascotImage(
+              assetPath: stage.assetPath,
+              artboardName: stage.artboardName,
+              onRiveInit: pauseRive,
+            )
+          : ColorFiltered(
+              colorFilter: const ColorFilter.matrix(<double>[
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0.4,
+                0,
+              ]),
+              child: MascotImage(
+                assetPath: stage.assetPath,
+                artboardName: stage.artboardName,
+                onRiveInit: pauseRive,
+              ),
             ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            AppLocalizations.of(context).mascotLevelShort(stage.level),
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: isUnlocked
-                  ? colorScheme.primary
-                  : colorScheme.onSurface.withValues(alpha: opacityMedium),
-              fontSize: 10,
-            ),
-          ),
-        ],
-      ),
     );
 
     if (isCurrentStage) {

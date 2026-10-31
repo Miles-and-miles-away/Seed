@@ -14,9 +14,15 @@ add a source, it must come from the research doc, or it needs its own real
 access date. Entries with no citable primary ship sources=[] and say so in
 their calculation_notes -- that is the honest state, not a gap to paper over.
 
+Every behaviour carries notes_ja and notes_es beside notes, plus notes_sha, the
+sha256 hex of notes when they were translated; the app's i18n test fails when
+notes change without a re-translation, and this script refuses to write an
+entry missing any of the three.
+
 Run from anywhere:  python3 scripts/generators/build_energy_behaviors.py
 """
 import collections
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -221,7 +227,21 @@ BEHAVIORS = [
             '0.03162756 kWh/L (heating 1 L by 27.2 K: delivered 40 C from a 12.8 C '
             'annual-mean mains inlet, SAP 10.1) = 0.248111 kWh/min thermal, shipped '
             'directly because resistance electric water heating is ~100% efficient. '
-            'RESEARCH_ENERGY section 3.1.'),
+            'RESEARCH_ENERGY section 3.1.',
+      notes_ja=('7.844784 L/分（現行のシャワーヘッド3機種の平均、決定E4）'
+                '× 0.03162756 kWh/L（1 Lを27.2 K加熱：'
+                '年平均12.8℃の水道水を40℃で出湯、SAP 10.1）'
+                '= 0.248111 kWh/分の熱量です。電気抵抗式の給湯は効率がほぼ100%なの'
+                'で、この値をそのまま採用しています。RESEARCH_ENERGY 3.1節に基づき'
+                'ます。'),
+      notes_es=('7,844784 L/min (media de tres alcachofas de ducha actuales, '
+                'decisión E4) × 0,03162756 kWh/L (elevar 27,2 K la temperatura de '
+                '1 L: agua que sale a 40 °C a partir de agua de red a 12,8 °C de '
+                'media anual, SAP 10.1) = 0,248111 kWh/min de energía térmica, que '
+                'se usa tal cual porque calentar agua con una resistencia '
+                'eléctrica tiene una eficiencia de ~100%. Según RESEARCH_ENERGY, '
+                'sección 3.1.'),
+      notes_sha='81768d1de5753745c6629b535f91851981c98c32ce8be8cbeef0a1690f4349fa'),
  dict(id='shower_heatpump', group='hot_water', carrier='electricity', unit='minute',
       kwh=0.057700, en='Shower (heat-pump hot water)', ja='シャワー（ヒートポンプ給湯）',
       es='Ducha (agua caliente con bomba de calor)', conf='medium', presets=SHOWER_PRESETS,
@@ -230,7 +250,19 @@ BEHAVIORS = [
             'mean of the 3.5 initial and 5.1 recent Eco Cute models. Ships as its own '
             'entry rather than averaged with resistance (decision E3): they are two '
             'appliances, and an Eco Cute owner knows they own one. '
-            'RESEARCH_ENERGY section 3.1.'),
+            'RESEARCH_ENERGY section 3.1.',
+      notes_ja=('0.248111 kWh/分の熱負荷を、ヒートポンプのCOP 4.3で割った値です。'
+                'このCOPは初期のエコキュート（3.5）と最近の機種（5.1）の平均です。'
+                '電気抵抗式と平均せず、独立した項目にしています（決定E3）。'
+                'この2つは別の機器で、エコキュートを持っている人は自分でそれが分か'
+                'るからです。RESEARCH_ENERGY 3.1節に基づきます。'),
+      notes_es=('La carga térmica de 0,248111 kWh/min dividida entre un COP de '
+                'bomba de calor de 4,3, la media de los primeros modelos Eco Cute '
+                '(3,5) y los recientes (5,1). Va como entrada propia en lugar de '
+                'promediarse con la resistencia (decisión E3): son dos aparatos '
+                'distintos, y quien tiene un Eco Cute sabe que lo tiene. Según '
+                'RESEARCH_ENERGY, sección 3.1.'),
+      notes_sha='a2b9d6bb26a5b43e1dd7fa3c4ea0ff4c77a009f010ff20355ca22d067fb005eb'),
  dict(id='shower_gas', group='hot_water', carrier='gas', unit='minute',
       kwh=0.328036, en='Shower (gas hot water)', ja='シャワー（ガス給湯）',
       es='Ducha (agua caliente de gas)', conf='medium_high', presets=SHOWER_PRESETS,
@@ -240,20 +272,52 @@ BEHAVIORS = [
             'condensing combi, keep-hot off) at 83.8% net, restated on the Gross CV '
             'basis the gas factor uses: 0.838 x (0.18231 / 0.20199). Pairing a net-CV '
             'efficiency with a gross-CV factor understated gas by 12.6%. '
-            'RESEARCH_ENERGY section 3.1.'),
+            'RESEARCH_ENERGY section 3.1.',
+      notes_ja=('0.248111 kWh/分の熱負荷を、ガス給湯の効率0.756353で割った値です。'
+                'この効率は、BRE STP09/B07の試験A（瞬間式の潜熱回収型コンビボイラ'
+                'ー、保温機能オフ）での低位発熱量基準の83.8%を、'
+                'ガスの係数が用いる高位発熱量（Gross CV）'
+                '基準に換算し直したものです：0.838 × (0.18231 / 0.20199)。'
+                '低位発熱量基準の効率と高位発熱量基準の係数を組み合わせていたとき'
+                'は、ガスを12.6%過小評価していました。RESEARCH_ENERGY 3.1節に基づき'
+                'ます。'),
+      notes_es=('La carga térmica de 0,248111 kWh/min dividida entre una '
+                'eficiencia de agua caliente con gas de 0,756353. Esa eficiencia '
+                'es la de la prueba A de BRE STP09/B07 (caldera mixta instantánea '
+                'de condensación, con el mantenimiento en caliente desactivado), '
+                'un 83,8% sobre el poder calorífico inferior (PCI), recalculada '
+                'sobre el poder calorífico superior (PCS, «Gross CV») que usa el '
+                'factor del gas: 0,838 × (0,18231 / 0,20199). Combinar una '
+                'eficiencia sobre PCI con un factor sobre PCS subestimaba el gas '
+                'en un 12,6%. Según RESEARCH_ENERGY, sección 3.1.'),
+      notes_sha='edbcaa609eb78ce7953fe9fb356b44e8b1b5787e85ee625e116e4ce2faec8a10'),
  dict(id='bath_electric', group='hot_water', carrier='electricity', unit='use',
       kwh=5.692960, en='Bath (electric hot water)', ja='入浴（電気給湯）',
       es='Baño (agua caliente eléctrica)', conf='high', presets=BATH_PRESETS,
       sources=[SUIDO, SAP],
       notes='180 L x 0.03162756 kWh/L = 5.692960 kWh. The largest electric '
             'single-use figure in the dataset; bath_gas is larger still. '
-            'RESEARCH_ENERGY section 3.1.'),
+            'RESEARCH_ENERGY section 3.1.',
+      notes_ja=('180 L × 0.03162756 kWh/L = 5.692960 kWhです。'
+                'このデータセットで1回あたりの電気の値としては最大で、'
+                '「入浴（ガス給湯）」はさらに大きくなります。RESEARCH_ENERGY 3.1節'
+                'に基づきます。'),
+      notes_es=('180 L × 0,03162756 kWh/L = 5,692960 kWh. Es la mayor cifra '
+                'eléctrica por uso del conjunto de datos; «Baño (agua caliente de '
+                'gas)» es mayor aún. Según RESEARCH_ENERGY, sección 3.1.'),
+      notes_sha='bdf4eb3b59154a6e516ff5a8bf2841121303136142282e89fe03dfda31968935'),
  dict(id='bath_gas', group='hot_water', carrier='gas', unit='use',
       kwh=7.526854, en='Bath (gas hot water)', ja='入浴（ガス給湯）',
       es='Baño (agua caliente de gas)', conf='medium_high', presets=BATH_PRESETS,
       sources=[SUIDO, SAP, BRE],
       notes='5.692960 kWh thermal / 0.756353 gross-CV gas hot-water efficiency. '
-            'RESEARCH_ENERGY section 3.1.'),
+            'RESEARCH_ENERGY section 3.1.',
+      notes_ja=('熱量5.692960 kWh ÷ 高位発熱量基準のガス給湯効率0.756353です。'
+                'RESEARCH_ENERGY 3.1節に基づきます。'),
+      notes_es=('5,692960 kWh térmicos / 0,756353 de eficiencia de agua caliente '
+                'con gas sobre el poder calorífico superior. Según '
+                'RESEARCH_ENERGY, sección 3.1.'),
+      notes_sha='8d3616f6e120e9711ed27be92295bbbcdd5a5b4ff518889476c35f6b824dad8b'),
  # ---- dishes ----
  dict(id='dishwasher_eco', group='dishes', carrier='electricity', unit='use',
       kwh=0.85, en='Dishwasher, eco programme', ja='食洗機（エコ）',
@@ -261,13 +325,29 @@ BEHAVIORS = [
       sources=[BOSCH_DW],
       notes='85 kWh per 100 eco cycles = 0.85 kWh/cycle, 14 place settings. Eco is '
             '~24% below the normal programme and takes 3h15, so both ship as a real '
-            'behaviour choice. RESEARCH_ENERGY section 3.2.'),
+            'behaviour choice. RESEARCH_ENERGY section 3.2.',
+      notes_ja=('エコ運転100回あたり85 kWh = 1回あたり0.85 kWh、食器14人分です。'
+                'エコは標準コースより約24%少ない一方で3時間15分かかるため、'
+                '実際の行動の選択肢として両方を載せています。RESEARCH_ENERGY 3.2節'
+                'に基づきます。'),
+      notes_es=('85 kWh por cada 100 ciclos eco = 0,85 kWh/ciclo, 14 servicios. El '
+                'programa eco gasta ~24% menos que el normal y dura 3 h 15 min, '
+                'así que ambos se incluyen como una elección real de hábito. Según '
+                'RESEARCH_ENERGY, sección 3.2.'),
+      notes_sha='8f24718aa8e5bf88e6e17173adbcc3c8182156bf3e8ea825358a955d167a74ff'),
  dict(id='dishwasher_normal', group='dishes', carrier='electricity', unit='use',
       kwh=1.12, en='Dishwasher, normal programme', ja='食洗機（標準）',
       es='Lavavajillas, programa normal', conf='high', presets=ONE_CYCLE_DW,
       sources=[WHICH_DW],
       notes='Which? 2026 on the main wash, same 14-place-setting basis as the eco '
-            'figure. RESEARCH_ENERGY section 3.2.'),
+            'figure. RESEARCH_ENERGY section 3.2.',
+      notes_ja=('Which? 2026による本洗いの値で、'
+                'エコの値と同じく食器14人分が基準です。RESEARCH_ENERGY 3.2節に基づ'
+                'きます。'),
+      notes_es=('Dato de Which? 2026 para el lavado principal, con la misma base '
+                'de 14 servicios que la cifra eco. Según RESEARCH_ENERGY, sección '
+                '3.2.'),
+      notes_sha='64b39bbc8802207c2cc0426663ddce0af7374f8b5f4b94de6020e3fe7e741a2e'),
  # ---- laundry_wash ----
  dict(id='wash_cold', group='laundry_wash', carrier='electricity', unit='use',
       kwh=0.350, en='Washing machine, cold (20 C)', ja='洗濯機（20℃）',
@@ -275,13 +355,27 @@ BEHAVIORS = [
       sources=[BOSCH_WM_20],
       notes='Bosch WNA14400GR Cottons 20 C at 9.0 kg, EN50229. Three temperatures from '
             'one machine, one standard and one document (decision E6). '
-            'RESEARCH_ENERGY section 3.2.'),
+            'RESEARCH_ENERGY section 3.2.',
+      notes_ja=('Bosch WNA14400GRの綿コース20℃、9.0 kgでのEN50229の値です。'
+                '3つの温度は、同じ1台の機種、同じ規格、'
+                '同じ文書から取っています（決定E6）。RESEARCH_ENERGY 3.2節に基づき'
+                'ます。'),
+      notes_es=('Bosch WNA14400GR, programa Algodón a 20 °C con 9,0 kg, EN50229. '
+                'Las tres temperaturas salen de una misma máquina, una misma norma '
+                'y un mismo documento (decisión E6). Según RESEARCH_ENERGY, '
+                'sección 3.2.'),
+      notes_sha='4886cb830ce1bab62a2c7cfe398289280cddc872bfe366f315491d5f6c70fd06'),
  dict(id='wash_warm', group='laundry_wash', carrier='electricity', unit='use',
       kwh=1.300, en='Washing machine, warm (40 C)', ja='洗濯機（40℃）',
       es='Lavado en templado (40 °C)', conf='high', presets=ONE_LOAD,
       sources=[BOSCH_WM_40],
       notes='Bosch WNA14400GR Cottons 40 C at 9.0 kg, EN50229. '
-            'RESEARCH_ENERGY section 3.2.'),
+            'RESEARCH_ENERGY section 3.2.',
+      notes_ja=('Bosch WNA14400GRの綿コース40℃、9.0 kgでのEN50229の値です。'
+                'RESEARCH_ENERGY 3.2節に基づきます。'),
+      notes_es=('Bosch WNA14400GR, programa Algodón a 40 °C con 9,0 kg, EN50229. '
+                'Según RESEARCH_ENERGY, sección 3.2.'),
+      notes_sha='c9b2dd627f84f135d96eb7bb18510ec9c2887489331fa71f2961e83c4ced27d0'),
  dict(id='wash_hot', group='laundry_wash', carrier='electricity', unit='use',
       kwh=1.700, en='Washing machine, hot (60 C)', ja='洗濯機（60℃）',
       es='Lavado en caliente (60 °C)', conf='medium', presets=ONE_LOAD,
@@ -293,7 +387,27 @@ BEHAVIORS = [
             'depending on which 60 C the machine means. Confidence deviates from '
             'section 4 on purpose: that table says High, while section 3.2 splits it '
             'as High (provenance) / Medium (representativeness), and a user meets the '
-            'representativeness half. RESEARCH_ENERGY section 3.2.'),
+            'representativeness half. RESEARCH_ENERGY section 3.2.',
+      notes_ja=('Bosch WNA14400GRの綿コース60℃、9.0 kgでのEN50229の値です。'
+                'これは利用者が自分で選ぶ60℃のコースです。EUラベルの「Cottons '
+                'colour 60 C」コースは0.900 kWhで、実際には60℃に達しません。'
+                'そのため、必須の補足表示にある「その約半分」とは0.9/1.7のことで'
+                'す。「60℃」の洗濯は、機械がどの60℃を指すかによって0.90〜1.70 kWhに'
+                'なります。信頼度は意図的に4節と異なります。'
+                '4節の表では「高」ですが、3.2節では「高（出所）/ 中（代表性）'
+                '」に分けており、利用者が直面するのは代表性の側だからです。'
+                'RESEARCH_ENERGY 3.2節に基づきます。'),
+      notes_es=('Bosch WNA14400GR, programa Algodón a 60 °C con 9,0 kg, EN50229. '
+                'Es un programa de 60 °C que elige el usuario; el programa '
+                '«Cottons colour 60 C» de la etiqueta de la UE usa 0,900 kWh y en '
+                'realidad no llega a 60 °C, así que la subetiqueta obligatoria que '
+                'dice «aproximadamente la mitad» es 0,9/1,7. Un lavado «a 60 °C» '
+                'consume 0,90-1,70 kWh según a qué 60 °C se refiera la máquina. La '
+                'confianza se aparta a propósito de la sección 4: esa tabla dice '
+                'Alta, mientras que la sección 3.2 la divide en Alta (procedencia) '
+                '/ Media (representatividad), y al usuario le afecta la mitad de '
+                'la representatividad. Según RESEARCH_ENERGY, sección 3.2.'),
+      notes_sha='63309b5ae6ebeb9fcaf56cddcd224525024766f3d20f3b04681abd1d7f6ade2f'),
  # ---- laundry_dry ----
  dict(id='dryer_vented', group='laundry_dry', carrier='electricity', unit='use',
       kwh=4.5, en='Tumble dryer (conventional)', ja='乾燥機（ヒーター式）',
@@ -301,20 +415,47 @@ BEHAVIORS = [
       sources=[BOSCH_DRY_C],
       notes='Rounded down from the verified 4.63 kWh full load, because that is one '
             'energy-class-B model and independent figures on a stated 7 kg basis give '
-            '3.5-4.5. RESEARCH_ENERGY section 3.2.'),
+            '3.5-4.5. RESEARCH_ENERGY section 3.2.',
+      notes_ja=('確認済みの満載時4.63 kWhから切り下げています。'
+                'これはエネルギークラスBの1機種の値にすぎず、'
+                '7 kgと明示した基準での独立した値は3.5〜4.5だからです。'
+                'RESEARCH_ENERGY 3.2節に基づきます。'),
+      notes_es=('Redondeado a la baja desde los 4,63 kWh verificados a plena '
+                'carga, porque corresponden a un único modelo de clase energética '
+                'B y las cifras independientes sobre una base declarada de 7 kg '
+                'dan 3,5-4,5. Según RESEARCH_ENERGY, sección 3.2.'),
+      notes_sha='dfee41fc3f0f4c3b77ce60b933d1b43c4518e20af86316195a4af503e78ff4f7'),
  dict(id='dryer_heatpump', group='laundry_dry', carrier='electricity', unit='use',
       kwh=2.05, en='Tumble dryer (heat pump)', ja='乾燥機（ヒートポンプ式）',
       es='Secadora (bomba de calor)', conf='high', presets=ONE_LOAD,
       sources=[BOSCH_DRY_HP],
       notes='Ships the verified figure exactly. Dryer type is a picker choice, not a '
-            'footnote: the two differ by 2.2x. RESEARCH_ENERGY section 3.2.'),
+            'footnote: the two differ by 2.2x. RESEARCH_ENERGY section 3.2.',
+      notes_ja=('確認済みの値をそのまま採用しています。乾燥機の方式は脚注ではなく、'
+                '選択肢として選べるようにしています。2つの差は2.2倍あるからです。'
+                'RESEARCH_ENERGY 3.2節に基づきます。'),
+      notes_es=('Se usa exactamente la cifra verificada. El tipo de secadora es '
+                'una opción del selector, no una nota al pie: una gasta 2,2 veces '
+                'lo que la otra. Según RESEARCH_ENERGY, sección 3.2.'),
+      notes_sha='743a4f6335e0f94d96ac6720a4996cc8b2939bbcc9dc4119cba03df8165ea568'),
  dict(id='line_dry', group='laundry_dry', carrier='none', unit='use',
       kwh=0, en='Line drying', ja='自然乾燥', es='Secado al aire',
       conf='high', presets=ONE_LOAD, sources=[],
       notes='Zero by definition, and the only entry with carrier "none". Caveat that '
             'must ship with it: outdoors or on a rack is free, but running a '
             'dehumidifier to dry indoors is not, and typically adds 1-4 kWh at '
-            '300-700 W. RESEARCH_ENERGY section 3.2.'),
+            '300-700 W. RESEARCH_ENERGY section 3.2.',
+      notes_ja=('定義上ゼロで、エネルギー源が「none」の唯一の項目です。'
+                '必ず添えるべき注意点があります：屋外や物干しラックで干すのにエネル'
+                'ギーはかかりませんが、室内で乾かすために除湿機を使うとそうはいか'
+                'ず、通常300〜700 Wで1〜4 kWhが加わります。'
+                'RESEARCH_ENERGY 3.2節に基づきます。'),
+      notes_es=('Cero por definición, y la única entrada con vector energético '
+                '«none». Una advertencia que debe acompañarla: tender fuera o en '
+                'un tendedero no gasta nada, pero usar un deshumidificador para '
+                'secar dentro de casa sí, y suele sumar 1-4 kWh a 300-700 W. Según '
+                'RESEARCH_ENERGY, sección 3.2.'),
+      notes_sha='11166712f3268de4c48c9d1c72d3c6daada29ba1c93a5ffb51476a1c4184ec31'),
  # ---- space_heat / space_cool ----
  dict(id='aircon_heating', group='space_heat', carrier='electricity', unit='hour',
       kwh=0.241006, en='Air conditioner, heating (20 C)', ja='エアコン暖房（20℃）',
@@ -331,7 +472,30 @@ BEHAVIORS = [
             'figure. Setpoint presets use METI absolute deltas (+0.034898 '
             'kWh/h per 1 C) and are capped at +2 C '
             'because neither source supports extrapolating further. '
-            'RESEARCH_ENERGY section 3.3.'),
+            'RESEARCH_ENERGY section 3.3.',
+      notes_ja=('資源エネルギー庁は、設定温度20℃の暖房を1日1時間短縮すると年間40.73'
+                ' kWhの省エネになると公表しており、'
+                '出典は省エネルギーセンター実測値です。169日間の暖房期間で割ると'
+                '0.241006 kWh/hになります。定格値ではなく実測値です：'
+                'Panasonic CS-227VBのJIS定格は455 Wで約1.9倍高いですが、'
+                'これは全負荷で測定しているためです。'
+                'この値をカタログ値に「修正」しないでください。'
+                '設定温度のプリセットには資源エネルギー庁の絶対差分（1℃あたり'
+                '+0.034898 kWh/h）を使い、どちらの出典もそれ以上の外挿を裏付けてい'
+                'ないため、+2℃までに制限しています。RESEARCH_ENERGY 3.3節に基づきま'
+                'す。'),
+      notes_es=('METI publica que acortar una hora al día la calefacción con la '
+                'consigna a 20 °C ahorra 40,73 kWh/año, con '
+                '省エネルギーセンター実測値 como fuente; repartido entre los 169 '
+                'días del 暖房期間 (temporada de calefacción), son 0,241006 kWh/h. '
+                'MEDIDO, no nominal: la potencia nominal JIS del Panasonic '
+                'CS-227VB es de 455 W, unas 1,9 veces la cifra medida, porque se '
+                'mide a plena carga. No «corrijas» esta cifra con la del catálogo. '
+                'Los ajustes de temperatura usan los incrementos absolutos de METI '
+                '(+0,034898 kWh/h por cada 1 °C) y se limitan a +2 °C porque '
+                'ninguna de las dos fuentes justifica extrapolar más. Según '
+                'RESEARCH_ENERGY, sección 3.3.'),
+      notes_sha='de0f67bcecd71d1ec78afe0293789f033b0abab0031eee5c9786ea2b5d7b4c08'),
  dict(id='portable_electric_heater', group='space_heat',
       carrier='electricity', unit='hour',
       kwh=1.2, en='Portable electric heater', ja='電気ストーブ／セラミックファンヒーター',
@@ -342,7 +506,23 @@ BEHAVIORS = [
             'gas-fed radiator: "space heater" is banned as a term because in British '
             'English it reads as the whole category of space heating. Nameplate on '
             'high, so thermostatic cycling reduces the true average once the room is '
-            'warm. RESEARCH_ENERGY section 3.3.'),
+            'warm. RESEARCH_ENERGY section 3.3.',
+      notes_ja=('日本のセラミックファンヒーターは3段階で600〜1200 Wで動作し、'
+                'ここでは「強」の設定を採用しています。'
+                '対象はコンセントにつなぐ電気抵抗式のヒーターに限り、'
+                'ガスを使う暖房器具は含みません。英語の「space heater」はイギリス英'
+                '語では暖房全般を指すと読まれるため、用語として使っていません。'
+                '「強」の定格値なので、部屋が暖まるとサーモスタットによる入り切りで'
+                '実際の平均は下がります。RESEARCH_ENERGY 3.3節に基づきます。'),
+      notes_es=('Los calefactores cerámicos japoneses funcionan a 600-1.200 W en '
+                'tres niveles; se usa el ajuste alto. Se trata en concreto de un '
+                'calefactor eléctrico de resistencia que se enchufa, nunca de un '
+                'radiador de gas: el término inglés «space heater» está vetado '
+                'porque en inglés británico se entiende como toda la categoría de '
+                'la calefacción de espacios. Es la potencia nominal en alto, así '
+                'que los ciclos del termostato reducen la media real cuando la '
+                'habitación ya está caliente. Según RESEARCH_ENERGY, sección 3.3.'),
+      notes_sha='5efe8b470ed04ba787b5695ab654f6c8b8a01597db49c8310d0e2b89769dfec6'),
  dict(id='kotatsu', group='space_heat', carrier='electricity', unit='hour',
       kwh=0.15, en='Kotatsu (heated table)', ja='こたつ',
       es='Kotatsu (mesa con calefactor)',
@@ -355,14 +535,49 @@ BEHAVIORS = [
             'are NOT this entry: a carpet was closed as a deliberate non-entry at '
             '~0.33 kWh/h on 中, over twice this figure, so logging one here would '
             'understate it by about 2.2x (RESEARCH_ENERGY_ARCHIVE section 1). '
-            'RESEARCH_ENERGY section 3.3.'),
+            'RESEARCH_ENERGY section 3.3.',
+      notes_ja=('メーカーはWh単位の標準（平均）消費電力量を公表しています。'
+                'これはサーモスタットによる入り切りをすでに平均した1時間あたりの値'
+                'で、銘板の消費電力とはまったく別物です。'
+                '銘板が510 Wの製品でも測定値は約170 Wh/hで、3倍の開きがあります。'
+                '0.15は、メーカー相当の4つの情報源による「強」の145〜180 Wh/hの範囲'
+                'に収まっています。300〜600 Wの銘板値は決して使いません。'
+                '電気カーペットはこの項目に含みません。カーペットは「中」で約0.33 '
+                'kWh/hとこの値の2倍以上になるため、'
+                '意図的に項目にしないと決めました。ここで記録すると約2.2倍の過小評'
+                '価になります（RESEARCH_ENERGY_ARCHIVE 1節）。'
+                'RESEARCH_ENERGY 3.3節に基づきます。'),
+      notes_es=('Los fabricantes publican el 標準（平均）消費電力量 en Wh, una '
+                'cifra por hora ya promediada por el termostato y totalmente '
+                'distinta de la potencia nominal (消費電力): una unidad de 510 W '
+                'nominales mide ~170 Wh/h, es decir, 3 veces menos. 0,15 cae '
+                'dentro del grupo de 145-180 Wh/h en 強 (alto) de cuatro fuentes '
+                'de fabricantes o equivalentes. Nunca los 300-600 W nominales. Las '
+                'alfombras eléctricas (電気カーペット) NO son esta entrada: la '
+                'alfombra se descartó a propósito como entrada, con ~0,33 kWh/h en '
+                '中 (medio), más del doble de esta cifra, así que registrarla aquí '
+                'la subestimaría unas 2,2 veces (RESEARCH_ENERGY_ARCHIVE, sección '
+                '1). Según RESEARCH_ENERGY, sección 3.3.'),
+      notes_sha='3d2248e62224349b0e83b5f55c31a7b86393c1e1aec9aaa8aa5ac2ca9a1fc90f'),
  dict(id='electric_blanket', group='space_heat', carrier='electricity', unit='hour',
       kwh=0.025, en='Electric blanket', ja='電気毛布', es='Manta eléctrica',
       conf='medium', presets=EVENING_4H, sources=[ENECHANGE],
       notes='Per-setting measured figures for a single-size Yamazen blanket. Another '
             'cycling appliance whose nameplate is never the shipped value. Ships the '
             '適温 22 Wh/h setting rounded up, not the 弱 13 Wh/h the quote also lists. '
-            'RESEARCH_ENERGY section 3.3.'),
+            'RESEARCH_ENERGY section 3.3.',
+      notes_ja=('山善（Yamazen）のシングルサイズ電気毛布について、'
+                '設定ごとに測定した値です。これも入り切りする機器で、'
+                '銘板の値は採用しません。「適温」の22 Wh/hを切り上げて採用してお'
+                'り、引用元が併記している「弱」の13 Wh/hではありません。'
+                'RESEARCH_ENERGY 3.3節に基づきます。'),
+      notes_es=('Cifras medidas por ajuste de una manta Yamazen de tamaño '
+                'individual. Otro aparato que funciona por ciclos y cuya potencia '
+                'nominal nunca es el valor que se usa. Se usa el ajuste 適温 '
+                '(temperatura adecuada), 22 Wh/h, redondeado al alza, no el 弱 '
+                '(bajo), 13 Wh/h, que la cita también recoge. Según '
+                'RESEARCH_ENERGY, sección 3.3.'),
+      notes_sha='95fb589e197d0e196496b4167660424a0c7594e4dd4ee6ca5e8be74bfa669277'),
  dict(id='aircon_cooling', group='space_cool', carrier='electricity', unit='hour',
       kwh=0.167679, en='Air conditioner, cooling (28 C)', ja='エアコン冷房（28℃）',
       es='Aire acondicionado, refrigeración (28 °C)', conf='high',
@@ -377,7 +592,25 @@ BEHAVIORS = [
             '冷房期間 that is 0.167679 kWh/h. MEASURED, not rated: the Panasonic JIS '
             'rating is 435 W, about 2.6x higher. Setpoint presets use METI absolute '
             'deltas (+0.030 kWh/h per 1 C), capped at -2 C. '
-            'RESEARCH_ENERGY section 3.3.'),
+            'RESEARCH_ENERGY section 3.3.',
+      notes_ja=('資源エネルギー庁は、設定温度28℃の冷房を1日1時間短縮すると年間18.78'
+                ' kWhの省エネになると公表しており、'
+                '出典は省エネルギーセンター実測値です。112日間の冷房期間で割ると'
+                '0.167679 kWh/hになります。定格値ではなく実測値です：'
+                'PanasonicのJIS定格は435 Wで、約2.6倍高くなっています。'
+                '設定温度のプリセットには資源エネルギー庁の絶対差分（1℃あたり+0.030'
+                ' kWh/h）を使い、-2℃までに制限しています。'
+                'RESEARCH_ENERGY 3.3節に基づきます。'),
+      notes_es=('METI publica que acortar una hora al día el aire acondicionado '
+                'con la consigna a 28 °C ahorra 18,78 kWh/año, con '
+                '省エネルギーセンター実測値 como fuente; repartido entre los 112 '
+                'días del 冷房期間 (temporada de refrigeración), son 0,167679 '
+                'kWh/h. MEDIDO, no nominal: la potencia nominal JIS de Panasonic '
+                'es de 435 W, unas 2,6 veces la cifra medida. Los ajustes de '
+                'temperatura usan los incrementos absolutos de METI (+0,030 kWh/h '
+                'por cada 1 °C), con un límite de -2 °C. Según RESEARCH_ENERGY, '
+                'sección 3.3.'),
+      notes_sha='0fcf0dff212c664f5b05ea49a26aba95fda891a87648d07fd557d8ccdc1c2372'),
  dict(id='fan', group='space_cool', carrier='electricity', unit='hour',
       kwh=0.022, en='Electric fan', ja='扇風機',
       es='Ventilador', conf='medium',
@@ -390,7 +623,23 @@ BEHAVIORS = [
             'action library cannot disagree. A fan at a fixed notch draws constant '
             'power, so the nameplate-vs-cycling rule does not bind; the highest '
             'notch is the conservative direction for the fan-vs-aircon lesson. '
-            'RESEARCH_ENERGY section 3.3.'),
+            'RESEARCH_ENERGY section 3.3.',
+      notes_ja=('Panasonic F-CV339（DCリビング扇）の最大風量（22 W）の値で、'
+                'use_fan_instead_of_acアクションと同じ基準にしているため、'
+                '計算機とアクションライブラリの値が食い違うことはありません。'
+                '扇風機は風量を固定すれば消費電力が一定なので、'
+                '「銘板値か入り切りか」のルールは当てはまりません。最大風量は、'
+                '扇風機とエアコンを比べる学びにとって控えめな方向の値です。'
+                'RESEARCH_ENERGY 3.3節に基づきます。'),
+      notes_es=('Ventilador de salón DC Panasonic F-CV339 en su velocidad máxima '
+                '(22 W), la misma base que la acción use_fan_instead_of_ac, para '
+                'que la calculadora y la biblioteca de acciones no puedan '
+                'contradecirse. Un ventilador a velocidad fija consume una '
+                'potencia constante, así que la regla de potencia nominal frente a '
+                'ciclos no se aplica; la velocidad máxima es la elección prudente '
+                'al comparar ventilador y aire acondicionado, porque no exagera la '
+                'ventaja del ventilador. Según RESEARCH_ENERGY, sección 3.3.'),
+      notes_sha='dd416ccd6718dda4b6fc9d994b67f7e9e8da0d145f13a5d9327534830875e77f'),
  # ---- boil ----
  dict(id='kettle', group='boil', carrier='electricity', unit='use',
       kwh=0.116278, en='Electric kettle, 1 L', ja='電気ケトル（1L）',
@@ -399,7 +648,18 @@ BEHAVIORS = [
       notes='Physics floor for boiling 1 L from 15 C is 0.09883611 kWh (1 kg x 4.186 '
             'kJ/kg-K x 85 K); divided by a kettle efficiency of 0.85. Metered '
             'cross-check in the same paper: 1.50 L from 18 C consumed 0.17 kWh = '
-            '0.113 kWh/L. RESEARCH_ENERGY section 3.4.'),
+            '0.113 kWh/L. RESEARCH_ENERGY section 3.4.',
+      notes_ja=('15℃の水1 Lを沸かすのに物理的に最低限必要なエネルギーは0.09883611 '
+                'kWhです（1 kg × 4.186 kJ/kg-K × 85 K）。'
+                'これを電気ケトルの効率0.85で割っています。'
+                '同じ論文の実測による照合では、18℃の水1.50 Lで0.17 kWhを消費し、'
+                '0.113 kWh/Lでした。RESEARCH_ENERGY 3.4節に基づきます。'),
+      notes_es=('El mínimo físico para hervir 1 L desde 15 °C es 0,09883611 kWh (1 '
+                'kg × 4,186 kJ/kg-K × 85 K), dividido entre una eficiencia del '
+                'hervidor de 0,85. Comprobación con medidor en el mismo artículo: '
+                '1,50 L desde 18 °C consumieron 0,17 kWh = 0,113 kWh/L. Según '
+                'RESEARCH_ENERGY, sección 3.4.'),
+      notes_sha='ce22c10aa7a15f6295d626a9b69925bb1a997b9b7e5e63c0b9bbd4bf5733980e'),
  dict(id='ih_hob', group='boil', carrier='electricity', unit='use',
       kwh=0.116598, en='Induction hob, boil 1 L', ja='IHクッキングヒーター（1L沸かす）',
       es='Placa de inducción, hervir 1 L', conf='medium_high', presets=BOIL_PRESETS,
@@ -407,7 +667,17 @@ BEHAVIORS = [
       notes='The same 0.09883611 kWh floor divided by 0.847667, the mean of three '
             'induction cooktops measured to ASTM F1521. Within 0.3% of the kettle, '
             'which is the point: this is a tie, and the app says so. '
-            'RESEARCH_ENERGY section 3.4.'),
+            'RESEARCH_ENERGY section 3.4.',
+      notes_ja=('同じ0.09883611 kWhの下限を0.847667で割った値です。これは、'
+                'ASTM F1521に基づいて測定したIHクッキングヒーター3台の平均です。'
+                '電気ケトルとの差は0.3%以内で、そこが要点です：'
+                'これは引き分けであり、アプリもそう表示します。'
+                'RESEARCH_ENERGY 3.4節に基づきます。'),
+      notes_es=('El mismo mínimo de 0,09883611 kWh dividido entre 0,847667, la '
+                'media de tres placas de inducción medidas según ASTM F1521. Queda '
+                'a menos del 0,3% del hervidor, y esa es la clave: es un empate, y '
+                'la app lo dice. Según RESEARCH_ENERGY, sección 3.4.'),
+      notes_sha='02d55686764ef26b60f971db15c8f80d7cf073176d5a6a76297b9f090b04616b'),
  dict(id='gas_hob', group='boil', carrier='gas', unit='use',
       kwh=0.282389, en='Gas hob, boil 1 L', ja='ガスコンロ（1L沸かす）',
       es='Placa de gas, hervir 1 L', conf='medium', presets=BOIL_PRESETS,
@@ -415,7 +685,20 @@ BEHAVIORS = [
       notes='The same 0.09883611 kWh floor divided by 0.35. That efficiency is a '
             'physical spread, not measurement noise: 31.9% for an oversized US burner '
             'in an ASTM lab test, 38-42% for right-sized home measurements with a lid. '
-            '0.35 is the chosen midpoint. RESEARCH_ENERGY section 3.4.'),
+            '0.35 is the chosen midpoint. RESEARCH_ENERGY section 3.4.',
+      notes_ja=('同じ0.09883611 kWhの下限を0.35で割った値です。'
+                'この効率の幅は測定誤差ではなく、物理的なばらつきです：'
+                'ASTMの実験室試験で大きすぎる米国のバーナーを使うと31.9%、'
+                '家庭で鍋に合った火口とふたを使った測定では38〜42%です。'
+                '0.35はその中間として選んだ値です。RESEARCH_ENERGY 3.4節に基づきま'
+                'す。'),
+      notes_es=('El mismo mínimo de 0,09883611 kWh dividido entre 0,35. Esa '
+                'eficiencia es una dispersión física, no ruido de medición: 31,9% '
+                'con un quemador estadounidense sobredimensionado en una prueba de '
+                'laboratorio ASTM, 38-42% en mediciones domésticas con un quemador '
+                'del tamaño adecuado y tapa. 0,35 es el punto medio elegido. Según '
+                'RESEARCH_ENERGY, sección 3.4.'),
+      notes_sha='7ab96fedbffdc88ec2129103cb06c4e3e110a8de6d8391ea3dca82ac47fe5f9d'),
  # ---- cook ----
  dict(id='oven', group='cook', carrier='electricity', unit='use',
       kwh=0.82, en='Electric oven, 1 bake', ja='電気オーブン（1回）',
@@ -430,7 +713,28 @@ BEHAVIORS = [
             'formula at 60-70 L cavities (0.802-0.844), shipping the 0.82 '
             'midpoint. Lowest confidence of the cooking entries: it is an '
             'EU-to-US proxy. '
-            'RESEARCH_ENERGY section 3.4.'),
+            'RESEARCH_ENERGY section 3.4.',
+      notes_ja=('1時間あたりではなく「焼き1回あたり」の値で、'
+                'これはデータの欠落ではなく構造上の理由によるものです。'
+                '米国エネルギー省（DOE）はオーブンの稼働時の基準を採用したことがな'
+                'く、ENERGY STARもオーブンを認証していません。'
+                'どちらも使い方のばらつきを理由に挙げており、'
+                '1時間あたりの値はどこにも存在しません。'
+                '時間単位の値に「修正」しないでください。'
+                'EUの算定式で庫内容量60〜70 Lとすると0.802〜0.844となり、'
+                'その中間の0.82を採用しています。調理の項目の中では最も信頼度が低い'
+                '値です：EUの値を米国の代わりに使っています。'
+                'RESEARCH_ENERGY 3.4節に基づきます。'),
+      notes_es=('POR CICLO DE HORNEADO, no por hora, y eso es estructural, no una '
+                'laguna: el DOE nunca adoptó una norma para hornos en modo activo '
+                'y ENERGY STAR no certifica hornos, ambos por la variabilidad de '
+                'los patrones de uso, así que no existe una cifra por hora en '
+                'ninguna parte. No lo «arregles» pasándolo a una unidad por hora. '
+                'Con la fórmula de la UE para cavidades de 60-70 L (0,802-0,844), '
+                'se usa el punto medio, 0,82. Es la entrada de cocina con menor '
+                'confianza: es una aproximación de la UE aplicada a EE. UU. Según '
+                'RESEARCH_ENERGY, sección 3.4.'),
+      notes_sha='44f1c4d7a189c6fc9a8cdff9e73dce5076a717804e456c0f0cd40fbfbafe2c0b'),
  dict(id='microwave', group='cook', carrier='electricity', unit='minute',
       kwh=0.019, en='Microwave', ja='電子レンジ', es='Microondas', conf='medium',
       presets=[P('two_min', '2 minutes', '2分', '2 minutos', 2),
@@ -441,7 +745,23 @@ BEHAVIORS = [
             'kWh and one minute is 0.019. The 50-64% efficiency range behind this is '
             'aggregator-sourced rather than a primary, which is why this entry carries '
             'no citation and is the weakest term in any oven-vs-microwave comparison. '
-            'RESEARCH_ENERGY section 3.4.'),
+            'RESEARCH_ENERGY section 3.4.',
+      notes_ja=('電子レンジの表示ワット数は消費電力ではなく出力です。'
+                '出力700 Wの機種が変換効率60%なら消費電力は1167 Wで、'
+                '10分で0.1944 kWh、1分あたり0.019になります。'
+                'その根拠となる50〜64%という効率の幅は一次資料ではなくまとめサイト'
+                '由来のため、この項目には出典を付けておらず、'
+                'オーブンと電子レンジの比較では最も弱い項です。'
+                'RESEARCH_ENERGY 3.4節に基づきます。'),
+      notes_es=('La potencia anunciada de un microondas es la de SALIDA, no la que '
+                'consume. Un aparato de 700 W de salida con un 60% de eficiencia '
+                'de conversión consume 1.167 W, así que 10 minutos son 0,1944 kWh '
+                'y un minuto, 0,019. El rango de eficiencia del 50-64% en que se '
+                'basa procede de agregadores, no de una fuente primaria, y por eso '
+                'esta entrada no lleva cita y es el término más débil de cualquier '
+                'comparación entre horno y microondas. Según RESEARCH_ENERGY, '
+                'sección 3.4.'),
+      notes_sha='88c991730de703c6a00e987e81cf1229cfe0ed217b2fe04eaa793a71cba3efbb'),
  dict(id='rice_cooker', group='cook', carrier='electricity', unit='use',
       kwh=0.16, en='Rice cooker, one cycle', ja='炊飯器（1回炊飯）',
       es='Arrocera, un ciclo', conf='high',
@@ -449,7 +769,16 @@ BEHAVIORS = [
       sources=[RICE],
       notes='158 Wh per cook cycle for an IH 5.5-8合 machine, sourced to '
             '省エネルギーセンター実測値 and corroborated by Tiger at 163 Wh, two '
-            'independent JP sources within 3%. RESEARCH_ENERGY section 3.4.'),
+            'independent JP sources within 3%. RESEARCH_ENERGY section 3.4.',
+      notes_ja=('IH式5.5〜8合炊きの炊飯器で、1回の炊飯あたり158 Whです。'
+                '出典は省エネルギーセンター実測値で、タイガー魔法瓶の163 Whとも整合'
+                'しており、独立した国内の2つの情報源が3%以内に収まっています。'
+                'RESEARCH_ENERGY 3.4節に基づきます。'),
+      notes_es=('158 Wh por ciclo de cocción en una arrocera IH de 5,5-8 go (合), '
+                'según 省エネルギーセンター実測値, y corroborado por Tiger con 163 '
+                'Wh: dos fuentes japonesas independientes a menos de un 3% entre '
+                'sí. Según RESEARCH_ENERGY, sección 3.4.'),
+      notes_sha='1a5d2784b65653a78348ea97bf4074ff02c6d564073bc6c64409aff699017788'),
  dict(id='rice_cook_keepwarm', group='cook', carrier='electricity', unit='use',
       kwh=0.226, en='Rice cooker, cycle + 4 h keeping warm',
       ja='炊飯器（1回炊飯＋4時間保温）',
@@ -465,7 +794,29 @@ BEHAVIORS = [
             'option, which is not a choice anyone has. The 4 hours is the guideline '
             'the source states -- past about 4 hours reheating in a microwave uses '
             'less than holding, and past 7-8 hours cooking twice does. '
-            'RESEARCH_ENERGY section 3.4.'),
+            'RESEARCH_ENERGY section 3.4.',
+      notes_ja=('炊飯1回分の0.16 kWh（「炊飯器（1回炊飯）」の値：実測158 Wh、'
+                '裏付け163 Wh）に保温4 × 16.5 Wh/hを加えて0.226 kWhで、'
+                'すべて同じ実測基準です。保温は必ず炊飯のあとに行うものなので、'
+                '1つの値にまとめています（オーナー判断、2026-09-02）。'
+                '保温だけを単独で載せると炊飯より下位に並び、'
+                'ご飯を保温するほうが安い選択肢であるかのように読めてしまいますが、'
+                'そのような選択肢は誰にもありません。4時間は出典が示す目安です -- '
+                '約4時間を超えると電子レンジで温め直すほうが保温より少なく、'
+                '7〜8時間を超えると炊き直すほうが少なくなります。'
+                'RESEARCH_ENERGY 3.4節に基づきます。'),
+      notes_es=('0,16 kWh del ciclo (la fila de «Arrocera, un ciclo»: 158 Wh '
+                'medidos, 163 Wh corroborados) más 4 × 16,5 Wh/h manteniendo '
+                'caliente = 0,226 kWh, todo sobre la misma base medida. Va como '
+                'una sola cifra porque mantener caliente nunca ocurre sin un ciclo '
+                'previo (decisión del responsable, 2026-09-02): por separado '
+                'quedaba por debajo del ciclo y parecía que mantener el arroz '
+                'caliente fuera la opción más barata, una elección que nadie '
+                'tiene. Las 4 horas son la pauta que da la fuente -- pasadas unas '
+                '4 horas, recalentar en el microondas gasta menos que mantenerlo '
+                'caliente, y pasadas 7-8 horas, también gasta menos cocinar dos '
+                'veces. Según RESEARCH_ENERGY, sección 3.4.'),
+      notes_sha='6ead9c4b413902bf785f1f775043e8530a0c93f01b20f77c804d190fd91cd7e8'),
  # ---- lighting ----
  dict(id='led_bulb', group='lighting', carrier='electricity', unit='hour',
       kwh=0.0085, en='LED bulb (800 lm)', ja='LED電球（800lm）',
@@ -478,7 +829,23 @@ BEHAVIORS = [
             'nothing citable exists to attach. Re-source before treating this as '
             'traceable. An 8.5 W lamp at 800 lm is the smallest per-hour entry and '
             'the scale anchor the heat entries are read against. '
-            'RESEARCH_ENERGY section 3.5.'),
+            'RESEARCH_ENERGY section 3.5.',
+      notes_ja=('意図的に出典を付けていません。一次資料はRESEARCH_ENERGY 3.5節にそ'
+                'のまま引用したPhilips A19の仕様（"Wattage: 8.5 Watts" / "Lumen '
+                'Output: 800 Lumens"）ですが、その調査ではURLを記録しておらず、'
+                '添付できる引用元がありません。追跡可能とみなす前に、'
+                '出典を取り直す必要があります。800 lmで8.5 Wの電球は1時間あたりで最'
+                'も小さい項目で、熱を使う項目を読むときの目盛りの基準になります。'
+                'RESEARCH_ENERGY 3.5節に基づきます。'),
+      notes_es=('NO LLEVA CITA, a propósito: la fuente primaria es la ficha '
+                'técnica de la Philips A19 citada literalmente en RESEARCH_ENERGY, '
+                'sección 3.5 ("Wattage: 8.5 Watts" / "Lumen Output: 800 Lumens"), '
+                'y aquella revisión no guardó su URL, así que no hay nada citable '
+                'que adjuntar. Hay que volver a localizar la fuente antes de '
+                'considerarla trazable. Una bombilla de 8,5 W y 800 lm es la '
+                'entrada más pequeña por hora y la referencia de escala con la que '
+                'se leen las entradas de calor. Según RESEARCH_ENERGY, sección 3.5.'),
+      notes_sha='ca47bbf8576305de9559da0f9acefe0d2c996c102ec8526d63a5cf317742f9b9'),
  dict(id='incandescent_bulb', group='lighting', carrier='electricity', unit='hour',
       kwh=0.06, en='Incandescent bulb (60 W)', ja='白熱電球（60W）',
       es='Bombilla incandescente (60 W)', conf='high',
@@ -489,7 +856,23 @@ BEHAVIORS = [
             'The 60 W incandescent at ~800 lm is the definitional comparator for the '
             'LED, a 7.06x ratio. Japan never legally banned incandescents, so a '
             'blanket "phased out" claim is false for a JP reader. '
-            'RESEARCH_ENERGY section 3.5.'),
+            'RESEARCH_ENERGY section 3.5.',
+      notes_ja=('LEDの項目と同じ理由で、出典を付けていません。'
+                'RESEARCH_ENERGY 3.5節の照明の一次資料について、'
+                'URLを記録していないためです。約800 lmの60 W白熱電球は、'
+                'LEDの比較対象として定義上決まっているもので、比率は7.06倍です。'
+                '日本は白熱電球を法律で禁止したことがないため、'
+                '一律に「廃止された」と言うのは日本の読者にとって誤りです。'
+                'RESEARCH_ENERGY 3.5節に基づきます。'),
+      notes_es=('NO LLEVA CITA, por el mismo motivo que la entrada LED: no se '
+                'guardó la URL de la fuente primaria de iluminación en '
+                'RESEARCH_ENERGY, sección 3.5. La incandescente de 60 W con ~800 '
+                'lm es, por definición, la referencia con la que se compara la '
+                'LED, una relación de 7,06 veces. Japón nunca prohibió por ley las '
+                'incandescentes, así que afirmar sin matices que «se han retirado» '
+                'es falso para un lector japonés. Según RESEARCH_ENERGY, sección '
+                '3.5.'),
+      notes_sha='11b83e784775294a579079284d6cf364ef1a2be21b5dc631a6ebb4fc1e4a525d'),
  # ---- device ----
  dict(id='tv', group='device', carrier='electricity', unit='hour',
       kwh=0.079096, en='Television (50 inch)', ja='テレビ（50V型）',
@@ -498,15 +881,34 @@ BEHAVIORS = [
       sources=[METI_TV],
       notes='28.87 kWh/year for one hour a day, sourced to 省エネルギーセンター実測値; '
             'TVs run year-round so that is 0.079096 kWh/h, about 79 W for a 50V型 set. '
-            'RESEARCH_ENERGY section 3.5.'),
+            'RESEARCH_ENERGY section 3.5.',
+      notes_ja=('1日1時間で年間28.87 kWhで、出典は省エネルギーセンター実測値です。'
+                'テレビは1年中使うので0.079096 kWh/h、50V型で約79 Wになります。'
+                'RESEARCH_ENERGY 3.5節に基づきます。'),
+      notes_es=('28,87 kWh/año por una hora al día, según '
+                '省エネルギーセンター実測値; los televisores se usan todo el año, '
+                'así que son 0,079096 kWh/h, unos 79 W para un aparato de 50V型 '
+                '(50 pulgadas). Según RESEARCH_ENERGY, sección 3.5.'),
+      notes_sha='959dc55b90bf192b42e9a2c7733b0b72df9b88f933f9b23ae8354dea63cbf33d'),
  dict(id='phone_charge', group='device', carrier='electricity', unit='use',
       kwh=0.015271, en='Phone charge', ja='スマートフォンの充電',
-      es='Carga de teléfono', conf='medium',
+      es='Carga del móvil', conf='medium',
       presets=[P('one_charge', '1 full charge', '1回フル充電', '1 carga completa', 1)],
       sources=[IFIXIT],
       notes='A 12.98 Wh iPhone 15 battery at 85% charging efficiency. About 7 g CO2e '
             'per charge: small loads are never rounded up, because the honest '
-            'smallness is why this entry ships. RESEARCH_ENERGY section 3.5.'),
+            'smallness is why this entry ships. RESEARCH_ENERGY section 3.5.',
+      notes_ja=('12.98 WhのiPhone 15のバッテリーを、充電効率85%で充電した値です。'
+                '1回の充電あたり約7 g CO2eです。'
+                '小さな負荷を切り上げることはしません。'
+                '小さいことを正直に示すことこそ、この項目を載せている理由だからで'
+                'す。RESEARCH_ENERGY 3.5節に基づきます。'),
+      notes_es=('Una batería de iPhone 15 de 12,98 Wh con un 85% de eficiencia de '
+                'carga. Unos 7 g CO2e por carga: las cargas pequeñas nunca se '
+                'redondean al alza, porque su pequeñez, contada con honestidad, es '
+                'la razón de que esta entrada exista. Según RESEARCH_ENERGY, '
+                'sección 3.5.'),
+      notes_sha='9e26117bbbc4e01f6245d92b4544f12ff43b8c2bdc3dc4d22da72f9eead916ed'),
  dict(id='laptop_charge', group='device', carrier='electricity', unit='use',
       kwh=0.063294, en='Laptop charge', ja='ノートパソコンの充電',
       es='Carga del portátil', conf='medium',
@@ -517,7 +919,20 @@ BEHAVIORS = [
             'section 3.5, whose '
             'URL that research pass did not capture, so no citation is attached here '
             'rather than attaching an unverified one. Distinct from a laptop RUNNING, '
-            'which METI measures at about 15 W.'),
+            'which METI measures at about 15 W.',
+      notes_ja=('53.8 WhのMacBook Airのバッテリーを、充電効率85%で充電した値です。'
+                '根拠はRESEARCH_ENERGY 3.5節にそのまま引用したメーカーの仕様です'
+                'が、その調査ではURLを記録していないため、'
+                '未確認の出典を付けるよりも、ここでは出典を付けないことにしました。'
+                'ノートパソコンを使っている間の消費とは別物で、'
+                'そちらは資源エネルギー庁の測定で約15 Wです。'),
+      notes_es=('Una batería de MacBook Air de 53,8 Wh con un 85% de eficiencia de '
+                'carga. Procede de la ficha técnica del fabricante citada '
+                'literalmente en RESEARCH_ENERGY, sección 3.5, cuya URL no guardó '
+                'aquella revisión, así que, en vez de adjuntar una cita sin '
+                'verificar, aquí no se adjunta ninguna. No es lo mismo que un '
+                'portátil EN USO, que METI mide en unos 15 W.'),
+      notes_sha='fbc27f784f9288f888d1c421648872419cf982e2932fa49d067820ea4612ac58'),
  dict(id='standby', group='device', carrier='electricity', unit='day',
       kwh=0.8, en='Household standby', ja='待機電力（家全体）',
       es='Consumo en espera del hogar', conf='low',
@@ -532,7 +947,30 @@ BEHAVIORS = [
             '"standby is 10% of your bill". Excludes builder-installed '
             'always-on load (smoke alarms, '
             'thermostats, security) that a user cannot unplug. '
-            'RESEARCH_ENERGY section 3.5.'),
+            'RESEARCH_ENERGY section 3.5.',
+      notes_ja=('常時通電の機器25〜40台、各約1 Wです。'
+                '1日約29 kWhを使う米国の家庭に対しては約2.8%で、'
+                'LBNL自身の5〜10%という幅を下回るため、採用値は意図的に控えめです。'
+                '表示する文言で守るべき正直な伝え方：機器1台あたりの待機電力は1〜3 '
+                'Wから約0.5 Wまで激減しましたが、機器の数がそれ以上の速さで増えたた'
+                'め、家庭全体ではほぼ同じ量が、はるかに多くの製品に分散しています。'
+                '「待機電力は取るに足らない」でも「待機電力は電気代の10%」でもあり'
+                'ません。利用者がプラグを抜けない、建築時に設置された常時通電の負荷'
+                '（火災報知器、サーモスタット、防犯設備）は除外しています。'
+                'RESEARCH_ENERGY 3.5節に基づきます。'),
+      notes_es=('Entre 25 y 40 aparatos siempre encendidos a aproximadamente 1 W. '
+                'Frente a un hogar de EE. UU. de ~29 kWh/día, eso es ~2,8%, por '
+                'debajo de la propia horquilla del 5-10% de LBNL, así que el valor '
+                'usado es conservador a propósito. El enfoque honesto, que los '
+                'textos deben mantener: el consumo en espera por aparato se '
+                'desplomó de 1-3 W a unos 0,5 W mientras el número de aparatos '
+                'crecía más deprisa, de modo que el total del hogar es más o menos '
+                'el mismo, repartido entre muchos más productos. Ni «el consumo en '
+                'espera es insignificante» ni «el consumo en espera es el 10% de '
+                'tu factura». Excluye la carga permanente instalada por el '
+                'constructor (detectores de humo, termostatos, seguridad), que el '
+                'usuario no puede desenchufar. Según RESEARCH_ENERGY, sección 3.5.'),
+      notes_sha='92c765806182ea4d5260b7b14793ea6f0bd3f69d62956ea90da064256d8f0aad'),
 ]
 
 
@@ -597,6 +1035,9 @@ def build():
                 'presets': b['presets'],
                 'default_preset_id': b['presets'][0]['id'],
                 'calculation_notes': b['notes'],
+                'calculation_notes_ja': b.get('notes_ja', ''),
+                'calculation_notes_es': b.get('notes_es', ''),
+                'calculation_notes_src_sha': b.get('notes_sha', ''),
                 'sources': b['sources'],
             }
             for b in BEHAVIORS
@@ -616,9 +1057,27 @@ def validate(out):
     duplicates = sorted(i for i, n in counts.items() if n > 1)
     if duplicates:
         sys.exit('duplicate behavior id: ' + ', '.join(duplicates))
+    untranslated = sorted(
+        b['id'] for b in behaviors
+        if not (b['calculation_notes_ja'] and b['calculation_notes_es']
+                and b['calculation_notes_src_sha'])
+    )
+    if untranslated:
+        sys.exit('calculation notes need notes_ja, notes_es and notes_sha: '
+                 + ', '.join(untranslated))
+    stale = sorted(
+        b['id'] for b in behaviors
+        if b['calculation_notes_src_sha'] != hashlib.sha256(
+            b['calculation_notes'].encode('utf-8')).hexdigest()
+    )
+    if stale:
+        sys.exit('notes changed since translation, re-translate and update '
+                 'notes_sha: ' + ', '.join(stale))
 
 
 def main():
+    if len(sys.argv) > 1:
+        sys.exit(__doc__)
     out = build()
     # Validate before writing: a half-right asset on disk plus a
     # non-zero exit is worse than no write at all.

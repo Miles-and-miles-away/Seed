@@ -29,7 +29,7 @@ void main() {
     testWidgets('shows set-goal prompt when no goal', (tester) async {
       await pumpCard(tester, currentUser: baseUser);
 
-      expect(find.text('My Goal'), findsOneWidget);
+      expect(find.text('MY GOAL'), findsOneWidget);
       expect(find.text('Tap to set your sustainability goal'), findsOneWidget);
       expect(find.byIcon(Icons.add_circle_outline), findsOneWidget);
     });

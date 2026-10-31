@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/datasources/user_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
@@ -81,7 +83,11 @@ void main() {
         );
         when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
 
-        final result = await repository.signInWithEmailAndPassword(email, 'pw');
+        final result = await repository.signInWithEmailAndPassword(
+          email,
+          'pw',
+          language: 'es',
+        );
 
         expect(result, existing);
         verifyNever(() => userDs.updateUser(any(), any()));
@@ -101,7 +107,11 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => stale);
       when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithEmailAndPassword(email, 'pw');
+      final result = await repository.signInWithEmailAndPassword(
+        email,
+        'pw',
+        language: 'es',
+      );
 
       expect(result.emailVerified, isTrue);
       verify(
@@ -119,12 +129,79 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => null);
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithEmailAndPassword(email, 'pw');
+      final result = await repository.signInWithEmailAndPassword(
+        email,
+        'pw',
+        language: 'es',
+      );
 
       expect(result.uid, uid);
       expect(result.email, email);
+      expect(result.language, 'es');
       expect(result.createdAt, isNotNull);
       verify(() => userDs.createUser(any())).called(1);
+    });
+  });
+
+  group('offline user read', () {
+    test('sign-in rethrows and never creates over the unread doc', () async {
+      final user = fakeFirebaseUser();
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.signInWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
+      when(() => userDs.getUser(uid)).thenThrow(
+        FirebaseException(plugin: 'cloud_firestore', code: 'unavailable'),
+      );
+
+      await expectLater(
+        repository.signInWithEmailAndPassword(email, 'pw', language: 'es'),
+        throwsA(isA<FirebaseException>()),
+      );
+      verifyNever(() => userDs.createUser(any()));
+    });
+
+    test('ensureUserDoc creates only via createUserIfAbsent', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final captured = verify(
+        () => userDs.createUserIfAbsent(
+          captureAny(),
+          isCurrent: captureAny(named: 'isCurrent'),
+        ),
+      ).captured;
+      final created = captured.first as AppUserModel;
+      final isCurrent = captured.last as bool Function();
+      expect(created.uid, uid);
+      expect(created.email, email);
+      expect(created.language, 'es');
+      expect(isCurrent(), isTrue);
+      when(() => authDs.currentUser).thenReturn(null);
+      expect(isCurrent(), isFalse);
+      verifyNever(() => userDs.createUser(any()));
+    });
+
+    test('ensureUserDoc does nothing when signed out', () async {
+      when(() => authDs.currentUser).thenReturn(null);
+
+      await repository.ensureUserDoc(language: 'es');
+
+      verifyNever(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      );
     });
   });
 
@@ -142,6 +219,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.uid, uid);
@@ -167,6 +245,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, 'x' * AppConstants.maxDisplayNameLength);
@@ -186,6 +265,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, isNull);
@@ -201,7 +281,7 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => null);
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithGoogle();
+      final result = await repository.signInWithGoogle(language: 'es');
 
       expect(result.uid, uid);
       verify(() => userDs.createUser(any())).called(1);
@@ -219,7 +299,7 @@ void main() {
       );
       when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
 
-      final result = await repository.signInWithApple();
+      final result = await repository.signInWithApple(language: 'es');
 
       expect(result, existing);
     });
@@ -329,6 +409,76 @@ void main() {
 
       verifyNever(() => authDs.signOut());
     });
+
+    group('Apple user on iOS', () {
+      setUp(() {
+        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+        when(() => authDs.isAppleUser).thenReturn(true);
+        when(() => userDs.deleteUser()).thenAnswer((_) async {});
+        when(() => authDs.signOut()).thenAnswer((_) async {});
+      });
+
+      tearDown(() => debugDefaultTargetPlatformOverride = null);
+
+      test('revokes the Apple grant before deleting', () async {
+        when(() => authDs.revokeAppleSignIn()).thenAnswer((_) async {});
+
+        await repository.deleteAccount();
+
+        verifyInOrder([
+          () => authDs.revokeAppleSignIn(),
+          () => userDs.deleteUser(),
+          () => authDs.signOut(),
+        ]);
+      });
+
+      test('still deletes when revocation fails', () async {
+        when(
+          () => authDs.revokeAppleSignIn(),
+        ).thenThrow(FirebaseAuthException(code: 'invalid-credential'));
+
+        await repository.deleteAccount();
+
+        verify(() => userDs.deleteUser()).called(1);
+      });
+
+      for (final failure in [
+        AuthException(code: 'apple-sign-in-failed'),
+        AuthException(code: 'sign-in-offline'),
+      ]) {
+        test('still deletes when the Apple prompt fails: '
+            '${failure.code}', () async {
+          when(() => authDs.revokeAppleSignIn()).thenThrow(failure);
+
+          await repository.deleteAccount();
+
+          verifyInOrder([() => userDs.deleteUser(), () => authDs.signOut()]);
+        });
+      }
+
+      test('does not delete when the Apple prompt is cancelled', () async {
+        when(
+          () => authDs.revokeAppleSignIn(),
+        ).thenThrow(AuthException(code: 'sign-in-cancelled'));
+
+        await expectLater(
+          repository.deleteAccount(),
+          throwsA(isA<AuthException>()),
+        );
+
+        verifyNever(() => userDs.deleteUser());
+      });
+    });
+
+    test('skips revocation off iOS', () async {
+      when(() => authDs.isAppleUser).thenReturn(true);
+      when(() => userDs.deleteUser()).thenAnswer((_) async {});
+      when(() => authDs.signOut()).thenAnswer((_) async {});
+
+      await repository.deleteAccount();
+
+      verifyNever(() => authDs.revokeAppleSignIn());
+    });
   });
 
   group('simple delegations', () {
@@ -411,6 +561,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         'a@b.com',
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, exact);

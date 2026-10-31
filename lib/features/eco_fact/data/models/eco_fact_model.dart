@@ -15,6 +15,9 @@ class EcoFact {
     this.sourceUrl = '',
     this.relatedSdgs = const [],
     this.unWorldDay,
+    this.keyFigureEn = '',
+    this.keyFigureJa = '',
+    this.keyFigureEs = '',
   });
 
   factory EcoFact.fromJson(Map<String, dynamic> json) {
@@ -37,6 +40,9 @@ class EcoFact {
               .toList() ??
           const [],
       unWorldDay: json['unWorldDay'] as String?,
+      keyFigureEn: json['keyFigureEn'] as String? ?? '',
+      keyFigureJa: json['keyFigureJa'] as String? ?? '',
+      keyFigureEs: json['keyFigureEs'] as String? ?? '',
     );
   }
 
@@ -55,6 +61,11 @@ class EcoFact {
   final List<int> relatedSdgs;
   final String? unWorldDay;
 
+  /// Headline figure, verbatim in each language's fact; all set or all empty.
+  final String keyFigureEn;
+  final String keyFigureJa;
+  final String keyFigureEs;
+
   String name(String locale) => switch (locale) {
     'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
@@ -72,4 +83,16 @@ class EcoFact {
     'es' when sourceEs.isNotEmpty => sourceEs,
     _ => sourceEn,
   };
+
+  /// A blank figure in JA or ES stays unset rather than falling back to EN.
+  String? keyFigure(String locale) {
+    final figure = switch (locale) {
+      'ja' => keyFigureJa,
+      'es' => keyFigureEs,
+      _ => keyFigureEn,
+    };
+    return figure.isEmpty ? null : figure;
+  }
+
+  bool get isPlayable => keyFigureEn.isNotEmpty;
 }

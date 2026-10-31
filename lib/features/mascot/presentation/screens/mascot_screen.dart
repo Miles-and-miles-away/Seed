@@ -34,16 +34,8 @@ class MascotScreen extends ConsumerWidget {
 
     if (mascot == null || species == null) {
       return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircularProgressIndicator(),
-              const SizedBox(height: spacingLg),
-              Text(l10n.navMascot),
-            ],
-          ),
-        ),
+        appBar: AppBar(title: Text(l10n.navMascot)),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 

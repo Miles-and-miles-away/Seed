@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 
@@ -12,7 +13,6 @@ void main() {
         shortTitleEn: 'No Poverty',
         descriptionEn: 'End poverty in all its forms.',
         color: Color(0xFFE5233D),
-        iconUrl: 'https://example.com/icon1.jpg',
       ),
       const SdgGoal(
         number: 2,
@@ -20,7 +20,6 @@ void main() {
         shortTitleEn: 'Zero Hunger',
         descriptionEn: 'End hunger.',
         color: Color(0xFFDDA73A),
-        iconUrl: 'https://example.com/icon2.jpg',
       ),
       const SdgGoal(
         number: 3,
@@ -28,7 +27,6 @@ void main() {
         shortTitleEn: 'Good Health',
         descriptionEn: 'Ensure healthy lives.',
         color: Color(0xFF4CA146),
-        iconUrl: 'https://example.com/icon3.jpg',
       ),
     ];
 
@@ -116,6 +114,33 @@ void main() {
       expect(controller.offset, closeTo(centered, 0.5));
     });
 
+    testWidgets('starts centred when goals arrive after an empty frame', (
+      tester,
+    ) async {
+      Widget build(List<SdgGoal> goals) => MaterialApp(
+        home: Scaffold(
+          body: SizedBox(
+            height: 200,
+            width: 400,
+            child: SdgCarousel(goals: goals, onGoalTap: (_) {}),
+          ),
+        ),
+      );
+
+      // Cold start: the list lays out once with no goals, then data lands.
+      await tester.pumpWidget(build(const []));
+      await tester.pumpWidget(build(testGoals));
+      await tester.pump();
+
+      const itemExtent = 120.0 + 12.0;
+      final centred =
+          spacingXxl + testGoals.length * 500 * itemExtent + 60 - 200;
+      final controller = tester
+          .widget<ListView>(find.byType(ListView))
+          .controller!;
+      expect(controller.offset, closeTo(centred, 0.5));
+    });
+
     testWidgets('calls onGoalTap when card is tapped', (tester) async {
       SdgGoal? tappedGoal;
 
@@ -150,7 +175,6 @@ void main() {
       shortTitleEn: 'Climate Action',
       descriptionEn: 'Take urgent action to combat climate change.',
       color: Color(0xFF407F46),
-      iconUrl: 'https://example.com/icon13.jpg',
     );
 
     testWidgets('displays short title', (tester) async {
@@ -252,20 +276,24 @@ void main() {
       expect(card.goal.titleEn, 'Climate Action');
     });
 
-    testWidgets('displays ClipRRect for image', (tester) async {
+    testWidgets('shows the bundled icon for its locale', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
               height: 200,
               width: 150,
-              child: SdgCard(goal: testGoal, onTap: () {}),
+              child: SdgCard(goal: testGoal, locale: 'ja', onTap: () {}),
             ),
           ),
         ),
       );
 
-      expect(find.byType(ClipRRect), findsAtLeast(1));
+      final image = tester.widget<Image>(find.byType(Image));
+      expect(
+        (image.image as AssetImage).assetName,
+        'assets/images/sdg_icons/ja/sdg_icon_13.webp',
+      );
     });
 
     testWidgets('text has white color', (tester) async {

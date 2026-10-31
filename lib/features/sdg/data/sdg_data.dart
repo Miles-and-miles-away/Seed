@@ -8,7 +8,6 @@ class SdgGoal {
     required this.shortTitleEn,
     required this.descriptionEn,
     required this.color,
-    required this.iconUrl,
     this.isLearnOnly = false,
     this.titleJa = '',
     this.titleEs = '',
@@ -16,6 +15,9 @@ class SdgGoal {
     this.shortTitleEs = '',
     this.descriptionJa = '',
     this.descriptionEs = '',
+    this.keyFigureEn = '',
+    this.keyFigureJa = '',
+    this.keyFigureEs = '',
   });
 
   factory SdgGoal.fromJson(Map<String, dynamic> json) {
@@ -26,7 +28,6 @@ class SdgGoal {
       shortTitleEn: json['shortTitle'] as String,
       descriptionEn: json['description'] as String,
       color: Color(int.parse(hex, radix: 16) + 0xFF000000),
-      iconUrl: json['iconUrl'] as String,
       isLearnOnly: json['isLearnOnly'] as bool? ?? false,
       titleJa: json['titleJa'] as String? ?? '',
       titleEs: json['titleEs'] as String? ?? '',
@@ -34,6 +35,9 @@ class SdgGoal {
       shortTitleEs: json['shortTitleEs'] as String? ?? '',
       descriptionJa: json['descriptionJa'] as String? ?? '',
       descriptionEs: json['descriptionEs'] as String? ?? '',
+      keyFigureEn: json['keyFigureEn'] as String? ?? '',
+      keyFigureJa: json['keyFigureJa'] as String? ?? '',
+      keyFigureEs: json['keyFigureEs'] as String? ?? '',
     );
   }
 
@@ -42,7 +46,6 @@ class SdgGoal {
   final String shortTitleEn;
   final String descriptionEn;
   final Color color;
-  final String iconUrl;
   final bool isLearnOnly;
   final String titleJa;
   final String titleEs;
@@ -50,6 +53,12 @@ class SdgGoal {
   final String shortTitleEs;
   final String descriptionJa;
   final String descriptionEs;
+
+  /// Headline figure, verbatim in each language's description; all set or
+  /// all empty.
+  final String keyFigureEn;
+  final String keyFigureJa;
+  final String keyFigureEs;
 
   String title(String locale) => switch (locale) {
     'ja' when titleJa.isNotEmpty => titleJa,
@@ -68,6 +77,25 @@ class SdgGoal {
     'es' when descriptionEs.isNotEmpty => descriptionEs,
     _ => descriptionEn,
   };
+
+  /// A blank figure in JA or ES stays unset rather than falling back to EN.
+  String? keyFigure(String locale) {
+    final figure = switch (locale) {
+      'ja' => keyFigureJa,
+      'es' => keyFigureEs,
+      _ => keyFigureEn,
+    };
+    return figure.isEmpty ? null : figure;
+  }
+
+  String iconAsset(String locale) {
+    final code = switch (locale) {
+      'ja' || 'es' => locale,
+      _ => 'en',
+    };
+    return 'assets/images/sdg_icons/$code/'
+        'sdg_icon_${number.toString().padLeft(2, '0')}.webp';
+  }
 
   String get progressChartAsset =>
       'assets/images/sdg_progress/'

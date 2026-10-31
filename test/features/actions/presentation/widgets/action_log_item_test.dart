@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_log_item.dart';
 
 void main() {
@@ -48,7 +50,7 @@ void main() {
 
   testWidgets('shows CO2 badge only when co2Grams > 0', (tester) async {
     await tester.pumpWidget(wrap(ActionLogItem(actionLog: log())));
-    expect(find.text('500g'), findsOneWidget);
+    expect(find.text('500${unitSpace}g'), findsOneWidget);
 
     await tester.pumpWidget(wrap(ActionLogItem(actionLog: log(co2: 0))));
     expect(find.textContaining('g', findRichText: true), findsNothing);
@@ -72,5 +74,31 @@ void main() {
     await tester.pump();
 
     expect(taps, 1);
+  });
+
+  testWidgets('shows the current-language name when one is given', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap(ActionLogItem(actionLog: log(), displayName: '歩く')),
+    );
+
+    expect(find.text('歩く'), findsOneWidget);
+    expect(find.text('Walk'), findsNothing);
+  });
+
+  test('actionNamesById maps library actions to names in a language', () {
+    const library = [
+      ActionModel(
+        id: 'walk',
+        nameEn: 'Walk',
+        nameJa: '歩く',
+        nameEs: 'Caminar',
+        category: 'transport',
+        points: 10,
+      ),
+    ];
+    expect(actionNamesById(library, 'ja'), {'walk': '歩く'});
+    expect(actionNamesById(library, 'es'), {'walk': 'Caminar'});
   });
 }

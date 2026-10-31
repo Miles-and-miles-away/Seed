@@ -1,11 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_science_bottom_sheet.dart';
 import 'package:seed_app/features/actions/presentation/widgets/learn_only_info_dialog.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 import '../../../../helpers/test_helpers.dart';
+
+const _description = 'Choose a plant-based meal instead of beef today';
 
 Widget _wrap() => createTestWidget(
   overrides: [
@@ -73,4 +80,101 @@ void main() {
     expect(find.byType(AlertDialog), findsNothing);
     await future;
   });
+
+  Future<void> showLearnOnly(WidgetTester tester, {String long = ''}) async {
+    await tester.pumpWidget(_wrap());
+    unawaited(
+      LearnOnlyInfoDialog.show(
+        tester.element(find.byType(Scaffold)),
+        action: ActionModel(
+          id: 'learn-meal',
+          nameEn: 'Plant-based meal',
+          nameJa: '',
+          category: 'consumption',
+          points: 0,
+          isLearnOnly: true,
+          descriptionEn: _description,
+          descriptionLongEn: long,
+        ),
+        languageCode: 'en',
+      ),
+    );
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('a long description is one button that opens the science', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    await showLearnOnly(tester, long: 'The science.');
+
+    final text = tester.widget<Text>(find.text(_description));
+    expect(text.style?.decoration, isNot(TextDecoration.underline));
+    expect(
+      text.style?.color,
+      Theme.of(
+        tester.element(find.text(_description)),
+      ).colorScheme.onSurfaceVariant,
+    );
+    final node = tester.getSemantics(find.text(_description));
+    expect(node.label, _description);
+    expect(node.hint, 'About this action');
+    expect(node.flagsCollection.isButton, isTrue);
+    expect(node.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+
+    for (final target in [find.text(_description), find.byType(InfoGlyph)]) {
+      await tester.tap(target);
+      await tester.pumpAndSettle();
+      expect(find.byType(ActionScienceBottomSheet), findsOneWidget);
+      await tester.tap(find.byTooltip('Close'));
+      await tester.pumpAndSettle();
+    }
+    semantics.dispose();
+  });
+
+  testWidgets('a short description has no glyph', (tester) async {
+    await showLearnOnly(tester);
+
+    expect(find.text(_description), findsOneWidget);
+    expect(find.byType(InfoGlyph), findsNothing);
+  });
+
+  stressWidthLayoutTests(
+    (locale, theme) => createTestWidget(
+      overrides: [
+        sdgGoalsDataProvider.overrideWith(
+          (_) async => const SdgGoalsData(goals: [], goalMap: {}),
+        ),
+      ],
+      locale: locale,
+      theme: theme,
+      scaffold: true,
+      child: const SizedBox(),
+    ),
+    widths: [testPhoneWidths.first, testPhoneWidths.last],
+    act: (tester, locale) async {
+      unawaited(
+        LearnOnlyInfoDialog.show(
+          tester.element(find.byType(Scaffold)),
+          action: const ActionModel(
+            id: 'skip_high_impact_food',
+            nameEn: 'Skip a Beef Meal',
+            nameJa: '牛肉料理をスキップ',
+            nameEs: 'Evitar una comida de vacuno',
+            category: 'food',
+            points: 0,
+            isLearnOnly: true,
+            descriptionEn: 'Choose a plant-based meal instead of beef today',
+            descriptionJa: '今日は牛肉の代わりに植物性の食事を選択する',
+            descriptionEs:
+                'Elegir una comida vegetal en vez de carne de vacuno hoy',
+            descriptionLongEn: 'The science.',
+          ),
+          languageCode: locale.languageCode,
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(InfoGlyph), findsOneWidget);
+    },
+  );
 }

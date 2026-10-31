@@ -86,6 +86,10 @@ jobs:
       # Pure stdlib; the runner's system python3 is enough.
       - run: python3 scripts/generators/test_enrich_city_names.py
 
+      - run: node scripts/i18n/fix_spanish_diacritics.js --check
+
+      - run: node scripts/seed/check_description_figures.js
+
   functions:
     name: Functions Lint & Test
     runs-on: ubuntu-latest

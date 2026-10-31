@@ -26,9 +26,9 @@ class MainShell extends ConsumerStatefulWidget {
 }
 
 class _MainShellState extends ConsumerState<MainShell> {
-  // Shell tabs where the mascot is visible (0 Home, 2 Mascot).
-  static const _mascotTabs = {0, 2};
-  static const _tabRouteNames = ['home', 'progress', 'mascot', 'profile'];
+  // Shell tabs where the mascot is visible (0 Home).
+  static const _mascotTabs = {0};
+  static const _tabRouteNames = ['home', 'progress', 'explore', 'profile'];
 
   bool _hasShownEvolutionCelebration = false;
   bool _hasShownEggDiscovery = false;

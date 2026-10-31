@@ -1,25 +1,32 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/utils/helpers.dart';
-import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
 import 'package:seed_app/features/energy/presentation/providers/energy_providers.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_display.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_ranked_table.dart';
+import 'package:seed_app/features/energy/presentation/widgets/energy_science_sheet.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
 import 'package:seed_app/features/food/presentation/providers/food_providers.dart';
+import 'package:seed_app/features/food/presentation/widgets/food_science_sheet.dart';
 import 'package:seed_app/features/quiz/presentation/providers/quiz_providers.dart';
+import 'package:seed_app/features/quiz/presentation/quiz_cards.dart';
+import 'package:seed_app/features/quiz/presentation/widgets/quiz_item_sheet.dart';
+import 'package:seed_app/features/quiz/presentation/widgets/quiz_token_card.dart';
+import 'package:seed_app/features/quiz/presentation/widgets/quiz_token_pair.dart';
 import 'package:seed_app/features/transport/data/models/transport_mode_model.dart';
-import 'package:seed_app/features/transport/domain/services/flight_band.dart';
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
+import 'package:seed_app/features/transport/presentation/widgets/transport_science_sheet.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/domain/quiz_deck.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
@@ -45,42 +52,19 @@ const _tokenHeightFallback = 140.0;
 /// transport deck uses the one energy and food share.
 const _transportMinGapPercent = EnergyCalculator.verdictMinPercent;
 
-/// A domain a round can be drawn from.
-///
-/// Every round stays inside one of these. A food-versus-electricity pair
-/// would set a cradle-to-retail lifecycle figure against an operational
-/// one, which is a scope error rather than a hard question, and a
-/// food-to-electricity ratio also inherits grid variance linearly where
-/// a within-domain one does not (PDR_ENERGY_CALCULATOR decision E8, and
-/// the never-sum warning in all three dataset metadata blocks). Mixing
-/// which domain a round comes from is fine; mixing a pair is not.
-enum QuizDomain {
-  energy,
-  food,
-  transport;
+/// Opening rounds of every run deal an obvious pair while the gesture is new.
+const _warmUpRounds = 3;
+const _warmUpMinRatio = 3.0;
 
-  ActionCategory get category => switch (this) {
-    QuizDomain.energy => ActionCategory.energy,
-    QuizDomain.food => ActionCategory.food,
-    QuizDomain.transport => ActionCategory.transport,
-  };
+const _hintIconSize = 24.0;
+const _hintBobHeight = 6.0;
+const _hintBobs = 3;
 
-  /// The fill behind a token.
-  Color get color => category.color;
+/// The page's text width on a [phraseNarrowestScreenWidth] phone.
+const _pageMinLineWidth = phraseNarrowestScreenWidth - 2 * spacingXxl;
 
-  /// The same colour darkened enough to carry text: the raw category
-  /// colours are fills, and amber reads 1.6:1 on white.
-  Color ink(Brightness brightness, {bool large = false}) =>
-      category.textColorOn(brightness, large: large);
-
-  /// What one card of this domain measures, stated above the tokens so
-  /// the user knows what they are comparing.
-  String basis(AppLocalizations l10n) => switch (this) {
-    QuizDomain.energy => l10n.quizBasisEnergy,
-    QuizDomain.food => l10n.quizBasisFood,
-    QuizDomain.transport => l10n.quizBasisTransport,
-  };
-}
+/// The hint row and the gap under it, inside the swing room.
+const _hintHeight = _hintIconSize + spacingXs;
 
 /// "Higher or lower?" across all three datasets (decision E8).
 ///
@@ -88,9 +72,9 @@ enum QuizDomain {
 /// food and transport datasets equally, and shipped inside `energy`
 /// only because energy was the first deck it had.
 ///
-/// Two cards, names only: drag the one you think has the bigger
-/// footprint to the top. Figures stay hidden until the answer is in --
-/// showing one card's figure up front handed over most of the answer.
+/// Two cards, names only: tap or drag up the one you think produces
+/// more carbon. Figures stay hidden until the answer is in -- showing
+/// one card's figure up front handed over most of the answer.
 ///
 /// Rounds rotate between home energy, food and transport at random, and
 /// each round is drawn wholly from one domain ([QuizDomain]).
@@ -140,6 +124,12 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
   /// energy reveal then states grams alone, as the ranked table does.
   bool _hasAnchor = true;
 
+  /// Each card's science sheet, by card id.
+  final _science = <String, void Function(BuildContext)>{};
+
+  /// Up arrows over the tokens until the first drag or answer of a visit.
+  bool _hintVisible = true;
+
   /// Shared by the decks and the domain draw, so a seeded Random makes
   /// a whole run reproducible.
   late final Random _random = widget.random ?? Random();
@@ -147,13 +137,13 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
   /// Measured off the laid-out tokens: the wheel's vertical radius is
   /// half a token plus a gap, so a committed quarter turn stacks them
   /// clear of each other however tall the reveal makes them.
-  final _rowKey = GlobalKey();
+  final _tokenKey = GlobalKey();
   double _tokenHeight = _tokenHeightFallback;
 
   double get _verticalRadius => (_tokenHeight + spacingMd) / 2;
 
   void _measureTokens() {
-    final height = _rowKey.currentContext?.size?.height;
+    final height = _tokenKey.currentContext?.size?.height;
     if (height == null || (height - _tokenHeight).abs() < 0.5) return;
     setState(() => _tokenHeight = height);
   }
@@ -216,19 +206,33 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
       l10n,
       EnergyRankedTable.defaultAnchorId,
     );
+    _science.clear();
+    QuizCard withScience(
+      QuizCard card,
+      void Function(BuildContext context) show,
+    ) {
+      _science[card.id] = show;
+      return card;
+    }
+
     _decks[QuizDomain.energy] = QuizDeck(
       cards: [
         for (final behavior in behaviors)
-          // Gas never deals: its ordering against electricity is a fact
-          // about the user's grid (rule 28).
-          if (behavior.carrier != EnergyCarrier.gas)
-            _energyCard(
-              l10n,
-              locale,
-              behavior,
-              anchorKwh: anchorKwh,
-              anchorPhrase: anchorPhrase,
-              gridFactor: factors.grid,
+          if (isQuizEnergy(behavior))
+            withScience(
+              energyQuizCard(
+                l10n,
+                locale,
+                behavior,
+                anchorKwh: anchorKwh,
+                anchorPhrase: anchorPhrase,
+                gridFactor: factors.grid,
+              ),
+              (context) => showEnergyScienceSheet(
+                context,
+                behavior: behavior,
+                languageCode: locale,
+              ),
             ),
       ],
       minGapPercent: EnergyCalculator.verdictMinPercent,
@@ -237,10 +241,15 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     _decks[QuizDomain.food] = QuizDeck(
       cards: [
         for (final item in items)
-          // Tier 1 only, so every pair is within one source tier and the
-          // ordinary bar applies rather than the cross-tier one.
-          if (item.sourceTier == 1 && item.defaultServing != null)
-            _foodCard(locale, item),
+          if (isQuizFood(item))
+            withScience(
+              foodQuizCard(l10n, locale, item),
+              (context) => showFoodScienceSheet(
+                context,
+                item: item,
+                languageCode: locale,
+              ),
+            ),
       ],
       minGapPercent: FoodCalculator.verdictMinPercent,
       random: _random,
@@ -248,74 +257,20 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     _decks[QuizDomain.transport] = QuizDeck(
       cards: [
         for (final mode in modes)
-          // Per-vehicle modes state a vehicle-km, so they cannot be
-          // ranked against per-passenger rows without an occupancy the
-          // quiz has no way to ask for.
-          if (!mode.perVehicle) _transportCard(l10n, locale, mode),
+          if (isQuizTransport(mode))
+            withScience(
+              transportQuizCard(l10n, locale, mode),
+              (context) => showTransportScienceSheet(
+                context,
+                mode: mode,
+                languageCode: locale,
+              ),
+            ),
       ],
       minGapPercent: _transportMinGapPercent,
       random: _random,
     );
   }
-
-  QuizCard _energyCard(
-    AppLocalizations l10n,
-    String locale,
-    EnergyBehavior behavior, {
-    required double anchorKwh,
-    required String anchorPhrase,
-    required double gridFactor,
-  }) {
-    final kwh = EnergyCalculator.defaultPresetKwh(behavior);
-    final grams = formatCO2Compact((kwh * gridFactor).round());
-    return QuizCard(
-      id: 'energy:${behavior.id}',
-      title: behavior.name(locale),
-      subtitle: behavior.defaultPreset?.name(locale) ?? '',
-      magnitude: kwh,
-      revealText: _hasAnchor
-          ? l10n.energyExploreSheetMultiple(
-              formatEnergyMultiple(locale, kwh / anchorKwh),
-              anchorPhrase,
-            )
-          : grams,
-      revealDetail: _hasAnchor ? grams : '',
-    );
-  }
-
-  /// Grams CO2e of one default serving: `kg CO2e per kg x serving
-  /// grams`, the same arithmetic the food calculator uses.
-  QuizCard _foodCard(String locale, FoodItem item) {
-    final serving = item.defaultServing!;
-    final grams = item.kgCo2ePerKg * serving.grams;
-    return QuizCard(
-      id: 'food:${item.id}',
-      title: item.name(locale),
-      subtitle: serving.name(locale),
-      magnitude: grams,
-      revealText: formatCO2Compact(grams.round()),
-    );
-  }
-
-  /// Flight bands carry DEFRA's average route length, because "domestic"
-  /// is a jurisdiction, not a distance, and a player has no other way
-  /// to rank it against short-haul.
-  QuizCard _transportCard(
-    AppLocalizations l10n,
-    String locale,
-    TransportMode mode,
-  ) => QuizCard(
-    id: 'transport:${mode.id}',
-    title: mode.name(locale),
-    subtitle: switch (mode.id) {
-      flightModeDomestic => l10n.quizFlightDomesticNote,
-      flightModeShortHaul => l10n.quizFlightShortHaulNote,
-      flightModeLongHaul => l10n.quizFlightLongHaulNote,
-      _ => '',
-    },
-    magnitude: mode.gCo2ePerKm,
-    revealText: l10n.quizPerKm(formatCO2Compact(mode.gCo2ePerKm.round())),
-  );
 
   /// Deals a pair from a randomly chosen domain, or empties the pair
   /// when no domain can produce one.
@@ -324,11 +279,20 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     for (final domain in domains) {
       final deck = _decks[domain]!;
       final first = deck.drawNext();
-      final second = deck.drawNext();
+      // A warm-up draw that finds nothing far enough falls back to the
+      // deck's own bar rather than ending the run.
+      final second = first == null
+          ? null
+          : (_streak < _warmUpRounds
+                    ? deck.drawNext(minRatio: _warmUpMinRatio)
+                    : null) ??
+                deck.drawNext();
       if (first != null && second != null) {
         _domain = domain;
-        _pair[0] = first;
-        _pair[1] = second;
+        // Random sides, or the second card's place hints at the answer.
+        final swap = _random.nextBool();
+        _pair[0] = swap ? second : first;
+        _pair[1] = swap ? first : second;
         return;
       }
     }
@@ -366,7 +330,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
   void _answer(int higherIndex) {
     final first = _pair[0];
     final second = _pair[1];
-    if (first == null || second == null) return;
+    if (_revealed || first == null || second == null) return;
     final actual = first.magnitude > second.magnitude ? 0 : 1;
     final correct = higherIndex == actual;
     if (correct) {
@@ -376,6 +340,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
     }
     HapticFeedback.mediumImpact();
     setState(() {
+      _hintVisible = false;
       _higherIndex = higherIndex;
       _dragIndex = null;
       _dragTurn = 0;
@@ -389,6 +354,13 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
         _ladder = const [];
       }
     });
+    // The token keeps focus and its label changes, which is not re-read.
+    final l10n = AppLocalizations.of(context);
+    SemanticsService.sendAnnouncement(
+      View.of(context),
+      correct ? l10n.quizAnnounceRight(_streak) : l10n.quizAnnounceWrong,
+      Directionality.of(context),
+    );
   }
 
   void _advance() => setState(() {
@@ -400,6 +372,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
   /// Deals a fresh deck. Also the way out of the exhausted state, where
   /// no remaining card clears the gap against the current one.
   void _restart() => setState(() {
+    _hintVisible = false;
     _decks.clear();
     _revealed = false;
     _higherIndex = null;
@@ -436,16 +409,14 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
       if (mounted) _measureTokens();
     });
     final best = ref.watch(quizBestStreakProvider);
+    final walkthroughOpen = ref.watch(
+      walkthroughPendingProvider(WalkthroughItem.quiz),
+    );
     final first = _pair[0];
     final second = _pair[1];
     final domain = _domain ?? QuizDomain.energy;
-    final noteStyle = theme.textTheme.bodySmall?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
-    final zoneStyle = theme.textTheme.labelLarge?.copyWith(
-      color: theme.colorScheme.outline,
-      letterSpacing: 1.2,
-    );
+    final noteStyle = theme.caption;
+    final zoneStyle = theme.overline;
 
     return ListView(
       padding: const EdgeInsets.all(spacingXxl),
@@ -472,62 +443,95 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
           )
         else ...[
           const SizedBox(height: spacingLg),
+          PhraseText(
+            l10n.quizSubtitle,
+            minLineWidth: _pageMinLineWidth,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: theme.colorScheme.onSurface,
+            ),
+          ),
+          const SizedBox(height: spacingSm),
           // Which dataset this round came from, and what one card of it
           // measures: the user is comparing servings, or uses, or
           // passenger-kilometres, and never two of those at once.
-          Center(
-            child: Text(
-              domain.basis(l10n),
-              textAlign: TextAlign.center,
-              style: theme.textTheme.labelLarge?.copyWith(
-                color: domain.ink(theme.brightness),
-                fontWeight: FontWeight.bold,
-              ),
+          PhraseText(
+            domain.basis(l10n),
+            minLineWidth: _pageMinLineWidth,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: domain.ink(theme.brightness),
+              fontWeight: FontWeight.bold,
             ),
+          ),
+          const SizedBox(height: spacingSm),
+          // Above the tokens, so a small phone shows it without a scroll.
+          PhraseText(
+            l10n.quizQuestion,
+            minLineWidth: _pageMinLineWidth,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: spacingLg),
           Center(child: Text(l10n.quizHigher.toUpperCase(), style: zoneStyle)),
-          // The swing is a paint-time transform, so the play area
-          // reserves the room it needs.
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: _verticalRadius),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                // Two tokens at opposite ends of one diameter: the
-                // radius is half the gap between their centres.
-                final radius = (constraints.maxWidth + spacingMd) / 4;
-                // Stretch inside IntrinsicHeight so both tokens are the
-                // same size whatever their names do -- a two-line title
-                // used to leave one token visibly taller.
-                return IntrinsicHeight(
-                  child: Row(
-                    key: _rowKey,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(
-                        child: _token(context, 0, first, domain, radius),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              // Two tokens at opposite ends of one diameter: the radius
+              // is half the gap between their centres.
+              final radius = (constraints.maxWidth + spacingMd) / 4;
+              final width = (constraints.maxWidth - spacingMd) / 2;
+              // Both at the taller one's height, whatever their names do.
+              final row = QuizTokenPair(
+                gap: spacingMd,
+                left: _token(
+                  l10n,
+                  0,
+                  first,
+                  domain,
+                  factors,
+                  radius: radius,
+                  width: width,
+                ),
+                right: _token(
+                  l10n,
+                  1,
+                  second,
+                  domain,
+                  factors,
+                  radius: radius,
+                  width: width,
+                ),
+              );
+              // The hint sits in the swing room, so nothing moves when it
+              // goes, and the row keeps its place so a drag survives it.
+              return Stack(
+                children: [
+                  row,
+                  if (_hintVisible)
+                    Positioned(
+                      top: max(0, _verticalRadius - _hintHeight),
+                      left: 0,
+                      right: 0,
+                      child: IgnorePointer(
+                        // Keyed so the bob starts once the walkthrough goes.
+                        child: _SwipeHint(
+                          key: ValueKey(walkthroughOpen),
+                          color: domain.ink(theme.brightness),
+                          still: walkthroughOpen,
+                        ),
                       ),
-                      const SizedBox(width: spacingMd),
-                      Expanded(
-                        child: _token(context, 1, second, domain, radius),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    ),
+                ],
+              );
+            },
           ),
           Center(child: Text(l10n.quizLower.toUpperCase(), style: zoneStyle)),
-          const SizedBox(height: spacingLg),
-          if (!_revealed)
-            Text(
-              l10n.quizQuestion,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium,
-            )
-          else ...[
-            Text(
+          if (_revealed) ...[
+            const SizedBox(height: spacingLg),
+            PhraseText(
               _wasCorrect ? l10n.quizCorrect : l10n.quizWrong,
+              minLineWidth: _pageMinLineWidth,
               textAlign: TextAlign.center,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
@@ -542,12 +546,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
         ],
         if (_ladder.isNotEmpty) ...[
           const SizedBox(height: spacingXxl),
-          Text(
-            l10n.quizLadderHeading,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          Text(l10n.quizLadderHeading.toUpperCase(), style: zoneStyle),
           const SizedBox(height: spacingSm),
           for (final card in _ladder)
             Padding(
@@ -555,7 +554,10 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(card.title, style: theme.textTheme.bodyMedium),
+                    child: PhraseText(
+                      card.title,
+                      style: theme.textTheme.bodyMedium,
+                    ),
                   ),
                   const SizedBox(width: spacingLg),
                   Text(card.revealText, style: noteStyle),
@@ -564,100 +566,156 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
             ),
         ],
         const SizedBox(height: spacingXxl),
-        Text(switch (domain) {
-          QuizDomain.energy =>
-            _hasAnchor
-                ? l10n.energyGridBasisNoteRatio(factors.grid.round())
-                : l10n.energyGridBasisNote(factors.grid.round()),
-          QuizDomain.food => l10n.quizNoteFood,
-          QuizDomain.transport => l10n.quizNoteTransport,
-        }, style: noteStyle),
+        PhraseText(
+          _note(l10n, domain, factors),
+          minLineWidth: _pageMinLineWidth,
+          style: noteStyle,
+        ),
         const SizedBox(height: spacingSm),
-        Text(l10n.quizNoPointsNote, style: noteStyle),
+        PhraseText(
+          l10n.quizNoPointsNote,
+          minLineWidth: _pageMinLineWidth,
+          style: noteStyle,
+        ),
       ],
     );
   }
 
-  /// One token on the wheel. Names only until the answer is in, then
-  /// the multiple leads and the grams follow smaller (rule 26).
-  ///
-  /// Tinted by the domain it belongs to. The deck today is all energy,
-  /// so the colour is this screen's to supply -- a food deck brings its
-  /// own, and the deck model stays free of presentation.
+  String _note(
+    AppLocalizations l10n,
+    QuizDomain domain,
+    CarrierFactors factors,
+  ) => domain.note(l10n, gridFactor: factors.grid, hasAnchor: _hasAnchor);
+
+  /// One token on the wheel: a tap answers as a committed drag does, and
+  /// a screen reader sees one button with no scroll actions to misfire.
   Widget _token(
-    BuildContext context,
+    AppLocalizations l10n,
     int index,
     QuizCard card,
     QuizDomain domain,
-    double radius,
-  ) {
-    final theme = Theme.of(context);
+    CarrierFactors factors, {
+    required double radius,
+    required double width,
+  }) {
     final dragging = _dragIndex == index && !_revealed;
     // Left token rides the near end of the diameter, right the far end,
     // so the same turn moves them oppositely and both swing inward.
     final sign = index == 0 ? 1.0 : -1.0;
     final turn = _turn;
-    return GestureDetector(
-      onVerticalDragUpdate: (details) => _onDragUpdate(index, details),
-      onVerticalDragEnd: (_) => _onDragEnd(),
-      child: AnimatedContainer(
-        duration: dragging ? Duration.zero : durationEmphasis,
-        curve: Curves.elasticOut,
-        // Horizontal radius from the layout, vertical from the token
-        // height: a true circle would end the quarter turn with the two
-        // tokens overlapping, since each is far taller than the gap
-        // between their centres. The tokens never rotate -- they hang
-        // upright like the cabins of a wheel, so their text stays level.
-        transform: Matrix4.translationValues(
-          sign * radius * (1 - cos(turn)),
-          sign * _verticalRadius * sin(turn),
-          0,
-        ),
-        transformAlignment: Alignment.center,
-        child: Card(
-          elevation: dragging ? 8 : null,
-          color: domain.color.withValues(alpha: opacityLight),
-          child: Padding(
-            padding: const EdgeInsets.all(spacingLg),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  card.title,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (card.subtitle.isNotEmpty)
-                  Text(
-                    card.subtitle,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                if (_revealed) ...[
-                  const SizedBox(height: spacingSm),
-                  Text(
-                    card.revealText,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: domain.ink(theme.brightness, large: true),
-                    ),
-                  ),
-                  if (card.revealDetail.isNotEmpty)
-                    Text(
-                      card.revealDetail,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                ],
-              ],
+    final choose = _revealed ? null : () => _answer(index);
+    // Outermost, so the token takes taps wherever the swing carries it.
+    return AnimatedContainer(
+      duration: dragging ? Duration.zero : durationEmphasis,
+      curve: Curves.elasticOut,
+      // Horizontal radius from the layout, vertical from the token
+      // height: a true circle would end the quarter turn with the two
+      // tokens overlapping, since each is far taller than the gap
+      // between their centres. The tokens never rotate -- they hang
+      // upright like the cabins of a wheel, so their text stays level.
+      transform: Matrix4.translationValues(
+        sign * radius * (1 - cos(turn)),
+        sign * _verticalRadius * sin(turn),
+        0,
+      ),
+      transformAlignment: Alignment.center,
+      // The swing room, inside the row so the row takes taps there.
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: _verticalRadius),
+        child: Semantics(
+          key: index == 0 ? _tokenKey : null,
+          container: true,
+          button: !_revealed,
+          label: _tokenLabel(l10n, card),
+          hint: _revealed ? null : l10n.quizChooseHint,
+          onTap: choose,
+          child: GestureDetector(
+            excludeFromSemantics: true,
+            onTap: choose,
+            // None once revealed, so a drag on a token scrolls the page.
+            onVerticalDragStart: _revealed
+                ? null
+                : (_) {
+                    if (_hintVisible) setState(() => _hintVisible = false);
+                  },
+            onVerticalDragUpdate: _revealed
+                ? null
+                : (details) => _onDragUpdate(index, details),
+            onVerticalDragEnd: _revealed ? null : (_) => _onDragEnd(),
+            child: QuizTokenCard(
+              card: card,
+              domain: domain,
+              revealed: _revealed,
+              width: width,
+              lifted: dragging,
+              onInfo: () => QuizItemSheet.show(
+                context,
+                card: card,
+                domain: domain,
+                revealed: _revealed,
+                note: _note(l10n, domain, factors),
+                onScience: () => _science[card.id]?.call(context),
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  /// Read in place of the token's own texts, so the item is read once.
+  String _tokenLabel(AppLocalizations l10n, QuizCard card) {
+    if (_revealed) {
+      final revealed = l10n.quizItemRevealedLabel(card.title, card.revealText);
+      return card.revealDetail.isEmpty
+          ? revealed
+          : l10n.quizItemLabel(revealed, card.revealDetail);
+    }
+    return card.subtitle.isEmpty
+        ? card.title
+        : l10n.quizItemLabel(card.title, card.subtitle);
+  }
+}
+
+/// Up arrows that bob a few times, or not at all under reduced motion.
+class _SwipeHint extends StatelessWidget {
+  const _SwipeHint({required this.color, required this.still, super.key});
+
+  final Color color;
+  final bool still;
+
+  @override
+  Widget build(BuildContext context) {
+    final still =
+        this.still ||
+        MediaQuery.disableAnimationsOf(context) ||
+        MediaQuery.reduceMotionOf(context);
+    final icon = Icon(
+      Icons.keyboard_double_arrow_up,
+      size: _hintIconSize,
+      color: color,
+    );
+    Widget arrow() => still
+        ? icon
+        : icon.animate().custom(
+            duration: durationSlower * _hintBobs,
+            builder: (_, value, child) => Transform.translate(
+              offset: Offset(
+                0,
+                -_hintBobHeight * sin(_hintBobs * pi * value).abs(),
+              ),
+              child: child,
+            ),
+          );
+    return ExcludeSemantics(
+      child: SizedBox(
+        height: _hintIconSize,
+        child: Row(
+          children: [
+            Expanded(child: Center(child: arrow())),
+            const SizedBox(width: spacingMd),
+            Expanded(child: Center(child: arrow())),
+          ],
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
@@ -154,9 +155,7 @@ class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
     final isGas = widget.behavior.carrier == EnergyCarrier.gas;
     final grams = kwh * (isGas ? widget.factors.gas : widget.factors.grid);
     final multiple = _showsMultiple && _anchorKwh > 0 ? kwh / _anchorKwh : null;
-    final noteStyle = theme.textTheme.bodySmall?.copyWith(
-      color: theme.colorScheme.onSurfaceVariant,
-    );
+    final noteStyle = theme.caption;
     // The raw category colour, matching the ranked bars and the wall. It
     // reads 1.6:1 on this surface, under the text bar, so the kWh and
     // gram lines carry the same figure in ordinary ink.
@@ -236,7 +235,7 @@ class _EnergyExploreSheetState extends State<EnergyExploreSheet> {
                       ),
                     ),
                   Text(
-                    formatCO2Compact(grams.round()),
+                    formatCO2Compact(grams.round(), l10n.localeName),
                     textAlign: TextAlign.center,
                     style: multiple == null
                         ? theme.textTheme.headlineSmall?.copyWith(

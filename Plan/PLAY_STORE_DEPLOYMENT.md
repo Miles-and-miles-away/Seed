@@ -1,16 +1,14 @@
 # Play Store Deployment
 
-**Created:** 2026-09-13
-**Status:** In closed testing. `0.1.1 (4)` is live on the internal
-and closed tracks. Play App Signing is active and its certificate is
+**Status:** In closed testing on the internal and closed tracks. Play App Signing is active and its certificate is
 registered in Firebase. The 12-tester, 14-day production gate is the
 only remaining blocker; see the gate section below.
 **Purpose:** The Google Play release track: identifiers that cannot
 change, the production access gate, the Console declarations, and the
 order to do them in.
 **Companion docs:** `DEPLOYMENT_STRATEGY.md` holds Firebase
-environments, deploy commands, the emulator suite, and Firebase App
-Distribution for alpha builds. `SETUP_ANDROID.md` holds local
+environments, deploy commands and the emulator suite.
+`SETUP_ANDROID.md` holds local
 toolchain setup. Neither is restated here.
 
 **Not here:** App Store Connect and the iOS release path, which has
@@ -27,7 +25,8 @@ its own gate and its own review rules. See
 4. [App access and the review account](#app-access-and-the-review-account)
 5. [Console declarations](#console-declarations)
 6. [Build and signing](#build-and-signing)
-7. [Order of operations](#order-of-operations)
+7. [Release notes](#release-notes)
+8. [Order of operations](#order-of-operations)
 8. [Open decisions](#open-decisions)
 
 ---
@@ -188,9 +187,14 @@ contradiction to appear.
 ## Build and signing
 
 ```bash
-flutter build appbundle --release --obfuscate \
-  --split-debug-info=build/debug-info
+make release-android
 ```
+
+This runs the obfuscated `flutter build appbundle` and uploads the
+Dart symbols in one step; the individual commands are below. Play takes
+the `.aab` from `build/app/outputs/bundle/release/`. `flutter build apk`
+writes to a different directory and never refreshes the bundle, so an
+APK build followed by an upload sends whatever bundle was last built.
 
 SDK levels come from Flutter's defaults: minSdk 24, targetSdk 36,
 compileSdk 36. Nothing in the repo pins them.
@@ -241,12 +245,51 @@ The `conda activate` is load-bearing. The Crashlytics jar needs a JDK
 and the `seed` env is the only one on the machine, so without it the
 upload fails with an opaque "java command failed".
 
-The `+N` build number must increase on every upload and can never be
-reused, including for a bundle that was uploaded and then discarded.
-It is a single counter for the life of the app, shared with iOS, and
-it does not reset when the version name changes. Codes 1 and 2 are
-spent, and 4 shipped as `0.1.1 (4)` because the bundle was built before
-the name bump; `0.1.2+5` is the next upload.
+The `+N` build number in `pubspec.yaml` must increase on every upload
+and can never be reused, including for a bundle that was uploaded and
+then discarded. It is a single counter for the life of the app, shared
+with iOS, and it does not reset when the version name changes. The
+bundle carries whatever `pubspec.yaml` said when it was built, so bump
+first, build second, and confirm the `.aab` is newer than `pubspec.yaml`
+before uploading. "Version code N has already been used" on upload
+means the bundle predates the bump.
+
+---
+
+## Release notes
+
+Play Console asks for release notes per language on every upload and
+rejects any language over 500 characters. The app ships EN, JA and ES,
+so fill `en-GB`, `ja-JP` and `es-ES`, in that order of care.
+
+Draft from the commits since the previous version bump:
+
+```bash
+git log --oneline --no-merges <previous-bump-commit>..HEAD
+```
+
+Style:
+
+- First line `What's new in X.Y.Z`, then one hyphen bullet per change.
+  Plain text only: Play renders no markdown.
+- Each bullet is one sentence, at most two, on what the user sees or
+  gets. Lead with the verb or the feature name.
+- Order: new features, then crash fixes, then smaller fixes. Skip
+  dependency bumps, refactors, tests and CI.
+- No internal names: no Flutter version, no Firestore, no provider or
+  package names. "Fixed a crash on launch on Android 13 and earlier",
+  not "upgraded to Flutter 3.49".
+- Name in-app features exactly as the app does in that language. Look
+  the string up in `lib/core/l10n/app_<locale>.arb`, for example
+  `quizTitle` and `ecoDexTitle`, rather than translating the English.
+- en-GB uses UK spelling. No em dashes, no arrows.
+- Aim for five or six bullets. Count before pasting. Play counts
+  Unicode characters, and `wc -m` falls back to bytes under a
+  non-UTF-8 shell locale, so count in Python:
+
+```bash
+python3 -c "import sys; print(len(sys.stdin.read().strip()))" < notes_en.txt
+```
 
 ---
 
@@ -331,22 +374,21 @@ also satisfies the Families rule on AAID should D1 include children.
 The rejected alternative was declaring it as collected under Device or
 other IDs, which is honest but describes collection with no purpose.
 
-**D3. Direct APK distribution for testers outside Play.** Open. A
+**D3. Direct APK distribution for testers outside Play.** Decided. A
 tester asked for an APK because they install through Aurora Store
-rather than a Google account. Nothing blocks it today:
+rather than a Google account.
 
 ```bash
-flutter build apk --release --split-per-abi --obfuscate \
-  --split-debug-info=build/debug-info
+make release-apk
 ```
 
-Send `build/app/outputs/flutter-apk/app-arm64-v8a-release.apk` and
-upload the Dart symbols with the same command as the bundle. Two
-caveats before making it a habit. The APK carries the upload
-certificate, not the Play App Signing certificate, so a device that
-installs it cannot later update from Play without uninstalling first,
-and sign-in works only because the upload fingerprint is registered in
-Firebase. It also gets no automatic updates, so every release means
-sending a new file. Decide whether to add a `release-apk` Make target
-and a tester note, or to point Aurora users at the Play listing once
-production is open.
+This builds the per-ABI APKs, copies the arm64 one to
+`build/seed-<version>-<build>-arm64.apk` named from `pubspec.yaml`, and
+uploads the Dart symbols. Send that file; the armeabi-v7a and x86_64
+APKs in `build/app/outputs/flutter-apk/` are for old 32-bit phones and
+emulators. Two caveats. The APK carries the upload certificate, not the
+Play App Signing certificate, so a device that installs it cannot later
+update from Play without uninstalling first, and sign-in works only
+because the upload fingerprint is registered in Firebase. It also gets
+no automatic updates, so every release means sending a new file. Point
+Aurora users at the Play listing once production is open.

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 
 /// Scatter-plot trend chart for daily CO2 across the dashboard's
@@ -115,8 +116,8 @@ class Co2TrendChart extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.trendChartTitle,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -168,7 +169,12 @@ class Co2TrendChart extends StatelessWidget {
                       reservedSize: 32,
                       interval: _yAxisInterval(maxY),
                       getTitlesWidget: (value, meta) => Text(
-                        value.toStringAsFixed(1),
+                        formatDecimal(
+                          value,
+                          l10n.localeName,
+                          minDigits: 1,
+                          maxDigits: 1,
+                        ),
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -217,9 +223,15 @@ class Co2TrendChart extends StatelessWidget {
                       final date = data.windowStart.add(
                         Duration(days: spot.x.round()),
                       );
+                      final kg = formatDecimal(
+                        spot.y,
+                        l10n.localeName,
+                        minDigits: 1,
+                        maxDigits: 1,
+                      );
                       return LineTooltipItem(
                         '${dateFormat.format(date)}\n'
-                        '${spot.y.toStringAsFixed(1)} ${l10n.kgUnit}',
+                        '$kg$unitSpace${l10n.kgUnit}',
                         theme.textTheme.bodySmall ?? const TextStyle(),
                       );
                     }).toList(),

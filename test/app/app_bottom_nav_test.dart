@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
@@ -10,6 +11,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 import '../features/walkthrough/walkthrough_test_support.dart';
+import '../helpers/test_helpers.dart';
 
 void main() {
   Widget wrap({
@@ -20,12 +22,16 @@ void main() {
     ValueChanged<bool>? onActionHover,
     double textScale = 1.0,
     List<Override> overrides = const [],
+    Locale? locale,
+    ThemeData? theme,
   }) {
     return ProviderScope(
       overrides: overrides,
       child: MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
+        locale: locale,
+        theme: theme,
         builder: (context, child) => MediaQuery(
           data: MediaQuery.of(
             context,
@@ -46,9 +52,8 @@ void main() {
   }
 
   group('AppBottomNav', () {
-    testWidgets('shimmers the Progress and Action items while pending', (
-      tester,
-    ) async {
+    testWidgets('shimmers the Progress, Action and Explore items while '
+        'pending', (tester) async {
       await tester.pumpWidget(
         wrap(
           overrides: walkthroughOverrides(
@@ -60,9 +65,36 @@ void main() {
 
       final shimmers = tester
           .widgetList<WalkthroughShimmer>(find.byType(WalkthroughShimmer))
-          .map((s) => s.item);
-      expect(shimmers, [WalkthroughItem.progress, WalkthroughItem.logAction]);
-      expect(find.byType(Animate), findsNWidgets(2));
+          .map((s) => (s.item, s.orItem));
+      expect(shimmers, [
+        (WalkthroughItem.progress, null),
+        (WalkthroughItem.logAction, null),
+        (WalkthroughItem.calculators, WalkthroughItem.quiz),
+      ]);
+      expect(find.byType(Animate), findsNWidgets(3));
+      await flushOverlayTimers(tester);
+    });
+
+    testWidgets('the Explore item still sweeps while only the quiz is '
+        'pending', (tester) async {
+      await tester.pumpWidget(
+        wrap(
+          overrides: walkthroughOverrides(
+            settings: Stream.value(
+              settingsWith(
+                WalkthroughItem.values.where((i) => i != WalkthroughItem.quiz),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(Animate), findsOneWidget);
+      expect(
+        find.ancestor(of: find.text('Explore'), matching: find.byType(Animate)),
+        findsOneWidget,
+      );
       await flushOverlayTimers(tester);
     });
 
@@ -72,8 +104,9 @@ void main() {
       expect(find.text('Home'), findsOneWidget);
       expect(find.text('Progress'), findsOneWidget);
       expect(find.text('Action'), findsOneWidget);
-      expect(find.text('Mascot'), findsOneWidget);
+      expect(find.text('Explore'), findsOneWidget);
       expect(find.text('Profile'), findsOneWidget);
+      expect(find.text('Mascot'), findsNothing);
     });
 
     testWidgets('reports the tapped tab index in bar order', (tester) async {
@@ -82,7 +115,7 @@ void main() {
 
       await tester.tap(find.text('Home'));
       await tester.tap(find.text('Progress'));
-      await tester.tap(find.text('Mascot'));
+      await tester.tap(find.text('Explore'));
       await tester.tap(find.text('Profile'));
       await tester.pump();
 
@@ -217,5 +250,76 @@ void main() {
       );
       expect(atTriple, atClamp, reason: 'and must stop at the clamp');
     });
+  });
+  group('five labels at text scale 1.0', () {
+    // Japanese uses the default test font, whose 1em glyphs match kana.
+    final japanese = ThemeData(fontFamily: 'FlutterTest');
+
+    setUpAll(loadTestFonts);
+
+    const selections = [0, 1, 2, 3];
+
+    Future<void> expectNoLabelScaled(
+      WidgetTester tester, {
+      required double width,
+      required Locale locale,
+      ThemeData? theme,
+    }) async {
+      tester.view.physicalSize = Size(width, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      // Every label at the selected weight, the widest it draws.
+      for (final index in selections) {
+        await tester.pumpWidget(
+          wrap(
+            currentIndex: index,
+            isActionSelected: true,
+            locale: locale,
+            theme: theme,
+          ),
+        );
+        await tester.pumpAndSettle();
+        final labels = tester.renderObjectList<RenderParagraph>(
+          find.descendant(
+            of: find.byType(FittedBox),
+            matching: find.byType(RichText),
+          ),
+        );
+        expect(labels, hasLength(5));
+        for (final label in labels) {
+          final drawn = MatrixUtils.transformRect(
+            label.getTransformTo(null),
+            Offset.zero & label.size,
+          );
+          expect(
+            drawn.width,
+            closeTo(label.size.width, 0.01),
+            reason: '${label.text.toPlainText()} at ${width}pt',
+          );
+        }
+      }
+    }
+
+    for (final width in testPhoneWidths.where((w) => w >= 360)) {
+      testWidgets('no Japanese label shrinks at ${width}pt', (tester) async {
+        await expectNoLabelScaled(
+          tester,
+          width: width,
+          locale: const Locale('ja'),
+          theme: japanese,
+        );
+      });
+
+      testWidgets('no Spanish label shrinks at ${width}pt, on Android and '
+          'iOS', (tester) async {
+        for (final factor in [1.0, robotoToSfWidthFactor]) {
+          await expectNoLabelScaled(
+            tester,
+            width: width * factor,
+            locale: const Locale('es'),
+          );
+        }
+      });
+    }
   });
 }

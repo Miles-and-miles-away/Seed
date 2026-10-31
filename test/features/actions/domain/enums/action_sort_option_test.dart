@@ -5,14 +5,19 @@ import 'package:seed_app/features/actions/domain/enums/action_sort_option.dart';
 
 void main() {
   group('ActionSortOption', () {
-    test('has 6 values', () {
-      expect(ActionSortOption.values.length, 6);
+    test('has 7 values', () {
+      expect(ActionSortOption.values.length, 7);
+    });
+
+    test('random is first, so it leads the menu', () {
+      expect(ActionSortOption.values.first, ActionSortOption.random);
     });
 
     test('contains all expected values', () {
       expect(
         ActionSortOption.values,
         containsAll([
+          ActionSortOption.random,
           ActionSortOption.alphabeticalAsc,
           ActionSortOption.alphabeticalDesc,
           ActionSortOption.co2HighToLow,
@@ -29,6 +34,10 @@ void main() {
       setUpAll(() async {
         // Load English locale for testing
         l10n = await AppLocalizations.delegate.load(const Locale('en'));
+      });
+
+      test('random returns Shuffle', () {
+        expect(ActionSortOption.random.displayName(l10n), 'Shuffle');
       });
 
       test('alphabeticalAsc returns Name (A-Z)', () {

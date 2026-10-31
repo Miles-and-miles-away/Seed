@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +11,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/mascot_providers.dart';
 import '../widgets/mascot_display.dart';
 
@@ -79,125 +81,145 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(spacingXxl),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: spacingXxl),
+        // Fills the screen, and scrolls once the keyboard takes the room.
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            padding: const EdgeInsets.all(spacingXxl),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: max(0, constraints.maxHeight - 2 * spacingXxl),
+              ),
+              child: IntrinsicHeight(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: spacingXxl),
 
-                // Title
-                Text(
-                  l10n.mascotSelectionTitle,
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: spacingSm),
-
-                // Subtitle
-                Text(
-                  l10n.mascotSelectionSubtitle,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-
-                const SizedBox(height: spacingXxxl),
-
-                // Mascot preview
-                Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Species selector (for multiple species)
-                        if (speciesList.length > 1)
-                          _buildSpeciesSelector(locale, speciesList),
-
-                        // Mascot preview with first stage
-                        MascotAvatar(
-                          assetPath: speciesList[_selectedSpeciesIndex]
-                              .evolutionStages
-                              .first
-                              .assetPath,
-                          artboardName: speciesList[_selectedSpeciesIndex]
-                              .evolutionStages
-                              .first
-                              .artboardName,
-                          size: 180,
+                      // Title
+                      Text(
+                        l10n.mascotSelectionTitle,
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: spacingSm),
 
-                        const SizedBox(height: spacingLg),
+                      // Subtitle
+                      PhraseText(
+                        l10n.mascotSelectionSubtitle,
+                        minLineWidth:
+                            phraseNarrowestScreenWidth - 2 * spacingXxl,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
 
-                        // Species name and description
-                        Text(
-                          speciesList[_selectedSpeciesIndex].name(locale),
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+                      const SizedBox(height: spacingXxxl),
+
+                      // Mascot preview
+                      Expanded(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // Species selector (for multiple species)
+                              if (speciesList.length > 1)
+                                _buildSpeciesSelector(locale, speciesList),
+
+                              // Mascot preview with first stage
+                              MascotAvatar(
+                                assetPath: speciesList[_selectedSpeciesIndex]
+                                    .evolutionStages
+                                    .first
+                                    .assetPath,
+                                artboardName: speciesList[_selectedSpeciesIndex]
+                                    .evolutionStages
+                                    .first
+                                    .artboardName,
+                                size: 180,
+                              ),
+
+                              const SizedBox(height: spacingLg),
+
+                              // Species name and description
+                              Text(
+                                speciesList[_selectedSpeciesIndex].name(locale),
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: spacingSm),
+                              Text(
+                                speciesList[_selectedSpeciesIndex].description(
+                                  locale,
+                                ),
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: spacingSm),
-                        Text(
-                          speciesList[_selectedSpeciesIndex].description(
-                            locale,
+                      ),
+
+                      // Name input
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: l10n.mascotNameLabel,
+                          hintText: l10n.mascotNameHint,
+                          prefixIcon: const Icon(Icons.edit),
+                          border: OutlineInputBorder(
+                            borderRadius: borderRadiusMd,
                           ),
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
-                          textAlign: TextAlign.center,
                         ),
-                      ],
-                    ),
+                        textCapitalization: TextCapitalization.words,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return l10n.mascotNameRequired;
+                          }
+                          if (value.trim().length >
+                              AppConstants.maxMascotNameLength) {
+                            return l10n.mascotNameTooLong;
+                          }
+                          return null;
+                        },
+                      ),
+
+                      const SizedBox(height: spacingXxl),
+
+                      // Submit button
+                      FilledButton(
+                        onPressed: _isSubmitting ? null : _onSubmit,
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: spacingLg,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: borderRadiusMd,
+                          ),
+                        ),
+                        child: _isSubmitting
+                            ? const SizedBox(
+                                width: spacingXxl,
+                                height: spacingXxl,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Text(l10n.mascotSelectionConfirm),
+                      ),
+
+                      const SizedBox(height: spacingLg),
+                    ],
                   ),
                 ),
-
-                // Name input
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    labelText: l10n.mascotNameLabel,
-                    hintText: l10n.mascotNameHint,
-                    prefixIcon: const Icon(Icons.edit),
-                    border: OutlineInputBorder(borderRadius: borderRadiusMd),
-                  ),
-                  textCapitalization: TextCapitalization.words,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return l10n.mascotNameRequired;
-                    }
-                    if (value.trim().length >
-                        AppConstants.maxMascotNameLength) {
-                      return l10n.mascotNameTooLong;
-                    }
-                    return null;
-                  },
-                ),
-
-                const SizedBox(height: spacingXxl),
-
-                // Submit button
-                FilledButton(
-                  onPressed: _isSubmitting ? null : _onSubmit,
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: spacingLg),
-                    shape: RoundedRectangleBorder(borderRadius: borderRadiusMd),
-                  ),
-                  child: _isSubmitting
-                      ? const SizedBox(
-                          width: spacingXxl,
-                          height: spacingXxl,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(l10n.mascotSelectionConfirm),
-                ),
-
-                const SizedBox(height: spacingLg),
-              ],
+              ),
             ),
           ),
         ),

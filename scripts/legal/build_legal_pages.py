@@ -232,9 +232,11 @@ def delete_page(email: str, updated: str) -> str:
     return page('Delete Your Account', by_lang, updated)
 
 
-def index_page() -> str:
+def index_page(email: str) -> str:
+    mail = html.escape(email)
     body = (
         '<p>Seed is a sustainability habit tracker for iOS and Android.</p>'
+        f'<p>Support: <a href="mailto:{mail}">{mail}</a></p>'
         '<ul><li><a href="/privacy">Privacy Policy</a></li>'
         '<li><a href="/terms">Terms of Service</a></li>'
         '<li><a href="/delete-account">Delete your account</a></li></ul>'
@@ -256,7 +258,7 @@ def main() -> None:
     (OUT / 'delete-account.html').write_text(
         delete_page(email, updated), encoding='utf-8'
     )
-    (OUT / 'index.html').write_text(index_page(), encoding='utf-8')
+    (OUT / 'index.html').write_text(index_page(email), encoding='utf-8')
     for name, sections in lists.items():
         print(f'{name}: {len(sections)} sections')
 
