@@ -15,16 +15,17 @@
  *   2. Run: node scripts/seed/seed_action_library.js
  */
 
-const admin = require('firebase-admin');
+const { initializeApp } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
 const path = require('path');
 const longDescs =
   require('./action_long_descriptions.js');
 
 const PROJECT_ID = process.env.GCLOUD_PROJECT || 'seed-3d48d';
 
-admin.initializeApp({projectId: PROJECT_ID});
+initializeApp({projectId: PROJECT_ID});
 
-const db = admin.firestore();
+const db = getFirestore();
 
 // ===========================================================
 // Points formula
