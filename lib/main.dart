@@ -24,6 +24,11 @@ import 'shared/services/services.dart';
 // ignore: do_not_use_environment
 const _useEmulator = bool.fromEnvironment('USE_EMULATOR');
 
+// One token registered in the console covers every dev device; unset
+// falls back to a per-device token. Never commit its value.
+// ignore: do_not_use_environment
+const _appCheckDebugToken = String.fromEnvironment('APP_CHECK_DEBUG_TOKEN');
+
 void main() async {
   await runZonedGuarded(
     () async {
@@ -44,14 +49,18 @@ void main() async {
         languageStore.load(),
       );
 
-      // Initialize App Check before other Firebase services
+      // Initialize App Check before other Firebase services. Profile builds
+      // are sideloaded too, so only store builds can attest.
+      final debugToken = _appCheckDebugToken.isEmpty
+          ? null
+          : _appCheckDebugToken;
       await FirebaseAppCheck.instance.activate(
-        providerAndroid: kDebugMode
-            ? const AndroidDebugProvider()
-            : const AndroidPlayIntegrityProvider(),
-        providerApple: kDebugMode
-            ? const AppleDebugProvider()
-            : const AppleDeviceCheckProvider(),
+        providerAndroid: kReleaseMode
+            ? const AndroidPlayIntegrityProvider()
+            : AndroidDebugProvider(debugToken: debugToken),
+        providerApple: kReleaseMode
+            ? const AppleDeviceCheckProvider()
+            : AppleDebugProvider(debugToken: debugToken),
       );
 
       // Configure Crashlytics
