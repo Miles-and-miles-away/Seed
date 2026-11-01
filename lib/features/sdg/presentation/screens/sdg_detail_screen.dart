@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,11 +6,12 @@ import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
 import '../widgets/sdg_progress_chart_viewer.dart';
@@ -42,24 +42,23 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     final goal = sdgData.goalMap[widget.goalNumber] ?? sdgData.goals.first;
-    final languageCode = ref.watch(
-      currentUserProvider.select((u) => u.value?.language ?? 'en'),
-    );
+    final languageCode = ref.watch(currentLanguageProvider);
 
     return WalkthroughTrigger(
       item: WalkthroughItem.sdg,
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            _buildAppBar(goal),
+            _buildAppBar(goal, languageCode),
             SliverPadding(
               padding: const EdgeInsets.all(spacingXxl),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   _buildGoalBadge(context, goal),
                   const SizedBox(height: spacingLg),
-                  Text(
+                  PhraseText(
                     goal.title(languageCode),
+                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -125,7 +124,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(Icons.info_outline, color: goal.color, size: 24),
+            Icon(Icons.menu_book, color: goal.color, size: 24),
             const SizedBox(width: spacingMd),
             Expanded(
               child: Text(
@@ -149,22 +148,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
     ];
   }
 
-  Widget _buildAppBar(SdgGoal goal) {
-    final fallback = Container(
-      width: 120,
-      height: 120,
-      color: Colors.white.withValues(alpha: opacityLight),
-      child: Center(
-        child: Text(
-          '${goal.number}',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 48,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
+  Widget _buildAppBar(SdgGoal goal, String languageCode) {
     return SliverAppBar(
       expandedHeight: 200,
       pinned: true,
@@ -185,16 +169,11 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           child: Center(
             child: Hero(
               tag: 'sdg_icon_${goal.number}',
-              child: ClipRRect(
-                borderRadius: borderRadiusLg,
-                child: CachedNetworkImage(
-                  imageUrl: goal.iconUrl,
-                  width: 120,
-                  height: 120,
-                  fit: BoxFit.cover,
-                  placeholder: (_, _) => fallback,
-                  errorWidget: (_, _, _) => fallback,
-                ),
+              child: Image.asset(
+                goal.iconAsset(languageCode),
+                width: 120,
+                height: 120,
+                excludeFromSemantics: true,
               ),
             ),
           ),
@@ -217,10 +196,9 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           ),
           child: Text(
             AppLocalizations.of(context).sdgGoalNumber(goal.number),
-            style: const TextStyle(
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 14,
             ),
           ),
         ),
@@ -236,7 +214,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           ),
           child: Text(
             AppLocalizations.of(context).sdgBadge,
-            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+            style: Theme.of(context).textTheme.labelLarge,
           ),
         ),
       ],
@@ -310,10 +288,9 @@ class _GoalNavButton extends StatelessWidget {
               if (isPrevious) const SizedBox(width: 6),
               Text(
                 '${goal.number}',
-                style: TextStyle(
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: goal.color,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
                 ),
               ),
               if (!isPrevious) const SizedBox(width: 6),

@@ -41,7 +41,7 @@ and nothing else.
 | H5 | Placeholder legal URLs | **Fixed** | No `example.com` anywhere in `lib/`. Uses in-app routes. |
 | M1 | Missing `usesCleartextTraffic` | **Fixed** | `android:usesCleartextTraffic="false"` in AndroidManifest |
 | M2 | Router diagnostics in release | **Fixed** | `debugLogDiagnostics: kDebugMode` |
-| M3 | Missing Cloud Storage rules | **Fixed** | `storage.rules` denies all reads and writes |
+| M3 | Missing Cloud Storage rules | **N/A** | Storage is not used by the app; the deploy target and rules file were removed so nothing is provisioned |
 | M4 | Email validation gaps | **Fixed** | `validateEmail` in both forgot-password and change-email |
 | M5 | No server-side settings validation | **Fixed** | `d.language in ['en', 'es', 'ja']` in rules |
 | M6 | Missing iOS privacy descriptions | **N/A** | No permission-requiring plugins in `pubspec.yaml`. Nothing triggers a prompt, so no `NS*UsageDescription` key is reachable. Revisit when adding camera, photo, or location features. |

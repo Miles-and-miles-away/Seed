@@ -63,6 +63,10 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
     final factsAsync = ref.watch(ecoFactsProvider);
     final user = ref.watch(currentUserProvider).value;
     final isLockedToday = ref.watch(isEcoFactLockedProvider);
+    final names = actionNamesById(
+      ref.watch(actionLibraryProvider).value ?? const [],
+      Localizations.localeOf(context).languageCode,
+    );
 
     final dayLogs = [...logsAsync.asData?.value ?? const <ActionLogModel>[]]
       ..sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
@@ -145,6 +149,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
               ...dayLogs.map(
                 (log) => ActionLogItem(
                   actionLog: log,
+                  displayName: names[log.actionId],
                   onTap: () => _openActionInfo(log),
                 ),
               ),
@@ -201,7 +206,9 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
     final confirmed = await showConfirmDialog(
       context,
       title: log.actionName,
-      message: l10n.transportLogChoiceBody(formatCO2Compact(log.co2Grams)),
+      message: l10n.transportLogChoiceBody(
+        formatCO2Compact(log.co2Grams, l10n.localeName),
+      ),
       confirmLabel: l10n.actionReproduce,
     );
     if (!confirmed || !mounted) return;
@@ -268,7 +275,7 @@ class _StatsRow extends StatelessWidget {
           child: _StatTile(
             icon: Icons.star_outline,
             label: l10n.homePoints,
-            value: formatPoints(points),
+            value: formatPoints(points, l10n.localeName),
             color: theme.colorScheme.tertiary,
           ),
         ),
@@ -277,7 +284,7 @@ class _StatsRow extends StatelessWidget {
           child: _StatTile(
             icon: Icons.eco_outlined,
             label: 'CO\u2082',
-            value: formatCO2Compact(co2Grams),
+            value: formatCO2Compact(co2Grams, l10n.localeName),
             color: theme.colorScheme.secondary,
           ),
         ),

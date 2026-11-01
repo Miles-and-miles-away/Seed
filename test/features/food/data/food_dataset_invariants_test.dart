@@ -389,4 +389,22 @@ void main() {
       reason: 'cream must not be rankable against butter',
     );
   });
+
+  test('24. renamed foods stay findable under their old names', () {
+    const oldNames = {
+      'chayote': ('ja', 'はやとうり'),
+      'dried_shiitake': ('ja', '乾しいたけ'),
+      'leeks': ('ja', 'リーク'),
+      'beef': ('es', 'carne de res'),
+      'sweet_potato': ('es', 'batata'),
+      'tomatillo': ('es', 'tomate verde'),
+    };
+    for (final MapEntry(key: id, value: (lang, name)) in oldNames.entries) {
+      expect(
+        byId[id]!['search_terms_$lang'] as List<dynamic>,
+        contains(name),
+        reason: '$id search_terms_$lang lost $name',
+      );
+    }
+  });
 }

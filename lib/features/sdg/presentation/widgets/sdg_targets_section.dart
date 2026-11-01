@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/data/sdg_targets.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_section_header.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Expandable section showing an SDG's description
 /// and its UN targets.
@@ -51,7 +53,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
             onTap: () => setState(() => _expanded = !_expanded),
             behavior: HitTestBehavior.opaque,
             child: SdgSectionHeader(
-              icon: Icons.info_outline,
+              icon: Icons.article_outlined,
               title: l10n.sdgAboutGoal,
               color: goal.color,
               trailing: AnimatedRotation(
@@ -98,12 +100,7 @@ class _SdgTargetsSectionState extends ConsumerState<SdgTargetsSection> {
         const SizedBox(height: spacingXl),
         const Divider(height: 1),
         const SizedBox(height: spacingLg),
-        Text(
-          l10n.sdgTargetsTitle,
-          style: theme.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(l10n.sdgTargetsTitle.toUpperCase(), style: theme.overline),
         const SizedBox(height: spacingMd),
         ...targets.map(
           (t) => _TargetRow(
@@ -148,16 +145,15 @@ class _TargetRow extends StatelessWidget {
             ),
             child: Text(
               target.code,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: goalColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 12,
               ),
             ),
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(
+            child: PhraseText(
               target.description(locale),
               style: theme.textTheme.bodySmall?.copyWith(
                 height: 1.5,

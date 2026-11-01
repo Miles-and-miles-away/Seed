@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
@@ -195,13 +199,8 @@ void main() {
   });
 
   group('todayChallengeProvider', () {
-    DailyChallengeTemplate t(String id) => DailyChallengeTemplate(
-      id: id,
-      category: 'transport',
-      titleEn: id,
-      titleEs: '',
-      titleJa: '',
-    );
+    DailyChallengeTemplate t(String id) =>
+        DailyChallengeTemplate(actionId: id, category: 'transport');
 
     Future<ProviderContainer> containerWith(AppUserModel user) =>
         pumpedContainer([
@@ -232,6 +231,21 @@ void main() {
       expect(challenge?.id, 'b');
     });
 
+    test('a pre-release id at the head of recent ids still selects', () async {
+      final user = AppUserModel(
+        uid: 'u',
+        email: 'e',
+        challengeCompletedDate: formatDateKey(_now),
+        recentChallengeIds: const ['energy_1', 'water_2'],
+      );
+      final c = await containerWith(user);
+
+      final challenge = await c.read(todayChallengeProvider.future);
+
+      expect(challenge?.id, isIn(['a', 'b', 'c']));
+      expect(c.read(isTodayChallengeCompletedProvider), isTrue);
+    });
+
     test('selects normally when today is not yet completed', () async {
       final user = AppUserModel(
         uid: 'u',
@@ -245,6 +259,114 @@ void main() {
       // The recent id is excluded while the day is in progress.
       expect(challenge, isNotNull);
       expect(challenge!.id, isNot('b'));
+    });
+  });
+
+  group('todayChallengeActionProvider', () {
+    const lights = ActionModel(
+      id: 'turn_off_lights',
+      nameEn: 'Turn Off Lights',
+      nameJa: '電気を消す',
+      category: 'energy',
+      points: 5,
+    );
+    const template = DailyChallengeTemplate(
+      actionId: 'turn_off_lights',
+      category: 'energy',
+    );
+
+    Future<ProviderContainer> containerWith(
+      Future<List<ActionModel>> Function() library, {
+      DailyChallengeTemplate challenge = template,
+    }) async {
+      final c = await pumpedContainer([
+        _clock,
+        userOverride(const AppUserModel(uid: 'u', email: 'e')),
+        challengeTemplateDataProvider.overrideWith(
+          (_) async =>
+              ChallengeTemplateData(daily: [challenge], multiDay: const []),
+        ),
+        actionLibraryProvider.overrideWith((_) => library()),
+      ], warm: todayChallengeActionProvider);
+      await c.read(todayChallengeProvider.future);
+      return c;
+    }
+
+    test('is loading while the library loads', () async {
+      final c = await containerWith(
+        () => Completer<List<ActionModel>>().future,
+      );
+
+      expect(
+        c.read(todayChallengeActionProvider),
+        isA<AsyncLoading<Object?>>(),
+      );
+    });
+
+    test('pairs the challenge with its library action', () async {
+      final c = await containerWith(() async => const [lights]);
+      await c.read(actionLibraryProvider.future);
+
+      final value = c.read(todayChallengeActionProvider).value;
+      expect(value?.challenge.actionId, 'turn_off_lights');
+      expect(value?.action, lights);
+    });
+
+    test('has no action for an id the library lacks', () async {
+      final c = await containerWith(
+        () async => const [lights],
+        challenge: const DailyChallengeTemplate(
+          actionId: 'gone',
+          category: 'energy',
+        ),
+      );
+      await c.read(actionLibraryProvider.future);
+
+      final value = c.read(todayChallengeActionProvider).value;
+      expect(value?.challenge.actionId, 'gone');
+      expect(value?.action, isNull);
+    });
+
+    test(
+      'has no action when the library files it in another category',
+      () async {
+        final c = await containerWith(
+          () async => [lights.copyWith(category: 'consumption')],
+        );
+        await c.read(actionLibraryProvider.future);
+
+        final value = c.read(todayChallengeActionProvider).value;
+        expect(value?.challenge.actionId, 'turn_off_lights');
+        expect(value?.action, isNull);
+      },
+    );
+
+    test('keeps the action while the library refreshes', () async {
+      var loads = 0;
+      final c = await containerWith(
+        () => loads++ == 0
+            ? Future.value(const [lights])
+            : Completer<List<ActionModel>>().future,
+      );
+      await c.read(actionLibraryProvider.future);
+      c.invalidate(actionLibraryProvider);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(c.read(actionLibraryProvider).isLoading, isTrue);
+      expect(loads, 2);
+      expect(c.read(todayChallengeActionProvider).value?.action, lights);
+    });
+
+    test('has no action when the library fails to load', () async {
+      final c = await containerWith(
+        () => Future<List<ActionModel>>.error(Exception('offline')),
+      );
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(actionLibraryProvider).hasError, isTrue);
+
+      final value = c.read(todayChallengeActionProvider).value;
+      expect(value?.challenge.actionId, 'turn_off_lights');
+      expect(value?.action, isNull);
     });
   });
 
@@ -393,13 +515,8 @@ void main() {
   });
 
   group('todayChallenge after completion', () {
-    DailyChallengeTemplate daily(String id) => DailyChallengeTemplate(
-      id: id,
-      category: 'water',
-      titleEn: id,
-      titleEs: '',
-      titleJa: '',
-    );
+    DailyChallengeTemplate daily(String id) =>
+        DailyChallengeTemplate(actionId: id, category: 'water');
 
     test('the completed template is the head of recentChallengeIds', () async {
       final c = await pumpedContainer([

@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
+
 import '../datasources/auth_remote_datasource.dart';
 import '../datasources/user_remote_datasource.dart';
 import '../models/app_user_model.dart';
@@ -23,24 +27,28 @@ class AuthRepository {
   User? get currentUser => _authDataSource.currentUser;
 
   /// Signs in with email and password.
-  /// Returns the app user after fetching/creating their Firestore document.
+  /// Returns the app user after fetching/creating their Firestore document;
+  /// a created document starts in [language].
   Future<AppUserModel> signInWithEmailAndPassword(
     String email,
-    String password,
-  ) async {
+    String password, {
+    required String language,
+  }) async {
     final credential = await _authDataSource.signInWithEmailAndPassword(
       email,
       password,
     );
-    return _getOrCreateUser(credential.user!);
+    return _getOrCreateUser(credential.user!, language);
   }
 
   /// Creates a new user with email and password.
-  /// Sends a verification email and creates the Firestore document.
+  /// Sends a verification email and creates the Firestore document in
+  /// [language].
   Future<AppUserModel> createUserWithEmailAndPassword(
     String email,
-    String password,
-  ) async {
+    String password, {
+    required String language,
+  }) async {
     final credential = await _authDataSource.createUserWithEmailAndPassword(
       email,
       password,
@@ -49,7 +57,7 @@ class AuthRepository {
     // Send verification email
     await _authDataSource.sendEmailVerification();
 
-    return _createNewUser(credential.user!);
+    return _createNewUser(credential.user!, language);
   }
 
   /// Sends email verification to the current user.
@@ -64,16 +72,16 @@ class AuthRepository {
 
   /// Signs in with Google.
   /// Returns the app user after fetching/creating their Firestore document.
-  Future<AppUserModel> signInWithGoogle() async {
+  Future<AppUserModel> signInWithGoogle({required String language}) async {
     final credential = await _authDataSource.signInWithGoogle();
-    return _getOrCreateUser(credential.user!);
+    return _getOrCreateUser(credential.user!, language);
   }
 
   /// Signs in with Apple.
   /// Returns the app user after fetching/creating their Firestore document.
-  Future<AppUserModel> signInWithApple() async {
+  Future<AppUserModel> signInWithApple({required String language}) async {
     final credential = await _authDataSource.signInWithApple();
-    return _getOrCreateUser(credential.user!);
+    return _getOrCreateUser(credential.user!, language);
   }
 
   /// Signs out the current user from all providers.
@@ -94,10 +102,13 @@ class AuthRepository {
   }
 
   /// Gets an existing user or creates a new one.
-  Future<AppUserModel> _getOrCreateUser(User firebaseUser) async {
+  Future<AppUserModel> _getOrCreateUser(
+    User firebaseUser,
+    String language,
+  ) async {
     var appUser = await _userDataSource.getUser(firebaseUser.uid);
     if (appUser == null) {
-      appUser = await _createNewUser(firebaseUser);
+      appUser = await _createNewUser(firebaseUser, language);
     } else {
       // Update emailVerified status if it has changed
       if (appUser.emailVerified != firebaseUser.emailVerified) {
@@ -108,6 +119,17 @@ class AuthRepository {
       }
     }
     return appUser;
+  }
+
+  /// Creates the signed-in user's doc in [language] once the server
+  /// confirms it is missing, recovering a sign-in whose read failed offline.
+  Future<void> ensureUserDoc({required String language}) async {
+    final firebaseUser = currentUser;
+    if (firebaseUser == null) return;
+    await _userDataSource.createUserIfAbsent(
+      _newUserModel(firebaseUser, language),
+      isCurrent: () => currentUser?.uid == firebaseUser.uid,
+    );
   }
 
   /// Updates the current user's display name in Firestore.
@@ -143,16 +165,23 @@ class AuthRepository {
     return name.substring(0, AppConstants.maxDisplayNameLength);
   }
 
-  /// Creates a new user document in Firestore.
-  Future<AppUserModel> _createNewUser(User firebaseUser) async {
-    final newUser = AppUserModel(
-      uid: firebaseUser.uid,
-      email: firebaseUser.email ?? '',
-      displayName: _clampDisplayName(firebaseUser.displayName),
-      photoUrl: firebaseUser.photoURL,
-      emailVerified: firebaseUser.emailVerified,
-      createdAt: DateTime.now(),
-    );
+  AppUserModel _newUserModel(User firebaseUser, String language) =>
+      AppUserModel(
+        uid: firebaseUser.uid,
+        language: language,
+        email: firebaseUser.email ?? '',
+        displayName: _clampDisplayName(firebaseUser.displayName),
+        photoUrl: firebaseUser.photoURL,
+        emailVerified: firebaseUser.emailVerified,
+        createdAt: DateTime.now(),
+      );
+
+  /// Creates a new user document in Firestore, in [language].
+  Future<AppUserModel> _createNewUser(
+    User firebaseUser,
+    String language,
+  ) async {
+    final newUser = _newUserModel(firebaseUser, language);
     await _userDataSource.createUser(newUser);
     return newUser;
   }
@@ -185,6 +214,20 @@ class AuthRepository {
   /// handled by the UI before this call. Signs out locally afterwards
   /// to clear the now-invalid session.
   Future<void> deleteAccount() async {
+    // A cancelled Apple prompt aborts deletion; any other failure does not.
+    if (defaultTargetPlatform == TargetPlatform.iOS &&
+        _authDataSource.isAppleUser) {
+      try {
+        await _authDataSource.revokeAppleSignIn();
+      } on Exception catch (e, stackTrace) {
+        if (e is AuthException && e.code == authCodeSignInCancelled) rethrow;
+        appLogger.error(
+          'Auth: Apple token revocation failed',
+          error: e,
+          stackTrace: stackTrace,
+        );
+      }
+    }
     await _userDataSource.deleteUser();
     await _authDataSource.signOut();
   }

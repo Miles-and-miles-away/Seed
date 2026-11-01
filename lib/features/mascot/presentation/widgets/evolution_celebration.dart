@@ -9,6 +9,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
 
@@ -248,7 +249,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
                 const SizedBox(height: spacingLg),
 
                 // Subtitle
-                Text(
+                PhraseText(
                   l10n.evolutionSubtitle,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: Colors.white70,

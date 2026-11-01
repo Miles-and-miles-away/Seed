@@ -317,12 +317,19 @@ class _TransportCalculatorScreenState
           accentColor: ActionCategory.transport.color,
           headline: l10n.transportComparisonDelta(
             bestLabel,
-            formatCO2Compact(summary.deltaGrams.round()),
+            formatCO2Compact(summary.deltaGrams.round(), l10n.localeName),
             worstLabel,
             summary.deltaPercent.round(),
           ),
           equivalencyText: (trees != null && trees >= 0.05)
-              ? l10n.transportComparisonTreesEquiv(trees.toStringAsFixed(1))
+              ? l10n.transportComparisonTreesEquiv(
+                  formatDecimal(
+                    trees,
+                    l10n.localeName,
+                    minDigits: 1,
+                    maxDigits: 1,
+                  ),
+                )
               : null,
           basisNotes: _basisNotes(l10n, modesById, options),
         ),
@@ -387,7 +394,7 @@ class _TransportCalculatorScreenState
           co2Grams: deltaGrams.round(),
         ),
     successMessage: l10n.transportChoiceLoggedMessage(
-      formatCO2Compact(deltaGrams.round()),
+      formatCO2Compact(deltaGrams.round(), l10n.localeName),
     ),
     onSuccess: () {
       ref.read(journeyOptionsProvider.notifier).clear();

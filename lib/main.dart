@@ -17,6 +17,8 @@ import 'app/app.dart';
 import 'core/constants/app_constants.dart';
 import 'core/utils/app_logger.dart';
 import 'firebase_options.dart';
+import 'shared/data/language_store.dart';
+import 'shared/providers/app_language_provider.dart';
 import 'shared/services/services.dart';
 
 // ignore: do_not_use_environment
@@ -26,13 +28,20 @@ void main() async {
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      registerBundledLicences();
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
       ]);
 
-      // Initialize Firebase
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
+      // Read during Firebase init so the first frame is in the right language.
+      final languageStore = FileLanguageStore();
+      await _timed(
+        'Firebase.initializeApp',
+        Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+      );
+      await _timed(
+        'FileLanguageStore wait after Firebase',
+        languageStore.load(),
       );
 
       // Initialize App Check before other Firebase services
@@ -69,7 +78,10 @@ void main() async {
 
       // Connect to Firebase Emulator Suite in debug mode
       if (_useEmulator) {
-        const emulatorHost = '10.0.2.2'; // Android emulator
+        // Android emulators reach the host machine via 10.0.2.2.
+        final emulatorHost = defaultTargetPlatform == TargetPlatform.android
+            ? '10.0.2.2'
+            : 'localhost';
         FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
         await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
         FirebaseFunctions.instanceFor(
@@ -87,7 +99,12 @@ void main() async {
       // Register background message handler for FCM
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-      runApp(const ProviderScope(child: SeedApp()));
+      runApp(
+        ProviderScope(
+          overrides: [languageStoreProvider.overrideWithValue(languageStore)],
+          child: const SeedApp(),
+        ),
+      );
 
       // Notification setup parses the full timezone database and makes
       // network calls (FCM token); defer it past the first frame so it
@@ -101,6 +118,15 @@ void main() async {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     },
   );
+}
+
+/// Logs how long [future] takes in profile builds, for startup checks.
+Future<T> _timed<T>(String label, Future<T> future) async {
+  if (!kProfileMode) return future;
+  final stopwatch = Stopwatch()..start();
+  final result = await future;
+  debugPrint('[STARTUP] $label: ${stopwatch.elapsedMilliseconds} ms');
+  return result;
 }
 
 /// Initialize local notification and FCM services after the first

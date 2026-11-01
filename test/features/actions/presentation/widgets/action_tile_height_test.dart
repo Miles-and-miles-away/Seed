@@ -8,7 +8,7 @@ import '../../../../helpers/test_helpers.dart';
 
 /// A tile in exactly the box the grid gives it, at the width of one
 /// cell on a 402pt phone.
-Widget _cell(double scale) {
+Widget _cell(double scale, {bool highlighted = false}) {
   final scaler = TextScaler.linear(scale);
   return createTestWidget(
     child: MediaQuery(
@@ -28,6 +28,7 @@ Widget _cell(double scale) {
               badgeLabel: '21 points',
               footer: const SizedBox(height: 18, width: 60),
               onTap: () {},
+              highlighted: highlighted,
             ),
           ),
         ),
@@ -39,13 +40,14 @@ Widget _cell(double scale) {
 void main() {
   group('action tile height', () {
     for (final scale in [1.0, 1.3, 2.0]) {
-      testWidgets('the tallest tile fits its cell at text scale $scale', (
-        tester,
-      ) async {
-        await tester.pumpWidget(_cell(scale));
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-      });
+      for (final highlighted in [false, true]) {
+        testWidgets('the tallest tile fits its cell at text scale $scale'
+            '${highlighted ? ', ringed' : ''}', (tester) async {
+          await tester.pumpWidget(_cell(scale, highlighted: highlighted));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        });
+      }
     }
 
     test('the cell grows only by the text it holds', () {

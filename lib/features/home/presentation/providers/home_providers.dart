@@ -9,9 +9,10 @@ part 'home_providers.g.dart';
 /// scroll position while Home is offscreen, leaving it already centered (no
 /// visible jump) the next time the kept-alive [IndexedStack] branch is shown.
 ///
-/// Routes pushed on top of Home (SDG detail, daily fact, challenges) do not
-/// count: go_router keeps the configuration uri at `/home` for imperative
-/// pushes, and popping back should return the user to the goal they tapped.
+/// Routes pushed on top of Home (SDG detail, daily fact, challenges, the
+/// Mascot screen) do not count: go_router keeps the configuration uri at
+/// `/home` for imperative pushes, and popping back should return the user
+/// to the goal they tapped.
 @riverpod
 class HomeVisitSignal extends _$HomeVisitSignal {
   @override

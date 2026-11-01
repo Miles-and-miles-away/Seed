@@ -17,6 +17,7 @@ class QuizCard {
     required this.magnitude,
     required this.revealText,
     this.revealDetail = '',
+    this.groupLabel = '',
   });
 
   final String id;
@@ -31,6 +32,9 @@ class QuizCard {
   /// figure behind a multiple. Empty where the domain has nothing to
   /// add.
   final String revealDetail;
+
+  /// The dataset group the card belongs to, e.g. "Vegetables".
+  final String groupLabel;
 }
 
 /// The two answers a player can give.
@@ -67,25 +71,30 @@ class QuizDeck {
   /// Deals the next card, or null when nothing in the deck clears the
   /// gap against [current]. Draws without replacement; an exhausted
   /// pile refills and reshuffles, minus the current card.
-  QuizCard? drawNext() {
+  /// [minRatio] also asks for the pair to be at least that many times
+  /// apart, on top of the deck's own bar.
+  QuizCard? drawNext({double minRatio = 1}) {
     final from = _current;
     if (from == null) return null;
-    var card = _takeEligible(from);
+    var card = _takeEligible(from, minRatio);
     if (card == null) {
       _pile = [
         for (final c in _cards)
           if (c.id != from.id) c,
       ]..shuffle(_random);
-      card = _takeEligible(from);
+      card = _takeEligible(from, minRatio);
     }
     if (card == null) return null;
     _current = card;
     return card;
   }
 
-  QuizCard? _takeEligible(QuizCard from) {
+  QuizCard? _takeEligible(QuizCard from, double minRatio) {
     final index = _pile.lastIndexWhere(
-      (c) => !tooClose(c.magnitude, from.magnitude, minGapPercent),
+      (c) =>
+          !tooClose(c.magnitude, from.magnitude, minGapPercent) &&
+          max(c.magnitude, from.magnitude) >=
+              min(c.magnitude, from.magnitude) * minRatio,
     );
     return index < 0 ? null : _pile.removeAt(index);
   }

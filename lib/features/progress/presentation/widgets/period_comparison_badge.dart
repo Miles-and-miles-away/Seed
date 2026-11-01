@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 
@@ -25,24 +26,24 @@ class PeriodComparisonBadge extends StatelessWidget {
     final color = isUp ? theme.colorScheme.primary : theme.colorScheme.error;
     final icon = isUp ? Icons.arrow_upward : Icons.arrow_downward;
 
-    final reference = switch (stats.period) {
-      TimePeriod.today => l10n.vsYesterday,
-      TimePeriod.thisWeek => l10n.vsLastWeek,
-      TimePeriod.thisMonth => l10n.vsLastMonth,
-      TimePeriod.allTime => '',
+    final percent = formatDecimal(
+      stats.percentChange.abs(),
+      l10n.localeName,
+      maxDigits: 0,
+    );
+    final label = switch (stats.period) {
+      TimePeriod.today => l10n.comparisonVsYesterday(percent),
+      TimePeriod.thisWeek => l10n.comparisonVsLastWeek(percent),
+      TimePeriod.thisMonth => l10n.comparisonVsLastMonth(percent),
+      TimePeriod.allTime => '$percent%',
     };
-
-    final percent = stats.percentChange.abs().toStringAsFixed(0);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(icon, size: 16, color: color),
         const SizedBox(width: spacingXs),
-        Text(
-          '$percent% $reference',
-          style: theme.textTheme.bodyMedium?.copyWith(color: color),
-        ),
+        Text(label, style: theme.textTheme.bodyMedium?.copyWith(color: color)),
       ],
     );
   }

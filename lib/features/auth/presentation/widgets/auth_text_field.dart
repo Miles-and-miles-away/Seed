@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+
 /// A styled text field for authentication forms.
 class AuthTextField extends StatefulWidget {
   const AuthTextField({
@@ -51,6 +53,9 @@ class _AuthTextFieldState extends State<AuthTextField> {
                       ? Icons.visibility_outlined
                       : Icons.visibility_off_outlined,
                 ),
+                tooltip: _obscure
+                    ? AppLocalizations.of(context).authShowPassword
+                    : AppLocalizations.of(context).authHidePassword,
                 onPressed: () => setState(() => _obscure = !_obscure),
               )
             : null,

@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/utils/app_logger.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/datasources/action_library_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
@@ -18,6 +20,7 @@ import 'package:seed_app/features/mascot/presentation/providers/mascot_providers
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 
@@ -137,16 +140,46 @@ class ActionSearchQuery extends _$ActionSearchQuery {
   }
 }
 
-/// Currently selected sort option for the action library.
+const _shuffleSeedRange = 1 << 32;
+
+/// One shuffle per Log Action visit, redrawn when Shuffle is picked.
 @riverpod
+int actionShuffleSeed(Ref ref) => Random().nextInt(_shuffleSeedRange);
+
+/// Ranks the whole library so relative order holds as filters change.
+@riverpod
+Map<String, int> actionShuffleRank(Ref ref) {
+  final library = ref.watch(actionLibraryProvider).value ?? const [];
+  final ids = [for (final a in library) a.id]
+    ..shuffle(Random(ref.watch(actionShuffleSeedProvider)));
+  return {for (final (i, id) in ids.indexed) id: i};
+}
+
+/// The Log Action sort for this app session, reset per signed-in user.
+@Riverpod(keepAlive: true)
 class SelectedSortOption extends _$SelectedSortOption {
   @override
-  ActionSortOption build() => ActionSortOption.alphabeticalAsc;
+  ActionSortOption build() {
+    ref.watch(userIdProvider);
+    return ActionSortOption.random;
+  }
 
-  // ignore: use_setters_to_change_properties
   void select(ActionSortOption option) {
+    if (option == ActionSortOption.random) {
+      ref.invalidate(actionShuffleSeedProvider);
+    }
     state = option;
   }
+}
+
+/// The daily challenge's action, shown first for this Log Action visit.
+@riverpod
+class PinnedActionId extends _$PinnedActionId {
+  @override
+  String? build() => null;
+
+  // ignore: use_setters_to_change_properties
+  void pin(String id) => state = id;
 }
 
 /// Selected SDG for filtering actions.
@@ -204,12 +237,10 @@ Stream<List<ActionLogModel>> todayActions(Ref ref) async* {
   yield* repo.watchActionLogsForRange(userId, start, end);
 }
 
-/// User's language code, selected from the user document
-/// to avoid recomputing filters on unrelated user changes.
-final userLanguageCodeProvider = Provider<String>((ref) {
-  final user = ref.watch(currentUserProvider).asData?.value;
-  return user?.language ?? 'en';
-});
+/// The app language, for action names and the A-Z sort.
+final userLanguageCodeProvider = Provider<String>(
+  (ref) => ref.watch(currentLanguageProvider),
+);
 
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.
@@ -217,7 +248,9 @@ final userLanguageCodeProvider = Provider<String>((ref) {
 AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
   final actionsAsync = ref.watch(actionLibraryProvider);
   final selectedCategory = ref.watch(selectedCategoryProvider);
-  final searchQuery = ref.watch(actionSearchQueryProvider).toLowerCase();
+  final searchQuery = foldForSearch(
+    ref.watch(actionSearchQueryProvider).trim(),
+  );
   final selectedSdg = ref.watch(selectedSdgFilterProvider);
 
   return actionsAsync.whenData((actions) {
@@ -237,12 +270,14 @@ AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
 
     if (searchQuery.isNotEmpty) {
       filtered = filtered.where((a) {
-        return a.nameEn.toLowerCase().contains(searchQuery) ||
-            a.nameJa.toLowerCase().contains(searchQuery) ||
-            a.nameEs.toLowerCase().contains(searchQuery) ||
-            a.descriptionEn.toLowerCase().contains(searchQuery) ||
-            a.descriptionJa.toLowerCase().contains(searchQuery) ||
-            a.descriptionEs.toLowerCase().contains(searchQuery);
+        return [
+          a.nameEn,
+          a.nameJa,
+          a.nameEs,
+          a.descriptionEn,
+          a.descriptionJa,
+          a.descriptionEs,
+        ].any((field) => foldForSearch(field).contains(searchQuery));
       }).toList();
     }
 
@@ -250,18 +285,22 @@ AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
   });
 }
 
-/// Filtered + sorted actions. Only re-sorts when sort
-/// option or language changes; filter changes propagate
-/// through baseFilteredActions.
+/// Sorts baseFilteredActions, kept separate so a sort change does not re-filter.
 @riverpod
 AsyncValue<List<ActionModel>> filteredActions(Ref ref) {
   final baseAsync = ref.watch(baseFilteredActionsProvider);
   final sortOption = ref.watch(selectedSortOptionProvider);
   final lang = ref.watch(userLanguageCodeProvider);
+  // Watched unconditionally so the seed lives for the whole visit.
+  final rank = ref.watch(actionShuffleRankProvider);
+  final pinned = ref.watch(pinnedActionIdProvider);
 
-  return baseAsync.whenData(
-    (actions) => _sortActions(actions, sortOption, lang),
-  );
+  return baseAsync.whenData((actions) {
+    final sorted = _sortActions(actions, sortOption, lang, rank);
+    final index = sorted.indexWhere((a) => a.id == pinned);
+    if (index > 0) sorted.insert(0, sorted.removeAt(index));
+    return sorted;
+  });
 }
 
 /// Sorts actions by the selected option, using locale-aware
@@ -270,10 +309,15 @@ List<ActionModel> _sortActions(
   List<ActionModel> actions,
   ActionSortOption sortOption,
   String languageCode,
+  Map<String, int> shuffleRank,
 ) {
   final sorted = List<ActionModel>.from(actions);
 
   switch (sortOption) {
+    case ActionSortOption.random:
+      sorted.sort(
+        (a, b) => (shuffleRank[a.id] ?? 0).compareTo(shuffleRank[b.id] ?? 0),
+      );
     case ActionSortOption.alphabeticalAsc:
       sorted.sort(
         (a, b) => a.name(languageCode).compareTo(b.name(languageCode)),

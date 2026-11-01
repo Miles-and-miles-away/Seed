@@ -9,6 +9,7 @@ import 'package:seed_app/features/eco_dex/domain/services/eco_dex_progress.dart'
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_locked_sheet.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_progress_bar.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// "Next Up" -- the undiscovered entries with the highest numeric
 /// progress, so the user can see what they are about to discover.
@@ -125,7 +126,7 @@ class _NextUpCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    PhraseText(
                       entry.hint(locale),
                       style: theme.textTheme.bodyMedium,
                       maxLines: 2,

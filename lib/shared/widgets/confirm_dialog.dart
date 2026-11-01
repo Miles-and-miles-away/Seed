@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Cancel / confirm prompt. Resolves true only when [confirmLabel] is
 /// tapped; dismissing the barrier counts as cancel.
@@ -15,8 +16,10 @@ Future<bool> showConfirmDialog(
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (dialogContext) => AlertDialog(
-      title: title == null ? null : Text(title),
-      content: Text(message),
+      title: title == null
+          ? null
+          : PhraseText(title, minLineWidth: phraseDialogMinLineWidth),
+      content: PhraseText(message, minLineWidth: phraseDialogMinLineWidth),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(dialogContext, false),

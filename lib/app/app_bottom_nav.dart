@@ -34,7 +34,7 @@ class AppBottomNav extends StatelessWidget {
     super.key,
   });
 
-  /// Selected shell tab index (0 Home, 1 Progress, 2 Mascot, 3 Profile), or
+  /// Selected shell tab index (0 Home, 1 Progress, 2 Explore, 3 Profile), or
   /// null when no tab is active (e.g. while the Action log is open).
   final int? currentIndex;
 
@@ -103,12 +103,16 @@ class AppBottomNav extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _NavBarItem(
-              icon: Icons.pets_outlined,
-              selectedIcon: Icons.pets,
-              label: l10n.navMascot,
-              isSelected: currentIndex == 2,
-              onTap: () => onTabSelected(2),
+            child: WalkthroughShimmer(
+              item: WalkthroughItem.calculators,
+              orItem: WalkthroughItem.quiz,
+              child: _NavBarItem(
+                icon: Icons.explore_outlined,
+                selectedIcon: Icons.explore,
+                label: l10n.navExplore,
+                isSelected: currentIndex == 2,
+                onTap: () => onTabSelected(2),
+              ),
             ),
           ),
           Expanded(

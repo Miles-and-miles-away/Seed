@@ -49,6 +49,9 @@ class EnergyMethodologyScreen extends ConsumerWidget {
     final config = markdownConfigFor(
       context,
     ).copy(configs: [externalLinkConfig(context)]);
+    final generator = phraseMarkdownGenerator(
+      bodyWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
+    );
     return ListView(
       padding: const EdgeInsets.all(spacingXxl),
       children: [
@@ -57,6 +60,7 @@ class EnergyMethodologyScreen extends ConsumerWidget {
             l10n.energyMethodologyBody(factors.grid.round()),
           ),
           config: config,
+          generator: generator,
         ),
         const SizedBox(height: spacingXxl),
         EnergyRankedTable(behaviors: behaviors),
@@ -66,6 +70,7 @@ class EnergyMethodologyScreen extends ConsumerWidget {
             dedupedSourcesMarkdown(behaviors.expand((b) => b.sources), l10n),
           ),
           config: config,
+          generator: generator,
         ),
       ],
     );

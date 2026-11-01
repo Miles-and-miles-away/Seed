@@ -467,8 +467,10 @@ dependencies:
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.10
 
-  # Local Storage: Firestore only (offline persistence built in).
-  # shared_preferences was removed (2026-06) -- all app state lives in Firestore.
+  # Local Storage: Firestore (offline persistence built in), plus one small
+  # JSON file (app_language.json) for the device's language before sign-in.
+  # shared_preferences was removed (2026-06); the file needs no plugin.
+  path_provider: ^2.1.6
 
   # Notifications
   flutter_local_notifications: ^19.5.0
@@ -492,7 +494,7 @@ dev_dependencies:
   fake_cloud_firestore: ^4.0.1
 ```
 
-**Note:** Hive was removed early on; `shared_preferences` was later removed too (2026-06) once all app state -- settings, onboarding, language, recent challenge IDs -- moved to Firestore, which provides offline persistence. Local storage is now Firestore-only. Also removed (2026-06): `lottie` (`rive` is the animation target), `equatable` (Freezed gives value equality), and `connectivity_plus` (Firestore handles offline sync).
+**Note:** Hive was removed early on; `shared_preferences` was later removed too (2026-06) once all app state -- settings, onboarding, language, recent challenge IDs -- moved to Firestore, which provides offline persistence. Local storage is now Firestore, plus one small JSON file (`app_language.json`, written through `path_provider`) for the device's language before sign-in. Also removed (2026-06): `lottie` (`rive` is the animation target), `equatable` (Freezed gives value equality), and `connectivity_plus` (Firestore handles offline sync).
 
 ### Backend: Firebase
 
@@ -1210,7 +1212,7 @@ Phase 7 shop and unlock systems.
 |----------|--------|-------|
 | State management | **Riverpod 3.x** | With code generation via riverpod_generator |
 | Navigation | **go_router 17.x** | Declarative routing with type-safe routes |
-| Local storage | **Firestore only** (offline persistence) | Hive, then shared_preferences, removed -- all state in Firestore |
+| Local storage | **Firestore, plus one small JSON file (`app_language.json`) for the device's language before sign-in** | Hive, then shared_preferences, removed; pre-auth state cannot live in Firestore, so the language uses a plain file, no plugin |
 | Code generation | **Freezed 3.x** | For immutable data classes |
 | Linting | **flutter_lints** | Strict analysis enabled |
 | Auth providers | **Email + Google + Apple** | Sign in with Apple required for iOS |

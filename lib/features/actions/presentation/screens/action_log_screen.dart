@@ -17,16 +17,26 @@ import '../utils/handle_action_tap.dart';
 import '../widgets/action_card.dart';
 import '../widgets/action_category_tabs.dart';
 import '../widgets/action_sort_dropdown.dart';
-import '../widgets/calculator_chooser_sheet.dart';
 import '../widgets/sdg_filter_chips.dart';
 
 /// Screen for browsing and logging eco-friendly actions.
 class ActionLogScreen extends ConsumerStatefulWidget {
-  const ActionLogScreen({super.key, this.initialCategory});
+  const ActionLogScreen({
+    super.key,
+    this.initialCategory,
+    this.initialSdg,
+    this.initialActionId,
+  });
 
   /// Category name to pre-select on open (e.g. from the daily challenge
   /// card). Null or unrecognized values show all categories.
   final String? initialCategory;
+
+  /// SDG number to pre-select on open (from "View all actions" on an SDG).
+  final int? initialSdg;
+
+  /// Action to show first for this visit (the daily challenge's).
+  final String? initialActionId;
 
   /// Accent bar, padding, icon and gaps: the part of a tile that does
   /// not move with the text scale.
@@ -40,10 +50,15 @@ class ActionLogScreen extends ConsumerStatefulWidget {
   /// Title, badge and SDG row at the default text scale.
   static const _tileTextHeight = 82.0;
 
+  /// The title's font size: nonlinear platform scalers grow small type
+  /// more than a raw 82pt block, so the text block scales like the title.
+  static const _tileTextFontSize = 14.0;
+
   /// Height of one action tile at [scaler]. Public so a test can put a
   /// tile in exactly the box the grid gives it.
   static double tileHeightFor(TextScaler scaler) =>
-      _tileChromeHeight + scaler.scale(_tileTextHeight);
+      _tileChromeHeight +
+      _tileTextHeight * scaler.scale(_tileTextFontSize) / _tileTextFontSize;
 
   @override
   ConsumerState<ActionLogScreen> createState() => _ActionLogScreenState();
@@ -59,12 +74,23 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     super.initState();
     _searchController.addListener(_onSearchChanged);
     final initialCategory = ActionCategory.fromString(widget.initialCategory);
-    if (initialCategory != null) {
+    final initialSdg = widget.initialSdg;
+    final initialActionId = widget.initialActionId;
+    if (initialCategory != null ||
+        initialSdg != null ||
+        initialActionId != null) {
       // Provider mutations are disallowed during initState, so apply the
       // incoming filter on the first frame (during the route transition).
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
+        if (!mounted) return;
+        if (initialCategory != null) {
           ref.read(selectedCategoryProvider.notifier).select(initialCategory);
+        }
+        if (initialSdg != null) {
+          ref.read(selectedSdgFilterProvider.notifier).select(initialSdg);
+        }
+        if (initialActionId != null) {
+          ref.read(pinnedActionIdProvider.notifier).pin(initialActionId);
         }
       });
     }
@@ -99,60 +125,20 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     final filteredActionsAsync = ref.watch(filteredActionsProvider);
     final languageCode = ref.watch(userLanguageCodeProvider);
 
-    // Outline glyphs alone read as decoration against the app bar, so
-    // each header action sits on its own tinted disc.
-    final headerButtonStyle = IconButton.styleFrom(
-      backgroundColor: theme.colorScheme.surfaceContainerHighest,
-      foregroundColor: theme.colorScheme.onSurfaceVariant,
-    );
-
     return WalkthroughTrigger(
       item: WalkthroughItem.logAction,
       // Arriving from the daily challenge card ticks that item only.
       enabled: widget.initialCategory == null,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(l10n.actionLogTitle),
+          title: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(l10n.actionLogTitle),
+          ),
           // Action log is a primary destination reached via the bottom-nav
           // Action button; navigation is via the tabs, so suppress the
           // implicit back arrow to avoid a redundant second exit.
           automaticallyImplyLeading: false,
-          actions: [
-            // Carbon calculators hub (Phase 8): opens the transport / food
-            // / home-energy chooser without spending a bottom-nav slot.
-            WalkthroughShimmer(
-              item: WalkthroughItem.calculators,
-              child: IconButton(
-                style: headerButtonStyle,
-                icon: const Icon(Icons.calculate_outlined),
-                tooltip: l10n.calculatorsButtonTooltip,
-                onPressed: () => CalculatorChooserSheet.show(context),
-              ),
-            ),
-            // The two energy teaching surfaces (decision E8). They sit
-            // here rather than in the chooser sheet, whose three-tile row
-            // would overflow, and rather than as category tiles, because
-            // neither is an action to log.
-            IconButton(
-              style: headerButtonStyle,
-              // The app's own energy glyph rather than a generic chart:
-              // both of these icons are energy-only surfaces.
-              icon: const Icon(Icons.bolt),
-              tooltip: l10n.energyRankedTitle,
-              onPressed: () => context.push(appRoutes.energyExplore),
-            ),
-            WalkthroughShimmer(
-              item: WalkthroughItem.quiz,
-              child: IconButton(
-                style: headerButtonStyle,
-                icon: const Icon(Icons.quiz_outlined),
-                // Domain-neutral: the game rotates between energy, food and
-                // transport rounds.
-                tooltip: l10n.quizTitle,
-                onPressed: () => context.push(appRoutes.quiz),
-              ),
-            ),
-          ],
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(56),
             child: Padding(
@@ -175,6 +161,9 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
                           suffixIcon: show
                               ? IconButton(
                                   icon: const Icon(Icons.clear),
+                                  tooltip: MaterialLocalizations.of(
+                                    context,
+                                  ).clearButtonTooltip,
                                   onPressed: () {
                                     _searchController.clear();
                                     _debounceTimer?.cancel();
@@ -253,7 +242,7 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     final route = switch (index) {
       0 => appRoutes.home,
       1 => appRoutes.progress,
-      2 => appRoutes.mascot,
+      2 => appRoutes.explore,
       _ => appRoutes.profile,
     };
     context.go(route);
@@ -286,10 +275,13 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
     }
 
     final entry = _buildCalculatorEntry(l10n);
+    final pinned = ref.watch(pinnedActionIdProvider);
+    // The challenge's own action leads; the calculator entry follows it.
+    final entryIndex = filteredActions.first.id == pinned ? 1 : 0;
     return GridView.builder(
       padding: const EdgeInsets.all(spacingLg),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: actionGridColumns,
         crossAxisSpacing: spacingMd,
         mainAxisSpacing: spacingMd,
         // Height from the content, not from a fraction of the cell
@@ -303,11 +295,15 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
       ),
       itemCount: filteredActions.length + (entry == null ? 0 : 1),
       itemBuilder: (context, index) {
-        if (entry != null && index == 0) return entry;
-        final action = filteredActions[entry == null ? index : index - 1];
+        if (entry != null && index == entryIndex) return entry;
+        final action =
+            filteredActions[entry == null || index < entryIndex
+                ? index
+                : index - 1];
         return ActionCard(
           action: action,
           languageCode: languageCode,
+          highlighted: action.id == pinned,
           onTap: () => handleActionTap(
             context,
             ref,
@@ -326,8 +322,8 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
   ///
   /// Energy has no tile here: its calculator banks nothing (decision
   /// 8.18), and a tile in a grid of loggable actions promises a log it
-  /// cannot deliver. It stays in the AppBar calculator chooser, beside
-  /// the two energy teaching surfaces (decision E8).
+  /// cannot deliver. It lives on the Explore tab with the two energy
+  /// teaching surfaces.
   Widget? _buildCalculatorEntry(AppLocalizations l10n) {
     final category = ref.watch(selectedCategoryProvider);
     final (String title, String route) = switch (category) {

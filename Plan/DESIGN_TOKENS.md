@@ -94,6 +94,11 @@ Action categories:
 Semantic: `success #4CAF50`, `warning #FFC107`, `error #F44336`,
 `streak #FF9800`.
 
+Info affordance, reserved: `infoLight #A258D5` on light themes and
+`infoDark #B388FF` on dark, picked by `infoColor(brightness)`. Only the
+shared info widgets (`InfoIconButton`, `TermWithInfo`) use them;
+`test/shared/widgets/info_affordance_reserved_test.dart` enforces it.
+
 Neutral ramp (full Material grey, available as design tokens):
 `neutral50 #FAFAFA`, `100 #F5F5F5`, `200 #EEEEEE`, `300 #E0E0E0`,
 `400 #BDBDBD`, `500 #9E9E9E`, `600 #757575`, `700 #616161`,
@@ -121,23 +126,23 @@ so the JSON stores bare 6-digit hex with no `#` and no alpha.
 
 | # | Hex | Short title |
 |---|---|---|
-| 1 | `#E5233D` | No Poverty |
-| 2 | `#DDA73A` | Zero Hunger |
-| 3 | `#4CA146` | Good Health |
+| 1 | `#E5243B` | No Poverty |
+| 2 | `#DDA63A` | Zero Hunger |
+| 3 | `#4C9F38` | Good Health |
 | 4 | `#C5192D` | Education |
-| 5 | `#EF402C` | Gender Equality |
-| 6 | `#27BFE6` | Clean Water |
-| 7 | `#FBC412` | Clean Energy |
-| 8 | `#A31C44` | Decent Work |
-| 9 | `#F26A2D` | Innovation |
-| 10 | `#E01483` | Equality |
-| 11 | `#F89D2A` | Sustainable Cities |
-| 12 | `#BF8D2C` | Responsible Consumption |
-| 13 | `#407F46` | Climate Action |
-| 14 | `#1F97D4` | Life Below Water |
-| 15 | `#59BA48` | Life on Land |
-| 16 | `#126A9F` | Peace & Justice |
-| 17 | `#13496B` | Partnerships |
+| 5 | `#FF3A21` | Gender Equality |
+| 6 | `#26BDE2` | Clean Water |
+| 7 | `#FCC30B` | Clean Energy |
+| 8 | `#A21942` | Decent Work |
+| 9 | `#FD6925` | Innovation |
+| 10 | `#DD1367` | Equality |
+| 11 | `#FD9D24` | Sustainable Cities |
+| 12 | `#BF8B2E` | Responsible Consumption |
+| 13 | `#3F7E44` | Climate Action |
+| 14 | `#0A97D9` | Life Below Water |
+| 15 | `#56C02B` | Life on Land |
+| 16 | `#00689D` | Peace & Justice |
+| 17 | `#19486A` | Partnerships |
 
 ### 3.3 Pairs that are perceptually too close
 
@@ -145,25 +150,24 @@ so the JSON stores bare 6-digit hex with no `#` and no alpha.
 panel uses a single goal colour, so collisions cannot arise; skip this.
 It applies to any cross-goal overview, multi-series chart, or legend.
 
-CIELAB deltaE, computed 2026-08-21. Anything under about 20 is hard to
+CIELAB deltaE (CIE76). Anything under about 20 is hard to
 tell apart in adjacent chart elements; under 12 is effectively identical
 at small sizes.
 
 | dE | Pair |
 |---|---|
 | 10.2 | SDG 1 No Poverty vs SDG 4 Education |
-| 11.1 | SDG 2 Zero Hunger vs SDG 12 Responsible Consumption |
-| 13.7 | SDG 3 Good Health vs SDG 15 Life on Land |
-| 16.1 | SDG 1 No Poverty vs SDG 5 Gender Equality |
-| 17.2 | SDG 16 Peace & Justice vs SDG 17 Partnerships |
-| 17.8 | SDG 2 Zero Hunger vs SDG 11 Sustainable Cities |
-| 18.0 | SDG 14 Life Below Water vs SDG 16 Peace & Justice |
-| 18.5 | SDG 5 Gender Equality vs SDG 9 Innovation |
-| 19.3 | SDG 4 Education vs SDG 5 Gender Equality |
+| 11.9 | SDG 2 Zero Hunger vs SDG 12 Responsible Consumption |
+| 17.1 | SDG 16 Peace & Justice vs SDG 17 Partnerships |
+| 19.3 | SDG 14 Life Below Water vs SDG 16 Peace & Justice |
+| 19.3 | SDG 5 Gender Equality vs SDG 9 Innovation |
 
 There are effectively four clusters: reds (1, 4, 5, 8), oranges and golds
 (2, 9, 11, 12), greens (3, 13, 15), and blues (6, 14, 16, 17). A
 17-series chart keyed only on these colours is unreadable.
+
+Outside the SDG set: a new species seed keeps every scheme role more
+than delta E 20 from both info tones (2.2), so the violet stays unique.
 
 ### 3.4 Contrast against surfaces
 
@@ -178,26 +182,26 @@ a few tenths, and treat anything near the 3:1 line as failing.
 
 | # | Hex | on light | on dark | verdict |
 |---|---|---|---|---|
-| 1 | `#E5233D` | 4.41 | 3.78 | ok both |
-| 2 | `#DDA73A` | 2.12 | 7.88 | weak on light |
-| 3 | `#4CA146` | 3.15 | 5.30 | ok both |
+| 1 | `#E5243B` | 4.41 | 3.79 | ok both |
+| 2 | `#DDA63A` | 2.14 | 7.82 | weak on light |
+| 3 | `#4C9F38` | 3.24 | 5.16 | ok both |
 | 4 | `#C5192D` | 5.77 | 2.90 | weak on dark |
-| 5 | `#EF402C` | 3.77 | 4.44 | ok both |
-| 6 | `#27BFE6` | 2.12 | 7.90 | weak on light |
-| 7 | `#FBC412` | 1.57 | 10.61 | weak on light |
-| 8 | `#A31C44` | 7.30 | 2.29 | weak on dark |
-| 9 | `#F26A2D` | 2.98 | 5.61 | weak on light |
-| 10 | `#E01483` | 4.46 | 3.75 | ok both |
-| 11 | `#F89D2A` | 2.08 | 8.03 | weak on light |
-| 12 | `#BF8D2C` | 2.90 | 5.76 | weak on light |
-| 13 | `#407F46` | 4.72 | 3.54 | ok both |
-| 14 | `#1F97D4` | 3.18 | 5.25 | ok both |
-| 15 | `#59BA48` | 2.40 | 6.97 | weak on light |
-| 16 | `#126A9F` | 5.71 | 2.93 | weak on dark |
-| 17 | `#13496B` | 9.34 | 1.79 | weak on dark |
+| 5 | `#FF3A21` | 3.48 | 4.80 | ok both |
+| 6 | `#26BDE2` | 2.17 | 7.72 | weak on light |
+| 7 | `#FCC30B` | 1.58 | 10.56 | weak on light |
+| 8 | `#A21942` | 7.44 | 2.25 | weak on dark |
+| 9 | `#FD6925` | 2.84 | 5.89 | weak on light |
+| 10 | `#DD1367` | 4.69 | 3.56 | ok both |
+| 11 | `#FD9D24` | 2.04 | 8.18 | weak on light |
+| 12 | `#BF8B2E` | 2.95 | 5.67 | weak on light |
+| 13 | `#3F7E44` | 4.79 | 3.49 | ok both |
+| 14 | `#0A97D9` | 3.18 | 5.25 | ok both |
+| 15 | `#56C02B` | 2.28 | 7.32 | weak on light |
+| 16 | `#00689D` | 5.91 | 2.83 | weak on dark |
+| 17 | `#19486A` | 9.41 | 1.78 | weak on dark |
 
-Only 5 of 17 clear 3:1 on both. **SDG yellow (7) at 1.57 on light and
-SDG dark blue (17) at 1.79 on dark are the worst cases.**
+Only 6 of 17 clear 3:1 on both. **SDG yellow (7) at 1.58 on light and
+SDG dark blue (17) at 1.78 on dark are the worst cases.**
 
 ### 3.5 On a white or off-white background
 
@@ -207,23 +211,23 @@ white, with off-white `#FAFAFA` in brackets:
 
 | # | Hex | on white | large fill | any text |
 |---|---|---|---|---|
-| 7 | `#FBC412` | 1.61 (1.55) | **LOW** | FAIL |
-| 11 | `#F89D2A` | 2.13 (2.04) | **LOW** | FAIL |
-| 2 | `#DDA73A` | 2.17 (2.08) | **LOW** | FAIL |
-| 6 | `#27BFE6` | 2.17 (2.08) | **LOW** | FAIL |
-| 15 | `#59BA48` | 2.46 (2.36) | **LOW** | FAIL |
-| 12 | `#BF8D2C` | 2.97 (2.85) | **LOW** | FAIL |
-| 9 | `#F26A2D` | 3.05 (2.93) | ok | FAIL |
-| 3 | `#4CA146` | 3.23 (3.10) | ok | FAIL |
-| 14 | `#1F97D4` | 3.26 (3.13) | ok | FAIL |
-| 5 | `#EF402C` | 3.86 (3.70) | ok | FAIL |
-| 1 | `#E5233D` | 4.53 (4.34) | ok | ok |
-| 10 | `#E01483` | 4.57 (4.38) | ok | ok |
-| 13 | `#407F46` | 4.84 (4.63) | ok | ok |
-| 16 | `#126A9F` | 5.85 (5.61) | ok | ok |
+| 7 | `#FCC30B` | 1.62 (1.55) | **LOW** | FAIL |
+| 11 | `#FD9D24` | 2.09 (2.01) | **LOW** | FAIL |
+| 2 | `#DDA63A` | 2.19 (2.10) | **LOW** | FAIL |
+| 6 | `#26BDE2` | 2.22 (2.13) | **LOW** | FAIL |
+| 15 | `#56C02B` | 2.34 (2.24) | **LOW** | FAIL |
+| 9 | `#FD6925` | 2.91 (2.79) | **LOW** | FAIL |
+| 12 | `#BF8B2E` | 3.02 (2.90) | ok | FAIL |
+| 14 | `#0A97D9` | 3.26 (3.12) | ok | FAIL |
+| 3 | `#4C9F38` | 3.32 (3.18) | ok | FAIL |
+| 5 | `#FF3A21` | 3.57 (3.42) | ok | FAIL |
+| 1 | `#E5243B` | 4.52 (4.33) | ok | ok |
+| 10 | `#DD1367` | 4.81 (4.61) | ok | ok |
+| 13 | `#3F7E44` | 4.91 (4.70) | ok | ok |
 | 4 | `#C5192D` | 5.91 (5.67) | ok | ok |
-| 8 | `#A31C44` | 7.48 (7.17) | ok | ok |
-| 17 | `#13496B` | 9.58 (9.17) | ok | ok |
+| 16 | `#00689D` | 6.06 (5.80) | ok | ok |
+| 8 | `#A21942` | 7.63 (7.31) | ok | ok |
+| 17 | `#19486A` | 9.65 (9.24) | ok | ok |
 
 6 of 17 fall below 3:1, unsafe even as a large graphic element. 10 of 17
 fall below 4.5:1, unsafe for any text. White is the worst background for
@@ -254,29 +258,39 @@ number, label, and thin line in `#212121` or `#424242`.
 
 ## 4. Typography
 
-**No custom font is declared.** `pubspec.yaml`'s `fonts:` block is
-commented out, there is no `google_fonts` dependency, and
-`app_theme.dart` sets no `textTheme` or `fontFamily`. So typography is
-Material 3 defaults: Roboto on Android, San Francisco on iOS.
+**No custom font.** Roboto on Android, San Francisco on iOS.
 
-The only `fontFamily` anywhere in `lib/` is a `'monospace'` for numeric
-values in `equivalency_info_sheet.dart`.
+**Five sizes, set once in `app_theme.dart`.** Every Material role maps
+onto one of them, so screens use `textTheme` roles and never set
+`fontSize`. A test fails on any `fontSize:` outside the theme, except a
+computed glyph size.
 
-**Design against type scale roles, not pixel sizes.** Roles actually used
-in the progress feature, with their Material 3 default values:
+| Size | Roles | Use |
+|---|---|---|
+| 12 | `labelSmall`, `labelMedium`, `bodySmall` | overlines, captions, chips, badges |
+| 14 | `labelLarge`, `titleSmall`, `bodyMedium` | body text, buttons |
+| 16 | `titleMedium`, `bodyLarge` | card and section titles, a value under an overline |
+| 22 | `titleLarge`, `headlineSmall` | screen and sheet titles, reveal figures |
+| 28 | `headlineMedium` and up | hero numbers, celebrations |
 
-| Role | Size / line height | Weight | Tracking | Used for |
-|---|---|---|---|---|
-| `titleSmall` | 14 / 20 | 500, overridden to **w600** in both charts | 0.1 | chart card titles |
-| `bodySmall` | 12 / 16 | 400 | 0.4 | tooltip text |
-| `labelSmall` | 11 / 16 | 500 | 0.5 | axis labels, legend text |
+12 is the floor. Weights, tracking and line heights stay Material defaults.
 
-Frequency across the progress widgets, as a guide to what the feature
-leans on: `bodyMedium` 9, `titleMedium` 7, `labelSmall` 6, `bodySmall` 4,
-`titleSmall` 3, `titleLarge` 3.
+**Hierarchy.**
+- A title is bold and larger than the text under it.
+- An overline labels a value or a section: `theme.overline`
+  (`text_styles.dart`), uppercase text, never bold.
+- A caption sits below what it describes: `theme.caption`.
+- A hero number is the one thing allowed to be larger than its label.
 
-Chart titles are `titleSmall` with `fontWeight: FontWeight.w600`. Match
-that for a new chart card.
+**Colour.** `onSurface` for titles and body, `onSurfaceVariant` for
+overlines and captions, `primary` only for interactive text. Domain and
+SDG ink stay where the data supplies it.
+
+Chart card titles are `titleMedium` bold, like every other card title.
+
+**Font families.** `equivalency_info_sheet.dart` sets `'monospace'` for
+numeric values; `energy_explore_sheet.dart` sets an icon font for its
+glyph wall.
 
 ---
 
@@ -405,13 +419,72 @@ clip-art.
 ## 8. Localisation
 
 Three locales: EN, JA, ES. User-facing strings come from ARB via
-`AppLocalizations.of(context)`.
+`AppLocalizations.of(context)`. Spanish is Spain Spanish (es-ES); the
+style authority is `scripts/i18n/glossary_es.md`.
 
-One exception exists and should **not** be copied: `co2_trend_chart.dart`
-hardcodes the unit in its tooltip as `'${spot.y.toStringAsFixed(1)} kg'`.
-`kg` happens to be identical across all three locales, so nothing is
-visibly broken, but unit placement is locale-dependent in general. A new
-chart should localise its unit string rather than follow this line.
+Rules:
+
+- **No string assembly around translated text.** When a sentence holds a
+  value (a name, a percent, a level), the ARB owns the whole sentence
+  through a placeholder, so each language sets its own word order and
+  punctuation. Gluing a translated fragment to a name and a `?` in code
+  breaks Japanese order and drops the Spanish ¿.
+- **Fractional and grouped numbers go through the locale formatter** in
+  `lib/core/utils/helpers.dart` (`formatDecimal`, `formatCO2Compact`,
+  `formatPoints`), never `toStringAsFixed` or plain interpolation, so
+  Spanish gets its decimal comma and period grouping. Small counts that
+  can never reach a thousand (levels, stage numbers) may interpolate.
+- **A value and its unit do not wrap apart.** The formatters and the ARB
+  templates that put a placeholder before a unit (`{km}\u00A0km`) use a
+  no-break space (`unitSpace`). Data strings that carry quantities
+  (servings, presets, energy behaviour names) go through
+  `keepUnitsTogether` at their display sites; it joins g, kg, ml, L, km,
+  h, min, kWh, W, lm, °C, C and %. Literal numbers inside long ARB prose
+  are not covered. Editable quantity fields seed and parse with the
+  locale (`decimalSeedText`, `parseDecimalInput`), and flag a
+  thousands-shaped entry such as "1.500" rather than guess.
+- **No hard-coded user-visible literal.**
+  `test/core/l10n/no_hardcoded_strings_test.dart` scans `lib/` for any
+  literal inside a text argument (`Text` and its subclasses, `TextSpan`
+  `text:`, tooltips, labels, hints, semantics and input decoration text),
+  including ternaries, adjacent literals and `+`. Its allowlist is keyed
+  by file and literal and holds brand names, notation that reads the
+  same in every language, and the postponed reminder text. It ignores
+  literals with no letters, so assembly with `' - '` or `'?'` still needs
+  review against the first rule.
+- **Single-line labels never wrap.** Segmented controls use
+  `ScaledSegmentedButton`, which shrinks all labels by one common factor
+  when the widest does not fit, so siblings never render at different
+  sizes. Rows holding translated text give it an `Expanded` or
+  `Flexible`, or use a `Wrap`.
+- **Multi-line Japanese text renders through `PhraseText`**
+  (`lib/shared/widgets/phrase_text.dart`; `PhraseText.rich` for spans,
+  `phraseMarkdownGenerator` for markdown). Flutter breaks Japanese
+  between any two characters; `PhraseText` inserts word joiners so lines
+  break between BudouX phrases and never before a closing mark or small
+  kana. Pass `minLineWidth`, the narrowest width the text gets on a 320pt
+  phone (dialogs use `phraseDialogMinLineWidth`); too large a value lets
+  a joined phrase outgrow the line. Text with `maxLines` gets the
+  kinsoku joins only, and measures itself to drop them if they alone
+  would ellipsise it, so it must not sit under an intrinsic-sizing
+  parent such as an `AlertDialog`. Joiners stay in the display layer:
+  never in ARB values, data files, search keys, Firestore writes or
+  analytics. Single-line labels stay plain `Text`.
+- **Spanish punctuation:** questions and exclamations open with ¿ and ¡
+  (`test/core/l10n/arb_spanish_punctuation_test.dart`); feature names
+  inside a sentence are quoted with « ».
+- **Layout tests run in Japanese and Spanish** at `testPhoneWidths`
+  (`test/helpers/test_helpers.dart`). Japanese uses the default test
+  font, whose 1em glyphs match kana and kanji. Spanish loads Roboto from
+  `test/fonts/` with `loadTestFonts()` and runs at
+  `robotoToSfWidthFactor` of each width, because the default test font
+  draws Latin letters 1em wide. Roboto has no kana and stays loaded for
+  the rest of the file, so a Japanese case in the same file sets
+  `fontFamily: 'FlutterTest'` in its theme.
+- **Spanish data text follows the same number marks.** `factEs` in
+  `data/app/eco_facts.json` and `data/app/eco_dex_entries.json` uses the
+  decimal comma and period grouping
+  (`test/core/l10n/spanish_fact_numbers_test.dart`).
 
 - Dates use `DateFormat.MMMd(locale)` with
   `Localizations.localeOf(context).toLanguageTag()`.
@@ -432,7 +505,8 @@ chart should localise its unit string rather than follow this line.
 - [ ] Legible in greyscale.
 - [ ] Spacing and radii come from `ui_constants.dart` names.
 - [ ] Card is `surfaceContainerLow` + `borderRadiusMd`.
-- [ ] Title is `titleSmall` at `w600`.
+- [ ] Title is `titleMedium` bold; labels use `theme.overline`.
 - [ ] Widget takes its entity as a parameter, reads no provider.
 - [ ] Every string is localised; checked at JA width.
+- [ ] Any explainer uses the shared info widgets.
 - [ ] Empty and "no data" states designed, not afterthoughts.

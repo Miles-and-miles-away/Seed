@@ -1,9 +1,8 @@
 # App Store Deployment
 
-**Created:** 2026-09-20
-**Status:** Not started. No Apple Developer Program membership, no
-signing identity on any machine, no App Store Connect record, and no
-`.ipa` has ever been built. Enrolment is the critical path.
+**Status:** Enrolled as an Individual, and `make release-ios` builds
+a signed App Store `.ipa`. No App Store Connect record yet, so nothing
+has been uploaded.
 **Purpose:** The Apple release track: the identifiers that cannot
 change, the enrolment gate, the TestFlight tracks, the App Store
 Connect declarations, and the order to do them in.
@@ -193,25 +192,18 @@ Android. The signing identity lives in the login keychain and is
 re-issuable from the developer account, which makes the loss scenario
 far less severe than losing `seed-release.keystore`.
 
-**`aps-environment` is set to `development`** in
-`Runner.entitlements`. Push notifications will not work on a
-TestFlight or App Store build until it is `production`. Notifications
-are deliberately deferred and the UI is hidden, so this is not
-blocking, but it is a trap waiting for whoever turns them on.
+`aps-environment` is `development` in `Runner.entitlements`, and that
+is correct: the App Store export rewrites it to `production` from the
+distribution profile, so the shipped `.ipa` carries `production`.
 
-Two different kinds of symbol reach Crashlytics and they are easy to
-confuse. Native iOS dSYMs are uploaded automatically by the
-`FlutterFire: "flutterfire upload-crashlytics-symbols"` build phase
-in `project.pbxproj`; nothing manual is needed. **Dart** symbols are separate,
-written to `build/debug-info` by `--split-debug-info`, and must be
-uploaded by hand or Dart stack traces stay unreadable. That upload
-needs a JDK on `PATH`:
-
-```bash
-conda activate seed
-npm run firebase -- crashlytics:symbols:upload \
-  --app=1:49522523534:ios:680280a3eb42d871adf8df build/debug-info
-```
+Crashlytics symbols need nothing manual on iOS. The
+`FlutterFire: "flutterfire upload-crashlytics-symbols"` build phase in
+`project.pbxproj` uploads every dSYM in the archive during a Release
+device build, and `App.framework.dSYM` is the Dart symbol file: its
+UUID matches `build/debug-info/app.ios-arm64.symbols`. Do not run
+`firebase crashlytics:symbols:upload` on the iOS file. That command is
+Android only, and on the iOS file it fails with "Breakpad symbol
+generation failed".
 
 The build number in `pubspec.yaml` is shared with Android. Apple
 requires it to increase within a version string, so the single
@@ -227,19 +219,32 @@ APIs will accept it, exactly as Play Integrity did on Android.
 
 ## Order of operations
 
-1. Enrol in the Apple Developer Program as an Individual (A1). Have
-   photo ID ready; verification is the slow step.
-2. Open `ios/Runner.xcodeproj` in Xcode, select the team, let
-   automatic signing issue the certificate and profile.
+1. Enrol in the Apple Developer Program as an Individual (A1). The
+   web form's "unable to process your request" error means the
+   trusted phone number's country does not match the Apple Account's
+   country; Apple checks this and Google Play does not. After payment
+   the team shows as Pending until Apple activates it. Done.
+2. ~~Sign in to Xcode and set the team.~~ Done. The team ID is in
+   `project.pbxproj` as `DEVELOPMENT_TEAM`. With no iPhone the team
+   had no device, so Apple refused the development profile the archive
+   signs with; building once for "My Mac (Designed for iPad)" with
+   `-allowProvisioningDeviceRegistration` registered this Mac instead.
+   Export uses a cloud-managed Apple Distribution certificate, so no
+   distribution certificate lives in the keychain.
 3. ~~Set `ITSAppUsesNonExemptEncryption` to false in `Info.plist`.~~ Done.
-4. Run `flutter build ipa` and fix what it surfaces. This has never
-   been run; CI only builds `--simulator --debug`, so the release
-   path is entirely unproven.
-5. Create the app record in App Store Connect with bundle ID
-   `com.seedahabit.app` and the 13+ age rating.
+4. ~~Run `make release-ios` and fix what it surfaces.~~ Done. CI
+   still builds only `--simulator --debug`, so a signing regression
+   shows up locally, not in CI.
+5. ~~Create the app record in App Store Connect.~~ Done, named
+   "Seed a Habit" because "Seed" is taken on the App Store; the
+   home-screen label stays "Seed". Primary language English (UK), full
+   user access. The 13+ age rating is still to answer under App
+   Information.
 6. Register the app for App Check DeviceCheck in Firebase.
-7. Upload the build, either from Xcode Organizer or with
-   `xcrun altool`. Upload the Dart symbols.
+7. ~~Upload the build.~~ Done with Apple's Transporter app: drag in
+   `build/ios/ipa/seed_app.ipa` and deliver. Symbols upload during the
+   archive; see above. Each upload needs a build number Apple has not
+   seen for this app.
 8. Enter the review account under Sign-In Required.
 9. Answer the privacy nutrition labels from the table above.
 10. Add internal testers and confirm the build installs and signs in
@@ -265,8 +270,8 @@ holder's legal name as the seller on the public App Store listing.
 Moving to an Organisation later is possible through an app transfer,
 but it is tedious and best avoided, so this is effectively permanent.
 
-**A2. In-app account deletion: already satisfied.** Verified
-2026-09-20. Apple requires deletion to be initiated from inside the
+**A2. In-app account deletion: satisfied, including Apple token
+revocation.** Apple requires deletion to be initiated from inside the
 app, not only from a hosted page, and it is a common rejection.
 `account_settings_screen.dart` renders the
 `accountSettingsDeleteAccount` tile with its warning string, and the
@@ -275,5 +280,21 @@ the `deleteUserAccount` callable through `user_remote_datasource.dart`.
 The Cloud Function removes the subcollections and the Auth user
 server-side.
 
-No work is needed. Recorded because the requirement is easy to
-assume is met by the hosted page alone, which would not pass.
+Apple also asks apps offering Sign in with Apple to revoke the user's
+Apple tokens on deletion. On iOS, for a user with `apple.com` linked,
+`deleteAccount` first calls `revokeAppleSignIn`: the Apple sheet
+re-prompts for a fresh single-use authorization code, and
+`revokeTokenWithAuthorizationCode` sends it to Firebase. This must run
+before deletion because Firebase signs the request with the current
+user's ID token. Cancelling the Apple sheet aborts deletion. A failed
+revocation is logged to Crashlytics and deletion continues, because
+removing the user's data matters more than the revocation.
+
+Revocation only succeeds once the Firebase Apple provider has its
+OAuth code flow configuration: team ID `VHDM7VA867`, the key ID and
+`.p8` of a key with Sign in with Apple enabled, and a Services ID,
+which Firebase requires alongside them. The Services ID is
+`com.seedahabit.app.signin`, configured with Sign in with Apple,
+primary App ID `com.seedahabit.app`, and the Firebase auth handler
+as its return URL. Until all of that is set, every revocation fails
+and is logged.
