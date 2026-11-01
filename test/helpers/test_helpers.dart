@@ -128,16 +128,32 @@ Future<void> loadTestFonts() async {
 const testPhoneWidths = [320.0, 360.0, 375.0, 393.0];
 
 /// Laid-out lines of the text [finder] matches, word joiners removed.
-List<String> renderedLines(WidgetTester tester, Finder finder) {
-  final paragraph = tester.renderObject<RenderParagraph>(
-    find
-        .descendant(
-          of: finder,
-          matching: find.byType(RichText),
-          matchRoot: true,
-        )
-        .first,
-  );
+List<String> renderedLines(WidgetTester tester, Finder finder) =>
+    paragraphLines(
+      tester.renderObject<RenderParagraph>(
+        find
+            .descendant(
+              of: finder,
+              matching: find.byType(RichText),
+              matchRoot: true,
+            )
+            .first,
+      ),
+    );
+
+/// [T]s under [root], [root] included, in tree order. Per-item sweeps use
+/// this: a finder walks the whole tree, so one per item is quadratic.
+Iterable<T> renderObjectsIn<T extends RenderObject>(RenderObject root) sync* {
+  if (root is T) yield root;
+  final children = <RenderObject>[];
+  root.visitChildren(children.add);
+  for (final child in children) {
+    yield* renderObjectsIn<T>(child);
+  }
+}
+
+/// Laid-out lines of [paragraph], word joiners removed.
+List<String> paragraphLines(RenderParagraph paragraph) {
   final text = paragraph.text.toPlainText(includeSemanticsLabels: false);
   final lines = <String>[];
   double? lineTop;
@@ -152,13 +168,6 @@ List<String> renderedLines(WidgetTester tester, Finder finder) {
   return [for (final line in lines) stripWordJoiners(line)];
 }
 
-RenderParagraph? _firstParagraph(RenderObject root) {
-  if (root is RenderParagraph) return root;
-  RenderParagraph? found;
-  root.visitChildren((child) => found ??= _firstParagraph(child));
-  return found;
-}
-
 /// For each [FittedBox] under [of] that holds text, as a NoWordBreak draws
 /// it: its plain text, the scale it is drawn at, and the scale the widest
 /// unbreakable run of its text needs to fit the line, phrase joins aside.
@@ -167,14 +176,11 @@ RenderParagraph? _firstParagraph(RenderObject root) {
 /// [language] `ja` both scales come from a device's breaks instead:
 /// anywhere but a joined pair, a Latin or digit run, or a no-break space.
 List<(String, double, double)> noWordBreakScales(
-  WidgetTester tester,
-  Finder of, {
+  RenderObject of, {
   String? language,
 }) => [
-  for (final box in tester.renderObjectList<RenderFittedBox>(
-    find.descendant(of: of, matching: find.byType(FittedBox)),
-  ))
-    if (_firstParagraph(box) case final paragraph?)
+  for (final box in renderObjectsIn<RenderFittedBox>(of))
+    if (renderObjectsIn<RenderParagraph>(box).firstOrNull case final paragraph?)
       _scales(box, paragraph, language),
 ];
 

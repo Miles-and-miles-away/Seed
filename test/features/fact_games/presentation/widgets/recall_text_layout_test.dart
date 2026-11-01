@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
@@ -190,16 +191,16 @@ void main() {
             ],
           ]);
 
+          final cards = {
+            for (final card in find.byType(RecallQuestionCard).evaluate())
+              card.widget.key!: card.renderObject!,
+          };
           final bad = <String>[];
           for (final (i, q) in questions.indexed) {
-            List<String> lines(String key, {int at = 1}) => renderedLines(
-              tester,
-              find
-                  .descendant(
-                    of: find.byKey(ValueKey('$key $i')),
-                    matching: find.byType(RichText),
-                  )
-                  .at(at),
+            List<String> lines(String key, {int at = 1}) => paragraphLines(
+              renderObjectsIn<RenderParagraph>(
+                cards[ValueKey('$key $i')]!,
+              ).elementAt(at),
             );
             final title = lines('blanked', at: 0);
             expect(title.join(), q.title);
@@ -246,18 +247,20 @@ void main() {
                 ),
           ]);
 
+          final buttons = {
+            for (final button in find.byType(RecallAnswerButton).evaluate())
+              button.widget.key!: button.renderObject!,
+          };
           final bad = <String>[];
           for (final figure in figures) {
             for (final state in [
               RecallAnswerState.idle,
               RecallAnswerState.right,
             ]) {
-              final lines = renderedLines(
-                tester,
-                find.descendant(
-                  of: find.byKey(ValueKey('$figure $state')),
-                  matching: find.byType(Text),
-                ),
+              final lines = paragraphLines(
+                renderObjectsIn<RenderParagraph>(
+                  buttons[ValueKey('$figure $state')]!,
+                ).last,
               );
               expect(lines.join(), figure);
               bad.addAll(

@@ -481,8 +481,7 @@ void main() {
               expect(tester.takeException(), isNull, reason: action.id);
 
               for (final (text, shrink, needed) in noWordBreakScales(
-                tester,
-                find.byType(DailyChallengeCard),
+                tester.renderObject(find.byType(DailyChallengeCard)),
               )) {
                 if (language == 'ja' ? shrink < 1 : shrink < needed - 0.005) {
                   bad.add('${action.id}: $text shrinks to $shrink');
