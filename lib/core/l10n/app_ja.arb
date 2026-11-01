@@ -171,6 +171,7 @@
   "errorAuth": "認証に失敗しました。もう一度お試しください。",
   "errorOpenLink": "リンクを開けませんでした。",
   "errorActionTooSoon": "アクションの記録は数秒おいてから行ってください。",
+  "errorActionRejected": "アクションを記録できませんでした。端末の日付と時刻が自動設定になっているか確認して、もう一度お試しください。",
   "errorLogActionOffline": "オフラインではアクションを記録できません。接続を確認してもう一度お試しください。",
   "errorAuthEmailInUse": "このメールアドレスは既に登録されています。",
   "errorAuthInvalidEmail": "有効なメールアドレスを入力してください。",

@@ -324,6 +324,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get errorActionTooSoon => 'アクションの記録は数秒おいてから行ってください。';
 
   @override
+  String get errorActionRejected =>
+      'アクションを記録できませんでした。端末の日付と時刻が自動設定になっているか確認して、もう一度お試しください。';
+
+  @override
   String get errorLogActionOffline =>
       'オフラインではアクションを記録できません。接続を確認してもう一度お試しください。';
 

@@ -93,7 +93,6 @@ void main() async {
       // Configure Firestore offline persistence
       FirebaseFirestore.instance.settings = const Settings(
         persistenceEnabled: true,
-        cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
       );
 
       // Register background message handler for FCM

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
@@ -351,6 +352,7 @@ void main() {
     }
 
     testWidgets('permission-denied reads as the rate limit', (tester) async {
+      markActionLogged();
       log.error = FirebaseException(
         plugin: 'cloud_firestore',
         code: 'permission-denied',

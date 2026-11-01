@@ -32,6 +32,16 @@ import '../helpers/test_helpers.dart';
 
 // Firebase-touching services signOut() calls; no-ops keep the flow off the
 // network under test.
+/// Sign-out drains pending writes and clears the cache, which the fake
+/// leaves unimplemented.
+class _SignOutFirestore extends FakeFirebaseFirestore {
+  @override
+  Future<void> waitForPendingWrites() async {}
+
+  @override
+  Future<void> terminate() async {}
+}
+
 class _FakeAnalyticsService extends Fake implements AnalyticsService {
   @override
   Future<void> logLogout() async {}
@@ -245,7 +255,7 @@ void main() {
           overrides: [
             languageStoreOverride(),
             firebaseAuthProvider.overrideWithValue(auth),
-            firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
+            firestoreProvider.overrideWithValue(_SignOutFirestore()),
             hasMascotProvider.overrideWithValue(false),
             analyticsServiceProvider.overrideWithValue(_FakeAnalyticsService()),
             crashlyticsProvider.overrideWithValue(_FakeCrashlytics()),

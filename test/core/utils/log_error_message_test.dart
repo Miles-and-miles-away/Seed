@@ -51,12 +51,27 @@ void main() {
     );
   });
 
-  testWidgets('permission-denied reads as the rate limit', (tester) async {
+  final denied = FirebaseException(
+    plugin: 'cloud_firestore',
+    code: 'permission-denied',
+  );
+
+  testWidgets('permission-denied with no recent log reads as a clock problem', (
+    tester,
+  ) async {
     expect(
-      await messageFor(
-        tester,
-        FirebaseException(plugin: 'cloud_firestore', code: 'permission-denied'),
-      ),
+      await messageFor(tester, denied),
+      "This action could not be logged. Check that your device's date and "
+      'time are set automatically, then try again.',
+    );
+  });
+
+  testWidgets('permission-denied right after a log reads as the rate limit', (
+    tester,
+  ) async {
+    markActionLogged();
+    expect(
+      await messageFor(tester, denied),
       'Please wait a few seconds between actions.',
     );
   });

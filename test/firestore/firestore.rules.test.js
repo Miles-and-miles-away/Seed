@@ -848,6 +848,21 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
     updatedAt: Timestamp.now(),
   };
 
+  // Summaries must ride the scoring write, which bumps lastActionDate.
+  function coupledSummary(db, data, id = SUMMARY_ID, update = false) {
+    const batch = writeBatch(db);
+    const ref = doc(db, `users/${ALICE}/dailySummaries/${id}`);
+    update ? batch.update(ref, data) : batch.set(ref, data);
+    batch.update(doc(db, `users/${ALICE}`), {
+      lastActionDate: serverTimestamp(),
+    });
+    return batch.commit();
+  }
+
+  beforeEach(async () => {
+    await seed(`users/${ALICE}`, baseUserDoc);
+  });
+
   test('owner can read their own summary', async () => {
     await seed(summaryPath, validSummary);
     await assertSucceeds(getDoc(doc(aliceDb(), summaryPath)));
@@ -859,36 +874,40 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
   });
 
   test('owner can create a well-formed summary', async () => {
-    await assertSucceeds(
-      setDoc(doc(aliceDb(), summaryPath), validSummary),
-    );
+    await assertSucceeds(coupledSummary(aliceDb(), validSummary));
+  });
+
+  test('rejects a summary written outside the scoring write', async () => {
+    await assertFails(setDoc(doc(aliceDb(), summaryPath), validSummary));
   });
 
   test('owner can increment an existing summary', async () => {
     await seed(summaryPath, validSummary);
     await assertSucceeds(
-      updateDoc(doc(aliceDb(), summaryPath), {
-        goalCount: increment(1),
-        totalPoints: increment(10),
-        totalCo2Grams: increment(500),
-        'categoryCo2Grams.waste': increment(500),
-        updatedAt: serverTimestamp(),
-      }),
+      coupledSummary(
+        aliceDb(),
+        {
+          goalCount: increment(1),
+          totalPoints: increment(10),
+          totalCo2Grams: increment(500),
+          'categoryCo2Grams.waste': increment(500),
+          updatedAt: serverTimestamp(),
+        },
+        SUMMARY_ID,
+        true,
+      ),
     );
   });
 
   test('rejects a non-date document id', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), `users/${ALICE}/dailySummaries/junk`), {
-        ...validSummary,
-        date: 'junk',
-      }),
+      coupledSummary(aliceDb(), {...validSummary, date: 'junk'}, 'junk'),
     );
   });
 
   test('rejects a date field that mismatches the id', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), summaryPath), {
+      coupledSummary(aliceDb(), {
         ...validSummary,
         date: '2026-01-01',
       }),
@@ -897,7 +916,7 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
 
   test('rejects fields outside the whitelist', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), summaryPath), {
+      coupledSummary(aliceDb(), {
         ...validSummary,
         payload: 'x'.repeat(100),
       }),
@@ -906,7 +925,7 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
 
   test('rejects negative totals', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), summaryPath), {
+      coupledSummary(aliceDb(), {
         ...validSummary,
         totalPoints: -5,
       }),
@@ -915,7 +934,7 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
 
   test('rejects a non-integer goalCount', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), summaryPath), {
+      coupledSummary(aliceDb(), {
         ...validSummary,
         goalCount: 1.5,
       }),
@@ -924,7 +943,7 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
 
   test('rejects completedSdgs over 17 entries', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), summaryPath), {
+      coupledSummary(aliceDb(), {
         ...validSummary,
         completedSdgs: Array.from({length: 18}, (_, i) => i + 1),
       }),
@@ -945,7 +964,7 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
   test('an unverified password account cannot write summaries',
     async () => {
       await assertFails(
-        setDoc(doc(alicePasswordDb(false), summaryPath), validSummary),
+        coupledSummary(alicePasswordDb(false), validSummary),
       );
     });
 });

@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
@@ -438,6 +439,7 @@ class ActionLogRepository {
         ..set(summaryRef, summaryData)
         ..update(userRef, updates);
     });
+    markActionLogged();
 
     return ActionLogResult(
       actionLog: actionLog,

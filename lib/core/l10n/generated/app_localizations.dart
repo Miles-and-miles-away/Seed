@@ -658,6 +658,12 @@ abstract class AppLocalizations {
   /// **'Please wait a few seconds between actions.'**
   String get errorActionTooSoon;
 
+  /// No description provided for @errorActionRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.'**
+  String get errorActionRejected;
+
   /// No description provided for @errorLogActionOffline.
   ///
   /// In en, this message translates to:
