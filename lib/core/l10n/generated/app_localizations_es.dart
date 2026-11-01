@@ -329,6 +329,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get errorActionTooSoon => 'Espera unos segundos entre acciones.';
 
   @override
+  String get errorActionRejected =>
+      'No se ha podido registrar la acción. Comprueba que la fecha y la hora del dispositivo se ajustan automáticamente y vuelve a intentarlo.';
+
+  @override
   String get errorLogActionOffline =>
       'No se puede registrar una acción sin conexión. Comprueba tu conexión e inténtalo de nuevo.';
 

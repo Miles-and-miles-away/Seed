@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
@@ -40,6 +39,7 @@ void main() {
       const AppUserModel(uid: 'fallback', email: 'fallback@x.com'),
     );
     registerFallbackValue(<String, dynamic>{});
+    registerFallbackValue(Duration.zero);
   });
 
   setUp(() {
@@ -115,7 +115,41 @@ void main() {
 
       expect(result.emailVerified, isTrue);
       verify(
-        () => userDs.updateUser(uid, {AppConstants.fieldEmailVerified: true}),
+        () => userDs.updateUser(uid, {
+          AppConstants.fieldEmail: email,
+          AppConstants.fieldEmailVerified: true,
+        }),
+      ).called(1);
+    });
+
+    test('syncs an email changed in Auth to Firestore', () async {
+      final user = fakeFirebaseUser();
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.signInWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
+
+      const stale = AppUserModel(
+        uid: uid,
+        email: 'old@example.com',
+        emailVerified: true,
+      );
+      when(() => userDs.getUser(uid)).thenAnswer((_) async => stale);
+      when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
+
+      final result = await repository.signInWithEmailAndPassword(
+        email,
+        'pw',
+        language: 'es',
+      );
+
+      expect(result.email, email);
+      verify(
+        () => userDs.updateUser(uid, {
+          AppConstants.fieldEmail: email,
+          AppConstants.fieldEmailVerified: true,
+        }),
       ).called(1);
     });
 
@@ -393,13 +427,28 @@ void main() {
   });
 
   group('deleteAccount', () {
-    test('runs the server-side deletion then signs out locally', () async {
+    setUp(() {
+      when(
+        () => authDs.reauthenticateWithSocialProvider(),
+      ).thenAnswer((_) async => null);
       when(() => userDs.deleteUser()).thenAnswer((_) async {});
       when(() => authDs.signOut()).thenAnswer((_) async {});
+      when(() => userDs.clearLocalCache()).thenAnswer((_) async {});
+      when(() => authDs.refreshIdToken()).thenAnswer((_) async {});
+    });
 
+    test('re-authenticates, deletes server-side, signs out, clears the '
+        'cache', () async {
       await repository.deleteAccount();
 
-      verifyInOrder([() => userDs.deleteUser(), () => authDs.signOut()]);
+      verifyInOrder([
+        () => authDs.reauthenticateWithSocialProvider(),
+        () => authDs.refreshIdToken(),
+        () => userDs.deleteUser(),
+        () => authDs.signOut(),
+        () => userDs.clearLocalCache(),
+      ]);
+      verifyNever(() => authDs.revokeAppleSignIn(any()));
     });
 
     test('does not sign out when the server-side deletion fails', () async {
@@ -410,23 +459,36 @@ void main() {
       verifyNever(() => authDs.signOut());
     });
 
-    group('Apple user on iOS', () {
+    for (final (code, failure) in <(String, Exception)>[
+      ('sign-in-cancelled', AuthException(code: 'sign-in-cancelled')),
+      ('sign-in-offline', AuthException(code: 'sign-in-offline')),
+      ('user-mismatch', FirebaseAuthException(code: 'user-mismatch')),
+    ]) {
+      test('does not delete when re-authentication fails: $code', () async {
+        when(
+          () => authDs.reauthenticateWithSocialProvider(),
+        ).thenThrow(failure);
+
+        await expectLater(repository.deleteAccount(), throwsA(failure));
+
+        verifyNever(() => userDs.deleteUser());
+      });
+    }
+
+    group('with an Apple authorization code', () {
       setUp(() {
-        debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-        when(() => authDs.isAppleUser).thenReturn(true);
-        when(() => userDs.deleteUser()).thenAnswer((_) async {});
-        when(() => authDs.signOut()).thenAnswer((_) async {});
+        when(
+          () => authDs.reauthenticateWithSocialProvider(),
+        ).thenAnswer((_) async => 'code');
       });
 
-      tearDown(() => debugDefaultTargetPlatformOverride = null);
-
       test('revokes the Apple grant before deleting', () async {
-        when(() => authDs.revokeAppleSignIn()).thenAnswer((_) async {});
+        when(() => authDs.revokeAppleSignIn('code')).thenAnswer((_) async {});
 
         await repository.deleteAccount();
 
         verifyInOrder([
-          () => authDs.revokeAppleSignIn(),
+          () => authDs.revokeAppleSignIn('code'),
           () => userDs.deleteUser(),
           () => authDs.signOut(),
         ]);
@@ -434,56 +496,53 @@ void main() {
 
       test('still deletes when revocation fails', () async {
         when(
-          () => authDs.revokeAppleSignIn(),
+          () => authDs.revokeAppleSignIn('code'),
         ).thenThrow(FirebaseAuthException(code: 'invalid-credential'));
 
         await repository.deleteAccount();
 
         verify(() => userDs.deleteUser()).called(1);
       });
-
-      for (final failure in [
-        AuthException(code: 'apple-sign-in-failed'),
-        AuthException(code: 'sign-in-offline'),
-      ]) {
-        test('still deletes when the Apple prompt fails: '
-            '${failure.code}', () async {
-          when(() => authDs.revokeAppleSignIn()).thenThrow(failure);
-
-          await repository.deleteAccount();
-
-          verifyInOrder([() => userDs.deleteUser(), () => authDs.signOut()]);
-        });
-      }
-
-      test('does not delete when the Apple prompt is cancelled', () async {
-        when(
-          () => authDs.revokeAppleSignIn(),
-        ).thenThrow(AuthException(code: 'sign-in-cancelled'));
-
-        await expectLater(
-          repository.deleteAccount(),
-          throwsA(isA<AuthException>()),
-        );
-
-        verifyNever(() => userDs.deleteUser());
-      });
-    });
-
-    test('skips revocation off iOS', () async {
-      when(() => authDs.isAppleUser).thenReturn(true);
-      when(() => userDs.deleteUser()).thenAnswer((_) async {});
-      when(() => authDs.signOut()).thenAnswer((_) async {});
-
-      await repository.deleteAccount();
-
-      verifyNever(() => authDs.revokeAppleSignIn());
     });
   });
 
   group('simple delegations', () {
-    test('signOut forwards', () async {
+    test('signOut clears the local cache once writes are synced', () async {
+      when(
+        () => userDs.pendingWritesSynced(any()),
+      ).thenAnswer((_) async => true);
       when(() => authDs.signOut()).thenAnswer((_) async {});
+      when(() => userDs.clearLocalCache()).thenAnswer((_) async {});
+
+      await repository.signOut();
+
+      verifyInOrder([
+        () => userDs.pendingWritesSynced(any()),
+        () => authDs.signOut(),
+        () => userDs.clearLocalCache(),
+      ]);
+    });
+
+    test('signOut keeps the cache while writes are unsynced', () async {
+      when(
+        () => userDs.pendingWritesSynced(any()),
+      ).thenAnswer((_) async => false);
+      when(() => authDs.signOut()).thenAnswer((_) async {});
+
+      await repository.signOut();
+
+      verify(() => authDs.signOut()).called(1);
+      verifyNever(() => userDs.clearLocalCache());
+    });
+
+    test('signOut survives a cache-clear failure', () async {
+      when(
+        () => userDs.pendingWritesSynced(any()),
+      ).thenAnswer((_) async => true);
+      when(() => authDs.signOut()).thenAnswer((_) async {});
+      when(
+        () => userDs.clearLocalCache(),
+      ).thenThrow(FirebaseException(plugin: 'cloud_firestore'));
 
       await repository.signOut();
 

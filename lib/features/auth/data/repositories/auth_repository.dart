@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/app_logger.dart';
-import 'package:seed_app/core/utils/auth_error_mapper.dart';
 
 import '../datasources/auth_remote_datasource.dart';
 import '../datasources/user_remote_datasource.dart';
 import '../models/app_user_model.dart';
+
+const _pendingWritesTimeout = Duration(seconds: 3);
 
 /// Repository that coordinates authentication and user data operations.
 class AuthRepository {
@@ -84,9 +84,32 @@ class AuthRepository {
     return _getOrCreateUser(credential.user!, language);
   }
 
-  /// Signs out the current user from all providers.
+  /// Signs out the current user from all providers and wipes their cached
+  /// data, unless writes are still unsynced: clearing would lose them, and
+  /// they upload when the same account signs in again.
   Future<void> signOut() async {
+    final synced = await _userDataSource.pendingWritesSynced(
+      _pendingWritesTimeout,
+    );
     await _authDataSource.signOut();
+    if (synced) {
+      await _clearLocalCache();
+    } else {
+      appLogger.info('Auth: unsynced writes, keeping the local cache');
+    }
+  }
+
+  /// Best-effort: a failure must never block signing out.
+  Future<void> _clearLocalCache() async {
+    try {
+      await _userDataSource.clearLocalCache();
+    } on Exception catch (e, stackTrace) {
+      appLogger.error(
+        'Auth: clearing the local cache failed',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   /// Watches the current user document for real-time updates.
@@ -110,12 +133,15 @@ class AuthRepository {
     if (appUser == null) {
       appUser = await _createNewUser(firebaseUser, language);
     } else {
-      // Update emailVerified status if it has changed
-      if (appUser.emailVerified != firebaseUser.emailVerified) {
+      // Auth owns these; a completed email change only lands in Auth.
+      final email = firebaseUser.email ?? appUser.email;
+      final emailVerified = firebaseUser.emailVerified;
+      if (appUser.email != email || appUser.emailVerified != emailVerified) {
         await _userDataSource.updateUser(firebaseUser.uid, {
-          AppConstants.fieldEmailVerified: firebaseUser.emailVerified,
+          AppConstants.fieldEmail: email,
+          AppConstants.fieldEmailVerified: emailVerified,
         });
-        appUser = appUser.copyWith(emailVerified: firebaseUser.emailVerified);
+        appUser = appUser.copyWith(email: email, emailVerified: emailVerified);
       }
     }
     return appUser;
@@ -210,17 +236,16 @@ class AuthRepository {
   ///
   /// Runs server-side via the deleteUserAccount Cloud Function: rules
   /// block client deletes of the action log, and only the Admin SDK
-  /// removes subcollections and the Auth user. Re-authentication is
-  /// handled by the UI before this call. Signs out locally afterwards
-  /// to clear the now-invalid session.
+  /// removes subcollections and the Auth user. The function demands a
+  /// recent sign-in, so social users are re-prompted here; password users
+  /// re-authenticate in the UI first. Signs out locally afterwards.
   Future<void> deleteAccount() async {
-    // A cancelled Apple prompt aborts deletion; any other failure does not.
-    if (defaultTargetPlatform == TargetPlatform.iOS &&
-        _authDataSource.isAppleUser) {
+    final appleCode = await _authDataSource.reauthenticateWithSocialProvider();
+    // Revocation is best-effort; a failure must not block erasure.
+    if (appleCode != null) {
       try {
-        await _authDataSource.revokeAppleSignIn();
+        await _authDataSource.revokeAppleSignIn(appleCode);
       } on Exception catch (e, stackTrace) {
-        if (e is AuthException && e.code == authCodeSignInCancelled) rethrow;
         appLogger.error(
           'Auth: Apple token revocation failed',
           error: e,
@@ -228,7 +253,9 @@ class AuthRepository {
         );
       }
     }
+    await _authDataSource.refreshIdToken();
     await _userDataSource.deleteUser();
     await _authDataSource.signOut();
+    await _clearLocalCache();
   }
 }

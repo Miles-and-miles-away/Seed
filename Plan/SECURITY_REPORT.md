@@ -16,10 +16,11 @@ below reflects what the code actually does today, with the evidence
 inline. The March audit's finding bodies had gone stale: they still read
 as open long after the fixes landed.
 
-**Open:** 0 critical, 0 high, 0 medium.
+**Open:** 0 critical, 0 high, 0 medium. The fourth pass below is
+fixed in code; `cleanupUnverifiedUsers` waits on a deploy.
 One finding (H3, mascot array) is accepted by design with a documented
 revisit trigger. Two (H2, M6) are not applicable to the current feature
-set. Everything else is fixed and verified.
+set.
 
 Both Firestore deployment items are now closed. Indexes were confirmed
 deployed and in sync on 2026-08-22, and `firestore.rules` was deployed the
@@ -33,7 +34,7 @@ and nothing else.
 
 | ID | Finding | Status | Evidence |
 |---|---|---|---|
-| C1 | Service account key hygiene | **Resolved** | Keys rotated; the retired key is absent from the service account's live cert list. Revocation verified against the public x509 endpoint, not just the console. `**/serviceAccountKey.json` is gitignored and confirmed absent from the repository and its full history. |
+| C1 | Service account key hygiene | **Resolved** | No key file is kept on disk; the seed script uses Application Default Credentials. `**/serviceAccountKey.json` is gitignored and absent from the repository and its full history. |
 | H1 | FCM token not cleared on logout | **Fixed** | `removeStoredToken()` in `signOut()`, `auth_providers.dart` |
 | H2 | No Dart obfuscation | **N/A** | No release pipeline exists. CI smoke-builds `--debug` only. Obfuscated commands are documented in CLAUDE.md for when one is added. |
 | H3 | Mascot data not validated server-side | **Accepted by design** | See below. |
@@ -115,6 +116,25 @@ Covered by 8 tests in `test/firestore/firestore.rules.test.js` under
 
 ---
 
+## Fourth pass
+
+| Finding | Status | Where |
+|---|---|---|
+| Seed script needed a key file (C1) | **Fixed** | `seed_action_library.js` uses Application Default Credentials |
+| Offline cache survives sign-out and deletion | **Fixed** | `AuthRepository.signOut` / `deleteAccount` terminate and clear Firestore persistence; skipped while writes are unsynced. Cache size back to the SDK default. |
+| Social users delete without re-auth | **Fixed** | `reauthenticateWithSocialProvider` before deletion; server checks `auth_time` |
+| Apple sign-in without nonce | **Fixed** | SHA-256 nonce in `_appleCredential`, raw nonce passed to Firebase |
+| Email change never reaches Firestore | **Fixed** | `_getOrCreateUser` syncs `email` with `emailVerified` |
+| Email deletion requests forgeable | **Fixed** | Delete page promises a confirmation reply to the registered address |
+| Daily summaries writable outside scoring | **Fixed** | Rules require `getAfter(user).lastActionDate == request.time` |
+| Unverified sign-ups kept forever | **Fixed** | `cleanupUnverifiedUsers` deletes password accounts unverified after 7 days |
+| Skewed clock reported as "too soon" | **Fixed** | `logErrorMessage` shows a date-and-time hint unless a log succeeded seconds ago |
+| Mascot selection overwrites the array | **Fixed** | `selectMascot` appends with `arrayUnion` |
+| Postponed `sendStreakReminders` in the functions bundle | **Fixed** | Removed from `functions/src`; not deployed. Restore from git history when reviving |
+| Branch protection | **Done** | `main` and `development` require pull-request review |
+
+---
+
 ## Outstanding operational items
 
 None is a code defect. All carry over from the 2026-02-14 audit; the
@@ -164,7 +184,7 @@ two Firestore items were closed on 2026-08-22.
 | Deep link parameter validation | SDG goal number clamped 1-17 |
 | Firestore query injection | All paths use AppConstants |
 | Firestore action log immutability | `allow update, delete: if false` |
-| Action points validation | Point deltas checked against action library in rules |
+| Action points validation | Logs must match the action library and arrive with the matching user-doc update. Scoring stays client-side while users are isolated; see PLAN_MASTER for the server-authoritative trigger. |
 | Password handling | In-memory only, never logged |
 | Error message exposure | Sanitized before user display |
 | ListView.builder | Used correctly everywhere |
@@ -176,5 +196,5 @@ two Firestore items were closed on 2026-08-22.
 | Dependencies | All current, reputable publishers |
 | pubspec.lock committed | Yes |
 | Certificate pinning | Not present, acceptable for Firebase-only traffic |
-| Re-authentication | Required for email/password/account changes |
+| Re-authentication | Required for email/password changes and for account deletion (all providers; `deleteUserAccount` rejects sign-ins older than 5 minutes) |
 | Email verification | Enforced for email/password users |

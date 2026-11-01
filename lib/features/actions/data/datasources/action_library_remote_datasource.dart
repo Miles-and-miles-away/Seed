@@ -13,10 +13,16 @@ class ActionLibraryRemoteDataSource {
       firestore.collection(AppConstants.collectionActionLibrary);
 
   Future<List<ActionModel>> getActions() async {
-    final snapshot = await _collection
+    final query = _collection
         .where(AppConstants.fieldIsActive, isEqualTo: true)
-        .orderBy(AppConstants.fieldSortOrder)
-        .get();
+        .orderBy(AppConstants.fieldSortOrder);
+    var snapshot = await query.get();
+    // A cold start can answer from an empty cache before the first
+    // connection; the caller keeps the result, so insist on the server
+    // (an offline error shows Retry instead of "No actions found").
+    if (snapshot.docs.isEmpty && snapshot.metadata.isFromCache) {
+      snapshot = await query.get(const GetOptions(source: Source.server));
+    }
     return snapshot.docs.map(ActionModel.fromFirestore).toList();
   }
 }
