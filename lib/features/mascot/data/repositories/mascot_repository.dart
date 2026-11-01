@@ -89,8 +89,10 @@ class MascotRepository {
       createdAt: DateTime.now(),
     );
 
+    // Appends rather than replaces: a stale or second device must never
+    // erase a mascot that already exists, and this stays offline-safe.
     await _userDoc(userId).update({
-      AppConstants.fieldMascots: [mascot.toJson()],
+      AppConstants.fieldMascots: FieldValue.arrayUnion([mascot.toJson()]),
       AppConstants.fieldActiveMascotId: mascot.id,
     });
   }

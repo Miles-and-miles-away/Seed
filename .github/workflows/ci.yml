@@ -72,8 +72,9 @@ jobs:
       - name: Fetch rive_native host library
         run: dart run rive_native:setup --clean --platform linux
 
+      # The default is half the vCPUs; the runner has 4.
       - name: Test
-        run: flutter test
+        run: flutter test --concurrency=4
 
   generators:
     name: Generator Self-Checks
@@ -85,6 +86,10 @@ jobs:
 
       # Pure stdlib; the runner's system python3 is enough.
       - run: python3 scripts/generators/test_enrich_city_names.py
+
+      - run: node scripts/i18n/fix_spanish_diacritics.js --check
+
+      - run: node scripts/seed/check_description_figures.js
 
   functions:
     name: Functions Lint & Test

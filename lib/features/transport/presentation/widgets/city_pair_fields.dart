@@ -6,6 +6,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/transport/data/models/city_model.dart';
 import 'package:seed_app/features/transport/presentation/providers/transport_providers.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Optional city-pair pickers that estimate leg distances.
 ///
@@ -41,8 +42,9 @@ class CityPairFields extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
+        PhraseText(
           l10n.transportCityPrefillHint,
+          minLineWidth: phraseNarrowestScreenWidth - 2 * spacingLg,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),

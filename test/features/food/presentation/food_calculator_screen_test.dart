@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/food.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
@@ -27,7 +28,9 @@ const _beans = FoodItem(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() => createTestWidget(
+  Widget buildApp({Locale? locale, ThemeData? theme}) => createTestWidget(
+    locale: locale,
+    theme: theme,
     overrides: [
       foodItemsProvider.overrideWith((_) async => const [_beef, _beans]),
     ],
@@ -71,8 +74,8 @@ void main() {
       await addIngredient(tester, itemName: 'Beef', grams: '50');
 
       expect(find.byType(OptionEntryCard), findsNWidgets(2));
-      expect(find.text('150 g'), findsOneWidget);
-      expect(find.text('50 g'), findsOneWidget);
+      expect(find.text('150${unitSpace}g'), findsOneWidget);
+      expect(find.text('50${unitSpace}g'), findsOneWidget);
     });
 
     testWidgets('both columns built shows the delta and the bank action', (
@@ -129,9 +132,18 @@ void main() {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(Co2eAmount).first);
+      await tester.tap(
+        find.descendant(
+          of: find.byType(Co2eAmount).first,
+          matching: find.byType(Text),
+        ),
+      );
       await tester.pumpAndSettle();
       expect(find.text('What is CO2e?'), findsOneWidget);
     });
   });
+
+  stressWidthLayoutTests(
+    (locale, theme) => buildApp(locale: locale, theme: theme),
+  );
 }

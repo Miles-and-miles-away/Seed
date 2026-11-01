@@ -24,7 +24,7 @@ class ActionSortDropdown extends ConsumerWidget {
 
     return PopupMenuButton<ActionSortOption>(
       initialValue: selectedOption,
-      tooltip: selectedOption.displayName(l10n),
+      tooltip: l10n.sortButtonTooltip(selectedOption.displayName(l10n)),
       onSelected: (option) {
         ref.read(selectedSortOptionProvider.notifier).select(option);
       },
@@ -68,13 +68,20 @@ class ActionSortDropdown extends ConsumerWidget {
           color: theme.colorScheme.surfaceContainerHighest,
           shape: BoxShape.circle,
         ),
-        child: Icon(Icons.sort, size: 22, color: theme.colorScheme.primary),
+        child: Icon(
+          selectedOption == ActionSortOption.random
+              ? Icons.shuffle
+              : Icons.sort,
+          size: 22,
+          color: theme.colorScheme.primary,
+        ),
       ),
     );
   }
 
   IconData _getIconForOption(ActionSortOption option) {
     return switch (option) {
+      ActionSortOption.random => Icons.shuffle,
       ActionSortOption.alphabeticalAsc => Icons.arrow_downward,
       ActionSortOption.alphabeticalDesc => Icons.arrow_upward,
       ActionSortOption.co2HighToLow => Icons.arrow_downward,

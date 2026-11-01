@@ -140,48 +140,92 @@ void main() {
     });
   });
 
+  group('formatDecimal', () {
+    test('uses the locale decimal and group separators', () {
+      expect(formatDecimal(1234.5, 'en', maxDigits: 1), '1,234.5');
+      expect(formatDecimal(1234.5, 'es', maxDigits: 1), '1.234,5');
+      expect(formatDecimal(1234.5, 'ja', maxDigits: 1), '1,234.5');
+    });
+
+    test('drops trailing zeros beyond minDigits', () {
+      expect(formatDecimal(0.8, 'es', maxDigits: 3), '0,8');
+      expect(formatDecimal(2, 'en', maxDigits: 2), '2');
+      expect(formatDecimal(2, 'en', minDigits: 1, maxDigits: 1), '2.0');
+    });
+  });
+
   group('formatCO2Compact', () {
     test('formats grams below 1000 with g suffix', () {
-      expect(formatCO2Compact(500), '500g');
-      expect(formatCO2Compact(0), '0g');
-      expect(formatCO2Compact(999), '999g');
+      expect(formatCO2Compact(500, 'en'), '500${unitSpace}g');
+      expect(formatCO2Compact(0, 'en'), '0${unitSpace}g');
+      expect(formatCO2Compact(999, 'en'), '999${unitSpace}g');
     });
 
     test('formats kilograms for 1000+ grams with kg suffix', () {
-      expect(formatCO2Compact(1000), '1.0kg');
-      expect(formatCO2Compact(1500), '1.5kg');
-      expect(formatCO2Compact(2500), '2.5kg');
+      expect(formatCO2Compact(1000, 'en'), '1.0${unitSpace}kg');
+      expect(formatCO2Compact(1500, 'en'), '1.5${unitSpace}kg');
+      expect(formatCO2Compact(2500, 'en'), '2.5${unitSpace}kg');
     });
 
-    test('does not include spaces', () {
-      expect(formatCO2Compact(500), isNot(contains(' ')));
-      expect(formatCO2Compact(1500), isNot(contains(' ')));
+    test('formats tonnes from a million grams', () {
+      expect(formatCO2Compact(3400000, 'en'), '3.4${unitSpace}t');
+    });
+
+    test('switches to tonnes when the kilograms would round to 1000', () {
+      expect(formatCO2Compact(999949, 'en'), '999.9${unitSpace}kg');
+      expect(formatCO2Compact(999950, 'en'), '1.0${unitSpace}t');
+      expect(formatCO2Compact(999950, 'es'), '1,0${unitSpace}t');
+    });
+
+    test('uses the decimal comma in Spanish', () {
+      expect(formatCO2Compact(1500, 'es'), '1,5${unitSpace}kg');
+    });
+
+    test('joins the value to its unit with a no-break space only', () {
+      expect(formatCO2Compact(500, 'en'), isNot(contains(' ')));
+      expect(formatCO2Compact(1500, 'en').split(unitSpace), ['1.5', 'kg']);
     });
   });
 
   group('formatPoints', () {
     test('formats small values without suffix', () {
-      expect(formatPoints(0), '0');
-      expect(formatPoints(100), '100');
-      expect(formatPoints(999), '999');
+      expect(formatPoints(0, 'en'), '0');
+      expect(formatPoints(100, 'en'), '100');
+      expect(formatPoints(999, 'en'), '999');
     });
 
-    test('formats thousands with K suffix', () {
-      expect(formatPoints(1000), '1.0K');
-      expect(formatPoints(1500), '1.5K');
-      expect(formatPoints(10000), '10.0K');
-      expect(formatPoints(999999), '1000.0K');
+    test('uses compact notation for large values', () {
+      expect(formatPoints(1000, 'en'), '1K');
+      expect(formatPoints(1234, 'en'), '1.23K');
+      expect(formatPoints(1234567, 'en'), '1.23M');
     });
 
-    test('formats millions with M suffix', () {
-      expect(formatPoints(1000000), '1.0M');
-      expect(formatPoints(1500000), '1.5M');
-      expect(formatPoints(10000000), '10.0M');
+    test('follows the locale convention', () {
+      expect(formatPoints(12345, 'ja'), '1.23万');
+      expect(formatPoints(1234, 'es'), '1,23\u00A0mil');
+    });
+  });
+
+  group('keepUnitsTogether', () {
+    test('joins a number to the unit after it', () {
+      expect(
+        keepUnitsTogether('1 cucharada (15 ml)'),
+        '1 cucharada (15${unitSpace}ml)',
+      );
+      expect(keepUnitsTogether('100 g'), '100${unitSpace}g');
     });
 
-    test('uses one decimal place', () {
-      expect(formatPoints(1234), '1.2K');
-      expect(formatPoints(1234567), '1.2M');
+    test('joins temperatures, watts and lumens', () {
+      expect(keepUnitsTogether('1 hora a 20 °C'), '1 hora a 20$unitSpace°C');
+      expect(keepUnitsTogether('cold (20 C)'), 'cold (20${unitSpace}C)');
+      expect(keepUnitsTogether('60 W bulb'), '60${unitSpace}W bulb');
+      expect(keepUnitsTogether('800 lm'), '800${unitSpace}lm');
+    });
+
+    test('leaves words that only start like a unit alone', () {
+      expect(keepUnitsTogether('3 gatos'), '3 gatos');
+      expect(keepUnitsTogether('2 hours'), '2 hours');
+      expect(keepUnitsTogether('3 Watts, 2 Cats'), '3 Watts, 2 Cats');
     });
   });
 

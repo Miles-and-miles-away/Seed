@@ -195,7 +195,7 @@ class _EnergyCalculatorScreenState
     return OptionEntryCard(
       accentColor: ActionCategory.energy.color,
       icon: energyGroupIcon(behavior.comparableGroup),
-      name: behavior.name(locale),
+      name: keepUnitsTogether(behavior.name(locale)),
       detail: energyUsageDetailLabel(l10n, behavior, usage.units),
       grams: EnergyCalculator.usageCo2eGrams(
         behavior,
@@ -297,7 +297,10 @@ class _EnergyCalculatorScreenState
         : ((worstKwh - bestKwh) / EnergyCalculator.defaultPresetKwh(anchor))
               .round();
     final showCharges = electricOnly && charges >= 1;
-    final amount = formatCO2Compact(summary.deltaGrams.round());
+    final amount = formatCO2Compact(
+      summary.deltaGrams.round(),
+      l10n.localeName,
+    );
     final ratioLeads = singleCarrier && bestKwh > 0;
     final headline = ratioLeads
         ? l10n.energyComparisonRatio(

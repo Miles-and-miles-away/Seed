@@ -18,6 +18,8 @@ import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/challenge/presentation/screens/challenges_screen.dart';
 import '../features/eco_fact/eco_fact.dart';
 import '../features/energy/energy.dart';
+import '../features/explore/explore.dart';
+import '../features/fact_games/fact_games.dart';
 import '../features/food/food.dart';
 import '../features/home/home.dart';
 import '../features/mascot/mascot.dart';
@@ -86,16 +88,30 @@ class AppRoutes {
   String get energyCalculator => '/energy-calculator';
   String get energyExplore => '/energy-explore';
   String get quiz => '/quiz';
+  String get factPairs => '/fact-pairs';
+  String get factRecall => '/fact-recall';
 
   /// Action log pre-filtered to a single [ActionCategory] name, used by the
-  /// daily challenge card so its category opens already selected.
+  /// daily challenge card when the library lacks the action it names.
   String actionLogForCategory(String category) =>
       Uri(path: actionLog, queryParameters: {'category': category}).toString();
+
+  /// Action log filtered to [category] with [actionId] shown first, used
+  /// by the daily challenge card for the action it names.
+  String actionLogForAction(String category, String actionId) => Uri(
+    path: actionLog,
+    queryParameters: {'category': category, 'action': actionId},
+  ).toString();
+
+  /// Action log pre-filtered to one SDG, used by "View all actions" on the
+  /// SDG detail screen.
+  String actionLogForSdg(int goalNumber) =>
+      Uri(path: actionLog, queryParameters: {'sdg': '$goalNumber'}).toString();
 
   // Main shell tabs
   String get home => '/home';
   String get progress => '/progress';
-  String get mascot => '/mascot';
+  String get explore => '/explore';
   String get profile => '/profile';
 
   // Nested under home
@@ -103,6 +119,9 @@ class AppRoutes {
   String get challenges => '/home/challenges';
   String sdgDetail(int goalNumber) => '/home/sdg/$goalNumber';
   String dailyFactDetail(String dateKey) => '/home/daily-fact/$dateKey';
+
+  /// Push, never go: a go leaves `/home` and resets the SDG carousel.
+  String get mascot => '/home/mascot';
 
   // Nested under progress
   String get actionHistory => '/progress/history';
@@ -201,6 +220,7 @@ GoRouter router(Ref ref) {
                   ),
                   // Multi-day challenges screen
                   _route('challenges', const ChallengesScreen()),
+                  _route('mascot', const MascotScreen()),
                 ],
               ),
             ],
@@ -223,9 +243,9 @@ GoRouter router(Ref ref) {
             ],
           ),
 
-          // Mascot tab (index 2)
+          // Explore tab (index 2)
           StatefulShellBranch(
-            routes: [_route(appRoutes.mascot, const MascotScreen())],
+            routes: [_route(appRoutes.explore, const ExploreScreen())],
           ),
 
           // Profile tab (index 3)
@@ -268,6 +288,8 @@ GoRouter router(Ref ref) {
           name: state.name,
           child: ActionLogScreen(
             initialCategory: state.uri.queryParameters['category'],
+            initialSdg: int.tryParse(state.uri.queryParameters['sdg'] ?? ''),
+            initialActionId: state.uri.queryParameters['action'],
           ),
         ),
       ),
@@ -289,6 +311,10 @@ GoRouter router(Ref ref) {
       // goes, and the higher-or-lower quiz over the same rows.
       _route(appRoutes.energyExplore, const EnergyExploreScreen()),
       _route(appRoutes.quiz, const HigherOrLowerScreen()),
+
+      // Games over the user's unlocked eco-facts; bank nothing.
+      _route(appRoutes.factPairs, const FactPairsScreen()),
+      _route(appRoutes.factRecall, const FactRecallScreen()),
 
       // Legal documents - canonical paths, accessible unauthenticated so
       // the register screen can link to them before sign-up.

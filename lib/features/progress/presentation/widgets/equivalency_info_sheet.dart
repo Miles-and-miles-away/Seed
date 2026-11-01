@@ -9,6 +9,7 @@ import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_display.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 const double _kMaxChildSize = 0.9;
 const double _kMinChildSize = 0.4;
@@ -84,8 +85,9 @@ class EquivalencyInfoSheet extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
+                    PhraseText(
                       l10n.impactInfoIntro,
+                      minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                         height: 1.5,

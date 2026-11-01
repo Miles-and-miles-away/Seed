@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
+
 import '../datasources/auth_remote_datasource.dart';
 import '../datasources/user_remote_datasource.dart';
 import '../models/app_user_model.dart';
+
+const _pendingWritesTimeout = Duration(seconds: 3);
 
 /// Repository that coordinates authentication and user data operations.
 class AuthRepository {
@@ -23,24 +27,28 @@ class AuthRepository {
   User? get currentUser => _authDataSource.currentUser;
 
   /// Signs in with email and password.
-  /// Returns the app user after fetching/creating their Firestore document.
+  /// Returns the app user after fetching/creating their Firestore document;
+  /// a created document starts in [language].
   Future<AppUserModel> signInWithEmailAndPassword(
     String email,
-    String password,
-  ) async {
+    String password, {
+    required String language,
+  }) async {
     final credential = await _authDataSource.signInWithEmailAndPassword(
       email,
       password,
     );
-    return _getOrCreateUser(credential.user!);
+    return _getOrCreateUser(credential.user!, language);
   }
 
   /// Creates a new user with email and password.
-  /// Sends a verification email and creates the Firestore document.
+  /// Sends a verification email and creates the Firestore document in
+  /// [language].
   Future<AppUserModel> createUserWithEmailAndPassword(
     String email,
-    String password,
-  ) async {
+    String password, {
+    required String language,
+  }) async {
     final credential = await _authDataSource.createUserWithEmailAndPassword(
       email,
       password,
@@ -49,7 +57,7 @@ class AuthRepository {
     // Send verification email
     await _authDataSource.sendEmailVerification();
 
-    return _createNewUser(credential.user!);
+    return _createNewUser(credential.user!, language);
   }
 
   /// Sends email verification to the current user.
@@ -64,21 +72,44 @@ class AuthRepository {
 
   /// Signs in with Google.
   /// Returns the app user after fetching/creating their Firestore document.
-  Future<AppUserModel> signInWithGoogle() async {
+  Future<AppUserModel> signInWithGoogle({required String language}) async {
     final credential = await _authDataSource.signInWithGoogle();
-    return _getOrCreateUser(credential.user!);
+    return _getOrCreateUser(credential.user!, language);
   }
 
   /// Signs in with Apple.
   /// Returns the app user after fetching/creating their Firestore document.
-  Future<AppUserModel> signInWithApple() async {
+  Future<AppUserModel> signInWithApple({required String language}) async {
     final credential = await _authDataSource.signInWithApple();
-    return _getOrCreateUser(credential.user!);
+    return _getOrCreateUser(credential.user!, language);
   }
 
-  /// Signs out the current user from all providers.
+  /// Signs out the current user from all providers and wipes their cached
+  /// data, unless writes are still unsynced: clearing would lose them, and
+  /// they upload when the same account signs in again.
   Future<void> signOut() async {
+    final synced = await _userDataSource.pendingWritesSynced(
+      _pendingWritesTimeout,
+    );
     await _authDataSource.signOut();
+    if (synced) {
+      await _clearLocalCache();
+    } else {
+      appLogger.info('Auth: unsynced writes, keeping the local cache');
+    }
+  }
+
+  /// Best-effort: a failure must never block signing out.
+  Future<void> _clearLocalCache() async {
+    try {
+      await _userDataSource.clearLocalCache();
+    } on Exception catch (e, stackTrace) {
+      appLogger.error(
+        'Auth: clearing the local cache failed',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   /// Watches the current user document for real-time updates.
@@ -94,20 +125,37 @@ class AuthRepository {
   }
 
   /// Gets an existing user or creates a new one.
-  Future<AppUserModel> _getOrCreateUser(User firebaseUser) async {
+  Future<AppUserModel> _getOrCreateUser(
+    User firebaseUser,
+    String language,
+  ) async {
     var appUser = await _userDataSource.getUser(firebaseUser.uid);
     if (appUser == null) {
-      appUser = await _createNewUser(firebaseUser);
+      appUser = await _createNewUser(firebaseUser, language);
     } else {
-      // Update emailVerified status if it has changed
-      if (appUser.emailVerified != firebaseUser.emailVerified) {
+      // Auth owns these; a completed email change only lands in Auth.
+      final email = firebaseUser.email ?? appUser.email;
+      final emailVerified = firebaseUser.emailVerified;
+      if (appUser.email != email || appUser.emailVerified != emailVerified) {
         await _userDataSource.updateUser(firebaseUser.uid, {
-          AppConstants.fieldEmailVerified: firebaseUser.emailVerified,
+          AppConstants.fieldEmail: email,
+          AppConstants.fieldEmailVerified: emailVerified,
         });
-        appUser = appUser.copyWith(emailVerified: firebaseUser.emailVerified);
+        appUser = appUser.copyWith(email: email, emailVerified: emailVerified);
       }
     }
     return appUser;
+  }
+
+  /// Creates the signed-in user's doc in [language] once the server
+  /// confirms it is missing, recovering a sign-in whose read failed offline.
+  Future<void> ensureUserDoc({required String language}) async {
+    final firebaseUser = currentUser;
+    if (firebaseUser == null) return;
+    await _userDataSource.createUserIfAbsent(
+      _newUserModel(firebaseUser, language),
+      isCurrent: () => currentUser?.uid == firebaseUser.uid,
+    );
   }
 
   /// Updates the current user's display name in Firestore.
@@ -143,16 +191,23 @@ class AuthRepository {
     return name.substring(0, AppConstants.maxDisplayNameLength);
   }
 
-  /// Creates a new user document in Firestore.
-  Future<AppUserModel> _createNewUser(User firebaseUser) async {
-    final newUser = AppUserModel(
-      uid: firebaseUser.uid,
-      email: firebaseUser.email ?? '',
-      displayName: _clampDisplayName(firebaseUser.displayName),
-      photoUrl: firebaseUser.photoURL,
-      emailVerified: firebaseUser.emailVerified,
-      createdAt: DateTime.now(),
-    );
+  AppUserModel _newUserModel(User firebaseUser, String language) =>
+      AppUserModel(
+        uid: firebaseUser.uid,
+        language: language,
+        email: firebaseUser.email ?? '',
+        displayName: _clampDisplayName(firebaseUser.displayName),
+        photoUrl: firebaseUser.photoURL,
+        emailVerified: firebaseUser.emailVerified,
+        createdAt: DateTime.now(),
+      );
+
+  /// Creates a new user document in Firestore, in [language].
+  Future<AppUserModel> _createNewUser(
+    User firebaseUser,
+    String language,
+  ) async {
+    final newUser = _newUserModel(firebaseUser, language);
     await _userDataSource.createUser(newUser);
     return newUser;
   }
@@ -181,11 +236,26 @@ class AuthRepository {
   ///
   /// Runs server-side via the deleteUserAccount Cloud Function: rules
   /// block client deletes of the action log, and only the Admin SDK
-  /// removes subcollections and the Auth user. Re-authentication is
-  /// handled by the UI before this call. Signs out locally afterwards
-  /// to clear the now-invalid session.
+  /// removes subcollections and the Auth user. The function demands a
+  /// recent sign-in, so social users are re-prompted here; password users
+  /// re-authenticate in the UI first. Signs out locally afterwards.
   Future<void> deleteAccount() async {
+    final appleCode = await _authDataSource.reauthenticateWithSocialProvider();
+    // Revocation is best-effort; a failure must not block erasure.
+    if (appleCode != null) {
+      try {
+        await _authDataSource.revokeAppleSignIn(appleCode);
+      } on Exception catch (e, stackTrace) {
+        appLogger.error(
+          'Auth: Apple token revocation failed',
+          error: e,
+          stackTrace: stackTrace,
+        );
+      }
+    }
+    await _authDataSource.refreshIdToken();
     await _userDataSource.deleteUser();
     await _authDataSource.signOut();
+    await _clearLocalCache();
   }
 }

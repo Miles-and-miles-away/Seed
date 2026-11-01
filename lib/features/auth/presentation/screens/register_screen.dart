@@ -11,10 +11,12 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/validators.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/auth_providers.dart';
 import '../utils/listen_auth_result.dart';
 import '../utils/sign_in_with_social.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/language_pill.dart';
 import '../widgets/or_divider.dart';
 import '../widgets/social_sign_in_button.dart';
 import '../widgets/social_sign_in_row.dart';
@@ -80,7 +82,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: spacingXxxl),
+                const Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: LanguagePill(),
+                ),
                 Icon(Icons.eco, size: 64, color: theme.colorScheme.primary),
                 const SizedBox(height: spacingLg),
                 Text(
@@ -91,8 +96,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: spacingSm),
-                Text(
+                PhraseText(
                   l10n.authCreateAccountSubtitle,
+                  minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -149,7 +155,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: spacingMd),
-                        child: Text.rich(
+                        child: PhraseText.rich(
+                          minLineWidth:
+                              phraseNarrowestScreenWidth -
+                              2 * spacingXxl -
+                              kMinInteractiveDimension,
                           TextSpan(
                             text: l10n.authAgreePrefix,
                             style: theme.textTheme.bodyMedium,
@@ -213,8 +223,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   },
                 ),
                 const SizedBox(height: spacingXxxl),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                // Wraps rather than overflows when a translation is long.
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
                       l10n.authHaveAccount,

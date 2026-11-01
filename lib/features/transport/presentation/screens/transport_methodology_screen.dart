@@ -35,6 +35,9 @@ class TransportMethodologyScreen extends ConsumerWidget {
             _methodologyMarkdown(l10n, modes, gridFactor),
           ),
           padding: const EdgeInsets.all(spacingXxl),
+          markdownGenerator: phraseMarkdownGenerator(
+            bodyWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
+          ),
           config: markdownConfigFor(
             context,
           ).copy(configs: [externalLinkConfig(context)]),

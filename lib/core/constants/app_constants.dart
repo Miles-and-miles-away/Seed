@@ -69,6 +69,7 @@ abstract class AppConstants {
   static const fieldEgg = 'egg';
   static const fieldEggPendingDiscovery = 'eggPendingDiscovery';
   static const fieldEggPendingDiscoverySince = 'eggPendingDiscoverySince';
+  static const fieldEmail = 'email';
   static const fieldEmailVerified = 'emailVerified';
   static const fieldSettings = 'settings';
   static const fieldLanguage = 'language';

@@ -64,6 +64,7 @@ class ProgressCalendar extends ConsumerWidget {
             ref.read(selectedMonthProvider.notifier).goToPreviousMonth();
           },
           icon: const Icon(Icons.chevron_left),
+          tooltip: MaterialLocalizations.of(context).previousMonthTooltip,
         ),
         Text(
           monthFormat.format(selectedMonth),
@@ -78,6 +79,7 @@ class ProgressCalendar extends ConsumerWidget {
                 }
               : null,
           icon: const Icon(Icons.chevron_right),
+          tooltip: MaterialLocalizations.of(context).nextMonthTooltip,
         ),
       ],
     );
@@ -86,11 +88,12 @@ class ProgressCalendar extends ConsumerWidget {
   Widget _buildWeekdayLabels(BuildContext context) {
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).toString();
-    // Generate Sun..Sat labels using intl
+    // Narrow stand-alone weekdays: the first letter of the short form
+    // collides in Spanish (martes and miércoles are both "M").
     final weekdays = List.generate(7, (i) {
       // Jan 5, 2025 is a Sunday
       final date = DateTime(2025, 1, 5 + i);
-      return DateFormat.E(locale).format(date).substring(0, 1).toUpperCase();
+      return DateFormat('ccccc', locale).format(date);
     });
 
     return Row(

@@ -102,6 +102,38 @@ void main() {
       });
     });
 
+    group('keyFigure', () {
+      const withFigures = {
+        ...minimalJson,
+        'keyFigureEn': '1,300 times',
+        'keyFigureJa': '1,300倍',
+        'keyFigureEs': '1.300 veces',
+      };
+
+      test('returns the figure for each locale', () {
+        final fact = EcoFact.fromJson(withFigures);
+        expect(fact.keyFigure('en'), '1,300 times');
+        expect(fact.keyFigure('ja'), '1,300倍');
+        expect(fact.keyFigure('es'), '1.300 veces');
+        expect(fact.isPlayable, isTrue);
+      });
+
+      test('is null when absent', () {
+        final fact = EcoFact.fromJson(minimalJson);
+        expect(fact.keyFigureEn, '');
+        expect(fact.keyFigure('en'), isNull);
+        expect(fact.keyFigure('ja'), isNull);
+        expect(fact.isPlayable, isFalse);
+      });
+
+      test('does not fall back to English', () {
+        final fact = EcoFact.fromJson({...minimalJson, 'keyFigureEn': '40%'});
+        expect(fact.keyFigure('en'), '40%');
+        expect(fact.keyFigure('ja'), isNull);
+        expect(fact.keyFigure('es'), isNull);
+      });
+    });
+
     test('construction with named params', () {
       const fact = EcoFact(
         dayOfYear: 100,

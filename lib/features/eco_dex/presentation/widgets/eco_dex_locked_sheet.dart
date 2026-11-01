@@ -7,6 +7,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/domain/services/eco_dex_progress.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_progress_bar.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Bottom sheet showing a hint and unlock progress for a locked
 /// Eco-Dex entry.
@@ -79,8 +80,9 @@ class EcoDexLockedSheet extends ConsumerWidget {
           const SizedBox(height: spacingSm),
 
           // Hint
-          Text(
+          PhraseText(
             entry.hint(locale),
+            minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),

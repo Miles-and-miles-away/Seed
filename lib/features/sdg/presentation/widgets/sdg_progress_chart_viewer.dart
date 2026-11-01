@@ -89,9 +89,12 @@ class _FullScreenProgressChart extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: Text(
-          'Goal ${goal.number}: '
-          '${goal.shortTitle(locale)}',
-          style: const TextStyle(color: Colors.white, fontSize: 16),
+          AppLocalizations.of(
+            context,
+          ).sdgGoalNumberTitle(goal.number, goal.shortTitle(locale)),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: Colors.white),
         ),
       ),
       body: InteractiveViewer(

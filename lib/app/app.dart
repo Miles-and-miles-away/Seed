@@ -3,14 +3,27 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/l10n/generated/app_localizations.dart';
 import '../core/theme/app_theme.dart';
 import '../features/mascot/presentation/providers/mascot_providers.dart';
 import '../features/settings/settings.dart';
+import '../shared/providers/app_language_provider.dart';
 import '../shared/services/analytics_service.dart';
 import 'router.dart';
+
+const _budouxLicenceAsset = 'assets/licences/budoux.txt';
+
+/// Adds the bundled code that is not a pub package (the BudouX phrase
+/// model) to the licences page.
+void registerBundledLicences() {
+  LicenseRegistry.addLicense(() async* {
+    final text = await rootBundle.loadString(_budouxLicenceAsset);
+    yield LicenseEntryWithLineBreaks(const ['BudouX'], text);
+  });
+}
 
 class SeedApp extends ConsumerStatefulWidget {
   const SeedApp({super.key});
@@ -19,10 +32,11 @@ class SeedApp extends ConsumerStatefulWidget {
   ConsumerState<SeedApp> createState() => _SeedAppState();
 }
 
-class _SeedAppState extends ConsumerState<SeedApp> {
+class _SeedAppState extends ConsumerState<SeedApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     // Sync the collection toggle only on change. While settings load the
     // provider reports its default, so hold the SDKs' persisted state
@@ -44,12 +58,25 @@ class _SeedAppState extends ConsumerState<SeedApp> {
           locale.toLanguageTag(),
         );
       }, fireImmediately: true)
+      ..listenManual(languageSyncProvider, (_, _) {})
+      ..listenManual(androidSdkProvider, (_, _) {})
       ..listenManual(activeSpeciesProvider, (_, species) {
         FirebaseCrashlytics.instance.setCustomKey(
           'species',
           species?.id ?? 'none',
         );
       }, fireImmediately: true);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeLocales(List<Locale>? locales) {
+    if (locales != null) ref.read(osLocalesProvider.notifier).update(locales);
   }
 
   @override
@@ -76,9 +103,9 @@ class _SeedAppState extends ConsumerState<SeedApp> {
       // Routing
       routerConfig: router,
 
-      // Localization - use user's preferred locale
+      // Localization - the resolved app language, see currentLanguageProvider
       locale: appLocale,
-      supportedLocales: const [Locale('en'), Locale('es'), Locale('ja')],
+      supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
     );
   }

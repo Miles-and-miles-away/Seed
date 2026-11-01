@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/presentation/widgets/equivalency_display.dart';
 
@@ -81,7 +82,9 @@ class EquivalencyCard extends StatelessWidget {
   // as no impact at all.
   String _formatValue(ImpactEquivalency eq, String locale) {
     if (eq.type == EquivalencyType.trees) {
-      if (eq.value > 0 && eq.value < 0.05) return '<0.1';
+      if (eq.value > 0 && eq.value < 0.05) {
+        return '<${formatDecimal(0.1, locale, minDigits: 1, maxDigits: 1)}';
+      }
       return NumberFormat('#,##0.0', locale).format(eq.value);
     }
     if (eq.value > 0 && eq.value < 0.5) return '<1';

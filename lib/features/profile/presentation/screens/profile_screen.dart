@@ -7,15 +7,28 @@ import 'package:intl/intl.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_section.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 import '../providers/profile_providers.dart';
+
+const _listIconSize = 24.0;
+
+/// Mascot row title width at 320pt: page padding, the tile's 16 and 24
+/// padding, and the leading and trailing icons with their gaps.
+const _mascotLinkMinLineWidth =
+    phraseNarrowestScreenWidth -
+    3 * spacingLg -
+    spacingXxl -
+    2 * (_listIconSize + spacingLg);
 
 /// User profile screen displaying stats, level progress, and discoveries.
 class ProfileScreen extends ConsumerWidget {
@@ -32,12 +45,7 @@ class ProfileScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.profileTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.push(appRoutes.settings),
-          ),
-        ],
+        actions: const [SettingsIconButton()],
       ),
       body: userAsync.when(
         data: (user) {
@@ -57,6 +65,11 @@ class ProfileScreen extends ConsumerWidget {
 
                 // Level progress
                 _buildLevelSection(ref, theme, colorScheme, user, l10n),
+
+                if (ref.watch(hasMascotProvider)) ...[
+                  const SizedBox(height: spacingXxl),
+                  _buildMascotLink(context, ref, theme, l10n),
+                ],
 
                 const SizedBox(height: spacingXxl),
 
@@ -157,12 +170,15 @@ class ProfileScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(width: spacingSm),
-                      Text(
-                        '${l10n.profileMemberSince} '
-                        '${DateFormat.yMMMd(locale).format(user.createdAt!)}',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onPrimaryContainer.withValues(
-                            alpha: opacityStrong,
+                      Expanded(
+                        child: Text(
+                          l10n.profileMemberSinceDate(
+                            DateFormat.yMMMd(locale).format(user.createdAt!),
+                          ),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onPrimaryContainer.withValues(
+                              alpha: opacityStrong,
+                            ),
                           ),
                         ),
                       ),
@@ -198,8 +214,12 @@ class ProfileScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Level and points header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // The stage badge drops to its own line when the row is tight.
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: spacingSm,
+            runSpacing: spacingSm,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,7 +239,6 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              // Evolution stage badge
               StageBadge(
                 label: l10n.profileEvolutionStage(evolutionStage),
                 background: colorScheme.tertiaryContainer,
@@ -249,6 +268,34 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
+  Widget _buildMascotLink(
+    BuildContext context,
+    WidgetRef ref,
+    ThemeData theme,
+    AppLocalizations l10n,
+  ) {
+    final mascot = ref.watch(activeMascotProvider).value;
+    return Card(
+      margin: EdgeInsets.zero,
+      color: theme.colorScheme.surfaceContainerLow,
+      shape: RoundedRectangleBorder(borderRadius: borderRadiusXl),
+      clipBehavior: Clip.antiAlias,
+      child: ListTile(
+        leading: Icon(Icons.pets, color: theme.colorScheme.primary),
+        title: PhraseText(
+          l10n.mascotLinkTitle,
+          minLineWidth: _mascotLinkMinLineWidth,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: mascot == null ? null : Text(mascot.name),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () => context.push(appRoutes.mascot),
+      ),
+    );
+  }
+
   Widget _buildStatsSection(
     WidgetRef ref,
     ThemeData theme,
@@ -263,12 +310,7 @@ class ProfileScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l10n.profileStats,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(l10n.profileStats.toUpperCase(), style: theme.overline),
         const SizedBox(height: spacingMd),
 
         // First row: Current streak & Longest streak
@@ -306,7 +348,7 @@ class ProfileScreen extends ConsumerWidget {
             Expanded(
               child: StatCard(
                 icon: Icons.eco,
-                value: formatCO2Compact(totalCo2),
+                value: formatCO2Compact(totalCo2, l10n.localeName),
                 label: l10n.profileTotalCO2,
                 iconColor: colorScheme.primary,
               ),

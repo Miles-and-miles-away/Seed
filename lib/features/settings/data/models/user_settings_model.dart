@@ -22,8 +22,8 @@ abstract class UserSettingsModel with _$UserSettingsModel {
     /// Whether to use smart reminders (only notify if no action logged today).
     @Default(true) bool smartRemindersEnabled,
 
-    /// Preferred language code ('en' or 'ja').
-    @Default('en') String language,
+    /// Language the user chose ('en', 'es' or 'ja'); null if never chosen.
+    String? language,
 
     /// Whether user has completed initial onboarding.
     @Default(false) bool hasSeenOnboarding,
@@ -52,12 +52,11 @@ abstract class UserSettingsModel with _$UserSettingsModel {
       _$UserSettingsModelFromJson(json);
 
   /// Creates default settings for a new user.
-  factory UserSettingsModel.defaultSettings({String language = 'en'}) {
-    return UserSettingsModel(
-      language: language,
+  factory UserSettingsModel.defaultSettings() {
+    return const UserSettingsModel(
       reminderSchedules: [
         // Default morning reminder at 9:00 AM
-        const NotificationScheduleModel(
+        NotificationScheduleModel(
           id: 'default_morning',
           hour: 9,
           minute: 0,

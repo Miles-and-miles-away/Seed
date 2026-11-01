@@ -1,1 +1,4 @@
 #include "Generated.xcconfig"
+
+// Keep global symbols: rive_native resolves its FFI entry points at runtime.
+STRIP_STYLE = non-global

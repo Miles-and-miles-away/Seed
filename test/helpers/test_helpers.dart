@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
@@ -10,8 +12,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/shared/data/language_store.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
+
+import 'memory_language_store.dart';
+
+export 'memory_language_store.dart';
 
 // =============================================================================
 // Mock Classes
@@ -38,9 +47,11 @@ Widget createTestWidget({
   bool scaffold = false,
   Locale? locale,
   ThemeData? theme,
+  LanguageStore? languageStore,
 }) {
   return ProviderScope(
     overrides: [
+      languageStoreOverride(languageStore),
       if (firebaseAuth != null)
         firebaseAuthProvider.overrideWithValue(firebaseAuth),
       if (firestore != null) firestoreProvider.overrideWithValue(firestore),
@@ -60,6 +71,11 @@ Widget createTestWidget({
 // Provider Container Helpers
 // =============================================================================
 
+/// Backs [languageStoreProvider] with [store], a returning device's
+/// in-memory store by default.
+Override languageStoreOverride([LanguageStore? store]) =>
+    languageStoreProvider.overrideWithValue(store ?? MemoryLanguageStore());
+
 Override userOverride(AppUserModel? user) =>
     currentUserProvider.overrideWith((_) => Stream.value(user));
 
@@ -69,8 +85,11 @@ Override userOverride(AppUserModel? user) =>
 Future<ProviderContainer> pumpedContainer(
   List<Override> overrides, {
   ProviderListenable<Object?>? warm,
+  LanguageStore? languageStore,
 }) async {
-  final container = ProviderContainer(overrides: overrides);
+  final container = ProviderContainer(
+    overrides: [languageStoreOverride(languageStore), ...overrides],
+  );
   addTearDown(container.dispose);
   container.listen(warm ?? currentUserProvider, (_, _) {});
   await Future<void>.delayed(Duration.zero);
@@ -81,22 +100,6 @@ Future<ProviderContainer> pumpedContainer(
 // Widget Test Helpers
 // =============================================================================
 
-/// CachedNetworkImage resolves its cache directory via path_provider,
-/// which has no platform implementation under test.
-void stubPathProvider() {
-  const channel = MethodChannel('plugins.flutter.io/path_provider');
-  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-      .setMockMethodCallHandler(channel, (methodCall) async {
-        switch (methodCall.method) {
-          case 'getTemporaryDirectory':
-          case 'getApplicationSupportDirectory':
-          case 'getApplicationDocumentsDirectory':
-            return '/tmp';
-        }
-        return null;
-      });
-}
-
 /// A tall phone viewport so long screens lay out without scrolling.
 void sizeViewport(WidgetTester tester, {Size size = const Size(1200, 2400)}) {
   tester.view.physicalSize = size;
@@ -106,6 +109,235 @@ void sizeViewport(WidgetTester tester, {Size size = const Size(1200, 2400)}) {
     tester.view.resetDevicePixelRatio();
   });
 }
+
+/// Loads Roboto (in `test/fonts/`) under the family name Material uses on
+/// Android, which is the test platform. The default test font draws every
+/// Latin glyph 1em wide, so Spanish and English layouts need real metrics;
+/// kana and kanji are 1em in both, so Japanese layouts do not.
+Future<void> loadTestFonts() async {
+  final loader = FontLoader('Roboto');
+  for (final file in ['Roboto-Regular.ttf', 'Roboto-Medium.ttf']) {
+    final bytes = File('test/fonts/$file').readAsBytesSync();
+    loader.addFont(Future.value(ByteData.sublistView(bytes)));
+  }
+  await loader.load();
+}
+
+/// Phone widths the layout tests run at: a 320pt stress width, a small
+/// Android, the smallest current iPhones and the tester's iPhone.
+const testPhoneWidths = [320.0, 360.0, 375.0, 393.0];
+
+/// Laid-out lines of the text [finder] matches, word joiners removed.
+List<String> renderedLines(WidgetTester tester, Finder finder) =>
+    paragraphLines(
+      tester.renderObject<RenderParagraph>(
+        find
+            .descendant(
+              of: finder,
+              matching: find.byType(RichText),
+              matchRoot: true,
+            )
+            .first,
+      ),
+    );
+
+/// [T]s under [root], [root] included, in tree order. Per-item sweeps use
+/// this: a finder walks the whole tree, so one per item is quadratic.
+Iterable<T> renderObjectsIn<T extends RenderObject>(RenderObject root) sync* {
+  if (root is T) yield root;
+  final children = <RenderObject>[];
+  root.visitChildren(children.add);
+  for (final child in children) {
+    yield* renderObjectsIn<T>(child);
+  }
+}
+
+/// Laid-out lines of [paragraph], word joiners removed.
+List<String> paragraphLines(RenderParagraph paragraph) {
+  final text = paragraph.text.toPlainText(includeSemanticsLabels: false);
+  final lines = <String>[];
+  double? lineTop;
+  for (var i = 0; i < text.length; i++) {
+    final top = paragraph
+        .getOffsetForCaret(TextPosition(offset: i), Rect.zero)
+        .dy;
+    if (top != lineTop) lines.add('');
+    lineTop = top;
+    lines.last += text[i];
+  }
+  return [for (final line in lines) stripWordJoiners(line)];
+}
+
+/// For each [FittedBox] under [of] that holds text, as a NoWordBreak draws
+/// it: its plain text, the scale it is drawn at, and the scale the widest
+/// unbreakable run of its text needs to fit the line, phrase joins aside.
+///
+/// flutter_tester cannot break kana or kanji that carry no joiner, so in
+/// [language] `ja` both scales come from a device's breaks instead:
+/// anywhere but a joined pair, a Latin or digit run, or a no-break space.
+List<(String, double, double)> noWordBreakScales(
+  RenderObject of, {
+  String? language,
+}) => [
+  for (final box in renderObjectsIn<RenderFittedBox>(of))
+    if (renderObjectsIn<RenderParagraph>(box).firstOrNull case final paragraph?)
+      _scales(box, paragraph, language),
+];
+
+(String, double, double) _scales(
+  RenderFittedBox box,
+  RenderParagraph paragraph,
+  String? language,
+) {
+  final text = paragraph.text.toPlainText(includeSemanticsLabels: false);
+  final clean = stripWordJoiners(text);
+  double fit(String runs) =>
+      min(1, box.constraints.maxWidth / _widestRun(paragraph, runs));
+  if (language != 'ja') {
+    return (text, min(1, box.size.width / box.child!.size.width), fit(clean));
+  }
+  final kinsoku = phraseWrap(
+    clean,
+    locale: const Locale('ja'),
+    maxPhrase: clean.length,
+    phrases: false,
+  );
+  return (text, fit(_deviceJaBreaks(text)), fit(_deviceJaBreaks(kinsoku)));
+}
+
+final _unbrokenRun = RegExp('[A-Za-z0-9.,%℃°]');
+
+/// Spaces a line never breaks at, so a run continues through them.
+const _noBreakSpaces = {'\u00A0', '\u2007', '\u202F'};
+
+/// [joined] with a zero-width space wherever a device may break the line.
+String _deviceJaBreaks(String joined) {
+  final out = StringBuffer();
+  String? previous;
+  var join = false;
+  for (final unit in joined.characters) {
+    if (unit == wordJoiner) {
+      join = true;
+      continue;
+    }
+    final run =
+        previous == null ||
+        join ||
+        unit == ' ' ||
+        previous == ' ' ||
+        (_unbrokenRun.hasMatch(previous) && _unbrokenRun.hasMatch(unit)) ||
+        _noBreakSpaces.contains(previous) ||
+        _noBreakSpaces.contains(unit);
+    if (!run) out.write('\u200B');
+    out.write(unit);
+    previous = unit;
+    join = false;
+  }
+  return out.toString();
+}
+
+/// The widest unbreakable run of [text] in [paragraph]'s style.
+double _widestRun(RenderParagraph paragraph, String text) {
+  final painter = TextPainter(
+    text: TextSpan(text: text, style: paragraph.text.style),
+    textDirection: paragraph.textDirection,
+    textScaler: paragraph.textScaler,
+    locale: paragraph.locale,
+  )..layout();
+  final width = painter.minIntrinsicWidth.ceilToDouble();
+  painter.dispose();
+  return width;
+}
+
+/// Line breaks in [lines] that fall inside a word: between two
+/// non-space characters in Latin text, inside a phrase in Japanese.
+/// [maxPhrase] is the phrase cap the text was wrapped with, if any.
+List<String> breaksInsideWords(
+  List<String> lines,
+  String language, {
+  int? maxPhrase,
+}) {
+  final text = lines.join();
+  final allowed = <int>{};
+  if (language == 'ja') {
+    final wrapped = phraseWrap(
+      text,
+      locale: const Locale('ja'),
+      maxPhrase: maxPhrase ?? text.length,
+    );
+    var offset = 0;
+    var joined = false;
+    for (final unit in wrapped.split('')) {
+      if (unit == wordJoiner) {
+        joined = true;
+        continue;
+      }
+      if (!joined) allowed.add(offset);
+      joined = false;
+      offset++;
+    }
+  }
+  final bad = <String>[];
+  var offset = 0;
+  for (var i = 0; i < lines.length - 1; i++) {
+    offset += lines[i].length;
+    final end = lines[i];
+    final next = lines[i + 1];
+    final ok = language == 'ja'
+        ? allowed.contains(offset)
+        : end.endsWith(' ') || end.endsWith('-') || next.startsWith(' ');
+    if (!ok) bad.add('$end|$next');
+  }
+  return bad;
+}
+
+/// SF Pro measures 5-8% wider than Roboto for the same Latin text, so
+/// Spanish layout tests run at this fraction of a phone width to stand in
+/// for iOS.
+const robotoToSfWidthFactor = 0.92;
+
+/// Expects no overflow at [widths] in JA and ES at [scales]; loads Roboto.
+void stressWidthLayoutTests(
+  Widget Function(Locale locale, ThemeData? theme) build, {
+  List<double> widths = const [320],
+  List<double> scales = const [1.0, 2.0],
+  Future<void> Function(WidgetTester tester, Locale locale)? act,
+}) => group('in Japanese and Spanish', () {
+  setUpAll(loadTestFonts);
+  for (final width in widths) {
+    for (final language in ['ja', 'es']) {
+      for (final scale in scales) {
+        testWidgets(
+          'lays out at ${width.round()}pt in $language at text scale $scale',
+          (tester) async {
+            sizeViewport(
+              tester,
+              size: Size(
+                language == 'es' ? width * robotoToSfWidthFactor : width,
+                640,
+              ),
+            );
+            tester.platformDispatcher.textScaleFactorTestValue = scale;
+            addTearDown(
+              tester.platformDispatcher.clearTextScaleFactorTestValue,
+            );
+            final locale = Locale(language);
+            await tester.pumpWidget(
+              build(
+                locale,
+                // Roboto has no kana, so Japanese keeps the test font.
+                language == 'ja' ? ThemeData(fontFamily: 'FlutterTest') : null,
+              ),
+            );
+            await tester.pumpAndSettle();
+            await act?.call(tester, locale);
+            expect(tester.takeException(), isNull);
+          },
+        );
+      }
+    }
+  }
+});
 
 /// Pump until [finder] resolves or the budget runs out. For screens with
 /// infinite idle animations that never settle; each step yields to the
@@ -174,4 +406,28 @@ double contrastRatio(Color a, Color b) {
   final la = a.computeLuminance();
   final lb = b.computeLuminance();
   return (max(la, lb) + 0.05) / (min(la, lb) + 0.05);
+}
+
+/// Approximates Android's nonlinear 200% font scale, which doubles small
+/// type but grows large type less.
+class NonlinearScaler200 extends TextScaler {
+  const NonlinearScaler200();
+
+  static const _from = [8.0, 10, 12, 14, 18, 20, 24, 30, 100];
+  static const _to = [16.0, 20, 24, 26, 30, 34, 36, 38, 100];
+
+  @override
+  double scale(double fontSize) {
+    if (fontSize <= _from.first) return fontSize * _to.first / _from.first;
+    for (var i = 1; i < _from.length; i++) {
+      if (fontSize <= _from[i]) {
+        final t = (fontSize - _from[i - 1]) / (_from[i] - _from[i - 1]);
+        return _to[i - 1] + t * (_to[i] - _to[i - 1]);
+      }
+    }
+    return fontSize;
+  }
+
+  @override
+  double get textScaleFactor => 2;
 }

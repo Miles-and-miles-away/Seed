@@ -4,10 +4,21 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/settings/presentation/feedback_mailto.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
+
+const _sdgIconGuidelines = {
+  'en':
+      'https://www.un.org/sustainabledevelopment/news/communications-material/',
+  'ja':
+      'https://www.unic.or.jp/activities/economic_social_development/'
+      'sustainable_development/2030agenda/sdgs_logo/',
+  'es':
+      'https://www.un.org/sustainabledevelopment/es/news/communications-material/',
+};
 
 /// Screen displaying app information, version, and legal links.
 class AboutScreen extends ConsumerWidget {
@@ -36,9 +47,9 @@ class AboutScreen extends ConsumerWidget {
               showTopDivider: true,
               children: [
                 ListTile(
-                  leading: const Icon(Icons.info_outline),
+                  leading: const Icon(Icons.tag),
                   title: Text(appVersionLabel(version, buildNumber)),
-                  subtitle: Text('Seed - ${l10n.aboutSubtitleTracker}'),
+                  subtitle: Text(l10n.aboutSubtitleTracker),
                 ),
               ],
             ),
@@ -62,6 +73,18 @@ class AboutScreen extends ConsumerWidget {
                   leading: const Icon(Icons.source_outlined),
                   title: l10n.aboutSettingsLicenses,
                   onTap: () => _showLicenses(context),
+                ),
+                SettingsTile(
+                  leading: const Icon(Icons.public),
+                  title: '${l10n.aboutSdgIconsCredit} $externalLinkChar',
+                  showChevron: false,
+                  onTap: () => openExternalUrl(
+                    context,
+                    _sdgIconGuidelines[Localizations.localeOf(
+                          context,
+                        ).languageCode] ??
+                        _sdgIconGuidelines['en']!,
+                  ),
                 ),
               ],
             ),

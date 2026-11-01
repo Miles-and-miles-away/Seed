@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
@@ -14,6 +17,7 @@ import 'package:seed_app/features/actions/presentation/widgets/action_category_t
 import 'package:seed_app/features/actions/presentation/widgets/action_sort_dropdown.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_filter_chips.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -67,12 +71,18 @@ void main() {
     Widget buildScreen({
       List<ActionModel>? actions,
       String? initialCategory,
+      int? initialSdg,
       bool isLoading = false,
-      double textScale = 1.0,
+      TextScaler scaler = TextScaler.noScaling,
+      Locale? locale,
+      ThemeData? theme,
     }) {
       return createTestWidget(
+        locale: locale,
+        theme: theme,
         overrides: [
           userOverride(testUser),
+          userIdProvider.overrideWithValue(testUser.uid),
           actionLibraryProvider.overrideWith((ref) {
             if (isLoading) {
               // Never completes: keeps the provider in loading state.
@@ -95,8 +105,11 @@ void main() {
           }),
         ],
         child: MediaQuery(
-          data: MediaQueryData(textScaler: TextScaler.linear(textScale)),
-          child: ActionLogScreen(initialCategory: initialCategory),
+          data: MediaQueryData(textScaler: scaler),
+          child: ActionLogScreen(
+            initialCategory: initialCategory,
+            initialSdg: initialSdg,
+          ),
         ),
       );
     }
@@ -119,15 +132,14 @@ void main() {
       );
       expect(trigger.enabled, isTrue);
 
-      // The two app bar icons, then the shared bottom nav's two items.
+      // The shared bottom nav's Progress, Action and Explore items.
       final shimmers = tester
           .widgetList<WalkthroughShimmer>(find.byType(WalkthroughShimmer))
           .map((s) => s.item);
       expect(shimmers, [
-        WalkthroughItem.calculators,
-        WalkthroughItem.quiz,
         WalkthroughItem.progress,
         WalkthroughItem.logAction,
+        WalkthroughItem.calculators,
       ]);
     });
 
@@ -159,7 +171,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            languageStoreOverride(),
             userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),
             filteredActionsProvider.overrideWith(
               (ref) => AsyncValue.data(testActions),
@@ -203,6 +217,18 @@ void main() {
       expect(find.byType(ActionCard), findsOneWidget);
     });
 
+    testWidgets('pre-selects the SDG filter from initialSdg', (tester) async {
+      await tester.pumpWidget(buildScreen(initialSdg: 13));
+      await tester.pumpAndSettle();
+
+      expect(
+        ProviderScope.containerOf(
+          tester.element(find.byType(ActionCategoryTabs)),
+        ).read(selectedSdgFilterProvider),
+        13,
+      );
+    });
+
     testWidgets('shows all actions when initialCategory is unknown', (
       tester,
     ) async {
@@ -225,6 +251,7 @@ void main() {
         createTestWidget(
           overrides: [
             userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),
           ],
           child: const ActionLogScreen(initialCategory: 'transport'),
@@ -318,16 +345,22 @@ void main() {
       // The trim must not come out of accessibility: the cell grows
       // with the text scale, because the text block is the only part
       // of a tile that does.
-      for (final scale in [1.0, 1.3, 2.0]) {
+      final scalers = {
+        '1.0': TextScaler.noScaling,
+        '1.3': const TextScaler.linear(1.3),
+        '2.0': const TextScaler.linear(2),
+        'Android nonlinear 200%': const NonlinearScaler200(),
+      };
+      for (final MapEntry(key: name, value: scaler) in scalers.entries) {
         tester.view.physicalSize = const Size(402, 1400);
         tester.view.devicePixelRatio = 1.0;
         addTearDown(tester.view.reset);
-        await tester.pumpWidget(buildScreen(textScale: scale));
+        await tester.pumpWidget(buildScreen(scaler: scaler));
         await tester.pumpAndSettle();
         expect(
           tester.takeException(),
           isNull,
-          reason: 'a tile overflowed at text scale $scale',
+          reason: 'a tile overflowed at text scale $name',
         );
       }
     });
@@ -367,7 +400,7 @@ void main() {
       // It used to sit on a row of its own, right-aligned, with dead
       // space beside it. Same row now, and icon-only so the search
       // field keeps its width.
-      expect(find.byIcon(Icons.sort), findsOneWidget);
+      expect(find.byIcon(Icons.shuffle), findsOneWidget);
       final search = tester.getRect(find.byType(TextField).first);
       final sort = tester.getRect(find.byType(ActionSortDropdown));
       expect(sort.center.dy, closeTo(search.center.dy, 1));
@@ -386,8 +419,8 @@ void main() {
     // Only transport and food get a grid tile: both bank the choice
     // their calculator produces. Energy banks nothing (decision 8.18),
     // so a tile in a grid of loggable actions would promise a log it
-    // cannot deliver -- its calculator lives in the AppBar chooser and
-    // its two teaching surfaces are AppBar icons (decision E8).
+    // cannot deliver -- its calculator and its two teaching surfaces
+    // live on the Explore tab.
     //
     // The grid needs a tall viewport here: at the default 800x600 the
     // second row of tiles is never built, so a missing tile and an
@@ -448,53 +481,53 @@ void main() {
       expect(find.byType(ActionTile), findsNothing);
     });
 
-    testWidgets('the AppBar carries the two energy surfaces in every '
-        'category', (tester) async {
+    testWidgets('the app bar has no actions', (tester) async {
       await tester.pumpWidget(buildScreen());
       await tester.pumpAndSettle();
 
-      // Beside the calculator chooser, and not category-dependent: the
-      // discoverability problem E8 resolved was being buried two taps
-      // deep.
-      expect(find.byIcon(Icons.calculate_outlined), findsOneWidget);
-      // The bolt is the app's own energy glyph; the quiz tooltip is
-      // domain-neutral because the game rotates all three datasets.
-      // Scoped to the bar: an energy action card carries a bolt too.
-      expect(
-        find.descendant(
-          of: find.byType(AppBar),
-          matching: find.byIcon(Icons.bolt),
-        ),
-        findsOneWidget,
-      );
-      expect(find.byTooltip('Where your energy goes'), findsOneWidget);
-      expect(find.byTooltip('Higher or lower?'), findsOneWidget);
+      final actions = tester.widget<AppBar>(find.byType(AppBar)).actions;
+      expect(actions ?? const <Widget>[], isEmpty);
     });
 
-    testWidgets('the energy AppBar icons push their own routes', (
+    List<String> shuffledIds(List<ActionModel> actions, int seed) =>
+        [for (final a in actions) a.id]..shuffle(Random(seed));
+
+    List<String> cardIds(WidgetTester tester) => [
+      for (final card in tester.widgetList<ActionCard>(find.byType(ActionCard)))
+        card.action.id,
+    ];
+
+    testWidgets('one shuffle per mount, a chosen sort across mounts', (
       tester,
     ) async {
-      Widget stub(String label) => Scaffold(body: Text(label));
+      useTallView(tester);
+      var seedBuilds = 0;
       final router = GoRouter(
-        initialLocation: '/log-action',
+        initialLocation: '/home',
         routes: [
+          GoRoute(
+            path: '/home',
+            builder: (_, _) => const Scaffold(body: Text('Home Screen')),
+          ),
           GoRoute(
             path: '/log-action',
             builder: (_, _) => const ActionLogScreen(),
           ),
           GoRoute(
-            path: '/energy-explore',
-            builder: (_, _) => stub('Explore Screen'),
+            path: '/quiz',
+            builder: (_, _) => const Scaffold(body: Text('Quiz Screen')),
           ),
-          GoRoute(path: '/quiz', builder: (_, _) => stub('Quiz Screen')),
         ],
       );
 
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
+            languageStoreOverride(),
             userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
             actionLibraryProvider.overrideWith((ref) async => testActions),
+            actionShuffleSeedProvider.overrideWith((ref) => ++seedBuilds),
           ],
           child: MaterialApp.router(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -504,16 +537,336 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
+      expect(seedBuilds, 0);
 
-      await tester.tap(find.byTooltip('Where your energy goes'));
+      unawaited(router.push('/log-action'));
       await tester.pumpAndSettle();
-      expect(find.text('Explore Screen'), findsOneWidget);
+      expect(seedBuilds, 1);
+      expect(cardIds(tester), shuffledIds(testActions, 1));
 
+      unawaited(router.push('/quiz'));
+      await tester.pumpAndSettle();
       router.pop();
       await tester.pumpAndSettle();
-      await tester.tap(find.byTooltip('Higher or lower?'));
+      expect(seedBuilds, 1);
+
+      await tester.tap(find.byType(ActionSortDropdown));
       await tester.pumpAndSettle();
-      expect(find.text('Quiz Screen'), findsOneWidget);
+      await tester.tap(find.text('Points (High to Low)'));
+      await tester.pumpAndSettle();
+
+      router.go('/home');
+      await tester.pumpAndSettle();
+      unawaited(router.push('/log-action'));
+      await tester.pumpAndSettle();
+
+      expect(seedBuilds, 2);
+      expect(
+        ProviderScope.containerOf(
+          tester.element(find.byType(ActionSortDropdown)),
+        ).read(selectedSortOptionProvider),
+        ActionSortOption.pointsHighToLow,
+      );
+      expect(find.byIcon(Icons.sort), findsOneWidget);
+    });
+
+    testWidgets('picking Shuffle while active reshuffles the grid', (
+      tester,
+    ) async {
+      useTallView(tester);
+      var seedBuilds = 0;
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
+            actionLibraryProvider.overrideWith((ref) async => testActions),
+            actionShuffleSeedProvider.overrideWith((ref) => ++seedBuilds),
+          ],
+          child: const ActionLogScreen(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(cardIds(tester), shuffledIds(testActions, 1));
+
+      await tester.tap(find.byType(ActionSortDropdown));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Shuffle'));
+      await tester.pumpAndSettle();
+
+      expect(seedBuilds, 2);
+      expect(cardIds(tester), shuffledIds(testActions, 2));
+    });
+
+    testWidgets('the custom-action tile stays first under Shuffle', (
+      tester,
+    ) async {
+      useTallView(tester);
+      const seed = 1;
+      final actions = [
+        ...testActions,
+        const ActionModel(
+          id: 'transport2',
+          nameEn: 'Take the Train',
+          nameJa: '電車に乗る',
+          category: 'transport',
+          points: 10,
+        ),
+        const ActionModel(
+          id: 'transport3',
+          nameEn: 'Car Share',
+          nameJa: 'カーシェア',
+          category: 'transport',
+          points: 8,
+        ),
+      ];
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            userOverride(testUser),
+            userIdProvider.overrideWithValue(testUser.uid),
+            actionLibraryProvider.overrideWith((ref) async => actions),
+            actionShuffleSeedProvider.overrideWith((ref) => seed),
+          ],
+          child: const ActionLogScreen(initialCategory: 'transport'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final tiles = tester.widgetList<ActionTile>(find.byType(ActionTile));
+      expect(tiles.first.title, 'Log a Custom Transport action');
+      final transportIds = {
+        for (final a in actions)
+          if (a.category == 'transport') a.id,
+      };
+      expect(cardIds(tester), [
+        for (final id in shuffledIds(actions, seed))
+          if (transportIds.contains(id)) id,
+      ]);
+    });
+
+    group('a pinned challenge action', () {
+      final actions = [
+        ...testActions,
+        const ActionModel(
+          id: 'transport2',
+          nameEn: 'Take the Train',
+          nameJa: '電車に乗る',
+          category: 'transport',
+          points: 10,
+        ),
+        const ActionModel(
+          id: 'transport3',
+          nameEn: 'Car Share',
+          nameJa: 'カーシェア',
+          category: 'transport',
+          points: 8,
+        ),
+      ];
+
+      Future<void> open(
+        WidgetTester tester, {
+        String category = 'transport',
+        String? action,
+      }) async {
+        useTallView(tester);
+        await tester.pumpWidget(
+          createTestWidget(
+            overrides: [
+              userOverride(testUser),
+              userIdProvider.overrideWithValue(testUser.uid),
+              actionLibraryProvider.overrideWith((ref) async => actions),
+              actionShuffleSeedProvider.overrideWith((ref) => 1),
+            ],
+            child: ActionLogScreen(
+              initialCategory: category,
+              initialActionId: action,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+      }
+
+      ShapeBorder? tileShape(WidgetTester tester, String title) => tester
+          .widget<Card>(
+            find.descendant(
+              of: find.widgetWithText(ActionTile, title),
+              matching: find.byType(Card),
+            ),
+          )
+          .shape;
+
+      testWidgets('leads the grid, ahead of the calculator entry', (
+        tester,
+      ) async {
+        await open(tester, action: 'transport3');
+
+        final titles = [
+          for (final tile in tester.widgetList<ActionTile>(
+            find.byType(ActionTile),
+          ))
+            tile.title,
+        ];
+        expect(titles.take(2), ['Car Share', 'Log a Custom Transport action']);
+        expect(titles, hasLength(4));
+      });
+
+      testWidgets('is ringed in tertiary and named for screen readers', (
+        tester,
+      ) async {
+        await open(tester, action: 'transport3');
+
+        final scheme = Theme.of(
+          tester.element(find.byType(ActionLogScreen)),
+        ).colorScheme;
+        final shape = tileShape(tester, 'Car Share')! as RoundedRectangleBorder;
+        expect(shape.side.color, scheme.tertiary);
+        expect(shape.side.width, 2);
+        expect(tileShape(tester, 'Take the Train'), isNull);
+        final pinnedTile = find.widgetWithText(ActionTile, 'Car Share');
+        final cardTop = tester
+            .getTopLeft(
+              find
+                  .descendant(of: pinnedTile, matching: find.byType(Material))
+                  .first,
+            )
+            .dy;
+        final bar = find.descendant(
+          of: pinnedTile,
+          matching: find.byWidgetPredicate(
+            (w) => w is Container && w.constraints?.maxHeight == 4,
+          ),
+        );
+        expect(tester.getTopLeft(bar).dy - cardTop, ringWidth);
+        expect(tester.getSize(bar).height, 4);
+        expect(
+          tester.getSemantics(find.text('Car Share')),
+          isSemantics(
+            label: 'Car Share\n8 points',
+            hint: 'Daily action challenge',
+            hasTapAction: true,
+          ),
+        );
+        expect(
+          tester.getSemantics(find.text('Take the Train')),
+          isNot(isSemantics(hint: 'Daily action challenge')),
+        );
+      });
+
+      testWidgets('leads a category without a calculator entry', (
+        tester,
+      ) async {
+        await open(tester, category: 'energy', action: 'action4');
+
+        expect(
+          tester.widgetList<ActionTile>(find.byType(ActionTile)).first.title,
+          'Switch Off Standby',
+        );
+        expect(tileShape(tester, 'Switch Off Standby'), isNotNull);
+      });
+
+      testWidgets('lasts one visit only', (tester) async {
+        useTallView(tester);
+        final router = GoRouter(
+          initialLocation: '/home',
+          routes: [
+            GoRoute(
+              path: '/home',
+              builder: (_, _) => const Scaffold(body: Text('Home Screen')),
+            ),
+            GoRoute(
+              path: '/log-action',
+              builder: (_, state) => ActionLogScreen(
+                initialCategory: state.uri.queryParameters['category'],
+                initialActionId: state.uri.queryParameters['action'],
+              ),
+            ),
+          ],
+        );
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              languageStoreOverride(),
+              userOverride(testUser),
+              userIdProvider.overrideWithValue(testUser.uid),
+              actionLibraryProvider.overrideWith((ref) async => actions),
+            ],
+            child: MaterialApp.router(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              routerConfig: router,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        bool ringed() => tester
+            .widgetList<ActionTile>(find.byType(ActionTile))
+            .any((tile) => tile.highlighted);
+
+        unawaited(router.push('/log-action?category=energy&action=action4'));
+        await tester.pumpAndSettle();
+        expect(ringed(), isTrue);
+
+        router.pop();
+        await tester.pumpAndSettle();
+        unawaited(router.push('/log-action'));
+        await tester.pumpAndSettle();
+        expect(find.byType(ActionTile), findsWidgets);
+        expect(ringed(), isFalse);
+      });
+
+      testWidgets('without one, no tile is ringed', (tester) async {
+        await open(tester);
+
+        for (final tile in tester.widgetList<ActionTile>(
+          find.byType(ActionTile),
+        )) {
+          expect(tile.highlighted, isFalse, reason: tile.title);
+        }
+        expect(
+          tester.widgetList<ActionTile>(find.byType(ActionTile)).first.title,
+          'Log a Custom Transport action',
+        );
+      });
+    });
+
+    group('the title is not scaled down at 320pt', () {
+      setUpAll(loadTestFonts);
+
+      for (final (locale, title, width, theme) in [
+        (
+          const Locale('ja'),
+          'アクションを記録',
+          320.0,
+          ThemeData(fontFamily: 'FlutterTest'),
+        ),
+        (
+          const Locale('es'),
+          'Registrar acción',
+          320 * robotoToSfWidthFactor,
+          null,
+        ),
+      ]) {
+        testWidgets(locale.languageCode, (tester) async {
+          tester.view.physicalSize = Size(width, 800);
+          tester.view.devicePixelRatio = 1.0;
+          addTearDown(tester.view.reset);
+          await tester.pumpWidget(buildScreen(locale: locale, theme: theme));
+          await tester.pumpAndSettle();
+
+          final paragraph = tester.renderObject<RenderParagraph>(
+            find.descendant(
+              of: find.byType(AppBar),
+              matching: find.text(title),
+            ),
+          );
+          final drawn = MatrixUtils.transformRect(
+            paragraph.getTransformTo(null),
+            Offset.zero & paragraph.size,
+          );
+          expect(drawn.width, closeTo(paragraph.size.width, 0.01));
+        });
+      }
     });
   });
 }
