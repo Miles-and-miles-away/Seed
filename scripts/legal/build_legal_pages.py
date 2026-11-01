@@ -179,7 +179,8 @@ DELETE_TEXT = {
         'action history, daily summaries, mascot progress and settings '
         'from our servers. This cannot be undone.',
         'alt': 'If you can no longer sign in, email {email} from the address '
-        'registered on the account and we will delete it for you.',
+        'registered on the account. Before deleting anything, we will reply '
+        'to that address and ask you to confirm.',
     },
     'ja': {
         'intro': 'Seedのアカウントと関連するすべてのデータは、いつでもアプリ内'
@@ -190,7 +191,8 @@ DELETE_TEXT = {
         'サマリー、マスコットの進行状況、設定がサーバーから完全に削除されます。'
         'この操作は取り消せません。',
         'alt': 'サインインできない場合は、アカウントに登録したメールアドレス'
-        'から {email} にご連絡ください。こちらで削除します。',
+        'から {email} にご連絡ください。削除の前に、そのアドレス宛てに確認'
+        'のメールをお送りします。',
     },
     'es': {
         'intro': 'Puede eliminar su cuenta de Seed y todos los datos '
@@ -201,7 +203,8 @@ DELETE_TEXT = {
         'servidores su perfil, historial de acciones, resúmenes diarios, '
         'progreso de la mascota y ajustes. Esta acción no se puede deshacer.',
         'alt': 'Si ya no puede iniciar sesión, escriba a {email} desde la '
-        'dirección registrada en la cuenta y la eliminaremos por usted.',
+        'dirección registrada en la cuenta. Antes de eliminar nada, le '
+        'responderemos a esa dirección para que lo confirme.',
     },
 }
 

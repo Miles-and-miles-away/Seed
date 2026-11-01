@@ -188,6 +188,7 @@
   "errorAuth": "Authentication failed. Please try again.",
   "errorOpenLink": "Could not open link.",
   "errorActionTooSoon": "Please wait a few seconds between actions.",
+  "errorActionRejected": "This action could not be logged. Check that your device's date and time are set automatically, then try again.",
   "errorLogActionOffline": "Cannot log an action while offline. Check your connection and try again.",
   "errorAuthEmailInUse": "An account already exists with this email address.",
   "errorAuthInvalidEmail": "Please enter a valid email address.",

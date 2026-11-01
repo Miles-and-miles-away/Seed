@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
@@ -158,15 +159,13 @@ void main() {
               faceWidth - 2 * spacingSm,
               scale * title.fontSize! + (title.letterSpacing ?? 0),
             );
+            final tiles = tester
+                .renderObjectList(find.byType(FactCardTile))
+                .toList();
+            expect(tiles, hasLength(cards.length));
             for (final (i, card) in cards.indexed) {
-              final lines = renderedLines(
-                tester,
-                find
-                    .descendant(
-                      of: find.byKey(ValueKey(i)),
-                      matching: find.byType(RichText),
-                    )
-                    .first,
+              final lines = paragraphLines(
+                renderObjectsIn<RenderParagraph>(tiles[i]).first,
               );
               expect(lines.join(), card.text);
               for (var l = 1; l < lines.length; l++) {

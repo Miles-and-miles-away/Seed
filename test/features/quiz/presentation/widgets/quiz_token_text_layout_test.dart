@@ -152,11 +152,17 @@ void main() {
           await tester.pumpAndSettle();
           expect(tester.takeException(), isNull);
 
+          final tokens = tester
+              .renderObjectList(find.byType(QuizTokenCard))
+              .toList();
+          expect(tokens, hasLength(cards.length));
+          final scaler = MediaQuery.textScalerOf(
+            tester.element(find.byType(QuizTokenCard).first),
+          );
           final bad = <String>[];
-          for (final (_, card) in cards) {
-            final token = find.byKey(ValueKey(card.id));
+          for (final (i, (_, card)) in cards.indexed) {
+            final token = tokens[i];
             for (final (text, shrink, needed) in noWordBreakScales(
-              tester,
               token,
               language: language,
             )) {
@@ -167,20 +173,11 @@ void main() {
                 bad.add('${card.id}: "$text" shrinks to $shrink');
               }
             }
-            final texts = find.descendant(
-              of: token,
-              matching: find.byType(RichText),
-            );
-            for (final element in texts.evaluate()) {
-              final lines = renderedLines(
-                tester,
-                find.byElementPredicate((e) => e == element),
-              );
-              final style =
-                  (element.renderObject! as RenderParagraph).text.style!;
+            for (final paragraph in renderObjectsIn<RenderParagraph>(token)) {
+              final lines = paragraphLines(paragraph);
+              final style = paragraph.text.style!;
               final glyph =
-                  MediaQuery.textScalerOf(element).scale(style.fontSize!) +
-                  (style.letterSpacing ?? 0);
+                  scaler.scale(style.fontSize!) + (style.letterSpacing ?? 0);
               for (final b in breaksInsideWords(
                 lines,
                 language,

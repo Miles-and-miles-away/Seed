@@ -171,6 +171,7 @@
   "errorAuth": "Error de autenticación. Inténtalo de nuevo.",
   "errorOpenLink": "No se ha podido abrir el enlace.",
   "errorActionTooSoon": "Espera unos segundos entre acciones.",
+  "errorActionRejected": "No se ha podido registrar la acción. Comprueba que la fecha y la hora del dispositivo se ajustan automáticamente y vuelve a intentarlo.",
   "errorLogActionOffline": "No se puede registrar una acción sin conexión. Comprueba tu conexión e inténtalo de nuevo.",
   "errorAuthEmailInUse": "Ya existe una cuenta con este correo electrónico.",
   "errorAuthInvalidEmail": "Introduce un correo electrónico válido.",
