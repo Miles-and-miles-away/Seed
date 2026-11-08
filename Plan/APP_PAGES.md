@@ -111,7 +111,10 @@ Main hub with mascot summary, challenges, and SDG carousel.
   mascot card with streak/points, daily challenge card in a tertiary
   shade (names one action; any action in its category completes it;
   tap opens Log Action filtered to the category with that action
-  first; once complete, the whole card opens today's eco-fact),
+  first; once complete, the whole card opens today's eco-fact; a bell
+  in its top corner, outlined while off and filled while on, opens a
+  sheet with the daily challenge reminder switch and time, on both the
+  open and the completed card),
   multi-day challenge card, My Goal card (shows the user's personal
   sustainability goal or a set-goal prompt; tap opens the goal picker
   sheet), infinite SDG carousel under a "Discover the SDGs" header
@@ -233,7 +236,22 @@ unambiguous exit. Browse and log actions.
 - Query params: `category` pre-selects the matching category tab on open
   (unknown values fall back to "All"); an `action` parameter pins that
   action first for the visit, under every sort and ahead of the
-  custom-action tile, ringed in the scheme's tertiary colour.
+  custom-action tile, ringed in the scheme's tertiary colour; `log=1`
+  (the tap on an action reminder) opens that action's log dialog
+  instead, with no pin or ring, since the action is not the challenge.
+  A reminder tap while the action log is open replaces it rather than
+  stacking a second one; a tap made while signed out is dropped.
+- Reminder bell: the top-right corner of every library action card
+  (hidden on learn-only actions and the custom-action tiles) opens the
+  "Remind me" sheet: time, weekday toggles (Monday first in every
+  language), and Forever or a number of times with the last reminder's
+  date shown. Counting starts tomorrow when the action is already
+  logged today; days skipped by a later log still count, so the last
+  day never moves. The bell is outlined with no reminder, filled in the
+  category colour once one is set, and filled in grey while the Action
+  reminders switch on Reminders is off. A reminder whose last time has
+  passed drops off. Up to 10 action reminders; at the limit the bell
+  shows a snackbar whose Manage button opens Reminders instead.
 - Functionality: no AppBar actions, so the title renders at full size in
   every language. Search, category tabs, sort dropdown (Shuffle by
   default, a new order each visit; a chosen sort is kept until the app
@@ -790,26 +808,53 @@ Settings hub.
   Profile app bar.
 - Links:
   - `/profile/settings/language`
+  - `/profile/settings/reminders` (Manage reminders)
   - `/profile/settings/account`
   - `/profile/settings/feedback` (Send Feedback)
   - `/profile/settings/about`
-- Functionality: language selector, theme picker, "Replay
+- Functionality: Manage reminders tile (see below), language selector, theme picker, "Replay
   walkthrough" tile under Support (confirm dialog, then clears the
   user's `settings.walkthroughFound` and opens Home so the intro pops
   straight away), analytics toggle, section tiles.
-- Note: the Notifications section is hidden while the reminder feature
-  is postponed (the route below still exists but is unreachable from
-  the UI).
+- Notifications section, at the top, two fixed tiles:
+  - Manage reminders: opens Reminders. Its subtitle reads "Notifications
+    are blocked" while a reminder switch is on but the OS blocks them.
+  - Notification style: opens the OS notification settings for Seed,
+    where sound, vibration and banners are set (per channel on Android:
+    "Daily challenge reminder" and "Action reminders").
 
-### Notification Settings (`.../settings/notifications`) — hidden
-Feature postponed; no UI entry points to this route.
+### Reminders (`.../settings/reminders`)
+- Reached from: Manage reminders in Settings, and the Manage button on
+  the action-reminder limit snackbar. The daily reminder part is also
+  in a sheet from the bell on the Home daily challenge card.
 - Links: none
-- Functionality: master notifications toggle (off by default; turning
-  it on requests OS notification permission and stays off if denied),
-  smart-reminders toggle,
-  reminder list (up to 5) with add / edit / delete, time picker.
-  Settings are persisted but no notification is ever scheduled (see
-  notes in `lib/shared/providers/notification_providers.dart`).
+- Functionality:
+  - Daily challenge reminder toggle (off by default) and a reminder-time
+    tile (system time picker, default 18:00, disabled while the toggle
+    is off). One local notification a day nudges the user to complete
+    the daily challenge that unlocks the eco-fact; once today's
+    challenge is done, today's reminder is dropped.
+  - Action reminders toggle, a line explaining the bell and the limit
+    of 10, then one tile per action reminder sorted by action name
+    (action icon, name, days, time and last day; a tap opens the
+    reminder sheet to edit or delete it, even while the toggle is off),
+    or an empty state. Reminders are set from the bell on an action
+    card, and saving the first one switches the toggle on once the OS
+    allows notifications.
+  - Turning a toggle on requests OS notification permission; a refusal
+    leaves it off and shows a snackbar with an "Open settings" action.
+    While a toggle is on but the OS blocks notifications, a red
+    "Notifications are blocked" tile leads the screen, rechecked on
+    every resume.
+- Reminder queue: one-shot notifications for the next fortnight,
+  refreshed on every app open, on resume and at midnight, so they stop
+  after two weeks away. A refresh replaces only pending notifications,
+  never ones already in the tray, and skips the OS calls when the queue
+  is unchanged, or while the settings or action library fail to load.
+  iOS holds 64 pending notifications per app: the 14 daily
+  challenge reminders come first and action reminders take the rest,
+  soonest first, which covers about five days with all ten set for
+  every day.
 
 ### Language Settings (`.../settings/language`)
 - Links: none
@@ -893,8 +938,8 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `dailyFactDetail(key)`    | `/home/daily-fact/{key}`          |
 | `actionHistory`           | `/progress/history`               |
 | `settings`                | `/profile/settings`               |
-| `settingsNotifications`   | `/profile/settings/notifications` |
 | `settingsLanguage`        | `/profile/settings/language`      |
+| `settingsReminders`       | `/profile/settings/reminders`     |
 | `settingsAccount`         | `/profile/settings/account`       |
 | `settingsAbout`           | `/profile/settings/about`         |
 | `settingsFeedback`        | `/profile/settings/feedback`      |

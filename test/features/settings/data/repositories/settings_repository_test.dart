@@ -3,6 +3,7 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/features/settings/data/models/action_reminder_model.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 
@@ -41,41 +42,16 @@ void main() {
 
   Map<String, dynamic> settingsJson({
     bool notificationsEnabled = true,
-    bool smartRemindersEnabled = true,
     String language = 'en',
     bool analyticsEnabled = true,
-    List<Map<String, dynamic>> reminderSchedules = const [],
   }) => {
     'notificationsEnabled': notificationsEnabled,
-    'smartRemindersEnabled': smartRemindersEnabled,
     'language': language,
     'analyticsEnabled': analyticsEnabled,
-    'reminderSchedules': reminderSchedules,
     'hasSeenOnboarding': false,
     'seenStreakMilestones': <String, dynamic>{},
     'streakGracePeriodUsed': false,
   };
-
-  Map<String, dynamic> reminderJson({
-    required String id,
-    int hour = 9,
-    int minute = 0,
-    bool isEnabled = true,
-    String label = '',
-  }) => {
-    'id': id,
-    'hour': hour,
-    'minute': minute,
-    'isEnabled': isEnabled,
-    'label': label,
-  };
-
-  Future<List<dynamic>> savedSchedules() async {
-    final doc = await userDoc(testUid).get();
-    final data = doc.data()! as Map<String, dynamic>;
-    final settings = data['settings'] as Map<String, dynamic>;
-    return settings['reminderSchedules'] as List<dynamic>;
-  }
 
   group('SettingsRepository', () {
     group('watchSettings', () {
@@ -173,151 +149,6 @@ void main() {
       });
     });
 
-    group('addReminder', () {
-      test('appends schedule and returns it', () async {
-        await seedUserWithSettings(
-          testUid,
-          settingsJson(reminderSchedules: [reminderJson(id: 'r1')]),
-        );
-
-        final result = await repository.addReminder(
-          testUid,
-          time: const TimeOfDay(hour: 18, minute: 30),
-          label: 'Evening',
-        );
-
-        expect(result, isNotNull);
-        expect(result!.hour, 18);
-        expect(result.minute, 30);
-        expect(result.label, 'Evening');
-        expect(result.id, isNotEmpty);
-
-        final schedules = await savedSchedules();
-        expect(schedules, hasLength(2));
-      });
-
-      test('returns null when at max reminders', () async {
-        await seedUserWithSettings(
-          testUid,
-          settingsJson(
-            reminderSchedules: [
-              for (var i = 0; i < AppConstants.maxRemindersPerUser; i++)
-                reminderJson(id: 'r$i', hour: 9 + i),
-            ],
-          ),
-        );
-
-        final result = await repository.addReminder(
-          testUid,
-          time: const TimeOfDay(hour: 18, minute: 30),
-        );
-
-        expect(result, isNull);
-
-        final schedules = await savedSchedules();
-        expect(schedules, hasLength(AppConstants.maxRemindersPerUser));
-      });
-
-      test('creates reminder with empty label when none provided', () async {
-        await seedUserWithSettings(testUid, settingsJson());
-
-        final result = await repository.addReminder(
-          testUid,
-          time: const TimeOfDay(hour: 9, minute: 0),
-        );
-
-        expect(result, isNotNull);
-        expect(result!.label, '');
-      });
-    });
-
-    group('removeReminder', () {
-      test('removes schedule by ID', () async {
-        await seedUserWithSettings(
-          testUid,
-          settingsJson(
-            reminderSchedules: [
-              reminderJson(id: 'r1', label: 'Morning'),
-              reminderJson(id: 'r2', label: 'Evening'),
-            ],
-          ),
-        );
-
-        await repository.removeReminder(testUid, 'r1');
-
-        final schedules = await savedSchedules();
-        expect(schedules, hasLength(1));
-        expect((schedules[0] as Map)['id'], 'r2');
-      });
-
-      test('no-op when schedule ID not found', () async {
-        await seedUserWithSettings(
-          testUid,
-          settingsJson(reminderSchedules: [reminderJson(id: 'r1')]),
-        );
-
-        await repository.removeReminder(testUid, 'nonexistent');
-
-        final schedules = await savedSchedules();
-        expect(schedules, hasLength(1));
-      });
-    });
-
-    group('updateReminderTime', () {
-      test('updates matching schedule fields', () async {
-        await seedUserWithSettings(
-          testUid,
-          settingsJson(
-            reminderSchedules: [
-              reminderJson(id: 'r1'),
-              reminderJson(id: 'r2'),
-            ],
-          ),
-        );
-
-        await repository.updateReminderTime(
-          testUid,
-          'r1',
-          const TimeOfDay(hour: 14, minute: 30),
-        );
-
-        final schedules = await savedSchedules();
-        final updated = schedules[0] as Map<String, dynamic>;
-        expect(updated['hour'], 14);
-        expect(updated['minute'], 30);
-        final untouched = schedules[1] as Map<String, dynamic>;
-        expect(untouched['hour'], 9);
-      });
-    });
-
-    group('setReminderEnabled', () {
-      test('updates isEnabled on the matching schedule', () async {
-        await seedUserWithSettings(
-          testUid,
-          settingsJson(reminderSchedules: [reminderJson(id: 'r1')]),
-        );
-
-        await repository.setReminderEnabled(testUid, 'r1', enabled: false);
-
-        final schedules = await savedSchedules();
-        expect((schedules[0] as Map)['isEnabled'], isFalse);
-      });
-    });
-
-    group('updateReminderLabel', () {
-      test('updates label on the matching schedule', () async {
-        await seedUserWithSettings(
-          testUid,
-          settingsJson(reminderSchedules: [reminderJson(id: 'r1')]),
-        );
-
-        await repository.updateReminderLabel(testUid, 'r1', 'Work Time');
-
-        final schedules = await savedSchedules();
-        expect((schedules[0] as Map)['label'], 'Work Time');
-      });
-    });
-
     group('setNotificationsEnabled', () {
       test('updates both settings and top-level', () async {
         await seedUserWithSettings(testUid, settingsJson());
@@ -332,16 +163,76 @@ void main() {
       });
     });
 
-    group('setSmartRemindersEnabled', () {
-      test('updates smart reminders flag', () async {
+    group('setReminderTime', () {
+      test('writes hour and minute into settings', () async {
         await seedUserWithSettings(testUid, settingsJson());
 
-        await repository.setSmartRemindersEnabled(testUid, enabled: false);
+        await repository.setReminderTime(
+          testUid,
+          const TimeOfDay(hour: 20, minute: 45),
+        );
 
-        final doc = await userDoc(testUid).get();
-        final data = doc.data()! as Map<String, dynamic>;
-        final settings = data['settings'] as Map<String, dynamic>;
-        expect(settings['smartRemindersEnabled'], isFalse);
+        final settings = await repository.watchSettings(testUid).first;
+        expect(settings.reminderHour, 20);
+        expect(settings.reminderMinute, 45);
+      });
+    });
+
+    group('action reminders', () {
+      const reminder = ActionReminder(
+        hour: 7,
+        minute: 5,
+        weekdays: [1, 3],
+        lastDay: '2026-12-01',
+      );
+
+      test('round-trip by action id and delete one at a time', () async {
+        await seedUserWithSettings(testUid, settingsJson());
+
+        await repository.setActionReminder(
+          testUid,
+          'bag',
+          reminder,
+          enable: true,
+        );
+        await repository.setActionReminder(
+          testUid,
+          'bus',
+          reminder.copyWith(lastDay: null),
+          enable: false,
+        );
+        var settings = await repository.watchSettings(testUid).first;
+        expect(settings.actionRemindersEnabled, isTrue);
+        expect(settings.actionReminders, {
+          'bag': reminder,
+          'bus': reminder.copyWith(lastDay: null),
+        });
+
+        await repository.deleteActionReminder(testUid, 'bag');
+        await repository.setActionRemindersEnabled(testUid, enabled: false);
+        settings = await repository.watchSettings(testUid).first;
+        expect(settings.actionReminders.keys, ['bus']);
+        expect(settings.actionRemindersEnabled, isFalse);
+      });
+
+      test('a malformed reminder is dropped, not every setting', () async {
+        await seedUserWithSettings(testUid, {
+          ...settingsJson(analyticsEnabled: false),
+          'hasSeenOnboarding': true,
+          AppConstants.fieldActionRemindersEnabled: true,
+          AppConstants.fieldActionReminders: {
+            'bag': reminder.toJson(),
+            'bus': {'hour': 9},
+            'cup': 'nonsense',
+          },
+        });
+
+        final settings = await repository.watchSettings(testUid).first;
+
+        expect(settings.actionReminders, {'bag': reminder});
+        expect(settings.actionRemindersEnabled, isTrue);
+        expect(settings.analyticsEnabled, isFalse);
+        expect(settings.hasSeenOnboarding, isTrue);
       });
     });
 

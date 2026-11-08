@@ -243,9 +243,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsNotifications => 'Notifications';
 
   @override
-  String get settingsReminderTime => 'Daily Reminder';
-
-  @override
   String get settingsLanguage => 'Language';
 
   @override
@@ -471,14 +468,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String languageCurrentLabel(String language) {
     return 'Language: $language';
   }
-
-  @override
-  String settingsNotificationsSubtitle(int count) {
-    return '$count reminders enabled';
-  }
-
-  @override
-  String get settingsNotificationsOff => 'Notifications are off';
 
   @override
   String settingsLanguageSubtitle(String language) {
@@ -791,71 +780,139 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sdgTargetsTitle => 'UN Targets';
 
   @override
-  String get notifSettingsTitle => 'Notification Settings';
+  String get notifDailyReminder => 'Daily challenge reminder';
 
   @override
-  String get notifSectionNotifications => 'Notifications';
+  String get notifDailyReminderSubtitle =>
+      'A nudge when today\'s eco-fact is still locked';
 
   @override
-  String get notifEnableTitle => 'Enable Notifications';
+  String get notifReminderTime => 'Reminder time';
 
   @override
-  String get notifEnableSubtitle => 'Receive daily reminders to log actions';
+  String get notifReminderTitle => 'Today\'s eco-fact is waiting';
 
   @override
-  String get notifSmartTitle => 'Smart Reminders';
+  String get notifReminderBody => 'Complete today\'s challenge to unlock it.';
 
   @override
-  String get notifSmartOnlyTitle => 'Only remind if no action today';
+  String get notifActionReminders => 'Action reminders';
 
   @override
-  String get notifSmartOnlySubtitle =>
-      'Skip reminders on days you\'ve already logged';
+  String get notifActionRemindersSubtitle => 'Reminders you set on actions';
 
   @override
-  String get notifSmartDescription =>
-      'When enabled, reminders will only appear if you haven\'t logged any sustainable actions that day.';
+  String get notifActionReminderBody =>
+      'Your reminder for today. Tap to log it once it\'s done.';
 
   @override
-  String get notifReminderTimesTitle => 'Reminder Times';
+  String get notifStyle => 'Notification style';
 
   @override
-  String get notifNoReminders => 'No reminders set';
+  String get notifStyleSubtitle =>
+      'Sound, vibration and banners, in your phone\'s settings';
 
   @override
-  String get notifAddReminder => 'Add a reminder to get notified';
+  String get notifBlocked =>
+      'Notifications are off for Seed. Turn them on in your phone\'s settings.';
 
   @override
-  String get notifAddReminderTime => 'Add Reminder Time';
+  String get notifBlockedTitle => 'Notifications are blocked';
 
   @override
-  String get notifMaxReminders => 'Maximum 5 reminders allowed';
+  String get notifBlockedSubtitle =>
+      'Tap to allow them in your phone\'s settings';
 
   @override
-  String get notifEditTime => 'Edit reminder time';
+  String get notifOpenSettings => 'Open settings';
 
   @override
-  String get notifSelectTime => 'Select reminder time';
+  String get reminderSheetTitle => 'Remind me';
 
   @override
-  String get notifLabelTitle => 'Reminder Label';
+  String get reminderSetTooltip => 'Set a reminder';
 
   @override
-  String get notifLabelHint => 'e.g., Morning, After work...';
+  String get reminderEditTooltip => 'Edit reminder';
 
   @override
-  String get notifLabelOptional => 'Label (optional)';
+  String get reminderPausedTooltip =>
+      'Edit reminder (action reminders are off)';
 
   @override
-  String get notifDeleteTitle => 'Delete Reminder?';
+  String get reminderDays => 'Days';
 
   @override
-  String notifDeleteMessage(String time) {
-    return 'Remove the $time reminder?';
+  String get reminderForever => 'Forever';
+
+  @override
+  String get reminderRepeat => 'Number of times';
+
+  @override
+  String reminderRepeatCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count times',
+      one: '1 time',
+    );
+    return '$_temp0';
   }
 
   @override
-  String get notifAdd => 'Add';
+  String get reminderFewer => 'Fewer times';
+
+  @override
+  String get reminderMore => 'More times';
+
+  @override
+  String reminderLastDay(String date) {
+    return 'Last reminder: $date';
+  }
+
+  @override
+  String get reminderSaved => 'Reminder saved';
+
+  @override
+  String reminderLimit(int max) {
+    return 'You can have up to $max action reminders.';
+  }
+
+  @override
+  String reminderSummary(String days, String time, int hour) {
+    return '$days at $time';
+  }
+
+  @override
+  String reminderSummaryUntil(String days, String time, int hour, String date) {
+    return '$days at $time, until $date';
+  }
+
+  @override
+  String get reminderDaySeparator => ', ';
+
+  @override
+  String get reminderManage => 'Manage';
+
+  @override
+  String get remindersTitle => 'Reminders';
+
+  @override
+  String get reminderManageTitle => 'Manage reminders';
+
+  @override
+  String get reminderManageSubtitle => 'Daily challenge and action reminders';
+
+  @override
+  String reminderListIntro(int max) {
+    return 'Set a reminder with the bell on any action, up to $max. Tap one to change or delete it.';
+  }
+
+  @override
+  String get reminderListEmpty => 'No action reminders yet.';
+
+  @override
+  String get reminderEveryDay => 'Every day';
 
   @override
   String get settingsPreferences => 'Preferences';
@@ -863,28 +920,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String settingsVersionFormat(String version) {
     return 'Version $version';
-  }
-
-  @override
-  String get settingsNoReminders => 'No reminders set';
-
-  @override
-  String settingsRemindersCount(int count) {
-    return '$count reminders configured';
-  }
-
-  @override
-  String get settingsOneReminder => '1 reminder configured';
-
-  @override
-  String get settingsTapToAddReminders => 'Tap to add reminders';
-
-  @override
-  String get settingsAllRemindersDisabled => 'All reminders disabled';
-
-  @override
-  String settingsRemindersPlusMore(String time, int count) {
-    return '$time + $count more';
   }
 
   @override

@@ -7,8 +7,21 @@ abstract class AppConstants {
   // months at ~150 points/day; stage 2 ~1 week, stage 3 ~4 weeks.
   static const levelScalingFactor = 1.05;
 
-  // Reminder limits
-  static const maxRemindersPerUser = 5;
+  // Daily challenge reminder
+  static const defaultReminderHour = 18;
+  static const defaultReminderMinute = 0;
+
+  /// Days of one-shot reminders queued ahead, at most; a lapsed user
+  /// hears nothing after this many days without opening the app.
+  static const reminderDaysAhead = 14;
+
+  // Action reminders
+  static const maxActionReminders = 10;
+  static const defaultReminderRepeats = 5;
+  static const maxReminderRepeats = 99;
+
+  /// iOS keeps at most this many pending local notifications per app.
+  static const maxPendingNotifications = 64;
 
   // Firebase collections
   static const collectionUsers = 'users';
@@ -106,8 +119,10 @@ abstract class AppConstants {
   static const fieldLastHatchingActivityDate = 'lastHatchingActivityDate';
 
   // Firestore settings nested fields
-  static const fieldReminderSchedules = 'reminderSchedules';
-  static const fieldSmartRemindersEnabled = 'smartRemindersEnabled';
+  static const fieldReminderHour = 'reminderHour';
+  static const fieldReminderMinute = 'reminderMinute';
+  static const fieldActionRemindersEnabled = 'actionRemindersEnabled';
+  static const fieldActionReminders = 'actionReminders';
   static const fieldAnalyticsEnabled = 'analyticsEnabled';
   static const fieldThemeMode = 'themeMode';
   static const fieldSeenStreakMilestones = 'seenStreakMilestones';
@@ -135,12 +150,6 @@ abstract class AppConstants {
   static const fieldCurrentDay = 'currentDay';
   static const fieldTargetDays = 'targetDays';
   static const fieldLastCompletionDate = 'lastCompletionDate';
-
-  // Firestore reminder schedule nested fields
-  static const fieldHour = 'hour';
-  static const fieldMinute = 'minute';
-  static const fieldIsEnabled = 'isEnabled';
-  static const fieldLabel = 'label';
 }
 
 /// The two comparison options a Phase 8 calculator holds: A and B.

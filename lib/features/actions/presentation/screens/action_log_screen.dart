@@ -8,6 +8,7 @@ import 'package:seed_app/app/app_bottom_nav.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
@@ -26,6 +27,7 @@ class ActionLogScreen extends ConsumerStatefulWidget {
     this.initialCategory,
     this.initialSdg,
     this.initialActionId,
+    this.logInitialAction = false,
   });
 
   /// Category name to pre-select on open (e.g. from the daily challenge
@@ -37,6 +39,9 @@ class ActionLogScreen extends ConsumerStatefulWidget {
 
   /// Action to show first for this visit (the daily challenge's).
   final String? initialActionId;
+
+  /// Opens [initialActionId]'s log dialog too (from an action reminder).
+  final bool logInitialAction;
 
   /// Accent bar, padding, icon and gaps: the part of a tile that does
   /// not move with the text scale.
@@ -89,11 +94,34 @@ class _ActionLogScreenState extends ConsumerState<ActionLogScreen> {
         if (initialSdg != null) {
           ref.read(selectedSdgFilterProvider.notifier).select(initialSdg);
         }
-        if (initialActionId != null) {
+        if (initialActionId == null) return;
+        // A pin rings the tile as the daily challenge; a reminder is not.
+        if (widget.logInitialAction) {
+          unawaited(_logAction(initialActionId));
+        } else {
           ref.read(pinnedActionIdProvider.notifier).pin(initialActionId);
         }
       });
     }
+  }
+
+  Future<void> _logAction(String actionId) async {
+    final List<ActionModel> library;
+    try {
+      library = await ref.read(actionLibraryProvider.future);
+    } on Object catch (e) {
+      // The screen shows the library error itself.
+      appLogger.warning('Reminder log skipped: $e');
+      return;
+    }
+    final action = library.where((a) => a.id == actionId).firstOrNull;
+    if (action == null || !mounted) return;
+    await handleActionTap(
+      context,
+      ref,
+      action: action,
+      languageCode: ref.read(userLanguageCodeProvider),
+    );
   }
 
   @override

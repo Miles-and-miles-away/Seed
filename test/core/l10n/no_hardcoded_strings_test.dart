@@ -45,10 +45,6 @@ const _allowed = <String, Set<String>>{
     'CO',
   },
   'lib/shared/widgets/comparison_widgets.dart': {' CO2e'},
-  // Reminders are postponed; localise this when they ship.
-  'lib/shared/providers/notification_providers.dart': {
-    'Time to make an impact!',
-  },
 };
 
 /// Source with comments blanked out, leaving string literals intact, so a

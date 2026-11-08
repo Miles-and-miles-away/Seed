@@ -160,7 +160,6 @@
   },
   "settingsTitle": "Settings",
   "settingsNotifications": "Notifications",
-  "settingsReminderTime": "Daily Reminder",
   "settingsLanguage": "Language",
   "settingsTheme": "Theme",
   "settingsThemeSystem": "System",
@@ -236,15 +235,6 @@
       }
     }
   },
-  "settingsNotificationsSubtitle": "{count} reminders enabled",
-  "@settingsNotificationsSubtitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsNotificationsOff": "Notifications are off",
   "settingsLanguageSubtitle": "{language}",
   "@settingsLanguageSubtitle": {
     "placeholders": {
@@ -419,63 +409,109 @@
   "sdgAboutGoal": "About this Goal",
   "sdgViewTargets": "View targets",
   "sdgTargetsTitle": "UN Targets",
-  "notifSettingsTitle": "Notification Settings",
-  "notifSectionNotifications": "Notifications",
-  "notifEnableTitle": "Enable Notifications",
-  "notifEnableSubtitle": "Receive daily reminders to log actions",
-  "notifSmartTitle": "Smart Reminders",
-  "notifSmartOnlyTitle": "Only remind if no action today",
-  "notifSmartOnlySubtitle": "Skip reminders on days you've already logged",
-  "notifSmartDescription": "When enabled, reminders will only appear if you haven't logged any sustainable actions that day.",
-  "notifReminderTimesTitle": "Reminder Times",
-  "notifNoReminders": "No reminders set",
-  "notifAddReminder": "Add a reminder to get notified",
-  "notifAddReminderTime": "Add Reminder Time",
-  "notifMaxReminders": "Maximum 5 reminders allowed",
-  "notifEditTime": "Edit reminder time",
-  "notifSelectTime": "Select reminder time",
-  "notifLabelTitle": "Reminder Label",
-  "notifLabelHint": "e.g., Morning, After work...",
-  "notifLabelOptional": "Label (optional)",
-  "notifDeleteTitle": "Delete Reminder?",
-  "notifDeleteMessage": "Remove the {time} reminder?",
-  "@notifDeleteMessage": {
+  "notifDailyReminder": "Daily challenge reminder",
+  "notifDailyReminderSubtitle": "A nudge when today's eco-fact is still locked",
+  "notifReminderTime": "Reminder time",
+  "notifReminderTitle": "Today's eco-fact is waiting",
+  "notifReminderBody": "Complete today's challenge to unlock it.",
+  "notifActionReminders": "Action reminders",
+  "notifActionRemindersSubtitle": "Reminders you set on actions",
+  "notifActionReminderBody": "Your reminder for today. Tap to log it once it's done.",
+  "notifStyle": "Notification style",
+  "notifStyleSubtitle": "Sound, vibration and banners, in your phone's settings",
+  "notifBlocked": "Notifications are off for Seed. Turn them on in your phone's settings.",
+  "notifBlockedTitle": "Notifications are blocked",
+  "notifBlockedSubtitle": "Tap to allow them in your phone's settings",
+  "notifOpenSettings": "Open settings",
+  "reminderSheetTitle": "Remind me",
+  "reminderSetTooltip": "Set a reminder",
+  "reminderEditTooltip": "Edit reminder",
+  "reminderPausedTooltip": "Edit reminder (action reminders are off)",
+  "reminderDays": "Days",
+  "reminderForever": "Forever",
+  "reminderRepeat": "Number of times",
+  "reminderRepeatCount": "{count, plural, =1{1 time} other{{count} times}}",
+  "@reminderRepeatCount": {
     "placeholders": {
-      "time": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderFewer": "Fewer times",
+  "reminderMore": "More times",
+  "reminderLastDay": "Last reminder: {date}",
+  "@reminderLastDay": {
+    "placeholders": {
+      "date": {
         "type": "String"
       }
     }
   },
-  "notifAdd": "Add",
+  "reminderSaved": "Reminder saved",
+  "reminderLimit": "You can have up to {max} action reminders.",
+  "@reminderLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderSummary": "{days} at {time}",
+  "@reminderSummary": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderSummaryUntil": "{days} at {time}, until {date}",
+  "@reminderSummaryUntil": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderDaySeparator": ", ",
+  "@reminderDaySeparator": {
+    "description": "Joins weekday names in a reminder summary."
+  },
+  "reminderManage": "Manage",
+  "remindersTitle": "Reminders",
+  "reminderManageTitle": "Manage reminders",
+  "reminderManageSubtitle": "Daily challenge and action reminders",
+  "reminderListIntro": "Set a reminder with the bell on any action, up to {max}. Tap one to change or delete it.",
+  "@reminderListIntro": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderListEmpty": "No action reminders yet.",
+  "reminderEveryDay": "Every day",
   "settingsPreferences": "Preferences",
   "settingsVersionFormat": "Version {version}",
   "@settingsVersionFormat": {
     "placeholders": {
       "version": {
         "type": "String"
-      }
-    }
-  },
-  "settingsNoReminders": "No reminders set",
-  "settingsRemindersCount": "{count} reminders configured",
-  "@settingsRemindersCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsOneReminder": "1 reminder configured",
-  "settingsTapToAddReminders": "Tap to add reminders",
-  "settingsAllRemindersDisabled": "All reminders disabled",
-  "settingsRemindersPlusMore": "{time} + {count} more",
-  "@settingsRemindersPlusMore": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
       }
     }
   },

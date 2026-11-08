@@ -208,7 +208,8 @@ Key terms used throughout the codebase and documentation.
 | **Streak Bonus** | Points multiplier for maintaining a streak: +3.3% per day, capped at 2x at 30+ days. |
 | **Streak Milestone** | Weekly achievement for sustaining a streak (7, 14, 21, 28 days). Tracked in `seenStreakMilestones`. |
 | **Streak Grace Period** | One-time buffer preventing streak loss when a user misses a day. Premium feature (future). |
-| **Smart Reminders** | Notification logic that skips the reminder if the user already logged an action today. |
+| **Daily Reminder** | One local notification a day to complete the challenge that unlocks the eco-fact; skipped once today's challenge is done. |
+| **Action Reminder** | A local notification the user sets from the bell on a library action: chosen weekdays and time, forever or a number of times; skipped on a day the action is already logged. Up to 10. |
 
 ### SDGs
 
@@ -297,9 +298,9 @@ AUTHENTICATED (Bottom Nav Tabs)
 │                                Points, level, streaks,
 │                                CO2 saved, stats cards
 └── /profile/settings ·········· Settings Hub
-    ├── /notifications ········· Notification Settings
-    │                            Reminder schedules, smart
-    │                            reminders, enable/disable
+    ├── /reminders ············· Reminders
+    │                            Daily challenge reminder,
+    │                            action reminders
     ├── /language ·············· Language Settings
     │                            EN / ES / JA
     ├── /account ··············· Account Settings
@@ -321,7 +322,7 @@ DEEP LINKS (standalone routes)
 /sdg/:goalNumber ··············· SDG Detail (standalone)
 /history ······················· Action History (standalone)
 /settings ······················ Settings (standalone)
-/settings/notifications
+/settings/reminders
 /settings/language
 /settings/account
 /settings/about
@@ -347,7 +348,7 @@ DEEP LINKS (standalone routes)
 | 10 | `/mascot` | Mascot | `lib/features/mascot/.../mascot_screen.dart` |
 | 11 | `/profile` | Profile | `lib/features/profile/.../profile_screen.dart` |
 | 12 | `/profile/settings` | Settings | `lib/features/settings/.../settings_screen.dart` |
-| 13 | `.../notifications` | Notification Settings | `lib/features/settings/.../notification_settings_screen.dart` |
+| 13 | `.../reminders` | Reminders | `lib/features/settings/.../reminders_screen.dart` |
 | 14 | `.../language` | Language Settings | `lib/features/settings/.../language_settings_screen.dart` |
 | 15 | `.../account` | Account Settings | `lib/features/settings/.../account_settings_screen.dart` |
 | 16 | `.../about` | About | `lib/features/settings/.../about_screen.dart` |
@@ -1034,7 +1035,7 @@ lib/features/settings/
     │   └── settings_providers.dart         # Settings state management
     ├── screens/
     │   ├── settings_screen.dart            # Main settings hub
-    │   ├── notification_settings_screen.dart
+    │   ├── reminders_screen.dart
     │   ├── language_settings_screen.dart
     │   ├── account_settings_screen.dart
     │   └── about_screen.dart
