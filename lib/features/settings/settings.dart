@@ -3,7 +3,7 @@
 library;
 
 // Data layer - Models
-export 'data/models/notification_schedule_model.dart';
+export 'data/models/action_reminder_model.dart';
 export 'data/models/user_settings_model.dart';
 
 // Data layer - Repositories
@@ -18,10 +18,12 @@ export 'presentation/screens/about_screen.dart';
 export 'presentation/screens/account_settings_screen.dart';
 export 'presentation/screens/feedback_screen.dart';
 export 'presentation/screens/language_settings_screen.dart';
-export 'presentation/screens/notification_settings_screen.dart';
+export 'presentation/screens/reminders_screen.dart';
 export 'presentation/screens/settings_screen.dart';
 
 // Presentation layer - Widgets
+export 'presentation/widgets/action_reminder_sheet.dart';
+export 'presentation/widgets/daily_reminder_tiles.dart';
 export 'presentation/widgets/language_picker_sheet.dart';
 export 'presentation/widgets/language_tile.dart';
 export 'presentation/widgets/settings_icon_button.dart';

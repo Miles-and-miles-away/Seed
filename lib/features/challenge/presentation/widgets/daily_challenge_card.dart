@@ -14,6 +14,7 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
+import 'package:seed_app/features/settings/presentation/widgets/daily_reminder_tiles.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/no_word_break.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
@@ -21,15 +22,28 @@ import 'package:seed_app/shared/widgets/phrase_text.dart';
 const _iconSize = 32.0;
 const _chevronSize = 24.0;
 const _flameSize = 18.0;
+const _bellSize = 20.0;
 const _streakCountMaxWidth = 24.0;
 
 /// Card content width at 320pt.
 const _innerMinWidth =
     phraseNarrowestScreenWidth - 2 * (spacingXxl + cardMargin + spacingLg);
 
-/// Overline width at 320pt beside a two-digit streak badge.
+/// Gap between the bell icon and the card's corner edge.
+const _bellInset = 10.0;
+
+/// Room the corner bell's icon takes from the overline row; the rest of
+/// its tap target may overlap the text.
+const _bellReserve = _bellInset + _bellSize - spacingLg + spacingXxs;
+
+/// Overline width at 320pt beside a two-digit streak badge and the bell.
 const _overlineMinLineWidth =
-    _innerMinWidth - spacingSm - _flameSize - spacingXxs - _streakCountMaxWidth;
+    _innerMinWidth -
+    spacingSm -
+    _flameSize -
+    spacingXxs -
+    _streakCountMaxWidth -
+    _bellReserve;
 
 /// Text column width at 320pt, between the icon and the chevron.
 const _textMinLineWidth =
@@ -112,9 +126,9 @@ class _IncompleteCard extends StatelessWidget {
         ? appRoutes.actionLogForCategory(category.name)
         : appRoutes.actionLog;
 
-    return Card(
+    return _CardWithBell(
       color: _cardColor(colorScheme),
-      clipBehavior: Clip.antiAlias,
+      bellColor: colorScheme.tertiary,
       child: Semantics(
         button: true,
         child: InkWell(
@@ -133,6 +147,7 @@ class _IncompleteCard extends StatelessWidget {
                       const SizedBox(width: spacingSm),
                       _StreakBadge(streak: streak),
                     ],
+                    const SizedBox(width: _bellReserve),
                   ],
                 ),
                 const SizedBox(height: spacingSm),
@@ -200,9 +215,9 @@ class _CompletedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = theme.colorScheme;
-    return Card(
+    return _CardWithBell(
       color: _completedColor(colorScheme),
-      clipBehavior: Clip.antiAlias,
+      bellColor: colorScheme.primary,
       child: Semantics(
         button: true,
         child: InkWell(
@@ -212,7 +227,10 @@ class _CompletedCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _Overline(theme: theme, l10n: l10n),
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(end: _bellReserve),
+                  child: _Overline(theme: theme, l10n: l10n),
+                ),
                 const SizedBox(height: spacingSm),
                 Row(
                   children: [
@@ -256,6 +274,69 @@ class _CompletedCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// A challenge card with the daily reminder bell in its top corner.
+class _CardWithBell extends StatelessWidget {
+  const _CardWithBell({
+    required this.color,
+    required this.bellColor,
+    required this.child,
+  });
+
+  final Color color;
+  final Color bellColor;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Card(
+    color: color,
+    clipBehavior: Clip.antiAlias,
+    child: Stack(
+      children: [
+        child,
+        PositionedDirectional(
+          top: 0,
+          end: 0,
+          child: _ReminderBell(color: bellColor),
+        ),
+      ],
+    ),
+  );
+}
+
+/// Opens the daily reminder sheet; filled in [color] while it is on.
+class _ReminderBell extends ConsumerWidget {
+  const _ReminderBell({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final on = ref.watch(notificationsEnabledProvider);
+    return IconButton(
+      iconSize: _bellSize,
+      // A full tap target with the icon tucked towards the corner.
+      padding: const EdgeInsetsDirectional.only(
+        start: kMinInteractiveDimension - _bellSize - _bellInset,
+        end: _bellInset,
+      ),
+      constraints: const BoxConstraints.tightFor(
+        width: kMinInteractiveDimension,
+        height: kMinInteractiveDimension,
+      ),
+      style: IconButton.styleFrom(
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      tooltip: on ? l10n.reminderEditTooltip : l10n.reminderSetTooltip,
+      icon: Icon(
+        on ? Icons.notifications_active : Icons.notifications_none,
+        color: on ? color : Theme.of(context).colorScheme.outline,
+      ),
+      onPressed: () => showDailyReminderSheet(context, ref),
     );
   }
 }

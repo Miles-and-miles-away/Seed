@@ -8,6 +8,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/settings/data/models/action_reminder_model.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
@@ -97,6 +98,7 @@ void main() {
       await c
           .read(settingsProvider.notifier)
           .toggleNotifications(enabled: true);
+      await pumpEventQueue();
 
       final settings = await settingsField();
       expect(settings[AppConstants.fieldNotificationsEnabled], isTrue);
@@ -114,6 +116,7 @@ void main() {
       await c
           .read(settingsProvider.notifier)
           .toggleNotifications(enabled: true);
+      await pumpEventQueue();
 
       expect(
         (await settingsField())[AppConstants.fieldNotificationsEnabled],
@@ -127,10 +130,11 @@ void main() {
       ).thenAnswer((_) async => AuthorizationStatus.denied);
       final c = await container();
 
-      await c
+      final permitted = await c
           .read(settingsProvider.notifier)
           .toggleNotifications(enabled: true);
 
+      expect(permitted, isFalse);
       expect(
         (await settingsField()).containsKey(
           AppConstants.fieldNotificationsEnabled,
@@ -147,6 +151,7 @@ void main() {
       await c
           .read(settingsProvider.notifier)
           .toggleNotifications(enabled: false);
+      await pumpEventQueue();
 
       verifyNever(fcm.requestPermissions);
       expect(
@@ -154,6 +159,99 @@ void main() {
         isFalse,
       );
       expect(analytics.events, ['disabled']);
+    });
+  });
+
+  group('action reminders', () {
+    const reminder = ActionReminder(hour: 9, minute: 15, weekdays: [1, 5]);
+
+    Future<Map<String, dynamic>?> reminders() async =>
+        (await settingsField())[AppConstants.fieldActionReminders]
+            as Map<String, dynamic>?;
+
+    void permission(AuthorizationStatus status) =>
+        when(fcm.requestPermissions).thenAnswer((_) async => status);
+
+    test('saving asks for permission and switches reminders on', () async {
+      permission(AuthorizationStatus.authorized);
+      final c = await container();
+
+      final permitted = await c
+          .read(settingsProvider.notifier)
+          .saveActionReminder('bag', reminder, enable: true);
+      await pumpEventQueue();
+
+      expect(permitted, isTrue);
+      expect((await reminders())!['bag'], reminder.toJson());
+      expect(
+        (await settingsField())[AppConstants.fieldActionRemindersEnabled],
+        isTrue,
+      );
+    });
+
+    test('saving without enable leaves the switch alone', () async {
+      permission(AuthorizationStatus.authorized);
+      final c = await container();
+
+      await c
+          .read(settingsProvider.notifier)
+          .saveActionReminder('bag', reminder, enable: false);
+      await pumpEventQueue();
+
+      expect((await reminders())!['bag'], reminder.toJson());
+      expect(
+        (await settingsField()).containsKey(
+          AppConstants.fieldActionRemindersEnabled,
+        ),
+        isFalse,
+      );
+    });
+
+    test('saving while refused keeps the reminder, switched off', () async {
+      permission(AuthorizationStatus.denied);
+      final c = await container();
+
+      final permitted = await c
+          .read(settingsProvider.notifier)
+          .saveActionReminder('bag', reminder, enable: true);
+      await pumpEventQueue();
+
+      expect(permitted, isFalse);
+      expect((await reminders())!['bag'], reminder.toJson());
+      expect(
+        (await settingsField()).containsKey(
+          AppConstants.fieldActionRemindersEnabled,
+        ),
+        isFalse,
+      );
+    });
+
+    test('deleting removes only that reminder', () async {
+      permission(AuthorizationStatus.authorized);
+      final c = await container();
+      final notifier = c.read(settingsProvider.notifier);
+      await notifier.saveActionReminder('bag', reminder, enable: true);
+      await notifier.saveActionReminder('bus', reminder, enable: true);
+      await pumpEventQueue();
+
+      await notifier.deleteActionReminder('bag');
+
+      expect((await reminders())!.keys, ['bus']);
+    });
+
+    test('the switch needs permission to turn on', () async {
+      permission(AuthorizationStatus.denied);
+      final c = await container();
+      final notifier = c.read(settingsProvider.notifier);
+
+      expect(await notifier.toggleActionReminders(enabled: true), isFalse);
+      permission(AuthorizationStatus.authorized);
+      expect(await notifier.toggleActionReminders(enabled: true), isTrue);
+      await pumpEventQueue();
+      expect(
+        (await settingsField())[AppConstants.fieldActionRemindersEnabled],
+        isTrue,
+      );
     });
   });
 
@@ -171,17 +269,16 @@ void main() {
       expect(crashlytics.collectionEnabled, isFalse);
     });
 
-    test('toggleSmartReminders persists', () async {
+    test('updateReminderTime persists hour and minute', () async {
       final c = await container();
 
       await c
           .read(settingsProvider.notifier)
-          .toggleSmartReminders(enabled: false);
+          .updateReminderTime(const TimeOfDay(hour: 7, minute: 45));
 
-      expect(
-        (await settingsField())[AppConstants.fieldSmartRemindersEnabled],
-        isFalse,
-      );
+      final settings = await settingsField();
+      expect(settings[AppConstants.fieldReminderHour], 7);
+      expect(settings[AppConstants.fieldReminderMinute], 45);
     });
 
     test('updateThemeMode persists the chosen mode', () async {
@@ -235,42 +332,6 @@ void main() {
     });
   });
 
-  group('reminders', () {
-    test('addReminder returns the schedule it stored', () async {
-      final c = await container();
-
-      final schedule = await c
-          .read(settingsProvider.notifier)
-          .addReminder(const TimeOfDay(hour: 8, minute: 30), label: 'Coffee');
-
-      expect(schedule?.hour, 8);
-      expect(schedule?.minute, 30);
-      final stored =
-          (await settingsField())[AppConstants.fieldReminderSchedules]
-              as List<dynamic>;
-      expect(stored, hasLength(1));
-      expect((stored.single as Map)[AppConstants.fieldLabel], 'Coffee');
-    });
-
-    test('removeReminder deletes only the matching schedule', () async {
-      final c = await container();
-      final notifier = c.read(settingsProvider.notifier);
-      final keep = await notifier.addReminder(
-        const TimeOfDay(hour: 7, minute: 0),
-      );
-      final drop = await notifier.addReminder(
-        const TimeOfDay(hour: 9, minute: 0),
-      );
-
-      await notifier.removeReminder(drop!.id);
-
-      final stored =
-          (await settingsField())[AppConstants.fieldReminderSchedules]
-              as List<dynamic>;
-      expect(stored.map((s) => (s as Map)[AppConstants.fieldId]), [keep!.id]);
-    });
-  });
-
   test('signed out: every write errors without touching Firestore', () async {
     final c = await container(signedIn: false);
     final before = await userDoc();
@@ -279,10 +340,7 @@ void main() {
     await notifier.updateLanguage('ja');
     expect(c.read(settingsProvider).hasError, isTrue);
 
-    final schedule = await notifier.addReminder(
-      const TimeOfDay(hour: 8, minute: 0),
-    );
-    expect(schedule, isNull);
+    await notifier.updateReminderTime(const TimeOfDay(hour: 8, minute: 0));
     expect(c.read(settingsProvider).hasError, isTrue);
 
     await notifier.resetWalkthrough();

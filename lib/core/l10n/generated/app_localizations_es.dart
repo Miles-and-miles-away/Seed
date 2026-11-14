@@ -245,9 +245,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsNotifications => 'Notificaciones';
 
   @override
-  String get settingsReminderTime => 'Recordatorio diario';
-
-  @override
   String get settingsLanguage => 'Idioma';
 
   @override
@@ -474,15 +471,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String languageCurrentLabel(String language) {
     return 'Idioma: $language';
   }
-
-  @override
-  String settingsNotificationsSubtitle(int count) {
-    return '$count recordatorios activados';
-  }
-
-  @override
-  String get settingsNotificationsOff =>
-      'Las notificaciones están desactivadas';
 
   @override
   String settingsLanguageSubtitle(String language) {
@@ -799,72 +787,154 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sdgTargetsTitle => 'Metas de la ONU';
 
   @override
-  String get notifSettingsTitle => 'Ajustes de notificaciones';
+  String get notifDailyReminder => 'Recordatorio del desafío diario';
 
   @override
-  String get notifSectionNotifications => 'Notificaciones';
+  String get notifDailyReminderSubtitle =>
+      'Un aviso si el eco-dato de hoy sigue bloqueado';
 
   @override
-  String get notifEnableTitle => 'Activar notificaciones';
+  String get notifReminderTime => 'Hora del recordatorio';
 
   @override
-  String get notifEnableSubtitle =>
-      'Recibe recordatorios diarios para registrar acciones';
+  String get notifReminderTitle => 'El eco-dato de hoy te espera';
 
   @override
-  String get notifSmartTitle => 'Recordatorios inteligentes';
+  String get notifReminderBody =>
+      'Completa el desafío de hoy para desbloquearlo.';
 
   @override
-  String get notifSmartOnlyTitle => 'Recordar solo si hoy no hay acciones';
+  String get notifActionReminders => 'Recordatorios de acciones';
 
   @override
-  String get notifSmartOnlySubtitle =>
-      'Omitir los recordatorios los días en que ya hayas registrado algo';
+  String get notifActionRemindersSubtitle =>
+      'Los recordatorios que creas en las acciones';
 
   @override
-  String get notifSmartDescription =>
-      'Cuando está activado, los recordatorios solo aparecerán si no has registrado acciones sostenibles ese día.';
+  String get notifActionReminderBody =>
+      'Tu recordatorio de hoy. Toca para registrarlo cuando lo hayas hecho.';
 
   @override
-  String get notifReminderTimesTitle => 'Horas de recordatorio';
+  String get notifStyle => 'Estilo de las notificaciones';
 
   @override
-  String get notifNoReminders => 'Sin recordatorios configurados';
+  String get notifStyleSubtitle =>
+      'Sonido, vibración y banners, en los ajustes del teléfono';
 
   @override
-  String get notifAddReminder => 'Añade un recordatorio para recibir avisos';
+  String get notifBlocked =>
+      'Las notificaciones de Seed están desactivadas. Actívalas en los ajustes del teléfono.';
 
   @override
-  String get notifAddReminderTime => 'Añadir hora de recordatorio';
+  String get notifBlockedTitle => 'Las notificaciones están bloqueadas';
 
   @override
-  String get notifMaxReminders => 'Máximo 5 recordatorios';
+  String get notifBlockedSubtitle =>
+      'Toca para permitirlas en los ajustes del teléfono';
 
   @override
-  String get notifEditTime => 'Editar hora del recordatorio';
+  String get notifOpenSettings => 'Abrir ajustes';
 
   @override
-  String get notifSelectTime => 'Seleccionar hora del recordatorio';
+  String get reminderSheetTitle => 'Recuérdamelo';
 
   @override
-  String get notifLabelTitle => 'Etiqueta del recordatorio';
+  String get reminderSetTooltip => 'Crear recordatorio';
 
   @override
-  String get notifLabelHint => 'Ej.: Por la mañana, Al salir del trabajo...';
+  String get reminderEditTooltip => 'Editar recordatorio';
 
   @override
-  String get notifLabelOptional => 'Etiqueta (opcional)';
+  String get reminderPausedTooltip =>
+      'Editar recordatorio (los recordatorios de acciones están desactivados)';
 
   @override
-  String get notifDeleteTitle => '¿Eliminar recordatorio?';
+  String get reminderDays => 'Días';
 
   @override
-  String notifDeleteMessage(String time) {
-    return '¿Eliminar el recordatorio de las $time?';
+  String get reminderForever => 'Siempre';
+
+  @override
+  String get reminderRepeat => 'Número de veces';
+
+  @override
+  String reminderRepeatCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count veces',
+      one: '1 vez',
+    );
+    return '$_temp0';
   }
 
   @override
-  String get notifAdd => 'Añadir';
+  String get reminderFewer => 'Menos veces';
+
+  @override
+  String get reminderMore => 'Más veces';
+
+  @override
+  String reminderLastDay(String date) {
+    return 'Último recordatorio: $date';
+  }
+
+  @override
+  String get reminderSaved => 'Recordatorio guardado';
+
+  @override
+  String reminderLimit(int max) {
+    return 'Puedes tener hasta $max recordatorios de acciones.';
+  }
+
+  @override
+  String reminderSummary(String days, String time, int hour) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hour,
+      locale: localeName,
+      other: 'a las',
+      one: 'a la',
+    );
+    return '$days $_temp0 $time';
+  }
+
+  @override
+  String reminderSummaryUntil(String days, String time, int hour, String date) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hour,
+      locale: localeName,
+      other: 'a las',
+      one: 'a la',
+    );
+    return '$days $_temp0 $time, hasta el $date';
+  }
+
+  @override
+  String get reminderDaySeparator => ', ';
+
+  @override
+  String get reminderManage => 'Gestionar';
+
+  @override
+  String get remindersTitle => 'Recordatorios';
+
+  @override
+  String get reminderManageTitle => 'Gestionar recordatorios';
+
+  @override
+  String get reminderManageSubtitle =>
+      'Desafío diario y recordatorios de acciones';
+
+  @override
+  String reminderListIntro(int max) {
+    return 'Crea un recordatorio con la campana de cualquier acción, hasta $max. Toca uno para cambiarlo o eliminarlo.';
+  }
+
+  @override
+  String get reminderListEmpty => 'Aún no tienes recordatorios de acciones.';
+
+  @override
+  String get reminderEveryDay => 'Todos los días';
 
   @override
   String get settingsPreferences => 'Preferencias';
@@ -872,29 +942,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String settingsVersionFormat(String version) {
     return 'Versión $version';
-  }
-
-  @override
-  String get settingsNoReminders => 'Sin recordatorios configurados';
-
-  @override
-  String settingsRemindersCount(int count) {
-    return '$count recordatorios configurados';
-  }
-
-  @override
-  String get settingsOneReminder => '1 recordatorio configurado';
-
-  @override
-  String get settingsTapToAddReminders => 'Toca para añadir recordatorios';
-
-  @override
-  String get settingsAllRemindersDisabled =>
-      'Todos los recordatorios desactivados';
-
-  @override
-  String settingsRemindersPlusMore(String time, int count) {
-    return '$time + $count más';
   }
 
   @override

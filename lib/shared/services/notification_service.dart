@@ -1,21 +1,30 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:seed_app/core/utils/app_logger.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:url_launcher/url_launcher.dart';
 
-/// Service for managing local notifications.
-///
-/// Handles scheduling daily reminders at user-specified times.
-/// Supports smart notifications that can be conditionally shown.
-///
-/// NOTE(postponed): The reminder feature is deferred (decision
-/// 2026-06-10); most methods here have no callers yet. Kept in-tree
-/// on purpose -- do not delete or flag as dead code. Revival notes in
-/// notification_providers.dart.
+/// One local notification; [payload] is the route a tap opens.
+typedef Reminder = ({
+  DateTime time,
+  String title,
+  String body,
+  String channelId,
+  String? payload,
+});
+
+/// The user-visible name and description of an Android channel.
+typedef ReminderChannel = ({String name, String description});
+
+/// Local notifications for the daily challenge and action reminders.
 class NotificationService {
   NotificationService._();
+
+  @visibleForTesting
+  factory NotificationService.forTesting() => NotificationService._();
 
   static final NotificationService _instance = NotificationService._();
   static NotificationService get instance => _instance;
@@ -23,87 +32,56 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
 
-  bool _initialized = false;
+  Future<void>? _initialization;
+  Future<void> _lastReschedule = Future.value();
+  (List<Reminder>, Map<String, ReminderChannel>)? _scheduled;
 
-  /// Notification channel ID for Android.
-  static const String channelId = 'daily_reminder';
+  // Instants are scheduled in UTC, so the device zone and the timezone
+  // database are never needed. 'UTC' is a name both iOS and Java resolve.
+  static final _utc = tz.Location('UTC', [tz.minTime], [0], [tz.TimeZone.UTC]);
 
-  /// Notification channel name for Android.
-  static const String channelName = 'Daily Reminders';
+  static const _settingsChannel = MethodChannel('seed/app_settings');
 
-  /// Notification channel description for Android.
-  static const String channelDescription =
-      'Reminders to log your sustainable actions';
+  /// Android channel IDs.
+  static const challengeChannelId = 'daily_reminder';
+  static const actionChannelId = 'action_reminders';
 
-  /// Callback when a notification is tapped.
-  void Function(String? payload)? onNotificationTap;
+  /// Route of the last tapped notification, until the app opens it.
+  final tappedRoute = ValueNotifier<String?>(null);
 
-  /// Initialize the notification service.
-  ///
-  /// Must be called before any other methods. Parses the full timezone
-  /// database, so main.dart defers this until after the first frame to
-  /// keep startup unblocked.
-  Future<void> initialize({void Function(String? payload)? onTap}) async {
-    if (_initialized) return;
+  /// Initializes the plugin once; later calls await the same future,
+  /// and a failed attempt is retried by the next call.
+  Future<void> initialize() =>
+      _initialization ??= _initialize().onError<Object>((e, stack) {
+        _initialization = null;
+        Error.throwWithStackTrace(e, stack);
+      });
 
-    onNotificationTap = onTap;
-
-    // Initialize timezone database.
-    // NOTE(postponed): this leaves tz.local at UTC -- before the
-    // reminder feature ships, resolve the device zone (e.g. via
-    // flutter_timezone) and call tz.setLocalLocation, otherwise
-    // zonedSchedule fires at UTC wall-clock times.
-    tz.initializeTimeZones();
-
-    // Android initialization
-    const androidSettings = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
-    );
-
-    // iOS initialization
-    const iosSettings = DarwinInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-    );
-
+  Future<void> _initialize() async {
     const initSettings = InitializationSettings(
-      android: androidSettings,
-      iOS: iosSettings,
+      android: AndroidInitializationSettings('@drawable/ic_stat_notification'),
+      iOS: DarwinInitializationSettings(
+        requestAlertPermission: false,
+        requestBadgePermission: false,
+        requestSoundPermission: false,
+      ),
     );
 
     await _plugin.initialize(
       settings: initSettings,
       onDidReceiveNotificationResponse: _handleNotificationResponse,
     );
-
-    // Create Android notification channel
-    if (Platform.isAndroid) {
-      await _createAndroidChannel();
+    final launch = await _plugin.getNotificationAppLaunchDetails();
+    if (launch?.notificationResponse case final response?
+        when launch!.didNotificationLaunchApp) {
+      _handleNotificationResponse(response);
     }
-
-    _initialized = true;
     appLogger.debug('NotificationService initialized');
-  }
-
-  Future<void> _createAndroidChannel() async {
-    const channel = AndroidNotificationChannel(
-      channelId,
-      channelName,
-      description: channelDescription,
-      importance: Importance.high,
-    );
-
-    await _plugin
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.createNotificationChannel(channel);
   }
 
   void _handleNotificationResponse(NotificationResponse response) {
     appLogger.debug('Notification tapped: ${response.payload}');
-    onNotificationTap?.call(response.payload);
+    if (response.payload case final route?) tappedRoute.value = route;
   }
 
   /// Request notification permissions.
@@ -147,7 +125,8 @@ class NotificationService {
           >();
 
       final settings = await iosPlugin?.checkPermissions();
-      return settings?.isEnabled ?? false;
+      return (settings?.isEnabled ?? false) ||
+          (settings?.isProvisionalEnabled ?? false);
     }
 
     if (Platform.isAndroid) {
@@ -163,115 +142,97 @@ class NotificationService {
     return false;
   }
 
-  /// Schedule a daily notification at the specified time.
+  /// Opens this app's notification settings in the OS.
+  Future<void> openSettings() async {
+    try {
+      if (Platform.isIOS) {
+        await launchUrl(Uri.parse('app-settings:'));
+      } else if (Platform.isAndroid) {
+        await _settingsChannel.invokeMethod<void>('notifications');
+      }
+    } on Object catch (e, stack) {
+      appLogger.error('Opening settings failed', error: e, stackTrace: stack);
+    }
+  }
+
+  /// Replaces every pending reminder with [reminders], refreshing the
+  /// user-visible name of each Android channel in [channels].
   ///
-  /// [id] - Unique notification ID
-  /// [hour] - Hour of day (0-23)
-  /// [minute] - Minute of hour (0-59)
-  /// [title] - Notification title
-  /// [body] - Notification body
-  /// [payload] - Optional payload for tap handling
-  Future<void> scheduleDailyNotification({
-    required int id,
-    required int hour,
-    required int minute,
-    required String title,
-    required String body,
-    String? payload,
-  }) async {
-    if (!_initialized) {
-      appLogger.warning('NotificationService not initialized');
+  /// One-shot rather than a repeating daily trigger: an iOS repeating
+  /// trigger ignores the date, so it cannot skip a day already done.
+  /// Calls run one at a time so overlapping reschedules cannot mix, and
+  /// a call matching what is already queued does nothing.
+  Future<void> scheduleReminders(
+    List<Reminder> reminders, {
+    required Map<String, ReminderChannel> channels,
+  }) {
+    return _lastReschedule = _lastReschedule
+        .catchError((Object _) {})
+        .then((_) => _replaceReminders(reminders, channels));
+  }
+
+  Future<void> _replaceReminders(
+    List<Reminder> reminders,
+    Map<String, ReminderChannel> channels,
+  ) async {
+    await initialize();
+    if (_scheduled case (
+      final queued,
+      final named,
+    ) when listEquals(queued, reminders) && mapEquals(named, channels)) {
+      return;
+    }
+    _scheduled = null;
+    // Pending only: cancelAll also clears notifications already shown.
+    await _plugin.cancelAllPendingNotifications();
+    if (reminders.isEmpty) {
+      _scheduled = (reminders, channels);
       return;
     }
 
-    final scheduledTime = _nextInstanceOfTime(hour, minute);
-
-    appLogger.debug(
-      'Scheduling notification $id at $hour:$minute '
-      '(next: ${scheduledTime.toLocal()})',
-    );
-
-    await _plugin.zonedSchedule(
-      id: id,
-      title: title,
-      body: body,
-      scheduledDate: scheduledTime,
-      notificationDetails: _notificationDetails,
-      // Inexact suffices for daily reminders and avoids the Play Store
-      // SCHEDULE_EXACT_ALARM declaration.
-      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-      matchDateTimeComponents: DateTimeComponents.time,
-      payload: payload,
-    );
-  }
-
-  /// Cancel a specific notification.
-  Future<void> cancelNotification(int id) async {
-    await _plugin.cancel(id: id);
-    appLogger.debug('Cancelled notification $id');
-  }
-
-  /// Cancel all scheduled notifications.
-  Future<void> cancelAllNotifications() async {
-    await _plugin.cancelAll();
-    appLogger.debug('Cancelled all notifications');
-  }
-
-  /// Get all pending notifications.
-  Future<List<PendingNotificationRequest>> getPendingNotifications() async {
-    return _plugin.pendingNotificationRequests();
-  }
-
-  /// Show an immediate notification (for testing).
-  Future<void> showNotification({
-    required int id,
-    required String title,
-    required String body,
-    String? payload,
-  }) async {
-    await _plugin.show(
-      id: id,
-      title: title,
-      body: body,
-      notificationDetails: _notificationDetails,
-      payload: payload,
-    );
-  }
-
-  /// Calculate the next instance of the specified time.
-  tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
-    final now = tz.TZDateTime.now(tz.local);
-    var scheduled = tz.TZDateTime(
-      tz.local,
-      now.year,
-      now.month,
-      now.day,
-      hour,
-      minute,
-    );
-
-    // If the time has already passed today, schedule for tomorrow
-    if (scheduled.isBefore(now)) {
-      scheduled = scheduled.add(const Duration(days: 1));
+    final android = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    for (final MapEntry(key: id, value: channel) in channels.entries) {
+      await android?.createNotificationChannel(
+        AndroidNotificationChannel(
+          id,
+          channel.name,
+          description: channel.description,
+          importance: Importance.high,
+        ),
+      );
     }
 
-    return scheduled;
+    for (final (i, reminder) in reminders.indexed) {
+      final channel = channels[reminder.channelId]!;
+      await _plugin.zonedSchedule(
+        id: i,
+        title: reminder.title,
+        body: reminder.body,
+        payload: reminder.payload,
+        scheduledDate: tz.TZDateTime.from(reminder.time, _utc),
+        notificationDetails: NotificationDetails(
+          android: AndroidNotificationDetails(
+            reminder.channelId,
+            channel.name,
+            channelDescription: channel.description,
+            importance: Importance.high,
+            priority: Priority.high,
+          ),
+          iOS: const DarwinNotificationDetails(
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
+        ),
+        // Inexact suffices for daily reminders and avoids the Play Store
+        // SCHEDULE_EXACT_ALARM declaration.
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      );
+    }
+    _scheduled = (reminders, channels);
+    appLogger.debug('Scheduled ${reminders.length} reminders');
   }
-
-  /// Notification details for both platforms.
-  NotificationDetails get _notificationDetails => NotificationDetails(
-    android: AndroidNotificationDetails(
-      channelId,
-      channelName,
-      channelDescription: channelDescription,
-      importance: Importance.high,
-      priority: Priority.high,
-      icon: '@mipmap/ic_launcher',
-    ),
-    iOS: const DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-    ),
-  );
 }

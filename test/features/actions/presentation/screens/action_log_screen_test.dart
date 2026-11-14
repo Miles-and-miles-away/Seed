@@ -14,6 +14,7 @@ import 'package:seed_app/features/actions/presentation/providers/actions_provide
 import 'package:seed_app/features/actions/presentation/screens/action_log_screen.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_category_tabs.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_log_confirmation_dialog.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_sort_dropdown.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_filter_chips.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
@@ -668,6 +669,8 @@ void main() {
         WidgetTester tester, {
         String category = 'transport',
         String? action,
+        bool log = false,
+        Future<List<ActionModel>> Function()? library,
       }) async {
         useTallView(tester);
         await tester.pumpWidget(
@@ -675,12 +678,15 @@ void main() {
             overrides: [
               userOverride(testUser),
               userIdProvider.overrideWithValue(testUser.uid),
-              actionLibraryProvider.overrideWith((ref) async => actions),
+              actionLibraryProvider.overrideWith(
+                (ref) => library?.call() ?? Future.value(actions),
+              ),
               actionShuffleSeedProvider.overrideWith((ref) => 1),
             ],
             child: ActionLogScreen(
               initialCategory: category,
               initialActionId: action,
+              logInitialAction: log,
             ),
           ),
         );
@@ -813,6 +819,30 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byType(ActionTile), findsWidgets);
         expect(ringed(), isFalse);
+      });
+
+      testWidgets('a reminder opens its log dialog, unringed', (tester) async {
+        await open(tester, action: 'transport3', log: true);
+
+        expect(find.byType(ActionLogConfirmationDialog), findsOneWidget);
+        expect(
+          tester
+              .widgetList<ActionTile>(find.byType(ActionTile))
+              .where((tile) => tile.highlighted),
+          isEmpty,
+        );
+      });
+
+      testWidgets('a reminder survives a library that fails', (tester) async {
+        await open(
+          tester,
+          action: 'transport3',
+          log: true,
+          library: () => Future.error(Exception('offline')),
+        );
+
+        expect(tester.takeException(), isNull);
+        expect(find.byType(ActionLogConfirmationDialog), findsNothing);
       });
 
       testWidgets('without one, no tile is ringed', (tester) async {

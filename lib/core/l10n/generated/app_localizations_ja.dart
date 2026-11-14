@@ -240,9 +240,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsNotifications => '通知';
 
   @override
-  String get settingsReminderTime => '毎日のリマインダー';
-
-  @override
   String get settingsLanguage => '言語';
 
   @override
@@ -452,14 +449,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String languageCurrentLabel(String language) {
     return '言語：$language';
   }
-
-  @override
-  String settingsNotificationsSubtitle(int count) {
-    return '$count件のリマインダーが有効';
-  }
-
-  @override
-  String get settingsNotificationsOff => '通知はオフです';
 
   @override
   String settingsLanguageSubtitle(String language) {
@@ -765,70 +754,132 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sdgTargetsTitle => '国連ターゲット';
 
   @override
-  String get notifSettingsTitle => '通知設定';
+  String get notifDailyReminder => 'アクションチャレンジのリマインダー';
 
   @override
-  String get notifSectionNotifications => '通知';
+  String get notifDailyReminderSubtitle => '今日のエコファクトがまだロック中ならお知らせします';
 
   @override
-  String get notifEnableTitle => '通知を有効にする';
+  String get notifReminderTime => 'リマインダーの時刻';
 
   @override
-  String get notifEnableSubtitle => 'アクション記録のリマインダーを受け取る';
+  String get notifReminderTitle => '今日のエコファクトが待っています';
 
   @override
-  String get notifSmartTitle => 'スマートリマインダー';
+  String get notifReminderBody => '今日のチャレンジを完了して解除しよう！';
 
   @override
-  String get notifSmartOnlyTitle => '今日アクションがない場合のみ通知';
+  String get notifActionReminders => 'アクションのリマインダー';
 
   @override
-  String get notifSmartOnlySubtitle => '既に記録した日はリマインダーをスキップ';
+  String get notifActionRemindersSubtitle => 'アクションごとに設定したリマインダー';
 
   @override
-  String get notifSmartDescription =>
-      '有効にすると、その日にサステナブルなアクションを記録していない場合のみリマインダーが表示されます。';
+  String get notifActionReminderBody => '今日のリマインダーです。できたらタップして記録しよう！';
 
   @override
-  String get notifReminderTimesTitle => 'リマインダー時間';
+  String get notifStyle => '通知のスタイル';
 
   @override
-  String get notifNoReminders => 'リマインダーが設定されていません';
+  String get notifStyleSubtitle => 'サウンド、バイブ、バナーは端末の設定で変更できます';
 
   @override
-  String get notifAddReminder => 'リマインダーを追加して通知を受け取る';
+  String get notifBlocked => 'Seedの通知がオフになっています。端末の設定でオンにしてください。';
 
   @override
-  String get notifAddReminderTime => 'リマインダー時間を追加';
+  String get notifBlockedTitle => '通知がブロックされています';
 
   @override
-  String get notifMaxReminders => 'リマインダーは最大5件まで';
+  String get notifBlockedSubtitle => 'タップして端末の設定で許可してください';
 
   @override
-  String get notifEditTime => 'リマインダー時間を編集';
+  String get notifOpenSettings => '設定を開く';
 
   @override
-  String get notifSelectTime => 'リマインダー時間を選択';
+  String get reminderSheetTitle => 'リマインド';
 
   @override
-  String get notifLabelTitle => 'リマインダーラベル';
+  String get reminderSetTooltip => 'リマインダーを設定';
 
   @override
-  String get notifLabelHint => '例：朝、仕事後...';
+  String get reminderEditTooltip => 'リマインダーを編集';
 
   @override
-  String get notifLabelOptional => 'ラベル（任意）';
+  String get reminderPausedTooltip => 'リマインダーを編集（アクションのリマインダーはオフ）';
 
   @override
-  String get notifDeleteTitle => 'リマインダーを削除しますか？';
+  String get reminderDays => '曜日';
 
   @override
-  String notifDeleteMessage(String time) {
-    return '$timeのリマインダーを削除しますか？';
+  String get reminderForever => 'ずっと';
+
+  @override
+  String get reminderRepeat => '回数を指定';
+
+  @override
+  String reminderRepeatCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count回',
+    );
+    return '$_temp0';
   }
 
   @override
-  String get notifAdd => '追加';
+  String get reminderFewer => '回数を減らす';
+
+  @override
+  String get reminderMore => '回数を増やす';
+
+  @override
+  String reminderLastDay(String date) {
+    return '最後のリマインダー：$date';
+  }
+
+  @override
+  String get reminderSaved => 'リマインダーを保存しました';
+
+  @override
+  String reminderLimit(int max) {
+    return 'アクションのリマインダーは$max件までです。';
+  }
+
+  @override
+  String reminderSummary(String days, String time, int hour) {
+    return '$days $time';
+  }
+
+  @override
+  String reminderSummaryUntil(String days, String time, int hour, String date) {
+    return '$days $time（$dateまで）';
+  }
+
+  @override
+  String get reminderDaySeparator => '、';
+
+  @override
+  String get reminderManage => '管理';
+
+  @override
+  String get remindersTitle => 'リマインダー';
+
+  @override
+  String get reminderManageTitle => 'リマインダーを管理';
+
+  @override
+  String get reminderManageSubtitle => 'アクションチャレンジと各アクションのリマインダー';
+
+  @override
+  String reminderListIntro(int max) {
+    return '各アクションのベルからリマインダーを設定できます（最大$max件）。タップすると変更・削除できます。';
+  }
+
+  @override
+  String get reminderListEmpty => 'アクションのリマインダーはまだありません。';
+
+  @override
+  String get reminderEveryDay => '毎日';
 
   @override
   String get settingsPreferences => '環境設定';
@@ -836,28 +887,6 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String settingsVersionFormat(String version) {
     return 'バージョン $version';
-  }
-
-  @override
-  String get settingsNoReminders => 'リマインダーが設定されていません';
-
-  @override
-  String settingsRemindersCount(int count) {
-    return '$count件のリマインダー設定済み';
-  }
-
-  @override
-  String get settingsOneReminder => '1件のリマインダー設定済み';
-
-  @override
-  String get settingsTapToAddReminders => 'タップしてリマインダーを追加';
-
-  @override
-  String get settingsAllRemindersDisabled => 'すべてのリマインダーがオフ';
-
-  @override
-  String settingsRemindersPlusMore(String time, int count) {
-    return '$time + 他$count件';
   }
 
   @override

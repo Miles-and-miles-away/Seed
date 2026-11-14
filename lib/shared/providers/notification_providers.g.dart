@@ -107,109 +107,58 @@ final class FcmServiceProvider
 
 String _$fcmServiceHash() => r'ee96047a03c23756073a596e4080dd0c835cda88';
 
-/// Provider that manages notification scheduling based on user settings.
+/// Keeps the pending reminders in step with the settings, today's
+/// challenge and logs, and the app language. Kept alive from SeedApp,
+/// and rebuilt on resume in case the time zone changed.
 ///
-/// This watches user settings and reschedules notifications when they change.
+/// The daily challenge reminders come first; action reminders fill what
+/// is left of the OS limit, soonest first.
 
-@ProviderFor(NotificationScheduler)
-final notificationSchedulerProvider = NotificationSchedulerProvider._();
+@ProviderFor(reminderScheduler)
+final reminderSchedulerProvider = ReminderSchedulerProvider._();
 
-/// Provider that manages notification scheduling based on user settings.
+/// Keeps the pending reminders in step with the settings, today's
+/// challenge and logs, and the app language. Kept alive from SeedApp,
+/// and rebuilt on resume in case the time zone changed.
 ///
-/// This watches user settings and reschedules notifications when they change.
-final class NotificationSchedulerProvider
-    extends $AsyncNotifierProvider<NotificationScheduler, void> {
-  /// Provider that manages notification scheduling based on user settings.
+/// The daily challenge reminders come first; action reminders fill what
+/// is left of the OS limit, soonest first.
+
+final class ReminderSchedulerProvider
+    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+    with $FutureModifier<void>, $FutureProvider<void> {
+  /// Keeps the pending reminders in step with the settings, today's
+  /// challenge and logs, and the app language. Kept alive from SeedApp,
+  /// and rebuilt on resume in case the time zone changed.
   ///
-  /// This watches user settings and reschedules notifications when they change.
-  NotificationSchedulerProvider._()
+  /// The daily challenge reminders come first; action reminders fill what
+  /// is left of the OS limit, soonest first.
+  ReminderSchedulerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'notificationSchedulerProvider',
-        isAutoDispose: true,
+        name: r'reminderSchedulerProvider',
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$notificationSchedulerHash();
+  String debugGetCreateSourceHash() => _$reminderSchedulerHash();
 
   @$internal
   @override
-  NotificationScheduler create() => NotificationScheduler();
-}
-
-String _$notificationSchedulerHash() =>
-    r'402ddf162b7c55fe6193167e23f2405905f51bf4';
-
-/// Provider that manages notification scheduling based on user settings.
-///
-/// This watches user settings and reschedules notifications when they change.
-
-abstract class _$NotificationScheduler extends $AsyncNotifier<void> {
-  FutureOr<void> build();
-  @$mustCallSuper
-  @override
-  WhenComplete runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<void>, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<void>, void>,
-              AsyncValue<void>,
-              Object?,
-              Object?
-            >;
-    return element.handleCreate(ref, build);
-  }
-}
-
-/// Provider that checks if smart reminder should fire.
-///
-/// Returns true if the user hasn't logged an action today.
-
-@ProviderFor(shouldShowSmartReminder)
-final shouldShowSmartReminderProvider = ShouldShowSmartReminderProvider._();
-
-/// Provider that checks if smart reminder should fire.
-///
-/// Returns true if the user hasn't logged an action today.
-
-final class ShouldShowSmartReminderProvider
-    extends $FunctionalProvider<AsyncValue<bool>, bool, FutureOr<bool>>
-    with $FutureModifier<bool>, $FutureProvider<bool> {
-  /// Provider that checks if smart reminder should fire.
-  ///
-  /// Returns true if the user hasn't logged an action today.
-  ShouldShowSmartReminderProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'shouldShowSmartReminderProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$shouldShowSmartReminderHash();
-
-  @$internal
-  @override
-  $FutureProviderElement<bool> $createElement($ProviderPointer pointer) =>
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
       $FutureProviderElement(pointer);
 
   @override
-  FutureOr<bool> create(Ref ref) {
-    return shouldShowSmartReminder(ref);
+  FutureOr<void> create(Ref ref) {
+    return reminderScheduler(ref);
   }
 }
 
-String _$shouldShowSmartReminderHash() =>
-    r'e7818900a2080302d173491cf07198e17b9a1033';
+String _$reminderSchedulerHash() => r'9c6c761878b8b630c315347a98219b652f2a5885';
 
 /// Provider that handles FCM token registration.
 ///
@@ -269,18 +218,21 @@ abstract class _$FCMTokenManager extends $AsyncNotifier<void> {
   }
 }
 
-/// Provider for checking notification permission status.
+/// Whether the OS lets this app post notifications, rechecked on
+/// resume since the user changes it in the OS settings.
 
 @ProviderFor(notificationPermissionStatus)
 final notificationPermissionStatusProvider =
     NotificationPermissionStatusProvider._();
 
-/// Provider for checking notification permission status.
+/// Whether the OS lets this app post notifications, rechecked on
+/// resume since the user changes it in the OS settings.
 
 final class NotificationPermissionStatusProvider
     extends $FunctionalProvider<AsyncValue<bool>, bool, FutureOr<bool>>
     with $FutureModifier<bool>, $FutureProvider<bool> {
-  /// Provider for checking notification permission status.
+  /// Whether the OS lets this app post notifications, rechecked on
+  /// resume since the user changes it in the OS settings.
   NotificationPermissionStatusProvider._()
     : super(
         from: null,
@@ -307,7 +259,7 @@ final class NotificationPermissionStatusProvider
 }
 
 String _$notificationPermissionStatusHash() =>
-    r'aa226bbd772fe41a196eeaadf5752f87f985151d';
+    r'5767746028b3be5b2525cf3801efe6ae69c94371';
 
 /// Provider for FCM authorization status.
 

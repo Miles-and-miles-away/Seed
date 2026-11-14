@@ -490,12 +490,6 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get settingsNotifications;
 
-  /// No description provided for @settingsReminderTime.
-  ///
-  /// In en, this message translates to:
-  /// **'Daily Reminder'**
-  String get settingsReminderTime;
-
   /// No description provided for @settingsLanguage.
   ///
   /// In en, this message translates to:
@@ -903,18 +897,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language: {language}'**
   String languageCurrentLabel(String language);
-
-  /// No description provided for @settingsNotificationsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} reminders enabled'**
-  String settingsNotificationsSubtitle(int count);
-
-  /// No description provided for @settingsNotificationsOff.
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications are off'**
-  String get settingsNotificationsOff;
 
   /// No description provided for @settingsLanguageSubtitle.
   ///
@@ -1456,131 +1438,227 @@ abstract class AppLocalizations {
   /// **'UN Targets'**
   String get sdgTargetsTitle;
 
-  /// No description provided for @notifSettingsTitle.
+  /// No description provided for @notifDailyReminder.
   ///
   /// In en, this message translates to:
-  /// **'Notification Settings'**
-  String get notifSettingsTitle;
+  /// **'Daily challenge reminder'**
+  String get notifDailyReminder;
 
-  /// No description provided for @notifSectionNotifications.
+  /// No description provided for @notifDailyReminderSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifSectionNotifications;
+  /// **'A nudge when today\'s eco-fact is still locked'**
+  String get notifDailyReminderSubtitle;
 
-  /// No description provided for @notifEnableTitle.
+  /// No description provided for @notifReminderTime.
   ///
   /// In en, this message translates to:
-  /// **'Enable Notifications'**
-  String get notifEnableTitle;
+  /// **'Reminder time'**
+  String get notifReminderTime;
 
-  /// No description provided for @notifEnableSubtitle.
+  /// No description provided for @notifReminderTitle.
   ///
   /// In en, this message translates to:
-  /// **'Receive daily reminders to log actions'**
-  String get notifEnableSubtitle;
+  /// **'Today\'s eco-fact is waiting'**
+  String get notifReminderTitle;
 
-  /// No description provided for @notifSmartTitle.
+  /// No description provided for @notifReminderBody.
   ///
   /// In en, this message translates to:
-  /// **'Smart Reminders'**
-  String get notifSmartTitle;
+  /// **'Complete today\'s challenge to unlock it.'**
+  String get notifReminderBody;
 
-  /// No description provided for @notifSmartOnlyTitle.
+  /// No description provided for @notifActionReminders.
   ///
   /// In en, this message translates to:
-  /// **'Only remind if no action today'**
-  String get notifSmartOnlyTitle;
+  /// **'Action reminders'**
+  String get notifActionReminders;
 
-  /// No description provided for @notifSmartOnlySubtitle.
+  /// No description provided for @notifActionRemindersSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Skip reminders on days you\'ve already logged'**
-  String get notifSmartOnlySubtitle;
+  /// **'Reminders you set on actions'**
+  String get notifActionRemindersSubtitle;
 
-  /// No description provided for @notifSmartDescription.
+  /// No description provided for @notifActionReminderBody.
   ///
   /// In en, this message translates to:
-  /// **'When enabled, reminders will only appear if you haven\'t logged any sustainable actions that day.'**
-  String get notifSmartDescription;
+  /// **'Your reminder for today. Tap to log it once it\'s done.'**
+  String get notifActionReminderBody;
 
-  /// No description provided for @notifReminderTimesTitle.
+  /// No description provided for @notifStyle.
   ///
   /// In en, this message translates to:
-  /// **'Reminder Times'**
-  String get notifReminderTimesTitle;
+  /// **'Notification style'**
+  String get notifStyle;
 
-  /// No description provided for @notifNoReminders.
+  /// No description provided for @notifStyleSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'No reminders set'**
-  String get notifNoReminders;
+  /// **'Sound, vibration and banners, in your phone\'s settings'**
+  String get notifStyleSubtitle;
 
-  /// No description provided for @notifAddReminder.
+  /// No description provided for @notifBlocked.
   ///
   /// In en, this message translates to:
-  /// **'Add a reminder to get notified'**
-  String get notifAddReminder;
+  /// **'Notifications are off for Seed. Turn them on in your phone\'s settings.'**
+  String get notifBlocked;
 
-  /// No description provided for @notifAddReminderTime.
+  /// No description provided for @notifBlockedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Add Reminder Time'**
-  String get notifAddReminderTime;
+  /// **'Notifications are blocked'**
+  String get notifBlockedTitle;
 
-  /// No description provided for @notifMaxReminders.
+  /// No description provided for @notifBlockedSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Maximum 5 reminders allowed'**
-  String get notifMaxReminders;
+  /// **'Tap to allow them in your phone\'s settings'**
+  String get notifBlockedSubtitle;
 
-  /// No description provided for @notifEditTime.
+  /// No description provided for @notifOpenSettings.
   ///
   /// In en, this message translates to:
-  /// **'Edit reminder time'**
-  String get notifEditTime;
+  /// **'Open settings'**
+  String get notifOpenSettings;
 
-  /// No description provided for @notifSelectTime.
+  /// No description provided for @reminderSheetTitle.
   ///
   /// In en, this message translates to:
-  /// **'Select reminder time'**
-  String get notifSelectTime;
+  /// **'Remind me'**
+  String get reminderSheetTitle;
 
-  /// No description provided for @notifLabelTitle.
+  /// No description provided for @reminderSetTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Reminder Label'**
-  String get notifLabelTitle;
+  /// **'Set a reminder'**
+  String get reminderSetTooltip;
 
-  /// No description provided for @notifLabelHint.
+  /// No description provided for @reminderEditTooltip.
   ///
   /// In en, this message translates to:
-  /// **'e.g., Morning, After work...'**
-  String get notifLabelHint;
+  /// **'Edit reminder'**
+  String get reminderEditTooltip;
 
-  /// No description provided for @notifLabelOptional.
+  /// No description provided for @reminderPausedTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Label (optional)'**
-  String get notifLabelOptional;
+  /// **'Edit reminder (action reminders are off)'**
+  String get reminderPausedTooltip;
 
-  /// No description provided for @notifDeleteTitle.
+  /// No description provided for @reminderDays.
   ///
   /// In en, this message translates to:
-  /// **'Delete Reminder?'**
-  String get notifDeleteTitle;
+  /// **'Days'**
+  String get reminderDays;
 
-  /// No description provided for @notifDeleteMessage.
+  /// No description provided for @reminderForever.
   ///
   /// In en, this message translates to:
-  /// **'Remove the {time} reminder?'**
-  String notifDeleteMessage(String time);
+  /// **'Forever'**
+  String get reminderForever;
 
-  /// No description provided for @notifAdd.
+  /// No description provided for @reminderRepeat.
   ///
   /// In en, this message translates to:
-  /// **'Add'**
-  String get notifAdd;
+  /// **'Number of times'**
+  String get reminderRepeat;
+
+  /// No description provided for @reminderRepeatCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 time} other{{count} times}}'**
+  String reminderRepeatCount(int count);
+
+  /// No description provided for @reminderFewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer times'**
+  String get reminderFewer;
+
+  /// No description provided for @reminderMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More times'**
+  String get reminderMore;
+
+  /// No description provided for @reminderLastDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Last reminder: {date}'**
+  String reminderLastDay(String date);
+
+  /// No description provided for @reminderSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder saved'**
+  String get reminderSaved;
+
+  /// No description provided for @reminderLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You can have up to {max} action reminders.'**
+  String reminderLimit(int max);
+
+  /// No description provided for @reminderSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} at {time}'**
+  String reminderSummary(String days, String time, int hour);
+
+  /// No description provided for @reminderSummaryUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} at {time}, until {date}'**
+  String reminderSummaryUntil(String days, String time, int hour, String date);
+
+  /// Joins weekday names in a reminder summary.
+  ///
+  /// In en, this message translates to:
+  /// **', '**
+  String get reminderDaySeparator;
+
+  /// No description provided for @reminderManage.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get reminderManage;
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get remindersTitle;
+
+  /// No description provided for @reminderManageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage reminders'**
+  String get reminderManageTitle;
+
+  /// No description provided for @reminderManageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily challenge and action reminders'**
+  String get reminderManageSubtitle;
+
+  /// No description provided for @reminderListIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a reminder with the bell on any action, up to {max}. Tap one to change or delete it.'**
+  String reminderListIntro(int max);
+
+  /// No description provided for @reminderListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No action reminders yet.'**
+  String get reminderListEmpty;
+
+  /// No description provided for @reminderEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get reminderEveryDay;
 
   /// No description provided for @settingsPreferences.
   ///
@@ -1593,42 +1671,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version {version}'**
   String settingsVersionFormat(String version);
-
-  /// No description provided for @settingsNoReminders.
-  ///
-  /// In en, this message translates to:
-  /// **'No reminders set'**
-  String get settingsNoReminders;
-
-  /// No description provided for @settingsRemindersCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} reminders configured'**
-  String settingsRemindersCount(int count);
-
-  /// No description provided for @settingsOneReminder.
-  ///
-  /// In en, this message translates to:
-  /// **'1 reminder configured'**
-  String get settingsOneReminder;
-
-  /// No description provided for @settingsTapToAddReminders.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to add reminders'**
-  String get settingsTapToAddReminders;
-
-  /// No description provided for @settingsAllRemindersDisabled.
-  ///
-  /// In en, this message translates to:
-  /// **'All reminders disabled'**
-  String get settingsAllRemindersDisabled;
-
-  /// No description provided for @settingsRemindersPlusMore.
-  ///
-  /// In en, this message translates to:
-  /// **'{time} + {count} more'**
-  String settingsRemindersPlusMore(String time, int count);
 
   /// No description provided for @settingsErrorLoading.
   ///
