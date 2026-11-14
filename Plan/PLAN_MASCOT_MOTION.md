@@ -244,3 +244,48 @@ Spec and decisions in `PDR_MASCOT_MOTION.md` section 7.
 - [ ] Coral arm PNG retouch (rounded, fringe-free shoulder ends)
       would remove the four seam shapes and possibly the caps. Owner
       art task, optional.
+
+## 10. Phase 4: wink expression
+
+Spec and decisions in `PDR_MASCOT_MOTION.md` section 8.
+
+### 10.1 Deliverables
+
+- `wink` trigger on the `Face` view model in both projects, `wink`
+  timeline on the `Face` artboard, `idle -> wink -> idle` transitions
+  beside the smile pair.
+- `lid_R` wrapper node inside `Eye_R` (W2).
+- `FaceRig.luau` in both v2 projects: front gaze and blink deferral on
+  `wink` (W7).
+- Review pack: `wink_<species>_strip.png` (frames 0, 4, 8, 20, 36,
+  44, 60) and `wink_<species>.gif`; the frames shift by the 72 frame
+  lead-in (W6).
+
+### 10.2 Acceptance
+
+- The screen-right eye shuts and reopens, the mouth reads as a smirk
+  with its right corner up, the eyes face the viewer throughout and
+  just after, and the face returns exactly to rest; all 8.3 checks
+  pass.
+
+### 10.3 Open items (wink)
+
+- [x] Owner review of round 1: squashed eye and 1.3x smirk rejected;
+      drawn arch and 2x, 12 degree smirk (W2, W4).
+- [x] Owner review of round 2: the winking eye slid down during the
+      squash and the head tilt moved both eyes; both removed (W2, W5).
+- [x] Owner review of round 3: Sprout fine; Coral's smirk too thick
+      and too close to the eye, cut to 1.3x and 7 degrees (W4).
+- [x] Owner review of round 4: eyes should face the user through the
+      wink and just after; gaze centring and blink deferral added (W7).
+- [x] Owner review of round 5: the gaze should reach the user at
+      least 1 s before and 1 s after the wink; 1.2 s lead-in and
+      3.2 s front hold added (W6, W7).
+- [ ] Owner review of round 6; the knobs are the lead-in (72 frames),
+      the front hold (3.2 s), the arch height and weight and the
+      per-species smirk depth.
+- [ ] App wiring must allow for the visible wink starting 1.2 s after
+      `face/wink` fires (W6).
+- [ ] When and where the app fires `face/wink` (W8).
+- [ ] Re-trigger: `wink` and `smile` drop each other while playing
+      (W9); same fix as the jump re-trigger if wanted.

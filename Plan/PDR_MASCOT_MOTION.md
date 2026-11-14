@@ -173,8 +173,11 @@ position and scale recomputed so the frame-0 capture is unchanged.
 
 1. First key equals last key on every track, and the last key is at
    `frame == duration`. Checked from `rive inspect --json`.
-2. No keys on anything inside the `Face` artboard, and no change to
-   the view models or `dataBindPathIds`. Checked by diff.
+2. No keys on anything inside the `Face` artboard from a stage
+   timeline, and no change to the view models or `dataBindPathIds`
+   beyond the triggers sections 6 and 8 add. Face expressions
+   (`smile`, `wink`) are Face timelines and key only Face nodes (W1).
+   Checked by diff.
 3. Idle motion is keyframes only. No new scripts, bones or constraints
    for an idle; the FaceRig already keeps every instance advancing each
    frame, so added logic is pure cost.
@@ -382,6 +385,8 @@ the frame-0 extent.
    the entry transition, and hands back by restarting the idle.
 2. A gesture that needs the face uses `StateMachineFireTrigger` on the
    Face's view model path; it never keys inside the Face artboard.
+   Expressions are the other way round: a Face timeline (section 8)
+   never keys a stage node.
 3. Every gesture state has `reset="true"` and returns to its layer's
    rest state on exit time 100 percent, so the layer is always
    re-triggerable and never holds a pose.
@@ -581,3 +586,199 @@ a capped overshoot; air now 40 frames. Border scan over the full
 round 3 (no edge pixel; Coral 4 margins 3, 3, 6, 4 px, identical to
 the previous build once the overshoot was capped at the stretch,
 which on that stage is 1.0).
+
+## 8. Wink expression
+
+Owner request: a cheeky wink and smirk. One eye shuts, the mouth takes
+about 30 percent of a smile with one corner up, and the head tilts
+slightly.
+
+### 8.1 Decisions
+
+**W1. The wink is a Face timeline, not a stage gesture.** It lives
+where `smile` lives: a `wink` timeline on the `Face` artboard, a `wink`
+trigger on the `Face` view model, and an `idle -> wink -> idle` pair of
+transitions on the Face state machine's layer 1 beside the smile pair
+(trigger in, exit time 100 percent out). Every stage nests the one
+Face, so one edit per project gives all four stages of a species the
+wink. Rules 3.2 and 6.3.2 are amended to say so: stage timelines stay
+out of the Face, Face timelines stay out of the stages.
+
+**W2. The shut eye is a drawn arch, swapped in over the open eye.**
+Round 1 squashed the eye to a slit, the species' blink look; the owner
+rejected it against the wink emoji, where the closed eye is a dark
+upward arch. A Shape `lid_closed_R` (an open two-vertex path with a
+round-capped stroke in the eye outline colour, 26 units at the eye's
+scale, about the mouth's weight; no fill, so the body colour behind it
+does not matter) sits inside `Eye_R` beside a wrapper Node `lid_R`
+that now holds `gaze` and `Sclera`. The eye nodes' scaleY is
+data-bound to `blink`, and a ToTarget bind is applied after the
+animation each frame, so nothing keys `Eye_R` itself: the wink keys
+`lid_R` opacity 1 to 0 on hold keys at the swap and `lid_closed_R`
+opacity the other way. Round 2 also squashed `lid_R` over the 4 frame
+close, the blink look; the owner saw the eye slide down, because the
+squash collapses toward the eye's bottom edge and the arch then
+appears at the centre line, so the close is now a plain swap and the
+winking eye never moves. The bind keeps squashing `Eye_R` during a
+script blink, which the arch inherits as a brief flatten; acceptable.
+The wrapper insertion changes nothing at rest.
+
+**W3. The screen-right eye winks** (`Eye_R`, at positive x), the head
+tilts so that side dips, and the mouth corner on that side lifts. One
+side on both species so they read alike.
+
+**W4. The smirk is the closed-lip curve deepened and rotated, not the
+open smile shrunk.** `mouth_happy` is an open mouth with a tongue; at
+30 percent size it reads as a small O, not a smirk. The Solo stays on
+`mouth_rest`; the timeline keys `mouth_rest` scaleY and rotation so
+the winking-side corner lifts. The depth is per species because the
+mouths differ: Sprout's thin curve takes 2x and 12 degrees (round 1's
+1.3x and 8 degrees read far too subtle against the smirk emoji), but
+Coral's mouth is a thick stroke at design scale 1, so 2x doubled its
+weight and ran the corner into the winking eye; Coral takes 1.3x and
+7 degrees. Scaling a stroked shape scales its stroke, so the smirk
+depth is capped by how heavy the mouth may get. Coral's Face `idle`
+already keys `mouth_rest` rotation at 0, which is what the wink hands
+back to.
+
+**W5. No head tilt.** Rounds 1 and 2 rotated the `Face` node 5
+degrees so eyes and mouth tilted together; in the captures it was
+barely visible yet it moved both eyes, which the owner rejected. The
+cheeky angle comes from the mouth rotation alone (W4); a head tilt
+would have to pivot at the winking eye to keep it still, and that
+doubles the other eye's travel.
+
+**W6. Timing.** The timeline holds still for a 72 frame lead-in (1.2
+s) so the eyes can settle on the viewer first (W7); the script cannot
+know a wink is coming, so the wait has to sit in the timeline, and the
+visible wink starts 1.2 s after `face/wink` fires. The eye then swaps
+shut at frame 76 and open at frame 109, about half a second shut; the
+smirk eases in over 8 frames and out over 16, so the mouth leads the
+eye on the way in and trails it on the way out. 132 frames in all;
+values in 8.2.
+
+**W7. The eyes face the viewer for at least 1 s before and after the
+wink.** A sideways glance around a wink reads as suspicious.
+`FaceRig.luau` listens to the `wink` trigger and, for 3.2 s (the
+lead-in, the wink and 1 s more), targets a centred gaze at follow
+speed 30 instead of 8, so the eyes arrive within 0.2 s and sit still
+for over a second before the smirk starts. It also clears the idle
+wander target, so after the hold the eyes stay front until the
+wander's own timer makes its next random pick, 0 to 4 s later; some
+randomness after the minimum second is fine (owner). Whatever the app
+is steering, the wink wins for the hold. The same listener defers
+the next auto-blink exactly as the `smileHold` rising edge does, so
+the open eye never blinks while the other is shut; the app needs no
+hold property. Only the v2 copies of the script carry this.
+
+**W8. App wiring is deferred, as for `jump` (J7).** The app contract
+gains the trigger path `face/wink`; when the app fires it is the
+owner's call.
+
+**W9. Re-trigger.** As with `smile`, a `wink` or `smile` fired while
+the other plays is dropped, since layer 1 has no AnyState transition.
+Same open item as the jump re-trigger.
+
+**W10. Superseded by W2.** Round 1 hid the gaze group while the eye
+was squashed shut, to stop the iris highlights showing as speckles
+along the slit; with the arch there is no slit.
+
+### 8.2 Specification
+
+`Face` artboard, `wink` timeline, 132 frames at 60 fps. Ease-out is
+(0.25, 0.1, 0.25, 1), ease in and out is (0.42, 0, 0.58, 1); the ease
+on a key applies to the segment that follows it. Scale keys are
+absolute, so a scaleY of "1.3x" means 1.3 times the node's design
+value (`mouth_rest` is 0.3 on Sprout and 1 on Coral). Rotation keys
+are radians in RML; positive is clockwise on screen, so +5 degrees
+dips the screen-right side and -8 degrees lifts the screen-right
+mouth corner.
+
+| Frame | `mouth_rest` rotation (Sprout / Coral) | `mouth_rest` scaleY (Sprout / Coral) | Note |
+|---|---|---|---|
+| 0 | 0 | 1x | rest, lead-in hold |
+| 72 | 0 | 1x | rest, ease-out |
+| 80 | -12 deg / -7 deg | 2x / 1.3x | smirk in, hold |
+| 116 | -12 deg / -7 deg | 2x / 1.3x | smirk eases in and out back |
+| 132 | 0 | 1x | rest |
+
+Eye swap (W2), hold keys: `lid_R` opacity 1 at 0, 72 and 75, 0 at 76
+and 108, 1 at 109 and 132; `lid_closed_R` opacity the inverse. Holds between
+equal keys are linear; the ease on them is moot.
+
+The first key equals the last on every track (rule 3.1).
+
+### 8.3 Checks
+
+| Check | Pass |
+|---|---|
+| Compiles | `--verify` 0 errors, 0 warnings, both projects |
+| Wrapper changed nothing | frame-0 capture of one stage per species before and after the `lid_R` insert: at most 2 px differing by one level |
+| Nothing else moved | idle, jump and smile timelines, every stage artboard and the existing view model properties identical to the baseline once `id` attributes are stripped |
+| Eye shuts and opens | captures with `face/wink` fired at frames 72, 76, 80, 92, 108, 116, 132 on one stage per species: no white pixel in the screen-right eye region at 76 to 108 and the count back within 5 percent of frame 72 at 116 and 132; the screen-left eye's white pixel count within 5 percent of frame 72 throughout (W7 defers the blink past the wink) |
+| Smirk reads | at frames 8 to 44 the dark mouth stroke's right end is higher than its left by more than in the unfired run at the same frame; at 0 and 60 the lift equals the unfired run's within 1 px (Sprout's idle sway tilts the face, so the unfired run is the reference) |
+| Rest returns | frame 60 fired equals frame 60 unfired within 2 px (the stage idle keeps moving, so frame 0 is not the reference) |
+| Face contract | the rig test names (`gaze`, `Eye_L`, `Eye_R`, `Pupil`, `Iris`, `IrisRim`, `Sclera`, `mouth`, `mouth_rest`, `mouth_happy`) still resolve, and the mascot test group passes against the published build |
+| Eyes stay put | fired against unfired at the swap frames: 0 changed pixels outside the winking eye's box and the mouth's box. Measured in round 3, before the lead-in; the unfired run now wanders by then, so the open eye is covered by "Eyes face front", and the eye geometry has not changed since |
+| Eyes face front | wink fired after 2.5 s of idle wander on 12 seeds per species, plus one run with the app steering `lookX` to 100: gaze within 0.5 units of centre at least 1 s before the smirk starts and until at least 1 s after the wink ends, 0 blink samples from the fire to the wink's end |
+| Review pack | a contact strip of the 7 frames and a GIF from idle wander through the fire, the lead-in, the wink and the hold, per species |
+
+### 8.4 Review record
+
+Round 1 (owner rejected). Squashed-slit eye, 1.3x smirk, 8 degree
+lift. Owner showed the wink and smirk emoji: the eye should close to a
+drawn arch and the mouth should smile and rotate visibly.
+
+Round 2 (owner: "getting better", but the eyes change position). W2
+arch, W4 2x and 12 degrees; the 4 frame squash slid the winking eye
+down before the arch appeared, and the 5 degree tilt moved both eyes.
+
+Round 3 (built, published, owner review pending). Squash and tilt
+removed (W2, W5); the eye is a plain swap at frames 4 and 37 and
+nothing but the winking eye and the mouth changes: fired against
+unfired at frames 4, 20 and 36 gives 0 changed pixels outside the
+winking eye's and the mouth's boxes on both stages, the open eye's
+white count matches the unfired run to 0.1 percent, and the mouth
+corner lift over the unfired run is 5.7 to 6.3 px at frames 4 to 44.
+173 mascot tests pass against the published builds. Measured on Sprout stage 2 and Coral stage 3 at 3x:
+compiles clean; the id-stripped diff touches only the Face artboard
+and the Face view model; frame 0 fired equals unfired to 0 px (so the
+wrapper and the hidden arch change nothing at rest); the fire changes
+about 14k to 16k pixels at frame 4; frame 60 fired equals frame 60
+unfired to 0 px on both. Right-eye white pixels are 0 at frames 4 to
+36 and back within 1 percent at 44 and 60; the left eye stays within
+2 percent of the unfired run. Mouth corner lift over the unfired run:
+Sprout 4.0 to 5.0 px, Coral 2.3 to 3.7 px at frames 4 to 44, 0 at 0
+and 60. Fired mid-run from `--commands` (`data face/wink=1`) the data
+step also advances a frame, so frame-exact captures use
+`--data=face/wink=1` at start. 173 mascot tests pass against the
+published builds. First knobs: arch height and weight, smirk depth,
+corner lift.
+
+Round 4 (Coral only, owner review pending). Owner review of round 3:
+Sprout is fine; on Coral the smirk got much thicker and its corner
+came too close to the winking eye. Coral's `mouth_rest` smirk is cut
+to 1.3x and 7 degrees (W4); Sprout keeps 2x and 12 degrees. Eye keys
+unchanged.
+
+Round 5 (both species, owner review pending). Owner: the eyes should
+face the user for the whole wink and slightly after. The idle wander
+kept the open eye glancing sideways mid-wink, and on some seeds the
+auto-blink shut it too. W7 rewritten: `FaceRig.luau` centres the gaze
+and defers the blink on `wink`. Measured on 8 seeds per species with
+the wink fired after 2.5 s of wander: up to 19.7 units off centre at
+the fire, within 2 units by about frame 5 and within 0.2 from frame 8
+to 0.5 s after the wink; wander resumes 2.2 to 2.6 s after the fire.
+The old script logged 18 shut-eye blink samples inside winks across
+those seeds, the new one 0. 173 mascot tests pass.
+
+Round 6 (both species, owner review pending). Owner: the gaze should
+reach the user at least 1 s before and 1 s after the wink, with random
+wander fine after that. The timeline gained a 72 frame still lead-in
+(W6) and the script holds the front gaze for 3.2 s, then lets the
+wander resume on its own timer (W7). Measured on 12 seeds per species:
+centred 0.13 s after the fire, so 1.07 s before the smirk starts; the
+gaze leaves centre 1.0 to 4.2 s after the wink ends. With the app
+steering, it is centred 1.03 s before and returns to the steered
+target exactly 1.0 s after. 0 blink samples from the fire to the
+wink's end. 173 mascot tests pass.
