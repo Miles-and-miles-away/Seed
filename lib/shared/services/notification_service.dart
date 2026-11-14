@@ -59,7 +59,7 @@ class NotificationService {
 
   Future<void> _initialize() async {
     const initSettings = InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      android: AndroidInitializationSettings('@drawable/ic_stat_notification'),
       iOS: DarwinInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
@@ -220,7 +220,6 @@ class NotificationService {
             channelDescription: channel.description,
             importance: Importance.high,
             priority: Priority.high,
-            icon: '@mipmap/ic_launcher',
           ),
           iOS: const DarwinNotificationDetails(
             presentAlert: true,

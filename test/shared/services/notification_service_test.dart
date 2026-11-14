@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -93,5 +95,15 @@ void main() {
     await service.initialize();
 
     expect(calls.where((c) => c.method == 'initialize'), hasLength(2));
+  });
+
+  test('uses a drawable that exists as the status bar icon', () async {
+    await service.initialize();
+    final args = calls.first.arguments as Map<Object?, Object?>;
+    final icon = '${args['defaultIcon']}';
+    expect(icon, startsWith('@drawable/'));
+    final name = icon.substring('@drawable/'.length);
+    final file = File('android/app/src/main/res/drawable/$name.xml');
+    expect(file.existsSync(), isTrue);
   });
 }
