@@ -64,6 +64,14 @@ point at these URLs, and Google Play requires the deletion URL.
 | Privacy policy | https://seed-3d48d.web.app/privacy |
 | Terms of service | https://seed-3d48d.web.app/terms |
 | Account deletion | https://seed-3d48d.web.app/delete-account |
+| Tester sign-up | https://seed-3d48d.web.app/beta |
+
+`/beta` is not a legal page: it walks Android closed-track and iPhone
+TestFlight testers through joining. Its text and the Google Group,
+opt-in, store and TestFlight links live in the same generator script,
+so edit them there, not in `public/`. Its
+screenshot composite is the one hand-placed file,
+`public/images/seed-preview.webp`.
 
 The HTML in `public/` is generated from the in-app text in
 `legal_content.dart`, so the app and the hosted pages never diverge.
