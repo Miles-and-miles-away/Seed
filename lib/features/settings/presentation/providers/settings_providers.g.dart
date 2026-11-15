@@ -313,14 +313,14 @@ final class ActionRemindersEnabledProvider
 String _$actionRemindersEnabledHash() =>
     r'c017dda568326b00e56e7ee40cf6d5b228647186';
 
-/// Action reminders with a day still to come, by action id; once the
-/// library loads, only those for actions it still has.
+/// Action reminders with a reminder still to come, by action id; once
+/// the library loads, only those for actions it still has.
 
 @ProviderFor(actionReminders)
 final actionRemindersProvider = ActionRemindersProvider._();
 
-/// Action reminders with a day still to come, by action id; once the
-/// library loads, only those for actions it still has.
+/// Action reminders with a reminder still to come, by action id; once
+/// the library loads, only those for actions it still has.
 
 final class ActionRemindersProvider
     extends
@@ -330,8 +330,8 @@ final class ActionRemindersProvider
           Map<String, ActionReminder>
         >
     with $Provider<Map<String, ActionReminder>> {
-  /// Action reminders with a day still to come, by action id; once the
-  /// library loads, only those for actions it still has.
+  /// Action reminders with a reminder still to come, by action id; once
+  /// the library loads, only those for actions it still has.
   ActionRemindersProvider._()
     : super(
         from: null,
@@ -366,7 +366,7 @@ final class ActionRemindersProvider
   }
 }
 
-String _$actionRemindersHash() => r'604a61f9f8c7abfc5a9051bfdd53a9f7ecba3e9a';
+String _$actionRemindersHash() => r'a3d112c51d8aae97880f847f2b45ee2ffc0488a5';
 
 /// Returns whether analytics collection is enabled.
 
@@ -594,7 +594,7 @@ final class SettingsNotifierProvider
   }
 }
 
-String _$settingsNotifierHash() => r'315bdf10d8e89799881a6592daa23ef2025c0a33';
+String _$settingsNotifierHash() => r'b25f9794048850ba2c943bf6e1ecec1f2ea534b6';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

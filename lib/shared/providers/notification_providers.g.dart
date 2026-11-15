@@ -112,7 +112,8 @@ String _$fcmServiceHash() => r'ee96047a03c23756073a596e4080dd0c835cda88';
 /// and rebuilt on resume in case the time zone changed.
 ///
 /// The daily challenge reminders come first; action reminders fill what
-/// is left of the OS limit, soonest first.
+/// is left of the OS limit, soonest first, so many of them reach fewer
+/// days ahead.
 
 @ProviderFor(reminderScheduler)
 final reminderSchedulerProvider = ReminderSchedulerProvider._();
@@ -122,7 +123,8 @@ final reminderSchedulerProvider = ReminderSchedulerProvider._();
 /// and rebuilt on resume in case the time zone changed.
 ///
 /// The daily challenge reminders come first; action reminders fill what
-/// is left of the OS limit, soonest first.
+/// is left of the OS limit, soonest first, so many of them reach fewer
+/// days ahead.
 
 final class ReminderSchedulerProvider
     extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
@@ -132,7 +134,8 @@ final class ReminderSchedulerProvider
   /// and rebuilt on resume in case the time zone changed.
   ///
   /// The daily challenge reminders come first; action reminders fill what
-  /// is left of the OS limit, soonest first.
+  /// is left of the OS limit, soonest first, so many of them reach fewer
+  /// days ahead.
   ReminderSchedulerProvider._()
     : super(
         from: null,
@@ -158,7 +161,7 @@ final class ReminderSchedulerProvider
   }
 }
 
-String _$reminderSchedulerHash() => r'9c6c761878b8b630c315347a98219b652f2a5885';
+String _$reminderSchedulerHash() => r'10a17da25cdebd0d15bebe794d5b188f8aa1e674';
 
 /// Provider that handles FCM token registration.
 ///
