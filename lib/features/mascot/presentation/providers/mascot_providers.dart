@@ -1,11 +1,14 @@
 import 'dart:ui' show Color;
 
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show ProviderListenableSelect;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
@@ -14,6 +17,7 @@ import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart'
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/data/repositories/mascot_repository.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'mascot_providers.g.dart';
 
@@ -235,19 +239,39 @@ class MascotNotifier extends _$MascotNotifier {
 // Animation Providers
 // =============================================================
 
+/// Whether an evolution or egg celebration is waiting to play; other
+/// mascot reactions stand aside for it.
 @riverpod
-class MascotAnimationTrigger extends _$MascotAnimationTrigger {
+bool mascotCelebrationPending(Ref ref) =>
+    ref.watch(hasNewEvolutionProvider) ||
+    ref.watch(shouldShowEggDiscoveryProvider);
+
+/// Calendar days without a log after which Home's mascot welcomes the
+/// user back with a smile.
+const welcomeBackMinDays = 2;
+
+/// Whether the welcome-back smile has played in this app process.
+@Riverpod(keepAlive: true)
+class WelcomeBackSmiled extends _$WelcomeBackSmiled {
   @override
   bool build() => false;
 
-  void triggerBounce() {
-    state = true;
-    Future.delayed(durationInstant, () {
-      // The autoDispose notifier may be gone before the delay
-      // elapses; touching state then throws.
-      if (ref.mounted && state) state = false;
-    });
+  void markSmiled() => state = true;
+}
+
+/// Whether Home's mascot should play the welcome-back smile now.
+@riverpod
+bool welcomeBackSmileDue(Ref ref) {
+  if (ref.watch(welcomeBackSmiledProvider) ||
+      ref.watch(mascotCelebrationPendingProvider)) {
+    return false;
   }
+  final lastActionDate = ref.watch(
+    currentUserProvider.select((user) => user.value?.lastActionDate),
+  );
+  if (lastActionDate == null) return false;
+  final today = ref.watch(clockProvider)();
+  return calendarDaysBetween(lastActionDate, today) >= welcomeBackMinDays;
 }
 
 /// Fires the mascot smile animation, e.g. before opening the action log.

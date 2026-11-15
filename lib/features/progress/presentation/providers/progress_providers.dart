@@ -47,6 +47,14 @@ int? dailyGoalTarget(Ref ref) {
   );
 }
 
+/// Daily goal target used until the user sets their own.
+const defaultDailyGoalTarget = 3;
+
+/// The daily goal target in effect: the user's own, else the default.
+@riverpod
+int effectiveDailyGoalTarget(Ref ref) =>
+    ref.watch(dailyGoalTargetProvider) ?? defaultDailyGoalTarget;
+
 /// Whether the user needs to set up their daily goal target.
 @riverpod
 bool needsDailyTargetSetup(Ref ref) {
@@ -97,7 +105,7 @@ Future<List<CalendarDayData>> monthCalendarData(Ref ref) async {
   if (userId == null) return [];
 
   final selectedMonth = ref.watch(selectedMonthProvider);
-  final goalTarget = ref.watch(dailyGoalTargetProvider) ?? 3;
+  final goalTarget = ref.watch(effectiveDailyGoalTargetProvider);
 
   final repository = ref.watch(progressRepositoryProvider);
   return repository.getMonthCalendarData(

@@ -201,7 +201,7 @@ order and the checks.
       cannot pass as written. Restarting mid-jump needs an AnyState to
       `jump_prep` transition, which snaps from the air pose.
 - [ ] When and where the app fires `jump`: deferred by the owner until
-      the movement is approved (PDR J7).
+      the movement is approved (PDR J7); placements in section 11.
 
 ## 9. Phase 3: turn gesture
 
@@ -286,6 +286,111 @@ Spec and decisions in `PDR_MASCOT_MOTION.md` section 8.
       per-species smirk depth.
 - [ ] App wiring must allow for the visible wink starting 1.2 s after
       `face/wink` fires (W6).
-- [ ] When and where the app fires `face/wink` (W8).
+- [ ] When and where the app fires `face/wink` (W8); approved,
+      section 11.
 - [ ] Re-trigger: `wink` and `smile` drop each other while playing
       (W9); same fix as the jump re-trigger if wanted.
+
+## 11. Phase 5: when the app plays the expressions
+
+Answers J7 and W8. Revised after a red-team review (logic and
+visibility, performance, behavioural psychology); the owner approved
+the placements below. They move to the PDR once implemented and
+reviewed.
+
+### 11.1 What the app sees
+
+- A covered route has its tickers off, and rive_native stops its
+  render ticker with `TickerMode`, so a Home mascot under Log action is
+  frozen. A reaction queued for later reaches the user late and out of
+  context: Log action opens from every tab, SDG detail uncovers Home as
+  soon as a back swipe starts, and Home is often scrolled past the
+  mascot. A reaction must therefore play where the user is, straight
+  after what it rewards.
+- Every log already gets a points animation and a snackbar. A mascot
+  reaction on every log would become background within weeks, and
+  withdrawing it later reads as a loss, so the mascot reacts to moments
+  the user chose (their daily goal) or made an effort for (banking a
+  saving), never to CO2 size.
+- A `showGeneralDialog` route is not opaque, so a mascot under a
+  celebration dialog keeps ticking unseen. An entry in the root overlay
+  floats above routes pushed after it, so a cheer can cover a later
+  evolution reveal.
+
+### 11.2 Approved placements
+
+| Moment | Expression | How the user sees it |
+|---|---|---|
+| Idle on any visible mascot | `wink` | `FaceRig.luau` fires it every 2 to 5 minutes of playback while the app is not steering the gaze (built) |
+| + button on Home, tap and hover | `smile` | existing |
+| Tap on the mascot on the Mascot screen | `smile` | new |
+| Home opened after 2 or more days without a log | `smile` | once per return, when the Home mascot is on screen; never a sad or withheld expression, including after a broken streak |
+| The log that reaches the daily goal | `jump` | mini overlay over the current screen, straight after the log |
+| Calculator banking | `jump` | mini overlay over the calculator, straight after banking |
+| Daily challenge complete | none | after the log's celebrations, the app opens the Eco Fact Inbox, where today's fact has just unlocked; no overlay, even if the same log reached the goal |
+| Fact games win | `smile` | existing overlay with confetti, unchanged |
+| Evolution, egg hatching, streak milestone | none | own confetti and Flutter entrance, unchanged |
+| Eco-Dex unlocks, egg discovery | none | no mascot on screen |
+| Reduce motion on | `smile` in place of `jump` | |
+
+Ordinary logs get no mascot reaction. The wink is never a reply to a
+tap: its 1.2 s lead-in (W6) would read as lag. The scale bounce,
+`mascotAnimationTriggerProvider` and the pending Home jump
+(`MascotJumpRequest`, `MascotDisplay.celebrates`) are removed.
+
+### 11.3 Design
+
+- `MascotCheer.show(context)` puts the jump variant in the root
+  overlay: a 120 px mascot rises above the snackbar, jumps once loaded
+  (no route-reveal delay), and sinks after 3 s. One at a time: a call
+  while one is up does nothing. Clearance accounts for the bottom nav
+  when the screen has one (Log action, SDG detail) and for the
+  keyboard. The entry is removed and disposed on every path.
+- It is not shown while an evolution or egg discovery celebration is
+  pending or showing (`hasNewEvolutionProvider`,
+  `shouldShowEggDiscoveryProvider`), or when the mascot asset is null.
+- Goal reached: today's log count before this log is one below the
+  effective target and this log makes it equal (the same `?? 3`
+  fallback the calendar uses, centralised). Counts the same logs the
+  daily goal counts.
+- `handleActionTap`: points and snackbar as now; Eco-Dex and streak
+  celebrations as now; then, if the challenge completed, push the Eco
+  Fact Inbox; otherwise, if the goal was reached and nothing
+  full-screen played, show the cheer straight away (not after the
+  Firestore awaits).
+- Reduce motion: the smile substitute raises and lowers `smileHold`
+  like the existing smile path, so a blink cannot land in it.
+- A mascot whose ticker is off ignores the global pointer route.
+- `FaceRig.luau` clamps the step its timers use, so the first frame
+  after the app resumes does not fire a wink or blink at once.
+
+### 11.4 Re-trigger
+
+A jump fired mid-jump is dropped (J2), and a wink in its lead-in drops
+a smile, including the jump's takeoff smile (W9). The takeoff smile does
+not raise `smileHold`, so a wink fired then holds the front gaze for
+3.2 s without a wink. At these rates this is rare; the AnyState fix
+covers both if seen.
+
+### 11.5 Verification
+
+- Rig: a script-fired wink plays and centres the gaze; a long first
+  step after resume fires nothing; both builds 0 errors.
+- Widget tests: goal-reached detection (crossing log only); the cheer
+  shown once for the goal log, not for ordinary logs, not when the
+  challenge completed, not over a pending evolution; a second `show`
+  ignored; entry disposed; challenge completion opens the Inbox;
+  welcome-back smile only after 2 or more days and once; Mascot screen
+  tap smile; reduce-motion smile with hold; the game win unchanged.
+- Device (Pixel 8): reach the goal from Log action and from SDG detail
+  and see the cheer above the snackbar; bank in a calculator with the
+  keyboard up; complete the challenge and land in the Inbox; profile
+  the first frame of `show()` while a snackbar animates.
+
+### 11.6 Open items
+
+- [ ] Implementation and review of 11.2 and 11.3.
+- [ ] Device pass and `show()` profile on the Pixel 8 (owner).
+- [ ] Record the decisions in the PDR (closing J7 and W8).
+- [ ] Later: a jump the first time a user ever logs a given action
+      (needs a per-action history lookup).

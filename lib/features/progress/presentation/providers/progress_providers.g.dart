@@ -211,6 +211,53 @@ final class DailyGoalTargetProvider
 
 String _$dailyGoalTargetHash() => r'b0aa8c19aa93ace7fcee6f73b9d2123c46c096c5';
 
+/// The daily goal target in effect: the user's own, else the default.
+
+@ProviderFor(effectiveDailyGoalTarget)
+final effectiveDailyGoalTargetProvider = EffectiveDailyGoalTargetProvider._();
+
+/// The daily goal target in effect: the user's own, else the default.
+
+final class EffectiveDailyGoalTargetProvider
+    extends $FunctionalProvider<int, int, int>
+    with $Provider<int> {
+  /// The daily goal target in effect: the user's own, else the default.
+  EffectiveDailyGoalTargetProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'effectiveDailyGoalTargetProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$effectiveDailyGoalTargetHash();
+
+  @$internal
+  @override
+  $ProviderElement<int> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  int create(Ref ref) {
+    return effectiveDailyGoalTarget(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$effectiveDailyGoalTargetHash() =>
+    r'cbe0375b6b14fc1fb0d4ae8fac77ace9b4b7b03b';
+
 /// Whether the user needs to set up their daily goal target.
 
 @ProviderFor(needsDailyTargetSetup)
@@ -369,7 +416,7 @@ final class MonthCalendarDataProvider
   }
 }
 
-String _$monthCalendarDataHash() => r'66be10b48ed6b37d02a5d819ea6049fb80c546bf';
+String _$monthCalendarDataHash() => r'b9050f76d338940f97fe4e5833b27d3e95453b9e';
 
 /// Notifier to save the daily goal target.
 
