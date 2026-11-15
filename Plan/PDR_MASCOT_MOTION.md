@@ -324,10 +324,18 @@ no overshoot. Alternatives rejected: slowing the fall before contact
 not a character), follow-through on arms and leaves (needs per-stage
 keys on frozen nodes; revisit if the squash alone is not enough).
 
-**J7. App integration is deferred (owner, round 2).** The file exposes
-the `jump` trigger; when and where the app fires it is a later
-decision. Until then the Flutter scale bounce after an action is
-logged stays as it is, and nothing in the Seed repo references `jump`.
+**J7. The app fires `jump` only in the goal and banking cheer.**
+Deferred at round 2 until the movement was approved, then decided in
+the plan's section 11: `MascotCheer.show` fires it once the mascot
+loads, on the log that reaches the daily goal and on calculator
+banking. The Flutter scale bounce after a log is removed. The cheer
+mascot is 200 px and rests with its centre at the bottom third of the
+space above the bottom nav or keyboard. Flutter lifts it to the middle
+of that space in step with the file: still for the 46 crouch frames,
+12 frames up with the takeoff ease-out (0.25, 0.1, 0.25, 1), 12 down
+with an ease-in (0.42, 0, 1, 1), landing with `jump_air` frame 24. The
+height is Flutter's, so it scales with the screen and the artboards
+need no headroom for it.
 
 - **J8. Sprout jumps from upright.** Owner review of round 2: a
   jump fired mid-sway launched along the tilted axis, which in reality
@@ -344,6 +352,16 @@ logged stays as it is, and nothing in the Seed repo references `jump`.
   property keyed only in the outgoing state until the transition ends,
   then snaps. Coral keeps its bob running underneath (vertical only,
   measured: the lift adds to the bob and landing follows it).
+
+**J9. The eyes face the user through the jump.** Each `jump_prep`
+state fires the Face trigger `lookFront` at its start
+(`StateMachineFireTrigger`, as J3). `FaceRig.luau` answers it with the
+wink's front hold (W7): a centred gaze for 3.2 s and the next blink
+deferred. A jump lands 1.4 s after its crouch starts, so the hold
+covers the landing with time to spare. Measured on all 8 stages over 3
+seeds: centred within 0.1 s of the fire and at most 0.47 units off
+centre after that; the takeoff smile still fires; the earliest blink
+came 2.7 s after the fire. Only the v2 copies carry it.
 
 ### 6.2 Specification
 
@@ -671,9 +689,11 @@ the next auto-blink exactly as the `smileHold` rising edge does, so
 the open eye never blinks while the other is shut; the app needs no
 hold property. Only the v2 copies of the script carry this.
 
-**W8. App wiring is deferred, as for `jump` (J7).** The app contract
-gains the trigger path `face/wink`; when the app fires it is the
-owner's call.
+**W8. The app never fires `face/wink`.** Decided in the plan's section
+11: `FaceRig.luau` fires it every 2 to 5 minutes of playback while the
+app is not steering the gaze. It is never a reply to a tap, since the
+1.2 s lead-in (W6) would read as lag. The trigger path stays in the app
+contract.
 
 **W9. Re-trigger.** As with `smile`, a `wink` or `smile` fired while
 the other plays is dropped, since layer 1 has no AnyState transition.

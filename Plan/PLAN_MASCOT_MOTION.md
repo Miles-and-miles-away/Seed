@@ -146,7 +146,7 @@ order and the checks.
    running), and one GIF per stage covering the whole gesture with a
    second of idle either side.
 3. After owner approval, with the Phase 1 publish: the same `.riv`
-   copy step. App wiring is deferred (PDR J7).
+   copy step. App wiring: section 11 (PDR J7).
 
 ### 8.2 Order
 
@@ -200,8 +200,7 @@ order and the checks.
       during prep or air is dropped and the 8.3 re-trigger check
       cannot pass as written. Restarting mid-jump needs an AnyState to
       `jump_prep` transition, which snaps from the air pose.
-- [ ] When and where the app fires `jump`: deferred by the owner until
-      the movement is approved (PDR J7); placements in section 11.
+- [x] When and where the app fires `jump`: section 11 (PDR J7).
 
 ## 9. Phase 3: turn gesture
 
@@ -286,8 +285,7 @@ Spec and decisions in `PDR_MASCOT_MOTION.md` section 8.
       per-species smirk depth.
 - [ ] App wiring must allow for the visible wink starting 1.2 s after
       `face/wink` fires (W6).
-- [ ] When and where the app fires `face/wink` (W8); approved,
-      section 11.
+- [x] When and where the app fires `face/wink`: section 11 (PDR W8).
 - [ ] Re-trigger: `wink` and `smile` drop each other while playing
       (W9); same fix as the jump re-trigger if wanted.
 
@@ -341,11 +339,14 @@ tap: its 1.2 s lead-in (W6) would read as lag. The scale bounce,
 ### 11.3 Design
 
 - `MascotCheer.show(context)` puts the jump variant in the root
-  overlay: a 120 px mascot rises above the snackbar, jumps once loaded
-  (no route-reveal delay), and sinks after 3 s. One at a time: a call
-  while one is up does nothing. Clearance accounts for the bottom nav
-  when the screen has one (Log action, SDG detail) and for the
-  keyboard. The entry is removed and disposed on every path.
+  overlay: a 200 px mascot rises to the bottom third of the free
+  space, jumps once loaded (no route-reveal delay), and sinks after
+  3 s. Flutter lifts it to the middle of the free space in step with
+  the Rive jump (PDR J7), and the crouch turns its eyes to the user
+  (PDR J9). One at a time: a call while one is up does nothing. The
+  free space ends at the bottom nav when the screen has one (Log
+  action, SDG detail) and at the keyboard. The entry is removed and
+  disposed on every path.
 - It is not shown while an evolution or egg discovery celebration is
   pending or showing (`hasNewEvolutionProvider`,
   `shouldShowEggDiscoveryProvider`), or when the mascot asset is null.
@@ -374,8 +375,9 @@ covers both if seen.
 
 ### 11.5 Verification
 
-- Rig: a script-fired wink plays and centres the gaze; a long first
-  step after resume fires nothing; both builds 0 errors.
+- Rig: a script-fired wink plays and centres the gaze; a jump centres
+  it from the crouch to past the landing; a long first step after
+  resume fires nothing; both builds 0 errors.
 - Widget tests: goal-reached detection (crossing log only); the cheer
   shown once for the goal log, not for ordinary logs, not when the
   challenge completed, not over a pending evolution; a second `show`
@@ -383,14 +385,15 @@ covers both if seen.
   welcome-back smile only after 2 or more days and once; Mascot screen
   tap smile; reduce-motion smile with hold; the game win unchanged.
 - Device (Pixel 8): reach the goal from Log action and from SDG detail
-  and see the cheer above the snackbar; bank in a calculator with the
+  and see the cheer hop from the bottom third to the middle, clear of
+  the bottom nav and the snackbar; bank in a calculator with the
   keyboard up; complete the challenge and land in the Inbox; profile
   the first frame of `show()` while a snackbar animates.
 
 ### 11.6 Open items
 
-- [ ] Implementation and review of 11.2 and 11.3.
+- [x] Implementation of 11.2 and 11.3.
 - [ ] Device pass and `show()` profile on the Pixel 8 (owner).
-- [ ] Record the decisions in the PDR (closing J7 and W8).
+- [x] Record the decisions in the PDR (J7, W8, J9).
 - [ ] Later: a jump the first time a user ever logs a given action
       (needs a per-action history lookup).

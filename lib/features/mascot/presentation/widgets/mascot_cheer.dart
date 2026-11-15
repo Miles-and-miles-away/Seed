@@ -10,19 +10,36 @@ import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dar
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 
 const _mascotSize = 160.0;
-const _jumpMascotSize = 120.0;
+const _jumpMascotSize = 200.0;
 const _stay = Duration(seconds: 3);
 
-/// Clears a floating snackbar, which shares the bottom of the screen.
-const _snackBarClearance = 72.0;
+// Mirrors the Rive jump at 60 fps: 46 frames of crouch, 12 up, 12 down.
+const _hopDuration = Duration(microseconds: 70 * 1000000 ~/ 60);
+final _hopLift = TweenSequence<double>([
+  TweenSequenceItem(tween: ConstantTween(0), weight: 46),
+  TweenSequenceItem(
+    tween: Tween<double>(
+      begin: 0,
+      end: 1,
+    ).chain(CurveTween(curve: const Cubic(0.25, 0.1, 0.25, 1))),
+    weight: 12,
+  ),
+  TweenSequenceItem(
+    tween: Tween<double>(
+      begin: 1,
+      end: 0,
+    ).chain(CurveTween(curve: const Cubic(0.42, 0, 1, 1))),
+    weight: 12,
+  ),
+]);
 
 /// The mascot rising from the bottom edge to cheer, then sinking back.
 /// Plays once when built and lies over the screen without taking taps.
 ///
 /// The default is the game win: confetti and a smile; key it to the round
 /// so a new round can play it again. [show] puts the jump cheer over any
-/// screen: no confetti, a smaller mascot that jumps once loaded, raised
-/// above floating snackbars.
+/// screen: no confetti, a larger mascot that rises to the bottom third
+/// of the free space and jumps to its middle once loaded.
 class MascotCheer extends ConsumerStatefulWidget {
   const MascotCheer({super.key}) : _onDone = null, _bottomClearance = 0;
 
@@ -74,8 +91,10 @@ class MascotCheer extends ConsumerStatefulWidget {
 }
 
 class _MascotCheerState extends ConsumerState<MascotCheer>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   AnimationController? _rise;
+  late final CurvedAnimation _curve;
+  late final _hop = AnimationController(vsync: this, duration: _hopDuration);
   late bool _reduceMotion;
   Timer? _stayTimer;
 
@@ -89,6 +108,11 @@ class _MascotCheerState extends ConsumerState<MascotCheer>
     final rise = _rise = AnimationController(
       vsync: this,
       duration: _reduceMotion ? Duration.zero : durationSlower,
+    );
+    _curve = CurvedAnimation(
+      parent: rise,
+      curve: Curves.easeOutBack,
+      reverseCurve: Curves.easeIn,
     );
     rise.forward().then((_) => _cheer());
   }
@@ -109,6 +133,8 @@ class _MascotCheerState extends ConsumerState<MascotCheer>
   @override
   void dispose() {
     _stayTimer?.cancel();
+    _curve.dispose();
+    _hop.dispose();
     _rise!.dispose();
     widget._onDone?.call();
     super.dispose();
@@ -125,42 +151,64 @@ class _MascotCheerState extends ConsumerState<MascotCheer>
       });
       return const SizedBox.shrink();
     }
-    final bottomInset = jump
-        ? math.max(
-                MediaQuery.viewInsetsOf(context).bottom,
-                MediaQuery.viewPaddingOf(context).bottom +
-                    widget._bottomClearance,
-              ) +
-              _snackBarClearance
-        : 0.0;
+    final mascot = MascotDisplay(
+      size: jump ? _jumpMascotSize : _mascotSize,
+      showGlow: false,
+      jumpOnLoad: jump,
+      onJump: _hop.forward,
+    );
     return IgnorePointer(
       child: Stack(
         children: [
           if (!_reduceMotion && !jump)
             const Positioned.fill(child: TimedConfettiLayer()),
           if (asset != null)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SlideTransition(
-                position: Tween(begin: const Offset(0, 1), end: Offset.zero)
-                    .animate(
-                      CurvedAnimation(
-                        parent: _rise!,
-                        curve: Curves.easeOutBack,
-                        reverseCurve: Curves.easeIn,
-                      ),
-                    ),
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: bottomInset),
-                  child: MascotDisplay(
-                    size: jump ? _jumpMascotSize : _mascotSize,
-                    showGlow: false,
-                    jumpOnLoad: jump,
-                  ),
+            if (jump)
+              _centred(mascot, _curve)
+            else
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SlideTransition(
+                  position: Tween(
+                    begin: const Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(_curve),
+                  child: mascot,
                 ),
               ),
-            ),
         ],
+      ),
+    );
+  }
+
+  /// Rises from below the screen to the bottom third of the space left by
+  /// the keyboard or the bottom nav, and hops to its middle with the jump.
+  Widget _centred(Widget mascot, Animation<double> rise) {
+    final bottomInset = math.max(
+      MediaQuery.viewInsetsOf(context).bottom,
+      MediaQuery.viewPaddingOf(context).bottom + widget._bottomClearance,
+    );
+    return Padding(
+      padding: EdgeInsets.only(bottom: bottomInset),
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final lift = box.maxHeight / 6;
+          final drop = box.maxHeight / 3 + _jumpMascotSize / 2 + bottomInset;
+          return Center(
+            child: AnimatedBuilder(
+              animation: Listenable.merge([rise, _hop]),
+              builder: (_, child) => Transform.translate(
+                offset: Offset(
+                  0,
+                  lift * (1 - _hopLift.evaluate(_hop)) +
+                      drop * (1 - rise.value),
+                ),
+                child: child,
+              ),
+              child: mascot,
+            ),
+          );
+        },
       ),
     );
   }

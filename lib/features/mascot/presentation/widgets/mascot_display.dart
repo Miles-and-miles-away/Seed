@@ -18,6 +18,7 @@ class MascotDisplay extends ConsumerStatefulWidget {
     this.onTap,
     this.showGlow = true,
     this.jumpOnLoad = false,
+    this.onJump,
     this.welcomesBack = false,
     super.key,
   });
@@ -34,6 +35,9 @@ class MascotDisplay extends ConsumerStatefulWidget {
   /// Whether this mascot jumps once as soon as it has loaded (a smile
   /// under reduce motion).
   final bool jumpOnLoad;
+
+  /// Called when the load-time jump is triggered (not under reduce motion).
+  final VoidCallback? onJump;
 
   /// Whether this mascot plays the welcome-back smile when it is due.
   final bool welcomesBack;
@@ -102,6 +106,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
         _smileFor(durationCelebration);
       } else {
         jump.trigger();
+        widget.onJump?.call();
       }
     }
     _maybeWelcomeBack();

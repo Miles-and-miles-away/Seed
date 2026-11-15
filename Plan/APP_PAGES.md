@@ -257,9 +257,10 @@ unambiguous exit. Browse and log actions.
 - After a log (here or from SDG detail): the points animation and
   snackbar(s). The log that brings today's count exactly to the daily
   goal (the user's target, else 3) shows the jump cheer
-  (`MascotCheer.show`: a small mascot rising in the root overlay above
-  the snackbar, the bottom nav and the keyboard, jumping once loaded,
-  sinking after 3 s; a smile under reduced motion). Then any Eco-Dex
+  (`MascotCheer.show`: a mascot rising in the root overlay to the
+  bottom third of the space above the bottom nav or keyboard, jumping
+  to its middle once loaded with its eyes on the user, sinking after
+  3 s; a smile under reduced motion). Then any Eco-Dex
   and streak celebrations. A log that completes the daily challenge
   opens the Eco Fact Inbox instead of cheering. Neither the cheer nor
   the inbox plays while an evolution or egg celebration is pending,
