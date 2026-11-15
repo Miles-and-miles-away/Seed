@@ -5,21 +5,34 @@ import 'package:flutter/widgets.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 
-/// True when [error] is a Firestore write that never reached the server.
+/// True when [error] is a Firestore write lost to a missing or dropped link.
 bool isOfflineError(Object? error) {
   if (error is TimeoutException) return true;
   return error is FirebaseException &&
-      (error.code == 'unavailable' || error.code == 'deadline-exceeded');
+      (error.code == 'unavailable' ||
+          error.code == 'deadline-exceeded' ||
+          // gRPC transport reset, e.g. on a network switch.
+          (error.code == 'unknown' && error.message == 'Stream removed'));
 }
 
 // Monotonic, so a wrong wall clock cannot fake a recent log.
 final _sinceLastLog = Stopwatch();
 const _rateLimitWindow = Duration(seconds: 10);
 
+/// The rules' minimum gap between two action logs.
+const _actionLogGap = Duration(seconds: 5);
+
 /// Records a successful action write for [logErrorMessage].
 void markActionLogged() => _sinceLastLog
   ..reset()
   ..start();
+
+/// What is left of the rules' log gap since the last successful log.
+Duration actionLogCooldown() {
+  if (!_sinceLastLog.isRunning) return Duration.zero;
+  final left = _actionLogGap - _sinceLastLog.elapsed;
+  return left.isNegative ? Duration.zero : left;
+}
 
 /// User-facing message for a failed action write.
 String logErrorMessage(BuildContext context, Object? error) {

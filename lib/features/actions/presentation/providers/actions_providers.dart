@@ -379,6 +379,10 @@ class ActionLogNotifier extends _$ActionLogNotifier {
 
     state = const AsyncValue.loading();
 
+    // A write inside the rules' gap is rejected, so wait it out instead.
+    final cooldown = actionLogCooldown();
+    if (cooldown > Duration.zero) await Future<void>.delayed(cooldown);
+
     // The repository future loads bundled JSON and can reject, so it
     // stays inside the guard or state strands in loading forever.
     // The daily summary is written inside the logAction transaction,

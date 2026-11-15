@@ -51,6 +51,20 @@ void main() {
     );
   });
 
+  testWidgets('a dropped stream reads as offline', (tester) async {
+    expect(
+      await messageFor(
+        tester,
+        FirebaseException(
+          plugin: 'cloud_firestore',
+          code: 'unknown',
+          message: 'Stream removed',
+        ),
+      ),
+      'Cannot log an action while offline. Check your connection and try again.',
+    );
+  });
+
   final denied = FirebaseException(
     plugin: 'cloud_firestore',
     code: 'permission-denied',
@@ -81,5 +95,12 @@ void main() {
       await messageFor(tester, Exception('boom')),
       'Something went wrong. Please try again.',
     );
+  });
+
+  test('the cooldown counts down the rules gap after a log', () {
+    markActionLogged();
+    final left = actionLogCooldown();
+    expect(left, greaterThan(const Duration(seconds: 4)));
+    expect(left, lessThanOrEqualTo(const Duration(seconds: 5)));
   });
 }
