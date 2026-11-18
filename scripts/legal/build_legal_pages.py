@@ -3,7 +3,7 @@
 Reads lib/features/settings/data/legal_content.dart (the single source
 of truth shown inside the app) and writes public/privacy.html,
 public/terms.html, public/delete-account.html and public/index.html,
-plus the Android tester page public/beta.html.
+plus the tester page public/beta.html.
 Run from the repo root after editing legal_content.dart:
 
     python3 scripts/legal/build_legal_pages.py
@@ -21,6 +21,8 @@ BETA_OPT_IN_URL = 'https://play.google.com/apps/testing/com.seedahabit.app'
 BETA_STORE_URL = 'https://play.google.com/store/apps/details?id=com.seedahabit.app'
 TESTFLIGHT_APP_URL = 'https://apps.apple.com/app/testflight/id899247664'
 TESTFLIGHT_INVITE_URL = 'https://testflight.apple.com/join/tjcFtktN'
+# Link previews need an absolute image URL.
+SITE_URL = 'https://seed-3d48d.web.app'
 
 ROOT = Path(__file__).resolve().parents[2]
 DART = ROOT / 'lib' / 'features' / 'settings' / 'data' / 'legal_content.dart'
@@ -132,10 +134,12 @@ def page(
     description: str = '',
     extra_css: str = '',
     hero: str = '',
+    head: str = '',
 ) -> str:
     langs = [lang for lang in LANGS if sections_by_lang.get(lang)]
     switcher = ''.join(
-        f'<a href="#{lang}">{LANG_NAMES[lang]}</a>' for lang in langs
+        f'<a href="#{lang}" lang="{lang}">{LANG_NAMES[lang]}</a>'
+        for lang in langs
     ) if len(langs) > 1 else ''
     blocks = ''.join(
         f'<section lang="{lang}" id="{lang}">{sections_by_lang[lang]}</section>'
@@ -156,7 +160,7 @@ def page(
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-{desc}<title>{html.escape(title)} - Seed</title>
+{desc}{head}<title>{html.escape(title)} - Seed</title>
 <style>{CSS}{extra_css}</style>
 </head>
 <body>
@@ -282,10 +286,13 @@ outline-offset:2px}section a{color:var(--accent);overflow-wrap:anywhere}
 .hero{display:block;width:100%;height:auto;border-radius:12px;margin:.75rem 0 0}
 """
 
+BETA_IMAGE_ALT = (
+    'Four Seed screens: the home screen with the mascot, logging an '
+    'action, the Climate Action goal, and the fact pairs game'
+)
 BETA_HERO = (
     '<img class="hero" src="/images/seed-preview.webp" width="1400" height="744" '
-    'alt="Four Seed screens: the home screen with the mascot, logging an '
-    'action, the Climate Action goal, and the fact pairs game">'
+    f'alt="{BETA_IMAGE_ALT}">'
 )
 
 BETA_TEXT = {
@@ -565,7 +572,7 @@ BETA_TEXT = {
             (
                 'Instala TestFlight',
                 'TestFlight es la aplicación gratuita de Apple para probar '
-                'apps antes de que lleguen a la App Store.',
+                'aplicaciones antes de que lleguen a la App Store.',
                 'Descargar TestFlight en la App Store',
             ),
             (
@@ -630,6 +637,8 @@ def linked(text: str, links: dict[str, str]) -> str:
 
 
 def beta_steps(steps: list[tuple[str, str, str]], urls: tuple[str, ...]) -> str:
+    if len(steps) != len(urls):
+        raise ValueError(f'{len(steps)} steps for {len(urls)} URLs')
     items = ''.join(
         f'<li><h3>{html.escape(title)}</h3><p>{html.escape(body)}</p>'
         f'<a class="btn" href="{html.escape(url)}">{html.escape(label)}</a>'
@@ -637,6 +646,24 @@ def beta_steps(steps: list[tuple[str, str, str]], urls: tuple[str, ...]) -> str:
         for (title, body, label), url in zip(steps, urls)
     )
     return f'<ol class="steps" role="list">{items}</ol>'
+
+
+def beta_meta(title: str, description: str) -> str:
+    tags = {
+        'og:type': 'website',
+        'og:url': f'{SITE_URL}/beta',
+        'og:title': title,
+        'og:description': description,
+        # A JPEG copy of the hero: some link previews may not read WebP.
+        'og:image': f'{SITE_URL}/images/seed-preview.jpg',
+        'og:image:width': '1400',
+        'og:image:height': '744',
+        'og:image:alt': BETA_IMAGE_ALT,
+    }
+    return ''.join(
+        f'<meta property="{key}" content="{html.escape(value)}">\n'
+        for key, value in tags.items()
+    ) + '<meta name="twitter:card" content="summary_large_image">\n'
 
 
 def beta_page(email: str) -> str:
@@ -669,14 +696,19 @@ def beta_page(email: str) -> str:
             f'<h2>{html.escape(t["faq_title"])}</h2>{faq}'
             f'<p>{linked(t["contact"], links)}</p>'
         )
+    title = 'Help test Seed'
+    description = (
+        'Help Seed launch. Join the test on Android or iPhone in '
+        'about 2 minutes: free, no ads, no payment.'
+    )
     return page(
-        'Help test Seed',
+        title,
         by_lang,
         '',
-        description='Help Seed launch. Join the test on Android or iPhone in '
-        'about 2 minutes: free, no ads, no payment.',
+        description=description,
         extra_css=BETA_CSS,
         hero=BETA_HERO,
+        head=beta_meta(title, description),
     )
 
 
