@@ -975,15 +975,18 @@ final class MascotCelebrationPendingProvider
 String _$mascotCelebrationPendingHash() =>
     r'd63a2048618d9a75f0f1274142f7933840763e06';
 
-/// Whether the welcome-back smile has played in this app process.
+/// The last log date whose gap the welcome-back smile has already
+/// greeted in this app process.
 
 @ProviderFor(WelcomeBackSmiled)
 final welcomeBackSmiledProvider = WelcomeBackSmiledProvider._();
 
-/// Whether the welcome-back smile has played in this app process.
+/// The last log date whose gap the welcome-back smile has already
+/// greeted in this app process.
 final class WelcomeBackSmiledProvider
-    extends $NotifierProvider<WelcomeBackSmiled, bool> {
-  /// Whether the welcome-back smile has played in this app process.
+    extends $NotifierProvider<WelcomeBackSmiled, DateTime?> {
+  /// The last log date whose gap the welcome-back smile has already
+  /// greeted in this app process.
   WelcomeBackSmiledProvider._()
     : super(
         from: null,
@@ -1003,29 +1006,30 @@ final class WelcomeBackSmiledProvider
   WelcomeBackSmiled create() => WelcomeBackSmiled();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(bool value) {
+  Override overrideWithValue(DateTime? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<bool>(value),
+      providerOverride: $SyncValueProvider<DateTime?>(value),
     );
   }
 }
 
-String _$welcomeBackSmiledHash() => r'fb759eecee39dbf18a66e26c543d6f739666c3c6';
+String _$welcomeBackSmiledHash() => r'ac46cb6bd66149f18d23cf4ad7367cf7e1478e6f';
 
-/// Whether the welcome-back smile has played in this app process.
+/// The last log date whose gap the welcome-back smile has already
+/// greeted in this app process.
 
-abstract class _$WelcomeBackSmiled extends $Notifier<bool> {
-  bool build();
+abstract class _$WelcomeBackSmiled extends $Notifier<DateTime?> {
+  DateTime? build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<bool, bool>;
+    final ref = this.ref as $Ref<DateTime?, DateTime?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
+              AnyNotifier<DateTime?, DateTime?>,
+              DateTime?,
               Object?,
               Object?
             >;
@@ -1078,7 +1082,7 @@ final class WelcomeBackSmileDueProvider
 }
 
 String _$welcomeBackSmileDueHash() =>
-    r'70370609f63c83fbc04868781025de2cb2cecd38';
+    r'100f34bfba39a9237ef0d726c2c3b201203bbc01';
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///

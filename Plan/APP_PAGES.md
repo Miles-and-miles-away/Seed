@@ -119,8 +119,9 @@ Main hub with mascot summary, challenges, and SDG carousel.
   "Learn more at UN.org" external link.
 - Welcome back: when the last log was 2 or more calendar days ago,
   Home's mascot smiles once, as soon as it is loaded and on screen
-  (not while covered or on another tab). Once per app process; never
-  for a user who has not logged yet.
+  (not while covered or on another tab). The check runs again when the
+  day changes. Once per gap in an app process; never for a user who has
+  not logged yet.
 
 ### SDG Detail (`/home/sdg/:goalNumber`)
 Individual SDG goal with targets, resources, actions, impact cards, and a

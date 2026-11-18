@@ -111,9 +111,11 @@ void main() {
         ),
       );
 
-      bool smiled(WidgetTester tester) => ProviderScope.containerOf(
-        tester.element(find.byType(MascotDisplay)),
-      ).read(welcomeBackSmiledProvider);
+      bool smiled(WidgetTester tester) =>
+          ProviderScope.containerOf(
+            tester.element(find.byType(MascotDisplay)),
+          ).read(welcomeBackSmiledProvider) !=
+          null;
 
       testWidgets('smiles once loaded when due, and records it', (
         tester,
@@ -123,6 +125,30 @@ void main() {
           await _pumpUntilRiveLoaded(tester);
           expect(_smileHold(tester), 1);
           expect(smiled(tester), isTrue);
+        });
+        await tearDownTree(tester);
+      });
+
+      testWidgets('a short smile trigger does not end the longer hold', (
+        tester,
+      ) async {
+        await tester.runAsync(() async {
+          await tester.pumpWidget(display());
+          await _pumpUntilRiveLoaded(tester);
+          expect(_smileHold(tester), 1);
+
+          ProviderScope.containerOf(
+            tester.element(find.byType(MascotDisplay)),
+          ).read(mascotSmileTriggerProvider.notifier).triggerSmile();
+          await tester.pump();
+          await Future<void>.delayed(durationInstant * 2);
+          await tester.pump();
+
+          expect(_smileHold(tester), 1);
+
+          await Future<void>.delayed(durationCelebration);
+          await tester.pump();
+          expect(_smileHold(tester), 0);
         });
         await tearDownTree(tester);
       });

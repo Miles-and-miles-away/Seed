@@ -414,10 +414,25 @@ void main() {
       }
     });
 
-    test('plays once per app process', () async {
-      final c = await container(DateTime(2026, 3));
+    test('plays once for each gap', () async {
+      final users = StreamController<AppUserModel?>();
+      addTearDown(users.close);
+      AppUserModel lastLogged(DateTime day) =>
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: day);
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith((_) => users.stream),
+        clockProvider.overrideWithValue(() => now),
+      ]);
+      users.add(lastLogged(DateTime(2026, 3)));
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(welcomeBackSmileDueProvider), isTrue);
+
       c.read(welcomeBackSmiledProvider.notifier).markSmiled();
       expect(c.read(welcomeBackSmileDueProvider), isFalse);
+
+      users.add(lastLogged(DateTime(2026, 3, 5)));
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(welcomeBackSmileDueProvider), isTrue);
     });
 
     test('waits while an evolution or egg celebration is pending', () async {

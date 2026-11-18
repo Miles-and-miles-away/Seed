@@ -140,7 +140,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     _smileHold?.value = 1;
     _smileHoldTimer?.cancel();
     _smileHoldTimer = Timer(hold, () {
-      if (mounted) _smileHold?.value = 0;
+      // A trigger smile that started later still holds; it drops the hold.
+      if (mounted && !ref.read(mascotSmileTriggerProvider)) {
+        _smileHold?.value = 0;
+      }
     });
   }
 
@@ -192,9 +195,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       if (shouldSmile && TickerMode.valuesOf(context).enabled) {
         _smile?.trigger();
         // Raise the hold so FaceRig pushes the next blink past the smile;
-        // the provider flips back to false ~100ms later, dropping it to 0.
+        // the provider flips back to false after its hold.
         _smileHold?.value = 1;
-      } else if (!shouldSmile) {
+      } else if (!shouldSmile && _smileHoldTimer?.isActive != true) {
+        // A longer smile still holds; its timer drops the hold.
         _smileHold?.value = 0;
       }
     });

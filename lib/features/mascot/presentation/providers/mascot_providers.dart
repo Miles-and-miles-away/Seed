@@ -250,26 +250,28 @@ bool mascotCelebrationPending(Ref ref) =>
 /// user back with a smile.
 const welcomeBackMinDays = 2;
 
-/// Whether the welcome-back smile has played in this app process.
+/// The last log date whose gap the welcome-back smile has already
+/// greeted in this app process.
 @Riverpod(keepAlive: true)
 class WelcomeBackSmiled extends _$WelcomeBackSmiled {
   @override
-  bool build() => false;
+  DateTime? build() => null;
 
-  void markSmiled() => state = true;
+  void markSmiled() =>
+      state = ref.read(currentUserProvider).value?.lastActionDate;
 }
 
 /// Whether Home's mascot should play the welcome-back smile now.
 @riverpod
 bool welcomeBackSmileDue(Ref ref) {
-  if (ref.watch(welcomeBackSmiledProvider) ||
-      ref.watch(mascotCelebrationPendingProvider)) {
-    return false;
-  }
+  if (ref.watch(mascotCelebrationPendingProvider)) return false;
   final lastActionDate = ref.watch(
     currentUserProvider.select((user) => user.value?.lastActionDate),
   );
-  if (lastActionDate == null) return false;
+  if (lastActionDate == null ||
+      lastActionDate == ref.watch(welcomeBackSmiledProvider)) {
+    return false;
+  }
   final today = ref.watch(clockProvider)();
   return calendarDaysBetween(lastActionDate, today) >= welcomeBackMinDays;
 }
