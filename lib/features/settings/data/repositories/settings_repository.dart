@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/shared/data/language_store.dart';
 
 import '../models/action_reminder_model.dart';
@@ -61,8 +62,11 @@ class SettingsRepository {
   static bool _parses(Object? json) {
     if (json is! Map<String, dynamic>) return false;
     try {
-      ActionReminder.fromJson(json);
-      return true;
+      final lastDay = ActionReminder.fromJson(json).lastDay;
+      if (lastDay == null) return true;
+      final day = DateTime.tryParse(lastDay);
+      // coversDay compares date keys, so only a real one counts.
+      return day != null && formatDateKey(day) == lastDay;
     } on Object {
       return false;
     }

@@ -42,6 +42,9 @@ class NotificationService {
 
   static const _settingsChannel = MethodChannel('seed/app_settings');
 
+  // Room for the daily challenge and every action reminder in one minute.
+  static const _idsPerMinute = 16;
+
   /// Android channel IDs.
   static const challengeChannelId = 'daily_reminder';
   static const actionChannelId = 'action_reminders';
@@ -171,6 +174,18 @@ class NotificationService {
         .then((_) => _replaceReminders(reminders, channels));
   }
 
+  /// Clears every notification, shown ones too: after a sign-out they
+  /// belong to an account that has left.
+  Future<void> clearAll() {
+    return _lastReschedule = _lastReschedule.catchError((Object _) {}).then((
+      _,
+    ) async {
+      await initialize();
+      _scheduled = null;
+      await _plugin.cancelAll();
+    });
+  }
+
   Future<void> _replaceReminders(
     List<Reminder> reminders,
     Map<String, ReminderChannel> channels,
@@ -185,11 +200,8 @@ class NotificationService {
     _scheduled = null;
     // Pending only: cancelAll also clears notifications already shown.
     await _plugin.cancelAllPendingNotifications();
-    if (reminders.isEmpty) {
-      _scheduled = (reminders, channels);
-      return;
-    }
 
+    // Made even with nothing queued: FCM posts to the challenge channel.
     final android = _plugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
@@ -205,10 +217,16 @@ class NotificationService {
       );
     }
 
-    for (final (i, reminder) in reminders.indexed) {
+    final sameMinute = <int, int>{};
+    for (final reminder in reminders) {
       final channel = channels[reminder.channelId]!;
+      final minute =
+          reminder.time.millisecondsSinceEpoch ~/
+          Duration.millisecondsPerMinute;
+      final slot = sameMinute.update(minute, (n) => n + 1, ifAbsent: () => 0);
       await _plugin.zonedSchedule(
-        id: i,
+        // Not the queue position: a reused ID replaces a shown reminder.
+        id: minute * _idsPerMinute + slot,
         title: reminder.title,
         body: reminder.body,
         payload: reminder.payload,
@@ -234,5 +252,18 @@ class NotificationService {
     }
     _scheduled = (reminders, channels);
     appLogger.debug('Scheduled ${reminders.length} reminders');
+
+    // A shown reminder of an earlier day is stale, and its ID holds its time.
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    for (final shown in await _plugin.getActiveNotifications()) {
+      final id = shown.id;
+      // A push carries a tag or no ID, and its ID holds no time.
+      if (id == null || shown.tag != null) continue;
+      final time = DateTime.fromMillisecondsSinceEpoch(
+        id ~/ _idsPerMinute * Duration.millisecondsPerMinute,
+      );
+      if (time.isBefore(today)) await _plugin.cancel(id: id);
+    }
   }
 }

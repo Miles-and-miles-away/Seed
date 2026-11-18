@@ -36,6 +36,10 @@ const _daily = ActionReminder(
 
 class _RecordingNotifications extends Fake implements NotificationService {
   final calls = <List<Reminder>>[];
+  int cleared = 0;
+
+  @override
+  Future<void> clearAll() async => cleared++;
 
   @override
   Future<void> scheduleReminders(
@@ -45,6 +49,17 @@ class _RecordingNotifications extends Fake implements NotificationService {
 }
 
 Stream<T> _pending<T>() => StreamController<T>().stream;
+
+class _Uid extends Notifier<String?> {
+  @override
+  String? build() => 'u';
+
+  void signOut() => state = null;
+
+  void signIn() => state = 'u';
+}
+
+final _uid = NotifierProvider<_Uid, String?>(_Uid.new);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -171,7 +186,12 @@ void main() {
       c =
           (await pumpedContainer(
               [
-                userIdProvider.overrideWithValue('u'),
+                userIdProvider.overrideWith((ref) => ref.watch(_uid)),
+                authStateChangesProvider.overrideWith(
+                  (_) => loading == authStateChangesProvider
+                      ? _pending()
+                      : Stream.value(null),
+                ),
                 userSettingsProvider.overrideWith(
                   (_) => loading == userSettingsProvider
                       ? _pending()
@@ -203,8 +223,12 @@ void main() {
               warm: userSettingsProvider,
               retry: (_, _) => null,
             ))
+            ..listen(authStateChangesProvider, (_, _) {})
             ..listen(todayActionsProvider, (_, _) {})
             ..listen(currentUserProvider, (_, _) {});
+      if (loading != authStateChangesProvider) {
+        await c.read(authStateChangesProvider.future);
+      }
       if (loading != actionLibraryProvider) {
         await c.read(actionLibraryProvider.future).catchError((_) => library);
       }
@@ -217,6 +241,7 @@ void main() {
 
     test('waits for everything it reads to load', () async {
       for (final provider in [
+        authStateChangesProvider,
         userSettingsProvider,
         currentUserProvider,
         actionLibraryProvider,
@@ -293,6 +318,23 @@ void main() {
       expect(reminders.first.time, DateTime(2026, 11, 7, 18));
       expect(reminders.first.title, "Today's eco-fact is waiting");
       expect(reminders.first.payload, isNull);
+    });
+
+    test('clears shown notifications at sign-out only', () async {
+      final notifications = await run(settings: const UserSettingsModel());
+      expect(notifications.cleared, 0);
+
+      // As SeedApp does: an unlistened provider pauses what it listens to.
+      c.listen(reminderSchedulerProvider, (_, _) {});
+      c.read(_uid.notifier).signOut();
+      await c.pump();
+
+      expect(notifications.cleared, 1);
+
+      c.read(_uid.notifier).signIn();
+      await c.pump();
+
+      expect(notifications.cleared, 1);
     });
 
     test('clears reminders when disabled', () async {

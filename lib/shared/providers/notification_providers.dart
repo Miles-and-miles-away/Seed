@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'
@@ -97,6 +99,25 @@ List<DateTime> actionReminderTimes(
 Future<void> reminderScheduler(Ref ref) async {
   final listener = AppLifecycleListener(onResume: ref.invalidateSelf);
   ref.onDispose(listener.dispose);
+  ref.listen(userIdProvider, (previous, next) {
+    if (previous == null || next != null) return;
+    unawaited(
+      ref
+          .read(notificationServiceProvider)
+          .clearAll()
+          .onError<Object>(
+            (e, stack) => appLogger.error(
+              'Clearing notifications failed',
+              error: e,
+              stackTrace: stack,
+            ),
+          ),
+    );
+  });
+  // Until auth loads, the settings are the defaults of a signed-out user.
+  if (ref.watch(authStateChangesProvider.select((auth) => auth.isLoading))) {
+    return;
+  }
   // Loading or failing reads as disabled; keep the queue, never cancel it.
   if (ref.watch(
     userSettingsProvider.select((s) => s.isLoading || s.hasError),

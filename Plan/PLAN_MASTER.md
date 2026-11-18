@@ -967,34 +967,26 @@ Local and push notification infrastructure fully implemented.
 | Permission handling | Request iOS/Android notification permissions | P0 | ✅ Done |
 | Schedule daily reminder | Multiple reminders with timezone support | P0 | ✅ Done |
 | Notification tap handling | Navigate to action log on tap | P1 | ✅ Done |
-| Reschedule on time change | NotificationScheduler auto-reschedules | P0 | ✅ Done |
+| Reschedule on time change | `reminderScheduler` auto-reschedules | P0 | ✅ Done |
 | Localized notification text | EN/ES/JP notification content | P1 | ✅ Done |
 | Cancel notifications | Disable when user turns off setting | P0 | ✅ Done |
 | Smart reminders | Skip reminder if action logged today | P1 | ✅ Done |
 
 **Implementation Details:**
-```dart
-// Notification channel (Android)
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'daily_reminder',
-  'Daily Reminder',
-  description: 'Daily reminder to log sustainable actions',
-  importance: Importance.high,
-);
-
-// Schedule at user's preferred time
-await flutterLocalNotificationsPlugin.zonedSchedule(
-  0,  // Notification ID
-  'Time to make a difference!',
-  'Log a sustainable action today',
-  _nextInstanceOfTime(userTime),
-  notificationDetails,
-  androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-  matchDateTimeComponents: DateTimeComponents.time,  // Repeat daily
-  uiLocalNotificationDateInterpretation:
-      UILocalNotificationDateInterpretation.absoluteTime,
-);
-```
+- `reminderScheduler` builds the queue and passes it to
+  `NotificationService.scheduleReminders`. Each entry is a one-shot
+  notification at a UTC instant. No repeating trigger is used: an iOS
+  repeating trigger ignores the date, so it cannot skip a day already done.
+- The queue covers `AppConstants.reminderDaysAhead` days and at most
+  `AppConstants.maxPendingNotifications` entries, the iOS limit per app.
+- Android channels: `NotificationService.challengeChannelId` for the daily
+  challenge reminder and `NotificationService.actionChannelId` for action
+  reminders.
+- A notification ID holds the minute of its reminder, so a refresh never
+  replaces a reminder already shown and can remove the shown reminders of
+  earlier days.
+- A sign-out calls `NotificationService.clearAll`, which also removes the
+  notifications already shown.
 
 **iOS Setup:** ✅ Complete (AppDelegate.swift configured, Info.plist updated)
 

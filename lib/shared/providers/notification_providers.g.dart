@@ -161,7 +161,7 @@ final class ReminderSchedulerProvider
   }
 }
 
-String _$reminderSchedulerHash() => r'10a17da25cdebd0d15bebe794d5b188f8aa1e674';
+String _$reminderSchedulerHash() => r'0d54c7a75eee2079c7dc9b633e612ef17ab677e1';
 
 /// Provider that handles FCM token registration.
 ///

@@ -847,10 +847,12 @@ Settings hub.
     "Notifications are blocked" tile leads the screen, rechecked on
     every resume.
 - Reminder queue: one-shot notifications for the next fortnight,
-  refreshed on every app open, on resume and at midnight, so they stop
-  after two weeks away. A refresh replaces only pending notifications,
-  never ones already in the tray, and skips the OS calls when the queue
-  is unchanged, or while the settings or action library fail to load.
+  refreshed on every app open, on resume and whenever a setting, the
+  challenge or today's logs change, so they stop after two weeks away.
+  A refresh replaces the pending notifications and removes from the
+  tray only the reminders of earlier days. It skips the OS calls when
+  the queue is unchanged, or while the settings or action library fail
+  to load. A sign-out clears the whole tray.
   iOS holds 64 pending notifications per app: the 14 daily
   challenge reminders come first and action reminders take the rest,
   soonest first, which covers about five days with all ten set for

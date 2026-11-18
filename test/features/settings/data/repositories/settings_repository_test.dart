@@ -234,6 +234,23 @@ void main() {
         expect(settings.analyticsEnabled, isFalse);
         expect(settings.hasSeenOnboarding, isTrue);
       });
+
+      test('a reminder with an unreadable last day is dropped', () async {
+        await seedUserWithSettings(testUid, {
+          ...settingsJson(analyticsEnabled: false),
+          AppConstants.fieldActionReminders: {
+            'bag': reminder.toJson(),
+            'bus': {...reminder.toJson(), 'lastDay': 'someday'},
+            'car': {...reminder.toJson(), 'lastDay': '20261201'},
+            'tram': {...reminder.toJson(), 'lastDay': '2026-02-30'},
+          },
+        });
+
+        final settings = await repository.watchSettings(testUid).first;
+
+        expect(settings.actionReminders, {'bag': reminder});
+        expect(settings.analyticsEnabled, isFalse);
+      });
     });
 
     group('setLanguage', () {
