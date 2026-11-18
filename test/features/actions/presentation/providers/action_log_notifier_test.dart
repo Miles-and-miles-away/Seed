@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:fake_async/fake_async.dart';
 import 'package:firebase_core/firebase_core.dart' show FirebaseException;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
@@ -52,6 +54,16 @@ const _action = ActionModel(
   relatedSdgs: ['11'],
 );
 
+const _cycle = ActionModel(
+  id: 'cycle',
+  nameEn: 'Cycle',
+  nameJa: '自転車',
+  category: 'transport',
+  points: 30,
+  co2Grams: 800,
+  relatedSdgs: ['11'],
+);
+
 const _user = AppUserModel(uid: 'u1', email: 'e');
 
 ActionLogResult _result({int? milestoneWeek}) => ActionLogResult(
@@ -79,6 +91,8 @@ void main() {
     analytics = _RecordingAnalytics();
   });
 
+  tearDown(resetActionLogClock);
+
   When<Future<ActionLogResult>> whenLog() => when(
     () => repo.logAction(
       userId: any(named: 'userId'),
@@ -86,6 +100,13 @@ void main() {
       languageCode: any(named: 'languageCode'),
       note: any(named: 'note'),
     ),
+  );
+
+  Future<ActionLogResult> logged(ActionModel action) => repo.logAction(
+    userId: 'u1',
+    action: action,
+    languageCode: any(named: 'languageCode'),
+    note: any(named: 'note'),
   );
 
   Future<ProviderContainer> container({
@@ -218,11 +239,13 @@ void main() {
       final first = notifier.logAction(_action);
       await Future<void>.delayed(Duration.zero);
       expect(c.read(actionLogProvider).isLoading, isTrue);
+      expect(notifier.isPending(_action.id), isTrue);
 
       expect(await notifier.logAction(_action), isNull);
 
       gate.complete(_result());
       expect(await first, isNotNull);
+      expect(notifier.isBusy, isFalse);
       verify(
         () => repo.logAction(
           userId: any(named: 'userId'),
@@ -259,6 +282,65 @@ void main() {
 
       whenLog().thenAnswer((_) async => _result());
       expect(await notifier.logAction(_action), isNotNull);
+    });
+
+    test('another action queues behind the one in flight', () async {
+      final gate = Completer<ActionLogResult>();
+      whenLog().thenAnswer((_) => gate.future);
+      final c = await container();
+      final notifier = c.read(actionLogProvider.notifier);
+
+      final first = notifier.logAction(_action);
+      final second = notifier.logAction(_cycle);
+      await Future<void>.delayed(Duration.zero);
+      verifyNever(() => logged(_cycle));
+
+      gate.complete(_result());
+      expect(await first, isNotNull);
+      // The queued log is still owed, so the state stays loading.
+      expect(c.read(actionLogProvider).isLoading, isTrue);
+      expect(await second, isNotNull);
+
+      expect(c.read(actionLogProvider).hasValue, isTrue);
+      verifyInOrder([() => logged(_action), () => logged(_cycle)]);
+    });
+
+    test('a failure ahead in the queue does not stop the next log', () async {
+      final gate = Completer<ActionLogResult>();
+      whenLog().thenAnswer((_) => gate.future);
+      final c = await container();
+      final notifier = c.read(actionLogProvider.notifier);
+
+      final first = notifier.logAction(_action);
+      final second = notifier.logAction(_cycle);
+      await Future<void>.delayed(Duration.zero);
+      whenLog().thenAnswer((_) async => _result());
+
+      gate.completeError(Exception('offline'));
+      expect(await first, isNull);
+      expect(c.read(actionLogProvider).hasError, isTrue);
+      expect(await second, isNotNull);
+      expect(c.read(actionLogProvider).hasValue, isTrue);
+    });
+
+    test('a log inside the rules gap waits it out', () {
+      fakeAsync((async) {
+        whenLog().thenAnswer((_) async => _result());
+        late final ProviderContainer c;
+        unawaited(container().then((value) => c = value));
+        async.elapse(Duration.zero);
+
+        markActionLogged();
+        unawaited(c.read(actionLogProvider.notifier).logAction(_action));
+        // The gap runs on a real stopwatch, so leave room for a slow run.
+        async.elapse(const Duration(seconds: 3));
+        verifyNever(() => logged(_action));
+        expect(c.read(actionLogProvider).isLoading, isTrue);
+
+        async.elapse(const Duration(seconds: 2));
+        verify(() => logged(_action)).called(1);
+        expect(c.read(actionLogProvider).hasValue, isTrue);
+      });
     });
   });
 }

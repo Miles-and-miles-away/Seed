@@ -43,6 +43,7 @@
       }
     }
   },
+  "actionLogging": "記録中...",
   "noActionsFound": "アクションが見つかりません",
   "actionHistoryTitle": "アクション履歴",
   "today": "今日",

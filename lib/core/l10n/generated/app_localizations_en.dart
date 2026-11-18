@@ -97,6 +97,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get actionLogging => 'Logging your action...';
+
+  @override
   String get noActionsFound => 'No actions found';
 
   @override

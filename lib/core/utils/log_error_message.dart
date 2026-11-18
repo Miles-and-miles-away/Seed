@@ -27,6 +27,11 @@ void markActionLogged() => _sinceLastLog
   ..reset()
   ..start();
 
+@visibleForTesting
+void resetActionLogClock() => _sinceLastLog
+  ..stop()
+  ..reset();
+
 /// What is left of the rules' log gap since the last successful log.
 Duration actionLogCooldown() {
   if (!_sinceLastLog.isRunning) return Duration.zero;

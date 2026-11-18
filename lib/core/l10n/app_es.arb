@@ -43,6 +43,7 @@
       }
     }
   },
+  "actionLogging": "Registrando tu acción...",
   "noActionsFound": "No se han encontrado acciones",
   "actionHistoryTitle": "Historial de acciones",
   "today": "Hoy",

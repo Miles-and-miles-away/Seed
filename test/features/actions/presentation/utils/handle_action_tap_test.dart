@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart' show FirebaseException;
 import 'package:flutter/material.dart';
@@ -27,12 +29,22 @@ import '../../../../helpers/test_helpers.dart';
 import '../../../eco_dex/eco_dex_fixtures.dart';
 
 /// Stands in for the real notifier: returns [result], or fails with
-/// [error], or parks in loading (the in-flight guard case).
+/// [error], or parks in loading (the in-flight guard case). A [gate]
+/// holds the log open, as the wait for the rules' gap does.
 class _FakeActionLog extends ActionLogNotifier {
   ActionLogResult? result;
   Object? error;
   bool stayLoading = false;
+  Completer<void>? gate;
+  var _open = 0;
+  final pendingIds = <String>{};
   final calls = <({ActionModel action, String? note, String lang})>[];
+
+  @override
+  bool get isBusy => _open > 0;
+
+  @override
+  bool isPending(String actionId) => pendingIds.contains(actionId);
 
   @override
   Future<ActionLogResult?> logAction(
@@ -41,6 +53,13 @@ class _FakeActionLog extends ActionLogNotifier {
     String languageCode = 'en',
   }) async {
     calls.add((action: action, note: note, lang: languageCode));
+    final gate = this.gate;
+    if (gate != null) {
+      state = const AsyncValue.loading();
+      _open++;
+      await gate.future;
+      _open--;
+    }
     if (stayLoading) {
       state = const AsyncValue.loading();
       return null;
@@ -120,6 +139,8 @@ void main() {
     log = _FakeActionLog();
     discovery = _FakeDiscovery();
   });
+
+  tearDown(resetActionLogClock);
 
   Future<void> pumpHost(
     WidgetTester tester, {
@@ -384,6 +405,129 @@ void main() {
 
       expect(find.byType(SnackBar), findsNothing);
       expect(find.byType(PointsAnimationOverlay), findsNothing);
+    });
+  });
+
+  group('a log that waits out the rules gap', () {
+    const logging = 'Logging your action...';
+    const logged = 'Action logged! 20 points earned';
+
+    /// Runs the hide of one snackbar and the entrance of the next.
+    Future<void> swapSnackBars(WidgetTester tester) async {
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+    }
+
+    testWidgets('says it is logging until the write lands', (tester) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..result = _result();
+      await pumpHost(tester);
+
+      await tapAndConfirm(tester, until: find.text(logging));
+      expect(find.text(logging), findsOneWidget);
+      expect(find.byType(PointsAnimationOverlay), findsNothing);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('takes the place of the snackbar of the log before it', (
+      tester,
+    ) async {
+      log.result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logged));
+      expect(find.text(logged), findsOneWidget);
+
+      markActionLogged();
+      log.gate = Completer<void>();
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      expect(find.text(logging), findsOneWidget);
+      expect(find.text(logged), findsNothing);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('a failed write swaps the message for the error', (
+      tester,
+    ) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..error = Exception('boom');
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+      expect(find.text(logging), findsOneWidget);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(
+        find.text('Something went wrong. Please try again.'),
+        findsOneWidget,
+      );
+      await drain(tester);
+    });
+
+    testWidgets('two waiting logs share one message', (tester) async {
+      markActionLogged();
+      final first = log.gate = Completer<void>();
+      log.result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      final second = log.gate = Completer<void>();
+      await tapAndConfirm(tester);
+      expect(log.calls, hasLength(2));
+      expect(find.text(logging), findsOneWidget);
+
+      first.complete();
+      await swapSnackBars(tester);
+      expect(find.byType(PointsAnimationOverlay), findsOneWidget);
+      expect(find.text(logging), findsOneWidget);
+
+      second.complete();
+      await swapSnackBars(tester);
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+      expect(find.text(logging), findsNothing);
+    });
+
+    testWidgets('a repeat of a log still waiting changes nothing', (
+      tester,
+    ) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      log.pendingIds.add(_walk.id);
+      await tapAndConfirm(tester);
+
+      expect(log.calls, hasLength(1));
+      expect(find.text(logging), findsOneWidget);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
     });
   });
 }

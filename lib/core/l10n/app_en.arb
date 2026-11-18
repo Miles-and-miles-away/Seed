@@ -43,6 +43,7 @@
       }
     }
   },
+  "actionLogging": "Logging your action...",
   "noActionsFound": "No actions found",
   "actionHistoryTitle": "Action History",
   "today": "Today",
