@@ -1,42 +1,31 @@
+import { Timestamp } from 'firebase-admin/firestore';
 import {
   getNotificationText,
   getUsersAtRisk,
-  recordReminderSends,
   sendReminders,
 } from '../streakReminder';
+import indexes from '../../../firestore.indexes.json';
 
 const TODAY = '2025-06-15';
 
 // --- Mock firebase-admin modules ---
 
 function makeDbMock() {
-  const docUpdate = jest.fn();
+  const docUpdate = jest.fn().mockResolvedValue(undefined);
+  // Each write with the id of the doc it went to.
+  const updates: [string, unknown][] = [];
   const doc = jest.fn((id: string) => ({
     id,
-    update: docUpdate,
+    update: (data: unknown) => {
+      updates.push([id, data]);
+      return docUpdate(data) as Promise<void>;
+    },
   }));
   const collection = jest.fn(() => ({ doc }));
-  const batchUpdate = jest.fn();
-  const batchCommit = jest
-    .fn()
-    .mockResolvedValue(undefined);
-  const batch = jest.fn(() => ({
-    update: batchUpdate,
-    commit: batchCommit,
-  }));
   const db = {
     collection,
-    batch,
   } as unknown as FirebaseFirestore.Firestore;
-  return {
-    db,
-    collection,
-    doc,
-    docUpdate,
-    batch,
-    batchUpdate,
-    batchCommit,
-  };
+  return { db, collection, doc, docUpdate, updates };
 }
 
 // Query mock whose chainable methods all return the query
@@ -106,17 +95,23 @@ describe('getNotificationText', () => {
   it('returns Japanese text for ja', () => {
     const result = getNotificationText('ja', 10);
     expect(result.title).toBe(
-      'ストリークを途切れさせないで!',
+      '連続記録を途切れさせないで！',
     );
-    expect(result.body).toContain('10日連続');
+    expect(result.body).toContain('10日連続で記録中');
   });
 
   it('returns Spanish text for es', () => {
     const result = getNotificationText('es', 8);
     expect(result.title).toBe(
-      'No pierdas tu racha!',
+      '¡No pierdas tu racha!',
     );
-    expect(result.body).toContain('racha de 8 dias');
+    expect(result.body).toContain('racha de 8 días');
+  });
+
+  it('uses the singular for a 1-day streak in Spanish', () => {
+    expect(getNotificationText('es', 1).body).toContain(
+      'racha de 1 día.',
+    );
   });
 
   it('falls back to English for unknown languages', () => {
@@ -151,15 +146,34 @@ describe('getUsersAtRisk', () => {
       '>',
       0,
     );
+    // 28 h back: a log just after midnight at UTC+1 to UTC+4 is
+    // still that user's yesterday when the function runs.
+    expect(query.where).toHaveBeenCalledWith(
+      'lastActionDate',
+      '>=',
+      Timestamp.fromDate(new Date('2025-06-13T20:00:00Z')),
+    );
     expect(query.where).toHaveBeenCalledWith(
       'lastActionDate',
       '<',
-      expect.anything(),
+      Timestamp.fromDate(todayStart),
     );
     expect(query.orderBy).toHaveBeenCalledWith(
       'lastActionDate',
     );
     expect(query.limit).toHaveBeenCalledWith(500);
+  });
+
+  it('has an index in the order the query sorts by', () => {
+    const users = indexes.indexes.find(
+      (index) => index.collectionGroup === 'users',
+    );
+
+    expect(users?.fields.map((field) => field.fieldPath)).toEqual([
+      'notificationsEnabled',
+      'lastActionDate',
+      'currentStreak',
+    ]);
   });
 
   it('does not apply a cursor on the first page', async () => {
@@ -218,10 +232,7 @@ describe('sendReminders', () => {
         title: "Don't break your streak!",
         body: 'You have a 7-day streak. Log an action today!',
       },
-      data: {
-        type: 'streak_reminder',
-        userId: 'user1',
-      },
+      data: { type: 'streak_reminder' },
     });
     expect(result.sent).toBe(1);
     expect(result.skipped).toBe(0);
@@ -245,7 +256,7 @@ describe('sendReminders', () => {
   it(
     'skips users already reminded today',
     async () => {
-      const { result, batch } = await runReminders([
+      const { result, docUpdate } = await runReminders([
         fakeDoc('user-deduped', {
           fcmToken: 'token-deduped',
           language: 'en',
@@ -255,7 +266,7 @@ describe('sendReminders', () => {
       ]);
 
       expect(mockSend).not.toHaveBeenCalled();
-      expect(batch).not.toHaveBeenCalled();
+      expect(docUpdate).not.toHaveBeenCalled();
       expect(result.skipped).toBe(1);
       expect(result.sent).toBe(0);
     },
@@ -286,7 +297,7 @@ describe('sendReminders', () => {
     async () => {
       mockSend.mockResolvedValue('message-id-rec');
 
-      const { doc, batchUpdate, batchCommit } = await runReminders([
+      const { doc, docUpdate } = await runReminders([
         fakeDoc('user-rec', {
           fcmToken: 'token-rec',
           language: 'en',
@@ -295,11 +306,9 @@ describe('sendReminders', () => {
       ]);
 
       expect(doc).toHaveBeenCalledWith('user-rec');
-      expect(batchUpdate).toHaveBeenCalledWith(
-        expect.objectContaining({ id: 'user-rec' }),
-        { lastStreakReminderDate: TODAY },
-      );
-      expect(batchCommit).toHaveBeenCalledTimes(1);
+      expect(docUpdate).toHaveBeenCalledWith({
+        lastStreakReminderDate: TODAY,
+      });
     },
   );
 
@@ -311,7 +320,7 @@ describe('sendReminders', () => {
         'messaging/internal-error';
       mockSend.mockRejectedValue(error);
 
-      const { result, batch } = await runReminders([
+      const { result, docUpdate } = await runReminders([
         fakeDoc('user-fail', {
           fcmToken: 'token-fail',
           language: 'en',
@@ -319,7 +328,7 @@ describe('sendReminders', () => {
         }),
       ]);
 
-      expect(batch).not.toHaveBeenCalled();
+      expect(docUpdate).not.toHaveBeenCalled();
       expect(result.failed).toBe(1);
     },
   );
@@ -338,10 +347,10 @@ describe('sendReminders', () => {
     expect(mockSend).toHaveBeenCalledWith(
       expect.objectContaining({
         notification: {
-          title: 'ストリークを途切れさせないで!',
+          title: '連続記録を途切れさせないで！',
           body:
-            '14日連続ストリーク中。' +
-            '今日もアクションを記録しよう!',
+            '14日連続で記録中。' +
+            '今日もアクションを記録しよう！',
         },
       }),
     );
@@ -503,56 +512,46 @@ describe('sendReminders', () => {
 
       expect(mockSend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: {
-            type: 'streak_reminder',
-            userId: 'user-data',
-          },
+          data: { type: 'streak_reminder' },
         }),
       );
     },
   );
 });
 
-describe('recordReminderSends', () => {
-  it('writes the date for each user in one batch', async () => {
-    const { db, batch, batchUpdate, batchCommit } =
-      makeDbMock();
+describe('sendReminders with a user deleted mid-run', () => {
+  const users = ['gone', 'u2'].map((id) =>
+    fakeDoc(id, { fcmToken: `token-${id}`, currentStreak: 3 }),
+  );
 
-    await recordReminderSends(
-      db,
-      ['u1', 'u2', 'u3'],
-      TODAY,
-    );
+  it('records the others when one record write fails', async () => {
+    mockSend.mockResolvedValue('message-id');
+    const mocks = makeDbMock();
+    mocks.docUpdate.mockRejectedValueOnce(new Error('NOT_FOUND'));
 
-    expect(batch).toHaveBeenCalledTimes(1);
-    expect(batchUpdate).toHaveBeenCalledTimes(3);
-    expect(batchUpdate).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 'u1' }),
-      { lastStreakReminderDate: TODAY },
-    );
-    expect(batchCommit).toHaveBeenCalledTimes(1);
+    const { result, updates } = await runReminders(users, mocks);
+
+    expect(result).toEqual({ sent: 2, skipped: 0, failed: 0 });
+    expect(updates).toEqual([
+      ['gone', { lastStreakReminderDate: TODAY }],
+      ['u2', { lastStreakReminderDate: TODAY }],
+    ]);
   });
 
-  it('chunks writes at the Firestore batch limit', async () => {
-    const { db, batch, batchUpdate, batchCommit } =
-      makeDbMock();
-    const userIds = Array.from(
-      { length: 501 },
-      (_, i) => `user-${i}`,
-    );
+  it('counts the user when the token cleanup fails', async () => {
+    const error = new Error('Token not registered');
+    (error as unknown as { code: string }).code =
+      'messaging/registration-token-not-registered';
+    mockSend.mockRejectedValue(error);
+    const mocks = makeDbMock();
+    mocks.docUpdate.mockRejectedValueOnce(new Error('NOT_FOUND'));
 
-    await recordReminderSends(db, userIds, TODAY);
+    const { result, updates } = await runReminders(users, mocks);
 
-    expect(batch).toHaveBeenCalledTimes(2);
-    expect(batchUpdate).toHaveBeenCalledTimes(501);
-    expect(batchCommit).toHaveBeenCalledTimes(2);
-  });
-
-  it('does nothing for an empty user list', async () => {
-    const { db, batch } = makeDbMock();
-
-    await recordReminderSends(db, [], TODAY);
-
-    expect(batch).not.toHaveBeenCalled();
+    expect(result).toEqual({ sent: 0, skipped: 0, failed: 2 });
+    expect(updates).toEqual([
+      ['gone', { fcmToken: null }],
+      ['u2', { fcmToken: null }],
+    ]);
   });
 });

@@ -1,5 +1,5 @@
-// NOTE(postponed): Part of the notification/reminder feature deferred
-// on 2026-06-10 (see lib/shared/providers/notification_providers.dart).
+// NOTE(postponed): Part of the deferred notification/reminder feature
+// (see lib/shared/providers/notification_providers.dart).
 // Deliberately kept in-tree, not dead code -- do not delete or flag in
 // dead-code audits. Nothing in lib/ reads lastStreakReminderDate yet;
 // that is expected until the feature is revived. Revival checklist:
@@ -15,8 +15,8 @@ const SCHEDULE_CRON = '0 20 * * *'; // 8 PM UTC daily
 const USERS_COLLECTION = 'users';
 const BATCH_SIZE = 500;
 const PAGE_SIZE = 500;
-// Firestore allows at most 500 writes per batch.
-const WRITE_BATCH_LIMIT = 500;
+// 24 h plus 4 h: at 20:00 UTC a local yesterday began up to 4 h earlier.
+const AT_RISK_WINDOW_MS = 28 * 60 * 60 * 1000;
 const LAST_REMINDER_FIELD = 'lastStreakReminderDate';
 
 interface NotificationText {
@@ -36,16 +36,16 @@ const NOTIFICATION_MESSAGES: Record<
       'Log an action today!',
   }),
   ja: (streak) => ({
-    title: 'ストリークを途切れさせないで!',
+    title: '連続記録を途切れさせないで！',
     body:
-      `${streak}日連続ストリーク中。` +
-      '今日もアクションを記録しよう!',
+      `${streak}日連続で記録中。` +
+      '今日もアクションを記録しよう！',
   }),
   es: (streak) => ({
-    title: 'No pierdas tu racha!',
+    title: '¡No pierdas tu racha!',
     body:
-      `Tienes una racha de ${streak} dias. ` +
-      'Registra una accion hoy!',
+      `Tienes una racha de ${streak} ${streak === 1 ? 'día' : 'días'}. ` +
+      '¡Registra una acción hoy!',
   }),
 };
 
@@ -70,8 +70,11 @@ export function getNotificationText(
  * Criteria:
  * - notificationsEnabled == true
  * - currentStreak > 0
- * - lastActionDate < start of today (UTC)
- * - Has a valid fcmToken
+ * - lastActionDate in the 28 h before today (UTC): an older date
+ *   means the streak is already lost in every time zone, and the
+ *   stored count is stale until the next log
+ *
+ * sendReminders skips a user without an fcmToken.
  */
 export async function getUsersAtRisk(
   db: FirebaseFirestore.Firestore,
@@ -79,12 +82,19 @@ export async function getUsersAtRisk(
   pageSize: number = PAGE_SIZE,
   startAfter?: FirebaseFirestore.QueryDocumentSnapshot,
 ) {
-  // Ordering by the inequality field keeps the cursor
-  // stable even though we update user docs mid-run.
+  // The cursor stays stable: the fields we update mid-run are not
+  // sort fields.
   let query = db
     .collection(USERS_COLLECTION)
     .where('notificationsEnabled', '==', true)
     .where('currentStreak', '>', 0)
+    .where(
+      'lastActionDate',
+      '>=',
+      Timestamp.fromDate(
+        new Date(todayStart.getTime() - AT_RISK_WINDOW_MS),
+      ),
+    )
     .where(
       'lastActionDate',
       '<',
@@ -102,34 +112,10 @@ export async function getUsersAtRisk(
 }
 
 /**
- * Records the reminder date on each notified user doc so a
- * scheduler retry (retryCount > 0) does not re-send.
- */
-export async function recordReminderSends(
-  db: FirebaseFirestore.Firestore,
-  userIds: string[],
-  todayDate: string,
-) {
-  for (
-    let i = 0;
-    i < userIds.length;
-    i += WRITE_BATCH_LIMIT
-  ) {
-    const chunk = userIds.slice(i, i + WRITE_BATCH_LIMIT);
-    const batch = db.batch();
-    for (const userId of chunk) {
-      batch.update(
-        db.collection(USERS_COLLECTION).doc(userId),
-        { [LAST_REMINDER_FIELD]: todayDate },
-      );
-    }
-    await batch.commit();
-  }
-}
-
-/**
  * Sends streak reminder notifications and cleans up
- * invalid FCM tokens.
+ * invalid FCM tokens. Records the reminder date on each notified
+ * user doc straight after its send, so a scheduler retry
+ * (retryCount > 0) does not re-send, also after a timeout mid-page.
  */
 export async function sendReminders(
   db: FirebaseFirestore.Firestore,
@@ -140,7 +126,6 @@ export async function sendReminders(
   let sent = 0;
   let skipped = 0;
   let failed = 0;
-  const sentUserIds: string[] = [];
 
   for (let i = 0; i < docs.length; i += BATCH_SIZE) {
     const batch = docs.slice(i, i + BATCH_SIZE);
@@ -173,6 +158,7 @@ export async function sendReminders(
             ? data.currentStreak
             : 0;
         const text = getNotificationText(language, streak);
+        const userRef = db.collection(USERS_COLLECTION).doc(doc.id);
 
         try {
           await messaging.send({
@@ -181,14 +167,10 @@ export async function sendReminders(
               title: text.title,
               body: text.body,
             },
-            data: {
-              type: 'streak_reminder',
-              userId: doc.id,
-            },
+            data: { type: 'streak_reminder' },
           });
-          sent++;
-          sentUserIds.push(doc.id);
         } catch (err: unknown) {
+          failed++;
           const error = err as { code?: string };
           // Clean up invalid tokens
           if (
@@ -196,16 +178,31 @@ export async function sendReminders(
               'messaging/registration-token-not-registered' ||
             error.code === 'messaging/invalid-registration-token'
           ) {
-            await db
-              .collection(USERS_COLLECTION)
-              .doc(doc.id)
-              .update({ fcmToken: null });
-            logger.warn(
-              `Removed invalid token for user ${doc.id}`,
+            await userRef.update({ fcmToken: null }).then(
+              () =>
+                logger.warn(
+                  `Removed invalid token for user ${doc.id}`,
+                ),
+              (e: unknown) =>
+                logger.warn(
+                  `Could not remove invalid token for user ${doc.id}`,
+                  e,
+                ),
             );
           }
-          failed++;
+          return;
         }
+
+        sent++;
+        // The user may be deleted mid-run: that must not fail the page.
+        await userRef
+          .update({ [LAST_REMINDER_FIELD]: todayDate })
+          .catch((e: unknown) =>
+            logger.warn(
+              `Could not record the reminder for user ${doc.id}`,
+              e,
+            ),
+          );
       }),
     );
 
@@ -219,8 +216,6 @@ export async function sendReminders(
     }
   }
 
-  await recordReminderSends(db, sentUserIds, todayDate);
-
   return { sent, skipped, failed };
 }
 
@@ -230,6 +225,7 @@ export const sendStreakReminders = onSchedule(
     schedule: SCHEDULE_CRON,
     timeZone: 'UTC',
     retryCount: 1,
+    timeoutSeconds: 540,
     memory: '256MiB',
     region: 'asia-northeast1',
     maxInstances: 1,

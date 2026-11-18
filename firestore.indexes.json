@@ -9,11 +9,11 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "currentStreak",
+          "fieldPath": "lastActionDate",
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "lastActionDate",
+          "fieldPath": "currentStreak",
           "order": "ASCENDING"
         }
       ]
