@@ -17,7 +17,7 @@ import 'package:seed_app/features/fact_games/presentation/providers/fact_games_p
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_games_locked_view.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_question_card.dart';
-import 'package:seed_app/features/mascot/presentation/widgets/game_win_celebration.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_cheer.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
@@ -190,7 +190,7 @@ class _FactRecallScreenState extends ConsumerState<FactRecallScreen> {
           body = Stack(
             children: [
               body,
-              Positioned.fill(child: GameWinCelebration(key: ObjectKey(round))),
+              Positioned.fill(child: MascotCheer(key: ObjectKey(round))),
             ],
           );
         }

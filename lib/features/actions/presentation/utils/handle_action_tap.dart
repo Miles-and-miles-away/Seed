@@ -1,12 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/app/app_bottom_nav.dart';
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/eco_dex/eco_dex.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
+import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/settings/presentation/widgets/streak_milestone_dialog.dart';
@@ -56,8 +62,6 @@ Future<void> handleActionTap(
       color: category?.color,
     );
 
-    ref.read(mascotAnimationTriggerProvider.notifier).triggerBounce();
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(AppLocalizations.of(context).actionLogged(action.points)),
@@ -82,7 +86,20 @@ Future<void> handleActionTap(
     final newIds = await ref
         .read(ecoDexDiscoveryProvider.notifier)
         .discoverNewEntries(minActionsCount: logResult.newTotalActionsCount);
-    if (newIds.isNotEmpty && context.mounted) {
+    if (!context.mounted) return;
+
+    // Only the crossing log cheers, and not when a dialog or the inbox
+    // follows: the root overlay would float over them.
+    final goalReached =
+        logResult.newGoalCount == ref.read(effectiveDailyGoalTargetProvider);
+    if (goalReached &&
+        newIds.isEmpty &&
+        !logResult.shouldShowMilestone &&
+        !logResult.challengeCompleted) {
+      MascotCheer.show(context, bottomClearance: appBottomNavHeight(context));
+    }
+
+    if (newIds.isNotEmpty) {
       final ecoDex = await ref.read(ecoDexDataProvider.future);
       final byId = {for (final e in ecoDex.entries) e.id: e};
       final entries = newIds
@@ -106,6 +123,18 @@ Future<void> handleActionTap(
           weekNumber: milestoneWeek,
           totalDays: logResult.newStreakDays,
         );
+      }
+    }
+
+    // A pending evolution dialog sits on this route, which go would drop.
+    if (logResult.challengeCompleted &&
+        context.mounted &&
+        !ref.read(mascotCelebrationPendingProvider)) {
+      // Pushing a Home-branch page from a root route duplicates the shell.
+      if (StatefulNavigationShell.maybeOf(context) != null) {
+        unawaited(context.push(appRoutes.dailyFact));
+      } else {
+        context.go(appRoutes.dailyFact);
       }
     }
   } else {

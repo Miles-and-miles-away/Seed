@@ -16,7 +16,7 @@ import 'package:seed_app/features/fact_games/presentation/fact_source.dart';
 import 'package:seed_app/features/fact_games/presentation/providers/fact_games_providers.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_games_locked_view.dart';
-import 'package:seed_app/features/mascot/presentation/widgets/game_win_celebration.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_cheer.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
@@ -247,7 +247,7 @@ class _FactPairsScreenState extends ConsumerState<FactPairsScreen> {
     return Stack(
       children: [
         game,
-        Positioned.fill(child: GameWinCelebration(key: ObjectKey(board))),
+        Positioned.fill(child: MascotCheer(key: ObjectKey(board))),
       ],
     );
   }

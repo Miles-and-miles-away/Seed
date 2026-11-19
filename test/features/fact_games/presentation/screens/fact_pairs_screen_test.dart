@@ -19,7 +19,7 @@ import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
 import 'package:seed_app/features/fact_games/domain/game_fact.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/fact_card_tile.dart';
-import 'package:seed_app/features/mascot/presentation/widgets/game_win_celebration.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_cheer.dart';
 import 'package:seed_app/features/progress/presentation/screens/progress_screen.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
@@ -320,7 +320,7 @@ void main() {
       expect(analytics.events, ['opened', 'finished:6:7']);
 
       expect(find.byType(InfoSheet), findsNothing);
-      expect(find.byType(GameWinCelebration), findsOneWidget);
+      expect(find.byType(MascotCheer), findsOneWidget);
       final (a, _) = _pairs(board).first;
       await _tapCard(tester, a);
       expect(
@@ -334,7 +334,7 @@ void main() {
 
       await tester.tap(find.text('Play again'));
       await tester.pumpAndSettle();
-      expect(find.byType(GameWinCelebration), findsNothing);
+      expect(find.byType(MascotCheer), findsNothing);
       expect(find.text('Pairs: 0 of 6'), findsOneWidget);
       expect(find.text('Moves: 0'), findsOneWidget);
       expect(find.text('Play again'), findsNothing);

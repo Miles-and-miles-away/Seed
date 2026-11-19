@@ -59,7 +59,7 @@ final class DayChangeNotifierProvider
   }
 }
 
-String _$dayChangeNotifierHash() => r'49ad88739103f16d6678ecee657ac6ca9d7416a9';
+String _$dayChangeNotifierHash() => r'4913a6e83fbbdd6709487173127a04a1e2cbacd8';
 
 /// Tracks the current date and invalidates day-sensitive providers
 /// when the date changes (at midnight or on app resume).
