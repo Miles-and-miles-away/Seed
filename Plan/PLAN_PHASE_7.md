@@ -175,6 +175,7 @@ assets/images/mascot/
 | Test Coral displays | Home, detail, selection, celebrations | Done |
 | Integrate Sprout final art | Replace placeholder SVGs | Pending |
 | Integrate Species 3 art | After designer selection | Pending |
+| Idle motion v2 | Sprout all stages, Coral stages 3-4; see `PLAN_MASCOT_MOTION.md` | Pending |
 | Test on multiple devices | Different screen sizes | Pending |
 
 ---

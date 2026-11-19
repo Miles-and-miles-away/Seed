@@ -57,7 +57,12 @@ class MascotScreen extends ConsumerWidget {
                   MascotHousing(
                     child: Column(
                       children: [
-                        const MascotDisplay(size: 220),
+                        MascotDisplay(
+                          size: 220,
+                          onTap: () => ref
+                              .read(mascotSmileTriggerProvider.notifier)
+                              .triggerSmile(),
+                        ),
                         const SizedBox(height: spacingLg),
                         MascotHeader(
                           name: mascot.name,

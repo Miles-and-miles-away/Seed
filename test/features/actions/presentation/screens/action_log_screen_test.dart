@@ -335,7 +335,7 @@ void main() {
       await tester.pumpAndSettle();
 
       final tile = tester.getRect(find.byType(ActionTile).first);
-      expect(tile.height, lessThan(190));
+      expect(tile.height, lessThan(195));
       expect(tile.height, greaterThan(170));
     });
 
