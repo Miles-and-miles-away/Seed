@@ -98,6 +98,7 @@ class ActionLogRepository {
     String? hatchedMascotId;
     var challengeCompleted = false;
     var newTotalActionsCount = 1;
+    var newGoalCount = 1;
 
     await firestore.runTransaction(timeout: _transactionTimeout, (
       transaction,
@@ -111,6 +112,7 @@ class ActionLogRepository {
       hatchedMascotId = null;
       challengeCompleted = false;
       newTotalActionsCount = 1;
+      newGoalCount = 1;
 
       final userDoc = await transaction.get(userRef);
       final summaryDoc = await transaction.get(summaryRef);
@@ -399,12 +401,13 @@ class ActionLogRepository {
       final Map<String, dynamic> summaryData;
       if (summaryDoc.exists) {
         final existing = DailySummaryModel.fromJson(summaryDoc.data()!);
+        newGoalCount = existing.goalCount + 1;
         final categoryCo2 = Map<String, int>.from(existing.categoryCo2Grams);
         categoryCo2[action.category] =
             (categoryCo2[action.category] ?? 0) + action.co2Grams;
         summaryData = existing
             .copyWith(
-              goalCount: existing.goalCount + 1,
+              goalCount: newGoalCount,
               completedSdgs: {
                 ...existing.completedSdgs,
                 ...sdgNumbers,
@@ -448,6 +451,7 @@ class ActionLogRepository {
       hatchedMascotId: hatchedMascotId,
       challengeCompleted: challengeCompleted,
       newTotalActionsCount: newTotalActionsCount,
+      newGoalCount: newGoalCount,
     );
   }
 
@@ -468,6 +472,7 @@ class ActionLogResult {
     this.hatchedMascotId,
     this.challengeCompleted = false,
     this.newTotalActionsCount = 1,
+    this.newGoalCount = 1,
   });
 
   final ActionLogModel actionLog;
@@ -487,6 +492,9 @@ class ActionLogResult {
   /// The user's total action count after this log; lets callers wait
   /// for the user stream to catch up before evaluating unlocks.
   final int newTotalActionsCount;
+
+  /// Today's daily-goal count after this log.
+  final int newGoalCount;
 
   bool get shouldShowMilestone => crossedMilestoneWeek != null;
 }

@@ -16,6 +16,7 @@ import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_item_picker.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_science_sheet.dart';
 import 'package:seed_app/features/food/presentation/widgets/ingredient_editor_sheet.dart';
+import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/domain/services/impact_equivalencies.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
@@ -345,6 +346,9 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     successMessage: l10n.foodChoiceLoggedMessage(
       formatCO2Compact(deltaGrams.round(), l10n.localeName),
     ),
-    onSuccess: () => ref.read(mealOptionsProvider.notifier).clear(),
+    onSuccess: () {
+      MascotCheer.show(context);
+      ref.read(mealOptionsProvider.notifier).clear();
+    },
   );
 }

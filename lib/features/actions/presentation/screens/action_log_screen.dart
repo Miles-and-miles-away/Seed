@@ -50,7 +50,7 @@ class ActionLogScreen extends ConsumerStatefulWidget {
   /// 180pt at scale 1.0 and 261pt at scale 2.0, and the constants carry
   /// a few points of slack over both. A test pins that nothing
   /// overflows at either.
-  static const _tileChromeHeight = 104.0;
+  static const _tileChromeHeight = 108.0;
 
   /// Title, badge and SDG row at the default text scale.
   static const _tileTextHeight = 82.0;

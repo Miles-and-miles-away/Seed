@@ -151,7 +151,7 @@ class HomeScreen extends ConsumerWidget {
             label: l10n.mascotLinkTitle,
             child: GestureDetector(
               onTap: () => context.push(appRoutes.mascot),
-              child: const MascotDisplay(size: 160),
+              child: const MascotDisplay(size: 160, welcomesBack: true),
             ),
           ),
 
