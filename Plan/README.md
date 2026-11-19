@@ -53,6 +53,10 @@ data rules live here.
 - [PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)
 - [PDR_FACT_GAMES.md](./PDR_FACT_GAMES.md) -- Fact pairs and Fact
   recall: sources, lock, rotation, decoys, calculator comparisons.
+- [PDR_MASCOT_MOTION.md](./PDR_MASCOT_MOTION.md) -- how each mascot
+  moves at rest: sway and float specs, pivot rules, standing rules
+  for a stage's idle. Build order in
+  [PLAN_MASCOT_MOTION.md](./PLAN_MASCOT_MOTION.md).
 
 ## Design and operations
 

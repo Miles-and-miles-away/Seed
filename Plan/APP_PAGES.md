@@ -117,6 +117,11 @@ Main hub with mascot summary, challenges, and SDG carousel.
   sheet), infinite SDG carousel under a "Discover the SDGs" header
   (official UN goal icons bundled per app language, EN/JA/ES),
   "Learn more at UN.org" external link.
+- Welcome back: when the last log was 2 or more calendar days ago,
+  Home's mascot smiles once, as soon as it is loaded and on screen
+  (not while covered or on another tab). The check runs again when the
+  day changes. Once per gap in an app process; never for a user who has
+  not logged yet.
 
 ### SDG Detail (`/home/sdg/:goalNumber`)
 Individual SDG goal with targets, resources, actions, impact cards, and a
@@ -151,6 +156,7 @@ nav stays visible and the tab it was opened from stays selected.
   stage card, up to two lines), next-evolution progress. While the
   mascot loads the screen shows a spinner under a "Mascot" app bar with
   a back arrow.
+- Tapping the mascot makes it smile.
 
 ### Challenges (`/home/challenges`)
 List of six multi-day challenges with state (completed / active /
@@ -249,6 +255,17 @@ unambiguous exit. Browse and log actions.
 - Search matches the EN/JA/ES name and description of every action,
   ignoring case, accents and surrounding spaces ("carton" finds
   "Reciclar cartón").
+- After a log (here or from SDG detail): the points animation and
+  snackbar(s). The log that brings today's count exactly to the daily
+  goal (the user's target, else 3) shows the jump cheer
+  (`MascotCheer.show`: a mascot rising in the root overlay to the
+  bottom third of the space above the bottom nav or keyboard, jumping
+  to its middle once loaded with its eyes on the user, sinking after
+  3 s; a smile under reduced motion). Then any Eco-Dex
+  and streak celebrations. A log that completes the daily challenge
+  opens the Eco Fact Inbox instead of cheering. Neither the cheer nor
+  the inbox plays while an evolution or egg celebration is pending,
+  and only one cheer shows at a time.
 
 ### Calculator colouring (all three)
 
@@ -376,6 +393,7 @@ are folded in under the columns.
 - Both columns survive navigating away and back (keepAlive providers);
   they reset on app restart or after banking a choice, and nothing is
   persisted to Firestore.
+- Banking a choice also shows the jump cheer (see Log Action).
 
 ### Methodology & Sources (pushed within the feature)
 Markdown page (8.4): scope, occupancy, radiative forcing (1.7×,
@@ -444,6 +462,7 @@ Never awards points inside the tool.
   compare them".
 - Both columns survive navigating away and back (keepAlive providers);
   they reset on app restart or after banking a choice.
+- Banking a choice also shows the jump cheer (see Log Action).
 
 ### Methodology & Sources (pushed within the feature)
 Markdown page (8.10): cradle-to-retail scope incl. land-use change
@@ -681,7 +700,7 @@ Decisions in `PDR_FACT_GAMES.md`.
   (`EcoDexEntrySheet`), the same sheets Fact recall opens. Tapping a
   matched card opens its fact again. The last match opens no sheet:
   it scrolls the finish panel (move count and "Play again") into view
-  and plays the win celebration (`GameWinCelebration`: confetti, and
+  and plays the win celebration (`MascotCheer`: confetti, and
   the mascot rising from the bottom edge to smile, then sinking back;
   no confetti or slide under reduced motion). Screen readers
   hear each turned card, then "Pair found" or "Not a pair", in one

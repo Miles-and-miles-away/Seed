@@ -6,6 +6,7 @@ import 'package:seed_app/features/actions/presentation/providers/actions_provide
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
@@ -116,6 +117,10 @@ void main() {
           built('co2CategoryData');
           return const Co2CategoryData(slices: [], totalGrams: 0);
         }),
+        welcomeBackSmileDueProvider.overrideWith((_) {
+          built('welcomeBackSmileDue');
+          return false;
+        }),
       ],
     );
     addTearDown(container.dispose);
@@ -135,7 +140,8 @@ void main() {
       ..listen(monthCalendarDataProvider, (_, _) {})
       ..listen(co2StatsProvider(period), (_, _) {})
       ..listen(co2TrendDataProvider(period), (_, _) {})
-      ..listen(co2CategoryDataProvider(period), (_, _) {});
+      ..listen(co2CategoryDataProvider(period), (_, _) {})
+      ..listen(welcomeBackSmileDueProvider, (_, _) {});
     return (container, builds);
   }
 
@@ -149,7 +155,7 @@ void main() {
     test('checkDayChanged does nothing on the same day', () async {
       var current = DateTime(2026, 6, 17, 9);
       final (container, builds) = createContainer(() => current);
-      expect(builds, hasLength(15));
+      expect(builds, hasLength(16));
 
       current = DateTime(2026, 6, 17, 23, 59);
       container.read(dayChangeProvider.notifier).checkDayChanged();
@@ -159,7 +165,7 @@ void main() {
       expect(builds.values, everyElement(1));
     });
 
-    test('checkDayChanged refreshes all 15 day-sensitive providers', () async {
+    test('checkDayChanged refreshes all 16 day-sensitive providers', () async {
       var current = DateTime(2026, 6, 17, 23, 59);
       final (container, builds) = createContainer(() => current);
       expect(builds.values, everyElement(1));
@@ -169,7 +175,7 @@ void main() {
       await Future<void>.delayed(Duration.zero);
 
       expect(container.read(dayChangeProvider), '2026-06-18');
-      expect(builds, hasLength(15));
+      expect(builds, hasLength(16));
       expect(builds.values, everyElement(2), reason: '$builds');
     });
   });
