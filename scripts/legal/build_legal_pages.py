@@ -22,7 +22,7 @@ BETA_STORE_URL = 'https://play.google.com/store/apps/details?id=com.seedahabit.a
 TESTFLIGHT_APP_URL = 'https://apps.apple.com/app/testflight/id899247664'
 TESTFLIGHT_INVITE_URL = 'https://testflight.apple.com/join/tjcFtktN'
 # Link previews need an absolute image URL.
-SITE_URL = 'https://seed-3d48d.web.app'
+SITE_URL = 'https://seedahabit.com'
 
 ROOT = Path(__file__).resolve().parents[2]
 DART = ROOT / 'lib' / 'features' / 'settings' / 'data' / 'legal_content.dart'

@@ -61,10 +61,10 @@ point at these URLs, and Google Play requires the deletion URL.
 
 | Page | URL |
 |------|-----|
-| Privacy policy | https://seed-3d48d.web.app/privacy |
-| Terms of service | https://seed-3d48d.web.app/terms |
-| Account deletion | https://seed-3d48d.web.app/delete-account |
-| Tester sign-up | https://seed-3d48d.web.app/beta |
+| Privacy policy | https://seedahabit.com/privacy |
+| Terms of service | https://seedahabit.com/terms |
+| Account deletion | https://seedahabit.com/delete-account |
+| Tester sign-up | https://seedahabit.com/beta |
 
 `/beta` is not a legal page: it walks Android closed-track and iPhone
 TestFlight testers through joining. Its text and the Google Group,
