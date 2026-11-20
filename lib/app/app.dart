@@ -11,6 +11,7 @@ import '../core/theme/app_theme.dart';
 import '../features/mascot/presentation/providers/mascot_providers.dart';
 import '../features/settings/settings.dart';
 import '../shared/providers/app_language_provider.dart';
+import '../shared/providers/notification_providers.dart';
 import '../shared/services/analytics_service.dart';
 import 'router.dart';
 
@@ -60,6 +61,7 @@ class _SeedAppState extends ConsumerState<SeedApp> with WidgetsBindingObserver {
       }, fireImmediately: true)
       ..listenManual(languageSyncProvider, (_, _) {})
       ..listenManual(androidSdkProvider, (_, _) {})
+      ..listenManual(reminderSchedulerProvider, (_, _) {})
       ..listenManual(activeSpeciesProvider, (_, species) {
         FirebaseCrashlytics.instance.setCustomKey(
           'species',
