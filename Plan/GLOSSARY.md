@@ -80,7 +80,6 @@ bottom.
 - *Emulator:* collection views in the Eco-Dex.
 
 **ListTile** — a standard row (leading icon, title, trailing widget).
-- `lib/features/settings/presentation/widgets/reminder_list_tile.dart`
 - `lib/features/eco_fact/presentation/widgets/mail_list_tile.dart`
 - *Emulator:* every row on the Settings screen and Fact Inbox.
 

@@ -449,7 +449,7 @@ Rules:
   `text:`, tooltips, labels, hints, semantics and input decoration text),
   including ternaries, adjacent literals and `+`. Its allowlist is keyed
   by file and literal and holds brand names, notation that reads the
-  same in every language, and the postponed reminder text. It ignores
+  same in every language. It ignores
   literals with no letters, so assembly with `' - '` or `'?'` still needs
   review against the first rule.
 - **Single-line labels never wrap.** Segmented controls use

@@ -12,6 +12,7 @@ import 'package:seed_app/app/app_bottom_nav.dart';
 import 'package:seed_app/app/main_shell.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/actions/presentation/screens/action_log_screen.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/auth/presentation/screens/email_verification_screen.dart';
@@ -26,6 +27,7 @@ import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 import 'package:seed_app/shared/services/fcm_service.dart';
+import 'package:seed_app/shared/services/notification_service.dart';
 
 import '../features/walkthrough/walkthrough_test_support.dart';
 import '../helpers/test_helpers.dart';
@@ -92,10 +94,16 @@ void main() {
     return auth;
   }
 
-  Widget buildApp(MockFirebaseAuth auth, {bool withMascot = false}) {
+  Widget buildApp(
+    MockFirebaseAuth auth, {
+    bool withMascot = false,
+    NotificationService? notifications,
+  }) {
     return ProviderScope(
       overrides: [
         languageStoreOverride(),
+        if (notifications != null)
+          notificationServiceProvider.overrideWithValue(notifications),
         crashlyticsProvider.overrideWithValue(_FakeCrashlytics()),
         firebaseAuthProvider.overrideWithValue(auth),
         firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
@@ -405,6 +413,75 @@ void main() {
       expect(selectedTab(tester), homeTabIndex);
 
       await disposeAndFlush(tester);
+    });
+  });
+
+  group('a tapped notification', () {
+    testWidgets('opens its route once, replacing an open action log', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      final notifications = NotificationService.forTesting();
+      await tester.pumpWidget(
+        buildApp(authReturning(createMockUser()), notifications: notifications),
+      );
+      await pumpRedirects(tester);
+
+      notifications.tappedRoute.value = '/log-action?category=energy';
+      await pumpRedirects(tester);
+      final router = containerOf(tester).read(routerProvider);
+      expect(router.state.uri.path, appRoutes.actionLog);
+      expect(notifications.tappedRoute.value, isNull);
+
+      notifications.tappedRoute.value = '/log-action?category=food';
+      await pumpRedirects(tester);
+      expect(find.byType(ActionLogScreen, skipOffstage: false), findsOneWidget);
+
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('made while signed out never opens', (tester) async {
+      setLargeScreenSize(tester);
+      final notifications = NotificationService.forTesting();
+      await tester.pumpWidget(
+        buildApp(authReturning(null), notifications: notifications),
+      );
+      await tester.pumpAndSettle();
+
+      notifications.tappedRoute.value = '/log-action?category=energy';
+
+      expect(notifications.tappedRoute.value, isNull);
+    });
+
+    testWidgets('that launched the app opens once signed in', (tester) async {
+      setLargeScreenSize(tester);
+      final notifications = NotificationService.forTesting()
+        ..tappedRoute.value = '/log-action?category=energy';
+      await tester.pumpWidget(
+        buildApp(authReturning(createMockUser()), notifications: notifications),
+      );
+      await pumpRedirects(tester);
+
+      final router = containerOf(tester).read(routerProvider);
+      expect(router.state.uri.path, appRoutes.actionLog);
+      expect(notifications.tappedRoute.value, isNull);
+
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('that launched the app is dropped once signed out', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      final notifications = NotificationService.forTesting()
+        ..tappedRoute.value = '/log-action?category=energy';
+      await tester.pumpWidget(
+        buildApp(authReturning(null), notifications: notifications),
+      );
+      await tester.pumpAndSettle();
+
+      expect(locationOf(tester), appRoutes.login);
+      expect(notifications.tappedRoute.value, isNull);
     });
   });
 }

@@ -1,13 +1,18 @@
+import 'dart:async';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
-import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
+import 'package:seed_app/features/settings/data/models/action_reminder_model.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/app_language_provider.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
 
 part 'settings_providers.g.dart';
@@ -46,10 +51,6 @@ T _setting<T>(Ref ref, T Function(UserSettingsModel) pick, T fallback) {
       .when(data: pick, loading: () => fallback, error: (_, _) => fallback);
 }
 
-/// Returns whether the user can add more reminders.
-@riverpod
-bool canAddReminder(Ref ref) => _setting(ref, (s) => s.canAddReminder, false);
-
 /// The app language: the account's choice, else this device's pick,
 /// else the OS language. Computed, never stored. On Android 13+ the app
 /// owns its per-app locale, so an OS-side change made after the last
@@ -69,15 +70,55 @@ String currentLanguage(Ref ref) {
   return account ?? stored?.language ?? os;
 }
 
-/// Returns whether notifications are enabled.
+/// Returns whether the daily reminder is enabled.
 @riverpod
 bool notificationsEnabled(Ref ref) =>
     _setting(ref, (s) => s.notificationsEnabled, false);
 
-/// Returns whether smart reminders are enabled.
+/// The daily reminder time.
 @riverpod
-bool smartRemindersEnabled(Ref ref) =>
-    _setting(ref, (s) => s.smartRemindersEnabled, true);
+TimeOfDay reminderTime(Ref ref) => _setting(
+  ref,
+  (s) => TimeOfDay(hour: s.reminderHour, minute: s.reminderMinute),
+  const TimeOfDay(
+    hour: AppConstants.defaultReminderHour,
+    minute: AppConstants.defaultReminderMinute,
+  ),
+);
+
+/// Whether action reminders are switched on.
+@riverpod
+bool actionRemindersEnabled(Ref ref) =>
+    _setting(ref, (s) => s.actionRemindersEnabled, false);
+
+/// Action reminders with a reminder still to come, by action id; once
+/// the library loads, only those for actions it still has.
+@riverpod
+Map<String, ActionReminder> actionReminders(Ref ref) {
+  final now = ref.watch(clockProvider)();
+  final library = ref.watch(actionLibraryProvider).value;
+  final ids = library == null ? null : {for (final a in library) a.id};
+  return _setting(
+    ref,
+    (s) => {
+      for (final MapEntry(key: id, value: reminder)
+          in s.actionReminders.entries)
+        if (_hasNext(reminder, now) && (ids?.contains(id) ?? true))
+          id: reminder,
+    },
+    const {},
+  );
+}
+
+bool _hasNext(ActionReminder reminder, DateTime now) {
+  final next = reminderDays(
+    now: now,
+    hour: reminder.hour,
+    minute: reminder.minute,
+    weekdays: reminder.weekdays,
+  ).firstOrNull;
+  return next != null && reminder.coversDay(next);
+}
 
 /// Returns whether analytics collection is enabled.
 @riverpod
@@ -140,29 +181,73 @@ class SettingsNotifier extends _$SettingsNotifier {
     state = result;
   }
 
-  /// Toggles notifications on/off.
-  ///
-  /// Turning on requests OS notification permission first and leaves
-  /// the setting off when the user declines.
-  Future<void> toggleNotifications({required bool enabled}) {
-    return _write((uid, repo) async {
-      if (enabled) {
-        final status = await ref.read(fcmServiceProvider).requestPermissions();
-        if (status != AuthorizationStatus.authorized &&
-            status != AuthorizationStatus.provisional) {
-          return;
-        }
-      }
-      await repo.setNotificationsEnabled(uid, enabled: enabled);
-
-      final analytics = ref.read(analyticsServiceProvider);
-      if (enabled) {
-        await analytics.logNotificationEnabled();
-      } else {
-        await analytics.logNotificationDisabled();
-      }
-    });
+  /// Asks the OS for notification permission; true once granted.
+  Future<bool> _permitted() async {
+    final status = await ref.read(fcmServiceProvider).requestPermissions();
+    if (!ref.mounted) return false;
+    ref.invalidate(notificationPermissionStatusProvider);
+    return status == AuthorizationStatus.authorized ||
+        status == AuthorizationStatus.provisional;
   }
+
+  /// Toggles the daily reminder on/off.
+  ///
+  /// Turning on requests OS notification permission first and returns
+  /// false, leaving the setting off, when the OS refuses.
+  Future<bool> toggleNotifications({required bool enabled}) async {
+    if (enabled && !await _permitted()) return false;
+    // Not awaited: offline the write completes only on server ack.
+    unawaited(
+      _write((uid, repo) async {
+        await repo.setNotificationsEnabled(uid, enabled: enabled);
+
+        final analytics = ref.read(analyticsServiceProvider);
+        if (enabled) {
+          await analytics.logNotificationEnabled();
+        } else {
+          await analytics.logNotificationDisabled();
+        }
+      }),
+    );
+    return true;
+  }
+
+  /// Toggles action reminders, like [toggleNotifications].
+  Future<bool> toggleActionReminders({required bool enabled}) async {
+    if (enabled && !await _permitted()) return false;
+    unawaited(
+      _write(
+        (uid, repo) => repo.setActionRemindersEnabled(uid, enabled: enabled),
+      ),
+    );
+    return true;
+  }
+
+  /// Saves the reminder for [actionId], switching action reminders on
+  /// when [enable] is set and the OS allows notifications. Returns false
+  /// when it refuses; the reminder is kept for when the user allows them.
+  Future<bool> saveActionReminder(
+    String actionId,
+    ActionReminder reminder, {
+    required bool enable,
+  }) async {
+    final permitted = await _permitted();
+    unawaited(
+      _write(
+        (uid, repo) => repo.setActionReminder(
+          uid,
+          actionId,
+          reminder,
+          enable: enable && permitted,
+        ),
+      ),
+    );
+    return permitted;
+  }
+
+  /// Deletes the reminder for [actionId].
+  Future<void> deleteActionReminder(String actionId) =>
+      _write((uid, repo) => repo.deleteActionReminder(uid, actionId));
 
   /// Toggles analytics and crashlytics collection.
   Future<void> toggleAnalytics({required bool enabled}) {
@@ -177,11 +262,6 @@ class SettingsNotifier extends _$SettingsNotifier {
     });
   }
 
-  /// Toggles smart reminders on/off.
-  Future<void> toggleSmartReminders({required bool enabled}) => _write(
-    (uid, repo) => repo.setSmartRemindersEnabled(uid, enabled: enabled),
-  );
-
   /// Updates the account's language.
   Future<void> updateLanguage(String language) =>
       _write((uid, repo) => repo.setLanguage(uid, language));
@@ -190,50 +270,9 @@ class SettingsNotifier extends _$SettingsNotifier {
   Future<void> updateThemeMode(ThemeMode mode) =>
       _write((uid, repo) => repo.setThemeMode(uid, mode.name));
 
-  /// Adds a new reminder at the specified time.
-  /// Returns the created schedule, or null if max reminders reached.
-  Future<NotificationScheduleModel?> addReminder(
-    TimeOfDay time, {
-    String? label,
-  }) async {
-    final uid = _currentUserId;
-    if (uid == null) {
-      state = AsyncValue.error(Exception('Not logged in'), StackTrace.current);
-      return null;
-    }
-
-    state = const AsyncValue.loading();
-    NotificationScheduleModel? schedule;
-
-    final result = await AsyncValue.guard(() async {
-      schedule = await ref
-          .read(settingsRepositoryProvider)
-          .addReminder(uid, time: time, label: label);
-    });
-
-    if (!ref.mounted) return null;
-    state = result;
-    return schedule;
-  }
-
-  /// Removes a reminder by its ID.
-  Future<void> removeReminder(String scheduleId) =>
-      _write((uid, repo) => repo.removeReminder(uid, scheduleId));
-
-  /// Updates a reminder's time.
-  Future<void> updateReminderTime(String scheduleId, TimeOfDay time) =>
-      _write((uid, repo) => repo.updateReminderTime(uid, scheduleId, time));
-
-  /// Toggles a specific reminder on/off.
-  Future<void> toggleReminder(String scheduleId, {required bool enabled}) =>
-      _write(
-        (uid, repo) =>
-            repo.setReminderEnabled(uid, scheduleId, enabled: enabled),
-      );
-
-  /// Updates a reminder's label.
-  Future<void> updateReminderLabel(String scheduleId, String label) =>
-      _write((uid, repo) => repo.updateReminderLabel(uid, scheduleId, label));
+  /// Sets the daily reminder time.
+  Future<void> updateReminderTime(TimeOfDay time) =>
+      _write((uid, repo) => repo.setReminderTime(uid, time));
 
   /// Marks a streak milestone as seen.
   Future<void> markMilestoneSeen(int weekNumber) =>

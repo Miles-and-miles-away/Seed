@@ -55,12 +55,10 @@ class FCMService {
   ///
   /// Must be called after Firebase.initializeApp().
   ///
-  /// Deliberately does NOT request notification permission: the
-  /// reminder feature is postponed (see NOTE(postponed) in
-  /// lib/shared/providers/notification_providers.dart), and permission
-  /// will be requested contextually when that feature ships. Listeners
-  /// are still registered unconditionally so message taps start
-  /// working as soon as the user grants permission in OS settings.
+  /// Deliberately does NOT request notification permission: turning a
+  /// reminder on asks for it in context. Listeners are still registered
+  /// unconditionally so message taps start working as soon as the user
+  /// grants permission.
   Future<void> initialize({
     void Function(RemoteMessage message)? onForeground,
     void Function(RemoteMessage message)? onTap,

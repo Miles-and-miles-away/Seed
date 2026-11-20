@@ -11,6 +11,7 @@ import 'package:seed_app/features/mascot/presentation/providers/mascot_providers
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'day_change_provider.g.dart';
@@ -76,6 +77,7 @@ class DayChangeNotifier extends _$DayChangeNotifier {
       ..invalidate(co2StatsProvider)
       ..invalidate(co2TrendDataProvider)
       ..invalidate(co2CategoryDataProvider)
+      ..invalidate(actionRemindersProvider)
       ..invalidate(welcomeBackSmileDueProvider);
 
     // Update state and reschedule

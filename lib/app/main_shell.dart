@@ -9,6 +9,7 @@ import '../core/constants/ui_constants.dart';
 import '../features/mascot/mascot.dart';
 import '../shared/providers/analytics_providers.dart';
 import '../shared/providers/day_change_provider.dart';
+import '../shared/providers/notification_providers.dart';
 import 'app_bottom_nav.dart';
 import 'router.dart';
 
@@ -33,10 +34,15 @@ class _MainShellState extends ConsumerState<MainShell> {
   bool _hasShownEvolutionCelebration = false;
   bool _hasShownEggDiscovery = false;
   bool _actionPushPending = false;
+  late final _tappedRoute = ref.read(notificationServiceProvider).tappedRoute;
 
   @override
   void initState() {
     super.initState();
+    // The shell only shows once signed in, so a tap from a cold start
+    // waits here for the auth redirects to settle.
+    _tappedRoute.addListener(_openTappedRoute);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _openTappedRoute());
 
     ref
       // Bootstrap day-change tracking (keepAlive, so one read suffices
@@ -67,6 +73,25 @@ class _MainShellState extends ConsumerState<MainShell> {
           });
         }
       });
+  }
+
+  @override
+  void dispose() {
+    _tappedRoute.removeListener(_openTappedRoute);
+    super.dispose();
+  }
+
+  void _openTappedRoute() {
+    final route = _tappedRoute.value;
+    if (route == null || !mounted) return;
+    _tappedRoute.value = null;
+    final router = GoRouter.of(context);
+    // Replace an open action log rather than stack a second one.
+    if (router.state.uri.path == appRoutes.actionLog) {
+      router.pushReplacement(route);
+    } else {
+      router.push(route);
+    }
   }
 
   @override

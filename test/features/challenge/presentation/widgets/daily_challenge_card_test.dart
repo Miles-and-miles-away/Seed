@@ -22,6 +22,7 @@ import 'package:seed_app/features/challenge/domain/models/challenge_templates.da
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/features/challenge/presentation/widgets/daily_challenge_card.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -105,10 +106,14 @@ Widget _buildCard({
   Future<List<ActionModel>> Function()? library,
   Locale? locale,
   ThemeData? theme,
+  List<Override> extra = const [],
 }) => createTestWidget(
   locale: locale,
   theme: theme,
-  overrides: _overrides(user: user, template: template, library: library),
+  overrides: [
+    ..._overrides(user: user, template: template, library: library),
+    ...extra,
+  ],
   child: const Scaffold(
     body: SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 24),
@@ -127,6 +132,20 @@ Widget _routerApp(List<Override> overrides, List<RouteBase> routes) =>
         routerConfig: GoRouter(initialLocation: '/', routes: routes),
       ),
     );
+
+/// Records daily reminder toggles, answering with [permitted].
+class _RecordingSettings extends SettingsNotifier {
+  _RecordingSettings({this.permitted = true});
+
+  final bool permitted;
+  final toggles = <bool>[];
+
+  @override
+  Future<bool> toggleNotifications({required bool enabled}) async {
+    toggles.add(enabled);
+    return permitted;
+  }
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -664,6 +683,70 @@ void main() {
         await settleWrites(tester);
         final found = await foundInFirestore(firestore, uid);
         expect(found, contains(WalkthroughItem.dailyChallenge.name));
+      });
+    });
+
+    group('reminder bell', () {
+      Future<_RecordingSettings> pumpBell(
+        WidgetTester tester, {
+        bool on = false,
+        bool completed = false,
+        bool permitted = true,
+      }) async {
+        final settings = _RecordingSettings(permitted: permitted);
+        await tester.pumpWidget(
+          _buildCard(
+            user: _user(completed: completed),
+            extra: [
+              notificationsEnabledProvider.overrideWithValue(on),
+              settingsProvider.overrideWith(() => settings),
+            ],
+          ),
+        );
+        await tester.pumpAndSettle();
+        return settings;
+      }
+
+      testWidgets('is outlined while off and filled while on', (tester) async {
+        await pumpBell(tester);
+        expect(find.byIcon(Icons.notifications_none), findsOneWidget);
+        expect(find.byTooltip('Set a reminder'), findsOneWidget);
+
+        await pumpBell(tester, on: true);
+        expect(find.byIcon(Icons.notifications_active), findsOneWidget);
+        expect(find.byTooltip('Edit reminder'), findsOneWidget);
+      });
+
+      testWidgets('stays on the completed card', (tester) async {
+        await pumpBell(tester, completed: true);
+
+        expect(find.text('Complete!'), findsOneWidget);
+        expect(find.byIcon(Icons.notifications_none), findsOneWidget);
+      });
+
+      testWidgets('opens the reminder sheet in place', (tester) async {
+        final settings = await pumpBell(tester);
+
+        await tester.tap(find.byTooltip('Set a reminder'));
+        await tester.pumpAndSettle();
+        expect(find.text('Daily challenge reminder'), findsOneWidget);
+        expect(find.text('Reminder time'), findsOneWidget);
+
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+        expect(settings.toggles, [true]);
+      });
+
+      testWidgets('a refusal closes the sheet to show why', (tester) async {
+        await pumpBell(tester, permitted: false);
+
+        await tester.tap(find.byTooltip('Set a reminder'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Reminder time'), findsNothing);
+        expect(find.textContaining('Notifications are off'), findsOneWidget);
       });
     });
   });

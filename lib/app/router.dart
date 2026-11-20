@@ -31,12 +31,13 @@ import '../features/settings/presentation/screens/about_screen.dart';
 import '../features/settings/presentation/screens/account_settings_screen.dart';
 import '../features/settings/presentation/screens/feedback_screen.dart';
 import '../features/settings/presentation/screens/language_settings_screen.dart';
-import '../features/settings/presentation/screens/notification_settings_screen.dart';
 import '../features/settings/presentation/screens/privacy_policy_screen.dart';
+import '../features/settings/presentation/screens/reminders_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/settings/presentation/screens/terms_of_service_screen.dart';
 import '../features/transport/transport.dart';
 import '../shared/providers/analytics_providers.dart';
+import '../shared/providers/notification_providers.dart';
 import '../shared/services/analytics_service.dart';
 import 'main_shell.dart';
 
@@ -97,10 +98,19 @@ class AppRoutes {
       Uri(path: actionLog, queryParameters: {'category': category}).toString();
 
   /// Action log filtered to [category] with [actionId] shown first, used
-  /// by the daily challenge card for the action it names.
-  String actionLogForAction(String category, String actionId) => Uri(
+  /// by the daily challenge card for the action it names. With [log] the
+  /// action's log dialog opens too, for an action reminder's tap.
+  String actionLogForAction(
+    String category,
+    String actionId, {
+    bool log = false,
+  }) => Uri(
     path: actionLog,
-    queryParameters: {'category': category, 'action': actionId},
+    queryParameters: {
+      'category': category,
+      'action': actionId,
+      if (log) 'log': '1',
+    },
   ).toString();
 
   /// Action log pre-filtered to one SDG, used by "View all actions" on the
@@ -128,8 +138,8 @@ class AppRoutes {
 
   // Nested under profile
   String get settings => '/profile/settings';
-  String get settingsNotifications => '/profile/settings/notifications';
   String get settingsLanguage => '/profile/settings/language';
+  String get settingsReminders => '/profile/settings/reminders';
   String get settingsAccount => '/profile/settings/account';
   String get settingsAbout => '/profile/settings/about';
   String get settingsFeedback => '/profile/settings/feedback';
@@ -140,13 +150,24 @@ const appRoutes = AppRoutes._();
 
 @riverpod
 GoRouter router(Ref ref) {
+  // A notification tapped while signed out must not open for whoever
+  // signs in next.
+  final tapped = ref.read(notificationServiceProvider).tappedRoute;
+  void dropSignedOutTap() {
+    final auth = ref.read(authStateChangesProvider);
+    if (auth.hasValue && auth.value == null) tapped.value = null;
+  }
+
+  ref.onDispose(() => tapped.removeListener(dropSignedOutTap));
+  tapped.addListener(dropSignedOutTap);
+
   // redirect reads authStateChangesProvider with ref.read (a watch would
   // recreate the router and reset the navigation stack on every auth
-  // emission). read alone does not retain an autoDispose provider, so an
-  // empty listen keeps it alive. Registered before the refresh stream
+  // emission). read alone does not retain an autoDispose provider, so a
+  // listen keeps it alive. Registered before the refresh stream
   // subscribes so the provider observes each auth event first and redirect
   // never reads a stale value.
-  ref.listen(authStateChangesProvider, (_, _) {});
+  ref.listen(authStateChangesProvider, (_, _) => dropSignedOutTap());
 
   // Re-evaluates redirect on every auth event. Built once per provider
   // lifetime and disposed below so the Firebase subscription cannot leak.
@@ -259,11 +280,8 @@ GoRouter router(Ref ref) {
                     'settings',
                     const SettingsScreen(),
                     routes: [
-                      _route(
-                        'notifications',
-                        const NotificationSettingsScreen(),
-                      ),
                       _route('language', const LanguageSettingsScreen()),
+                      _route('reminders', const RemindersScreen()),
                       _route('account', const AccountSettingsScreen()),
                       _route('about', const AboutScreen()),
                       _route('feedback', const FeedbackScreen()),
@@ -290,6 +308,7 @@ GoRouter router(Ref ref) {
             initialCategory: state.uri.queryParameters['category'],
             initialSdg: int.tryParse(state.uri.queryParameters['sdg'] ?? ''),
             initialActionId: state.uri.queryParameters['action'],
+            logInitialAction: state.uri.queryParameters['log'] == '1',
           ),
         ),
       ),

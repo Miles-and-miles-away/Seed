@@ -9,16 +9,19 @@ part of 'user_settings_model.dart';
 _UserSettingsModel _$UserSettingsModelFromJson(Map<String, dynamic> json) =>
     _UserSettingsModel(
       notificationsEnabled: json['notificationsEnabled'] as bool? ?? false,
-      reminderSchedules:
-          (json['reminderSchedules'] as List<dynamic>?)
-              ?.map(
-                (e) => NotificationScheduleModel.fromJson(
-                  e as Map<String, dynamic>,
-                ),
-              )
-              .toList() ??
-          const [],
-      smartRemindersEnabled: json['smartRemindersEnabled'] as bool? ?? true,
+      reminderHour:
+          (json['reminderHour'] as num?)?.toInt() ??
+          AppConstants.defaultReminderHour,
+      reminderMinute:
+          (json['reminderMinute'] as num?)?.toInt() ??
+          AppConstants.defaultReminderMinute,
+      actionRemindersEnabled: json['actionRemindersEnabled'] as bool? ?? false,
+      actionReminders:
+          (json['actionReminders'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, ActionReminder.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
       language: json['language'] as String?,
       hasSeenOnboarding: json['hasSeenOnboarding'] as bool? ?? false,
       seenStreakMilestones:
@@ -39,8 +42,10 @@ _UserSettingsModel _$UserSettingsModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$UserSettingsModelToJson(_UserSettingsModel instance) =>
     <String, dynamic>{
       'notificationsEnabled': instance.notificationsEnabled,
-      'reminderSchedules': instance.reminderSchedules,
-      'smartRemindersEnabled': instance.smartRemindersEnabled,
+      'reminderHour': instance.reminderHour,
+      'reminderMinute': instance.reminderMinute,
+      'actionRemindersEnabled': instance.actionRemindersEnabled,
+      'actionReminders': instance.actionReminders,
       'language': instance.language,
       'hasSeenOnboarding': instance.hasSeenOnboarding,
       'seenStreakMilestones': instance.seenStreakMilestones,

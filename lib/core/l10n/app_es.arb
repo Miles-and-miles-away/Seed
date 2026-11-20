@@ -143,7 +143,6 @@
   },
   "settingsTitle": "Ajustes",
   "settingsNotifications": "Notificaciones",
-  "settingsReminderTime": "Recordatorio diario",
   "settingsLanguage": "Idioma",
   "settingsTheme": "Tema",
   "settingsThemeSystem": "Sistema",
@@ -212,15 +211,6 @@
   "languagePickerTitle": "Elige tu idioma",
   "languagePickerHint": "Puedes cambiarlo cuando quieras en Ajustes.",
   "languageCurrentLabel": "Idioma: {language}",
-  "settingsNotificationsSubtitle": "{count} recordatorios activados",
-  "@settingsNotificationsSubtitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsNotificationsOff": "Las notificaciones están desactivadas",
   "settingsLanguageSubtitle": "{language}",
   "@settingsLanguageSubtitle": {
     "placeholders": {
@@ -384,63 +374,99 @@
   "sdgAboutGoal": "Acerca de este objetivo",
   "sdgViewTargets": "Ver metas",
   "sdgTargetsTitle": "Metas de la ONU",
-  "notifSettingsTitle": "Ajustes de notificaciones",
-  "notifSectionNotifications": "Notificaciones",
-  "notifEnableTitle": "Activar notificaciones",
-  "notifEnableSubtitle": "Recibe recordatorios diarios para registrar acciones",
-  "notifSmartTitle": "Recordatorios inteligentes",
-  "notifSmartOnlyTitle": "Recordar solo si hoy no hay acciones",
-  "notifSmartOnlySubtitle": "Omitir los recordatorios los días en que ya hayas registrado algo",
-  "notifSmartDescription": "Cuando está activado, los recordatorios solo aparecerán si no has registrado acciones sostenibles ese día.",
-  "notifReminderTimesTitle": "Horas de recordatorio",
-  "notifNoReminders": "Sin recordatorios configurados",
-  "notifAddReminder": "Añade un recordatorio para recibir avisos",
-  "notifAddReminderTime": "Añadir hora de recordatorio",
-  "notifMaxReminders": "Máximo 5 recordatorios",
-  "notifEditTime": "Editar hora del recordatorio",
-  "notifSelectTime": "Seleccionar hora del recordatorio",
-  "notifLabelTitle": "Etiqueta del recordatorio",
-  "notifLabelHint": "Ej.: Por la mañana, Al salir del trabajo...",
-  "notifLabelOptional": "Etiqueta (opcional)",
-  "notifDeleteTitle": "¿Eliminar recordatorio?",
-  "notifDeleteMessage": "¿Eliminar el recordatorio de las {time}?",
-  "@notifDeleteMessage": {
+  "notifDailyReminder": "Recordatorio del desafío diario",
+  "notifDailyReminderSubtitle": "Un aviso si el eco-dato de hoy sigue bloqueado",
+  "notifReminderTime": "Hora del recordatorio",
+  "notifReminderTitle": "El eco-dato de hoy te espera",
+  "notifReminderBody": "Completa el desafío de hoy para desbloquearlo.",
+  "notifActionReminders": "Recordatorios de acciones",
+  "notifActionRemindersSubtitle": "Los recordatorios que creas en las acciones",
+  "notifActionReminderBody": "Tu recordatorio de hoy. Toca para registrarlo cuando lo hayas hecho.",
+  "notifStyle": "Estilo de las notificaciones",
+  "notifStyleSubtitle": "Sonido, vibración y banners, en los ajustes del teléfono",
+  "notifBlocked": "Las notificaciones de Seed están desactivadas. Actívalas en los ajustes del teléfono.",
+  "notifBlockedTitle": "Las notificaciones están bloqueadas",
+  "notifBlockedSubtitle": "Toca para permitirlas en los ajustes del teléfono",
+  "notifOpenSettings": "Abrir ajustes",
+  "reminderSheetTitle": "Recuérdamelo",
+  "reminderSetTooltip": "Crear recordatorio",
+  "reminderEditTooltip": "Editar recordatorio",
+  "reminderPausedTooltip": "Editar recordatorio (los recordatorios de acciones están desactivados)",
+  "reminderDays": "Días",
+  "reminderForever": "Siempre",
+  "reminderRepeat": "Número de veces",
+  "reminderRepeatCount": "{count, plural, =1{1 vez} other{{count} veces}}",
+  "@reminderRepeatCount": {
     "placeholders": {
-      "time": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderFewer": "Menos veces",
+  "reminderMore": "Más veces",
+  "reminderLastDay": "Último recordatorio: {date}",
+  "@reminderLastDay": {
+    "placeholders": {
+      "date": {
         "type": "String"
       }
     }
   },
-  "notifAdd": "Añadir",
+  "reminderSaved": "Recordatorio guardado",
+  "reminderLimit": "Puedes tener hasta {max} recordatorios de acciones.",
+  "@reminderLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderSummary": "{days} {hour, plural, =1{a la} other{a las}} {time}",
+  "@reminderSummary": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderSummaryUntil": "{days} {hour, plural, =1{a la} other{a las}} {time}, hasta el {date}",
+  "@reminderSummaryUntil": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderDaySeparator": ", ",
+  "reminderManage": "Gestionar",
+  "remindersTitle": "Recordatorios",
+  "reminderManageTitle": "Gestionar recordatorios",
+  "reminderManageSubtitle": "Desafío diario y recordatorios de acciones",
+  "reminderListIntro": "Crea un recordatorio con la campana de cualquier acción, hasta {max}. Toca uno para cambiarlo o eliminarlo.",
+  "reminderListEmpty": "Aún no tienes recordatorios de acciones.",
+  "reminderEveryDay": "Todos los días",
   "settingsPreferences": "Preferencias",
   "settingsVersionFormat": "Versión {version}",
   "@settingsVersionFormat": {
     "placeholders": {
       "version": {
         "type": "String"
-      }
-    }
-  },
-  "settingsNoReminders": "Sin recordatorios configurados",
-  "settingsRemindersCount": "{count} recordatorios configurados",
-  "@settingsRemindersCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsOneReminder": "1 recordatorio configurado",
-  "settingsTapToAddReminders": "Toca para añadir recordatorios",
-  "settingsAllRemindersDisabled": "Todos los recordatorios desactivados",
-  "settingsRemindersPlusMore": "{time} + {count} más",
-  "@settingsRemindersPlusMore": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
       }
     }
   },
@@ -811,7 +837,7 @@
   "transportComparisonDelta": "{label} emite {amount} CO2e menos que {worse} ({percent}% menos)",
   "transportComparisonTreesEquiv": "Equivale a unos {count} árboles absorbiendo CO2 durante un año",
   "transportMethodologyTitle": "Metodología y fuentes",
-  "transportMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los medios eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que no tienen por qué añadirse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya se miden por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Según DESNZ 2025, los factores de vuelos y jets privados incluyen un recargo de 1,7 (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo recargo, así que se comparan en igualdad de condiciones.\n\n### Medios eléctricos y la red\nLos coches eléctricos, las bicis y los patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de {grid} g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Medias, no tu trayecto exacto\nLos factores son medias por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos medios están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.",
+  "transportMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los medios eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que no tienen por qué añadirse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya se miden por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Según DESNZ 2025, los factores de vuelos y jets privados incluyen un recargo de 1,7 (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo recargo, así que se comparan en igualdad de condiciones.\n\n### Medios eléctricos y la red\nLos coches eléctricos, las bicis y los patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de {grid}\u00A0g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Medias, no tu trayecto exacto\nLos factores son medias por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos medios están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.",
   "transportLogChoiceTitle": "¿Eliges la opción más ecológica?",
   "transportLogChoiceBody": "Registra esto como una acción de transporte y acumula los {amount} CO2e que evitas al elegir la opción de menor huella.",
   "transportLogChoiceCta": "Registrar {label} como mi elección de hoy",
@@ -1095,7 +1121,7 @@
   "energyGridBasisNote": "Las cifras en gramos suponen la red eléctrica media mundial, {grid} g CO2e/kWh (Ember, datos de 2025)",
   "energyGridBasisNoteRatio": "Las cifras en gramos suponen la red eléctrica media mundial, {grid} g CO2e/kWh (Ember, datos de 2025); el múltiplo se mantiene en cualquier red",
   "energyMethodologyTitle": "Metodología y fuentes",
-  "energyMethodologyBody": "Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos {grid} g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el {grid} de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.",
+  "energyMethodologyBody": "Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos {grid}\u00A0g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el {grid} de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.",
   "energyRankedTitle": "A dónde va tu energía",
   "energyRankedIntro": "Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de una hora de luz LED. Cada fila indica su base (un uso, una hora o un día) debajo del nombre. Esto ordena la energía consumida, que es la parte que deciden tus hábitos.",
   "energyRankedGasNote": "Los aparatos de gas están en la misma lista, porque aquí se ordena por energía. Ojo a un detalle: un calentador de gas usa más energía que uno eléctrico para el mismo baño y, aun así, con la red media mundial de hoy emite menos. Por debajo de unos 241 g CO2e por kWh de electricidad, el resultado se invierte y gana la electricidad. La energía que usas es lo que eliges tú; lo limpia que sea la red depende de tu país y mejora cada año.",
