@@ -361,9 +361,29 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     String? note,
     String languageCode = 'en',
   }) async {
-    // In-flight guard: two concurrent callers would double-log.
-    if (state.isLoading) return null;
+    // A repeat of an action still waiting or in flight would double-log.
+    if (!_pending.add(action.id)) return null;
+    try {
+      return await _logQueued(action, note: note, languageCode: languageCode);
+    } finally {
+      _pending.remove(action.id);
+    }
+  }
 
+  final _pending = <String>{};
+  Future<void> _lastWrite = Future.value();
+
+  /// Whether a log is waiting or in flight.
+  bool get isBusy => _pending.isNotEmpty;
+
+  /// Whether a log of [actionId] is waiting or in flight.
+  bool isPending(String actionId) => _pending.contains(actionId);
+
+  Future<ActionLogResult?> _logQueued(
+    ActionModel action, {
+    required String? note,
+    required String languageCode,
+  }) async {
     appLogger.debug('ActionLog: logAction called for ${action.nameEn}');
 
     final userAsync = ref.read(currentUserProvider);
@@ -379,11 +399,20 @@ class ActionLogNotifier extends _$ActionLogNotifier {
 
     state = const AsyncValue.loading();
 
+    // One write at a time, so each can wait out the gap after the last.
+    final previous = _lastWrite;
+    final written = Completer<void>();
+    _lastWrite = written.future;
+    await previous;
+
     // The repository future loads bundled JSON and can reject, so it
     // stays inside the guard or state strands in loading forever.
     // The daily summary is written inside the logAction transaction,
     // so only analytics remain as follow-up work here.
     final result = await AsyncValue.guard(() async {
+      // A write inside the rules' gap is rejected, so wait it out instead.
+      final cooldown = actionLogCooldown();
+      if (cooldown > Duration.zero) await Future<void>.delayed(cooldown);
       final actionLogRepo = await ref.read(actionLogRepositoryProvider.future);
       return actionLogRepo.logAction(
         userId: user.uid,
@@ -392,6 +421,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
         note: note,
       );
     });
+    written.complete();
 
     if (result.hasError) {
       if (isOfflineError(result.error)) {
@@ -423,7 +453,8 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     }
 
     if (!ref.mounted) return result.asData?.value;
-    state = result;
+    // A failure always lands: its caller reads the error from the state.
+    if (result.hasError || _pending.length == 1) state = result;
     return result.asData?.value;
   }
 

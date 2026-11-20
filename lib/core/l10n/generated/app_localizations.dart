@@ -268,6 +268,12 @@ abstract class AppLocalizations {
   /// **'Action logged! {points} points earned'**
   String actionLogged(int points);
 
+  /// No description provided for @actionLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging your action...'**
+  String get actionLogging;
+
   /// No description provided for @noActionsFound.
   ///
   /// In en, this message translates to:

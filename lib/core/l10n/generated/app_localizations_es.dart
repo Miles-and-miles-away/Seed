@@ -98,6 +98,9 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get actionLogging => 'Registrando tu acción...';
+
+  @override
   String get noActionsFound => 'No se han encontrado acciones';
 
   @override

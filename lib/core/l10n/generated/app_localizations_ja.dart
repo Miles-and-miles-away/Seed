@@ -97,6 +97,9 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get actionLogging => '記録中...';
+
+  @override
   String get noActionsFound => 'アクションが見つかりません';
 
   @override
