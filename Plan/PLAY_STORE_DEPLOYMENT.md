@@ -170,9 +170,9 @@ nowhere else, so an unverified review account is a dead end.
       `tools:node="remove"` and turns off Analytics ad ID collection.
       Confirm on every upload that the merged manifest still lacks
       them. See D2.
-- [x] **Privacy policy URL.** https://seed-3d48d.web.app/privacy,
+- [x] **Privacy policy URL.** https://seedahabit.com/privacy,
       built from `public/privacy.html`.
-- [x] **Account deletion URL.** https://seed-3d48d.web.app/delete-account,
+- [x] **Account deletion URL.** https://seedahabit.com/delete-account,
       built from `public/delete-account.html`. Backed by the
       `deleteUserAccount` callable, which removes subcollections and
       the Auth user server-side.
