@@ -1,6 +1,10 @@
 name: Build Verification
 
+# The push run rebuilds what a pull request skipped, and it saves the
+# caches that pull requests restore.
 on:
+  push:
+    branches: [development]
   pull_request:
     branches: [development, main]
 
@@ -20,10 +24,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # Plugin Gradle dependencies follow pubspec.lock.
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
+          cache: gradle
+          cache-dependency-path: |
+            android/*.gradle.kts
+            android/app/*.gradle.kts
+            android/gradle.properties
+            android/gradle/wrapper/gradle-wrapper.properties
+            pubspec.lock
 
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
@@ -99,8 +111,35 @@ jobs:
       - name: Build release app bundle
         run: flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info
 
+  # A simulator build of a pull request that changes no native input
+  # repeats what analysis, the tests and the Android build already cover.
+  changes:
+    name: Detect iOS Changes
+    if: github.event_name == 'pull_request' && github.base_ref == 'development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      ios: ${{ steps.diff.outputs.ios }}
+
+    steps:
+      # HEAD is the merge commit of the pull request; HEAD^1 is its base.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+
+      - id: diff
+        run: |
+          if git diff --quiet HEAD^1 HEAD -- \
+              ios pubspec.yaml pubspec.lock .github/workflows/build.yml; then
+            echo "ios=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # Builds unless the changes job said no, so a failed or skipped changes
+  # job never skips the build. A skipped job passes the required check.
   build-ios:
     name: Build iOS
+    needs: changes
+    if: ${{ !cancelled() && needs.changes.outputs.ios != 'false' }}
     runs-on: macos-latest
     timeout-minutes: 30
 
@@ -161,9 +200,25 @@ jobs:
 
       - run: flutter pub get
 
+      - id: xcode
+        run: echo "version=$(xcodebuild -version | tr -d ' \n')" >> "$GITHUB_OUTPUT"
+
+      # Swift package checkouts and the Xcode compilation cache. A new
+      # Xcode version starts an empty cache, which also limits its growth.
+      - uses: actions/cache@v5
+        with:
+          path: |
+            build/ios/SourcePackages
+            build/xcode-cas
+          key: ios-${{ steps.xcode.outputs.version }}-${{ hashFiles('pubspec.lock', 'ios/**/Package.resolved') }}
+          restore-keys: ios-${{ steps.xcode.outputs.version }}-
+
       # Simulator, not device: --no-codesign still builds for device, which
       # needs a Development Team the project has no reason to configure in
       # CI. A simulator build compiles the same Dart and plugin code and
       # needs no signing at all.
       - name: Build iOS for the simulator
         run: flutter build ios --simulator --debug
+        env:
+          FLUTTER_XCODE_COMPILATION_CACHE_ENABLE_CACHING: "YES"
+          FLUTTER_XCODE_COMPILATION_CACHE_CAS_PATH: ${{ github.workspace }}/build/xcode-cas
