@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/utils/helpers.dart';
@@ -7,6 +8,7 @@ import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/screens/mascot_screen.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -124,6 +126,20 @@ void main() {
       // Exact count depends on today's date; just assert the label exists.
       expect(find.text('Days together'), findsOneWidget);
 
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('tapping the mascot smiles', (tester) async {
+      await pumpMascotScreen(tester);
+      final smiles = <bool>[];
+      ProviderScope.containerOf(
+        tester.element(find.byType(MascotScreen)),
+      ).listen(mascotSmileTriggerProvider, (_, next) => smiles.add(next));
+
+      await tester.tap(find.byType(MascotDisplay));
+      await tester.pump();
+
+      expect(smiles, [true]);
       await disposeAndFlush(tester);
     });
 

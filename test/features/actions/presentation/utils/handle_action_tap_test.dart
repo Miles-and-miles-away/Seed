@@ -5,8 +5,11 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseException;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
@@ -19,6 +22,8 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/screens/eco_dex_celebration_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_cheer.dart';
+import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
@@ -85,6 +90,8 @@ class _FakeDiscovery extends EcoDexDiscoveryNotifier {
 }
 
 const _uid = 'u';
+const _inbox = 'inbox';
+const _svg = 'assets/images/mascot/seed_stage1.svg';
 
 const _walk = ActionModel(
   id: 'walk',
@@ -109,6 +116,7 @@ ActionLogResult _result({
   int? milestoneWeek,
   bool challengeCompleted = false,
   int newTotalActionsCount = 1,
+  int newGoalCount = 1,
 }) => ActionLogResult(
   actionLog: ActionLogModel(
     id: 'log-1',
@@ -123,6 +131,7 @@ ActionLogResult _result({
   crossedMilestoneWeek: milestoneWeek,
   challengeCompleted: challengeCompleted,
   newTotalActionsCount: newTotalActionsCount,
+  newGoalCount: newGoalCount,
 );
 
 void main() {
@@ -146,13 +155,41 @@ void main() {
     WidgetTester tester, {
     ActionModel action = _walk,
     UserSettingsModel settings = const UserSettingsModel(),
+    AppUserModel user = const AppUserModel(uid: _uid, email: 'e'),
+    String? mascotAsset,
+    bool celebrationPending = false,
   }) async {
+    final router = GoRouter(
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (_, _) => Scaffold(
+            body: Consumer(
+              builder: (context, ref, _) => ElevatedButton(
+                onPressed: () => handleActionTap(
+                  context,
+                  ref,
+                  action: action,
+                  languageCode: 'en',
+                ),
+                child: const Text('tap'),
+              ),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: appRoutes.dailyFact,
+          builder: (_, _) => const Scaffold(body: Text(_inbox)),
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
     await tester.pumpWidget(
-      createTestWidget(
-        firestore: firestore,
-        scaffold: true,
+      ProviderScope(
         overrides: [
-          userOverride(const AppUserModel(uid: _uid, email: 'e')),
+          languageStoreOverride(),
+          firestoreProvider.overrideWithValue(firestore),
+          userOverride(user),
           actionLogProvider.overrideWith(() => log),
           ecoDexDiscoveryProvider.overrideWith(() => discovery),
           ecoDexDataProvider.overrideWith(
@@ -160,22 +197,19 @@ void main() {
           ),
           ecoDexAvailableIconsProvider.overrideWith((_) async => <String>{}),
           userSettingsProvider.overrideWith((_) => Stream.value(settings)),
-          activeMascotAssetPathProvider.overrideWith((_) => null),
+          activeMascotAssetPathProvider.overrideWith((_) => mascotAsset),
           activeStageDataProvider.overrideWith((_) => null),
+          mascotCelebrationPendingProvider.overrideWith(
+            (_) => celebrationPending,
+          ),
           sdgGoalsDataProvider.overrideWith(
             (_) async => const SdgGoalsData(goals: [], goalMap: {}),
           ),
         ],
-        child: Consumer(
-          builder: (context, ref, _) => ElevatedButton(
-            onPressed: () => handleActionTap(
-              context,
-              ref,
-              action: action,
-              languageCode: 'en',
-            ),
-            child: const Text('tap'),
-          ),
+        child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          routerConfig: router,
         ),
       ),
     );
@@ -184,9 +218,6 @@ void main() {
       ..listen(currentUserProvider, (_, _) {})
       ..listen(userSettingsProvider, (_, _) {});
   }
-
-  ProviderContainer containerOf(WidgetTester tester) =>
-      ProviderScope.containerOf(tester.element(find.byType(ElevatedButton)));
 
   /// Pumps frames on the fake clock until [finder] matches (bounded).
   Future<void> pumpUntil(WidgetTester tester, Finder finder) async {
@@ -210,7 +241,7 @@ void main() {
     }
   }
 
-  /// Runs out the points overlay, snackbars and bounce timer.
+  /// Runs out the points overlay, snackbars and cheer timers.
   Future<void> drain(WidgetTester tester) async {
     await tester.pump(durationShowcase);
     await tester.pump(const Duration(seconds: 10));
@@ -246,10 +277,6 @@ void main() {
   testWidgets('confirming logs with the note and celebrates', (tester) async {
     log.result = _result(newTotalActionsCount: 42);
     await pumpHost(tester);
-    var bounced = false;
-    containerOf(tester).listen(mascotAnimationTriggerProvider, (_, next) {
-      if (next) bounced = true;
-    });
 
     await tester.tap(find.text('tap'));
     await tester.pumpAndSettle();
@@ -262,7 +289,6 @@ void main() {
     expect(log.calls.single.lang, 'en');
     expect(find.text('Action logged! 20 points earned'), findsOneWidget);
     expect(find.byType(PointsAnimationOverlay), findsOneWidget);
-    expect(bounced, isTrue);
     expect(discovery.receivedMinCount, 42);
     expect(find.byType(StreakMilestoneDialog), findsNothing);
     expect(find.byType(EcoDexCelebrationScreen), findsNothing);
@@ -360,6 +386,96 @@ void main() {
     // The unknown id has no entry, so only one celebration was queued.
     expect(find.byType(EcoDexCelebrationScreen), findsNothing);
     await drain(tester);
+  });
+
+  group('daily goal and challenge', () {
+    Future<void> logWith(
+      WidgetTester tester,
+      ActionLogResult result, {
+      AppUserModel user = const AppUserModel(uid: _uid, email: 'e'),
+      bool celebrationPending = false,
+    }) async {
+      log.result = result;
+      await pumpHost(
+        tester,
+        user: user,
+        mascotAsset: _svg,
+        celebrationPending: celebrationPending,
+      );
+      await tapAndConfirm(
+        tester,
+        until: find.text('Action logged! 20 points earned'),
+      );
+      await tester.pump();
+    }
+
+    testWidgets('the log that reaches the default goal cheers', (tester) async {
+      await logWith(tester, _result(newGoalCount: defaultDailyGoalTarget));
+
+      expect(find.byType(MascotCheer), findsOneWidget);
+      expect(find.text(_inbox), findsNothing);
+      await drain(tester);
+      expect(find.byType(MascotCheer), findsNothing);
+    });
+
+    testWidgets('logs before or past the goal do not cheer', (tester) async {
+      for (final count in [
+        defaultDailyGoalTarget - 1,
+        defaultDailyGoalTarget + 1,
+      ]) {
+        await logWith(tester, _result(newGoalCount: count));
+        expect(find.byType(MascotCheer), findsNothing, reason: '$count');
+        await drain(tester);
+      }
+    });
+
+    testWidgets("the user's own target decides the crossing log", (
+      tester,
+    ) async {
+      const user = AppUserModel(uid: _uid, email: 'e', dailyGoalTarget: 5);
+      await logWith(tester, _result(newGoalCount: 3), user: user);
+      expect(find.byType(MascotCheer), findsNothing);
+      await drain(tester);
+
+      await logWith(tester, _result(newGoalCount: 5), user: user);
+      expect(find.byType(MascotCheer), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('a completed challenge opens the inbox instead of cheering', (
+      tester,
+    ) async {
+      await logWith(
+        tester,
+        _result(newGoalCount: defaultDailyGoalTarget, challengeCompleted: true),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MascotCheer), findsNothing);
+      expect(find.text(_inbox), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('a pending celebration holds back the cheer and inbox', (
+      tester,
+    ) async {
+      await logWith(
+        tester,
+        _result(newGoalCount: defaultDailyGoalTarget),
+        celebrationPending: true,
+      );
+      expect(find.byType(MascotCheer), findsNothing);
+      await drain(tester);
+
+      await logWith(
+        tester,
+        _result(challengeCompleted: true),
+        celebrationPending: true,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text(_inbox), findsNothing);
+      await drain(tester);
+    });
   });
 
   group('failure snackbars', () {

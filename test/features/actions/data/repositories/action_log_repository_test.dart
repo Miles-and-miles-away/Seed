@@ -960,6 +960,18 @@ void main() {
       expect(data[AppConstants.fieldCategoryCo2Grams], {'transport': 1000});
     });
 
+    test('result reports the goal count after each log', () async {
+      await seedUser({});
+
+      Future<int> logOnce() async => (await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      )).newGoalCount;
+
+      expect([await logOnce(), await logOnce()], [1, 2]);
+    });
+
     test('tracks distinct categories independently', () async {
       await seedUser({});
 

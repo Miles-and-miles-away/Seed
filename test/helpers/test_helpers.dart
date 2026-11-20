@@ -86,9 +86,11 @@ Future<ProviderContainer> pumpedContainer(
   List<Override> overrides, {
   ProviderListenable<Object?>? warm,
   LanguageStore? languageStore,
+  Duration? Function(int retryCount, Object error)? retry,
 }) async {
   final container = ProviderContainer(
     overrides: [languageStoreOverride(languageStore), ...overrides],
+    retry: retry,
   );
   addTearDown(container.dispose);
   container.listen(warm ?? currentUserProvider, (_, _) {});

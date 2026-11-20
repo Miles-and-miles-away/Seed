@@ -10,6 +10,10 @@ const String mascotVmLookX = 'lookX';
 const String mascotVmLookY = 'lookY';
 const String mascotVmSmile = 'smile';
 
+/// Stage gesture trigger on the root view model; the file fires the smile
+/// itself at takeoff.
+const String mascotVmJump = 'jump';
+
 /// Number the app raises (0->1) while holding the smile so the FaceRig
 /// script defers blinks; a blink during the held smile looks like a pause
 /// on shut eyes.

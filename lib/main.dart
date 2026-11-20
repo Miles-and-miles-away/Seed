@@ -114,9 +114,8 @@ void main() async {
         ),
       );
 
-      // Notification setup parses the full timezone database and makes
-      // network calls (FCM token); defer it past the first frame so it
-      // can never block startup.
+      // Notification setup makes platform and network calls (FCM token);
+      // defer it past the first frame so it can never block startup.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         unawaited(_initializeNotificationServices());
       });
@@ -143,9 +142,7 @@ Future<T> _timed<T>(String label, Future<T> future) async {
 /// startup or be reported as fatal to Crashlytics.
 Future<void> _initializeNotificationServices() async {
   try {
-    await NotificationService.instance.initialize(
-      onTap: _handleNotificationTap,
-    );
+    await NotificationService.instance.initialize();
   } on Object catch (e, stack) {
     appLogger.error(
       'NotificationService initialization failed',
@@ -166,12 +163,6 @@ Future<void> _initializeNotificationServices() async {
       stackTrace: stack,
     );
   }
-}
-
-/// Handle local notification tap.
-void _handleNotificationTap(String? payload) {
-  appLogger.debug('Local notification tapped: $payload');
-  // Navigation will be handled via router based on payload
 }
 
 /// Handle FCM foreground message.
