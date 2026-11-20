@@ -22,7 +22,7 @@ BETA_STORE_URL = 'https://play.google.com/store/apps/details?id=com.seedahabit.a
 TESTFLIGHT_APP_URL = 'https://apps.apple.com/app/testflight/id899247664'
 TESTFLIGHT_INVITE_URL = 'https://testflight.apple.com/join/tjcFtktN'
 # Link previews need an absolute image URL.
-SITE_URL = 'https://seed-3d48d.web.app'
+SITE_URL = 'https://seedahabit.com'
 
 ROOT = Path(__file__).resolve().parents[2]
 DART = ROOT / 'lib' / 'features' / 'settings' / 'data' / 'legal_content.dart'
@@ -117,38 +117,70 @@ justify-content:space-between;border-bottom:1px solid var(--line);
 padding-bottom:1rem;margin-bottom:1.5rem}header a{color:var(--accent);
 text-decoration:none;font-weight:600}nav a{margin-right:1rem}
 h1{font-size:1.6rem;margin:.5rem 0 .25rem}h2{font-size:1.15rem;margin:1.75rem 0 .5rem}
-.meta{color:var(--muted);font-size:.9rem}.lang{display:flex;gap:.5rem;
-flex-wrap:wrap;margin:1rem 0 2rem}.lang a{padding:.25rem .75rem;border:1px solid
-var(--line);border-radius:999px;color:var(--fg);text-decoration:none;
-font-size:.9rem}section[lang]{padding-top:1rem}section[lang]+section[lang]{
-border-top:1px solid var(--line);margin-top:2.5rem}ul{padding-left:1.25rem}
+.lang{appearance:none;
+-webkit-appearance:none;margin:1rem 0 .5rem;padding:.35rem 2.25rem .35rem .9rem;
+border:1px solid var(--line);border-radius:999px;color:var(--fg);font:inherit;
+font-size:.9rem;background:linear-gradient(45deg,transparent 50%,currentColor 50%)
+calc(100% - 1.15rem) 55%/.3rem .3rem no-repeat,linear-gradient(135deg,
+currentColor 50%,transparent 50%) calc(100% - .85rem) 55%/.3rem .3rem no-repeat,
+var(--card)}
+section[lang]{padding-top:1rem}section[lang]+section[lang]{
+border-top:1px solid var(--line);margin-top:2.5rem}
+.lang:not([hidden])~section[lang]{border-top:0;margin-top:0}ul{padding-left:1.25rem}
 ol{padding-left:1.25rem}code{background:var(--card);border:1px solid var(--line);
 padding:.05rem .35rem;border-radius:4px}
 """
 
+LANG_SCRIPT = """<script>
+(()=>{const s=document.querySelector('select.lang'),
+secs=document.querySelectorAll('main [lang]:not(option)'),
+has=l=>[...s.options].some(o=>o.value===l),
+pick=l=>{for(const x of secs)x.hidden=x.lang!==l;s.value=l;
+document.documentElement.lang=l;
+document.title=document.querySelector('h1').innerText+' - Seed'},
+h=location.hash.slice(1),n=navigator.language.slice(0,2);
+let saved;try{saved=localStorage.getItem('lang')}catch(e){}
+pick(has(h)?h:has(saved)?saved:has(n)?n:s.options[0].value);s.hidden=false;
+s.onchange=()=>{pick(s.value);history.replaceState(null,'','#'+s.value);
+try{localStorage.setItem('lang',s.value)}catch(e){}}})();
+</script>
+"""
+
+
+def tr(texts: dict[str, str]) -> str:
+    return ''.join(
+        f'<span lang="{lang}"{"" if lang == "en" else " hidden"}>'
+        f'{html.escape(texts[lang])}</span>'
+        for lang in LANGS
+    )
+
+
+def arb_text(key: str) -> dict[str, str]:
+    return {lang: arb(lang)[key] for lang in LANGS}
+
 
 def page(
-    title: str,
+    title: dict[str, str],
     sections_by_lang: dict[str, str],
-    updated: str,
     description: str = '',
     extra_css: str = '',
     hero: str = '',
     head: str = '',
 ) -> str:
     langs = [lang for lang in LANGS if sections_by_lang.get(lang)]
-    switcher = ''.join(
-        f'<a href="#{lang}" lang="{lang}">{LANG_NAMES[lang]}</a>'
+    options = ''.join(
+        f'<option value="{lang}" lang="{lang}">{LANG_NAMES[lang]}</option>'
         for lang in langs
-    ) if len(langs) > 1 else ''
+    )
+    multi = len(langs) > 1
+    switcher = (
+        '<select class="lang" aria-label="Language / 言語 / Idioma" hidden>'
+        f'{options}</select>'
+    ) if multi else ''
+    script = LANG_SCRIPT if multi else ''
     blocks = ''.join(
         f'<section lang="{lang}" id="{lang}">{sections_by_lang[lang]}</section>'
         for lang in langs
-    )
-    meta = (
-        f'<p class="meta">Last updated {html.escape(updated)}</p>'
-        if updated
-        else ''
     )
     desc = (
         f'<meta name="description" content="{html.escape(description)}">\n'
@@ -160,28 +192,29 @@ def page(
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-{desc}{head}<title>{html.escape(title)} - Seed</title>
+{desc}{head}<title>{html.escape(title['en'])} - Seed</title>
 <style>{CSS}{extra_css}</style>
 </head>
 <body>
 <main>
 <header>
 <a href="/">Seed</a>
-<nav><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
-<a href="/delete-account">Delete Account</a></nav>
+<nav><a href="/privacy">{tr(arb_text('privacyPolicyTitle'))}</a><a href="/terms">{
+tr(arb_text('termsOfServiceTitle'))}</a>
+<a href="/delete-account">{tr(arb_text('accountSettingsDeleteAccount'))}</a></nav>
 </header>
-<h1>{html.escape(title)}</h1>
-{meta}{hero}
-<div class="lang">{switcher}</div>
+<h1>{tr(title)}</h1>
+{hero}
+{switcher}
 {blocks}
-</main>
+{script}</main>
 </body>
 </html>
 """
 
 
 def legal_page(
-    title: str, lists: dict[str, list[tuple[str, str]]], prefix: str, updated: str
+    title: dict[str, str], lists: dict[str, list[tuple[str, str]]], prefix: str
 ) -> str:
     by_lang = {}
     for lang in LANGS:
@@ -189,7 +222,7 @@ def legal_page(
         by_lang[lang] = ''.join(
             f'<h2>{html.escape(t)}</h2>{body_html(b)}' for t, b in sections
         )
-    return page(title, by_lang, updated)
+    return page(title, by_lang)
 
 
 DELETE_TEXT = {
@@ -232,7 +265,7 @@ DELETE_TEXT = {
 }
 
 
-def delete_page(email: str, updated: str) -> str:
+def delete_page(email: str) -> str:
     by_lang = {}
     for lang in LANGS:
         strings = arb(lang)
@@ -255,19 +288,42 @@ def delete_page(email: str, updated: str) -> str:
             f'<p>{html.escape(t["what"])}</p>'
             f'<p>{alt}</p>'
         )
-    return page('Delete Your Account', by_lang, updated)
+    title = {
+        'en': 'Delete Your Account',
+        'ja': 'アカウントの削除',
+        'es': 'Eliminar su cuenta',
+    }
+    return page(title, by_lang)
+
+
+HOME_BETA_BUTTON = {
+    'en': 'Help test Seed: join the beta',
+    'ja': 'Seedのテストに参加する',
+    'es': 'Ayuda a probar Seed: únete a la prueba',
+}
 
 
 def index_page(email: str) -> str:
     mail = html.escape(email)
-    body = (
-        '<p>Seed is a sustainability habit tracker for iOS and Android.</p>'
-        f'<p>Support: <a href="mailto:{mail}">{mail}</a></p>'
-        '<ul><li><a href="/privacy">Privacy Policy</a></li>'
-        '<li><a href="/terms">Terms of Service</a></li>'
-        '<li><a href="/delete-account">Delete your account</a></li></ul>'
+    by_lang = {}
+    for lang in LANGS:
+        s = {k: html.escape(v) for k, v in arb(lang).items()}
+        t = BETA_TEXT[lang]
+        by_lang[lang] = (
+            f'<p class="lead">{s["appTagline"]}</p>'
+            f'<a class="btn" href="/beta">{html.escape(HOME_BETA_BUTTON[lang])}</a>'
+            f'<p>{html.escape(t["lead"])}</p>'
+            f'<p>{html.escape(t["about"])}</p>'
+            f'<h2>{s["settingsSupport"]}</h2>'
+            f'<p><a href="mailto:{mail}">{mail}</a></p>'
+            f'<ul><li><a href="/privacy">{s["privacyPolicyTitle"]}</a></li>'
+            f'<li><a href="/terms">{s["termsOfServiceTitle"]}</a></li>'
+            f'<li><a href="/delete-account">{s["accountSettingsDeleteAccount"]}</a>'
+            '</li></ul>'
+        )
+    return page(
+        dict.fromkeys(LANGS, 'Seed'), by_lang, extra_css=BETA_CSS, hero=BETA_HERO
     )
-    return page('Seed', {'en': body}, '')
 
 
 BETA_CSS = """
@@ -696,7 +752,11 @@ def beta_page(email: str) -> str:
             f'<h2>{html.escape(t["faq_title"])}</h2>{faq}'
             f'<p>{linked(t["contact"], links)}</p>'
         )
-    title = 'Help test Seed'
+    title = {
+        'en': 'Help test Seed',
+        'ja': 'Seedのテストにご協力ください',
+        'es': 'Ayuda a probar Seed',
+    }
     description = (
         'Help Seed launch. Join the test on Android or iPhone in '
         'about 2 minutes: free, no ads, no payment.'
@@ -704,28 +764,24 @@ def beta_page(email: str) -> str:
     return page(
         title,
         by_lang,
-        '',
         description=description,
         extra_css=BETA_CSS,
         hero=BETA_HERO,
-        head=beta_meta(title, description),
+        head=beta_meta(title['en'], description),
     )
 
 
 def main() -> None:
     consts, lists = parse_dart()
-    updated = consts['_lastUpdated']
     email = consts['_contactEmail']
     OUT.mkdir(exist_ok=True)
     (OUT / 'privacy.html').write_text(
-        legal_page('Privacy Policy', lists, 'privacy', updated), encoding='utf-8'
+        legal_page(arb_text('privacyPolicyTitle'), lists, 'privacy'), encoding='utf-8'
     )
     (OUT / 'terms.html').write_text(
-        legal_page('Terms of Service', lists, 'terms', updated), encoding='utf-8'
+        legal_page(arb_text('termsOfServiceTitle'), lists, 'terms'), encoding='utf-8'
     )
-    (OUT / 'delete-account.html').write_text(
-        delete_page(email, updated), encoding='utf-8'
-    )
+    (OUT / 'delete-account.html').write_text(delete_page(email), encoding='utf-8')
     (OUT / 'index.html').write_text(index_page(email), encoding='utf-8')
     (OUT / 'beta.html').write_text(beta_page(email), encoding='utf-8')
     for name, sections in lists.items():
