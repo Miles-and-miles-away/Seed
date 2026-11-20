@@ -17,26 +17,58 @@ justify-content:space-between;border-bottom:1px solid var(--line);
 padding-bottom:1rem;margin-bottom:1.5rem}header a{color:var(--accent);
 text-decoration:none;font-weight:600}nav a{margin-right:1rem}
 h1{font-size:1.6rem;margin:.5rem 0 .25rem}h2{font-size:1.15rem;margin:1.75rem 0 .5rem}
-.meta{color:var(--muted);font-size:.9rem}.lang{display:flex;gap:.5rem;
-flex-wrap:wrap;margin:1rem 0 2rem}.lang a{padding:.25rem .75rem;border:1px solid
-var(--line);border-radius:999px;color:var(--fg);text-decoration:none;
-font-size:.9rem}section[lang]{padding-top:1rem}section[lang]+section[lang]{
-border-top:1px solid var(--line);margin-top:2.5rem}ul{padding-left:1.25rem}
+.lang{appearance:none;
+-webkit-appearance:none;margin:1rem 0 .5rem;padding:.35rem 2.25rem .35rem .9rem;
+border:1px solid var(--line);border-radius:999px;color:var(--fg);font:inherit;
+font-size:.9rem;background:linear-gradient(45deg,transparent 50%,currentColor 50%)
+calc(100% - 1.15rem) 55%/.3rem .3rem no-repeat,linear-gradient(135deg,
+currentColor 50%,transparent 50%) calc(100% - .85rem) 55%/.3rem .3rem no-repeat,
+var(--card)}
+section[lang]{padding-top:1rem}section[lang]+section[lang]{
+border-top:1px solid var(--line);margin-top:2.5rem}
+.lang:not([hidden])~section[lang]{border-top:0;margin-top:0}ul{padding-left:1.25rem}
 ol{padding-left:1.25rem}code{background:var(--card);border:1px solid var(--line);
 padding:.05rem .35rem;border-radius:4px}
+
+.lead{font-size:1.1rem}.agree{background:var(--card);border:1px solid
+var(--line);border-radius:12px;padding:.25rem 1.25rem;margin:1.5rem 0}
+h3{font-size:1.05rem;margin:1.25rem 0 .25rem}.steps{list-style:none;padding:0;
+counter-reset:step}.steps>li{counter-increment:step;position:relative;
+padding-left:2.75rem;margin:1.75rem 0}.steps>li::before{content:counter(step);
+position:absolute;left:0;top:0;width:2rem;height:2rem;border-radius:50%;
+background:var(--accent);color:var(--bg);font-weight:700;display:flex;
+align-items:center;justify-content:center}.steps h3{margin-top:.2rem}
+.btn{display:block;margin-top:.75rem;padding:.85rem 1rem;border-radius:12px;
+background:var(--accent);color:var(--bg);font-weight:600;text-align:center;
+text-decoration:none}.btn:focus-visible{outline:3px solid var(--fg);
+outline-offset:2px}section a{color:var(--accent);overflow-wrap:anywhere}
+.hero{display:block;width:100%;height:auto;border-radius:12px;margin:.75rem 0 0}
 </style>
 </head>
 <body>
 <main>
 <header>
 <a href="/">Seed</a>
-<nav><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
-<a href="/delete-account">Delete Account</a></nav>
+<nav><a href="/privacy"><span lang="en">Privacy Policy</span><span lang="ja" hidden>プライバシーポリシー</span><span lang="es" hidden>Política de privacidad</span></a><a href="/terms"><span lang="en">Terms of Service</span><span lang="ja" hidden>利用規約</span><span lang="es" hidden>Términos de servicio</span></a>
+<a href="/delete-account"><span lang="en">Delete Account</span><span lang="ja" hidden>アカウントを削除</span><span lang="es" hidden>Eliminar cuenta</span></a></nav>
 </header>
-<h1>Seed</h1>
-
-<div class="lang"></div>
-<section lang="en" id="en"><p>Seed is a sustainability habit tracker for iOS and Android.</p><p>Support: <a href="mailto:support@seedahabit.com">support@seedahabit.com</a></p><ul><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li><li><a href="/delete-account">Delete your account</a></li></ul></section>
+<h1><span lang="en">Seed</span><span lang="ja" hidden>Seed</span><span lang="es" hidden>Seed</span></h1>
+<img class="hero" src="/images/seed-preview.webp" width="1400" height="744" alt="Four Seed screens: the home screen with the mascot, logging an action, the Climate Action goal, and the fact pairs game">
+<select class="lang" aria-label="Language / 言語 / Idioma" hidden><option value="en" lang="en">English</option><option value="ja" lang="ja">日本語</option><option value="es" lang="es">Español</option></select>
+<section lang="en" id="en"><p class="lead">Grow your sustainability habits</p><a class="btn" href="/beta">Help test Seed: join the beta</a><p>Seed is a free daily habit tracker for sustainability. Log the everyday things you already do, or want to do more of: taking the train instead of driving, a meat-free dinner, drying washing on the line. Each one earns points based on roughly how much CO2 it saves, and your mascot grows as you go.</p><p>The estimates come from published research and official data, with sources cited in the app, and actions are linked to the UN Sustainable Development Goals. There are daily and longer challenges, an Eco-Dex of facts you unlock as you log, a couple of quiz games, and calculators for comparing journeys, meals and home appliances. Seed is in English, Japanese and Spanish.</p><h2>Support</h2><p><a href="mailto:support@seedahabit.com">support@seedahabit.com</a></p><ul><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li><li><a href="/delete-account">Delete Account</a></li></ul></section><section lang="ja" id="ja"><p class="lead">サステナブルな習慣を育てよう</p><a class="btn" href="/beta">Seedのテストに参加する</a><p>Seedは、サステナブルな暮らしのための無料の習慣トラッカーです。車の代わりに電車を使う、肉を使わない夕食にする、洗濯物を外に干すなど、すでにしていることや、もっと増やしたいことを記録しましょう。アクションごとに減らせるCO2のおおよその量に応じてポイントがもらえ、マスコットも成長していきます。</p><p>推定値は公表された研究や公的なデータに基づいており、出典はアプリ内に記載しています。アクションは国連の持続可能な開発目標（SDGs）と結びついています。毎日のチャレンジや複数日チャレンジ、記録するたびに地球の豆知識が解放されるエコ図鑑、ちょっとしたクイズゲーム、移動・食事・家電を比べられる計算ツールもあります。Seedは英語、日本語、スペイン語に対応しています。</p><h2>サポート</h2><p><a href="mailto:support@seedahabit.com">support@seedahabit.com</a></p><ul><li><a href="/privacy">プライバシーポリシー</a></li><li><a href="/terms">利用規約</a></li><li><a href="/delete-account">アカウントを削除</a></li></ul></section><section lang="es" id="es"><p class="lead">Cultiva tus hábitos sostenibles</p><a class="btn" href="/beta">Ayuda a probar Seed: únete a la prueba</a><p>Seed es una aplicación gratuita para crear hábitos sostenibles en el día a día. Registra lo que ya haces, o lo que quieres hacer más: ir en tren en vez de en coche, una cena sin carne, tender la ropa. Cada acción suma puntos según una estimación del CO2 que ahorra, y tu mascota crece contigo.</p><p>Las estimaciones se basan en investigaciones publicadas y datos oficiales, con las fuentes citadas en la aplicación, y las acciones están vinculadas a los Objetivos de Desarrollo Sostenible de la ONU. Hay desafíos diarios y más largos, un Eco-Dex de datos que desbloqueas a medida que registras acciones, un par de juegos de preguntas y calculadoras para comparar trayectos, comidas y electrodomésticos. Seed está disponible en inglés, japonés y español.</p><h2>Soporte</h2><p><a href="mailto:support@seedahabit.com">support@seedahabit.com</a></p><ul><li><a href="/privacy">Política de privacidad</a></li><li><a href="/terms">Términos de servicio</a></li><li><a href="/delete-account">Eliminar cuenta</a></li></ul></section>
+<script>
+(()=>{const s=document.querySelector('select.lang'),
+secs=document.querySelectorAll('main [lang]:not(option)'),
+has=l=>[...s.options].some(o=>o.value===l),
+pick=l=>{for(const x of secs)x.hidden=x.lang!==l;s.value=l;
+document.documentElement.lang=l;
+document.title=document.querySelector('h1').innerText+' - Seed'},
+h=location.hash.slice(1),n=navigator.language.slice(0,2);
+let saved;try{saved=localStorage.getItem('lang')}catch(e){}
+pick(has(h)?h:has(saved)?saved:has(n)?n:s.options[0].value);s.hidden=false;
+s.onchange=()=>{pick(s.value);history.replaceState(null,'','#'+s.value);
+try{localStorage.setItem('lang',s.value)}catch(e){}}})();
+</script>
 </main>
 </body>
 </html>
