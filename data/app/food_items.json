@@ -5,7 +5,7 @@
     "primary_source": "Poore & Nemecek 2018 (Science 360:987-992) via Our World in Data, means with supply-chain losses",
     "basis": "kg CO2e per kg of food as-purchased (raw/dry weight); serving presets are raw/dry grams; liquids per litre = per kg at density 1.0",
     "citation_note": "CSV-row citations (OWID grapher downloads) and Poore & Nemecek accepted-manuscript figure rows are verbatim data-row transcriptions (manuscript rows with single spaces), not page sentences. CarbonCloud citations are 'product | value | value-as-of date' transcriptions: CarbonCloud live values drift over time and are corroboration-with-access-date only. The LiveLCA butter citation is a products-table row transcription (product, CO2e per kg, number of studies, single spaces), not a page sentence.",
-    "statistic_note": "Three items carry statistic_ratio: their own published mean and median differ by that factor (dark chocolate 2.49x, farmed fish 2.67x, tree nuts 2.15x), because a minority of very high-impact producers dominates their average. A gap involving one of them is only safe to call once it exceeds the item's own ratio -- i.e. the better meal must emit less than 1/ratio of the other -- since anything smaller could be an artefact of which statistic the source published. Every other pair for which both statistics exist keeps its ordering under either one once the gap reaches 20%."
+    "statistic_note": "Four items carry statistic_ratio: their own published mean and median differ by that factor (dark chocolate 2.49x, farmed fish 2.67x, farmed prawns 2.28x, tree nuts 2.15x), because a minority of very high-impact producers dominates their average. A gap involving one of them is only safe to call once it exceeds the item's own ratio -- i.e. the better meal must emit less than 1/ratio of the other -- since anything smaller could be an artefact of which statistic the source published. Every other pair for which both statistics exist keeps its ordering under either one once the gap reaches 20%."
   },
   "items": [
     {
@@ -15055,7 +15055,8 @@
       "tie_group": null,
       "confidence": "medium_high",
       "spread_low": 15.028545,
-      "spread_high": 26.865863
+      "spread_high": 26.865863,
+      "statistic_ratio": 2.2771
     },
     {
       "id": "prawns_wild",

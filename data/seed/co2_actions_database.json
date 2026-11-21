@@ -432,8 +432,8 @@
       "description_en": "Take bus or train instead of driving (~10 km trip)",
       "description_ja": "車の代わりにバスや電車を利用",
       "description_es": "Ir en autobús o en tren en vez de en coche",
-      "co2_grams": 1000,
-      "calculation_notes": "10km; car-bus net ~1040g saved",
+      "co2_grams": 580,
+      "calculation_notes": "per 10 km trip, bus basis: DEFRA 2025 average petrol car 162.72 g CO2e/km minus DEFRA 2025 average local bus 103.85 g CO2e/pkm = 58.87 g/km x 10 km = 589 g, rounded down to 580 g (savings always round DOWN). The same factors as car_petrol_avg and bus_city in data/app/transport_modes.json.",
       "effort": 2,
       "frequency": 4,
       "impact": 3,
@@ -446,7 +446,20 @@
       "is_active": true,
       "sort_order": 4,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Bus > Average local bus | Scope 3 | 0.10385 | passenger.km",
+          "accessed": "2026-07-18"
+        }
+      ]
     },
     {
       "action_id": "carpool",
@@ -551,8 +564,8 @@
       "description_en": "Take a bus instead of driving (~7 km trip)",
       "description_ja": "通勤に車の代わりにバスを利用",
       "description_es": "Ir en autobús en vez de en coche para ir al trabajo",
-      "co2_grams": 500,
-      "calculation_notes": "~7km; bus 89g/pkm vs car 164g/km",
+      "co2_grams": 410,
+      "calculation_notes": "per 7 km trip: DEFRA 2025 average petrol car 162.72 g CO2e/km minus DEFRA 2025 average local bus 103.85 g CO2e/pkm = 58.87 g/km x 7 km = 412 g, rounded down to 410 g (savings always round DOWN). The same factors as car_petrol_avg and bus_city in data/app/transport_modes.json.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -565,7 +578,20 @@
       "is_active": true,
       "sort_order": 8,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
+          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "SustainMetrics DEFRA 2025",
+          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
+          "quote": "Bus > Average local bus | Scope 3 | 0.10385 | passenger.km",
+          "accessed": "2026-07-18"
+        }
+      ]
     },
     {
       "action_id": "escooter_trip",
@@ -2132,8 +2158,8 @@
       "description_en": "Participate in a community garden session",
       "description_ja": "コミュニティガーデンの活動に参加",
       "description_es": "Participar en una sesión de huerto comunitario",
-      "co2_grams": 200,
-      "calculation_notes": "sequestration + local food miles",
+      "co2_grams": 0,
+      "calculation_notes": "social and food-security value; no CO2 claim (urban agriculture averages about 6x the footprint of conventional farming per unit of food, see Plan/RESEARCH_ACTIONS.md)",
       "effort": 3,
       "frequency": 3,
       "impact": 4,

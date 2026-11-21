@@ -355,7 +355,7 @@ all constants citable, every prefill user-editable):
 | Kind | Offered when | Estimate |
 |------|--------------|----------|
 | ground (car/bus/rail) | same landmass or rail_tunnel link, straight-line <= 2,000 km | haversine x 1.3 circuity |
-| air | straight-line >= 250 km, or >= 100 km when no other kind is available (below 100 km: no suggestions, manual entry) | haversine + 95 km (EN 16258) |
+| air | straight-line >= 250 km, or >= 100 km when no other kind is available (below 100 km: no suggestions, manual entry) | haversine (DESNZ factors carry the 8% uplift) |
 | ferry | ferry link between masses, straight-line <= the link's max_km (default 500) | haversine |
 | active | ground rules and <= 150 km (cycle family); walking only <= 40 km, applied when mapping the kind to modes | haversine x 1.3 |
 
