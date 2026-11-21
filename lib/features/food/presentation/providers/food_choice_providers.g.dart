@@ -50,7 +50,7 @@ final class FoodChoiceLoggerProvider
   }
 }
 
-String _$foodChoiceLoggerHash() => r'1c7dd53a8bbffb73bce660472a60b8527d28f07b';
+String _$foodChoiceLoggerHash() => r'0f3cd95796e7bd5016d61a5ac2cbba32f8457032';
 
 /// Banks a chosen meal as a real action (Phase 8.12). Reuses the
 /// category-agnostic customActions collection and rules that the
