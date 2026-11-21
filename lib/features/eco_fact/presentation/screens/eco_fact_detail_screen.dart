@@ -81,7 +81,11 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
   }
 }
 
+final _dateKeyPattern = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+
 EcoFact? _factForDateKey(List<EcoFact> facts, String dateKey) {
+  // The key comes from a deep link and is stored once viewed.
+  if (!_dateKeyPattern.hasMatch(dateKey)) return null;
   final date = DateTime.tryParse(dateKey);
   if (date == null) return null;
   final doy = dayOfYear(date);
