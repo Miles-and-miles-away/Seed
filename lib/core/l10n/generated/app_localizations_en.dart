@@ -331,6 +331,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.';
 
   @override
+  String errorSavingTooLarge(String limit) {
+    return 'A saving above $limit is too large to log as one action. Check the distances and amounts.';
+  }
+
+  @override
   String get errorLogActionOffline =>
       'Cannot log an action while offline. Check your connection and try again.';
 

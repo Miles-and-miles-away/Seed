@@ -90,6 +90,14 @@ void main() {
     );
   });
 
+  testWidgets('a saving above the cap names the limit', (tester) async {
+    expect(
+      await messageFor(tester, const SavingTooLargeException()),
+      'A saving above 100 t is too large to log as one action. '
+      'Check the distances and amounts.',
+    );
+  });
+
   testWidgets('anything else reads as the generic error', (tester) async {
     expect(
       await messageFor(tester, Exception('boom')),

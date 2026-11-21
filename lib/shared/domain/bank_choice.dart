@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
 import 'package:seed_app/shared/models/custom_action_model.dart';
@@ -12,8 +14,10 @@ const _templateTimeout = Duration(seconds: 5);
 /// template, then logs it through the standard action transaction
 /// (points/streak/mascot/daily summary all handled there).
 ///
-/// No caps -- users are isolated (no leaderboards), so self-reported
-/// inflation only affects their own stats (scoring design decision).
+/// The only cap is [AppConstants.maxBankCo2Grams], the rules' per-write
+/// limit, checked before any write. Users are isolated (no
+/// leaderboards), so self-reported inflation only affects their own
+/// stats (scoring design decision).
 ///
 /// The calling notifier must be keepAlive, so a user who leaves the
 /// calculator mid-write still gets the action logged.
@@ -31,6 +35,9 @@ Future<AsyncValue<void>?> bankChoice(
   required Iterable<String> baselineIds,
 }) async {
   final result = await AsyncValue.guard(() async {
+    if (co2Grams > AppConstants.maxBankCo2Grams) {
+      throw const SavingTooLargeException();
+    }
     final template = await ref
         .read(customActionRepositoryProvider)
         .create(

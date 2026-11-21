@@ -664,6 +664,12 @@ abstract class AppLocalizations {
   /// **'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.'**
   String get errorActionRejected;
 
+  /// No description provided for @errorSavingTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'A saving above {limit} is too large to log as one action. Check the distances and amounts.'**
+  String errorSavingTooLarge(String limit);
+
   /// No description provided for @errorLogActionOffline.
   ///
   /// In en, this message translates to:

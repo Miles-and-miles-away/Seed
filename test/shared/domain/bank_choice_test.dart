@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseException;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
@@ -112,6 +113,26 @@ void main() {
       expect(result?.error, isA<TimeoutException>());
       expect(container.read(transportChoiceLoggerProvider).hasError, isTrue);
     });
+  });
+
+  test('a saving above the rules cap is refused before any write', () async {
+    final repo = _MockCustomActionRepository();
+    final log = _FailingActionLog(StateError('unused'));
+    final container = await _bankContainer(repo, log);
+    container.listen(transportChoiceLoggerProvider, (_, _) {});
+
+    final result = await container
+        .read(transportChoiceLoggerProvider.notifier)
+        .logChoice(
+          name: 'Train over private jet',
+          co2Grams: AppConstants.maxBankCo2Grams + 1,
+          chosenIds: const ['train'],
+          baselineIds: const ['private_jet'],
+        );
+
+    expect(result?.error, isA<SavingTooLargeException>());
+    verifyNever(() => repo.create(any(), any()));
+    expect(log.calls, isEmpty);
   });
 
   test('leaving during the template write still logs the action', () async {

@@ -333,6 +333,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se ha podido registrar la acción. Comprueba que la fecha y la hora del dispositivo se ajustan automáticamente y vuelve a intentarlo.';
 
   @override
+  String errorSavingTooLarge(String limit) {
+    return 'Un ahorro de más de $limit es demasiado grande para registrarlo como una sola acción. Comprueba las distancias y las cantidades.';
+  }
+
+  @override
   String get errorLogActionOffline =>
       'No se puede registrar una acción sin conexión. Comprueba tu conexión e inténtalo de nuevo.';
 

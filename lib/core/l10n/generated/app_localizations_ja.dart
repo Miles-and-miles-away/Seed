@@ -328,6 +328,11 @@ class AppLocalizationsJa extends AppLocalizations {
       'アクションを記録できませんでした。端末の日付と時刻が自動設定になっているか確認して、もう一度お試しください。';
 
   @override
+  String errorSavingTooLarge(String limit) {
+    return '$limitを超える削減量は、1つのアクションとして記録できません。距離や量を確認してください。';
+  }
+
+  @override
   String get errorLogActionOffline =>
       'オフラインではアクションを記録できません。接続を確認してもう一度お試しください。';
 
