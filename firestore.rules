@@ -12,7 +12,8 @@ service cloud.firestore {
     // applied to actionLog, customActions and dailySummaries only.
     function isVerifiedUser() {
       return !('firebase' in request.auth.token)
-          || request.auth.token.firebase.sign_in_provider != 'password'
+          || request.auth.token.firebase.sign_in_provider
+              in ['google.com', 'apple.com']
           || request.auth.token.get('email_verified', false) == true;
     }
 
@@ -101,7 +102,9 @@ service cloud.firestore {
         && (!('activeMascotId' in keys) || d.activeMascotId == null
             || (d.activeMascotId is string
                 && d.activeMascotId.size() <= 100))
-        && (!('egg' in keys) || d.egg == null
+        // A removed field is absent from the merged document, so a
+        // null check alone errors and denies the delete.
+        && (!('egg' in keys) || !('egg' in d) || d.egg == null
             || (d.egg is map
                 && d.egg.keys().hasOnly(['receivedAt',
                     'hatchingStreakDays', 'lastHatchingActivityDate'])
@@ -115,6 +118,7 @@ service cloud.firestore {
         && (!('eggPendingDiscovery' in keys)
             || d.eggPendingDiscovery is bool)
         && (!('eggPendingDiscoverySince' in keys)
+            || !('eggPendingDiscoverySince' in d)
             || d.eggPendingDiscoverySince == null
             || d.eggPendingDiscoverySince is timestamp)
         && (!('notificationsEnabled' in keys)
@@ -123,7 +127,8 @@ service cloud.firestore {
         // writable so docs that still carry it pass hasOnly checks.
         && (!('streakGracePeriodAvailable' in keys)
             || d.streakGracePeriodAvailable is bool)
-        && (!('fcmToken' in keys) || d.fcmToken == null
+        && (!('fcmToken' in keys) || !('fcmToken' in d)
+            || d.fcmToken == null
             || (d.fcmToken is string && d.fcmToken.size() <= 4096))
         && (!('points' in keys)
             || (d.points is int && d.points >= 0
@@ -310,7 +315,10 @@ service cloud.firestore {
                 || (log.note is string && log.note.size() <= 200))
             && (!('relatedSdgs' in log)
                 || (log.relatedSdgs is list
-                    && log.relatedSdgs.size() <= 17))
+                    && log.relatedSdgs.size() <= 17
+                    && log.relatedSdgs.hasOnly([
+                         '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                         '11', '12', '13', '14', '15', '16', '17'])))
             // Same-transaction coupling: the log must arrive with the
             // matching user-doc update (lastActionDate bumped to now,
             // exactly one new action counted). Blocks log creates
@@ -403,7 +411,10 @@ service cloud.firestore {
             && (!('category' in a)
                 || (a.category is string && a.category.size() <= 100))
             && (!('relatedSdgs' in a)
-                || (a.relatedSdgs is list && a.relatedSdgs.size() <= 17))
+                || (a.relatedSdgs is list && a.relatedSdgs.size() <= 17
+                    && a.relatedSdgs.hasOnly([
+                         '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                         '11', '12', '13', '14', '15', '16', '17'])))
             && (!('createdAt' in a)
                 || a.createdAt == null
                 || a.createdAt is timestamp);
@@ -422,6 +433,30 @@ service cloud.firestore {
       // Subcollection: daily summaries
       match /dailySummaries/{summaryId} {
 
+        function summaryDay(id) {
+          return timestamp.date(
+            int(id[0:4]), int(id[5:7]), int(id[8:10]));
+        }
+
+        function categoryIntOrAbsent(m, k) {
+          return m.get(k, 0) is int && m.get(k, 0) >= 0;
+        }
+
+        function validCategoryMap(m) {
+          return m.keys().hasOnly([
+                 'recycling', 'transport', 'food', 'energy', 'consumption',
+                 'water', 'community', 'advocacy', 'learning'])
+            && categoryIntOrAbsent(m, 'recycling')
+            && categoryIntOrAbsent(m, 'transport')
+            && categoryIntOrAbsent(m, 'food')
+            && categoryIntOrAbsent(m, 'energy')
+            && categoryIntOrAbsent(m, 'consumption')
+            && categoryIntOrAbsent(m, 'water')
+            && categoryIntOrAbsent(m, 'community')
+            && categoryIntOrAbsent(m, 'advocacy')
+            && categoryIntOrAbsent(m, 'learning');
+        }
+
         function validSummary(s) {
           return s.keys().hasOnly([
                  'date', 'goalCount', 'completedSdgs', 'totalPoints',
@@ -439,8 +474,13 @@ service cloud.firestore {
             && s.get('totalCo2Grams', 0) <= 100000000
             && (!('completedSdgs' in s)
                 || (s.completedSdgs is list
-                    && s.completedSdgs.size() <= 17))
-            && (!('categoryCo2Grams' in s) || s.categoryCo2Grams is map)
+                    && s.completedSdgs.size() <= 17
+                    && s.completedSdgs.hasOnly([
+                         1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                         11, 12, 13, 14, 15, 16, 17])))
+            && (!('categoryCo2Grams' in s)
+                || (s.categoryCo2Grams is map
+                    && validCategoryMap(s.categoryCo2Grams)))
             && (!('createdAt' in s) || s.createdAt == null
                 || s.createdAt is timestamp)
             && (!('updatedAt' in s) || s.updatedAt == null
@@ -454,6 +494,8 @@ service cloud.firestore {
         allow create, update: if isOwner(userId)
             && isVerifiedUser()
             && summaryId.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+            && summaryDay(summaryId) > request.time - duration.value(48, 'h')
+            && summaryDay(summaryId) < request.time + duration.value(24, 'h')
             && validSummary(request.resource.data)
             && getAfter(/databases/$(database)/documents/users/$(userId))
                 .data.get('lastActionDate', null) == request.time;

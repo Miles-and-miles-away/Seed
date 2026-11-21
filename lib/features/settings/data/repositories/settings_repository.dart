@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
@@ -40,10 +42,12 @@ class SettingsRepository {
         ),
       }).copyWith(language: supported);
     } on Object {
-      // Keep the language and found list, or the tour replays every start.
+      // Keep the language, found list, and analytics opt-out.
       final found = settingsData[AppConstants.fieldWalkthroughFound];
       return fallback.copyWith(
         language: supported,
+        analyticsEnabled:
+            settingsData[AppConstants.fieldAnalyticsEnabled] != false,
         walkthroughFound: found is List
             ? found.whereType<String>().toList()
             : const [],
@@ -206,4 +210,31 @@ class SettingsRepository {
           true,
     });
   }
+
+  /// Everything stored for [uid], as indented JSON for a data export.
+  Future<String> exportUserData(String uid) async {
+    final userDoc = _userDoc(uid);
+    final export = <String, Object?>{
+      'exportedAt': DateTime.now().toUtc().toIso8601String(),
+      'user': (await userDoc.get()).data(),
+    };
+    for (final name in _exportedSubcollections) {
+      final snapshot = await userDoc.collection(name).get();
+      export[name] = {for (final d in snapshot.docs) d.id: d.data()};
+    }
+    return const JsonEncoder.withIndent('  ', _toJsonValue).convert(export);
+  }
+
+  static const _exportedSubcollections = [
+    AppConstants.collectionActionLog,
+    AppConstants.collectionCustomActions,
+    AppConstants.collectionDailySummaries,
+  ];
+
+  static Object? _toJsonValue(Object? value) => switch (value) {
+    Timestamp() => value.toDate().toUtc().toIso8601String(),
+    DocumentReference() => value.path,
+    GeoPoint() => {'latitude': value.latitude, 'longitude': value.longitude},
+    _ => value.toString(),
+  };
 }

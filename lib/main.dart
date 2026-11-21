@@ -63,11 +63,12 @@ void main() async {
             : AppleDebugProvider(debugToken: debugToken),
       );
 
-      // Configure Crashlytics
-      // Disable in debug mode to avoid noise during development
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
-        !kDebugMode,
-      );
+      // Release keeps the persisted value, so an analytics opt-out holds.
+      if (kDebugMode) {
+        await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+          false,
+        );
+      }
 
       // Pass all uncaught Flutter errors to Crashlytics
       FlutterError.onError = (errorDetails) {
@@ -80,10 +81,11 @@ void main() async {
         return true;
       };
 
-      // Disable performance monitoring in debug mode
-      await FirebasePerformance.instance.setPerformanceCollectionEnabled(
-        !kDebugMode,
-      );
+      if (kDebugMode) {
+        await FirebasePerformance.instance.setPerformanceCollectionEnabled(
+          false,
+        );
+      }
 
       // Connect to Firebase Emulator Suite in debug mode
       if (_useEmulator) {

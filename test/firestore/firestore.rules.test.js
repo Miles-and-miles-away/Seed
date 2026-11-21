@@ -37,12 +37,15 @@ let testEnv;
 // A minimal valid user document. Individual tests spread overrides on top.
 const baseUserDoc = {email: 'alice@example.com', points: 0, level: 1};
 
+// Real tokens always name a provider; Google is the common case.
+const GOOGLE = {firebase: {sign_in_provider: 'google.com'}};
+
 function aliceDb() {
-  return testEnv.authenticatedContext(ALICE).firestore();
+  return testEnv.authenticatedContext(ALICE, GOOGLE).firestore();
 }
 
 function bobDb() {
-  return testEnv.authenticatedContext(BOB).firestore();
+  return testEnv.authenticatedContext(BOB, GOOGLE).firestore();
 }
 
 function anonDb() {
@@ -57,6 +60,12 @@ function alicePasswordDb(emailVerified) {
       email_verified: emailVerified,
       firebase: {sign_in_provider: 'password'},
     })
+    .firestore();
+}
+
+function aliceProviderDb(provider) {
+  return testEnv
+    .authenticatedContext(ALICE, {firebase: {sign_in_provider: provider}})
     .firestore();
 }
 
@@ -214,6 +223,42 @@ describe('users/{userId} write — egg shape', () => {
 
   test('rejects an unknown egg field', async () => {
     await assertFails(writeEgg({...validEgg, hatchesInstantly: true}));
+  });
+});
+
+describe('users/{userId} update — field removal', () => {
+  const userRef = () => doc(aliceDb(), `users/${ALICE}`);
+
+  test('a hatch can remove the egg', async () => {
+    await seed(`users/${ALICE}`, {
+      ...baseUserDoc,
+      egg: {receivedAt: Timestamp.now(), hatchingStreakDays: 29},
+    });
+    await assertSucceeds(updateDoc(userRef(), {egg: deleteField()}));
+  });
+
+  test('creating the egg can remove eggPendingDiscoverySince', async () => {
+    await seed(`users/${ALICE}`, {
+      ...baseUserDoc,
+      eggPendingDiscovery: true,
+      eggPendingDiscoverySince: Timestamp.now(),
+    });
+    await assertSucceeds(
+      updateDoc(userRef(), {
+        egg: {
+          receivedAt: Timestamp.now(),
+          hatchingStreakDays: 0,
+          lastHatchingActivityDate: null,
+        },
+        eggPendingDiscovery: false,
+        eggPendingDiscoverySince: deleteField(),
+      }),
+    );
+  });
+
+  test('sign-out can remove the fcmToken', async () => {
+    await seed(`users/${ALICE}`, {...baseUserDoc, fcmToken: 'token'});
+    await assertSucceeds(updateDoc(userRef(), {fcmToken: deleteField()}));
   });
 });
 
@@ -519,7 +564,7 @@ describe('users/{userId}/actionLog/{logId}', () => {
   const validLog = {
     actionId: ACTION_ID,
     actionName: 'Recycle',
-    category: 'waste',
+    category: 'recycling',
     points: 10,
     co2Grams: 500,
     loggedAt: Timestamp.now(),
@@ -567,7 +612,7 @@ describe('users/{userId}/actionLog/{logId}', () => {
         completedSdgs: [12],
         totalPoints: 10,
         totalCo2Grams: 500,
-        categoryCo2Grams: {waste: 500},
+        categoryCo2Grams: {recycling: 500},
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       });
@@ -662,6 +707,12 @@ describe('users/{userId}/actionLog/{logId}', () => {
     );
   });
 
+  test('rejects relatedSdgs that are not SDG ids', async () => {
+    await assertFails(
+      logActionBatch(aliceDb(), {relatedSdgs: ['x'.repeat(1000)]}),
+    );
+  });
+
   test('rejects relatedSdgs over 17 entries', async () => {
     await assertFails(
       logActionBatch(aliceDb(), {
@@ -693,6 +744,14 @@ describe('users/{userId}/actionLog/{logId}', () => {
 
   test('an unverified password account cannot log', async () => {
     await assertFails(logActionBatch(alicePasswordDb(false)));
+  });
+
+  test('a Google account can log', async () => {
+    await assertSucceeds(logActionBatch(aliceProviderDb('google.com')));
+  });
+
+  test('an anonymous account cannot log', async () => {
+    await assertFails(logActionBatch(aliceProviderDb('anonymous')));
   });
 
   test('another user cannot create entries in someone else log',
@@ -794,6 +853,15 @@ describe('users/{userId}/customActions/{actionId}', () => {
     await assertFails(setDoc(doc(aliceDb(), customPath), noPoints));
   });
 
+  test('rejects relatedSdgs that are not SDG ids', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), customPath), {
+        ...validCustom,
+        relatedSdgs: ['x'.repeat(1000)],
+      }),
+    );
+  });
+
   test('rejects negative co2Grams', async () => {
     await assertFails(
       setDoc(doc(aliceDb(), customPath), {...validCustom, co2Grams: -1}),
@@ -834,7 +902,7 @@ describe('users/{userId}/customActions/{actionId}', () => {
 });
 
 describe('users/{userId}/dailySummaries/{summaryId}', () => {
-  const SUMMARY_ID = '2026-06-10';
+  const SUMMARY_ID = new Date().toISOString().slice(0, 10);
   const summaryPath = `users/${ALICE}/dailySummaries/${SUMMARY_ID}`;
 
   const validSummary = {
@@ -843,7 +911,7 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
     completedSdgs: [12, 13],
     totalPoints: 10,
     totalCo2Grams: 500,
-    categoryCo2Grams: {waste: 500},
+    categoryCo2Grams: {recycling: 500},
     createdAt: Timestamp.now(),
     updatedAt: Timestamp.now(),
   };
@@ -890,7 +958,7 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
           goalCount: increment(1),
           totalPoints: increment(10),
           totalCo2Grams: increment(500),
-          'categoryCo2Grams.waste': increment(500),
+          'categoryCo2Grams.recycling': increment(500),
           updatedAt: serverTimestamp(),
         },
         SUMMARY_ID,
@@ -949,6 +1017,52 @@ describe('users/{userId}/dailySummaries/{summaryId}', () => {
       }),
     );
   });
+
+  test('rejects completedSdgs that are not SDG numbers', async () => {
+    await assertFails(
+      coupledSummary(aliceDb(), {...validSummary, completedSdgs: ['x']}),
+    );
+  });
+
+  test('rejects an unknown category key', async () => {
+    await assertFails(
+      coupledSummary(aliceDb(), {
+        ...validSummary,
+        categoryCo2Grams: {junk: 500},
+      }),
+    );
+  });
+
+  test('rejects a non-integer category value', async () => {
+    await assertFails(
+      coupledSummary(aliceDb(), {
+        ...validSummary,
+        categoryCo2Grams: {recycling: 'x'.repeat(100)},
+      }),
+    );
+  });
+
+  test('rejects a summary for a day far from today', async () => {
+    for (const id of ['1990-01-01', '2999-01-01']) {
+      await assertFails(
+        coupledSummary(aliceDb(), {...validSummary, date: id}, id),
+      );
+    }
+  });
+
+  test('accepts yesterday and tomorrow for clients in other zones',
+    async () => {
+      for (const offsetDays of [-1, 1]) {
+        const id = new Date(Date.now() + offsetDays * 86400000)
+          .toISOString()
+          .slice(0, 10);
+        await testEnv.clearFirestore();
+        await seed(`users/${ALICE}`, baseUserDoc);
+        await assertSucceeds(
+          coupledSummary(aliceDb(), {...validSummary, date: id}, id),
+        );
+      }
+    });
 
   test('another user cannot write it', async () => {
     await assertFails(
