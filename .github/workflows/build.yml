@@ -1,6 +1,10 @@
 name: Build Verification
 
+# The push run rebuilds what a pull request skipped, and it saves the
+# Flutter SDK caches that pull requests restore.
 on:
+  push:
+    branches: [development]
   pull_request:
     branches: [development, main]
 
@@ -99,8 +103,35 @@ jobs:
       - name: Build release app bundle
         run: flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info
 
+  # A simulator build of a pull request that changes no native input
+  # repeats what analysis, the tests and the Android build already cover.
+  changes:
+    name: Detect iOS Changes
+    if: github.event_name == 'pull_request' && github.base_ref == 'development'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      ios: ${{ steps.diff.outputs.ios }}
+
+    steps:
+      # HEAD is the merge commit of the pull request; HEAD^1 is its base.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+
+      - id: diff
+        run: |
+          if git diff --quiet HEAD^1 HEAD -- \
+              ios pubspec.yaml pubspec.lock .github/workflows/build.yml; then
+            echo "ios=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # Builds unless the changes job said no, so a failed or skipped changes
+  # job never skips the build. A skipped job passes the required check.
   build-ios:
     name: Build iOS
+    needs: changes
+    if: ${{ !cancelled() && needs.changes.outputs.ios != 'false' }}
     runs-on: macos-latest
     timeout-minutes: 30
 

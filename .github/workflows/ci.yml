@@ -14,10 +14,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  analyze-and-test:
-    name: Analyze & Test
+  checks:
+    name: Static Checks
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v7
@@ -67,14 +67,53 @@ jobs:
       - name: Analyze
         run: flutter analyze --fatal-infos
 
+  test:
+    name: Test (shard ${{ matrix.shard }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: "3.49.0-0.1.pre"
+          channel: beta
+          cache: true
+
+      - run: flutter pub get
+
       # Rive file parsing in widget tests needs the rive_native host
       # library, which is not committed (build/ is gitignored).
       - name: Fetch rive_native host library
         run: dart run rive_native:setup --clean --platform linux
 
-      # The default is half the vCPUs; the runner has 4.
+      # --total-shards splits the tests inside each file, so every shard
+      # would still compile every file. Split the file list instead.
+      # The default concurrency is half the vCPUs; the runner has 4.
       - name: Test
-        run: flutter test --concurrency=4
+        run: |
+          git ls-files 'test/*_test.dart' \
+            | awk 'NR % 4 == ${{ matrix.shard }}' \
+            | xargs flutter test --concurrency=4
+
+  # Branch rules require a check with this exact name.
+  analyze-and-test:
+    name: Analyze & Test
+    needs: [checks, test]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - run: test "$CHECKS" = success && test "$TESTS" = success
+        env:
+          CHECKS: ${{ needs.checks.result }}
+          TESTS: ${{ needs.test.result }}
 
   generators:
     name: Generator Self-Checks
