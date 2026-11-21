@@ -86,6 +86,8 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     _smile = null;
     _smileHold = null;
     _jump = null;
+    // MascotImage freezes the mascot; input would step it one frame at a time.
+    if (_reduceMotion) return;
     try {
       _faceVm = controller.dataBind(rive.DataBind.auto());
     } on rive.RiveDataBindException {
