@@ -116,6 +116,12 @@ void main() {
 
       expect(c.read(appLocaleProvider).languageCode, 'es');
     });
+
+    test('appLocaleProvider maps English to en-GB', () async {
+      final c = await _container(const UserSettingsModel(language: 'en'));
+
+      expect(c.read(appLocaleProvider), britishEnglish);
+    });
   });
 
   group('fallbacks while settings are loading', () {

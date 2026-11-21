@@ -35,11 +35,12 @@
   "homeNoActions": "Aún no hay acciones registradas. ¡Empieza tu aventura!",
   "actionLogTitle": "Registrar acción",
   "actionSearchHint": "Buscar acciones...",
-  "actionLogged": "¡Acción registrada! Has ganado {points} puntos",
+  "actionLogged": "{points, plural, one{¡Acción registrada! Has ganado 1 punto} other{¡Acción registrada! Has ganado {points} puntos}}",
   "@actionLogged": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -54,7 +55,8 @@
   "@pointsLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -62,7 +64,8 @@
   "@levelLabel": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -71,7 +74,8 @@
   "@streakLabel": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -96,7 +100,8 @@
   "@mascotEvolution": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -122,7 +127,8 @@
   "@profileNextLevel": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -130,7 +136,8 @@
   "@profileDaysActive": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -138,7 +145,8 @@
   "@profileEvolutionStage": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -251,11 +259,12 @@
   "aboutSettingsPrivacy": "Política de privacidad",
   "aboutSettingsTerms": "Términos de servicio",
   "streakMilestoneTitle": "¡Increíble!",
-  "streakMilestoneWeeks": "¡Racha de {count} semanas!",
+  "streakMilestoneWeeks": "{count, plural, one{¡Racha de {count} semana!} other{¡Racha de {count} semanas!}}",
   "@streakMilestoneWeeks": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -263,7 +272,8 @@
   "@streakMilestoneDays": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -275,7 +285,8 @@
   "@streakBrokenPrevious": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -304,7 +315,8 @@
   "@sdgActionsLogged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -357,10 +369,12 @@
   "@eggProgressLabel": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -400,7 +414,8 @@
   "@reminderRepeatCount": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -419,7 +434,8 @@
   "@reminderLimit": {
     "placeholders": {
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -433,7 +449,8 @@
         "type": "String"
       },
       "hour": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -447,7 +464,8 @@
         "type": "String"
       },
       "hour": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "date": {
         "type": "String"
@@ -502,7 +520,8 @@
   "@mascotLevelShort": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -510,7 +529,8 @@
   "@mascotLevelsToGo": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -518,10 +538,12 @@
   "@mascotLevelProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -547,7 +569,8 @@
   "@sdgGoalNumber": {
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -593,7 +616,8 @@
   "@pointsAbbreviated": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -601,7 +625,8 @@
   "@stageFallback": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -656,7 +681,8 @@
   "@challengeStreakDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -664,10 +690,12 @@
   "@challengeMultiDayProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "target": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -684,7 +712,8 @@
   "@challengeDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -737,10 +766,12 @@
   "@ecoDexProgress": {
     "placeholders": {
       "discovered": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -756,7 +787,8 @@
   "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -913,7 +945,8 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -921,7 +954,8 @@
   "@foodCompareOptions": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -929,7 +963,8 @@
   "@foodOptionStaged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -978,12 +1013,13 @@
   "@foodVerdictBlockedTitle": {
     "description": "Title of the dialog explaining the logging minimum"
   },
-  "foodVerdictTooClose": "Estas dos comidas están a menos del {percent}% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.",
+  "foodVerdictTooClose": "Estas dos comidas están a menos del {percent}% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda por debajo de lo que la investigación de origen puede distinguir con fiabilidad. Arriba tienes ambos totales; simplemente no declaramos una ganadora.",
   "@foodVerdictTooClose": {
     "description": "Body: the two meals are inside the data resolution",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -992,7 +1028,8 @@
     "description": "Body: the meals come from different studies",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1009,11 +1046,12 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
-  "foodComparisonTooClose": "Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.",
+  "foodComparisonTooClose": "Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda por debajo de lo que la investigación de origen puede distinguir con fiabilidad, así que mostramos ambos totales sin elegir una ganadora.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"
   },
@@ -1030,7 +1068,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1038,7 +1077,8 @@
   "@foodComparisonCarKmEquiv": {
     "placeholders": {
       "km": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1207,23 +1247,23 @@
   "factRecallFinished": "{correct, plural, one{{correct} acierto de {total}} other{{correct} aciertos de {total}}}",
   "factRecallYourWrongAnswer": "tu respuesta, incorrecta",
   "factRecallTimes": "{count, plural, =1{{multiple} vez} other{{multiple} veces}}",
-  "factRecallBeefTofu": "Por cada 100 g, la carne de vacuno genera cerca de {figure} más CO2e que el tofu.",
-  "factRecallChickenBeans": "Por cada 100 g, el pollo genera cerca de {figure} más CO2e que las alubias y lentejas secas.",
-  "factRecallBeefChicken": "Por cada 100 g, la carne de vacuno genera cerca de {figure} más CO2e que el pollo.",
-  "factRecallMilkOat": "Por cada 100 ml, la leche de vaca genera cerca de {figure} más CO2e que la bebida de avena.",
-  "factRecallFlightShinkansen": "Por pasajero y kilómetro, un vuelo nacional emite cerca de {figure} más CO2e que el Shinkansen.",
-  "factRecallPrivateJet": "Por pasajero y kilómetro, un jet privado emite cerca de {figure} más CO2e que un vuelo de larga distancia en clase turista.",
-  "factRecallBulbs": "Por hora, una bombilla incandescente emite cerca de {figure} más CO2e que una bombilla LED.",
-  "factRecallShowers": "Por minuto, una ducha con agua caliente eléctrica emite cerca de {figure} más CO2e que una con bomba de calor.",
-  "factRecallWashes": "Por colada, un lavado a 60 °C emite cerca de {figure} más CO2e que uno a 20 °C.",
-  "factRecallCooling": "Por hora, un aire acondicionado en modo refrigeración emite cerca de {figure} más CO2e que un ventilador.",
-  "factRecallDishwasher": "Por ciclo, el programa normal del lavavajillas emite cerca de un {figure} más CO2e que el programa eco.",
-  "factRecallLambPork": "Por cada 100 g, el cordero genera cerca de {figure} más CO2e que el cerdo.",
-  "factRecallFerry": "Por pasajero y kilómetro, quien viaja en ferri con coche emite cerca de {figure} más CO2e que quien embarca a pie.",
-  "factRecallDryers": "Por colada, una secadora con resistencia emite cerca de {figure} más CO2e que una con bomba de calor.",
-  "factRecallCarCoach": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de {figure} más CO2e que un autocar de larga distancia.",
-  "factRecallCarBus": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de un {figure} más CO2e que un autobús urbano.",
-  "factRecallCarRail": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de {figure} más CO2e que el tren nacional o de cercanías.",
+  "factRecallBeefTofu": "Por cada 100 g, la carne de vacuno genera aproximadamente {figure} más CO2e que el tofu.",
+  "factRecallChickenBeans": "Por cada 100 g, el pollo genera aproximadamente {figure} más CO2e que las alubias y lentejas secas.",
+  "factRecallBeefChicken": "Por cada 100 g, la carne de vacuno genera aproximadamente {figure} más CO2e que el pollo.",
+  "factRecallMilkOat": "Por cada 100 ml, la leche de vaca genera aproximadamente {figure} más CO2e que la bebida de avena.",
+  "factRecallFlightShinkansen": "Por pasajero y kilómetro, un vuelo nacional emite aproximadamente {figure} más CO2e que el Shinkansen.",
+  "factRecallPrivateJet": "Por pasajero y kilómetro, un jet privado emite aproximadamente {figure} más CO2e que un vuelo de larga distancia en clase turista.",
+  "factRecallBulbs": "Por hora, una bombilla incandescente emite aproximadamente {figure} más CO2e que una bombilla LED.",
+  "factRecallShowers": "Por minuto, una ducha con agua caliente eléctrica emite aproximadamente {figure} más CO2e que una con bomba de calor.",
+  "factRecallWashes": "Por colada, un lavado a 60 °C emite aproximadamente {figure} más CO2e que uno a 20 °C.",
+  "factRecallCooling": "Por hora, un aire acondicionado en modo refrigeración emite aproximadamente {figure} más CO2e que un ventilador.",
+  "factRecallDishwasher": "Por ciclo, el programa normal del lavavajillas emite aproximadamente un {figure} más CO2e que el programa eco.",
+  "factRecallLambPork": "Por cada 100 g, el cordero genera aproximadamente {figure} más CO2e que el cerdo.",
+  "factRecallFerry": "Por pasajero y kilómetro, quien viaja en ferri con coche emite aproximadamente {figure} más CO2e que quien embarca a pie.",
+  "factRecallDryers": "Por colada, una secadora con resistencia emite aproximadamente {figure} más CO2e que una con bomba de calor.",
+  "factRecallCarCoach": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente {figure} más CO2e que un autocar de larga distancia.",
+  "factRecallCarBus": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente un {figure} más CO2e que un autobús urbano.",
+  "factRecallCarRail": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente {figure} más CO2e que el tren nacional o de cercanías.",
   "walkthroughIntro1": "Hola, soy {name}. Seed convierte las pequeñas decisiones de cada día en un hábito, y yo crezco contigo.",
   "walkthroughIntro2": "Aquí hay más de lo que parece. He hecho una lista de cosas por descubrir. Todo lo que brilla en dorado aún te espera.",
   "walkthroughItemLogAction": "Registra tu primera acción",

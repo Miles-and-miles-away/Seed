@@ -35,11 +35,12 @@
   "homeNoActions": "No actions logged yet. Start your journey!",
   "actionLogTitle": "Log an Action",
   "actionSearchHint": "Search actions...",
-  "actionLogged": "Action logged! {points} points earned",
+  "actionLogged": "{points, plural, one{Action logged! 1 point earned} other{Action logged! {points} points earned}}",
   "@actionLogged": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -54,7 +55,8 @@
   "@pointsLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -62,7 +64,8 @@
   "@levelLabel": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -73,7 +76,8 @@
         "type": "String"
       },
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -81,7 +85,8 @@
   "@streakLabel": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -106,7 +111,8 @@
   "@mascotEvolution": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -139,7 +145,8 @@
   "@profileNextLevel": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -147,7 +154,8 @@
   "@profileDaysActive": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -155,7 +163,8 @@
   "@profileEvolutionStage": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -279,7 +288,8 @@
   "@streakMilestoneWeeks": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -287,7 +297,8 @@
   "@streakMilestoneDays": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -299,7 +310,8 @@
   "@streakBrokenPrevious": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -332,7 +344,8 @@
   "@sdgActionsLogged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -385,10 +398,12 @@
   "@eggProgressLabel": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -435,7 +450,8 @@
   "@reminderRepeatCount": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -454,7 +470,8 @@
   "@reminderLimit": {
     "placeholders": {
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -468,7 +485,8 @@
         "type": "String"
       },
       "hour": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -482,7 +500,8 @@
         "type": "String"
       },
       "hour": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "date": {
         "type": "String"
@@ -501,7 +520,8 @@
   "@reminderListIntro": {
     "placeholders": {
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -554,7 +574,8 @@
   "@mascotLevelShort": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -562,7 +583,8 @@
   "@mascotLevelsToGo": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -570,10 +592,12 @@
   "@mascotLevelProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -599,7 +623,8 @@
   "@sdgGoalNumber": {
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -607,7 +632,8 @@
   "@sdgGoalNumberTitle": {
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "title": {
         "type": "String"
@@ -655,7 +681,8 @@
   "@pointsAbbreviated": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -663,7 +690,8 @@
   "@stageFallback": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -721,7 +749,8 @@
   "@challengeStreakDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -729,10 +758,12 @@
   "@challengeMultiDayProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "target": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -749,7 +780,8 @@
   "@challengeDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -807,7 +839,7 @@
   "impactInfoFormulaLabel": "Formula",
   "impactInfoSourceLabel": "Source",
   "equivTreesExplainer": "Approximate CO2 absorbed by a single mature urban tree in one year. Newly planted saplings absorb far less -- this is the steady-state mature figure.",
-  "equivCarKmExplainer": "Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.",
+  "equivCarKmExplainer": "Average passenger car emissions per kilometre driven, fleet-weighted across petrol and diesel vehicles.",
   "equivPhoneChargesExplainer": "Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.",
   "equivBurgersExplainer": "Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 10x less; a bean burger roughly 50x less.",
   "equivFormulaTemplate": "g of CO2 / {factor}",
@@ -823,10 +855,12 @@
   "@ecoDexProgress": {
     "placeholders": {
       "discovered": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -856,7 +890,8 @@
   "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -903,7 +938,8 @@
   "@transportOccupantsSemantic": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -932,7 +968,8 @@
   "@transportOccupantsValue": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -940,7 +977,8 @@
   "@transportModeFactorPerPassenger": {
     "placeholders": {
       "grams": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -948,7 +986,8 @@
   "@transportModeFactorPerVehicle": {
     "placeholders": {
       "grams": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1052,7 +1091,8 @@
   "@transportComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1060,7 +1100,8 @@
   "@transportCompareOptions": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1068,7 +1109,8 @@
   "@transportOptionStaged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1085,7 +1127,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1102,7 +1145,8 @@
   "@transportMethodologyBody": {
     "placeholders": {
       "grid": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1223,7 +1267,8 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1231,7 +1276,8 @@
   "@foodCompareOptions": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1239,7 +1285,8 @@
   "@foodOptionStaged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1288,12 +1335,13 @@
   "@foodVerdictBlockedTitle": {
     "description": "Title of the dialog explaining the logging minimum"
   },
-  "foodVerdictTooClose": "These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won't declare one the winner.",
+  "foodVerdictTooClose": "These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is below what the underlying research can reliably tell apart. Both totals are shown above -- we just won't declare one the winner.",
   "@foodVerdictTooClose": {
     "description": "Body: the two meals are inside the data resolution",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1302,7 +1350,8 @@
     "description": "Body: the meals come from different studies",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1311,7 +1360,8 @@
     "description": "Body: the delta rests on items sharing one derivation basis",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1330,11 +1380,12 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
-  "foodComparisonTooClose": "These two are too close to call. Below a 20% difference the gap sits inside what the underlying research can actually resolve, so we show both totals without naming a winner.",
+  "foodComparisonTooClose": "These two are too close to call. Below a 20% difference the gap is smaller than the underlying research can reliably resolve, so we show both totals without naming a winner.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"
   },
@@ -1351,7 +1402,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1359,7 +1411,8 @@
   "@foodComparisonCarKmEquiv": {
     "placeholders": {
       "km": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1504,7 +1557,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1529,7 +1583,8 @@
         "type": "String"
       },
       "charges": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1545,7 +1600,8 @@
   "@energyPhoneChargesEquiv": {
     "placeholders": {
       "charges": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1553,7 +1609,8 @@
   "@energyGridBasisNote": {
     "placeholders": {
       "grid": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1561,7 +1618,8 @@
   "@energyGridBasisNoteRatio": {
     "placeholders": {
       "grid": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1570,7 +1628,8 @@
   "@energyMethodologyBody": {
     "placeholders": {
       "grid": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1592,7 +1651,8 @@
   "@energyVerdictTooClose": {
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1644,7 +1704,8 @@
   "@quizAnnounceRight": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1706,7 +1767,8 @@
   "@quizStreakLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1714,7 +1776,8 @@
   "@quizBestLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1729,10 +1792,12 @@
   "@factPairsFound": {
     "placeholders": {
       "found": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1740,7 +1805,8 @@
   "@factPairsMoves": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1750,7 +1816,8 @@
   "@factPairsFinished": {
     "placeholders": {
       "moves": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1758,10 +1825,12 @@
   "@factPairsCardHidden": {
     "placeholders": {
       "index": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1779,7 +1848,8 @@
   "@factGamesLockedBody": {
     "placeholders": {
       "needed": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1787,10 +1857,12 @@
   "@factGamesLockedProgress": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "needed": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1802,10 +1874,12 @@
   "@factRecallProgress": {
     "placeholders": {
       "index": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1813,7 +1887,8 @@
   "@factRecallScore": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1843,10 +1918,12 @@
   "@factRecallFinished": {
     "placeholders": {
       "correct": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },

@@ -191,7 +191,7 @@ const _privacyJa = [
         '安全に保存されます\n'
         '- お客様のデータを第三者に販売・'
         '共有することはありません\n'
-        '- いつでもアカウントとデータを'
+        '- いつでもアカウントとすべてのデータを'
         '削除できます\n'
         '- 匿名分析は設定からオプトアウトできます',
   ),
@@ -321,7 +321,7 @@ const _privacyEs = [
         'Recopilamos la siguiente información:\n\n'
         '- Dirección de correo electrónico (para la '
         'creación de cuenta y autenticación)\n'
-        '- Nombre de usuario (opcional, mostrado en '
+        '- Nombre para mostrar (opcional, mostrado en '
         'su perfil)\n'
         '- Historial de acciones (actividades de '
         'sostenibilidad registradas)\n'
@@ -473,7 +473,7 @@ const _termsEn = [
     body:
         'You agree to use Seed only for its intended '
         'purpose. You must not:\n\n'
-        '- Attempt to gain unauthorized access to the '
+        '- Attempt to gain unauthorised access to the '
         'app or its systems\n'
         '- Use the app to transmit harmful or malicious '
         'content\n'
@@ -635,7 +635,7 @@ const _termsJa = [
         'Seedで提供されるCO2削減の推定値は、'
         '公開されている研究と平均値に基づく概算値です。'
         '教育的および動機付けの目的であり、正確な'
-        '科学的測定値とはみなされません。実際の'
+        '科学的測定値とみなすべきではありません。実際の'
         '環境影響は個人の状況により異なる場合があります。',
   ),
   LegalSection(

@@ -9,9 +9,14 @@
 | `data/app/sdg_targets.json` | descriptionJa (169 SDG targets) |
 
 ## Style Rules
-- **Register**: ます form (polite conversational), matching app_ja.arb
+- **Register**: ます form (polite conversational), matching app_ja.arb. CTA
+  buttons and prompts may use the よう form (選ぼう, ペアにしよう)
 - **Numbers**: Arabic numerals; use 兆/億/万 for large numbers, with comma grouping on four digits inside a unit (3億5,000万, 1兆8,000億ドル)
-- **Units**: Keep Latin units (kg, km, GW, kWh, m2, etc.)
+- **Units**: Keep Latin units (kg, km, GW, kWh, m2, etc.). Temperatures use
+  °C with no space (20°C), never ℃ or 度C
+- **Punctuation**: full-width `：` `（）` `…` and `〜` inside Japanese text
+  Food serving names keep the ASCII ` - ` before the detail clause. The app
+  splits on it
 - **CO2**: Use "CO2" inline; spell out 二酸化炭素 when used as a noun
 - **Source names**: Copy sourceEn verbatim -- NEVER translate
 - **No dash joins**: never join clauses with ` -- ` (English keeps it); use 「、」 or 「。」 instead
@@ -89,6 +94,28 @@
 | emit / emissions | 排出する / 排出量 | |
 | generate (energy) | 発電する | |
 | consume / consumption | 消費する / 消費量 | |
+
+## One Form per Word
+
+Use the left form. Fixed expressions in the notes column keep their own form.
+
+| Use | Not | Notes |
+|---|---|---|
+| 一つ | ひとつ | Keep ひとつかみ, ひとつまみ |
+| まかなう | 賄う | |
+| 方が / 方を (comparison) | ほうが / ほうを | |
+| 他の / 他は | ほかの / ほかは | Keep ほかでもない |
+| にすぎない | に過ぎない | 過ぎる for time passing keeps the kanji |
+| 作る | つくる | SDG goal titles keep the official つくる |
+| たんぱく質 | タンパク質 | |
+| 環境に優しい | 環境にやさしい | External page titles keep their own form |
+| 米国 | アメリカ | Keep アメリカ英語, ラテンアメリカ, 南北アメリカ and species names |
+| ノートパソコン | ノートPC | |
+| 早期死亡 | 早死 | |
+| ろ過する | 濾す | |
+| コンブ | ケルプ | |
+| ハチ | 蜂 | Keep compounds such as 養蜂 |
+| ヘンプ | 麻 | |
 
 ## Example Translations
 

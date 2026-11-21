@@ -342,13 +342,20 @@ outline-offset:2px}section a{color:var(--accent);overflow-wrap:anywhere}
 .hero{display:block;width:100%;height:auto;border-radius:12px;margin:.75rem 0 0}
 """
 
-BETA_IMAGE_ALT = (
-    'Four Seed screens: the home screen with the mascot, logging an '
-    'action, the Climate Action goal, and the fact pairs game'
-)
-BETA_HERO = (
+BETA_IMAGE_ALT = {
+    'en': 'Four Seed screens: the home screen with the mascot, logging an '
+    'action, the Climate Action goal, and the fact pairs game',
+    'ja': 'Seedの4つの画面：マスコットのいるホーム画面、アクションの記録、'
+    '目標「気候変動に具体的な対策を」、ファクトペアのゲーム',
+    'es': 'Cuatro pantallas de Seed: la pantalla de inicio con la mascota, '
+    'el registro de una acción, el objetivo «Acción por el clima» y el juego '
+    'Parejas de datos',
+}
+BETA_HERO = ''.join(
+    f'<div lang="{lang}"{"" if lang == "en" else " hidden"}>'
     '<img class="hero" src="/images/seed-preview.webp" width="1400" height="744" '
-    f'alt="{BETA_IMAGE_ALT}">'
+    f'alt="{html.escape(BETA_IMAGE_ALT[lang])}"></div>'
+    for lang in LANGS
 )
 
 BETA_TEXT = {
@@ -714,7 +721,7 @@ def beta_meta(title: str, description: str) -> str:
         'og:image': f'{SITE_URL}/images/seed-preview.jpg',
         'og:image:width': '1400',
         'og:image:height': '744',
-        'og:image:alt': BETA_IMAGE_ALT,
+        'og:image:alt': BETA_IMAGE_ALT['en'],
     }
     return ''.join(
         f'<meta property="{key}" content="{html.escape(value)}">\n'

@@ -236,6 +236,13 @@ when the data is in a specific report or article.
 - Balanced -- acknowledge complexity where it exists
 - No exclamation marks or clickbait phrasing
 
+#### Spelling
+
+- English text written for the app is en-GB: -ise spellings (organise,
+  recognise), UK words (lorry, rubbish, tinned) and metric units
+- Official UN text and source names keep their own spelling
+- Food search terms keep the US words that people type (fries, soy)
+
 ---
 
 ## 3. sdg_targets.json
