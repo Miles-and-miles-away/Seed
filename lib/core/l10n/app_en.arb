@@ -262,6 +262,7 @@
   "accountSettingsConfirmNewPassword": "Confirm new password",
   "accountSettingsPasswordMismatch": "Passwords do not match",
   "accountSettingsEmailUpdated": "Email updated successfully",
+  "accountSettingsEmailLinkSent": "We sent a link to your new email address. Open it to finish the change.",
   "accountSettingsPasswordUpdated": "Password updated successfully",
   "accountSettingsReauthRequired": "Please re-enter your password to continue",
   "accountSettingsProfile": "Profile",

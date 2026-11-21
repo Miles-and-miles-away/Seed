@@ -53,7 +53,7 @@ service cloud.firestore {
           'language', 'notificationTime', 'createdAt', 'emailVerified',
           'dailyGoalTarget', 'mascots', 'activeMascotId', 'egg',
           'eggPendingDiscovery', 'eggPendingDiscoverySince',
-          'notificationsEnabled', 'lastActionDate',
+          'notificationsEnabled', 'lastActionDate', 'lastActionUtcOffsetMinutes',
           'streakGracePeriodAvailable', 'fcmToken', 'totalCo2Grams',
           'totalActionsCount', 'sdgStats', 'viewedFactDates',
           'unlockedFactDates', 'challengeCompletedDate',
@@ -144,6 +144,10 @@ service cloud.firestore {
                 && d.totalActionsCount <= 10000000))
         && (!('lastActionDate' in keys) || d.lastActionDate == null
             || d.lastActionDate is timestamp)
+        && (!('lastActionUtcOffsetMinutes' in keys)
+            || (d.lastActionUtcOffsetMinutes is int
+                && d.lastActionUtcOffsetMinutes >= -720
+                && d.lastActionUtcOffsetMinutes <= 840))
         && (!('sdgStats' in keys) || d.sdgStats is map)
         && (!('viewedFactDates' in keys)
             || (d.viewedFactDates is list
@@ -233,6 +237,10 @@ service cloud.firestore {
             // previous bump. The client writes it with
             // FieldValue.serverTimestamp(), which rules evaluate as
             // request.time.
+            // The offset moves only inside the scoring write.
+            && (d.get('lastActionUtcOffsetMinutes', null)
+                    == old.get('lastActionUtcOffsetMinutes', null)
+                || d.get('lastActionDate', null) == request.time)
             && (d.get('lastActionDate', null)
                     == old.get('lastActionDate', null)
                 || (d.get('lastActionDate', null) == request.time

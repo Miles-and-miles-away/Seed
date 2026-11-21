@@ -1018,6 +1018,12 @@ abstract class AppLocalizations {
   /// **'Email updated successfully'**
   String get accountSettingsEmailUpdated;
 
+  /// No description provided for @accountSettingsEmailLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a link to your new email address. Open it to finish the change.'**
+  String get accountSettingsEmailLinkSent;
+
   /// No description provided for @accountSettingsPasswordUpdated.
   ///
   /// In en, this message translates to:

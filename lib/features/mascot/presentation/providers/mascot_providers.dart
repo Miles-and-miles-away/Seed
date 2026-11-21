@@ -42,11 +42,12 @@ MascotRepository mascotRepository(Ref ref) =>
 ///
 /// Derived from the user document already streamed by
 /// [currentUserProvider]; opening a second Firestore listener on the
-/// same document would only duplicate decode work.
+/// same document would only duplicate decode work. Stays loading until
+/// the user document arrives, so callers can tell loading from none.
 @riverpod
 Stream<List<MascotModel>> allMascots(Ref ref) async* {
   final user = ref.watch(currentUserProvider).value;
-  yield user?.mascots ?? <MascotModel>[];
+  if (user != null) yield user.mascots;
 }
 
 /// The active mascot for the current user (derived, see [allMascots]).

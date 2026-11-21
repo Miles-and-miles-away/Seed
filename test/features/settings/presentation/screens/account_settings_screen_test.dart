@@ -391,4 +391,28 @@ void main() {
       expect(find.byType(SnackBar), findsOneWidget);
     });
   });
+
+  testWidgets('an email change says a link was sent, not that it changed', (
+    tester,
+  ) async {
+    final repository = _MockAuthRepository();
+    when(
+      () => repository.reauthenticateWithEmailPassword(any(), any()),
+    ).thenAnswer((_) async {});
+    when(() => repository.updateEmail(any())).thenAnswer((_) async {});
+    await pumpScreen(tester, currentUser: testUser, repository: repository);
+
+    await tester.tap(find.text('Change Email'));
+    await tester.pumpAndSettle();
+    final fields = find.byType(TextFormField);
+    await tester.enterText(fields.at(0), 'user@example.com');
+    await tester.enterText(fields.at(1), 'secret-pass');
+    await tester.enterText(fields.at(2), 'new@example.com');
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+
+    verify(() => repository.updateEmail('new@example.com')).called(1);
+    expect(find.text('Email updated successfully'), findsNothing);
+    expect(find.textContaining('sent a link'), findsOneWidget);
+  });
 }

@@ -515,6 +515,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get accountSettingsEmailUpdated => 'メールアドレスが更新されました';
 
   @override
+  String get accountSettingsEmailLinkSent =>
+      '新しいメールアドレスにリンクを送信しました。リンクを開くと変更が完了します。';
+
+  @override
   String get accountSettingsPasswordUpdated => 'パスワードが更新されました';
 
   @override

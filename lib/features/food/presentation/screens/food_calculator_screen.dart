@@ -215,7 +215,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     ComparisonSummary? summary,
     VerdictCheck? check,
   ) {
-    if (summary == null || check == null || summary.deltaGrams <= 0) {
+    if (summary == null || check == null) {
       return CalculatorHint(l10n.calculatorNeedBothOptions);
     }
     // Below the bar there is no winner to name and nothing honest to
@@ -226,7 +226,11 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CalculatorHint(l10n.foodComparisonTooClose),
+          CalculatorHint(
+            check.block == VerdictBlock.tooClose
+                ? l10n.foodComparisonTooClose
+                : l10n.foodVerdictBlockedTitle,
+          ),
           TextButton(
             onPressed: () => _explainNoVerdict(l10n, locale, check),
             child: Text(l10n.foodVerdictWhyCta),

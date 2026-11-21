@@ -34,6 +34,7 @@ Future<ActionLogResult?> logActionWithWaitMessage(
   ActionModel action, {
   required String languageCode,
   String? note,
+  bool countsAsUnique = true,
 }) async {
   final notifier = ref.read(actionLogProvider.notifier);
   final messenger = ScaffoldMessenger.of(context);
@@ -61,6 +62,7 @@ Future<ActionLogResult?> logActionWithWaitMessage(
     action,
     note: note,
     languageCode: languageCode,
+    countsAsUnique: countsAsUnique,
   );
   if (!notifier.isBusy && messenger.mounted) {
     _waiting[messenger]?.close();

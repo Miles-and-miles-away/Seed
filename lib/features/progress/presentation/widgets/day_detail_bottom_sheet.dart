@@ -139,7 +139,9 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: spacingLg),
                 child: Text(
-                  l10n.dayDetailNoActions,
+                  logsAsync.hasError
+                      ? l10n.errorGeneric
+                      : l10n.dayDetailNoActions,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -231,6 +233,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
         relatedSdgs: log.relatedSdgs,
       ),
       languageCode: Localizations.localeOf(context).languageCode,
+      countsAsUnique: false,
     );
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(

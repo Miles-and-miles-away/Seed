@@ -69,6 +69,7 @@ class ActionLogRepository {
     required ActionModel action,
     required String languageCode,
     String? note,
+    bool countsAsUnique = true,
   }) async {
     final now = clock();
     final todayKey = formatDateKey(now);
@@ -128,6 +129,8 @@ class ActionLogRepository {
       final lastActionDate = _parseDate(
         userData[AppConstants.fieldLastActionDate],
       );
+      final lastOffset =
+          userData[AppConstants.fieldLastActionUtcOffsetMinutes] as int?;
       final currentStreak =
           (userData[AppConstants.fieldCurrentStreak] as int?) ?? 0;
       final longestStreak =
@@ -138,6 +141,7 @@ class ActionLogRepository {
         currentStreak: currentStreak,
         longestStreak: longestStreak,
         now: now,
+        lastActionUtcOffsetMinutes: lastOffset,
       );
       crossedMilestoneWeek = streakResult.crossedMilestoneWeek;
       newCurrentStreak = streakResult.currentStreak;
@@ -182,11 +186,14 @@ class ActionLogRepository {
         AppConstants.fieldCurrentStreak: streakResult.currentStreak,
         AppConstants.fieldLongestStreak: streakResult.longestStreak,
         AppConstants.fieldLastActionDate: FieldValue.serverTimestamp(),
+        AppConstants.fieldLastActionUtcOffsetMinutes:
+            now.timeZoneOffset.inMinutes,
         AppConstants.fieldTotalCo2Grams: currentCo2 + action.co2Grams,
         AppConstants.fieldTotalActionsCount: currentActionCount + 1,
         AppConstants.fieldSdgStats: updatedSdgStats,
         AppConstants.fieldCategoryActionCounts: updatedCatCounts,
-        AppConstants.fieldUniqueActionIds: FieldValue.arrayUnion([action.id]),
+        if (countsAsUnique)
+          AppConstants.fieldUniqueActionIds: FieldValue.arrayUnion([action.id]),
       };
 
       // 3. Per-mascot leveling
@@ -250,7 +257,19 @@ class ActionLogRepository {
           userData[AppConstants.fieldEgg] as Map,
         );
         final egg = EggModel.fromJson(eggMap);
-        final eggResult = eggHatchingService.calculateEggStreakUpdate(egg, now);
+        final lastActivity = egg.lastHatchingActivityDate;
+        // Written in the same scoring write as lastActionDate.
+        final eggResult = eggHatchingService.calculateEggStreakUpdate(
+          lastActivity == null
+              ? egg
+              : egg.copyWith(
+                  lastHatchingActivityDate: localDateAt(
+                    lastActivity,
+                    lastOffset,
+                  ),
+                ),
+          now,
+        );
 
         if (eggResult.shouldHatch) {
           // Ensure we have latest mascots list
@@ -340,7 +359,7 @@ class ActionLogRepository {
           userData[AppConstants.fieldActiveMultiDayChallenge]
               as Map<String, dynamic>?;
       if (multiDay != null && multiDay.isNotEmpty) {
-        final mdTemplateId = multiDay[AppConstants.fieldTemplateId] as String;
+        final mdTemplateId = multiDay[AppConstants.fieldTemplateId] as String?;
         final template = multiDayChallengeTemplates.firstWhereOrNull(
           (t) => t.id == mdTemplateId,
         );
@@ -348,9 +367,9 @@ class ActionLogRepository {
             multiDay[AppConstants.fieldLastCompletionDate] as String? ?? '';
 
         if (template == null) {
-          // Template removed in an app update while still active for
-          // this user: clear the stale challenge instead of throwing,
-          // which would fail every subsequent log.
+          // Template removed in an app update, or no id stored: clear
+          // the stale challenge instead of throwing, which would fail
+          // every subsequent log.
           updates[AppConstants.fieldActiveMultiDayChallenge] =
               <String, dynamic>{};
         } else if (lastDate != todayKey) {

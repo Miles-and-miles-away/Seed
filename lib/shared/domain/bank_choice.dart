@@ -15,6 +15,9 @@ const _templateTimeout = Duration(seconds: 5);
 /// No caps -- users are isolated (no leaderboards), so self-reported
 /// inflation only affects their own stats (scoring design decision).
 ///
+/// The calling notifier must be keepAlive, so a user who leaves the
+/// calculator mid-write still gets the action logged.
+///
 /// Returns the resulting state, or null when the calling notifier was
 /// disposed mid-flight; a null return must not be written to `state`.
 Future<AsyncValue<void>?> bankChoice(
@@ -40,15 +43,23 @@ Future<AsyncValue<void>?> bankChoice(
           ),
         )
         .timeout(_templateTimeout);
-    if (!ref.mounted) return;
     final logged = await ref
         .read(actionLogProvider.notifier)
         .logAction(
           template.toActionModel(),
           languageCode: ref.read(userLanguageCodeProvider),
+          countsAsUnique: false,
         );
-    if (logged == null) throw Exception('Action log was rejected');
+    if (logged == null) _throwLogFailure(ref.read(actionLogProvider));
   });
 
   return ref.mounted ? result : null;
+}
+
+/// Rethrows the action-log failure so the UI can tell offline and rate
+/// limits apart from other errors.
+Never _throwLogFailure(AsyncValue<ActionLogResult?> logState) {
+  final error = logState.error;
+  if (error == null) throw StateError('Action log was not written');
+  Error.throwWithStackTrace(error, logState.stackTrace ?? StackTrace.current);
 }

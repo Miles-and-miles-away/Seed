@@ -48,20 +48,23 @@ void main() {
     required AppUserModel user,
     required List<ActionLogModel> logs,
     required DateTime date,
+    Exception? loadError,
   }) {
     return createTestWidget(
       firestore: FakeFirebaseFirestore(),
       overrides: [
         userOverride(user),
         actionsForDayProvider.overrideWith(
-          (_, day) async => logs
-              .where(
-                (l) =>
-                    l.loggedAt.year == day.year &&
-                    l.loggedAt.month == day.month &&
-                    l.loggedAt.day == day.day,
-              )
-              .toList(),
+          (_, day) async => loadError != null
+              ? throw loadError
+              : logs
+                    .where(
+                      (l) =>
+                          l.loggedAt.year == day.year &&
+                          l.loggedAt.month == day.month &&
+                          l.loggedAt.day == day.day,
+                    )
+                    .toList(),
         ),
         ecoFactsProvider.overrideWith((_) => Future.value(fakeFacts)),
       ],
@@ -151,6 +154,24 @@ void main() {
       await openSheet(tester);
 
       expect(find.text('No actions logged this day'), findsOneWidget);
+    });
+
+    testWidgets('a load error is not shown as an empty day', (tester) async {
+      await tester.pumpWidget(
+        buildHarness(
+          user: baseUser,
+          logs: const [],
+          date: DateTime(2024, 5, 10),
+          loadError: Exception('offline'),
+        ),
+      );
+      await openSheet(tester);
+
+      expect(find.text('No actions logged this day'), findsNothing);
+      expect(
+        find.text('Something went wrong. Please try again.'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('today with completed challenge shows unlocked fact card', (

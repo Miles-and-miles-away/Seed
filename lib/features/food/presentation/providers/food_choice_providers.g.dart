@@ -29,7 +29,7 @@ final class FoodChoiceLoggerProvider
         argument: null,
         retry: null,
         name: r'foodChoiceLoggerProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -50,7 +50,7 @@ final class FoodChoiceLoggerProvider
   }
 }
 
-String _$foodChoiceLoggerHash() => r'fa10791b8e1525811a8da09bee2a0759fc3a4b97';
+String _$foodChoiceLoggerHash() => r'1c7dd53a8bbffb73bce660472a60b8527d28f07b';
 
 /// Banks a chosen meal as a real action (Phase 8.12). Reuses the
 /// category-agnostic customActions collection and rules that the

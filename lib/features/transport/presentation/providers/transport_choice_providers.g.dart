@@ -23,7 +23,7 @@ final class TransportChoiceLoggerProvider
         argument: null,
         retry: null,
         name: r'transportChoiceLoggerProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -45,7 +45,7 @@ final class TransportChoiceLoggerProvider
 }
 
 String _$transportChoiceLoggerHash() =>
-    r'6c5a9b4a43f934402b3e8f63c888fd0a145d0643';
+    r'38612660bdd1acbc62e4c61345c55bbfa64f5105';
 
 /// Banks a chosen transport option as a real action (Phase 8.6).
 

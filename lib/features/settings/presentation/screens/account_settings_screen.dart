@@ -318,7 +318,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         await _checked(auth.updateEmail(newEmail));
       },
       logLabel: 'Account: email update failed',
-      successMessage: l10n.accountSettingsEmailUpdated,
+      successMessage: l10n.accountSettingsEmailLinkSent,
     );
   }
 

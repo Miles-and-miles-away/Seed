@@ -24,6 +24,13 @@ DateTime dateOnlyUtc(DateTime date) =>
 int calendarDaysBetween(DateTime from, DateTime to) =>
     dateOnlyUtc(to).difference(dateOnlyUtc(from)).inDays;
 
+/// The wall-clock time of [instant] at a UTC offset of [offsetMinutes],
+/// or in the device zone when the offset is unknown.
+DateTime localDateAt(DateTime instant, int? offsetMinutes) =>
+    offsetMinutes == null
+    ? instant.toLocal()
+    : instant.toUtc().add(Duration(minutes: offsetMinutes));
+
 /// Whether [a] and [b] fall on the same local calendar day.
 bool isSameCalendarDay(DateTime a, DateTime b) =>
     a.year == b.year && a.month == b.month && a.day == b.day;

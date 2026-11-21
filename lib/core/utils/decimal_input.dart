@@ -2,20 +2,23 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/number_symbols.dart';
 
-/// Keeps a quantity field to digits with at most one decimal
-/// separator; ',' is allowed because locale keypads emit it (the
-/// anchored pattern keeps the longest valid prefix).
+/// Keeps a quantity field to digits and separators; ',' is allowed
+/// because locale keypads emit it. A second separator is kept so the
+/// parser can flag it instead of silently joining the groups.
 final decimalInputFormatter = FilteringTextInputFormatter.allow(
-  RegExp(r'^\d*[.,]?\d*'),
+  RegExp(r'^[\d.,]*'),
 );
 
 /// Whether [text] reads as a thousands-grouped number in [locale]
 /// ("1.500" in Spanish, "1,500" in English), which the field would
 /// otherwise take as a decimal. Flag it rather than guess. A leading zero
-/// never starts a thousands group, so "0.500" stays a decimal.
+/// never starts a thousands group, so "0.500" stays a decimal. More
+/// than one separator ("1.234,5") is ambiguous too.
 bool isAmbiguousDecimalInput(String text, String locale) {
+  final trimmed = text.trim();
+  if (RegExp('[.,]').allMatches(trimmed).length > 1) return true;
   final group = RegExp.escape(_symbols(locale).GROUP_SEP);
-  return RegExp('^[1-9]\\d{0,2}$group\\d{3}\$').hasMatch(text.trim());
+  return RegExp('^[1-9]\\d{0,2}$group\\d{3}\$').hasMatch(trimmed);
 }
 
 /// [text] as a non-negative finite number, or null when it is not one

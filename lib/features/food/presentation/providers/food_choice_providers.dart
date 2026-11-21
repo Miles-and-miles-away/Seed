@@ -13,14 +13,14 @@ const kFoodChoiceSdgs = ['2', '12', '13'];
 /// Banks a chosen meal as a real action (Phase 8.12). Reuses the
 /// category-agnostic customActions collection and rules that the
 /// transport bridge (8.6) already established.
-@riverpod
+@Riverpod(keepAlive: true)
 class FoodChoiceLogger extends _$FoodChoiceLogger {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
   /// Banks [co2Grams] of avoided emissions under [name]. Returns the
   /// outcome, or null when nothing was attempted (a log already in
-  /// flight, no user) or the notifier was disposed mid-flight.
+  /// flight, no user).
   Future<AsyncValue<void>?> logChoice({
     required String name,
     required int co2Grams,

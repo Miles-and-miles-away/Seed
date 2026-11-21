@@ -238,6 +238,7 @@
   "accountSettingsConfirmNewPassword": "新しいパスワードを確認",
   "accountSettingsPasswordMismatch": "パスワードが一致しません",
   "accountSettingsEmailUpdated": "メールアドレスが更新されました",
+  "accountSettingsEmailLinkSent": "新しいメールアドレスにリンクを送信しました。リンクを開くと変更が完了します。",
   "accountSettingsPasswordUpdated": "パスワードが更新されました",
   "accountSettingsReauthRequired": "続行するには、パスワードを再入力してください",
   "accountSettingsProfile": "プロフィール",

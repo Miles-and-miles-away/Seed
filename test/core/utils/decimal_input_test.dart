@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/utils/decimal_input.dart';
 
@@ -25,6 +26,24 @@ void main() {
       expect(parseDecimalInput('0.500', 'es'), 0.5);
       expect(parseDecimalInput('0,500', 'en'), 0.5);
       expect(parseDecimalInput('0,250', 'ja'), 0.25);
+    });
+
+    test('a grouped number with a decimal part is flagged', () {
+      var value = TextEditingValue.empty;
+      for (final char in '1.234,5'.split('')) {
+        final typed = value.text + char;
+        value = decimalInputFormatter.formatEditUpdate(
+          value,
+          TextEditingValue(
+            text: typed,
+            selection: TextSelection.collapsed(offset: typed.length),
+          ),
+        );
+      }
+
+      expect(value.text, '1.234,5');
+      expect(parseDecimalInput(value.text, 'es'), isNull);
+      expect(isAmbiguousDecimalInput(value.text, 'es'), isTrue);
     });
 
     test('rejects negatives and non-finite values', () {

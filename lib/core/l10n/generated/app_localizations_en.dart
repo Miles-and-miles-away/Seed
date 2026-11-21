@@ -534,6 +534,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountSettingsEmailUpdated => 'Email updated successfully';
 
   @override
+  String get accountSettingsEmailLinkSent =>
+      'We sent a link to your new email address. Open it to finish the change.';
+
+  @override
   String get accountSettingsPasswordUpdated => 'Password updated successfully';
 
   @override

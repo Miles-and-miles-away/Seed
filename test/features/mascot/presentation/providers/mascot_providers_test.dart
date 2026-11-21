@@ -473,6 +473,16 @@ void main() {
       expect(c.read(hasMascotProvider), isFalse);
     });
 
+    test('the mascot list stays loading until the user doc arrives', () async {
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith(
+          (_) => StreamController<AppUserModel?>().stream,
+        ),
+      ], warm: allMascotsProvider);
+
+      expect(c.read(allMascotsProvider).hasValue, isFalse);
+    });
+
     test('shouldShowEggDiscovery is false when signed out', () async {
       final c = await _container();
 

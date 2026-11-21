@@ -164,7 +164,14 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
               onSubmitted: (_) => _submit(),
             ),
             const SizedBox(height: spacingLg),
-            FilledButton(onPressed: _submit, child: Text(l10n.energyAddUsage)),
+            FilledButton(
+              onPressed: _submit,
+              child: Text(
+                widget.initialUnits == null
+                    ? l10n.energyAddUsage
+                    : l10n.buttonSave,
+              ),
+            ),
           ],
         ),
       ),

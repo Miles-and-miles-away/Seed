@@ -408,6 +408,61 @@ describe('users/{userId} update — score integrity', () => {
     });
 });
 
+describe('users/{userId} update: lastActionUtcOffsetMinutes', () => {
+  // The device UTC offset of the last log, so a later log in another
+  // zone can find the local day of that log.
+  const seedLogged = (extra = {}) => seed(`users/${ALICE}`, {
+    ...baseUserDoc,
+    points: 100,
+    totalActionsCount: 3,
+    lastActionDate: secondsAgo(10),
+    ...extra,
+  });
+  const scoringWrite = (extra) =>
+    updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+      points: 105,
+      totalActionsCount: increment(1),
+      lastActionDate: serverTimestamp(),
+      ...extra,
+    });
+
+  for (const ok of [540, 0, -720, 840, -210, 345]) {
+    test(`accepts offset ${ok} in the scoring write`, async () => {
+      await seedLogged();
+      await assertSucceeds(scoringWrite({lastActionUtcOffsetMinutes: ok}));
+    });
+  }
+
+  for (const bad of [841, -721, 1.5, '540', null]) {
+    test(`rejects offset ${JSON.stringify(bad)}`, async () => {
+      await seedLogged();
+      await assertFails(scoringWrite({lastActionUtcOffsetMinutes: bad}));
+    });
+  }
+
+  test('an old client scoring write without the offset keeps it',
+    async () => {
+      await seedLogged({lastActionUtcOffsetMinutes: 540});
+      await assertSucceeds(scoringWrite({}));
+    });
+
+  test('rejects an offset change outside the scoring write', async () => {
+    await seedLogged({lastActionUtcOffsetMinutes: 540});
+    await assertFails(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+        lastActionUtcOffsetMinutes: 0,
+      }),
+    );
+  });
+
+  test('a settings update keeps the stored offset', async () => {
+    await seedLogged({lastActionUtcOffsetMinutes: 540});
+    await assertSucceeds(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {language: 'ja'}),
+    );
+  });
+});
+
 describe('users/{userId} update — large established document', () => {
   // Regression: update validation must check only the diff, not the whole
   // merged document. Re-validating every field on a fully-populated doc

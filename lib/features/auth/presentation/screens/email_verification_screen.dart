@@ -121,8 +121,14 @@ class _EmailVerificationScreenState
             OutlinedButton.icon(
               onPressed: isLoading
                   ? null
-                  : () {
-                      ref.read(authProvider.notifier).resendVerificationEmail();
+                  : () async {
+                      await ref
+                          .read(authProvider.notifier)
+                          .resendVerificationEmail();
+                      // listenAuthResult already reported a failure.
+                      if (!context.mounted || ref.read(authProvider).hasError) {
+                        return;
+                      }
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(l10n.authVerificationSent)),
                       );
@@ -156,7 +162,7 @@ class _EmailVerificationScreenState
 
     try {
       await ref.read(authProvider.notifier).reloadUser();
-      if (!mounted) return;
+      if (!mounted || ref.read(authProvider).hasError) return;
 
       // Read the freshly reloaded user directly; the auth stream may not have
       // propagated the updated emailVerified flag yet at this point.

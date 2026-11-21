@@ -238,6 +238,7 @@
   "accountSettingsConfirmNewPassword": "Confirmar nueva contraseña",
   "accountSettingsPasswordMismatch": "Las contraseñas no coinciden",
   "accountSettingsEmailUpdated": "Correo actualizado correctamente",
+  "accountSettingsEmailLinkSent": "Hemos enviado un enlace a tu nueva dirección de correo. Ábrelo para completar el cambio.",
   "accountSettingsPasswordUpdated": "Contraseña actualizada correctamente",
   "accountSettingsReauthRequired": "Vuelve a introducir tu contraseña para continuar",
   "accountSettingsProfile": "Perfil",
