@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
@@ -31,6 +34,24 @@ ActionLogModel _log({
   );
 }
 
+class _FailingLog extends ActionLogNotifier {
+  _FailingLog(this.error);
+
+  final Object error;
+
+  @override
+  Future<ActionLogResult?> logAction(
+    ActionModel action, {
+    String? note,
+    String languageCode = 'en',
+    bool countsAsUnique = true,
+    String? uniqueKey,
+  }) async {
+    state = AsyncValue.error(error, StackTrace.current);
+    return null;
+  }
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -49,6 +70,7 @@ void main() {
     required List<ActionLogModel> logs,
     required DateTime date,
     Exception? loadError,
+    Object? logError,
   }) {
     return createTestWidget(
       firestore: FakeFirebaseFirestore(),
@@ -67,6 +89,9 @@ void main() {
                     .toList(),
         ),
         ecoFactsProvider.overrideWith((_) => Future.value(fakeFacts)),
+        actionLibraryProvider.overrideWith((_) => Future.value(const [])),
+        if (logError != null)
+          actionLogProvider.overrideWith(() => _FailingLog(logError)),
       ],
       child: Builder(
         builder: (context) => Scaffold(
@@ -242,5 +267,35 @@ void main() {
       expect(find.byType(EcoFactCard), findsNothing);
       expect(find.text('No eco-fact unlocked this day'), findsOneWidget);
     });
+  });
+
+  testWidgets('an offline reproduce says offline, not the generic error', (
+    tester,
+  ) async {
+    final date = DateTime(2024, 5, 10);
+    await tester.pumpWidget(
+      buildHarness(
+        user: baseUser,
+        logs: [_log(id: 'a', loggedAt: DateTime(2024, 5, 10, 9))],
+        date: date,
+        logError: FirebaseException(
+          plugin: 'cloud_firestore',
+          code: 'unavailable',
+        ),
+      ),
+    );
+    await openSheet(tester);
+    await tester.tap(find.text('Action a'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Do this again'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+        'Cannot log an action while offline. '
+        'Check your connection and try again.',
+      ),
+      findsOneWidget,
+    );
   });
 }

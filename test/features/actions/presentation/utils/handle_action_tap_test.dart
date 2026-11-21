@@ -510,9 +510,34 @@ void main() {
       );
     });
 
+    testWidgets('offline Retry logs the same action and note again', (
+      tester,
+    ) async {
+      log.error = FirebaseException(
+        plugin: 'cloud_firestore',
+        code: 'unavailable',
+      );
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text('Retry'));
+
+      await tester.pumpAndSettle();
+      log
+        ..error = null
+        ..result = _result();
+      await tester.tap(find.text('Retry'));
+      await tester.pump();
+
+      expect(log.calls, hasLength(2));
+      expect(log.calls.last.action, log.calls.first.action);
+      expect(log.calls.last.note, log.calls.first.note);
+      expect(find.byType(PointsAnimationOverlay), findsOneWidget);
+      await drain(tester);
+    });
+
     testWidgets('anything else reads as the generic error', (tester) async {
       log.error = Exception('boom');
       await expectMessage(tester, 'Something went wrong. Please try again.');
+      expect(find.text('Retry'), findsNothing);
     });
 
     testWidgets('a dropped in-flight duplicate shows nothing', (tester) async {
