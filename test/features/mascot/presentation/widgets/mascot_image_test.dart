@@ -37,7 +37,7 @@ void main() {
         ),
       );
 
-      // Decoding the 6 MB mascot file takes ~40ms on an idle machine but
+      // Decoding the mascot file takes ~40ms on an idle machine but
       // over 100ms once a full-suite run saturates the CPU, so poll for the
       // load rather than sleeping a fixed span.
       final riveWidget = find.byType(rive.RiveWidget);
