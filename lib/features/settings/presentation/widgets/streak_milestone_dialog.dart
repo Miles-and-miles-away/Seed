@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
@@ -91,7 +91,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
         if (_showContent)
           SafeArea(
             child: Center(
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(spacingXxxl),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -157,6 +157,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                               )
                               .then() // Chain animation
                               .animate(
+                                autoPlay: !reduceMotionOf(context),
                                 onPlay: (controller) =>
                                     controller.repeat(reverse: true),
                               )

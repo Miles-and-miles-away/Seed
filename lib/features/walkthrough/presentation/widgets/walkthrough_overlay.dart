@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/theme/text_styles.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
@@ -13,6 +13,7 @@ import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
+
 import '../providers/walkthrough_providers.dart';
 import '../walkthrough_items.dart';
 
@@ -136,9 +137,7 @@ class _WalkthroughOverlayState extends ConsumerState<WalkthroughOverlay> {
       final clear when below => (clear.bottom, 0.0),
       final clear => (0.0, height - clear.top),
     };
-    final still =
-        MediaQuery.disableAnimationsOf(context) ||
-        MediaQuery.reduceMotionOf(context);
+    final still = reduceMotionOf(context);
     final slide = spotlight == null || still
         ? 0.0
         : below

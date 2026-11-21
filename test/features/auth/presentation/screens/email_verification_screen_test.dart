@@ -45,7 +45,6 @@ void main() {
   }
 
   group('EmailVerificationScreen', () {
-    // Set a larger screen size to avoid overflow
     void setLargeScreenSize(WidgetTester tester) {
       tester.view.physicalSize = const Size(800, 1200);
       tester.view.devicePixelRatio = 1.0;
@@ -64,6 +63,19 @@ void main() {
       expect(find.text("I've Verified My Email"), findsOneWidget);
       expect(find.text('Resend Email'), findsOneWidget);
       expect(find.text('Use a Different Email'), findsOneWidget);
+    });
+
+    testWidgets('scrolls instead of overflowing on a small phone', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(320, 568);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await pumpVerification(tester);
+
+      expect(tester.takeException(), isNull);
+      await tester.scrollUntilVisible(find.text('Use a Different Email'), 50);
+      expect(find.text('Use a Different Email').hitTestable(), findsOneWidget);
     });
 
     testWidgets('displays app bar with back button', (tester) async {

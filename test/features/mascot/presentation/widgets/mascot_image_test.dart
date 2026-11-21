@@ -37,7 +37,7 @@ void main() {
         ),
       );
 
-      // Decoding the 6 MB mascot file takes ~40ms on an idle machine but
+      // Decoding the mascot file takes ~40ms on an idle machine but
       // over 100ms once a full-suite run saturates the CPU, so poll for the
       // load rather than sleeping a fixed span.
       final riveWidget = find.byType(rive.RiveWidget);
@@ -49,6 +49,37 @@ void main() {
 
       expect(riveWidget, findsOneWidget);
       expect(find.byType(SvgPicture), findsNothing);
+    });
+  });
+
+  testWidgets('reduce motion freezes a .riv mascot on its first frame', (
+    tester,
+  ) async {
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(disableAnimations: true),
+            child: MascotImage(
+              assetPath: 'assets/animations/coral_mascot.riv',
+              artboardName: 'Coral_stage2',
+              width: 100,
+              height: 100,
+            ),
+          ),
+        ),
+      );
+      final riveWidget = find.byType(rive.RiveWidget);
+      final deadline = DateTime.now().add(_riveLoadTimeout);
+      while (!tester.any(riveWidget) && DateTime.now().isBefore(deadline)) {
+        await Future<void>.delayed(_rivePollInterval);
+        await tester.pump();
+      }
+
+      expect(
+        tester.widget<rive.RiveWidget>(riveWidget).controller.active,
+        isFalse,
+      );
     });
   });
 }

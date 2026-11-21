@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' show Color;
 
 import 'package:collection/collection.dart';
@@ -231,7 +232,8 @@ class MascotNotifier extends _$MascotNotifier {
   Future<void> nameHatchedMascot(String mascotId, String name) =>
       _run((repo, user) async {
         await repo.updateMascotName(user.uid, mascotId, name);
-        await repo.setActiveMascot(user.uid, mascotId);
+        // A plain update only completes on server ack, so offline it hangs.
+        unawaited(repo.setActiveMascot(user.uid, mascotId));
       });
 }
 

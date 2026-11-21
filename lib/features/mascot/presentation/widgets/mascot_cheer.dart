@@ -3,8 +3,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
@@ -102,9 +102,7 @@ class _MascotCheerState extends ConsumerState<MascotCheer>
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_rise != null) return;
-    _reduceMotion =
-        MediaQuery.disableAnimationsOf(context) ||
-        MediaQuery.reduceMotionOf(context);
+    _reduceMotion = reduceMotionOf(context);
     final rise = _rise = AnimationController(
       vsync: this,
       duration: _reduceMotion ? Duration.zero : durationSlower,
