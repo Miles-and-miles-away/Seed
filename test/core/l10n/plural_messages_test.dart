@@ -41,5 +41,12 @@ void main() {
       expect(ja.factPairsFinished(9), contains('9'));
       expect(ja.factRecallFinished(1, 5), '5問中1問正解');
     });
+
+    test('large counts use the locale digit grouping', () {
+      expect(en.pointsLabel(12345), '12,345 points');
+      expect(es.pointsLabel(12345), '12.345 puntos');
+      expect(ja.pointsLabel(12345), contains('12,345'));
+      expect(es.profileNextLevel(12345), contains('12.345'));
+    });
   });
 }
