@@ -1,7 +1,7 @@
 name: Build Verification
 
 # The push run rebuilds what a pull request skipped, and it saves the
-# caches that pull requests restore.
+# Flutter SDK caches that pull requests restore.
 on:
   push:
     branches: [development]
@@ -24,18 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # Plugin Gradle dependencies follow pubspec.lock.
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
-          cache: gradle
-          cache-dependency-path: |
-            android/*.gradle.kts
-            android/app/*.gradle.kts
-            android/gradle.properties
-            android/gradle/wrapper/gradle-wrapper.properties
-            pubspec.lock
 
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
@@ -200,25 +192,9 @@ jobs:
 
       - run: flutter pub get
 
-      - id: xcode
-        run: echo "version=$(xcodebuild -version | tr -d ' \n')" >> "$GITHUB_OUTPUT"
-
-      # Swift package checkouts and the Xcode compilation cache. A new
-      # Xcode version starts an empty cache, which also limits its growth.
-      - uses: actions/cache@v5
-        with:
-          path: |
-            build/ios/SourcePackages
-            build/xcode-cas
-          key: ios-${{ steps.xcode.outputs.version }}-${{ hashFiles('pubspec.lock', 'ios/**/Package.resolved') }}
-          restore-keys: ios-${{ steps.xcode.outputs.version }}-
-
       # Simulator, not device: --no-codesign still builds for device, which
       # needs a Development Team the project has no reason to configure in
       # CI. A simulator build compiles the same Dart and plugin code and
       # needs no signing at all.
       - name: Build iOS for the simulator
         run: flutter build ios --simulator --debug
-        env:
-          FLUTTER_XCODE_COMPILATION_CACHE_ENABLE_CACHING: "YES"
-          FLUTTER_XCODE_COMPILATION_CACHE_CAS_PATH: ${{ github.workspace }}/build/xcode-cas
