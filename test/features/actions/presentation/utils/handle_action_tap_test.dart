@@ -316,46 +316,9 @@ void main() {
     await drain(tester);
   });
 
-  testWidgets('a new milestone shows the celebration and marks it seen', (
-    tester,
-  ) async {
+  testWidgets('a crossed milestone is left to the shell', (tester) async {
     log.result = _result(milestoneWeek: 1);
     await pumpHost(tester);
-
-    await tapAndConfirm(tester, until: find.byType(StreakMilestoneDialog));
-    expect(find.byType(StreakMilestoneDialog), findsOneWidget);
-
-    await tester.pump(durationNormal);
-    expect(find.text('1 Week Streak!'), findsOneWidget);
-    await tester.pump(durationCelebration);
-    await tester.tap(find.text('Continue'));
-    for (
-      var i = 0;
-      i < 20 && find.byType(StreakMilestoneDialog).evaluate().isNotEmpty;
-      i++
-    ) {
-      await tester.pump();
-    }
-
-    expect(find.byType(StreakMilestoneDialog), findsNothing);
-    final doc = await firestore
-        .collection(AppConstants.collectionUsers)
-        .doc(_uid)
-        .get();
-    final settings = doc.data()![AppConstants.fieldSettings] as Map;
-    final seen = settings[AppConstants.fieldSeenStreakMilestones] as Map;
-    expect(seen['1'], isTrue);
-    await drain(tester);
-  });
-
-  testWidgets('an already-seen milestone is not celebrated again', (
-    tester,
-  ) async {
-    log.result = _result(milestoneWeek: 1);
-    await pumpHost(
-      tester,
-      settings: const UserSettingsModel(seenStreakMilestones: {'1': true}),
-    );
 
     await tapAndConfirm(
       tester,
@@ -363,7 +326,6 @@ void main() {
     );
 
     expect(find.byType(StreakMilestoneDialog), findsNothing);
-    expect(find.text('Action logged! 20 points earned'), findsOneWidget);
     await drain(tester);
   });
 

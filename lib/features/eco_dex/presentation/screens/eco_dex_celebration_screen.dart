@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
+import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 import 'package:seed_app/shared/widgets/balanced_text.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
@@ -148,4 +150,24 @@ Future<void> showEcoDexCelebrations(
       ),
     );
   }
+}
+
+/// Records newly unlocked Eco-Dex entries, celebrates them and returns
+/// their ids. See [EcoDexDiscoveryNotifier.discoverNewEntries] for
+/// [minActionsCount].
+Future<List<String>> discoverAndCelebrateEcoDex(
+  BuildContext context,
+  WidgetRef ref, {
+  int? minActionsCount,
+}) async {
+  final newIds = await ref
+      .read(ecoDexDiscoveryProvider.notifier)
+      .discoverNewEntries(minActionsCount: minActionsCount);
+  if (newIds.isEmpty || !context.mounted) return newIds;
+  final ecoDex = await ref.read(ecoDexDataProvider.future);
+  final byId = {for (final e in ecoDex.entries) e.id: e};
+  final entries = newIds.map((id) => byId[id]).whereType<EcoDexEntry>();
+  if (!context.mounted) return newIds;
+  await showEcoDexCelebrations(context, entries: entries.toList());
+  return newIds;
 }

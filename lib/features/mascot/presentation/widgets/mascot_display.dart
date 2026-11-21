@@ -5,8 +5,9 @@ import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart' as rive;
-
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
+
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
 
@@ -112,9 +113,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     _maybeWelcomeBack();
   }
 
-  bool get _reduceMotion =>
-      MediaQuery.disableAnimationsOf(context) ||
-      MediaQuery.reduceMotionOf(context);
+  bool get _reduceMotion => reduceMotionOf(context);
 
   @override
   void didChangeDependencies() {

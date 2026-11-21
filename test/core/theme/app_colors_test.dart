@@ -181,4 +181,32 @@ void main() {
       }
     }
   });
+
+  group('inkOnFill', () {
+    final fills = {
+      for (final c in ActionCategory.values) c.name: c.color,
+      'success': AppColors.success,
+      'warning': AppColors.warning,
+      'celebrationOrange': AppColors.celebrationOrange,
+      'gold': AppColors.gold,
+    };
+    for (final MapEntry(:key, :value) in fills.entries) {
+      test('$key label reads at body-text contrast', () {
+        final ink = Color.alphaBlend(inkOnFill(value), value);
+        expect(contrastRatio(ink, value), greaterThanOrEqualTo(_minContrast));
+      });
+    }
+
+    test('the error fill and its ink read at body-text contrast', () {
+      for (final scheme in [
+        appTheme(Brightness.light).colorScheme,
+        appTheme(Brightness.dark).colorScheme,
+      ]) {
+        expect(
+          contrastRatio(scheme.onError, scheme.error),
+          greaterThanOrEqualTo(_minContrast),
+        );
+      }
+    });
+  });
 }

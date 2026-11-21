@@ -143,98 +143,112 @@ class Co2TrendChart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: spacingSm),
-          SizedBox(
-            height: height,
-            child: LineChart(
-              LineChartData(
-                minX: 0,
-                maxX: maxX,
-                minY: 0,
-                maxY: maxY,
-                lineBarsData: [dotsSeries, avgSeries, ?trendSeries],
-                gridData: FlGridData(
-                  drawVerticalLine: false,
-                  getDrawingHorizontalLine: (_) => FlLine(
-                    color: theme.dividerColor.withValues(alpha: opacityMedium),
-                    strokeWidth: 0.5,
-                  ),
-                ),
-                borderData: FlBorderData(show: false),
-                titlesData: FlTitlesData(
-                  topTitles: const AxisTitles(),
-                  rightTitles: const AxisTitles(),
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 32,
-                      interval: _yAxisInterval(maxY),
-                      getTitlesWidget: (value, meta) => Text(
-                        formatDecimal(
-                          value,
-                          l10n.localeName,
-                          minDigits: 1,
-                          maxDigits: 1,
+          Semantics(
+            label: l10n.trendChartSemantics(
+              daysInWindow.toInt(),
+              formatCO2Compact(data.averageGrams.round(), locale),
+              formatCO2Compact(
+                data.points.fold(0, (a, p) => math.max(a, p.grams)),
+                locale,
+              ),
+            ),
+            child: ExcludeSemantics(
+              child: SizedBox(
+                height: height,
+                child: LineChart(
+                  LineChartData(
+                    minX: 0,
+                    maxX: maxX,
+                    minY: 0,
+                    maxY: maxY,
+                    lineBarsData: [dotsSeries, avgSeries, ?trendSeries],
+                    gridData: FlGridData(
+                      drawVerticalLine: false,
+                      getDrawingHorizontalLine: (_) => FlLine(
+                        color: theme.dividerColor.withValues(
+                          alpha: opacityMedium,
                         ),
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
+                        strokeWidth: 0.5,
                       ),
                     ),
-                  ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 24,
-                      interval: maxX,
-                      getTitlesWidget: (value, meta) {
-                        // Show only first, middle, last to keep
-                        // labels readable across 7/30/90-day windows.
-                        final mid = maxX / 2;
-                        final epsilon = maxX * 0.02;
-                        final atStart = value <= epsilon;
-                        final atEnd = value >= maxX - epsilon;
-                        final atMid = (value - mid).abs() <= epsilon;
-                        if (!atStart && !atEnd && !atMid) {
-                          return const SizedBox.shrink();
-                        }
-                        final date = data.windowStart.add(
-                          Duration(days: value.round()),
-                        );
-                        return Padding(
-                          padding: const EdgeInsets.only(top: spacingXs),
-                          child: Text(
-                            dateFormat.format(date),
+                    borderData: FlBorderData(show: false),
+                    titlesData: FlTitlesData(
+                      topTitles: const AxisTitles(),
+                      rightTitles: const AxisTitles(),
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 32,
+                          interval: _yAxisInterval(maxY),
+                          getTitlesWidget: (value, meta) => Text(
+                            formatDecimal(
+                              value,
+                              l10n.localeName,
+                              minDigits: 1,
+                              maxDigits: 1,
+                            ),
                             style: theme.textTheme.labelSmall?.copyWith(
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 24,
+                          interval: maxX,
+                          getTitlesWidget: (value, meta) {
+                            // Show only first, middle, last to keep
+                            // labels readable across 7/30/90-day windows.
+                            final mid = maxX / 2;
+                            final epsilon = maxX * 0.02;
+                            final atStart = value <= epsilon;
+                            final atEnd = value >= maxX - epsilon;
+                            final atMid = (value - mid).abs() <= epsilon;
+                            if (!atStart && !atEnd && !atMid) {
+                              return const SizedBox.shrink();
+                            }
+                            final date = data.windowStart.add(
+                              Duration(days: value.round()),
+                            );
+                            return Padding(
+                              padding: const EdgeInsets.only(top: spacingXs),
+                              child: Text(
+                                dateFormat.format(date),
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                lineTouchData: LineTouchData(
-                  touchTooltipData: LineTouchTooltipData(
-                    getTooltipItems: (touched) => touched.map((spot) {
-                      // Avg line is barIndex 1; skip its tooltip so
-                      // users don't tap the dashed line and get a
-                      // confusing "average" duplicate at every x.
-                      if (spot.barIndex != 0) return null;
-                      final date = data.windowStart.add(
-                        Duration(days: spot.x.round()),
-                      );
-                      final kg = formatDecimal(
-                        spot.y,
-                        l10n.localeName,
-                        minDigits: 1,
-                        maxDigits: 1,
-                      );
-                      return LineTooltipItem(
-                        '${dateFormat.format(date)}\n'
-                        '$kg$unitSpace${l10n.kgUnit}',
-                        theme.textTheme.bodySmall ?? const TextStyle(),
-                      );
-                    }).toList(),
+                    lineTouchData: LineTouchData(
+                      touchTooltipData: LineTouchTooltipData(
+                        getTooltipItems: (touched) => touched.map((spot) {
+                          // Avg line is barIndex 1; skip its tooltip so
+                          // users don't tap the dashed line and get a
+                          // confusing "average" duplicate at every x.
+                          if (spot.barIndex != 0) return null;
+                          final date = data.windowStart.add(
+                            Duration(days: spot.x.round()),
+                          );
+                          final kg = formatDecimal(
+                            spot.y,
+                            l10n.localeName,
+                            minDigits: 1,
+                            maxDigits: 1,
+                          );
+                          return LineTooltipItem(
+                            '${dateFormat.format(date)}\n'
+                            '$kg$unitSpace${l10n.kgUnit}',
+                            theme.textTheme.bodySmall ?? const TextStyle(),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ),
                 ),
               ),
