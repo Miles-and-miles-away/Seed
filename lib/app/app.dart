@@ -107,7 +107,7 @@ class _SeedAppState extends ConsumerState<SeedApp> with WidgetsBindingObserver {
 
       // Localization - the resolved app language, see currentLanguageProvider
       locale: appLocale,
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales: appSupportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
     );
   }

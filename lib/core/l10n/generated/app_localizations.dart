@@ -2641,7 +2641,7 @@ abstract class AppLocalizations {
   /// No description provided for @equivCarKmExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.'**
+  /// **'Average passenger car emissions per kilometre driven, fleet-weighted across petrol and diesel vehicles.'**
   String get equivCarKmExplainer;
 
   /// No description provided for @equivPhoneChargesExplainer.

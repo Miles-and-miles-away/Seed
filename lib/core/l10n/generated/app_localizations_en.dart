@@ -1638,7 +1638,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get equivCarKmExplainer =>
-      'Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.';
+      'Average passenger car emissions per kilometre driven, fleet-weighted across petrol and diesel vehicles.';
 
   @override
   String get equivPhoneChargesExplainer =>

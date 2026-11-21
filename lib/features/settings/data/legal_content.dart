@@ -473,7 +473,7 @@ const _termsEn = [
     body:
         'You agree to use Seed only for its intended '
         'purpose. You must not:\n\n'
-        '- Attempt to gain unauthorized access to the '
+        '- Attempt to gain unauthorised access to the '
         'app or its systems\n'
         '- Use the app to transmit harmful or malicious '
         'content\n'

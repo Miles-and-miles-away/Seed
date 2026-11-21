@@ -839,7 +839,7 @@
   "impactInfoFormulaLabel": "Formula",
   "impactInfoSourceLabel": "Source",
   "equivTreesExplainer": "Approximate CO2 absorbed by a single mature urban tree in one year. Newly planted saplings absorb far less -- this is the steady-state mature figure.",
-  "equivCarKmExplainer": "Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.",
+  "equivCarKmExplainer": "Average passenger car emissions per kilometre driven, fleet-weighted across petrol and diesel vehicles.",
   "equivPhoneChargesExplainer": "Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.",
   "equivBurgersExplainer": "Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 10x less; a bean burger roughly 50x less.",
   "equivFormulaTemplate": "g of CO2 / {factor}",
