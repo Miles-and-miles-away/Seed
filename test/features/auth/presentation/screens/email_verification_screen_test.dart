@@ -1,4 +1,5 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -123,6 +124,41 @@ void main() {
 
       // Verify snackbar appears
       expect(find.text('Verification email sent!'), findsOneWidget);
+    });
+
+    testWidgets('a failed resend does not say the email was sent', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      when(
+        () => mockUser.sendEmailVerification(),
+      ).thenThrow(FirebaseAuthException(code: 'too-many-requests'));
+      await pumpVerification(tester);
+
+      await tester.tap(find.text('Resend Email'));
+      await tester.pump();
+
+      expect(find.text('Verification email sent!'), findsNothing);
+    });
+
+    testWidgets('an offline check does not say the email is unverified', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      when(
+        () => mockUser.reload(),
+      ).thenThrow(FirebaseAuthException(code: 'network-request-failed'));
+      when(() => mockUser.emailVerified).thenReturn(false);
+      await pumpVerification(tester);
+
+      await tester.tap(find.text("I've Verified My Email"));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Network error'), findsOneWidget);
+      // Let the error SnackBar time out, so a queued one would show.
+      await tester.pump(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('not verified'), findsNothing);
     });
 
     testWidgets('tapping verify button calls reload when email not verified', (

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/log_error_message.dart';
 
 /// Runs [log] and reports the outcome on [context]'s messenger: on
@@ -18,7 +21,25 @@ Future<void> bankAndReport(
   final messenger = ScaffoldMessenger.of(context);
   if (result.hasError) {
     messenger.showSnackBar(
-      SnackBar(content: Text(logErrorMessage(context, result.error))),
+      SnackBar(
+        content: Text(logErrorMessage(context, result.error)),
+        action: isOfflineError(result.error)
+            ? SnackBarAction(
+                label: AppLocalizations.of(context).buttonRetry,
+                onPressed: () {
+                  if (!context.mounted) return;
+                  unawaited(
+                    bankAndReport(
+                      context,
+                      log: log,
+                      successMessage: successMessage,
+                      onSuccess: onSuccess,
+                    ),
+                  );
+                },
+              )
+            : null,
+      ),
     );
   } else {
     onSuccess();

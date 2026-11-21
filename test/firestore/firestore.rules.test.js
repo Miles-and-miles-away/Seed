@@ -408,6 +408,61 @@ describe('users/{userId} update — score integrity', () => {
     });
 });
 
+describe('users/{userId} update: lastActionUtcOffsetMinutes', () => {
+  // The device UTC offset of the last log, so a later log in another
+  // zone can find the local day of that log.
+  const seedLogged = (extra = {}) => seed(`users/${ALICE}`, {
+    ...baseUserDoc,
+    points: 100,
+    totalActionsCount: 3,
+    lastActionDate: secondsAgo(10),
+    ...extra,
+  });
+  const scoringWrite = (extra) =>
+    updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+      points: 105,
+      totalActionsCount: increment(1),
+      lastActionDate: serverTimestamp(),
+      ...extra,
+    });
+
+  for (const ok of [540, 0, -720, 840, -210, 345]) {
+    test(`accepts offset ${ok} in the scoring write`, async () => {
+      await seedLogged();
+      await assertSucceeds(scoringWrite({lastActionUtcOffsetMinutes: ok}));
+    });
+  }
+
+  for (const bad of [841, -721, 1.5, '540', null]) {
+    test(`rejects offset ${JSON.stringify(bad)}`, async () => {
+      await seedLogged();
+      await assertFails(scoringWrite({lastActionUtcOffsetMinutes: bad}));
+    });
+  }
+
+  test('an old client scoring write without the offset keeps it',
+    async () => {
+      await seedLogged({lastActionUtcOffsetMinutes: 540});
+      await assertSucceeds(scoringWrite({}));
+    });
+
+  test('rejects an offset change outside the scoring write', async () => {
+    await seedLogged({lastActionUtcOffsetMinutes: 540});
+    await assertFails(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {
+        lastActionUtcOffsetMinutes: 0,
+      }),
+    );
+  });
+
+  test('a settings update keeps the stored offset', async () => {
+    await seedLogged({lastActionUtcOffsetMinutes: 540});
+    await assertSucceeds(
+      updateDoc(doc(aliceDb(), `users/${ALICE}`), {language: 'ja'}),
+    );
+  });
+});
+
 describe('users/{userId} update — large established document', () => {
   // Regression: update validation must check only the diff, not the whole
   // merged document. Re-validating every field on a fully-populated doc
@@ -713,8 +768,8 @@ describe('users/{userId}/actionLog/{logId}', () => {
   });
 
   // Phase 8.6: a log may instead match one of the user's own custom
-  // transport actions. Templates carry no numeric ceiling (users are
-  // isolated), but the log's points and co2Grams must equal them.
+  // transport actions. Templates are capped at 100 t (users are
+  // isolated), and the log's points and co2Grams must equal them.
   describe('custom transport action logs', () => {
     const CUSTOM_ID = 'custom1';
     const customPath = `users/${ALICE}/customActions/${CUSTOM_ID}`;
@@ -767,6 +822,27 @@ describe('users/{userId}/actionLog/{logId}', () => {
     test('rejects a custom log with no matching template', async () => {
       await assertFails(logCustomBatch(aliceDb()));
     });
+
+    function logLargeBatch(db, co2Grams) {
+      const batch = writeBatch(db);
+      batch.set(doc(db, logPath), {...customLog, points: 1585, co2Grams});
+      batch.update(doc(db, `users/${ALICE}`), {
+        lastActionDate: serverTimestamp(),
+        totalActionsCount: increment(1),
+        totalCo2Grams: increment(co2Grams),
+      });
+      return batch.commit();
+    }
+
+    test('a 100 t banked journey passes the per-write cap', async () => {
+      await seed(customPath, {...template, points: 1585, co2Grams: 100000000});
+      await assertSucceeds(logLargeBatch(aliceDb(), 100000000));
+    });
+
+    test('a log above 100 t is rejected', async () => {
+      await seed(customPath, {...template, points: 1585, co2Grams: 100000001});
+      await assertFails(logLargeBatch(aliceDb(), 100000001));
+    });
   });
 });
 
@@ -797,6 +873,18 @@ describe('users/{userId}/customActions/{actionId}', () => {
   test('rejects negative co2Grams', async () => {
     await assertFails(
       setDoc(doc(aliceDb(), customPath), {...validCustom, co2Grams: -1}),
+    );
+  });
+
+  test('accepts co2Grams at the 100 t ceiling', async () => {
+    await assertSucceeds(
+      setDoc(doc(aliceDb(), customPath), {...validCustom, co2Grams: 100000000}),
+    );
+  });
+
+  test('rejects co2Grams above the 100 t ceiling', async () => {
+    await assertFails(
+      setDoc(doc(aliceDb(), customPath), {...validCustom, co2Grams: 100000001}),
     );
   });
 

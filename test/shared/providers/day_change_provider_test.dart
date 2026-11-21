@@ -106,6 +106,10 @@ void main() {
             period: p,
           );
         }),
+        trendWindowSummariesProvider.overrideWith((_, p) async {
+          built('trendWindowSummaries');
+          return const <DailySummaryModel>[];
+        }),
         co2TrendDataProvider.overrideWith((_, p) async {
           built('co2TrendData');
           return Co2TrendData(
@@ -145,6 +149,7 @@ void main() {
       ..listen(todaySummaryProvider, (_, _) {})
       ..listen(monthCalendarDataProvider, (_, _) {})
       ..listen(co2StatsProvider(period), (_, _) {})
+      ..listen(trendWindowSummariesProvider(period), (_, _) {})
       ..listen(co2TrendDataProvider(period), (_, _) {})
       ..listen(co2CategoryDataProvider(period), (_, _) {})
       ..listen(actionRemindersProvider, (_, _) {})
@@ -162,7 +167,7 @@ void main() {
     test('checkDayChanged does nothing on the same day', () async {
       var current = DateTime(2026, 6, 17, 9);
       final (container, builds) = createContainer(() => current);
-      expect(builds, hasLength(17));
+      expect(builds, hasLength(18));
 
       current = DateTime(2026, 6, 17, 23, 59);
       container.read(dayChangeProvider.notifier).checkDayChanged();
@@ -172,7 +177,7 @@ void main() {
       expect(builds.values, everyElement(1));
     });
 
-    test('checkDayChanged refreshes all 17 day-sensitive providers', () async {
+    test('checkDayChanged refreshes all 18 day-sensitive providers', () async {
       var current = DateTime(2026, 6, 17, 23, 59);
       final (container, builds) = createContainer(() => current);
       expect(builds.values, everyElement(1));
@@ -182,7 +187,7 @@ void main() {
       await Future<void>.delayed(Duration.zero);
 
       expect(container.read(dayChangeProvider), '2026-06-18');
-      expect(builds, hasLength(17));
+      expect(builds, hasLength(18));
       expect(builds.values, everyElement(2), reason: '$builds');
     });
   });

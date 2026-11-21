@@ -360,11 +360,19 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     ActionModel action, {
     String? note,
     String languageCode = 'en',
+    bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     // A repeat of an action still waiting or in flight would double-log.
     if (!_pending.add(action.id)) return null;
     try {
-      return await _logQueued(action, note: note, languageCode: languageCode);
+      return await _logQueued(
+        action,
+        note: note,
+        languageCode: languageCode,
+        countsAsUnique: countsAsUnique,
+        uniqueKey: uniqueKey,
+      );
     } finally {
       _pending.remove(action.id);
     }
@@ -383,6 +391,8 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     ActionModel action, {
     required String? note,
     required String languageCode,
+    required bool countsAsUnique,
+    required String? uniqueKey,
   }) async {
     appLogger.debug('ActionLog: logAction called for ${action.nameEn}');
 
@@ -419,6 +429,8 @@ class ActionLogNotifier extends _$ActionLogNotifier {
         action: action,
         languageCode: languageCode,
         note: note,
+        countsAsUnique: countsAsUnique,
+        uniqueKey: uniqueKey,
       );
     });
     written.complete();
@@ -442,6 +454,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       if (ref.mounted) {
         ref
           ..invalidate(co2StatsProvider)
+          ..invalidate(trendWindowSummariesProvider)
           ..invalidate(co2TrendDataProvider)
           ..invalidate(co2CategoryDataProvider)
           ..invalidate(monthCalendarDataProvider);

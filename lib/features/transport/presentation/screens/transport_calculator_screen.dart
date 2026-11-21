@@ -353,6 +353,8 @@ class _TransportCalculatorScreenState
                     locale,
                   ),
                   summary.deltaGrams,
+                  [for (final e in options[summary.bestIndex]) e.modeId],
+                  [for (final e in options[summary.worstIndex]) e.modeId],
                 ),
           icon: const Icon(Icons.eco),
           label: Text(l10n.transportLogChoiceCta(bestLabel)),
@@ -386,6 +388,8 @@ class _TransportCalculatorScreenState
     String chosenLabel,
     String baselineLabel,
     double deltaGrams,
+    List<String> chosenIds,
+    List<String> baselineIds,
   ) => bankAndReport(
     context,
     log: () => ref
@@ -393,6 +397,8 @@ class _TransportCalculatorScreenState
         .logChoice(
           name: l10n.transportCustomActionName(chosenLabel, baselineLabel),
           co2Grams: deltaGrams.round(),
+          chosenIds: chosenIds,
+          baselineIds: baselineIds,
         ),
     successMessage: l10n.transportChoiceLoggedMessage(
       formatCO2Compact(deltaGrams.round(), l10n.localeName),

@@ -331,6 +331,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.';
 
   @override
+  String errorSavingTooLarge(String limit) {
+    return 'A saving above $limit is too large to log as one action. Check the distances and amounts.';
+  }
+
+  @override
   String get errorLogActionOffline =>
       'Cannot log an action while offline. Check your connection and try again.';
 
@@ -532,6 +537,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountSettingsEmailUpdated => 'Email updated successfully';
+
+  @override
+  String get accountSettingsEmailLinkSent =>
+      'We sent a link to your new email address. Open it to finish the change.';
 
   @override
   String get accountSettingsPasswordUpdated => 'Password updated successfully';

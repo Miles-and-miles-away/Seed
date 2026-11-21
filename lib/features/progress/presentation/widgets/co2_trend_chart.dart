@@ -35,19 +35,11 @@ class Co2TrendChart extends StatelessWidget {
 
     // x-axis is in days since windowStart so calendar gaps render
     // as visual gaps.
-    final daysInWindow = data.windowEnd
-        .difference(data.windowStart)
-        .inDays
-        .toDouble();
+    final daysInWindow = data.dayIndex(data.windowEnd).toDouble();
     final maxX = math.max<double>(daysInWindow - 1, 1);
 
     final dotSpots = data.points
-        .map(
-          (p) => FlSpot(
-            p.date.difference(data.windowStart).inDays.toDouble(),
-            p.grams / 1000.0,
-          ),
-        )
+        .map((p) => FlSpot(data.dayIndex(p.date).toDouble(), p.grams / 1000.0))
         .toList(growable: false);
 
     final peakKg = dotSpots.fold<double>(0, (a, s) => math.max(a, s.y));
@@ -197,9 +189,7 @@ class Co2TrendChart extends StatelessWidget {
                         if (!atStart && !atEnd && !atMid) {
                           return const SizedBox.shrink();
                         }
-                        final date = data.windowStart.add(
-                          Duration(days: value.round()),
-                        );
+                        final date = data.dayAt(value.round());
                         return Padding(
                           padding: const EdgeInsets.only(top: spacingXs),
                           child: Text(
@@ -220,9 +210,7 @@ class Co2TrendChart extends StatelessWidget {
                       // users don't tap the dashed line and get a
                       // confusing "average" duplicate at every x.
                       if (spot.barIndex != 0) return null;
-                      final date = data.windowStart.add(
-                        Duration(days: spot.x.round()),
-                      );
+                      final date = data.dayAt(spot.x.round());
                       final kg = formatDecimal(
                         spot.y,
                         l10n.localeName,

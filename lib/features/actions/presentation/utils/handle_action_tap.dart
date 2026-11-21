@@ -34,6 +34,7 @@ Future<ActionLogResult?> logActionWithWaitMessage(
   ActionModel action, {
   required String languageCode,
   String? note,
+  bool countsAsUnique = true,
 }) async {
   final notifier = ref.read(actionLogProvider.notifier);
   final messenger = ScaffoldMessenger.of(context);
@@ -61,6 +62,7 @@ Future<ActionLogResult?> logActionWithWaitMessage(
     action,
     note: note,
     languageCode: languageCode,
+    countsAsUnique: countsAsUnique,
   );
   if (!notifier.isBusy && messenger.mounted) {
     _waiting[messenger]?.close();
@@ -95,6 +97,22 @@ Future<void> handleActionTap(
   if (result == null || !result.confirmed) return;
   if (!context.mounted) return;
 
+  await _logAndReport(
+    context,
+    ref,
+    action: action,
+    note: result.note,
+    languageCode: languageCode,
+  );
+}
+
+Future<void> _logAndReport(
+  BuildContext context,
+  WidgetRef ref, {
+  required ActionModel action,
+  required String? note,
+  required String languageCode,
+}) async {
   // The notifier drops a repeat of a log still waiting or in flight.
   if (ref.read(actionLogProvider.notifier).isPending(action.id)) return;
 
@@ -102,7 +120,7 @@ Future<void> handleActionTap(
     context,
     ref,
     action,
-    note: result.note,
+    note: note,
     languageCode: languageCode,
   );
 
@@ -203,6 +221,24 @@ Future<void> handleActionTap(
         content: Text(logErrorMessage(context, logState.error)),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Theme.of(context).colorScheme.error,
+        action: isOfflineError(logState.error)
+            ? SnackBarAction(
+                label: AppLocalizations.of(context).buttonRetry,
+                textColor: Theme.of(context).colorScheme.onError,
+                onPressed: () {
+                  if (!context.mounted) return;
+                  unawaited(
+                    _logAndReport(
+                      context,
+                      ref,
+                      action: action,
+                      note: note,
+                      languageCode: languageCode,
+                    ),
+                  );
+                },
+              )
+            : null,
       ),
     );
   }
