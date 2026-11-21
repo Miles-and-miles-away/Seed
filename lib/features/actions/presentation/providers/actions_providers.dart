@@ -361,6 +361,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     String? note,
     String languageCode = 'en',
     bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     // A repeat of an action still waiting or in flight would double-log.
     if (!_pending.add(action.id)) return null;
@@ -370,6 +371,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
         note: note,
         languageCode: languageCode,
         countsAsUnique: countsAsUnique,
+        uniqueKey: uniqueKey,
       );
     } finally {
       _pending.remove(action.id);
@@ -390,6 +392,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     required String? note,
     required String languageCode,
     required bool countsAsUnique,
+    required String? uniqueKey,
   }) async {
     appLogger.debug('ActionLog: logAction called for ${action.nameEn}');
 
@@ -427,6 +430,7 @@ class ActionLogNotifier extends _$ActionLogNotifier {
         languageCode: languageCode,
         note: note,
         countsAsUnique: countsAsUnique,
+        uniqueKey: uniqueKey,
       );
     });
     written.complete();

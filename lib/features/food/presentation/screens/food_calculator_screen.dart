@@ -285,6 +285,8 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
                     locale,
                   ),
                   summary.deltaGrams,
+                  [for (final e in options[summary.bestIndex]) e.itemId],
+                  [for (final e in options[summary.worstIndex]) e.itemId],
                 ),
           icon: const Icon(Icons.eco),
           label: Text(l10n.foodLogChoiceCta(bestLabel)),
@@ -339,6 +341,8 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     String chosenLabel,
     String baselineLabel,
     double deltaGrams,
+    List<String> chosenIds,
+    List<String> baselineIds,
   ) => bankAndReport(
     context,
     log: () => ref
@@ -346,6 +350,8 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
         .logChoice(
           name: l10n.foodCustomActionName(chosenLabel, baselineLabel),
           co2Grams: deltaGrams.round(),
+          chosenIds: chosenIds,
+          baselineIds: baselineIds,
         ),
     successMessage: l10n.foodChoiceLoggedMessage(
       formatCO2Compact(deltaGrams.round(), l10n.localeName),

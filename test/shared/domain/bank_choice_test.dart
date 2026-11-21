@@ -11,6 +11,7 @@ import 'package:seed_app/features/actions/presentation/providers/actions_provide
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/transport/presentation/providers/transport_choice_providers.dart';
 import 'package:seed_app/shared/data/custom_action_repository.dart';
+import 'package:seed_app/shared/domain/bank_choice.dart';
 import 'package:seed_app/shared/models/custom_action_model.dart';
 import 'package:seed_app/shared/providers/custom_action_providers.dart';
 
@@ -24,7 +25,7 @@ class _FailingActionLog extends ActionLogNotifier {
 
   final Object error;
   final calls = <ActionModel>[];
-  final countsAsUniqueFlags = <bool>[];
+  final uniqueKeys = <String?>[];
 
   @override
   Future<ActionLogResult?> logAction(
@@ -32,9 +33,10 @@ class _FailingActionLog extends ActionLogNotifier {
     String? note,
     String languageCode = 'en',
     bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     calls.add(action);
-    countsAsUniqueFlags.add(countsAsUnique);
+    uniqueKeys.add(countsAsUnique ? uniqueKey : null);
     state = AsyncValue.error(error, StackTrace.current);
     return null;
   }
@@ -60,7 +62,12 @@ Future<ProviderContainer> _bankContainer(
 
 Future<AsyncValue<void>?> _bank(ProviderContainer container) => container
     .read(transportChoiceLoggerProvider.notifier)
-    .logChoice(name: 'Train over plane', co2Grams: 500);
+    .logChoice(
+      name: 'Train over plane',
+      co2Grams: 500,
+      chosenIds: const ['train'],
+      baselineIds: const ['plane'],
+    );
 
 void main() {
   setUpAll(() {
@@ -92,7 +99,12 @@ void main() {
       unawaited(
         container
             .read(transportChoiceLoggerProvider.notifier)
-            .logChoice(name: 'Train over plane', co2Grams: 500)
+            .logChoice(
+              name: 'Train over plane',
+              co2Grams: 500,
+              chosenIds: const ['train'],
+              baselineIds: const ['plane'],
+            )
             .then((r) => result = r),
       );
       async.elapse(const Duration(seconds: 6));
@@ -154,7 +166,7 @@ void main() {
     );
   });
 
-  test('a banked action does not count as a unique action', () async {
+  test('a banked action counts once per kind of choice', () async {
     final repo = _MockCustomActionRepository();
     when(() => repo.create(any(), any())).thenAnswer((_) async => _template);
     final log = _FailingActionLog(Exception('rejected'));
@@ -162,6 +174,17 @@ void main() {
 
     await _bank(container);
 
-    expect(log.countsAsUniqueFlags, [false]);
+    expect(log.uniqueKeys, ['bank:transport:train>plane']);
+  });
+
+  test('the bank key ignores order and repeats of ids', () {
+    expect(
+      bankUniqueKey('food', ['b', 'a', 'b'], ['c']),
+      bankUniqueKey('food', ['a', 'b'], ['c']),
+    );
+    expect(
+      bankUniqueKey('food', ['a'], ['c']),
+      isNot(bankUniqueKey('transport', ['a'], ['c'])),
+    );
   });
 }

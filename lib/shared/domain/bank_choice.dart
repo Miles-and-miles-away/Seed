@@ -27,6 +27,8 @@ Future<AsyncValue<void>?> bankChoice(
   required int co2Grams,
   required String category,
   required List<String> relatedSdgs,
+  required Iterable<String> chosenIds,
+  required Iterable<String> baselineIds,
 }) async {
   final result = await AsyncValue.guard(() async {
     final template = await ref
@@ -48,12 +50,23 @@ Future<AsyncValue<void>?> bankChoice(
         .logAction(
           template.toActionModel(),
           languageCode: ref.read(userLanguageCodeProvider),
-          countsAsUnique: false,
+          uniqueKey: bankUniqueKey(category, chosenIds, baselineIds),
         );
     if (logged == null) _throwLogFailure(ref.read(actionLogProvider));
   });
 
   return ref.mounted ? result : null;
+}
+
+/// One unique-action id per kind of choice (category and the mode or
+/// food ids on each side), so repeat banks of one kind count once.
+String bankUniqueKey(
+  String category,
+  Iterable<String> chosenIds,
+  Iterable<String> baselineIds,
+) {
+  String ids(Iterable<String> v) => (v.toSet().toList()..sort()).join('+');
+  return 'bank:$category:${ids(chosenIds)}>${ids(baselineIds)}';
 }
 
 /// Rethrows the action-log failure so the UI can tell offline and rate

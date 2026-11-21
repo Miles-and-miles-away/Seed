@@ -24,6 +24,8 @@ class FoodChoiceLogger extends _$FoodChoiceLogger {
   Future<AsyncValue<void>?> logChoice({
     required String name,
     required int co2Grams,
+    required Iterable<String> chosenIds,
+    required Iterable<String> baselineIds,
   }) async {
     if (state.isLoading) return null;
     final userId = ref.read(userIdProvider);
@@ -37,6 +39,8 @@ class FoodChoiceLogger extends _$FoodChoiceLogger {
       co2Grams: co2Grams,
       category: 'food',
       relatedSdgs: kFoodChoiceSdgs,
+      chosenIds: chosenIds,
+      baselineIds: baselineIds,
     );
     if (result == null) return null;
     state = result;

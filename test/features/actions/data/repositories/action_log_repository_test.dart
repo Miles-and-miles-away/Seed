@@ -417,6 +417,21 @@ void main() {
       expect(data[AppConstants.fieldTotalActionsCount], 1);
     });
 
+    test('a unique key replaces the action id in the ids', () async {
+      await seedUser({});
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+        uniqueKey: 'bank:transport:train>plane',
+      );
+
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldUniqueActionIds], [
+        'bank:transport:train>plane',
+      ]);
+    });
+
     test('action with no related SDGs leaves sdgStats untouched', () async {
       await seedUser({
         AppConstants.fieldSdgStats: {

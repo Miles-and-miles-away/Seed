@@ -21,6 +21,8 @@ class TransportChoiceLogger extends _$TransportChoiceLogger {
   Future<AsyncValue<void>?> logChoice({
     required String name,
     required int co2Grams,
+    required Iterable<String> chosenIds,
+    required Iterable<String> baselineIds,
   }) async {
     if (state.isLoading) return null;
     final userId = ref.read(userIdProvider);
@@ -34,6 +36,8 @@ class TransportChoiceLogger extends _$TransportChoiceLogger {
       co2Grams: co2Grams,
       category: 'transport',
       relatedSdgs: kTransportChoiceSdgs,
+      chosenIds: chosenIds,
+      baselineIds: baselineIds,
     );
     if (result == null) return null;
     state = result;

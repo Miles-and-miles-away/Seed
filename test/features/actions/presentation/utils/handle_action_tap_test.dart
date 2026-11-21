@@ -57,6 +57,7 @@ class _FakeActionLog extends ActionLogNotifier {
     String? note,
     String languageCode = 'en',
     bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     calls.add((action: action, note: note, lang: languageCode));
     final gate = this.gate;

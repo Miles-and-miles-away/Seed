@@ -70,6 +70,7 @@ class ActionLogRepository {
     required String languageCode,
     String? note,
     bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     final now = clock();
     final todayKey = formatDateKey(now);
@@ -193,7 +194,9 @@ class ActionLogRepository {
         AppConstants.fieldSdgStats: updatedSdgStats,
         AppConstants.fieldCategoryActionCounts: updatedCatCounts,
         if (countsAsUnique)
-          AppConstants.fieldUniqueActionIds: FieldValue.arrayUnion([action.id]),
+          AppConstants.fieldUniqueActionIds: FieldValue.arrayUnion([
+            uniqueKey ?? action.id,
+          ]),
       };
 
       // 3. Per-mascot leveling
