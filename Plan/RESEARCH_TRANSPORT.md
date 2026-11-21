@@ -50,12 +50,15 @@ Japan first, because Japan is the primary market.
 **Statistic.** The primary's published average for the mode, not
 a best case and not a modelled ideal.
 
-**Boundary.** Operational energy only: direct tailpipe emissions
-for combustion modes, generation emissions for the traction
-energy of electric modes, and aviation with its radiative-forcing
-uplift. Vehicle manufacturing, infrastructure construction and
-well-to-tank refining are excluded everywhere unless a mode's own
-entry says otherwise. This matches the primary's
+**Boundary.** Fuel and energy on a lifecycle basis: direct
+emissions plus the DESNZ well-to-tank term for combustion modes,
+the lifecycle grid factor for the charging energy of electric
+cars, e-bikes and e-scooters, the DESNZ factor plus its
+well-to-tank term for rail, metro and tram, and aviation with its radiative-forcing uplift on the
+direct part only. Private jet, helicopter and Shinkansen come from
+sources with no well-to-tank term and stay direct-only. Vehicle
+manufacturing and infrastructure construction are excluded
+everywhere. This matches the primary's
 passenger-transport convention and is what the in-app methodology
 sheet states.
 
@@ -270,15 +273,19 @@ dominant commuting case), stepper 1-4.
 
 ## 2. Scope Decision
 
-Factors represent **operational energy emissions**:
+Factors represent **fuel and energy emissions, lifecycle basis**:
 
-- Combustion modes: direct tailpipe CO2e (CO2 + CH4 + N2O).
-- Electric modes (EV, rail, metro, tram): electricity
-  generation emissions for the traction energy.
-- Aviation: includes the radiative-forcing uplift (section 4).
-- **Excluded everywhere:** vehicle manufacturing, infrastructure
-  construction, well-to-tank fuel refining unless a mode's entry
-  says otherwise (micro-mobility lifecycle figures are labelled
+- Combustion modes: direct CO2e (CO2 + CH4 + N2O) plus the DESNZ
+  well-to-tank term for fuel supply.
+- Electric modes (EV, rail, metro, tram): the DESNZ factor plus
+  its well-to-tank term, or the lifecycle house grid factor for
+  derived modes.
+- Aviation: includes the radiative-forcing uplift on the direct
+  part only (section 4), plus well-to-tank.
+- Private jet, helicopter and Shinkansen: direct-only, because
+  their sources have no well-to-tank term.
+- **Excluded everywhere:** vehicle manufacturing and
+  infrastructure construction (micro-mobility lifecycle figures are labelled
   explicitly where used).
 
 This matches the DEFRA passenger-transport convention and the
@@ -314,11 +321,11 @@ electricity components (section 3.3).
 
 ### 3.1 Road vehicles (verified 2026-07-17)
 
-Primary vintage: **DEFRA/DESNZ 2025** (triple-corroborated across
-SustainMetrics, Greencalculus, and SCIF factor pages, which agree
-digit-for-digit). 2026 workbook exists but road numbers are not
-yet quotable from second sources -- ship 2025, tag vintage,
-revisit.
+Primary vintage: **DESNZ 2026 with well-to-tank**, read from the
+DESNZ 2026 flat file
+(https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx).
+The 2025 figures quoted below are the earlier vintage and are
+kept as history.
 
 | Mode | g CO2e/km | Basis | Confidence |
 |------|-----------|-------|------------|
@@ -412,10 +419,9 @@ BEV 30 (arithmetically consistent with the -26% electricity cut:
 
 ### 3.2 Rail and ferry (verified 2026-07-17)
 
-Primary vintage: **DEFRA/DESNZ 2025** (Climatiq + SustainMetrics
-factor pages agree digit-for-digit; OWID corroborates rail and
-Eurostar). Where the 2026 major-changes report says a factor moves
-sharply, the flag is on the row.
+Primary vintage: **DESNZ 2026 with well-to-tank** (DESNZ 2026
+flat file, section 3.1). The 2025 figures quoted below are the
+earlier vintage and are kept as history.
 
 | Mode | g CO2e/pkm | Confidence | 2026 flag |
 |------|------------|------------|-----------|
@@ -600,9 +606,10 @@ Verified underlying figures and quotes (accessed 2026-07-17):
 
 ## 4. Aviation (verified 2026-07-17)
 
-Primary vintage: **DEFRA/DESNZ 2025 with-RF factors** (aviation
-reportedly unchanged in the 2026 release -- single source,
-greencalculus: "Aviation factors were stable in DEFRA 2026").
+Primary vintage: **DESNZ 2026 with-RF factors plus
+well-to-tank** (DESNZ 2026 flat file, section 3.1). The direct
+with-RF factors are unchanged from 2025. RF applies to the direct
+part only.
 The 2025 release cut flight factors sharply vs 2024 (myCarbon:
 long-haul "decreased by 41.51%", short-haul "decreased by
 31.23%", attributed to "increases in load factors following the
@@ -684,11 +691,11 @@ because take-off requires much more energy input than a flight's
 proportionally larger share of their journey in fuel-intensive
 take-off and climb phases".
 
-**Noted crossover (feature copy will surface it):** with 2025
-factors, a short-haul economy flight (125.76 g/pkm) sits BELOW a
-solo average petrol car (162.72 g/km) per km -- the car only wins
-with 2+ occupants. Domestic flying (229.28) still loses to the
-solo car. This is exactly the honest nuance the occupancy
+**Noted crossover (feature copy will surface it):** with the
+shipped factors, a short-haul economy flight (148.25 g/pkm) sits
+BELOW a solo average petrol car (207.51 g/km) per km -- the car
+only wins with 2+ occupants. Domestic flying (262.78) still loses
+to the solo car. This is exactly the honest nuance the occupancy
 selector exists for; do not "fix" it in the data.
 
 ---
@@ -706,27 +713,27 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
 | cycle | Cycling | 0 | pkm | convention (sec 3.3, owner decision 2026-07-18) | High |
 | ebike | E-bike | 2 | pkm | derived: electricity only, 5.3 Wh/km x 458 house grid = 2.43 (sec 3.3) | Medium |
 | escooter_private | E-scooter (private) | 7 | pkm | derived: 14-15.8 Wh/km x 458 (Springer 2024 consumption) = 6.4-7.2 | Medium |
-| car_petrol_small | Small petrol car | 143.08 | vkm | DEFRA 2025 | High |
-| car_petrol_medium | Medium petrol car | 174.74 | vkm | DEFRA 2025 | High |
-| car_petrol_large | Large petrol car / SUV | 268.28 | vkm | DEFRA 2025 | High |
-| car_petrol_avg | Petrol car (average) | 162.72 | vkm | DEFRA 2025 | High |
-| car_diesel_avg | Diesel car (average) | 173.04 | vkm | DEFRA 2025 | High |
-| car_hybrid | Hybrid car | 128.25 | vkm | DEFRA 2025 | High |
+| car_petrol_small | Small petrol car | 182.72 | vkm | DESNZ 2026 + WTT | High |
+| car_petrol_medium | Medium petrol car | 223.68 | vkm | DESNZ 2026 + WTT | High |
+| car_petrol_large | Large petrol car / SUV | 341.34 | vkm | DESNZ 2026 + WTT | High |
+| car_petrol_avg | Petrol car (average) | 207.51 | vkm | DESNZ 2026 + WTT | High |
+| car_diesel_avg | Diesel car (average) | 214.11 | vkm | DESNZ 2026 + WTT | High |
+| car_hybrid | Hybrid car | 162.76 | vkm | DESNZ 2026 + WTT | High |
 | car_bev | Electric car | 86 | vkm | derived: 0.188 kWh/km x 458 house grid | Medium-high |
-| motorbike | Motorbike (average) | 113.67 | vkm | DEFRA 2025 | High |
-| bus_city | City bus | 103.85 | pkm | DEFRA 2025 (avg local bus) | High |
-| coach | Coach (long distance) | 27.76 | pkm | DEFRA 2025; 2026 raises ~42% -- re-verify at next pass | High (2025) |
-| taxi | Taxi | 208.06 | vkm | DEFRA 2025 regular taxi (R2-D1): duty-cycle uplift, deadheading excluded per DESNZ 5.42 | Medium-high |
-| rail_national | Local / national rail | 35.46 | pkm | DEFRA 2025; 2026 -13% flagged | High (2025) |
-| rail_international | International rail (Eurostar) | 4.46 | pkm | DEFRA 2025; 2026 raises ~2.5x -- order-of-magnitude only (D3) | High (2025) |
+| motorbike | Motorbike (average) | 143.23 | vkm | DESNZ 2026 + WTT | High |
+| bus_city | City bus | 128.0 | pkm | DESNZ 2026 + WTT (avg local bus) | High |
+| coach | Coach (long distance) | 46.04 | pkm | DESNZ 2026 + WTT (direct 39.48) | High |
+| taxi | Taxi | 259.82 | vkm | DESNZ 2026 + WTT regular taxi (R2-D1): duty-cycle uplift, deadheading excluded per DESNZ 5.42 | Medium-high |
+| rail_national | Local / national rail | 39.89 | pkm | DESNZ 2026 + WTT | High |
+| rail_international | International rail (Eurostar) | 12.52 | pkm | DESNZ 2026 + WTT; order-of-magnitude only (D3) | High |
 | rail_shinkansen | Shinkansen (bullet train) | 20 | pkm | JR East 年度2023 Shinkansen-segment disclosure + MLIT-supervised Navitime | Medium-high |
-| metro | Metro / underground | 27.8 | pkm | DEFRA 2025 (London Underground); 2026 -44% flagged | High (2025) |
-| tram | Tram / light rail | 28.6 | pkm | DEFRA 2025 | High |
-| ferry_foot | Ferry (foot passenger) | 18.71 | pkm | DEFRA 2025 | High |
-| ferry_car | Ferry (car passenger) | 129.33 | pkm | DEFRA 2025; one leg covers vehicle + passenger (D3) | High |
-| flight_domestic | Domestic flight | 229.28 | pkm | DEFRA 2025, avg passenger, with RF | High |
-| flight_shorthaul | Short-haul flight (economy) | 125.76 | pkm | DEFRA 2025, with RF | High |
-| flight_longhaul | Long-haul flight (economy) | 117.04 | pkm | DEFRA 2025, with RF | High |
+| metro | Metro / underground | 22.77 | pkm | DESNZ 2026 + WTT (London Underground) | High |
+| tram | Tram / light rail | 28.7 | pkm | DESNZ 2026 + WTT | High |
+| ferry_foot | Ferry (foot passenger) | 22.95 | pkm | DESNZ 2026 + WTT | High |
+| ferry_car | Ferry (car passenger) | 158.65 | pkm | DESNZ 2026 + WTT; one leg covers vehicle + passenger (D3) | High |
+| flight_domestic | Domestic flight | 262.78 | pkm | DESNZ 2026 + WTT, avg passenger, RF on direct part | High |
+| flight_shorthaul | Short-haul flight (economy) | 148.25 | pkm | DESNZ 2026 + WTT, RF on direct part | High |
+| flight_longhaul | Long-haul flight (economy) | 141.65 | pkm | DESNZ 2026 + WTT, RF on direct part | High |
 | private_jet | Private jet | 1700 | pkm | derived (sec 8.1); 1,000 combustion base x 1.7 verified RF (D2) | Medium |
 | helicopter | Helicopter | 450 | pkm | derived (sec 8.2); turbine class, 4-5 pax | Medium |
 
@@ -760,46 +767,45 @@ methodology sheet, selector deferred.
 ## 6. Sanity Invariants (for the test suite)
 
 Pin these orderings as dataset regression tests. They are **data
-pins for the shipped DEFRA-2025-vintage values** (section 5), not
-truth claims: the flagged 2026 revisions break some of them
-(noted inline), so every pin must be re-derived at the next data
-pass rather than assumed to survive it.
+pins for the shipped DESNZ 2026 values with well-to-tank**
+(section 5), not truth claims: re-derive every pin at the next
+data pass rather than assume it survives.
 
 1. walking (0) <= cycling-family (cycle 0, ebike 2,
    escooter_private 6) < every motorized mode's per-passenger
-   figure. Documented exception: rail_international (4.46) sits
-   below the e-scooter until the ~2.5x 2026 revision (~11) lands.
-   Thinnest remaining margin: full BEV 73/4 = 18.25 vs e-scooter 6.
-2. shinkansen <= tram/national-rail (20 <= 28.6-35.46). Metro is
-   deliberately excluded: the 2026 revision cuts London
-   Underground ~44% to ~15.4, below shinkansen's 20.
+   figure. Thinnest margin: rail_international 12.52 vs
+   e-scooter 7.
+2. Retired: shinkansen vs metro/tram/national-rail. Shinkansen
+   is direct CO2 only, the rail band is CO2e with well-to-tank,
+   so the pair is not like for like (see non-invariants).
 3. rail band < city bus < solo average petrol car
-   (35.46 < 103.85 < 162.72)
-4. coach < solo average petrol car (27.76 < 162.72; still holds
-   at the 2026 ~39.5)
-5. electric car < every combustion car variant (86 < 128.25+)
+   (22.77-39.89 < 128.0 < 207.51)
+4. coach < solo average petrol car (46.04 < 207.51)
+5. electric car < every combustion car variant (86 < 162.76+)
 6. long-haul < short-haul < domestic flight per km
-   (117.04 < 125.76 < 229.28)
+   (141.65 < 148.25 < 262.78)
 7. full car (4 occupants) < any commercial flight per
-   passenger-km (268.28/4 = 67.1 < 117.04 -- holds even for the
+   passenger-km (341.34/4 = 85.3 < 141.65 -- holds even for the
    large car)
-8. ferry_foot < city bus (18.71 < 103.85)
+8. ferry_foot < city bus (22.95 < 128.0)
 9. helicopter > every ground mode's solo per-passenger figure
-   (450 > 268.28)
+   (450 > 341.34)
 10. private jet > every other mode (1700 > 450)
-11. rail_international < shinkansen (4.46 < 20; 2026 ~11 < 20,
-    stable)
-12. taxi > city bus (208.06 > 103.85; duty-cycle uplift,
+11. rail_international < shinkansen (12.52 < 20)
+12. taxi > city bus (259.82 > 128.0; duty-cycle uplift,
     deadheading excluded per DESNZ 5.42)
-13. ferry_car > ferry_foot (129.33 > 18.71)
+13. ferry_car > ferry_foot (158.65 > 22.95)
 
 **Deliberate non-invariants** (do NOT pin; they are the honest
 surprises the feature exists to surface):
-- coach vs national rail ordering flips between DEFRA 2025 and
-  2026 (27.76 vs 35.46 becomes ~39.5 vs ~30.8).
-- short-haul economy flight (125.76) is LOWER per km than a solo
-  average petrol car (162.72) -- the car needs 2+ occupants to
+- coach vs national rail ordering flipped between DEFRA 2025 and
+  2026 (27.76 vs 35.46 became 46.04 vs 39.89 with WTT).
+- short-haul economy flight (148.25) is LOWER per km than a solo
+  average petrol car (207.51) -- the car needs 2+ occupants to
   win. Distance still decides total impact.
+- Shinkansen (20, JR East, direct CO2 only) vs metro, tram and
+  national rail (22.77-39.89, DESNZ CO2e with well-to-tank): the
+  bases differ, so no ordering is pinned.
 
 ---
 
@@ -1206,9 +1212,8 @@ same pass).
 - Every factor records its DEFRA/DESNZ release vintage; aggregator
   pages routinely mix vintages (section 1).
 - The sanity invariants (section 6) are **pins for the shipped
-  2025-vintage values, not truth claims** -- the flagged 2026
-  revisions break several (noted inline), so re-derive every pin
-  at the next data pass rather than assuming it survives.
+  values, not truth claims**, so re-derive every pin at the next
+  data pass rather than assuming it survives.
 
 ### A.3 Copy rules -- moved
 

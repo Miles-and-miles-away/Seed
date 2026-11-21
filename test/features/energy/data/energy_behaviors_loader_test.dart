@@ -22,6 +22,6 @@ void main() {
   test('loadEnergyMetadata resolves both carrier factors', () async {
     final metadata = await loadEnergyMetadata();
     expect(metadata['grid_factor_g_per_kwh'], 458);
-    expect(metadata['gas_factor_g_per_kwh'], 182);
+    expect(metadata['gas_factor_g_per_kwh'], 212);
   });
 }

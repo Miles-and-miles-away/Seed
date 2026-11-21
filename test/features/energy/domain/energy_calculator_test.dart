@@ -189,9 +189,8 @@ void main() {
     });
 
     test('condition 2: mixing gas and electricity blocks the verdict', () {
-      // The kettle-vs-gas-hob ordering flipped when the grid factor
-      // moved 386 -> 458. This rule is why that changed no user-facing
-      // claim.
+      // The kettle-vs-gas-hob ordering flips at about 515 g CO2e/kWh of
+      // electricity, inside the range of real grids, so no winner.
       final kettle = b('kettle', group: 'boil', kwh: 0.116278);
       final hob = b(
         'gas_hob',

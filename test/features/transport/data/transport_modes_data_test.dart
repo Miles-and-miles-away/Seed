@@ -103,14 +103,14 @@ void main() {
     });
 
     test('taxi is per-vehicle, divided by passenger count', () async {
-      // Decision R2-D1: vehicle-km 208.06 ships; DEFRA's
-      // passenger-km variant embeds a dated occupancy (1.4,
+      // Decision R2-D1: vehicle-km ships (208.06 direct + 51.76 WTT);
+      // DEFRA's passenger-km variant embeds a dated occupancy (1.4,
       // L.E.K. 2002) invisibly, so it does not.
       final modes = await loadTransportModes();
       final taxi = modes.firstWhere((m) => m.id == 'taxi');
       expect(taxi.perVehicle, isTrue);
       expect(taxi.maxOccupants, 4);
-      expect(taxi.gCo2ePerKm, 208.06);
+      expect(taxi.gCo2ePerKm, 259.82);
     });
 
     test('non-vehicle modes are per passenger-km', () async {

@@ -109,7 +109,7 @@ void main() {
     });
 
     test('electric vs gas shower fails the carrier condition', () {
-      // The crossover itself: below ~241 g CO2e/kWh electric wins,
+      // The crossover itself: below ~280 g CO2e/kWh electric wins,
       // above it gas does, so the answer is a fact about the grid.
       expect(
         blockFor([('shower_electric', 10)], [('shower_gas', 10)]),
@@ -172,19 +172,18 @@ void main() {
 
     test('fan vs an hour of aircon cooling', () {
       // The flagship cooling lesson, buildable since `fan` paired the
-      // space_cool singleton (owner call, 2026-08-30). 7.6x apart.
+      // space_cool singleton (owner call, 2026-08-30). 10.3x apart.
       expect(
         blockFor([('fan', 1)], [('aircon_cooling', 1)]),
         EnergyVerdictBlock.none,
       );
     });
 
-    test('the setpoint self-comparison is intended, not a hole', () {
-      // PDR section 3, 2026-08-30: the same entry at two preset
-      // quantities is how the setpoint lesson ships. 26 C is 1.35783
-      // hourly units against 1.0 at 28 C, a 26% delta.
+    test('a same-entry comparison is intended, not a hole', () {
+      // PDR section 3: the gate polices category errors, not the
+      // quantities a user chose, so an evening against an hour passes.
       expect(
-        blockFor([('aircon_cooling', 1.35783)], [('aircon_cooling', 1.0)]),
+        blockFor([('aircon_cooling', 4)], [('aircon_cooling', 1)]),
         EnergyVerdictBlock.none,
       );
     });

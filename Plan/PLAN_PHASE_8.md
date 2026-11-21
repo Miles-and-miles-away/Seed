@@ -1301,11 +1301,11 @@ Notes locked in now:
   excludes the ~+17% WTT term for parity with transport; the
   original "incl. well-to-tank" here was superseded).
 - **Climate entries are honest approximations:** aircon/heater
-  per-hour figures are typical-unit averages with spread stated;
-  the setpoint lesson ships as presets on the aircon entries
-  (e.g. "1 hour at 26 C" vs "1 hour at 28 C", capped at +/-2 C
-  from the METI baseline) plus a methodology paragraph, not as a
-  thermal model. The original "1 C ~= 5-10%" here was superseded:
+  per-hour figures are typical-unit averages with spread stated.
+  The setpoint lesson does not ship as calculator presets: METI
+  gives no hours per day for its per-degree savings, so no
+  per-hour step can be derived. It ships through the
+  `raise_ac_thermostat` and `lower_thermostat` actions. The original "1 C ~= 5-10%" here was superseded:
   METI's measured per-degree figures imply 15.2% (cooling) and
   12.6% (heating); 環境省's rule of thumb says 13%/10% (PDR
   rule 17).

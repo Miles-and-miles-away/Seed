@@ -29,7 +29,7 @@ sourcing rules in [AUDIT_ACTION_DATA.md](./AUDIT_ACTION_DATA.md)
 
 Unit for every factor: **kWh per stated unit** (`use`, `minute`,
 `hour`, `day`), multiplied at runtime by **458 g CO2e/kWh**
-(electricity) or **182 g CO2e/kWh** (gas). Access date for every
+(electricity) or **212 g CO2e/kWh** (gas), both lifecycle. Access date for every
 source below: **2026-08-02**, with two dated exceptions: the
 oven's EU regulation (re-fetched 2026-08-29) and the fan's
 Panasonic spec (live-verified 2026-08-30).
@@ -66,15 +66,15 @@ nameplate on average, so a rating is not a conservative choice, it
 is simply the wrong number. Sanity pins guard the entries where
 the gap is largest.
 
-**Boundary.** Operational energy only: the kWh a behaviour
-consumes at the point of use, multiplied by a carrier factor.
-Excluded are appliance manufacturing, transmission and
-distribution losses, and the energy of water supply and
-treatment. Electricity is on a generation basis with no
-well-to-tank term and gas is combustion-only, matching the
-transport scope so the two datasets rest on the same convention.
-Matching scope is not permission to add them: food counts a
-lifecycle, transport counts tailpipe energy, and this counts the
+**Boundary.** The kWh a behaviour consumes at the point of use,
+multiplied by a lifecycle carrier factor. Electricity uses Ember's
+lifecycle grid intensity, and gas is combustion plus DESNZ's
+well-to-tank term, matching the transport scope so the datasets
+rest on the same convention. Excluded are appliance
+manufacturing, transmission and distribution losses, and the
+energy of water supply and treatment. Matching scope is not
+permission to add them: food counts a full product lifecycle,
+transport counts fuel and energy per trip, and this counts the
 electricity or gas to run a home.
 
 **Functional unit: kWh per stated unit** -- a use, a minute, an
@@ -137,12 +137,15 @@ Two independent aggregator pages reproduce these digits exactly
 https://carbonpass.co/guides/defra-emission-factors-2026-uk
 ("0.18231 kg CO2e/kWh (GCV basis)").
 
-**Independent JP cross-check of the gas factor (new, 2026-08-02).**
-資源エネルギー庁 publishes 都市ガス (13A) at
-**2.244 kgCO2/m3** with a 45 MJ/m3 heat content (= 12.5 kWh/m3),
-implying **179.5 g CO2/kWh**. DEFRA's 182.31 and METI's 179.5 sit
-**1.4% apart** despite entirely separate methodologies. The gas
-carrier factor is the best-corroborated number in the dataset.
+**Independent JP cross-check of the combustion part.**
+資源エネルギー庁 publishes 都市ガス at **2.05 kgCO2/m3**
+(令和7年提出用代替値) with a 45 MJ/m3 heat content
+(= 12.5 kWh/m3), implying **164.0 g CO2/kWh**. That is 10% below
+DESNZ's 182.31 combustion figure. METI's value is a Japanese
+reporting default, not a UK gas mix, so it corroborates the order
+of magnitude only. The shipped factor is DESNZ combustion plus
+well-to-tank: 0.18231 + 0.03021 = 0.21252, rounded down to
+**212 g CO2e/kWh**.
 
 Unlike electricity, the gas factor is essentially flat across
 releases (0.18316 -> 0.18296 -> 0.18231 over three years): gas
@@ -246,17 +249,18 @@ WaterSense, LBNL standby and 資源エネルギー庁 off that list;
 
 ## 2. Scope Decision
 
-Factors represent **operational energy only**, identical in
-boundary to the transport dataset (Part 1) and deliberately
+Factors represent **use-phase energy on a lifecycle carrier
+factor**, identical in boundary to the transport dataset (Part 1) and deliberately
 DIFFERENT from the food dataset (Part 2, cradle-to-retail
 lifecycle):
 
 - Electricity entries: grid generation emissions for the energy
   the appliance draws.
-- Gas entries: direct combustion of the gas burned.
+- Gas entries: combustion of the gas burned plus its
+  well-to-tank supply chain.
 - **Excluded everywhere:** appliance manufacturing, installation,
-  water supply and treatment energy, building fabric, refrigerant
-  leakage, and well-to-tank fuel supply.
+  water supply and treatment energy, building fabric and
+  refrigerant leakage.
 
 Conventions:
 
@@ -264,19 +268,17 @@ Conventions:
   `grid_factor_g_per_kwh` is shared with `transport_modes.json`
   and pinned by a cross-dataset test. `gas_factor_g_per_kwh` is
   new.
-- **Gas is combustion-only, Gross CV** (decision E2). Adding
-  DEFRA's WTT term would put gas on a lifecycle boundary while
-  electricity and transport stay operational -- gas would look
-  ~17% worse purely from a boundary mismatch. The exclusion is a
-  documented simplification (~14-16% understatement of gas's
-  supply-chain footprint), not an oversight.
+- **Gas is lifecycle, Gross CV** (decision E2, revised by
+  REF-02). The grid factor is lifecycle, so gas carries DESNZ's
+  well-to-tank term too (about +17%). Leaving it out made gas
+  look better than electricity purely from a boundary mismatch.
 - **Gross CV, not Net CV.** Domestic gas bills are issued on a
   Gross CV basis; the Net CV factor against Gross CV consumption
   overstates by ~11%.
 - **Water heating ships electric and gas as separate entries**,
   per the Part 3 plan, plus a heat-pump electric variant (E3).
-- **Measured beats rated.** Where a government measured figure
-  and a manufacturer rated figure disagree, the measured one
+- **Average use beats rated.** Where a government average-use
+  figure and a manufacturer rated figure disagree, the average
   ships and the rated one becomes context. This decides both
   aircon entries (3.3).
 - **Physics-derived entries state every input.** Water heating
@@ -305,27 +307,27 @@ Conventions:
 
 Gas burns **more energy** than resistance electric for the same
 hot water (85% boiler efficiency vs ~100%) but emits **less
-carbon**, because gas is 182 g/kWh against the grid's 458 -- and
+carbon**, because gas is 212 g/kWh against the grid's 458 -- and
 because a real combi boiler is only ~75.6% efficient in hot-water
 mode on a gross-CV basis (3.1), not the ~85% first assumed.
 Efficiency and carbon intensity pull opposite ways and carbon
 intensity wins -- **at today's global grid factor**.
 
-The crossover is a grid factor of **241 g CO2e/kWh**. Below that,
+The crossover is a grid factor of **280 g CO2e/kWh**. Below that,
 resistance electric beats gas. Applied to the shipped shower
 entry (0.248111 kWh/min electric, 0.328036 kWh/min gas), across
 candidate grids:
 
 | Grid | Electric | Gas | Winner |
 |------|---------:|----:|--------|
-| UK, DEFRA 2026 (131) | 32.5 g/min | 59.7 | **electric, 1.8x** |
-| **House factor (458, E1)** | **113.6** | **59.7** | **gas, 1.9x** |
-| IEA 2030 forecast (360) | 89.3 | 59.7 | gas, 1.5x |
-| JP 資源エネルギー庁 (429) | 106.4 | 59.7 | gas, 1.8x |
-| Crossover point (241) | 59.8 | 59.7 | tie, by construction |
+| UK, DEFRA 2026 (131) | 32.5 g/min | 69.5 | **electric, 2.1x** |
+| **House factor (458, E1)** | **113.6** | **69.5** | **gas, 1.6x** |
+| IEA 2030 forecast (360) | 89.3 | 69.5 | gas, 1.3x |
+| JP 資源エネルギー庁 (429) | 106.4 | 69.5 | gas, 1.5x |
+| Crossover point (280) | 69.5 | 69.5 | tie, by construction |
 
 **The UK has already crossed over.** A gas shower in Britain is
-now the higher-carbon option; in Japan it is half the carbon of
+now the higher-carbon option; in Japan it is about two-thirds the carbon of
 electric. Same two appliances, opposite answers, decided entirely
 by grid.
 
@@ -343,7 +345,7 @@ Three consequences, all binding:
    because a single global factor gets the UK answer backwards.
 3. The methodology paragraph must NOT say "gas looks better today
    and will flip eventually". It must say **the flip has already
-   happened in some markets**, and state the 241 g/kWh crossover
+   happened in some markets**, and state the 280 g/kWh crossover
    so a reader can check their own grid.
 
 ---
@@ -488,7 +490,7 @@ rated space-heating efficiency -- confirming the 92-98% ErP
 nameplate figures do not apply to hot water.
 
 **The calorific-basis correction.** BRE's efficiencies are
-**net CV**; our gas carrier factor (182 g/kWh, decision E2) is
+**net CV**; our gas carrier factor (212 g/kWh, decision E2) is
 **gross CV**. Pairing them directly understated every gas entry.
 Restating the efficiency on a gross basis:
 
@@ -501,15 +503,15 @@ Cross-check, both routes must agree:
 
 | Route | Arithmetic | g CO2e per thermal kWh |
 |-------|------------|-----------------------:|
-| Gross (shipped) | 1 / 0.756353 x 182 | 240.6 |
-| Net | 1 / 0.838 x 202 | 240.6 |
-| **Retired (mismatched)** | 1 / 0.85 x 182 | **214.1** |
+| Gross (shipped) | 1 / 0.756353 x 212 | 280.3 |
+| Net | 1 / 0.838 x 235 | 280.4 |
+| **Retired (mismatched)** | 1 / 0.85 x 212 | **249.4** |
 
 The three gas entries were therefore **12.6% too low**, and the
-published electric-vs-gas crossover moves **214 -> 241 g
-CO2e/kWh** (section 2.1). Gross CV stays the shipped convention
+published electric-vs-gas crossover is **280 g CO2e/kWh**, not
+249 (section 2.1). Gross CV stays the shipped convention
 because domestic gas bills are issued on it and because METI's
-independent cross-check (2.244 kgCO2/m3 at 45 MJ/m3 gross) is on
+independent cross-check (2.05 kgCO2/m3 at 45 MJ/m3 gross) is on
 the same basis.
 
 **Bath volume.** 東京都水道局, verbatim:
@@ -618,72 +620,68 @@ free and can add 1-4 kWh.
 14-place-setting basis. Eco is ~24% lower and takes 3h15 -- a real
 behavior choice, so both ship.
 
-### 3.3 Climate (verified 2026-08-02, revised to measured values)
+### 3.3 Climate
 
 | Item | kWh/unit | Unit | Carrier | Confidence |
 |------|---------:|------|---------|------------|
-| Air conditioner, cooling (28 C) | 0.167679 | hour | electricity | High |
+| Air conditioner, cooling | 0.226607 | hour | electricity | High |
 | Electric fan | 0.022 | hour | electricity | Medium |
-| Air conditioner, heating (20 C) | 0.241006 | hour | electricity | High |
+| Air conditioner, heating | 0.211124 | hour | electricity | High |
 | Portable electric heater | 1.2 | hour | electricity | Medium |
 | Kotatsu | 0.15 | hour | electricity | Medium-High |
 | Electric blanket | 0.025 | hour | electricity | Medium |
 
-**Air conditioner: measured, not rated** (this replaces the
-first-pass rated values). 資源エネルギー庁
+**Air conditioner: average use, not rated.** 資源エネルギー庁
 publishes annual savings from shortening runtime by one hour a
-day, sourced to 省エネルギーセンター実測値, together with the
-season lengths needed to convert them. Verbatim:
+day for a 2.5 kW unit, modelled on a JIS C 9612:2013 house.
+The season lengths that convert them come from the
+calculation-basis page. Verbatim:
 
-> "冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ"
-> (shortening cooling by 1 hour/day at a 28 C setpoint saves
-> 18.78 kWh a year)
+> "冷房期間中にエアコン（2.5kW）の使用を1日1時間短縮した場合
+> 年間で電気 25.38 kWh の省エネ"
 
-> "暖房を1日1時間短縮した場合（設定温度：20℃）年間で電気40.73kWhの省エネ"
-> (shortening heating by 1 hour/day at a 20 C setpoint saves
-> 40.73 kWh a year)
+> "暖房期間中にエアコン（2.5kW）を1日1時間短縮した場合 年間で電気
+> 35.68 kWh の省エネ"
+
+> "東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）"
 
 https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html
 
 With 冷房期間 112 days and 暖房期間 169 days from the
 calculation-basis page:
 
-- cooling: 18.78 / 112 = **0.167679 kWh/h**
-- heating: 40.73 / 169 = **0.241006 kWh/h**
+- cooling: 25.38 / 112 = **0.226607 kWh/h**
+- heating: 35.68 / 169 = **0.211124 kWh/h**
 
-These are **2.6x and 1.9x LOWER** than the Panasonic CS-227VB JIS
-rated figures the first pass used (定格消費電力 435 W cooling /
-455 W heating,
+These are **1.9x and 2.2x LOWER** than the Panasonic CS-227VB JIS
+rated figures (定格消費電力 435 W cooling / 455 W heating,
 https://panasonic.jp/aircon/housing/p-db/CS-227VBS_spec.html).
 The rated values are measured at fixed JIS C 9612 conditions with
-the unit working at capacity; the METI values are seasonal
-measured averages of a real operating hour, which is what the app
-actually asks. **Measured ships; rated becomes science-sheet
-context.** Mitsubishi Electric states the catalogue caveat
-verbatim: "実際には地域、気象条件、ご使用条件等により電力量が変わります".
+the unit working at capacity. The METI values are seasonal
+averages of an operating hour in the model house, which is what
+the app actually asks. **The average ships; rated becomes
+science-sheet context.** Mitsubishi Electric states the catalogue
+caveat verbatim: "実際には地域、気象条件、ご使用条件等により電力量が変わります".
+The METI page states no setpoint for these figures, so the
+entries carry no setpoint label.
 
-**Setpoint effect.** METI publishes absolute deltas from the same
-measurement basis, which the presets use directly rather than
-percentages (avoiding a rounding discrepancy -- see below):
+**Setpoint effect.** METI publishes annual per-degree deltas for
+the same model house:
 
-> "外気温度31℃の時、エアコン（2.2kW）の冷房設定温度を27℃から1℃
-> 上げた場合（使用時間：9時間／日）年間で電気30.24kWhの省エネ"
+> "冷房期間中にエアコン（2.5kW）の設定温度を1℃上げた場合 年間で電気
+> 8.80 kWh の省エネ"
 
-> "外気温度6℃の時、エアコン（2.2kW）の暖房設定温度を21℃から20℃に
-> した場合（使用時間：9時間／日）年間で電気53.08kWhの省エネ"
+> "暖房期間中にエアコン（2.5kW）の設定温度を1℃下げた場合 年間で電気
+> 15.80 kWh の省エネ"
 
-- cooling: 30.24 / (112 x 9) = **0.030000 kWh/h per 1 C**
-- heating: 53.08 / (169 x 9) = **0.034898 kWh/h per 1 C**
-
-**Discrepancy worth recording:** METI's own arithmetic implies
-**15.2%** per 1 C cooling and **12.6%** heating, while 環境省
-COOL CHOICE states the rule of thumb as "約13%" and "約10%"
+The page gives no hours per day for these, so no per-hour step
+can be derived from them. The action library uses them as daily
+savings over the season (`raise_ac_thermostat`,
+`lower_thermostat`). The calculator ships no setpoint presets:
+the aircon entries take "1 hour" and "An evening (4 h)". 環境省 COOL
+CHOICE states the rule of thumb as "約13%" and "約10%"
 (https://ondankataisaku.env.go.jp/coolchoice/setsuden/home/saving03.html).
-Same government, different rounding and baseline. The dataset
-uses METI's absolute deltas so the presets are internally
-consistent with the shipped per-hour values; the science sheet
-quotes 環境省's 13%/10% as the public rule of thumb and notes it
-is a rounded approximation.
+The science sheet may quote it as a rounded public rule of thumb.
 
 **Electric fan (added 2026-08-30; decision in PDR section 3).**
 Ships at **0.022 kWh/h**: the Panasonic F-CV339 リビング扇 at its
@@ -695,7 +693,7 @@ highest notch, verbatim from the spec page: "消費電力
 library cannot quote different numbers for the same swap. A fan
 at a fixed notch draws constant power, so the
 nameplate-vs-cycling rule does not bind; the highest notch is the
-conservative direction for the fan-vs-aircon lesson (7.62x per
+conservative direction for the fan-vs-aircon lesson (10.30x per
 hour, pin 16). Pairs the `space_cool` singleton, making
 cross-entry cooling comparisons buildable.
 
@@ -762,25 +760,26 @@ Ships at **0.025 kWh/h**, the 適温 22 Wh/h rounded up.
 **The JP heating hierarchy (methodology context, one source).**
 METI publishes gas and kerosene fan heaters on the identical
 1-hour-per-day basis, so all four heating options are directly
-comparable and every figure reproduces METI's own stated CO2:
+comparable. Our figures are lifecycle (gas 212 g/kWh, kerosene
+DESNZ burning oil 2.54016 + 0.53078 = 3.07094 kg CO2e/L), so they
+sit above METI's own combustion-only CO2:
 
 | Option | Per hour | g CO2/h (our factors) | METI's own |
 |--------|----------|----------------------:|-----------:|
-| Aircon (heat pump), 20 C | 0.241006 kWh | **110** | -- |
-| Gas fan heater | 0.075030 m3 + 0.022012 kWh | 181 | 179 |
-| Kerosene fan heater | 0.094142 L + 0.023018 kWh | 245 | 246 |
+| Aircon (heat pump), 20 C | 0.211124 kWh | **97** | -- |
+| Gas fan heater | 0.075030 m3 + 0.022012 kWh | 209 | 163 |
+| Kerosene fan heater | 0.094142 L + 0.023018 kWh | 300 | 244 |
 | Electric resistance heater | 1.2 kWh | 550 | -- |
 
-(METI: "年間でガス12.68m3の省エネ ... 年間で電気3.72kWhの省エネ
-... CO2削減量30.3kg" and "年間で灯油15.91Lの省エネ ... 年間で電気
-3.89kWhの省エネ ... CO2削減量41.5kg", both over 169 days.)
+(METI: gas 12.68 m3 + 3.72 kWh, CO2削減量 27.6 kg, and kerosene
+15.91 L + 3.89 kWh, CO2削減量 41.2 kg, both over 169 days.)
 
-**A heat-pump air conditioner is 5.0x lower carbon than a
-resistance heater, 1.6x lower than gas and 2.2x lower than
+**A heat-pump air conditioner is 5.7x lower carbon than a
+resistance heater, 2.2x lower than gas and 3.1x lower than
 kerosene.** That is the flagship heating lesson and it is now
 fully sourced from one government page. It also resolves the
 kerosene framing worry: kerosene beats resistance electric
-(245 vs 550, the table's own 458-basis figures) but loses badly
+(300 vs 550, the table's own lifecycle figures) but loses badly
 to the heat pump, so the comparison
 must always show all four.
 
@@ -1021,11 +1020,11 @@ row below already sits on the 458 g CO2e/kWh basis.
 | dryer_vented | Tumble dryer (vented/condenser) | 4.5 | use | electricity | laundry_dry | High |
 | dryer_heatpump | Tumble dryer (heat pump) | 2.05 | use | electricity | laundry_dry | High |
 | line_dry | Line drying | 0 | use | none | laundry_dry | High |
-| aircon_heating | Air conditioner, heating | 0.241006 | hour | electricity | space_heat | High |
+| aircon_heating | Air conditioner, heating | 0.211124 | hour | electricity | space_heat | High |
 | portable_electric_heater | Portable electric heater | 1.2 | hour | electricity | space_heat | Med |
 | kotatsu | Kotatsu | 0.15 | hour | electricity | space_heat | Med-High |
 | electric_blanket | Electric blanket | 0.025 | hour | electricity | space_heat | Med |
-| aircon_cooling | Air conditioner, cooling | 0.167679 | hour | electricity | space_cool | High |
+| aircon_cooling | Air conditioner, cooling | 0.226607 | hour | electricity | space_cool | High |
 | fan | Electric fan | 0.022 | hour | electricity | space_cool | Med |
 | kettle | Electric kettle, 1 L | 0.116278 | use | electricity | boil | Med-High |
 | ih_hob | IH hob, boil 1 L | 0.116598 | use | electricity | boil | Med-High |
@@ -1055,10 +1054,11 @@ grid_factor_g_per_kwh : 458   (Ember GER 2026, 2025 data, CO2e;
                                shared with transport_modes.json,
                                pinned by a cross-dataset test;
                                decision E1, 2026-08-02)
-gas_factor_g_per_kwh  : 182   (DEFRA 2026 natural gas, Scope 1
-                               combustion, Gross CV, 0.18231
-                               rounded down; independently
-                               corroborated by METI at 179.5)
+gas_factor_g_per_kwh  : 212   (DESNZ 2026 natural gas, Gross CV,
+                               Scope 1 0.18231 + well-to-tank
+                               0.03021 = 0.21252, rounded down;
+                               combustion part cross-checked
+                               against METI at 164.0)
 ```
 
 ### Decisions
@@ -1086,15 +1086,10 @@ Presets fill the `units` field, exactly like Part 2 servings.
 | washup_* | A few dishes | 0.25 | quarter load |
 | wash_*, dryer_*, line_dry | 1 load | 1 | 8-9 kg drum |
 | dishwasher_* | 1 cycle (14 place settings) | 1 | Bosch / Which? basis |
-| aircon_cooling | 1 hour at 28 C | 1.0 | METI measured baseline |
-| aircon_cooling | 1 hour at 27 C | 1.17891 | +0.030 kWh/h per 1 C, METI |
-| aircon_cooling | 1 hour at 26 C | 1.35783 | +2 C, capped |
-| aircon_cooling | An evening (4 h at 26 C) | 5.43132 | 4 x 1.35783 |
+| aircon_cooling, aircon_heating | 1 hour | 1 | METI average hour |
+| aircon_cooling, aircon_heating | An evening (4 h) | 4 | mirrors the heater evening |
 | fan | 1 hour | 1.0 | -- |
 | fan | An evening (4 h) | 4.0 | mirrors the heater evening |
-| aircon_heating | 1 hour at 20 C | 1.0 | METI measured baseline |
-| aircon_heating | 1 hour at 21 C | 1.14480 | +0.034898 kWh/h per 1 C |
-| aircon_heating | 1 hour at 22 C | 1.28960 | +2 C, capped |
 | portable_electric_heater, kotatsu, electric_blanket | An evening (4 h) | 4 | -- |
 | kettle, ih_hob, gas_hob | 1 litre | 1 | -- |
 | kettle, ih_hob, gas_hob | A mug (0.3 L) | 0.3 | -- |
@@ -1151,8 +1146,8 @@ re-derive at every data pass.
    Actual ratio
    8.0x. **The plan's "~10x" does not survive the research.**
 7. `portable_electric_heater > 4 x aircon_heating`
-   (1.2 > 0.964, +24%).
-   Actual ratio 4.98x -- the flagship heating lesson.
+   (1.2 > 0.845, +42%).
+   Actual ratio 5.68x -- the flagship heating lesson.
 8. `incandescent_bulb > 4 x led_bulb` (0.06 > 0.034, +76%).
    Actual ratio 7.06x.
 9. `dishwasher_normal < washup_electric` (1.12 < 1.993, -44%) --
@@ -1189,11 +1184,11 @@ re-derive at every data pass.
     0.42), `dryer_vented` 4.5 (not the model-specific 4.63),
     `oven` 0.82 (the EU 60-70 L midpoint, not 1.0/hour and not the
     2.0 nameplate),
-    **`aircon_cooling` 0.167679 and `aircon_heating` 0.241006
-    (METI measured -- NOT the Panasonic JIS rated 0.435 / 0.455,
+    **`aircon_cooling` 0.226607 and `aircon_heating` 0.211124
+    (METI model-house average -- NOT the Panasonic JIS rated 0.435 / 0.455,
     which a well-meaning future edit would "correct" them to)**.
-16. `aircon_cooling > 5 x fan` (0.167679 > 0.11, +52%). Actual
-    ratio 7.62x -- the flagship cooling lesson, buildable in-app
+16. `aircon_cooling > 5 x fan` (0.226607 > 0.11, +106%). Actual
+    ratio 10.30x -- the flagship cooling lesson, buildable in-app
     since `fan` paired the `space_cool` singleton (2026-08-30).
 
 ### Never pin / never generate superlative copy
@@ -1202,24 +1197,25 @@ All of these are blocked structurally by the PDR sec 3 rule;
 the list records why.
 
 - **kettle vs IH hob** (0.116278 vs 0.116598, **0.3%**) -- an
-  exact tie, deliberately. 44.9 g vs 45.0 g. The dataset's
+  exact tie, deliberately. 53.3 g vs 53.4 g. The dataset's
   flagship "this choice does not matter" pair. Fails rule #3.
-- **gas hob vs kettle/IH in CO2** (51.4 g vs 44.9/45.0, +14%) --
-  2.4x the kWh, 14% the CO2. Flips under E1. Fails rule #2.
-- **washup_gas vs dishwasher_normal** (480 g vs 513 g, +7%) --
+- **gas hob vs kettle/IH in CO2** (59.9 g vs 53.3/53.4 at 458,
+  +12%) -- 2.4x the kWh, 12% more CO2. Flips under E1. Fails rule #2.
+- **washup_gas vs dishwasher_normal** (558 g vs 513 g, +9%) --
   the dishwasher wins clearly against an electric sink (913 g) and
-  loses narrowly to a gas one on the shipped Which? basis. Under
-  the peer-reviewed Berkholz 2010 UK litre figure the gas sink wins
-  by 37% (3.1). Fails rule #2 twice over: wrong carrier AND
+  narrowly against a gas one on the Which? basis. Under the
+  peer-reviewed Berkholz 2010 UK litre figure the gas sink won by
+  37% (3.1), computed at the earlier combustion-only gas factor.
+  Fails rule #2 twice over: wrong carrier AND
   source-dependent direction.
-- **shower_gas vs shower_electric** (59.7 vs 113.6 g/min) -- a
-  real 1.9x gap that reverses in the UK (section 2.1). Fails
+- **shower_gas vs shower_electric** (69.5 vs 113.6 g/min) -- a
+  real 1.6x gap that reverses in the UK (section 2.1). Fails
   rule #2.
 - **bath_gas vs bath_electric** -- same reason.
-- **aircon_cooling vs aircon_heating** (0.167679 vs 0.241006,
-  +44%) -- above the delta threshold but different groups
+- **aircon_cooling vs aircon_heating** (0.226607 vs 0.211124,
+  +7%) -- below the delta threshold and in different groups
   (`space_cool` vs `space_heat`); comparing them is meaningless.
-  Fails rule #1.
+  Fails rules #1 and #3.
 - **laptop_charge vs incandescent_bulb per hour** (0.063294 vs
   0.06, +5.5%) -- fails #1 and #3.
 - **oven vs portable_electric_heater** (0.82/use vs 1.2/hour) --
@@ -1252,8 +1248,8 @@ CO2 and its confidence, is in
 | Portable electric heater, 1 h | 1.2 | 550 | 141x |
 | Oven, 1 bake cycle | 0.82 | 376 | 96x |
 | Shower, 10 min (heat pump) | 0.577 | 264 | 68x |
-| Aircon heating, 1 h | 0.241 | 110 | 28x |
-| Aircon cooling, 1 h | 0.168 | 77 | 20x |
+| Aircon cooling, 1 h | 0.227 | 104 | 27x |
+| Aircon heating, 1 h | 0.211 | 97 | 25x |
 | Rice cooker, 1 cycle | 0.16 | 73 | 19x |
 | Kettle, 1 L | 0.116 | 53 | 14x |
 | TV, 1 h | 0.079 | 36 | 9x |

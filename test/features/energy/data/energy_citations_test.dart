@@ -192,7 +192,8 @@ void main() {
         'aircon_heating',
         '資源エネルギー庁 省エネポータルサイト (空調)',
         'https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html',
-        '暖房を1日1時間短縮した場合（設定温度：20℃）年間で電気40.73kWhの省エネ',
+        '暖房期間中にエアコン（2.5kW）を1日1時間短縮した場合 年間で電気 '
+            '35.68 kWh の省エネ | 東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）',
       ),
       (
         'portable_electric_heater',
@@ -216,7 +217,8 @@ void main() {
         'aircon_cooling',
         '資源エネルギー庁 省エネポータルサイト (空調)',
         'https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html',
-        '冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ',
+        '冷房期間中にエアコン（2.5kW）の使用を1日1時間短縮した場合 年間で電気 '
+            '25.38 kWh の省エネ | 東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）',
       ),
       (
         'fan',
@@ -306,6 +308,8 @@ void main() {
               'requirements for domestic ovens, hobs and range hoods)':
           '2026-08-29',
       'fan/Panasonic F-CV339 仕様': '2026-08-30',
+      'aircon_heating/資源エネルギー庁 省エネポータルサイト (空調)': '2026-11-21',
+      'aircon_cooling/資源エネルギー庁 省エネポータルサイト (空調)': '2026-11-21',
     });
   });
 }
