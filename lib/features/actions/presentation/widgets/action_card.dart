@@ -7,9 +7,24 @@ import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/constants/action_icons.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
+import 'package:seed_app/features/settings/presentation/widgets/action_reminder_sheet.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
+
+/// Tiles per row in the Action log grid.
+const actionGridColumns = 2;
+
+/// Tile title width at 320pt, one grid cell less chrome: the phrase default.
+const actionTileTitleWidth =
+    (phraseNarrowestScreenWidth -
+            2 * spacingLg -
+            (actionGridColumns - 1) * spacingMd) /
+        actionGridColumns -
+    2 * (cardMargin + spacingLg);
 
 /// The shared grid-tile look for anything logged from the Action log:
 /// accent bar, icon, title and a small badge. Kept generic so entries
@@ -24,6 +39,9 @@ class ActionTile extends StatelessWidget {
     required this.onTap,
     this.badgeIcon,
     this.footer,
+    this.titleLocale,
+    this.highlighted = false,
+    this.cornerAction,
     super.key,
   });
 
@@ -36,80 +54,126 @@ class ActionTile extends StatelessWidget {
   final Widget? footer;
   final VoidCallback onTap;
 
+  /// The title's language when it can differ from the app locale.
+  final Locale? titleLocale;
+
+  /// Rings the tile as the daily challenge's action.
+  final bool highlighted;
+
+  /// A small button over the tile's top-right corner.
+  final Widget? cornerAction;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Card(
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(height: 4, color: accentColor),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(spacingLg),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(icon, size: 36, color: contentColor),
-                    const SizedBox(height: spacingSm),
-                    Text(
-                      title,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: spacingXs),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: spacingSm,
-                        vertical: spacingXs,
-                      ),
-                      decoration: BoxDecoration(
-                        color: contentColor.withValues(alpha: opacityFaint),
-                        borderRadius: borderRadiusMd,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+      shape: highlighted
+          ? RoundedRectangleBorder(
+              side: BorderSide(
+                color: theme.colorScheme.tertiary,
+                width: ringWidth,
+              ),
+              borderRadius: borderRadiusLg,
+            )
+          : null,
+      child: Stack(
+        fit: StackFit.passthrough,
+        children: [
+          Semantics(
+            hint: highlighted
+                ? AppLocalizations.of(context).challengeOverline
+                : null,
+            child: InkWell(
+              onTap: onTap,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // The ring paints over the card's edge, so drop the bar below it.
+                  if (highlighted) const SizedBox(height: ringWidth),
+                  Container(height: 4, color: accentColor),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(spacingLg),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (badgeIcon != null) ...[
-                            Icon(badgeIcon, size: 12, color: contentColor),
-                            const SizedBox(width: spacingXs),
-                          ],
-                          Flexible(
-                            child: Text(
-                              badgeLabel,
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                // Darkened: the raw category colour on
-                                // a tint of itself is about 1.5:1, so
-                                // the label washed out. The accent bar
-                                // and the icon keep the colour as it is.
-                                color: readableTextColor(
-                                  contentColor,
-                                  theme.brightness,
-                                ),
-                                fontWeight: FontWeight.bold,
+                          Icon(icon, size: 36, color: contentColor),
+                          const SizedBox(height: spacingSm),
+                          PhraseText(
+                            title,
+                            locale: titleLocale,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: spacingXs),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: spacingSm,
+                              vertical: spacingXs,
+                            ),
+                            decoration: BoxDecoration(
+                              color: contentColor.withValues(
+                                alpha: opacityFaint,
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              borderRadius: borderRadiusMd,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (badgeIcon != null) ...[
+                                  Icon(
+                                    badgeIcon,
+                                    size: 12,
+                                    color: contentColor,
+                                  ),
+                                  const SizedBox(width: spacingXs),
+                                ],
+                                Flexible(
+                                  child: Text(
+                                    badgeLabel,
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      // Darkened: the raw category colour on
+                                      // a tint of itself is about 1.5:1, so
+                                      // the label washed out. The accent bar
+                                      // and the icon keep the colour as it is.
+                                      color: readableTextColor(
+                                        contentColor,
+                                        theme.brightness,
+                                      ),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          if (footer != null) ...[
+                            const SizedBox(height: 6),
+                            footer!,
+                          ],
                         ],
                       ),
                     ),
-                    if (footer != null) ...[const SizedBox(height: 6), footer!],
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          if (cornerAction != null)
+            PositionedDirectional(
+              top: highlighted ? ringWidth : 0,
+              end: 0,
+              child: cornerAction!,
+            ),
+        ],
       ),
     );
   }
@@ -121,12 +185,14 @@ class ActionCard extends ConsumerWidget {
     required this.action,
     required this.languageCode,
     required this.onTap,
+    this.highlighted = false,
     super.key,
   });
 
   final ActionModel action;
   final String languageCode;
   final VoidCallback onTap;
+  final bool highlighted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -143,6 +209,7 @@ class ActionCard extends ConsumerWidget {
       contentColor: isLearnOnly ? theme.colorScheme.outline : categoryColor,
       icon: getActionIcon(action.iconName),
       title: action.name(languageCode),
+      titleLocale: Locale(languageCode),
       badgeLabel: isLearnOnly
           ? l10n.learnOnlyBadge
           : l10n.pointsLabel(action.points),
@@ -151,6 +218,14 @@ class ActionCard extends ConsumerWidget {
           ? null
           : _buildSdgBadges(action.relatedSdgs, goalMap),
       onTap: onTap,
+      highlighted: highlighted,
+      cornerAction: isLearnOnly
+          ? null
+          : _ReminderBell(
+              action: action,
+              languageCode: languageCode,
+              color: categoryColor,
+            ),
     );
   }
 
@@ -166,16 +241,62 @@ class ActionCard extends ConsumerWidget {
       children: [
         for (var i = 0; i < visibleCount; i++) ...[
           if (i > 0) const SizedBox(width: 3),
-          sdgNumberBadge(
+          SdgNumberBadge(
             '${parsedNumbers[i]}',
             goalMap[parsedNumbers[i]]?.color ?? Colors.grey,
           ),
         ],
         if (remainingCount > 0) ...[
           const SizedBox(width: 3),
-          sdgNumberBadge('+$remainingCount', Colors.grey.shade400, fontSize: 8),
+          SdgNumberBadge('+$remainingCount', Colors.grey.shade400),
         ],
       ],
+    );
+  }
+}
+
+/// Sets or edits the action's reminder; filled once one is set.
+class _ReminderBell extends ConsumerWidget {
+  const _ReminderBell({
+    required this.action,
+    required this.languageCode,
+    required this.color,
+  });
+
+  final ActionModel action;
+  final String languageCode;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final isSet = ref.watch(
+      actionRemindersProvider.select((r) => r.containsKey(action.id)),
+    );
+    final on = isSet && ref.watch(actionRemindersEnabledProvider);
+    final doneToday = ref.watch(
+      todayActionsProvider.select(
+        (logs) => [...?logs.value].any((log) => log.actionId == action.id),
+      ),
+    );
+    return IconButton(
+      iconSize: 20,
+      tooltip: switch ((isSet, on)) {
+        (false, _) => l10n.reminderSetTooltip,
+        (true, true) => l10n.reminderEditTooltip,
+        (true, false) => l10n.reminderPausedTooltip,
+      },
+      icon: Icon(
+        isSet ? Icons.notifications_active : Icons.notifications_none,
+        color: on ? color : Theme.of(context).colorScheme.outline,
+      ),
+      onPressed: () => showActionReminderSheet(
+        context,
+        ref,
+        action: action,
+        languageCode: languageCode,
+        doneToday: doneToday,
+      ),
     );
   }
 }

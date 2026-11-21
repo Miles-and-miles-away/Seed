@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/energy/energy.dart';
 
@@ -215,7 +216,12 @@ void main() {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
 
-      for (final grams in ['2.6kg', '2.1kg', '1.4kg', '0g']) {
+      for (final grams in [
+        '2.6${unitSpace}kg',
+        '2.1${unitSpace}kg',
+        '1.4${unitSpace}kg',
+        '0${unitSpace}g',
+      ]) {
         expect(find.text(grams), findsNothing, reason: '$grams in a row');
       }
     });
@@ -251,7 +257,7 @@ void main() {
       expect(find.byType(EnergyExploreSheet), findsOneWidget);
       // The multiple leads with its baseline named, grams follow.
       expect(find.text('529x an hour of LED light'), findsOneWidget);
-      expect(find.text('2.1kg'), findsAtLeast(1));
+      expect(find.text('2.1${unitSpace}kg'), findsAtLeast(1));
       expect(find.text('1 use'), findsAtLeast(1));
     });
 
@@ -438,7 +444,7 @@ void main() {
 
       // 45 / 0.0085 = 5,294x; 45 kWh x 458 g = 20.6kg.
       expect(find.text('5,294x an hour of LED light'), findsOneWidget);
-      expect(find.text('20.6kg'), findsOneWidget);
+      expect(find.text('20.6${unitSpace}kg'), findsOneWidget);
       expect(find.text('10 x'), findsOneWidget);
       // Ten times the amount really is ten times the icons.
       expect(wallCount(), 5294);
@@ -466,7 +472,7 @@ void main() {
       // any other. 7.526854 / 0.0085 = 886x.
       expect(inSheet(find.text('886x an hour of LED light')), findsOneWidget);
       // Grams priced on the gas factor, not the grid: 7.526854 x 182.
-      expect(inSheet(find.text('1.4kg')), findsOneWidget);
+      expect(inSheet(find.text('1.4${unitSpace}kg')), findsOneWidget);
       // And this is where the phenomenon gets explained.
       expect(
         inSheet(find.textContaining('uses more energy than an electric one')),

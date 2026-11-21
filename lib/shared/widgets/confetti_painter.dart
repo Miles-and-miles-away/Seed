@@ -238,10 +238,14 @@ const celebrationConfettiColors = [
 class TimedConfettiLayer extends StatefulWidget {
   const TimedConfettiLayer({
     this.colors = celebrationConfettiColors,
+    this.runFor = _confettiRunDuration,
     super.key,
   });
 
   final List<Color> colors;
+
+  /// How long the particles fly before they fade out.
+  final Duration runFor;
 
   @override
   State<TimedConfettiLayer> createState() => _TimedConfettiLayerState();
@@ -260,7 +264,7 @@ class _TimedConfettiLayerState extends State<TimedConfettiLayer> {
       _particleCount,
       (_) => ConfettiParticle.random(colorCount: widget.colors.length),
     );
-    _fadeTimer = Timer(_confettiRunDuration, () {
+    _fadeTimer = Timer(widget.runFor, () {
       if (mounted) setState(() => _visible = false);
     });
   }

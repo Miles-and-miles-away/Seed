@@ -6,6 +6,7 @@ import 'package:seed_app/features/transport/data/models/transport_mode_model.dar
 import 'package:seed_app/features/transport/domain/services/journey_distance.dart';
 import 'package:seed_app/features/transport/presentation/widgets/transport_display.dart';
 import 'package:seed_app/shared/widgets/group_heading.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 /// Grouped transport mode list for the leg editor.
 ///
@@ -113,8 +114,7 @@ class _ModeTile extends StatelessWidget {
                 ),
               ),
             ),
-          IconButton(
-            icon: const Icon(Icons.info_outline),
+          InfoIconButton(
             tooltip: l10n.transportModeScienceTooltip,
             onPressed: () => onInfo(mode),
           ),

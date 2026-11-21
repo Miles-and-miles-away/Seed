@@ -38,6 +38,10 @@ abstract class AppColors {
   static const error = Color(0xFFF44336);
   static const streak = Color(0xFFFF9800);
 
+  // Reserved for the info affordance; nothing else may use it.
+  static const infoLight = Color(0xFFA258D5);
+  static const infoDark = Color(0xFFB388FF);
+
   // Special effect / celebration colors
   static const gold = Color(0xFFFFD700);
   static const celebrationOrange = Color(0xFFFFA500);
@@ -111,3 +115,7 @@ Color inkOnFill(Color fill) =>
     ThemeData.estimateBrightnessForColor(fill) == Brightness.light
     ? Colors.black87
     : Colors.white;
+
+/// The info affordance's reserved colour for a [brightness] surface.
+Color infoColor(Brightness brightness) =>
+    brightness == Brightness.dark ? AppColors.infoDark : AppColors.infoLight;

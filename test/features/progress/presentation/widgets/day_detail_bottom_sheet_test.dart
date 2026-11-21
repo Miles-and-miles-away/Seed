@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/utils/date_helpers.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
@@ -118,7 +119,7 @@ void main() {
       // Points total 40
       expect(find.text('40'), findsOneWidget);
       // CO2 total 2000g → "2.0kg"
-      expect(find.text('2.0kg'), findsOneWidget);
+      expect(find.text('2.0${unitSpace}kg'), findsOneWidget);
     });
 
     testWidgets('filters out actions from other days', (tester) async {

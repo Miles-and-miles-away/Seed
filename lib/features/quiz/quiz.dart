@@ -5,4 +5,8 @@
 library;
 
 export 'presentation/providers/quiz_providers.dart';
+export 'presentation/quiz_cards.dart';
 export 'presentation/screens/higher_or_lower_screen.dart';
+export 'presentation/widgets/quiz_item_sheet.dart';
+export 'presentation/widgets/quiz_token_card.dart';
+export 'presentation/widgets/quiz_token_pair.dart';

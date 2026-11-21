@@ -7,6 +7,13 @@ import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
+
+/// Text width at 320pt in a 16pt-padded host, less card margin and padding.
+const _factMinLineWidth =
+    phraseNarrowestScreenWidth - 2 * (spacingLg + cardMargin + spacingXl);
+const _lockedMinLineWidth =
+    phraseNarrowestScreenWidth - 2 * (spacingLg + cardMargin + spacingXxl);
 
 /// Card displaying an eco-fact with source, category chip,
 /// and related SDG icons. Supports a locked state for future
@@ -37,8 +44,9 @@ class EcoFactCard extends ConsumerWidget {
                 color: colorScheme.onSurfaceVariant,
               ),
               const SizedBox(height: spacingMd),
-              Text(
+              PhraseText(
                 l10n.ecoFactLocked,
+                minLineWidth: _lockedMinLineWidth,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
@@ -71,7 +79,11 @@ class EcoFactCard extends ConsumerWidget {
             const SizedBox(height: spacingSm),
 
             // Fact text
-            Text(fact.fact(locale), style: theme.textTheme.bodyLarge),
+            PhraseText(
+              fact.fact(locale),
+              minLineWidth: _factMinLineWidth,
+              style: theme.textTheme.bodyLarge,
+            ),
             const SizedBox(height: spacingLg),
 
             // Source (name itself is the link when a URL is present)
@@ -198,7 +210,7 @@ class _SourceLineState extends State<_SourceLine> {
         ),
         const SizedBox(width: 6),
         Expanded(
-          child: Text.rich(
+          child: PhraseText.rich(
             TextSpan(
               style: baseStyle,
               children: [

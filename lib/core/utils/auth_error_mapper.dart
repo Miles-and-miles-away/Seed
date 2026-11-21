@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 
+/// [AuthException.code] for a social sign-in prompt the user dismissed.
+const authCodeSignInCancelled = 'sign-in-cancelled';
+
 /// Maps Firebase Auth errors to localized, user-friendly messages.
 ///
 /// Unknown codes and non-auth errors fall back to the localized generic
@@ -46,7 +49,7 @@ String _mapAuthCode(String code, AppLocalizations l10n) {
       return l10n.errorAuthNetwork;
 
     // Social sign-in errors
-    case 'sign-in-cancelled':
+    case authCodeSignInCancelled:
       return l10n.errorAuthSignInCancelled;
     case 'sign-in-offline':
       return l10n.errorAuthSignInOffline;

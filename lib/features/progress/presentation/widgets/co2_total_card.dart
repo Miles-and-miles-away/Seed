@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/widgets/period_comparison_badge.dart';
@@ -26,7 +27,13 @@ class Co2TotalCard extends StatelessWidget {
       TimePeriod.allTime => l10n.co2SavedAllTime,
     };
 
-    final kgText = '${stats.totalKg.toStringAsFixed(1)} ${l10n.kgUnit}';
+    final kg = formatDecimal(
+      stats.totalKg,
+      l10n.localeName,
+      minDigits: 1,
+      maxDigits: 1,
+    );
+    final kgText = '$kg$unitSpace${l10n.kgUnit}';
 
     return Container(
       width: double.infinity,

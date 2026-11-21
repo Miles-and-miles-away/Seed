@@ -6,12 +6,14 @@ import 'package:go_router/go_router.dart';
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/shared/providers/notification_providers.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
+import '../../data/models/user_settings_model.dart';
 import '../providers/settings_providers.dart';
+import '../widgets/language_tile.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
-import 'language_settings_screen.dart';
 
 /// Main settings screen showing all settings categories.
 class SettingsScreen extends ConsumerWidget {
@@ -31,19 +33,36 @@ class SettingsScreen extends ConsumerWidget {
           top: false,
           child: ListView(
             children: [
-              // The Notifications section is hidden while the reminder
-              // feature is postponed: the scheduler was never wired up,
-              // so the toggles only wrote Firestore without any local
-              // notification ever firing. Restore it together with the
-              // wiring described in notification_providers.dart.
+              SettingsSection(
+                title: l10n.settingsNotifications,
+                children: [
+                  SettingsTile(
+                    title: l10n.reminderManageTitle,
+                    subtitle: _remindersBlocked(ref, settings)
+                        ? l10n.notifBlockedTitle
+                        : l10n.reminderManageSubtitle,
+                    leading: const Icon(Icons.notifications_outlined),
+                    onTap: () => context.push(appRoutes.settingsReminders),
+                  ),
+                  SettingsTile(
+                    title: l10n.notifStyle,
+                    subtitle: l10n.notifStyleSubtitle,
+                    leading: const Icon(Icons.tune),
+                    onTap: ref.read(notificationServiceProvider).openSettings,
+                  ),
+                ],
+              ),
 
               // Preferences Section
               SettingsSection(
                 title: l10n.settingsPreferences,
+                showTopDivider: true,
                 children: [
                   SettingsTile(
                     title: l10n.settingsLanguage,
-                    subtitle: _languageDisplayName(settings.language),
+                    subtitle: nativeLanguageName(
+                      ref.watch(currentLanguageProvider),
+                    ),
                     leading: const Icon(Icons.language_outlined),
                     onTap: () => context.push(appRoutes.settingsLanguage),
                   ),
@@ -108,7 +127,7 @@ class SettingsScreen extends ConsumerWidget {
                   SettingsTile(
                     title: l10n.settingsReplayWalkthrough,
                     subtitle: l10n.settingsReplayWalkthroughSubtitle,
-                    leading: const Icon(Icons.explore_outlined),
+                    leading: const Icon(Icons.replay),
                     showChevron: false,
                     onTap: () => _confirmReplayWalkthrough(context, ref),
                   ),
@@ -143,6 +162,11 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
+  /// Whether a reminder switch is on while the OS blocks notifications.
+  bool _remindersBlocked(WidgetRef ref, UserSettingsModel settings) =>
+      (settings.notificationsEnabled || settings.actionRemindersEnabled) &&
+      ref.watch(notificationPermissionStatusProvider).value == false;
+
   Future<void> _confirmReplayWalkthrough(
     BuildContext context,
     WidgetRef ref,
@@ -160,14 +184,6 @@ class SettingsScreen extends ConsumerWidget {
     unawaited(ref.read(settingsProvider.notifier).resetWalkthrough());
     context.go(appRoutes.home);
   }
-
-  /// Native name for [languageCode]; unknown codes fall back to English.
-  String _languageDisplayName(String languageCode) => supportedLanguages
-      .firstWhere(
-        (l) => l.code == languageCode,
-        orElse: () => supportedLanguages.first,
-      )
-      .nativeName;
 }
 
 /// Compact system / light / dark picker for the theme tile. Icon-only
@@ -195,6 +211,10 @@ class _ThemeModeSelector extends StatelessWidget {
 
     return SegmentedButton<ThemeMode>(
       showSelectedIcon: false,
+      style: SegmentedButton.styleFrom(
+        visualDensity: VisualDensity.compact,
+        padding: const EdgeInsets.symmetric(horizontal: spacingSm),
+      ),
       segments: [
         for (final mode in ThemeMode.values)
           ButtonSegment(

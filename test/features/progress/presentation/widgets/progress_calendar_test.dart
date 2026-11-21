@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/progress_calendar.dart';
@@ -32,6 +33,7 @@ void main() {
     Widget createTestWidget({
       DateTime? selectedMonth,
       List<CalendarDayData>? calendarData,
+      Locale? locale,
     }) {
       final now = DateTime.now();
       final testMonth = selectedMonth ?? DateTime(now.year, now.month);
@@ -70,7 +72,12 @@ void main() {
             (ref) => Future.value(testData),
           ),
         ],
-        child: const MaterialApp(home: Scaffold(body: ProgressCalendar())),
+        child: MaterialApp(
+          locale: locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const Scaffold(body: ProgressCalendar()),
+        ),
       );
     }
 
@@ -86,6 +93,30 @@ void main() {
       // Should display the month name (January 2024)
       expect(find.textContaining('January'), findsOneWidget);
       expect(find.textContaining('2024'), findsOneWidget);
+    });
+
+    testWidgets('Spanish weekday initials do not repeat', (tester) async {
+      setMobileScreenSize(tester);
+      addTearDown(() => resetScreenSize(tester));
+
+      await tester.pumpWidget(createTestWidget(locale: const Locale('es')));
+      await tester.pumpAndSettle();
+
+      // Tuesday is M and Wednesday is X in Spanish calendars.
+      expect(find.text('M'), findsOneWidget);
+      expect(find.text('X'), findsOneWidget);
+    });
+
+    testWidgets('month buttons carry labels', (tester) async {
+      final semantics = tester.ensureSemantics();
+      setMobileScreenSize(tester);
+      addTearDown(() => resetScreenSize(tester));
+
+      await tester.pumpWidget(createTestWidget());
+      await tester.pumpAndSettle();
+
+      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+      semantics.dispose();
     });
 
     testWidgets('displays weekday labels', (tester) async {

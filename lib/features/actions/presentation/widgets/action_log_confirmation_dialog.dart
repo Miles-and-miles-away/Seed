@@ -1,17 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:markdown_widget/markdown_widget.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/theme/app_colors.dart';
-import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_dialog_header.dart';
+import 'package:seed_app/features/actions/presentation/widgets/action_science_bottom_sheet.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Result of the action log confirmation dialog.
 class ActionLogConfirmationResult {
@@ -63,7 +61,6 @@ class ActionLogConfirmationDialog extends StatefulWidget {
 class _ActionLogConfirmationDialogState
     extends State<ActionLogConfirmationDialog> {
   final _noteController = TextEditingController();
-  bool _scienceExpanded = false;
 
   @override
   void dispose() {
@@ -188,8 +185,9 @@ class _ActionLogConfirmationDialogState
     if (!hasDesc && !hasCo2) return const SizedBox.shrink();
 
     final descWidget = hasDesc
-        ? Text(
+        ? PhraseText(
             desc,
+            locale: Locale(widget.languageCode),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
@@ -202,10 +200,14 @@ class _ActionLogConfirmationDialogState
             children: [
               Icon(Icons.eco, size: 16, color: theme.colorScheme.primary),
               const SizedBox(width: spacingSm),
-              Text(
-                l10n.co2Saved(formatCO2Compact(widget.action.co2Grams)),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.primary,
+              Flexible(
+                child: Text(
+                  l10n.co2Saved(
+                    formatCO2Compact(widget.action.co2Grams, l10n.localeName),
+                  ),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.primary,
+                  ),
                 ),
               ),
             ],
@@ -235,71 +237,33 @@ class _ActionLogConfirmationDialogState
         color: categoryColor.withValues(alpha: opacityVeryFaint),
         borderRadius: borderRadiusMd,
         clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            InkWell(
-              onTap: () => setState(() => _scienceExpanded = !_scienceExpanded),
-              child: Padding(
-                padding: const EdgeInsets.all(spacingLg),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(child: content),
-                    const SizedBox(width: spacingSm),
-                    AnimatedRotation(
-                      turns: _scienceExpanded ? 0.5 : 0,
-                      duration: durationFast,
-                      child: Icon(
-                        Icons.expand_more,
-                        size: 20,
-                        color: categoryColor,
-                      ),
-                    ),
-                  ],
+        child: InkWell(
+          // The glyph is the announced control; the panel tap is a shortcut.
+          excludeFromSemantics: true,
+          canRequestFocus: false,
+          onTap: _openScience,
+          child: Padding(
+            padding: const EdgeInsets.all(spacingLg),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: content),
+                const SizedBox(width: spacingSm),
+                InfoIconButton(
+                  tooltip: l10n.actionScienceTooltip,
+                  onPressed: _openScience,
                 ),
-              ),
+              ],
             ),
-            AnimatedSize(
-              duration: durationFast,
-              curve: Curves.easeOut,
-              alignment: Alignment.topCenter,
-              child: _scienceExpanded
-                  ? _buildScienceContent(theme, categoryColor)
-                  : const SizedBox(width: double.infinity),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildScienceContent(ThemeData theme, Color categoryColor) {
-    final linkColor = readableTextColor(categoryColor, theme.brightness);
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(spacingLg, 0, spacingLg, spacingLg),
-      child: MarkdownBlock(
-        data: appendExternalLinkArrow(
-          widget.action.descriptionLong(widget.languageCode),
-        ),
-        config: markdownConfigFor(context).copy(
-          configs: [
-            PConfig(
-              textStyle: TextStyle(
-                fontSize: 14,
-                height: 1.6,
-                color: theme.colorScheme.onSurface,
-              ),
-            ),
-            externalLinkConfig(context, color: linkColor, onTap: _onLinkTap),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _onLinkTap(String url) {
-    unawaited(openExternalUrl(context, url));
-  }
+  void _openScience() => ActionScienceBottomSheet.show(
+    context,
+    action: widget.action,
+    languageCode: widget.languageCode,
+  );
 }

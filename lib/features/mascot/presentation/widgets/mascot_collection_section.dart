@@ -9,6 +9,7 @@ import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/egg_progress_widget.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// "My Mascots" horizontal collection: one thumbnail per owned mascot,
 /// with the in-progress egg at the end. Tapping an inactive mascot asks
@@ -112,7 +113,6 @@ class MascotCollectionSection extends ConsumerWidget {
             Text(
               AppLocalizations.of(context).mascotLevelShort(mascot.mascotLevel),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                fontSize: 10,
                 color: colorScheme.onSurfaceVariant,
               ),
             ),
@@ -134,12 +134,18 @@ class MascotCollectionSection extends ConsumerWidget {
     MascotModel target,
   ) {
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
+    final name = target.name.isNotEmpty
+        ? target.name
+        : _getSpeciesForMascot(ref, target.speciesId)?.name(locale) ??
+              target.speciesId;
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.mascotSwitchConfirm),
-        content: Text(
-          '${l10n.switchToMascot} ${target.name.isEmpty ? target.speciesId : target.name}?',
+        content: PhraseText(
+          l10n.mascotSwitchConfirmBody(name),
+          minLineWidth: phraseDialogMinLineWidth,
         ),
         actions: [
           TextButton(

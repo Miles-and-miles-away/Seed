@@ -204,11 +204,14 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                                 size: 28,
                               ),
                               const SizedBox(width: spacingSm),
-                              Text(
-                                l10n.streakMilestoneWeeks(widget.weekNumber),
-                                style: theme.textTheme.titleLarge?.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                              Flexible(
+                                child: Text(
+                                  l10n.streakMilestoneWeeks(widget.weekNumber),
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ],

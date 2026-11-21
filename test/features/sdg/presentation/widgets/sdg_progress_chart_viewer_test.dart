@@ -15,7 +15,6 @@ SdgGoal _goal(int number) => SdgGoal(
   shortTitleEn: 'Short $number',
   descriptionEn: 'Description $number',
   color: const Color(0xFFE5233D),
-  iconUrl: 'https://example.com/icon$number.jpg',
 );
 
 void main() {

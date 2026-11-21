@@ -101,6 +101,62 @@ final class TodayChallengeProvider
 
 String _$todayChallengeHash() => r'922bb5df1fbfedd100140f05ce4a303cf6fe9546';
 
+/// Null action when the library failed to load or lacks the id in the
+/// challenge's category, so the card falls back to naming the category.
+
+@ProviderFor(todayChallengeAction)
+final todayChallengeActionProvider = TodayChallengeActionProvider._();
+
+/// Null action when the library failed to load or lacks the id in the
+/// challenge's category, so the card falls back to naming the category.
+
+final class TodayChallengeActionProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<ChallengeAction?>,
+          AsyncValue<ChallengeAction?>,
+          AsyncValue<ChallengeAction?>
+        >
+    with $Provider<AsyncValue<ChallengeAction?>> {
+  /// Null action when the library failed to load or lacks the id in the
+  /// challenge's category, so the card falls back to naming the category.
+  TodayChallengeActionProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'todayChallengeActionProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$todayChallengeActionHash();
+
+  @$internal
+  @override
+  $ProviderElement<AsyncValue<ChallengeAction?>> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  AsyncValue<ChallengeAction?> create(Ref ref) {
+    return todayChallengeAction(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AsyncValue<ChallengeAction?> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AsyncValue<ChallengeAction?>>(value),
+    );
+  }
+}
+
+String _$todayChallengeActionHash() =>
+    r'30b4616044bfb25cdc6dd24053c8a39ce9779db4';
+
 /// Whether today's daily challenge is completed.
 
 @ProviderFor(isTodayChallengeCompleted)

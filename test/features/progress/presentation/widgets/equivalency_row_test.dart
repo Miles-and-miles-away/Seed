@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/progress/data/impact_equivalencies_data.dart';
@@ -36,8 +37,9 @@ const _fixture = <EquivalencyMetadata>[
   ),
 ];
 
-Widget _wrap(Widget child) => createTestWidget(
+Widget _wrap(Widget child, {Locale? locale}) => createTestWidget(
   scaffold: true,
+  locale: locale,
   overrides: [
     impactEquivalenciesDataProvider.overrideWith((_) async => _fixture),
   ],
@@ -83,6 +85,57 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
       expect(find.byType(EquivalencyCard), findsNWidgets(4));
+    });
+
+    double rowsOfCards(WidgetTester tester) => find
+        .byType(EquivalencyCard)
+        .evaluate()
+        .map((e) => tester.getTopLeft(find.byWidget(e.widget)).dy)
+        .toSet()
+        .length
+        .toDouble();
+
+    testWidgets('lays out two by two on a phone', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(393, 600));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(_wrap(const EquivalencyRow(totalGrams: 21000)));
+      await tester.pumpAndSettle();
+
+      expect(rowsOfCards(tester), 2);
+    });
+
+    testWidgets('keeps four across on a wide layout', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(800, 600));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(_wrap(const EquivalencyRow(totalGrams: 21000)));
+      await tester.pumpAndSettle();
+
+      expect(rowsOfCards(tester), 1);
+    });
+
+    group('in Spanish with real Latin metrics', () {
+      setUpAll(loadTestFonts);
+
+      for (final width in testPhoneWidths) {
+        testWidgets('no label is cut at ${width}pt', (tester) async {
+          final emulated = width * robotoToSfWidthFactor;
+          await tester.binding.setSurfaceSize(Size(emulated, 600));
+          addTearDown(() => tester.binding.setSurfaceSize(null));
+          await tester.pumpWidget(
+            _wrap(
+              const EquivalencyRow(totalGrams: 21000),
+              locale: const Locale('es'),
+            ),
+          );
+          await tester.pumpAndSettle();
+
+          expect(tester.takeException(), isNull);
+          final label = tester.renderObject<RenderParagraph>(
+            find.text('hamburguesas de ternera'),
+          );
+          expect(label.didExceedMaxLines, isFalse);
+        });
+      }
     });
   });
 }

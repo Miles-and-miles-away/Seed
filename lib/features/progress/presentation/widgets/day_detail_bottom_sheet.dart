@@ -9,6 +9,7 @@ import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
+import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_log_confirmation_dialog.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_log_item.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
@@ -63,6 +64,10 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
     final factsAsync = ref.watch(ecoFactsProvider);
     final user = ref.watch(currentUserProvider).value;
     final isLockedToday = ref.watch(isEcoFactLockedProvider);
+    final names = actionNamesById(
+      ref.watch(actionLibraryProvider).value ?? const [],
+      Localizations.localeOf(context).languageCode,
+    );
 
     final dayLogs = [...logsAsync.asData?.value ?? const <ActionLogModel>[]]
       ..sort((a, b) => a.loggedAt.compareTo(b.loggedAt));
@@ -145,6 +150,7 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
               ...dayLogs.map(
                 (log) => ActionLogItem(
                   actionLog: log,
+                  displayName: names[log.actionId],
                   onTap: () => _openActionInfo(log),
                 ),
               ),
@@ -201,27 +207,31 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
     final confirmed = await showConfirmDialog(
       context,
       title: log.actionName,
-      message: l10n.transportLogChoiceBody(formatCO2Compact(log.co2Grams)),
+      message: l10n.transportLogChoiceBody(
+        formatCO2Compact(log.co2Grams, l10n.localeName),
+      ),
       confirmLabel: l10n.actionReproduce,
     );
     if (!confirmed || !mounted) return;
+    // The notifier drops a repeat of a log still waiting or in flight.
+    if (ref.read(actionLogProvider.notifier).isPending(log.actionId)) return;
     // Rebuild an ActionModel from the log; the still-present custom
     // template makes the relaxed actionLog rule accept the re-log.
-    final result = await ref
-        .read(actionLogProvider.notifier)
-        .logAction(
-          ActionModel(
-            id: log.actionId,
-            nameEn: log.actionName,
-            nameJa: log.actionName,
-            nameEs: log.actionName,
-            category: log.category,
-            points: log.points,
-            co2Grams: log.co2Grams,
-            relatedSdgs: log.relatedSdgs,
-          ),
-          languageCode: Localizations.localeOf(context).languageCode,
-        );
+    final result = await logActionWithWaitMessage(
+      context,
+      ref,
+      ActionModel(
+        id: log.actionId,
+        nameEn: log.actionName,
+        nameJa: log.actionName,
+        nameEs: log.actionName,
+        category: log.category,
+        points: log.points,
+        co2Grams: log.co2Grams,
+        relatedSdgs: log.relatedSdgs,
+      ),
+      languageCode: Localizations.localeOf(context).languageCode,
+    );
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -268,7 +278,7 @@ class _StatsRow extends StatelessWidget {
           child: _StatTile(
             icon: Icons.star_outline,
             label: l10n.homePoints,
-            value: formatPoints(points),
+            value: formatPoints(points, l10n.localeName),
             color: theme.colorScheme.tertiary,
           ),
         ),
@@ -277,7 +287,7 @@ class _StatsRow extends StatelessWidget {
           child: _StatTile(
             icon: Icons.eco_outlined,
             label: 'CO\u2082',
-            value: formatCO2Compact(co2Grams),
+            value: formatCO2Compact(co2Grams, l10n.localeName),
             color: theme.colorScheme.secondary,
           ),
         ),

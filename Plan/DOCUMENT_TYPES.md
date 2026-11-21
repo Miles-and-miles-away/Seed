@@ -261,9 +261,9 @@ is a synthesised digest of the action library. It currently lists
 `meatless_meal_beef` 5340, `meatless_meal_chicken` 540,
 `meatless_meal_pork` 610 and `plant_milk_vs_dairy` 460, each marked
 `High` confidence. All four ids were retired into tier actions; the
-live values are `skip_high_impact_food` 3700 and
-`skip_medium_impact_food` 780, and the beef figure passed through
-9700 and 6800 on the way. Nothing announced the drift, because a
+live values are `skip_high_impact_food` 6800 (beef only) and
+`skip_medium_impact_food` 780, and the beef figure has passed
+through 9700, 6800 and 3700 on the way. Nothing announced the drift, because a
 digest has no test and no reader who depends on it being right.
 
 The failure is structural, not a lapse. A digest that restates

@@ -65,7 +65,7 @@ class MascotStatsCard extends StatelessWidget {
           _buildStatRow(
             Icons.eco_outlined,
             l10n.mascotStatCo2Together,
-            formatCO2Compact(mascot.co2SavedGrams),
+            formatCO2Compact(mascot.co2SavedGrams, l10n.localeName),
             theme,
             colorScheme,
           ),

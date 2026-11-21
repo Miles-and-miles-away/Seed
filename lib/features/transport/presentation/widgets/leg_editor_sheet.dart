@@ -17,6 +17,7 @@ import 'package:seed_app/features/transport/presentation/widgets/city_pair_field
 import 'package:seed_app/features/transport/presentation/widgets/occupancy_stepper.dart';
 import 'package:seed_app/features/transport/presentation/widgets/transport_display.dart';
 import 'package:seed_app/shared/widgets/editor_sheet_actions.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// A leg, the option column it belongs to, and its endpoints.
 ///
@@ -117,8 +118,22 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
     _distanceFocus.addListener(() => setState(() {}));
     final leg = widget.initialLeg;
     if (leg != null) {
-      _distanceController.text = decimalSeedText(leg.distanceKm);
       _occupants = leg.occupants.clamp(1, max(1, widget.mode.maxOccupants));
+    }
+  }
+
+  bool _seeded = false;
+
+  String get _locale => Localizations.localeOf(context).languageCode;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_seeded) return;
+    _seeded = true;
+    final leg = widget.initialLeg;
+    if (leg != null) {
+      _distanceController.text = decimalSeedText(leg.distanceKm, _locale);
     }
   }
 
@@ -179,7 +194,7 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
 
   /// The leg as currently entered, for the live preview and the save.
   JourneyLeg? get _draftLeg {
-    final km = parseDecimalInput(_distanceController.text);
+    final km = parseDecimalInput(_distanceController.text, _locale);
     final mode = _effectiveMode;
     return km == null
         ? null
@@ -251,8 +266,9 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
               if (bandSwitched)
                 Padding(
                   padding: const EdgeInsets.only(bottom: spacingSm),
-                  child: Text(
+                  child: PhraseText(
                     l10n.transportFlightBandNote(mode.name(locale)),
+                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingLg,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.primary,
                     ),
@@ -286,9 +302,14 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
                   floatingLabelBehavior: showUnknown
                       ? FloatingLabelBehavior.always
                       : FloatingLabelBehavior.auto,
-                  errorText: _distanceInvalid
-                      ? l10n.transportDistanceInvalid
-                      : null,
+                  errorText: !_distanceInvalid
+                      ? null
+                      : isAmbiguousDecimalInput(
+                          _distanceController.text,
+                          _locale,
+                        )
+                      ? l10n.quantityAmbiguousSeparator
+                      : l10n.transportDistanceInvalid,
                   helperText: _distanceIsEstimate
                       ? l10n.transportDistanceEstimateNote
                       : null,

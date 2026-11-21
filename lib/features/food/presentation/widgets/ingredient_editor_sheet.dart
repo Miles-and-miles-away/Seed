@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/decimal_input.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
@@ -69,13 +70,18 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
   final _gramsController = TextEditingController();
   String? _selectedPresetId;
   bool _gramsInvalid = false;
+  bool _seeded = false;
+
+  String get _locale => Localizations.localeOf(context).languageCode;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_seeded) return;
+    _seeded = true;
     final ingredient = widget.initialIngredient;
     if (ingredient != null) {
-      _gramsController.text = decimalSeedText(ingredient.grams);
+      _gramsController.text = decimalSeedText(ingredient.grams, _locale);
       return;
     }
     // Dose-dominated items open on their default serving rather than an
@@ -85,7 +91,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
     // preset the path of least resistance.
     final preset = widget.item.defaultServing;
     if (widget.item.isPresetOnly && preset != null) {
-      _gramsController.text = decimalSeedText(preset.grams);
+      _gramsController.text = decimalSeedText(preset.grams, _locale);
       _selectedPresetId = preset.id;
     }
   }
@@ -98,7 +104,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
 
   void _applyPreset(ServingPreset preset) {
     setState(() {
-      _gramsController.text = decimalSeedText(preset.grams);
+      _gramsController.text = decimalSeedText(preset.grams, _locale);
       _selectedPresetId = preset.id;
       _gramsInvalid = false;
     });
@@ -106,7 +112,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
 
   /// The ingredient as currently entered, for the preview and save.
   MealIngredient? get _draftIngredient {
-    final grams = parseDecimalInput(_gramsController.text);
+    final grams = parseDecimalInput(_gramsController.text, _locale);
     return grams == null
         ? null
         : MealIngredient(itemId: widget.item.id, grams: grams);
@@ -174,7 +180,7 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
                   children: [
                     for (final preset in item.servings)
                       ChoiceChip(
-                        label: Text(preset.name(locale)),
+                        label: Text(keepUnitsTogether(preset.name(locale))),
                         selected: _selectedPresetId == preset.id,
                         onSelected: (_) => _applyPreset(preset),
                       ),
@@ -195,7 +201,11 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
                 decoration: InputDecoration(
                   labelText: l10n.foodQuantityLabel,
                   border: const OutlineInputBorder(),
-                  errorText: _gramsInvalid ? l10n.foodQuantityInvalid : null,
+                  errorText: !_gramsInvalid
+                      ? null
+                      : isAmbiguousDecimalInput(_gramsController.text, locale)
+                      ? l10n.quantityAmbiguousSeparator
+                      : l10n.foodQuantityInvalid,
                 ),
                 onChanged: (_) => setState(() {
                   _gramsInvalid = false;

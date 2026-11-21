@@ -2,6 +2,9 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 
 /// Sort options for the action library.
 enum ActionSortOption {
+  /// A fresh random order on each visit to Log Action.
+  random,
+
   /// Sort alphabetically A-Z.
   alphabeticalAsc,
 
@@ -23,6 +26,7 @@ enum ActionSortOption {
   /// Returns the localized display name for this sort option.
   String displayName(AppLocalizations l10n) {
     return switch (this) {
+      ActionSortOption.random => l10n.sortShuffle,
       ActionSortOption.alphabeticalAsc => l10n.sortAlphabeticalAZ,
       ActionSortOption.alphabeticalDesc => l10n.sortAlphabeticalZA,
       ActionSortOption.co2HighToLow => l10n.sortCo2HighToLow,

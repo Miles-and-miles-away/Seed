@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
+
 import '../models/app_user_model.dart';
 
 /// Firestore user document operations.
@@ -30,10 +33,36 @@ class UserRemoteDataSource {
     return AppUserModel.fromJson({...doc.data()!, 'uid': uid});
   }
 
-  Future<void> createUser(AppUserModel user) async {
+  /// New-user document data; settings.language marks the language chosen.
+  Map<String, dynamic> _newUserData(AppUserModel user) {
     // Remove uid from document data since it's the document ID
     final data = user.toJson()..remove('uid');
-    await _usersCollection.doc(user.uid).set(data);
+    data[AppConstants.fieldSettings] = {
+      AppConstants.fieldLanguage: user.language,
+    };
+    return data;
+  }
+
+  Future<void> createUser(AppUserModel user) async {
+    await _usersCollection.doc(user.uid).set(_newUserData(user));
+  }
+
+  /// Waits for the server's view of the doc, then creates [user] only if
+  /// it is still missing, so an offline read never overwrites a real doc.
+  /// Skips the write once [isCurrent] says the user has signed out.
+  Future<void> createUserIfAbsent(
+    AppUserModel user, {
+    required bool Function() isCurrent,
+  }) async {
+    final ref = _usersCollection.doc(user.uid);
+    final serverSnap = await ref
+        .snapshots(includeMetadataChanges: true)
+        .firstWhere((snap) => !snap.metadata.isFromCache);
+    if (serverSnap.exists || !isCurrent()) return;
+    final data = _newUserData(user);
+    await _firestore.runTransaction((tx) async {
+      if (!(await tx.get(ref)).exists) tx.set(ref, data);
+    });
   }
 
   Future<void> updateUser(String uid, Map<String, dynamic> data) async {
@@ -45,6 +74,23 @@ class UserRemoteDataSource {
       if (!doc.exists || doc.data() == null) return null;
       return AppUserModel.fromJson({...doc.data()!, 'uid': uid});
     });
+  }
+
+  /// Whether every local write reached the server within [timeout].
+  Future<bool> pendingWritesSynced(Duration timeout) async {
+    try {
+      await _firestore.waitForPendingWrites().timeout(timeout);
+      return true;
+    } on Exception {
+      return false;
+    }
+  }
+
+  /// Wipes the on-device cache so the next person on this device cannot read
+  /// the previous account's data. Must run after sign-out.
+  Future<void> clearLocalCache() async {
+    await _firestore.terminate();
+    await _firestore.clearPersistence();
   }
 
   Future<void> deleteUser() async {

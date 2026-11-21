@@ -13,9 +13,10 @@ part of 'home_providers.dart';
 /// scroll position while Home is offscreen, leaving it already centered (no
 /// visible jump) the next time the kept-alive [IndexedStack] branch is shown.
 ///
-/// Routes pushed on top of Home (SDG detail, daily fact, challenges) do not
-/// count: go_router keeps the configuration uri at `/home` for imperative
-/// pushes, and popping back should return the user to the goal they tapped.
+/// Routes pushed on top of Home (SDG detail, daily fact, challenges, the
+/// Mascot screen) do not count: go_router keeps the configuration uri at
+/// `/home` for imperative pushes, and popping back should return the user
+/// to the goal they tapped.
 
 @ProviderFor(HomeVisitSignal)
 final homeVisitSignalProvider = HomeVisitSignalProvider._();
@@ -25,9 +26,10 @@ final homeVisitSignalProvider = HomeVisitSignalProvider._();
 /// scroll position while Home is offscreen, leaving it already centered (no
 /// visible jump) the next time the kept-alive [IndexedStack] branch is shown.
 ///
-/// Routes pushed on top of Home (SDG detail, daily fact, challenges) do not
-/// count: go_router keeps the configuration uri at `/home` for imperative
-/// pushes, and popping back should return the user to the goal they tapped.
+/// Routes pushed on top of Home (SDG detail, daily fact, challenges, the
+/// Mascot screen) do not count: go_router keeps the configuration uri at
+/// `/home` for imperative pushes, and popping back should return the user
+/// to the goal they tapped.
 final class HomeVisitSignalProvider
     extends $NotifierProvider<HomeVisitSignal, int> {
   /// Emits an incrementing token each time the user switches away from the
@@ -35,9 +37,10 @@ final class HomeVisitSignalProvider
   /// scroll position while Home is offscreen, leaving it already centered (no
   /// visible jump) the next time the kept-alive [IndexedStack] branch is shown.
   ///
-  /// Routes pushed on top of Home (SDG detail, daily fact, challenges) do not
-  /// count: go_router keeps the configuration uri at `/home` for imperative
-  /// pushes, and popping back should return the user to the goal they tapped.
+  /// Routes pushed on top of Home (SDG detail, daily fact, challenges, the
+  /// Mascot screen) do not count: go_router keeps the configuration uri at
+  /// `/home` for imperative pushes, and popping back should return the user
+  /// to the goal they tapped.
   HomeVisitSignalProvider._()
     : super(
         from: null,
@@ -72,9 +75,10 @@ String _$homeVisitSignalHash() => r'81b20dff3b60e2fa84bfbf79e5cbbf1588cd8825';
 /// scroll position while Home is offscreen, leaving it already centered (no
 /// visible jump) the next time the kept-alive [IndexedStack] branch is shown.
 ///
-/// Routes pushed on top of Home (SDG detail, daily fact, challenges) do not
-/// count: go_router keeps the configuration uri at `/home` for imperative
-/// pushes, and popping back should return the user to the goal they tapped.
+/// Routes pushed on top of Home (SDG detail, daily fact, challenges, the
+/// Mascot screen) do not count: go_router keeps the configuration uri at
+/// `/home` for imperative pushes, and popping back should return the user
+/// to the goal they tapped.
 
 abstract class _$HomeVisitSignal extends $Notifier<int> {
   int build();

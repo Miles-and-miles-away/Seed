@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart' hide Durations;
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'rainbow_sun_painter.dart';
 
 /// Animated widget that displays the Rainbow Sun visualization.
@@ -137,7 +138,7 @@ class EmptyRainbowSun extends StatelessWidget {
           ),
           const SizedBox(height: spacingLg),
           Text(
-            'Complete goals to grow your sun!',
+            AppLocalizations.of(context).progressSunEmptyHint,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),

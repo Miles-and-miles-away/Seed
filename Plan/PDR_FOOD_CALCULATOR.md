@@ -166,18 +166,20 @@ four.
 
 | Action | Covers | Shipped | Binding derivation |
 |--------|--------|--------:|--------------------|
-| `skip_high_impact_food` (per 100 g) | beef, lamb | **3700 g** | binds to lamb, the smaller implied saving; arithmetic in the action's calculation_notes, factors in RESEARCH sec 3.1 |
+| `skip_high_impact_food` (per 100 g) | beef | **6800 g** | beef 7036 g minus the 200 g plant baseline = 6836, rounded down; arithmetic in the action's calculation_notes, factors in RESEARCH sec 3.1 |
 | `skip_medium_impact_food` (per 100 g) | chicken, pork | **780 g** | binds to chicken, the smaller implied saving; arithmetic in the action's calculation_notes, factors in RESEARCH sec 3.1 |
 | `plant_milk` (per 250 ml) | oat, soy | **460 g** | binds to soy milk, the smaller saving, and deliberately sits below it; arithmetic in the action's calculation_notes, factors in RESEARCH sec 3.2/3.7 |
 | `skip_fish` (per 150 g) | white fish | **560 g** | binds to the white-fish fillet minus the plant baseline; arithmetic in the action's calculation_notes, factor in RESEARCH sec 3.1 |
 
-The two tier values fell on 2026-08-08 (6800 -> 3700, 1000 ->
-780). The merge had left each action crediting its tier's
-*highest* item, so a lamb skip paid 1.8x its real saving and a
-chicken skip 1.27x. That contradicts the conservative rule
-`plant_milk` already followed, so both were re-based on the
-tier minimum. **This is a points-economy change**: a -46% and a
--22% cut to shipped rewards.
+The merge had left each tier action crediting its *highest*
+item, so a chicken skip paid 1.27x its real saving. That
+contradicts the conservative rule `plant_milk` already
+followed, so `skip_medium_impact_food` was re-based on the tier
+minimum (1000 -> 780, a -22% cut to shipped rewards).
+`skip_high_impact_food` is resolved by scope instead (owner
+decision): it covers beef only, so lamb is no longer credited
+and the action ships the full beef swap, 6800 g. **Both are
+points-economy changes.**
 
 Standing rules the table encodes (D4, 2026-07-20):
 

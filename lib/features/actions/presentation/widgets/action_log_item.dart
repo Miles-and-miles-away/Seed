@@ -4,13 +4,29 @@ import 'package:intl/intl.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+
+/// Library action names by id in [languageCode]. A log stores the name in
+/// the language active when it was made, so lists show these instead.
+Map<String, String> actionNamesById(
+  Iterable<ActionModel> library,
+  String languageCode,
+) => {for (final action in library) action.id: action.name(languageCode)};
 
 /// A list item displaying a logged action.
 class ActionLogItem extends StatelessWidget {
-  const ActionLogItem({required this.actionLog, this.onTap, super.key});
+  const ActionLogItem({
+    required this.actionLog,
+    this.displayName,
+    this.onTap,
+    super.key,
+  });
 
   final ActionLogModel actionLog;
+
+  /// The name to show, when the action still exists in the library.
+  final String? displayName;
 
   /// Optional tap handler. When non-null, the card becomes interactive.
   final VoidCallback? onTap;
@@ -53,7 +69,7 @@ class ActionLogItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      actionLog.actionName,
+                      displayName ?? actionLog.actionName,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -78,7 +94,10 @@ class ActionLogItem extends StatelessWidget {
                           ),
                           const SizedBox(width: spacingXxs),
                           Text(
-                            formatCO2Compact(actionLog.co2Grams),
+                            formatCO2Compact(
+                              actionLog.co2Grams,
+                              Localizations.localeOf(context).languageCode,
+                            ),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.primary,
                             ),

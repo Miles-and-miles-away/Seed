@@ -5,6 +5,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
 import 'package:seed_app/shared/widgets/group_heading.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 /// Grouped, searchable food-item list for the ingredient editor.
 ///
@@ -117,6 +118,9 @@ class _FoodItemPickerState extends State<FoodItemPicker> {
                   ? null
                   : IconButton(
                       icon: const Icon(Icons.clear),
+                      tooltip: MaterialLocalizations.of(
+                        context,
+                      ).clearButtonTooltip,
                       onPressed: _controller.clear,
                     ),
               filled: true,
@@ -203,8 +207,7 @@ class _ItemTile extends StatelessWidget {
       leading: Icon(foodGroupIcon(item.group)),
       title: Text(item.name(locale)),
       subtitle: Text(caveats.isEmpty ? factor : '$factor\n$caveats'),
-      trailing: IconButton(
-        icon: const Icon(Icons.info_outline),
+      trailing: InfoIconButton(
         tooltip: l10n.foodItemScienceTooltip,
         onPressed: () => onInfo(item),
       ),

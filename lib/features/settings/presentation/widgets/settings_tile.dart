@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
+
+// Leading icon and chevron, each 24 wide plus a 16 gap.
+const _titleMinLineWidth =
+    phraseNarrowestScreenWidth - 2 * spacingLg - 2 * (24 + spacingLg);
 
 /// A reusable settings row widget with consistent styling.
 ///
@@ -81,9 +86,10 @@ class SettingsTile extends StatelessWidget {
               child: leading!,
             )
           : null,
-      title: Text(
+      title: PhraseText(
         title,
         style: theme.textTheme.bodyLarge?.copyWith(color: effectiveTextColor),
+        minLineWidth: _titleMinLineWidth,
       ),
       subtitle:
           subtitleWidget ??

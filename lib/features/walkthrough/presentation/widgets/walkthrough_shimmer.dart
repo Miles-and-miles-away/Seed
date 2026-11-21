@@ -12,28 +12,43 @@ import '../walkthrough_items.dart';
 const _sweepGap = Duration(seconds: 1);
 const _sweepDuration = Duration(seconds: 1);
 
-/// Sweeps gold over [child] until [item] is found, then returns [child]
-/// untouched. The controller only runs during a sweep and sits idle for
-/// the gap, so no frames are requested in between.
+/// Sweeps gold over [child] until [item] and any [orItem] are found, then
+/// returns [child] untouched. The controller only runs during a sweep and
+/// sits idle for the gap, so no frames are requested in between.
 class WalkthroughShimmer extends ConsumerWidget {
   const WalkthroughShimmer({
     required this.item,
     required this.child,
+    this.orItem,
+    this.borderRadius,
     super.key,
   });
 
   final WalkthroughItem item;
   final Widget child;
 
+  /// A second item that keeps the sweep running while it is pending.
+  final WalkthroughItem? orItem;
+
+  /// Corners of the reduced-motion border, to match [child]'s shape.
+  final BorderRadius? borderRadius;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!ref.watch(walkthroughPendingProvider(item))) return child;
+    final other = orItem;
+    final pending =
+        ref.watch(walkthroughPendingProvider(item)) ||
+        (other != null && ref.watch(walkthroughPendingProvider(other)));
+    if (!pending) return child;
 
     if (MediaQuery.disableAnimationsOf(context) ||
         MediaQuery.reduceMotionOf(context)) {
       return DecoratedBox(
         position: DecorationPosition.foreground,
-        decoration: _border,
+        decoration: BoxDecoration(
+          border: _border,
+          borderRadius: borderRadius ?? borderRadiusMd,
+        ),
         child: child,
       );
     }
@@ -42,10 +57,7 @@ class WalkthroughShimmer extends ConsumerWidget {
   }
 }
 
-final _border = BoxDecoration(
-  border: Border.all(color: AppColors.gold, width: 2),
-  borderRadius: borderRadiusMd,
-);
+final _border = Border.all(color: AppColors.gold, width: 2);
 
 class _Sweep extends StatefulWidget {
   const _Sweep({required this.child});

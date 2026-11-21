@@ -1,14 +1,19 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/settings/data/models/action_reminder_model.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/settings/presentation/screens/settings_screen.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_section.dart';
+import 'package:seed_app/shared/providers/notification_providers.dart';
 
 import '../../../../helpers/test_helpers.dart';
 import '../../../walkthrough/walkthrough_test_support.dart';
@@ -17,15 +22,20 @@ void main() {
   Future<void> pumpScreen(
     WidgetTester tester, {
     UserSettingsModel settings = const UserSettingsModel(),
+    Locale locale = const Locale('en'),
+    Size size = const Size(1200, 2400),
+    List<Override> overrides = const [],
   }) async {
-    sizeViewport(tester);
+    sizeViewport(tester, size: size);
     await tester.pumpWidget(
       createTestWidget(
         child: const SettingsScreen(),
         overrides: [
+          userIdProvider.overrideWithValue('u'),
           userSettingsProvider.overrideWith((ref) => Stream.value(settings)),
+          ...overrides,
         ],
-        locale: const Locale('en'),
+        locale: locale,
       ),
     );
     await tester.pumpAndSettle();
@@ -39,15 +49,45 @@ void main() {
       expect(find.text('Settings'), findsOneWidget);
     });
 
-    testWidgets('does not render the hidden notifications section', (
+    testWidgets('notifications are one fixed reminders tile and style', (
       tester,
     ) async {
-      // Feature postponed: the section stays hidden until the reminder
-      // scheduling pipeline is actually wired up.
-      await pumpScreen(tester);
+      await pumpScreen(
+        tester,
+        settings: const UserSettingsModel(
+          notificationsEnabled: true,
+          actionRemindersEnabled: true,
+          actionReminders: {
+            'bag': ActionReminder(hour: 18, minute: 0, weekdays: [1, 3]),
+          },
+        ),
+        overrides: [
+          notificationPermissionStatusProvider.overrideWith((_) async => true),
+        ],
+      );
 
-      expect(find.text('NOTIFICATIONS'), findsNothing);
-      expect(find.byIcon(Icons.notifications_outlined), findsNothing);
+      expect(find.text('NOTIFICATIONS'), findsOneWidget);
+      expect(find.text('Manage reminders'), findsOneWidget);
+      expect(find.text('Daily challenge and action reminders'), findsOneWidget);
+      expect(find.text('Notification style'), findsOneWidget);
+      // The reminders themselves live on their own screen.
+      expect(find.text('Daily challenge reminder'), findsNothing);
+      expect(find.text('Reminder time'), findsNothing);
+    });
+
+    testWidgets('the reminders tile flags blocked notifications', (
+      tester,
+    ) async {
+      await pumpScreen(
+        tester,
+        settings: const UserSettingsModel(notificationsEnabled: true),
+        overrides: [
+          notificationPermissionStatusProvider.overrideWith((_) async => false),
+        ],
+      );
+
+      expect(find.text('Notifications are blocked'), findsOneWidget);
+      expect(find.text('Daily challenge and action reminders'), findsNothing);
     });
 
     testWidgets('renders preferences section', (tester) async {
@@ -117,6 +157,21 @@ void main() {
       },
     );
 
+    testWidgets('theme title stays on one line beside the selector at 320pt', (
+      tester,
+    ) async {
+      await loadTestFonts();
+      await pumpScreen(
+        tester,
+        locale: const Locale('es'),
+        size: const Size(320, 800),
+      );
+
+      final title = tester.renderObject<RenderParagraph>(find.text('Tema'));
+      final oneLine = title.text.style!.fontSize! * title.text.style!.height!;
+      expect(title.size.height, lessThanOrEqualTo(oneLine + 0.5));
+    });
+
     testWidgets('shows account setting', (tester) async {
       await pumpScreen(tester);
 
@@ -150,7 +205,7 @@ void main() {
     testWidgets('renders multiple SettingsSections', (tester) async {
       await pumpScreen(tester);
 
-      expect(find.byType(SettingsSection), findsNWidgets(5));
+      expect(find.byType(SettingsSection), findsNWidgets(6));
     });
 
     testWidgets('renders language icon', (tester) async {
@@ -215,11 +270,14 @@ void main() {
         );
         await tester.pumpWidget(
           ProviderScope(
-            overrides: walkthroughOverrides(
-              settings: repo.watchSettings(walkthroughTestUid),
-              firestore: firestore,
-              analytics: analytics,
-            ),
+            overrides: [
+              languageStoreOverride(),
+              ...walkthroughOverrides(
+                settings: repo.watchSettings(walkthroughTestUid),
+                firestore: firestore,
+                analytics: analytics,
+              ),
+            ],
             child: MaterialApp.router(
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
@@ -285,7 +343,7 @@ void main() {
     testWidgets('analytics switch reflects enabled state', (tester) async {
       await pumpScreen(tester);
 
-      final switchWidget = tester.widget<Switch>(find.byType(Switch).first);
+      final switchWidget = tester.widget<Switch>(find.byType(Switch).last);
       expect(switchWidget.value, isTrue);
     });
 
@@ -295,7 +353,7 @@ void main() {
         settings: const UserSettingsModel(analyticsEnabled: false),
       );
 
-      final switchWidget = tester.widget<Switch>(find.byType(Switch).first);
+      final switchWidget = tester.widget<Switch>(find.byType(Switch).last);
       expect(switchWidget.value, isFalse);
     });
   });

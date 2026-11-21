@@ -4,6 +4,8 @@ import { getAuth } from 'firebase-admin/auth';
 import { logger } from 'firebase-functions';
 
 const USERS_COLLECTION = 'users';
+// Matches the client SDK's own requires-recent-login window.
+const MAX_AUTH_AGE_SECONDS = 5 * 60;
 
 /** Minimal Auth surface needed for account deletion. */
 export interface AuthDeleter {
@@ -26,11 +28,23 @@ export async function handleDeleteUserAccount(
   db: FirebaseFirestore.Firestore,
   auth: AuthDeleter,
   uid: string | undefined,
+  authTimeSeconds: number | undefined,
+  nowSeconds: number = Date.now() / 1000,
 ): Promise<DeleteUserAccountResult> {
   if (!uid) {
     throw new HttpsError(
       'unauthenticated',
       'Authentication is required to delete an account.',
+    );
+  }
+  // A leaked or long-lived session must not be enough to erase an account.
+  if (
+    authTimeSeconds === undefined ||
+    nowSeconds - authTimeSeconds > MAX_AUTH_AGE_SECONDS
+  ) {
+    throw new HttpsError(
+      'failed-precondition',
+      'requires-recent-login',
     );
   }
 
@@ -99,5 +113,6 @@ export const deleteUserAccount = onCall(
       getFirestore(),
       getAuth(),
       request.auth?.uid,
+      request.auth?.token.auth_time,
     ),
 );

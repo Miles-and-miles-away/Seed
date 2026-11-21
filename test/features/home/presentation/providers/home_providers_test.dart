@@ -24,8 +24,8 @@ void main() {
           builder: (_, _) => const Text('progress'),
         ),
         GoRoute(
-          path: appRoutes.mascot,
-          builder: (_, _) => const Text('mascot'),
+          path: appRoutes.explore,
+          builder: (_, _) => const Text('explore'),
         ),
       ],
     );
@@ -52,7 +52,7 @@ void main() {
     expect(emitted, [0, 1]);
 
     // Moving between two other tabs is not a departure either.
-    router.go(appRoutes.mascot);
+    router.go(appRoutes.explore);
     await tester.pumpAndSettle();
     expect(emitted, [0, 1]);
 

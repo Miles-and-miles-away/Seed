@@ -925,28 +925,43 @@ abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   }
 }
 
-@ProviderFor(MascotAnimationTrigger)
-final mascotAnimationTriggerProvider = MascotAnimationTriggerProvider._();
+/// Whether an evolution or egg celebration is waiting to play; other
+/// mascot reactions stand aside for it.
 
-final class MascotAnimationTriggerProvider
-    extends $NotifierProvider<MascotAnimationTrigger, bool> {
-  MascotAnimationTriggerProvider._()
+@ProviderFor(mascotCelebrationPending)
+final mascotCelebrationPendingProvider = MascotCelebrationPendingProvider._();
+
+/// Whether an evolution or egg celebration is waiting to play; other
+/// mascot reactions stand aside for it.
+
+final class MascotCelebrationPendingProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether an evolution or egg celebration is waiting to play; other
+  /// mascot reactions stand aside for it.
+  MascotCelebrationPendingProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'mascotAnimationTriggerProvider',
+        name: r'mascotCelebrationPendingProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$mascotAnimationTriggerHash();
+  String debugGetCreateSourceHash() => _$mascotCelebrationPendingHash();
 
   @$internal
   @override
-  MascotAnimationTrigger create() => MascotAnimationTrigger();
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return mascotCelebrationPending(ref);
+  }
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -957,26 +972,117 @@ final class MascotAnimationTriggerProvider
   }
 }
 
-String _$mascotAnimationTriggerHash() =>
-    r'5a731cd1cd6cb04ba255ed8ef6f5d59e5a05b4fb';
+String _$mascotCelebrationPendingHash() =>
+    r'd63a2048618d9a75f0f1274142f7933840763e06';
 
-abstract class _$MascotAnimationTrigger extends $Notifier<bool> {
-  bool build();
+/// The last log date whose gap the welcome-back smile has already
+/// greeted in this app process.
+
+@ProviderFor(WelcomeBackSmiled)
+final welcomeBackSmiledProvider = WelcomeBackSmiledProvider._();
+
+/// The last log date whose gap the welcome-back smile has already
+/// greeted in this app process.
+final class WelcomeBackSmiledProvider
+    extends $NotifierProvider<WelcomeBackSmiled, DateTime?> {
+  /// The last log date whose gap the welcome-back smile has already
+  /// greeted in this app process.
+  WelcomeBackSmiledProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'welcomeBackSmiledProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$welcomeBackSmiledHash();
+
+  @$internal
+  @override
+  WelcomeBackSmiled create() => WelcomeBackSmiled();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DateTime? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DateTime?>(value),
+    );
+  }
+}
+
+String _$welcomeBackSmiledHash() => r'ac46cb6bd66149f18d23cf4ad7367cf7e1478e6f';
+
+/// The last log date whose gap the welcome-back smile has already
+/// greeted in this app process.
+
+abstract class _$WelcomeBackSmiled extends $Notifier<DateTime?> {
+  DateTime? build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<bool, bool>;
+    final ref = this.ref as $Ref<DateTime?, DateTime?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
+              AnyNotifier<DateTime?, DateTime?>,
+              DateTime?,
               Object?,
               Object?
             >;
     return element.handleCreate(ref, build);
   }
 }
+
+/// Whether Home's mascot should play the welcome-back smile now.
+
+@ProviderFor(welcomeBackSmileDue)
+final welcomeBackSmileDueProvider = WelcomeBackSmileDueProvider._();
+
+/// Whether Home's mascot should play the welcome-back smile now.
+
+final class WelcomeBackSmileDueProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether Home's mascot should play the welcome-back smile now.
+  WelcomeBackSmileDueProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'welcomeBackSmileDueProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$welcomeBackSmileDueHash();
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return welcomeBackSmileDue(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$welcomeBackSmileDueHash() =>
+    r'100f34bfba39a9237ef0d726c2c3b201203bbc01';
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///

@@ -9,6 +9,7 @@ import 'package:seed_app/features/auth/data/datasources/auth_remote_datasource.d
 import 'package:seed_app/features/auth/data/datasources/user_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
 
@@ -73,10 +74,25 @@ String? userId(Ref ref) {
   return ref.watch(authStateChangesProvider.select((auth) => auth.value?.uid));
 }
 
+/// Creates the signed-in user's doc if the server reports it missing.
+///
+/// Keyed on [userIdProvider] so it runs once per sign-in, not on every
+/// auth event. Sign-in creates the doc itself when online; this covers a
+/// sign-in whose user read failed offline, which otherwise left a
+/// signed-in account with no doc and no way to recover.
+@riverpod
+Future<void> userDocRecovery(Ref ref) async {
+  if (ref.watch(userIdProvider) == null) return;
+  await ref
+      .read(authRepositoryProvider)
+      .ensureUserDoc(language: ref.read(currentLanguageProvider));
+}
+
 /// Stream of the current app user from Firestore.
 /// Updates in real-time when user data changes.
 @riverpod
 Stream<AppUserModel?> currentUser(Ref ref) {
+  ref.listen(userDocRecoveryProvider, (_, _) {});
   final authState = ref.watch(authStateChangesProvider);
 
   return authState.when(
@@ -106,6 +122,9 @@ class AuthNotifier extends _$AuthNotifier {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
+  /// The app language, which a newly created account starts in.
+  String get _language => ref.read(currentLanguageProvider);
+
   /// Sets loading, runs [body], keeps its outcome unless disposed meanwhile.
   Future<void> _guarded(Future<void> Function() body) async {
     state = const AsyncValue.loading();
@@ -119,7 +138,7 @@ class AuthNotifier extends _$AuthNotifier {
       _guarded(() async {
         await ref
             .read(authRepositoryProvider)
-            .signInWithEmailAndPassword(email, password);
+            .signInWithEmailAndPassword(email, password, language: _language);
         await ref.read(analyticsServiceProvider).logLogin(method: 'email');
       });
 
@@ -129,13 +148,19 @@ class AuthNotifier extends _$AuthNotifier {
       _guarded(() async {
         await ref
             .read(authRepositoryProvider)
-            .createUserWithEmailAndPassword(email, password);
+            .createUserWithEmailAndPassword(
+              email,
+              password,
+              language: _language,
+            );
         await ref.read(analyticsServiceProvider).logSignUp(method: 'email');
       });
 
   /// Signs in with Google.
   Future<void> signInWithGoogle() => _guarded(() async {
-    await ref.read(authRepositoryProvider).signInWithGoogle();
+    await ref
+        .read(authRepositoryProvider)
+        .signInWithGoogle(language: _language);
     // Note: For social sign-in, we track as login since we can't easily
     // distinguish first-time from returning users without modifying the repo.
     await ref.read(analyticsServiceProvider).logLogin(method: 'google');
@@ -143,7 +168,7 @@ class AuthNotifier extends _$AuthNotifier {
 
   /// Signs in with Apple.
   Future<void> signInWithApple() => _guarded(() async {
-    await ref.read(authRepositoryProvider).signInWithApple();
+    await ref.read(authRepositoryProvider).signInWithApple(language: _language);
     await ref.read(analyticsServiceProvider).logLogin(method: 'apple');
   });
 

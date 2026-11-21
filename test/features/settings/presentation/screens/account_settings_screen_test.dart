@@ -1,13 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/settings/presentation/screens/account_settings_screen.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_section.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
 
 import '../../../../helpers/test_helpers.dart';
+
+class _MockAuthRepository extends Mock implements AuthRepository {}
 
 void main() {
   late MockFirebaseAuth mockFirebaseAuth;
@@ -24,6 +30,7 @@ void main() {
     WidgetTester tester, {
     AppUserModel? currentUser,
     bool isEmailPasswordUser = true,
+    AuthRepository? repository,
   }) async {
     when(
       () => mockUserInfo.providerId,
@@ -36,7 +43,11 @@ void main() {
       createTestWidget(
         child: const AccountSettingsScreen(),
         firebaseAuth: mockFirebaseAuth,
-        overrides: [userOverride(currentUser)],
+        overrides: [
+          userOverride(currentUser),
+          if (repository != null)
+            authRepositoryProvider.overrideWithValue(repository),
+        ],
         locale: const Locale('en'),
       ),
     );
@@ -320,6 +331,64 @@ void main() {
       expect(find.byType(GoalPickerSheet), findsOneWidget);
       expect(find.text('Save the world'), findsOneWidget);
       expect(find.text('Write your own'), findsOneWidget);
+    });
+  });
+
+  group('deleting the account', () {
+    late _MockAuthRepository repository;
+
+    setUp(() => repository = _MockAuthRepository());
+
+    Future<void> confirmDelete(WidgetTester tester) async {
+      await tester.tap(find.text('Delete Account'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete My Account'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('a cancelled Apple prompt returns to the screen quietly', (
+      tester,
+    ) async {
+      when(
+        () => repository.deleteAccount(),
+      ).thenThrow(AuthException(code: 'sign-in-cancelled'));
+      await pumpScreen(
+        tester,
+        currentUser: testUser,
+        isEmailPasswordUser: false,
+        repository: repository,
+      );
+
+      await confirmDelete(tester);
+
+      verify(() => repository.deleteAccount()).called(1);
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(find.byType(SnackBar), findsNothing);
+    });
+
+    testWidgets('a failed re-auth re-opens the dialog and keeps the email', (
+      tester,
+    ) async {
+      when(
+        () => repository.reauthenticateWithEmailPassword(any(), any()),
+      ).thenThrow(FirebaseAuthException(code: 'wrong-password'));
+      await pumpScreen(tester, currentUser: testUser, repository: repository);
+
+      await tester.tap(find.text('Delete Account'));
+      await tester.pumpAndSettle();
+      final fields = find.byType(TextFormField);
+      await tester.enterText(fields.first, 'user@example.com');
+      await tester.enterText(fields.last, 'wrong');
+      await tester.tap(find.text('Delete My Account'));
+      await tester.pumpAndSettle();
+
+      verifyNever(() => repository.deleteAccount());
+      expect(find.byType(AlertDialog), findsOneWidget);
+      expect(
+        find.widgetWithText(TextFormField, 'user@example.com'),
+        findsOneWidget,
+      );
+      expect(find.byType(SnackBar), findsOneWidget);
     });
   });
 }

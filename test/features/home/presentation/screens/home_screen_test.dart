@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_theme.dart';
+import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
 import 'package:seed_app/features/home/presentation/providers/home_providers.dart';
 import 'package:seed_app/features/home/presentation/screens/home_screen.dart';
+import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
+import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -13,22 +22,25 @@ import '../../../../helpers/test_helpers.dart';
 /// Stubs the router-backed visit signal so the home screen can be pumped in
 /// isolation without initializing Firebase (the real provider reads the
 /// router, which requires a Firebase app).
+const _mascotStub = 'mascot-stub';
+
 class _StubHomeVisitSignal extends HomeVisitSignal {
   @override
   int build() => 0;
 }
 
 void main() {
-  setUpAll(() {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    stubPathProvider();
-  });
+  setUpAll(TestWidgetsFlutterBinding.ensureInitialized);
 
   group('HomeScreen', () {
     // Helper to pump widget and wait for initial frame
     // Note: We use pump() instead of pumpAndSettle() because the SDG carousel
     // and MascotAvatar contain infinite animations that never settle.
-    Future<void> pumpHomeScreen(WidgetTester tester) async {
+    Future<void> pumpHomeScreen(
+      WidgetTester tester, {
+      Locale? locale,
+      TextScaler textScaler = TextScaler.noScaling,
+    }) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
@@ -36,10 +48,16 @@ void main() {
             hasMascotProvider.overrideWithValue(false),
             homeVisitSignalProvider.overrideWith(_StubHomeVisitSignal.new),
           ],
-          child: const MaterialApp(
+          child: MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: HomeScreen(),
+            locale: locale,
+            theme: appTheme(Brightness.light),
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: textScaler),
+              child: child!,
+            ),
+            home: const HomeScreen(),
           ),
         ),
       );
@@ -79,6 +97,13 @@ void main() {
         WalkthroughItem.dailyChallenge,
         WalkthroughItem.sdg,
       });
+      expect(
+        find.ancestor(
+          of: find.byType(SettingsIconButton),
+          matching: find.byType(WalkthroughShimmer),
+        ),
+        findsNothing,
+      );
 
       await disposeAndFlush(tester);
     });
@@ -105,11 +130,70 @@ void main() {
       await disposeAndFlush(tester);
     });
 
+    testWidgets('the mascot opens as a labelled button', (tester) async {
+      final semantics = tester.ensureSemantics();
+      final router = GoRouter(
+        initialLocation: appRoutes.home,
+        routes: [
+          GoRoute(
+            path: appRoutes.home,
+            builder: (_, _) => const HomeScreen(),
+            routes: [
+              GoRoute(
+                path: 'mascot',
+                builder: (_, _) => const Scaffold(body: Text(_mascotStub)),
+              ),
+            ],
+          ),
+        ],
+      );
+      addTearDown(router.dispose);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            languageStoreOverride(),
+            homeVisitSignalProvider.overrideWith(_StubHomeVisitSignal.new),
+            hasMascotProvider.overrideWithValue(true),
+            activeMascotProvider.overrideWith(
+              (_) => Stream.value(
+                const MascotModel(id: 'm', speciesId: 'seed', name: 'Pip'),
+              ),
+            ),
+            userOverride(const AppUserModel(uid: 'u', email: 'e')),
+            // An SVG keeps MascotDisplay off Rive.
+            activeMascotAssetPathProvider.overrideWith(
+              (_) => 'assets/images/mascot/seed_stage1.svg',
+            ),
+          ],
+          child: MaterialApp.router(
+            routerConfig: router,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: appTheme(Brightness.light),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+
+      final button = find.bySemanticsLabel('Your mascot');
+      expect(button, findsOneWidget);
+      expect(tester.getSemantics(button).flagsCollection.isButton, isTrue);
+
+      await tester.tap(find.byType(MascotDisplay));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text(_mascotStub), findsOneWidget);
+
+      semantics.dispose();
+      await disposeAndFlush(tester);
+    });
+
     testWidgets('displays SDG section header', (tester) async {
       await pumpHomeScreen(tester);
 
       // Verify SDG section
-      expect(find.text('Explore the SDG Goals'), findsOneWidget);
+      expect(find.text('Discover the SDGs'), findsOneWidget);
       expect(
         find.text('Tap to learn about the UN Sustainable Development Goals'),
         findsOneWidget,
@@ -123,7 +207,7 @@ void main() {
     ) async {
       await pumpHomeScreen(tester);
 
-      expect(find.text('My Goal'), findsOneWidget);
+      expect(find.text('MY GOAL'), findsOneWidget);
       expect(find.text('Tap to set your sustainability goal'), findsOneWidget);
 
       await disposeAndFlush(tester);
@@ -183,7 +267,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
 
       // Content should still be visible after scrolling
-      expect(find.text('Explore the SDG Goals'), findsOneWidget);
+      expect(find.text('Discover the SDGs'), findsOneWidget);
 
       await disposeAndFlush(tester);
     });
@@ -206,6 +290,95 @@ void main() {
       expect(sliverAppBar.centerTitle, isTrue);
 
       await disposeAndFlush(tester);
+    });
+
+    testWidgets('app bar shows the settings gear after the mail icon', (
+      tester,
+    ) async {
+      await pumpHomeScreen(tester);
+
+      final actions = tester
+          .widget<SliverAppBar>(find.byType(SliverAppBar))
+          .actions!;
+      expect(actions.map((a) => a.runtimeType), [
+        MailIconButton,
+        SettingsIconButton,
+      ]);
+      expect(find.byTooltip('Settings'), findsOneWidget);
+      expect(
+        tester.getCenter(find.byType(SettingsIconButton)).dx,
+        greaterThan(tester.getCenter(find.byType(MailIconButton)).dx),
+      );
+
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('app bar actions meet the tap target guidelines', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      await pumpHomeScreen(tester);
+
+      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+      // The guideline skips controls on the screen edge, so measure the gear.
+      expect(
+        tester.getSize(find.byType(SettingsIconButton)),
+        const Size.square(kMinInteractiveDimension),
+      );
+
+      semantics.dispose();
+      await disposeAndFlush(tester);
+    });
+
+    group('app bar title with two actions', () {
+      setUpAll(loadTestFonts);
+
+      const locales = [Locale('ja'), Locale('es')];
+      const textScales = [1.0, 2.0];
+
+      for (final width in testPhoneWidths) {
+        for (final locale in locales) {
+          for (final scale in textScales) {
+            testWidgets('stays whole and centred at ${width}pt, '
+                '${locale.languageCode}, text scale $scale', (tester) async {
+              sizeViewport(tester, size: Size(width, 800));
+              await pumpHomeScreen(
+                tester,
+                locale: locale,
+                textScaler: TextScaler.linear(scale),
+              );
+
+              expect(tester.takeException(), isNull);
+              final appBar = find.byType(SliverAppBar);
+              final titleText = find.descendant(
+                of: appBar,
+                matching: find.text('Seed'),
+              );
+              final title = tester.renderObject<RenderParagraph>(titleText);
+              expect(title.didExceedMaxLines, isFalse);
+              expect(
+                title.size.width,
+                greaterThanOrEqualTo(
+                  title.getMaxIntrinsicWidth(double.infinity) - 0.01,
+                ),
+              );
+              final left = tester
+                  .getRect(
+                    find.descendant(
+                      of: appBar,
+                      matching: find.byIcon(Icons.eco),
+                    ),
+                  )
+                  .left;
+              final right = tester.getRect(titleText).right;
+              expect((left + right) / 2, closeTo(width / 2, 0.5));
+
+              await disposeAndFlush(tester);
+            });
+          }
+        }
+      }
     });
   });
 }

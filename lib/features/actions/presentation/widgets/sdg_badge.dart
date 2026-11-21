@@ -10,22 +10,26 @@ List<int> parsedSdgNumbers(List<String> sdgNumbers) =>
       ..sort();
 
 /// A numbered circle in the goal's colour.
-Widget sdgNumberBadge(
-  String label,
-  Color color, {
-  double diameter = 18,
-  double fontSize = 9,
-}) {
-  return Container(
+class SdgNumberBadge extends StatelessWidget {
+  const SdgNumberBadge(this.label, this.color, {this.diameter = 22, super.key});
+
+  final String label;
+  final Color color;
+  final double diameter;
+
+  @override
+  Widget build(BuildContext context) => Container(
     width: diameter,
     height: diameter,
+    padding: const EdgeInsets.all(2),
     decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-    child: Center(
+    // Shrinks only when "+14" or large accessibility text overfills it.
+    child: FittedBox(
+      fit: BoxFit.scaleDown,
       child: Text(
         label,
-        style: TextStyle(
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(
           color: Colors.white,
-          fontSize: fontSize,
           fontWeight: FontWeight.bold,
         ),
       ),

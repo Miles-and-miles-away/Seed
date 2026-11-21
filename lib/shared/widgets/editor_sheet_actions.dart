@@ -18,7 +18,7 @@ class EntryPreviewLine extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: spacingSm),
       child: Text(
-        l10n.calculatorEntryPreview(formatCO2Compact(grams)),
+        l10n.calculatorEntryPreview(formatCO2Compact(grams, l10n.localeName)),
         style: theme.textTheme.titleSmall?.copyWith(
           color: theme.colorScheme.primary,
           fontWeight: FontWeight.bold,

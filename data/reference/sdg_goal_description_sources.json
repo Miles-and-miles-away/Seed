@@ -1,0 +1,201 @@
+{
+  "metadata": {
+    "title": "SDG Goal Description Sources",
+    "description": "Sources for the figures in the goal descriptions of data/app/sdg_goals.json (description, descriptionJa, descriptionEs). Each entry gives the figure as written in the EN description, the publication it was verified against and the year the figure refers to.",
+    "notes": "Recheck when a newer edition of a source is published; the JA and ES descriptions carry the same figures."
+  },
+  "figures": [
+    {
+      "goal": 1,
+      "figureEn": "an estimated 1 in 10",
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (World Bank data)",
+      "publisher": "UN DESA / World Bank",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2026
+    },
+    {
+      "goal": 1,
+      "figureEn": "more than 800 million",
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (World Bank data)",
+      "publisher": "UN DESA / World Bank",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2026
+    },
+    {
+      "goal": 1,
+      "figureEn": "less than $3 a day",
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (World Bank data)",
+      "publisher": "UN DESA / World Bank",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2026
+    },
+    {
+      "goal": 1,
+      "figureEn": "Most of them live in sub-Saharan Africa",
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (World Bank data)",
+      "publisher": "UN DESA / World Bank",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2026
+    },
+    {
+      "goal": 2,
+      "figureEn": "peaked in 2022 and has fallen for three years in a row",
+      "source": "The State of Food Security and Nutrition in the World 2026",
+      "publisher": "FAO, IFAD, UNICEF, WFP and WHO",
+      "url": "https://www.fao.org/newsroom/detail/sofi-2026--hunger-not-inevitable--fao-says-as-global-hunger-report-shows-progress/en",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 2,
+      "figureEn": "7.8%",
+      "source": "The State of Food Security and Nutrition in the World 2026",
+      "publisher": "FAO, IFAD, UNICEF, WFP and WHO",
+      "url": "https://www.fao.org/newsroom/detail/sofi-2026--hunger-not-inevitable--fao-says-as-global-hunger-report-shows-progress/en",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 2,
+      "figureEn": "about a quarter of the world's workers",
+      "source": "World Development Indicators: Employment in agriculture (% of total employment) (modeled ILO estimate), SL.AGR.EMPL.ZS",
+      "publisher": "World Bank / International Labour Organization",
+      "url": "https://data.worldbank.org/indicator/SL.AGR.EMPL.ZS",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 4,
+      "figureEn": "Between 2000 and 2015, major progress",
+      "source": "UIS and GEM Report data (VIEW out-of-school portal)",
+      "publisher": "UNESCO",
+      "url": "https://www.unesco.org/en/education/view/outofschool",
+      "referenceYear": 2015
+    },
+    {
+      "goal": 4,
+      "figureEn": "Progress has since stalled",
+      "source": "UIS and GEM Report data (VIEW out-of-school portal)",
+      "publisher": "UNESCO",
+      "url": "https://www.unesco.org/en/education/view/outofschool",
+      "referenceYear": 2024
+    },
+    {
+      "goal": 4,
+      "figureEn": "273 million",
+      "source": "UIS and GEM Report data (VIEW out-of-school portal)",
+      "publisher": "UNESCO",
+      "url": "https://www.unesco.org/en/education/view/outofschool",
+      "referenceYear": 2024
+    },
+    {
+      "goal": 6,
+      "figureEn": "roughly half of the world's population",
+      "source": "The Sustainable Development Goals Report 2024, Goal 6",
+      "publisher": "UN DESA",
+      "url": "https://unstats.un.org/sdgs/report/2024/Goal-06/",
+      "referenceYear": 2022
+    },
+    {
+      "goal": 6,
+      "figureEn": "projected to increase with the rise of global temperatures",
+      "source": "Goal 6: Ensure access to water and sanitation for all",
+      "publisher": "United Nations",
+      "url": "https://www.un.org/sustainabledevelopment/water-and-sanitation/",
+      "referenceYear": null
+    },
+    {
+      "goal": 6,
+      "figureEn": "961 million",
+      "source": "The Sustainable Development Goals Report 2026, Goal 6",
+      "publisher": "UN DESA",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-06/",
+      "referenceYear": 2024
+    },
+    {
+      "goal": 6,
+      "figureEn": "1 in 4 people",
+      "source": "Progress on Household Drinking Water and Sanitation 2000-2024",
+      "publisher": "WHO/UNICEF Joint Monitoring Programme",
+      "url": "https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef",
+      "referenceYear": 2024
+    },
+    {
+      "goal": 8,
+      "figureEn": "4.9%",
+      "source": "The Sustainable Development Goals Report 2026, Goal 8",
+      "publisher": "UN DESA",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-08/",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 8,
+      "figureEn": "nearly 58%",
+      "source": "The Sustainable Development Goals Report 2026, Goal 8",
+      "publisher": "UN DESA",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-08/",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 8,
+      "figureEn": "284 million",
+      "source": "The Sustainable Development Goals Report 2026, Goal 1 (indicator 1.1.1, ILO data)",
+      "publisher": "UN DESA / International Labour Organization",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-01/",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 8,
+      "figureEn": "one in five young people",
+      "source": "The Sustainable Development Goals Report 2026, Goal 8",
+      "publisher": "UN DESA",
+      "url": "https://unstats.un.org/sdgs/report/2026/Goal-08/",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 10,
+      "figureEn": "Income inequality remains very high",
+      "source": "World Inequality Report 2026, Executive Summary",
+      "publisher": "World Inequality Lab",
+      "url": "https://wir2026.wid.world/www-site/uploads/2025/11/WIR26_Executive_Summary_English.pdf",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 10,
+      "figureEn": "53%",
+      "source": "World Inequality Report 2026, Executive Summary",
+      "publisher": "World Inequality Lab",
+      "url": "https://wir2026.wid.world/www-site/uploads/2025/11/WIR26_Executive_Summary_English.pdf",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 10,
+      "figureEn": "8%",
+      "source": "World Inequality Report 2026, Executive Summary",
+      "publisher": "World Inequality Lab",
+      "url": "https://wir2026.wid.world/www-site/uploads/2025/11/WIR26_Executive_Summary_English.pdf",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 10,
+      "figureEn": "three-quarters",
+      "source": "World Inequality Report 2026, Executive Summary",
+      "publisher": "World Inequality Lab",
+      "url": "https://wir2026.wid.world/www-site/uploads/2025/11/WIR26_Executive_Summary_English.pdf",
+      "referenceYear": 2025
+    },
+    {
+      "goal": 12,
+      "figureEn": "39%",
+      "source": "The Sustainable Development Goals Extended Report 2026, Goal 6 (indicator 6.4.1, FAO AQUASTAT data)",
+      "publisher": "UN DESA / FAO",
+      "url": "https://unstats.un.org/sdgs/report/2026/extended-report/Extended-Report-2026_Goal-6.pdf",
+      "referenceYear": 2023
+    },
+    {
+      "goal": 15,
+      "figureEn": "32%",
+      "source": "Global Forest Resources Assessment 2025, Key findings",
+      "publisher": "FAO",
+      "url": "https://www.fao.org/newsroom/detail/global-deforestation-slows--but-forests-remain-under-pressure--fao-report-shows/en",
+      "referenceYear": 2025
+    }
+  ]
+}

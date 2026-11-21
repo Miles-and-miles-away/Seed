@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 
@@ -19,6 +20,7 @@ class MailIconButton extends ConsumerWidget {
       item: WalkthroughItem.ecoFact,
       child: IconButton(
         onPressed: () => context.push(appRoutes.dailyFact),
+        tooltip: AppLocalizations.of(context).ecoFactInboxTitle,
         icon: Badge(
           isLabelVisible: hasUnread,
           smallSize: 10,

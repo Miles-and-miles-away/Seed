@@ -333,6 +333,59 @@ final class UserIdProvider
 
 String _$userIdHash() => r'9d3abcc21b5e6a8022ddc123b670044df71eaa0c';
 
+/// Creates the signed-in user's doc if the server reports it missing.
+///
+/// Keyed on [userIdProvider] so it runs once per sign-in, not on every
+/// auth event. Sign-in creates the doc itself when online; this covers a
+/// sign-in whose user read failed offline, which otherwise left a
+/// signed-in account with no doc and no way to recover.
+
+@ProviderFor(userDocRecovery)
+final userDocRecoveryProvider = UserDocRecoveryProvider._();
+
+/// Creates the signed-in user's doc if the server reports it missing.
+///
+/// Keyed on [userIdProvider] so it runs once per sign-in, not on every
+/// auth event. Sign-in creates the doc itself when online; this covers a
+/// sign-in whose user read failed offline, which otherwise left a
+/// signed-in account with no doc and no way to recover.
+
+final class UserDocRecoveryProvider
+    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+    with $FutureModifier<void>, $FutureProvider<void> {
+  /// Creates the signed-in user's doc if the server reports it missing.
+  ///
+  /// Keyed on [userIdProvider] so it runs once per sign-in, not on every
+  /// auth event. Sign-in creates the doc itself when online; this covers a
+  /// sign-in whose user read failed offline, which otherwise left a
+  /// signed-in account with no doc and no way to recover.
+  UserDocRecoveryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userDocRecoveryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$userDocRecoveryHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<void> create(Ref ref) {
+    return userDocRecovery(ref);
+  }
+}
+
+String _$userDocRecoveryHash() => r'55c5bec53105b9852f511bb0471b6b867cf4d52a';
+
 /// Stream of the current app user from Firestore.
 /// Updates in real-time when user data changes.
 
@@ -378,7 +431,7 @@ final class CurrentUserProvider
   }
 }
 
-String _$currentUserHash() => r'ff66b69d4f47d38fb10700fc72ecc47921396388';
+String _$currentUserHash() => r'7849a8067e18dfcd4366cbd11ac1b4531da58698';
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.
@@ -437,7 +490,7 @@ final class AuthNotifierProvider
   }
 }
 
-String _$authNotifierHash() => r'3530c15cede33e29db3ef01b99c0c3dc1be16869';
+String _$authNotifierHash() => r'4068d5f75273ed445efd4b8250bdb22497d311dc';
 
 /// Notifier that handles authentication actions.
 /// Uses AsyncValue to track loading and error states.

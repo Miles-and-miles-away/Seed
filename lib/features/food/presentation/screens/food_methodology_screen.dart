@@ -29,6 +29,9 @@ class FoodMethodologyScreen extends ConsumerWidget {
         data: (items) => MarkdownWidget(
           data: appendExternalLinkArrow(_methodologyMarkdown(l10n, items)),
           padding: const EdgeInsets.all(spacingXxl),
+          markdownGenerator: phraseMarkdownGenerator(
+            bodyWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
+          ),
           config: markdownConfigFor(
             context,
           ).copy(configs: [externalLinkConfig(context)]),

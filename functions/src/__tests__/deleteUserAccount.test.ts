@@ -4,6 +4,8 @@ import {
 } from '../deleteUserAccount';
 
 const UID = 'user-123';
+const NOW = 1_800_000_000;
+const FRESH = NOW - 60;
 
 // --- Mock firebase-admin modules ---
 
@@ -66,6 +68,8 @@ describe('handleDeleteUserAccount', () => {
       db,
       auth,
       UID,
+      FRESH,
+      NOW,
     );
 
     expect(collection).toHaveBeenCalledWith('users');
@@ -81,7 +85,7 @@ describe('handleDeleteUserAccount', () => {
       const { db, recursiveDelete, deleteUser, auth } =
         makeMocks();
 
-      await handleDeleteUserAccount(db, auth, UID);
+      await handleDeleteUserAccount(db, auth, UID, FRESH, NOW);
 
       const deleteDataOrder =
         recursiveDelete.mock.invocationCallOrder[0];
@@ -98,13 +102,31 @@ describe('handleDeleteUserAccount', () => {
       makeMocks();
 
     await expectHttpsError(
-      handleDeleteUserAccount(db, auth, undefined),
+      handleDeleteUserAccount(db, auth, undefined, FRESH, NOW),
       'unauthenticated',
     );
 
     expect(recursiveDelete).not.toHaveBeenCalled();
     expect(deleteUser).not.toHaveBeenCalled();
   });
+
+  for (const [label, authTime] of [
+    ['a stale sign-in', NOW - 301],
+    ['a missing auth_time', undefined],
+  ] as const) {
+    it(`rejects ${label} without deleting`, async () => {
+      const { db, recursiveDelete, deleteUser, auth } =
+        makeMocks();
+
+      await expectHttpsError(
+        handleDeleteUserAccount(db, auth, UID, authTime, NOW),
+        'failed-precondition',
+      );
+
+      expect(recursiveDelete).not.toHaveBeenCalled();
+      expect(deleteUser).not.toHaveBeenCalled();
+    });
+  }
 
   it(
     'keeps the Auth user when Firestore deletion fails',
@@ -116,7 +138,7 @@ describe('handleDeleteUserAccount', () => {
       );
 
       await expectHttpsError(
-        handleDeleteUserAccount(db, auth, UID),
+        handleDeleteUserAccount(db, auth, UID, FRESH, NOW),
         'internal',
       );
 
@@ -138,6 +160,8 @@ describe('handleDeleteUserAccount', () => {
         db,
         auth,
         UID,
+        FRESH,
+        NOW,
       );
 
       expect(result).toEqual({ success: true });
@@ -154,7 +178,7 @@ describe('handleDeleteUserAccount', () => {
       deleteUser.mockRejectedValue(error);
 
       await expectHttpsError(
-        handleDeleteUserAccount(db, auth, UID),
+        handleDeleteUserAccount(db, auth, UID, FRESH, NOW),
         'internal',
       );
     },

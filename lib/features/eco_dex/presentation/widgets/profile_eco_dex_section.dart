@@ -10,6 +10,7 @@ import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_provide
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_sheet.dart';
 import 'package:seed_app/features/progress/presentation/screens/progress_screen.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Compact Eco-Dex preview shown inside the Profile screen. Shows up
 /// to [_maxThumbs] most recent discoveries plus a "+N more" chip and
@@ -75,7 +76,7 @@ class ProfileEcoDexSection extends ConsumerWidget {
               if (dataAsync.isLoading)
                 const _LoadingRow()
               else if (recent.isEmpty)
-                Text(
+                PhraseText(
                   l10n.ecoDexEmptyHint,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,

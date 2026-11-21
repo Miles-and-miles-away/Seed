@@ -151,7 +151,7 @@ Used for: sdg_world category assets only
 
 <!-- WHY only 12 of 17: SDGs 4, 8, 9, 16, 17 are marked isLearnOnly
      in the app (no trackable actions). We don't generate art assets
-     for learn-only SDGs, but their colors are still in app_colors.dart
+     for learn-only SDGs, but their colours are still in sdg_goals.json
      for the SDG info screens. -->
 
 #### Neutrals

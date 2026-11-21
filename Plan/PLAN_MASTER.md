@@ -208,7 +208,8 @@ Key terms used throughout the codebase and documentation.
 | **Streak Bonus** | Points multiplier for maintaining a streak: +3.3% per day, capped at 2x at 30+ days. |
 | **Streak Milestone** | Weekly achievement for sustaining a streak (7, 14, 21, 28 days). Tracked in `seenStreakMilestones`. |
 | **Streak Grace Period** | One-time buffer preventing streak loss when a user misses a day. Premium feature (future). |
-| **Smart Reminders** | Notification logic that skips the reminder if the user already logged an action today. |
+| **Daily Reminder** | One local notification a day to complete the challenge that unlocks the eco-fact; skipped once today's challenge is done. |
+| **Action Reminder** | A local notification the user sets from the bell on a library action: chosen weekdays and time, forever or a number of times; skipped on a day the action is already logged. Up to 10. |
 
 ### SDGs
 
@@ -297,9 +298,9 @@ AUTHENTICATED (Bottom Nav Tabs)
 │                                Points, level, streaks,
 │                                CO2 saved, stats cards
 └── /profile/settings ·········· Settings Hub
-    ├── /notifications ········· Notification Settings
-    │                            Reminder schedules, smart
-    │                            reminders, enable/disable
+    ├── /reminders ············· Reminders
+    │                            Daily challenge reminder,
+    │                            action reminders
     ├── /language ·············· Language Settings
     │                            EN / ES / JA
     ├── /account ··············· Account Settings
@@ -321,7 +322,7 @@ DEEP LINKS (standalone routes)
 /sdg/:goalNumber ··············· SDG Detail (standalone)
 /history ······················· Action History (standalone)
 /settings ······················ Settings (standalone)
-/settings/notifications
+/settings/reminders
 /settings/language
 /settings/account
 /settings/about
@@ -347,7 +348,7 @@ DEEP LINKS (standalone routes)
 | 10 | `/mascot` | Mascot | `lib/features/mascot/.../mascot_screen.dart` |
 | 11 | `/profile` | Profile | `lib/features/profile/.../profile_screen.dart` |
 | 12 | `/profile/settings` | Settings | `lib/features/settings/.../settings_screen.dart` |
-| 13 | `.../notifications` | Notification Settings | `lib/features/settings/.../notification_settings_screen.dart` |
+| 13 | `.../reminders` | Reminders | `lib/features/settings/.../reminders_screen.dart` |
 | 14 | `.../language` | Language Settings | `lib/features/settings/.../language_settings_screen.dart` |
 | 15 | `.../account` | Account Settings | `lib/features/settings/.../account_settings_screen.dart` |
 | 16 | `.../about` | About | `lib/features/settings/.../about_screen.dart` |
@@ -467,8 +468,10 @@ dependencies:
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.10
 
-  # Local Storage: Firestore only (offline persistence built in).
-  # shared_preferences was removed (2026-06) -- all app state lives in Firestore.
+  # Local Storage: Firestore (offline persistence built in), plus one small
+  # JSON file (app_language.json) for the device's language before sign-in.
+  # shared_preferences was removed (2026-06); the file needs no plugin.
+  path_provider: ^2.1.6
 
   # Notifications
   flutter_local_notifications: ^19.5.0
@@ -492,7 +495,7 @@ dev_dependencies:
   fake_cloud_firestore: ^4.0.1
 ```
 
-**Note:** Hive was removed early on; `shared_preferences` was later removed too (2026-06) once all app state -- settings, onboarding, language, recent challenge IDs -- moved to Firestore, which provides offline persistence. Local storage is now Firestore-only. Also removed (2026-06): `lottie` (`rive` is the animation target), `equatable` (Freezed gives value equality), and `connectivity_plus` (Firestore handles offline sync).
+**Note:** Hive was removed early on; `shared_preferences` was later removed too (2026-06) once all app state -- settings, onboarding, language, recent challenge IDs -- moved to Firestore, which provides offline persistence. Local storage is now Firestore, plus one small JSON file (`app_language.json`, written through `path_provider`) for the device's language before sign-in. Also removed (2026-06): `lottie` (`rive` is the animation target), `equatable` (Freezed gives value equality), and `connectivity_plus` (Firestore handles offline sync).
 
 ### Backend: Firebase
 
@@ -964,34 +967,26 @@ Local and push notification infrastructure fully implemented.
 | Permission handling | Request iOS/Android notification permissions | P0 | ✅ Done |
 | Schedule daily reminder | Multiple reminders with timezone support | P0 | ✅ Done |
 | Notification tap handling | Navigate to action log on tap | P1 | ✅ Done |
-| Reschedule on time change | NotificationScheduler auto-reschedules | P0 | ✅ Done |
+| Reschedule on time change | `reminderScheduler` auto-reschedules | P0 | ✅ Done |
 | Localized notification text | EN/ES/JP notification content | P1 | ✅ Done |
 | Cancel notifications | Disable when user turns off setting | P0 | ✅ Done |
 | Smart reminders | Skip reminder if action logged today | P1 | ✅ Done |
 
 **Implementation Details:**
-```dart
-// Notification channel (Android)
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'daily_reminder',
-  'Daily Reminder',
-  description: 'Daily reminder to log sustainable actions',
-  importance: Importance.high,
-);
-
-// Schedule at user's preferred time
-await flutterLocalNotificationsPlugin.zonedSchedule(
-  0,  // Notification ID
-  'Time to make a difference!',
-  'Log a sustainable action today',
-  _nextInstanceOfTime(userTime),
-  notificationDetails,
-  androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-  matchDateTimeComponents: DateTimeComponents.time,  // Repeat daily
-  uiLocalNotificationDateInterpretation:
-      UILocalNotificationDateInterpretation.absoluteTime,
-);
-```
+- `reminderScheduler` builds the queue and passes it to
+  `NotificationService.scheduleReminders`. Each entry is a one-shot
+  notification at a UTC instant. No repeating trigger is used: an iOS
+  repeating trigger ignores the date, so it cannot skip a day already done.
+- The queue covers `AppConstants.reminderDaysAhead` days and at most
+  `AppConstants.maxPendingNotifications` entries, the iOS limit per app.
+- Android channels: `NotificationService.challengeChannelId` for the daily
+  challenge reminder and `NotificationService.actionChannelId` for action
+  reminders.
+- A notification ID holds the minute of its reminder, so a refresh never
+  replaces a reminder already shown and can remove the shown reminders of
+  earlier days.
+- A sign-out calls `NotificationService.clearAll`, which also removes the
+  notifications already shown.
 
 **iOS Setup:** ✅ Complete (AppDelegate.swift configured, Info.plist updated)
 
@@ -1032,7 +1027,7 @@ lib/features/settings/
     │   └── settings_providers.dart         # Settings state management
     ├── screens/
     │   ├── settings_screen.dart            # Main settings hub
-    │   ├── notification_settings_screen.dart
+    │   ├── reminders_screen.dart
     │   ├── language_settings_screen.dart
     │   ├── account_settings_screen.dart
     │   └── about_screen.dart
@@ -1210,7 +1205,7 @@ Phase 7 shop and unlock systems.
 |----------|--------|-------|
 | State management | **Riverpod 3.x** | With code generation via riverpod_generator |
 | Navigation | **go_router 17.x** | Declarative routing with type-safe routes |
-| Local storage | **Firestore only** (offline persistence) | Hive, then shared_preferences, removed -- all state in Firestore |
+| Local storage | **Firestore, plus one small JSON file (`app_language.json`) for the device's language before sign-in** | Hive, then shared_preferences, removed; pre-auth state cannot live in Firestore, so the language uses a plain file, no plugin |
 | Code generation | **Freezed 3.x** | For immutable data classes |
 | Linting | **flutter_lints** | Strict analysis enabled |
 | Auth providers | **Email + Google + Apple** | Sign in with Apple required for iOS |

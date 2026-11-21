@@ -8,18 +8,14 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 /// animated layers. The backdrop sits in its own [RepaintBoundary] so the
 /// fade does not invalidate the animated content above it (Impeller).
 class CelebrationOverlay extends StatelessWidget {
-  const CelebrationOverlay({
-    required this.children,
-    this.backdropBottom,
-    super.key,
-  });
+  const CelebrationOverlay({required this.children, this.clearRect, super.key});
 
   /// Layers stacked above the backdrop, in paint order.
   final List<Widget> children;
 
-  /// Screen y below which the backdrop is not drawn, so a surface under
-  /// the overlay (a bottom sheet) stays visible. Null covers everything.
-  final double? backdropBottom;
+  /// Screen rect the backdrop leaves clear, full width, so the surface
+  /// being explained stays visible. Null covers everything.
+  final Rect? clearRect;
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +24,29 @@ class CelebrationOverlay extends StatelessWidget {
         color: Colors.black.withValues(alpha: opacityNearOpaque),
       ).animate().fadeIn(duration: durationNormal),
     );
+    final clear = clearRect;
     return Material(
       color: Colors.transparent,
       child: Stack(
         children: [
-          if (backdropBottom == null)
+          if (clear == null)
             backdrop
-          else
+          else ...[
             Positioned(
               top: 0,
               left: 0,
               right: 0,
-              height: backdropBottom,
+              height: clear.top,
               child: backdrop,
             ),
+            Positioned(
+              top: clear.bottom,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: backdrop,
+            ),
+          ],
           ...children,
         ],
       ),

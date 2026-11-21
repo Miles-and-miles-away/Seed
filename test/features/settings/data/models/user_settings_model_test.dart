@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:seed_app/features/settings/data/models/notification_schedule_model.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
 
 void main() {
@@ -9,23 +8,18 @@ void main() {
         const model = UserSettingsModel();
 
         expect(model.notificationsEnabled, isFalse);
-        expect(model.reminderSchedules, isEmpty);
-        expect(model.smartRemindersEnabled, isTrue);
-        expect(model.language, 'en');
+        expect(model.reminderHour, 18);
+        expect(model.reminderMinute, 0);
+        expect(model.language, isNull);
         expect(model.hasSeenOnboarding, isFalse);
         expect(model.seenStreakMilestones, isEmpty);
         expect(model.streakGracePeriodUsed, isFalse);
       });
 
       test('creates model with all fields specified', () {
-        final reminders = [
-          const NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-          const NotificationScheduleModel(id: 'r2', hour: 18, minute: 0),
-        ];
-
-        final model = UserSettingsModel(
-          reminderSchedules: reminders,
-          smartRemindersEnabled: false,
+        const model = UserSettingsModel(
+          reminderHour: 7,
+          reminderMinute: 30,
           language: 'ja',
           hasSeenOnboarding: true,
           seenStreakMilestones: {'1': true, '2': true},
@@ -33,46 +27,28 @@ void main() {
         );
 
         expect(model.notificationsEnabled, isFalse);
-        expect(model.reminderSchedules, hasLength(2));
-        expect(model.smartRemindersEnabled, isFalse);
+        expect(model.reminderHour, 7);
+        expect(model.reminderMinute, 30);
         expect(model.language, 'ja');
         expect(model.hasSeenOnboarding, isTrue);
         expect(model.seenStreakMilestones, {'1': true, '2': true});
         expect(model.streakGracePeriodUsed, isTrue);
       });
 
-      test('defaultSettings() creates correct default reminder', () {
+      test('defaultSettings() leaves the reminder off', () {
         final model = UserSettingsModel.defaultSettings();
 
-        expect(model.language, 'en');
-        expect(model.reminderSchedules, hasLength(1));
-        expect(model.reminderSchedules.first.id, 'default_morning');
-        expect(model.reminderSchedules.first.hour, 9);
-        expect(model.reminderSchedules.first.minute, 0);
-        expect(model.reminderSchedules.first.label, 'Morning');
-      });
-
-      test('defaultSettings() accepts custom language', () {
-        final model = UserSettingsModel.defaultSettings(language: 'es');
-
-        expect(model.language, 'es');
+        expect(model.language, isNull);
+        expect(model.notificationsEnabled, isFalse);
       });
     });
 
     group('fromJson', () {
       test('creates model from complete JSON', () {
         final json = {
-          'notificationsEnabled': false,
-          'reminderSchedules': [
-            {
-              'id': 'r1',
-              'hour': 9,
-              'minute': 0,
-              'isEnabled': true,
-              'label': '',
-            },
-          ],
-          'smartRemindersEnabled': false,
+          'notificationsEnabled': true,
+          'reminderHour': 20,
+          'reminderMinute': 15,
           'language': 'ja',
           'hasSeenOnboarding': true,
           'seenStreakMilestones': {'1': true},
@@ -81,9 +57,9 @@ void main() {
 
         final model = UserSettingsModel.fromJson(json);
 
-        expect(model.notificationsEnabled, isFalse);
-        expect(model.reminderSchedules, hasLength(1));
-        expect(model.smartRemindersEnabled, isFalse);
+        expect(model.notificationsEnabled, isTrue);
+        expect(model.reminderHour, 20);
+        expect(model.reminderMinute, 15);
         expect(model.language, 'ja');
         expect(model.hasSeenOnboarding, isTrue);
         expect(model.seenStreakMilestones['1'], isTrue);
@@ -96,17 +72,21 @@ void main() {
         final model = UserSettingsModel.fromJson(json);
 
         expect(model.notificationsEnabled, isFalse);
-        expect(model.reminderSchedules, isEmpty);
-        expect(model.smartRemindersEnabled, isTrue);
-        expect(model.language, 'en');
+        expect(model.reminderHour, 18);
+        expect(model.language, isNull);
       });
 
-      test('handles empty reminderSchedules array', () {
-        final json = {'reminderSchedules': <Map<String, dynamic>>[]};
+      test('ignores fields from the old multi-reminder settings', () {
+        final json = {
+          'reminderSchedules': [
+            {'id': 'r1', 'hour': 9, 'minute': 0},
+          ],
+          'smartRemindersEnabled': false,
+        };
 
         final model = UserSettingsModel.fromJson(json);
 
-        expect(model.reminderSchedules, isEmpty);
+        expect(model, const UserSettingsModel());
       });
 
       test('handles missing optional fields', () {
@@ -123,7 +103,7 @@ void main() {
     group('toJson', () {
       test('converts model to JSON correctly', () {
         const model = UserSettingsModel(
-          smartRemindersEnabled: false,
+          reminderHour: 8,
           language: 'ja',
           hasSeenOnboarding: true,
         );
@@ -131,23 +111,10 @@ void main() {
         final json = model.toJson();
 
         expect(json['notificationsEnabled'], isFalse);
-        expect(json['smartRemindersEnabled'], isFalse);
+        expect(json['reminderHour'], 8);
+        expect(json['reminderMinute'], 0);
         expect(json['language'], 'ja');
         expect(json['hasSeenOnboarding'], isTrue);
-      });
-
-      test('serializes reminderSchedules array', () {
-        const model = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-            NotificationScheduleModel(id: 'r2', hour: 18, minute: 30),
-          ],
-        );
-
-        final json = model.toJson();
-
-        expect(json['reminderSchedules'], isA<List<dynamic>>());
-        expect(json['reminderSchedules'] as List, hasLength(2));
       });
     });
 
@@ -170,7 +137,7 @@ void main() {
         final copy = original.copyWith(language: 'ja');
 
         expect(copy.language, 'ja');
-        expect(original.language, 'en');
+        expect(original.language, isNull);
       });
     });
 
@@ -194,52 +161,6 @@ void main() {
   });
 
   group('UserSettingsModelX extension', () {
-    group('canAddReminder', () {
-      test('returns true when under 5 reminders', () {
-        const model = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-            NotificationScheduleModel(id: 'r2', hour: 12, minute: 0),
-          ],
-        );
-
-        expect(model.canAddReminder, isTrue);
-      });
-
-      test('returns true when exactly 4 reminders', () {
-        const model = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-            NotificationScheduleModel(id: 'r2', hour: 10, minute: 0),
-            NotificationScheduleModel(id: 'r3', hour: 11, minute: 0),
-            NotificationScheduleModel(id: 'r4', hour: 12, minute: 0),
-          ],
-        );
-
-        expect(model.canAddReminder, isTrue);
-      });
-
-      test('returns false when at 5 reminders', () {
-        const model = UserSettingsModel(
-          reminderSchedules: [
-            NotificationScheduleModel(id: 'r1', hour: 9, minute: 0),
-            NotificationScheduleModel(id: 'r2', hour: 10, minute: 0),
-            NotificationScheduleModel(id: 'r3', hour: 11, minute: 0),
-            NotificationScheduleModel(id: 'r4', hour: 12, minute: 0),
-            NotificationScheduleModel(id: 'r5', hour: 13, minute: 0),
-          ],
-        );
-
-        expect(model.canAddReminder, isFalse);
-      });
-
-      test('returns true when no reminders', () {
-        const model = UserSettingsModel();
-
-        expect(model.canAddReminder, isTrue);
-      });
-    });
-
     group('hasSeenMilestone', () {
       test('returns false for unseen milestone', () {
         const model = UserSettingsModel(seenStreakMilestones: {'1': true});

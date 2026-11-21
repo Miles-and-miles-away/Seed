@@ -4,6 +4,7 @@ import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_progress_header.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 import '../../../../helpers/test_helpers.dart';
 import '../../eco_dex_fixtures.dart';
@@ -80,7 +81,7 @@ void main() {
     );
     await tester.pump();
 
-    await tester.tap(find.byIcon(Icons.info_outline));
+    await tester.tap(find.byType(InfoGlyph));
     await tester.pumpAndSettle();
 
     expect(find.text('About the Eco-Dex'), findsOneWidget);

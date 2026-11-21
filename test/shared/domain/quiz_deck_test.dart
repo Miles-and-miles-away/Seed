@@ -104,4 +104,46 @@ void main() {
       expect(deck.drawNext(), isNull);
     });
   });
+
+  group('QuizDeck.drawNext(minRatio:)', () {
+    // Every pair clears 20%; only a and d are 3x apart, exactly.
+    final cards = [
+      _card('a', 1),
+      _card('b', 1.3),
+      _card('c', 1.7),
+      _card('d', 3),
+    ];
+
+    test('deals only pairs at least that many times apart', () {
+      var dealt = 0;
+      for (var seed = 0; seed < 30; seed++) {
+        final deck = _deck(cards: cards, seed: seed);
+        final from = deck.current!;
+        final next = deck.drawNext(minRatio: 3);
+        if (next == null) continue;
+        dealt++;
+        // Exactly 3x counts as at least 3x.
+        expect({from.id, next.id}, {'a', 'd'}, reason: 'seed $seed');
+      }
+      expect(dealt, greaterThan(0));
+    });
+
+    test("never goes below the deck's own bar", () {
+      final ties = [_card('kettle', 0.116278), _card('ih_hob', 0.116598)];
+      final deck = _deck(cards: ties);
+      expect(deck.drawNext(minRatio: 0.5), isNull);
+    });
+
+    test('a null draw leaves the current card in place', () {
+      for (var seed = 0; seed < 30; seed++) {
+        final deck = _deck(cards: cards, seed: seed);
+        final from = deck.current!;
+        if (from.id == 'a' || from.id == 'd') continue;
+        expect(deck.drawNext(minRatio: 3), isNull);
+        expect(deck.current, same(from));
+        // The deck's own bar still deals from there.
+        expect(deck.drawNext(), isNotNull);
+      }
+    });
+  });
 }

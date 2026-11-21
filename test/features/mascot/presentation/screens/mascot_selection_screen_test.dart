@@ -59,6 +59,28 @@ void main() {
   }
 
   group('MascotSelectionScreen', () {
+    testWidgets('scrolls instead of overflowing when the keyboard opens', (
+      tester,
+    ) async {
+      await warmSpeciesBundle(tester);
+      tester.view.physicalSize = const Size(411, 800);
+      tester.view.devicePixelRatio = 1;
+      tester.view.viewInsets = const FakeViewPadding(bottom: 330);
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [userOverride(null)],
+          child: const MascotSelectionScreen(),
+        ),
+      );
+      await pumpUntilFound(tester, find.byType(TextFormField));
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SingleChildScrollView), findsWidgets);
+
+      await disposeAndFlush(tester);
+    });
+
     testWidgets('renders title, name field and confirm button', (tester) async {
       await pumpSelectionScreen(tester);
 

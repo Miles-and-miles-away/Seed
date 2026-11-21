@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/progress_providers.dart';
+
+const _minLineWidth = phraseNarrowestScreenWidth - 2 * spacingXxl;
 
 /// First-time setup screen for selecting daily goal target.
 ///
@@ -75,16 +78,18 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
         children: [
           const Spacer(),
           // Title
-          Text(
+          PhraseText(
             l10n.progressSetDailyGoal,
+            minLineWidth: _minLineWidth,
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: spacingSm),
-          Text(
+          PhraseText(
             l10n.progressSetDailyGoalSubtitle,
+            minLineWidth: _minLineWidth,
             style: theme.textTheme.bodyLarge?.copyWith(
               color: colorScheme.onSurfaceVariant,
             ),
@@ -136,9 +141,10 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
           // Dynamic description
           AnimatedSwitcher(
             duration: durationFast,
-            child: Text(
+            child: PhraseText(
               _getDescriptionForTarget(_selectedTarget, l10n),
               key: ValueKey(_selectedTarget),
+              minLineWidth: _minLineWidth,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),

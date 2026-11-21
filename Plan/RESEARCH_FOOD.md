@@ -2084,8 +2084,9 @@ the seafood decision D8 means D11.
   EU/UK beef is majority dairy-herd (~53); Japanese *consumed*
   beef is ~80% beef-herd via US/AU imports (~86). 70.36 is the
   least-wrong single global value and the science sheet says so.
-  The beef action moved 9700 -> 6800 g with it, and again to
-  3700 g when it merged into `skip_high_impact_food` (PDR section 4).
+  The beef action moved 9700 -> 6800 g with it.
+  `skip_high_impact_food` now covers beef only and ships that
+  6800 g (PDR section 4).
 - **D5 (beef item, owner call 2026-08-01):** the dairy-herd item is
   **dropped**; a single `Beef` ships at the beef-herd 99.48. No
   label, menu or receipt tells a shopper which herd their beef

@@ -130,7 +130,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      PhraseText(
                         template.title(locale),
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
@@ -157,8 +157,9 @@ class _ChallengeTemplateCard extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: spacingSm),
-            Text(
+            PhraseText(
               template.description(locale),
+              minLineWidth: phraseNarrowestScreenWidth - 4 * spacingLg,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant.withValues(
                   alpha: isBlocked ? opacityDisabled : 1.0,

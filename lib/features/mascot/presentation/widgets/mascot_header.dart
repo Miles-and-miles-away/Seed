@@ -101,10 +101,12 @@ class _MascotHeaderState extends ConsumerState<MascotHeader>
           IconButton(
             onPressed: _submitRename,
             icon: Icon(Icons.check, color: colorScheme.primary),
+            tooltip: AppLocalizations.of(context).buttonSave,
           ),
           IconButton(
             onPressed: _cancelRename,
             icon: Icon(Icons.close, color: colorScheme.error),
+            tooltip: AppLocalizations.of(context).buttonCancel,
           ),
         ],
       );
@@ -113,11 +115,15 @@ class _MascotHeaderState extends ConsumerState<MascotHeader>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          name,
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+        Flexible(
+          child: Text(
+            name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          ),
         ),
         const SizedBox(width: spacingSm),
         IconButton(
@@ -172,8 +178,7 @@ class _MascotHeaderState extends ConsumerState<MascotHeader>
           Icon(Icons.star, size: 18, color: colorScheme.primary),
           const SizedBox(width: 6),
           Text(
-            '${widget.stageName}'
-            ' - ${l10n.levelLabel(widget.mascotLevel)}',
+            l10n.stageWithLevel(widget.stageName, widget.mascotLevel),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: colorScheme.onPrimaryContainer,
               fontWeight: FontWeight.w600,

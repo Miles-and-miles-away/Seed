@@ -4,13 +4,7 @@ import 'package:seed_app/features/challenge/domain/models/challenge_templates.da
 import 'package:seed_app/features/challenge/domain/services/challenge_selection_service.dart';
 
 DailyChallengeTemplate _t(String id, {String category = 'transport'}) =>
-    DailyChallengeTemplate(
-      id: id,
-      category: category,
-      titleEn: id,
-      titleEs: '',
-      titleJa: '',
-    );
+    DailyChallengeTemplate(actionId: id, category: category);
 
 void main() {
   group('dailySeed', () {

@@ -5,6 +5,7 @@ import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 import 'package:seed_app/shared/widgets/balanced_text.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 const double _sheetImageSize = 160;
 
@@ -87,8 +88,9 @@ class EcoDexEntrySheet extends StatelessWidget {
           const SizedBox(height: spacingLg),
 
           // Fact
-          Text(
+          PhraseText(
             entry.fact(locale),
+            minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
             style: theme.textTheme.bodyMedium?.copyWith(height: 1.5),
           ),
           const SizedBox(height: spacingLg),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fake_async/fake_async.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -8,9 +9,12 @@ import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 import 'package:seed_app/shared/services/fcm_service.dart';
+
+import '../../../../helpers/test_helpers.dart';
 
 class _MockAuthRepository extends Mock implements AuthRepository {}
 
@@ -52,6 +56,13 @@ void main() {
         authRepositoryProvider.overrideWithValue(repo),
         fcmServiceProvider.overrideWithValue(fcm),
         analyticsServiceProvider.overrideWithValue(analytics),
+        osLocalesProvider.overrideWithBuild((_, _) => const [Locale('en')]),
+        languageStoreOverride(
+          MemoryLanguageStore((
+            pick: (language: 'ja', os: 'en'),
+            firstLaunchDone: true,
+          )),
+        ),
       ],
     );
     addTearDown(container.dispose);
@@ -60,52 +71,70 @@ void main() {
   AuthNotifier notifier() => container.read(authProvider.notifier);
 
   group('sign-in and sign-up', () {
-    test('email sign-in delegates and logs an email login', () async {
+    test('email sign-in delegates in the app language and logs it', () async {
       when(
-        () => repo.signInWithEmailAndPassword('a@b.com', 'pw'),
+        () => repo.signInWithEmailAndPassword('a@b.com', 'pw', language: 'ja'),
       ).thenAnswer((_) async => _user);
 
       await notifier().signInWithEmailAndPassword('a@b.com', 'pw');
 
-      verify(() => repo.signInWithEmailAndPassword('a@b.com', 'pw')).called(1);
+      verify(
+        () => repo.signInWithEmailAndPassword('a@b.com', 'pw', language: 'ja'),
+      ).called(1);
       expect(analytics.calls, ['login:email']);
       expect(container.read(authProvider).hasValue, isTrue);
     });
 
     test('email sign-up delegates and logs an email sign-up', () async {
       when(
-        () => repo.createUserWithEmailAndPassword('a@b.com', 'pw'),
+        () => repo.createUserWithEmailAndPassword(
+          'a@b.com',
+          'pw',
+          language: 'ja',
+        ),
       ).thenAnswer((_) async => _user);
 
       await notifier().createUserWithEmailAndPassword('a@b.com', 'pw');
 
       verify(
-        () => repo.createUserWithEmailAndPassword('a@b.com', 'pw'),
+        () => repo.createUserWithEmailAndPassword(
+          'a@b.com',
+          'pw',
+          language: 'ja',
+        ),
       ).called(1);
       expect(analytics.calls, ['signup:email']);
     });
 
     test('Google sign-in delegates and logs a google login', () async {
-      when(repo.signInWithGoogle).thenAnswer((_) async => _user);
+      when(
+        () => repo.signInWithGoogle(language: 'ja'),
+      ).thenAnswer((_) async => _user);
 
       await notifier().signInWithGoogle();
 
-      verify(repo.signInWithGoogle).called(1);
+      verify(() => repo.signInWithGoogle(language: 'ja')).called(1);
       expect(analytics.calls, ['login:google']);
     });
 
     test('Apple sign-in delegates and logs an apple login', () async {
-      when(repo.signInWithApple).thenAnswer((_) async => _user);
+      when(
+        () => repo.signInWithApple(language: 'ja'),
+      ).thenAnswer((_) async => _user);
 
       await notifier().signInWithApple();
 
-      verify(repo.signInWithApple).called(1);
+      verify(() => repo.signInWithApple(language: 'ja')).called(1);
       expect(analytics.calls, ['login:apple']);
     });
 
     test('a repository failure surfaces as an error state', () async {
       when(
-        () => repo.signInWithEmailAndPassword(any(), any()),
+        () => repo.signInWithEmailAndPassword(
+          any(),
+          any(),
+          language: any(named: 'language'),
+        ),
       ).thenThrow(Exception('wrong-password'));
 
       await notifier().signInWithEmailAndPassword('a@b.com', 'pw');

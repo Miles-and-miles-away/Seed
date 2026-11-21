@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/data/models/usage_preset_model.dart';
 import 'package:seed_app/features/energy/presentation/widgets/energy_behavior_picker.dart';
@@ -9,7 +10,7 @@ import 'package:seed_app/features/energy/presentation/widgets/energy_display.dar
 import 'package:seed_app/features/energy/presentation/widgets/energy_science_sheet.dart';
 import 'package:seed_app/features/energy/presentation/widgets/usage_editor_sheet.dart';
 import 'package:seed_app/shared/models/emission_source_model.dart';
-import 'package:visibility_detector/visibility_detector.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 import '../../../helpers/test_helpers.dart';
 
@@ -73,9 +74,9 @@ void main() {
           ),
         ),
       );
-      expect(find.text('Hot water'), findsOneWidget);
-      expect(find.text('Laundry: washing'), findsOneWidget);
-      expect(find.text('Devices'), findsOneWidget);
+      expect(find.text('HOT WATER'), findsOneWidget);
+      expect(find.text('LAUNDRY: WASHING'), findsOneWidget);
+      expect(find.text('DEVICES'), findsOneWidget);
     });
 
     testWidgets('shows the kWh factor in the behavior unit', (tester) async {
@@ -90,11 +91,11 @@ void main() {
       );
       // Per minute for the shower, per day for standby: the unit is
       // part of the number's meaning.
-      expect(find.text('0.248 kWh per minute'), findsOneWidget);
+      expect(find.text('0.248${unitSpace}kWh per minute'), findsOneWidget);
       // Trailing zeros stripped: "0.800" would claim precision the
       // standby figure does not have.
-      expect(find.text('0.8 kWh per day'), findsOneWidget);
-      expect(find.text('1 kWh per use'), findsWidgets);
+      expect(find.text('0.8${unitSpace}kWh per day'), findsOneWidget);
+      expect(find.text('1${unitSpace}kWh per use'), findsWidgets);
     });
 
     testWidgets('flags the low-confidence entry on its own row', (
@@ -125,7 +126,7 @@ void main() {
           ),
         ),
       );
-      expect(find.text('Recently used'), findsOneWidget);
+      expect(find.text('RECENTLY USED'), findsOneWidget);
       // Once as a recent, once in its own group: a shortcut, not a move.
       expect(find.text('Hot wash'), findsNWidgets(2));
     });
@@ -148,7 +149,7 @@ void main() {
       expect(picked?.id, 'bath_electric');
       expect(informed, isNull);
 
-      await tester.tap(find.byIcon(Icons.info_outline).first);
+      await tester.tap(find.byType(InfoGlyph).first);
       expect(informed, isNotNull);
     });
 
@@ -166,7 +167,7 @@ void main() {
         ),
       );
       expect(tester.takeException(), isNull);
-      expect(find.text('Recently used'), findsNothing);
+      expect(find.text('RECENTLY USED'), findsNothing);
     });
   });
 
@@ -239,7 +240,7 @@ void main() {
 
     testWidgets('tapping a preset chip fills the amount field', (tester) async {
       await open(tester);
-      await tester.tap(find.text('A quick shower (5 min)'));
+      await tester.tap(find.text('A quick shower (5${unitSpace}min)'));
       await tester.pump();
       final field = tester.widget<TextField>(find.byType(TextField));
       expect(field.controller?.text, '5');
@@ -289,12 +290,6 @@ void main() {
   });
 
   group('showEnergyScienceSheet', () {
-    setUpAll(() {
-      // MarkdownWidget's VisibilityDetector re-arms a 500ms timer on
-      // every paint, which never drains under the pending-timer check.
-      VisibilityDetectorController.instance.updateInterval = Duration.zero;
-    });
-
     Future<void> open(WidgetTester tester, EnergyBehavior behavior) async {
       await tester.pumpWidget(
         _wrap(

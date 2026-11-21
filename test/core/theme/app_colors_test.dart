@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/theme/app_theme.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
 import '../../helpers/test_helpers.dart';
 
 /// WCAG AA for body text.
 const _minContrast = 4.5;
+
+/// WCAG 1.4.11: a glyph that carries meaning needs 3:1.
+const _minIconContrast = 3.0;
 
 /// The darkest surface the dark theme paints text on.
 const _darkSurface = Color(0xFF121212);
@@ -108,5 +113,72 @@ void main() {
       );
       expect(light.computeLuminance(), lessThan(dark.computeLuminance()));
     });
+  });
+
+  group('info colours', () {
+    ColorScheme schemeFor(Color seed, Brightness brightness) =>
+        appTheme(brightness, seedColor: seed).colorScheme;
+
+    List<Color> plainSurfaces(ColorScheme scheme) => [
+      scheme.surface,
+      scheme.surfaceContainerLow,
+      scheme.surfaceContainerHigh,
+      scheme.surfaceContainerHighest,
+    ];
+
+    test('infoColor picks the tone for the brightness', () {
+      expect(infoColor(Brightness.light), AppColors.infoLight);
+      expect(infoColor(Brightness.dark), AppColors.infoDark);
+    });
+
+    for (final MapEntry(key: species, value: seed)
+        in AppColors.speciesThemeSeeds.entries) {
+      test('infoLight clears the icon bar on the light $species surfaces', () {
+        for (final surface in plainSurfaces(
+          schemeFor(seed, Brightness.light),
+        )) {
+          expect(
+            contrastRatio(AppColors.infoLight, surface),
+            greaterThanOrEqualTo(_minIconContrast),
+          );
+        }
+      });
+
+      test('infoDark clears the icon bar on the dark $species surfaces', () {
+        for (final surface in plainSurfaces(schemeFor(seed, Brightness.dark))) {
+          expect(
+            contrastRatio(AppColors.infoDark, surface),
+            greaterThanOrEqualTo(_minIconContrast),
+          );
+        }
+      });
+
+      for (final brightness in Brightness.values) {
+        test('the glyph clears the icon bar on $species ${brightness.name} '
+            'tinted panels', () {
+          final scheme = schemeFor(seed, brightness);
+          final info = infoColor(brightness);
+          for (final category in ActionCategory.values) {
+            final tint = Color.alphaBlend(
+              category.color.withValues(alpha: opacityVeryFaint),
+              scheme.surfaceContainerHigh,
+            );
+            expect(
+              contrastRatio(info, tint),
+              greaterThanOrEqualTo(_minIconContrast),
+              reason: '${category.name} tint',
+            );
+          }
+          final headerPanel = Color.alphaBlend(
+            scheme.primaryContainer.withValues(alpha: opacityMuted),
+            scheme.surface,
+          );
+          expect(
+            contrastRatio(info, headerPanel),
+            greaterThanOrEqualTo(_minIconContrast),
+          );
+        });
+      }
+    }
   });
 }

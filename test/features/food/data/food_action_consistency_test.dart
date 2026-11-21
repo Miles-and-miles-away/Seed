@@ -64,11 +64,11 @@ void main() {
     expect(shipped / implied, greaterThan(0.5), reason: actionId);
   }
 
-  test('skip_high_impact_food binds to lamb, not beef', () {
-    // Covers beef and lamb. Lamb 3972 - 200 = 3772 -> ships 3700.
-    // Beef implies 6836; crediting that for a lamb skip would
-    // overstate by 80%.
-    expectAtOrBelowTierMinimum('skip_high_impact_food', ['beef', 'lamb']);
+  test('skip_high_impact_food stays at or below the beef swap', () {
+    // Beef only. 7036 - 200 = 6836 -> ships 6800.
+    expectAtOrBelowTierMinimum('skip_high_impact_food', ['beef']);
+    final implied = impliedGrams('beef', plantAltBaselineG);
+    expect(shippedGrams('skip_high_impact_food') / implied, greaterThan(0.9));
   });
 
   test('skip_medium_impact_food binds to chicken, not pork', () {

@@ -9,10 +9,14 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/validators.dart';
+import 'package:seed_app/features/settings/presentation/widgets/language_picker_sheet.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/auth_providers.dart';
 import '../utils/listen_auth_result.dart';
 import '../utils/sign_in_with_social.dart';
 import '../widgets/auth_text_field.dart';
+import '../widgets/language_pill.dart';
 import '../widgets/or_divider.dart';
 import '../widgets/social_sign_in_button.dart';
 import '../widgets/social_sign_in_row.dart';
@@ -32,6 +36,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isCooldown = false;
   SocialProvider? _pendingSocial;
   Timer? _cooldownTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _showFirstLaunchSheet(),
+    );
+  }
+
+  /// Opens the language picker once per install, answered or dismissed.
+  Future<void> _showFirstLaunchSheet() async {
+    if (!mounted || ref.read(deviceLanguageProvider).firstLaunchDone) return;
+    final device = ref.read(deviceLanguageProvider.notifier);
+    await showLanguagePickerSheet(context);
+    await device.markFirstLaunchDone();
+  }
 
   @override
   void dispose() {
@@ -70,7 +90,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: spacingHuge),
+                const Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: LanguagePill(),
+                ),
                 Icon(Icons.eco, size: 64, color: theme.colorScheme.primary),
                 const SizedBox(height: spacingLg),
                 Text(
@@ -81,8 +104,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: spacingSm),
-                Text(
+                PhraseText(
                   l10n.authSignInSubtitle,
+                  minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -153,8 +177,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: spacingHuge),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                // Wraps rather than overflows when a translation is long.
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(l10n.authNoAccount, style: theme.textTheme.bodyMedium),
                     TextButton(

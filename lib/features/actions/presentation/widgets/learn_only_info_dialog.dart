@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_dialog_header.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'action_science_bottom_sheet.dart';
 
 /// A dialog showing educational info for learn-only actions.
@@ -44,6 +47,7 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
 
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
+      scrollable: true,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,11 +65,12 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (action.description(languageCode).isNotEmpty) ...[
-                  _buildDescription(context, theme, categoryColor),
+                  _buildDescription(context, theme),
                   const SizedBox(height: spacingLg),
                 ],
-                Text(
+                PhraseText(
                   l10n.learnOnlyDescription,
+                  minLineWidth: phraseDialogMinLineWidth,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.outline,
                   ),
@@ -74,10 +79,8 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
                 if (action.relatedSdgs.isNotEmpty) ...[
                   const SizedBox(height: spacingLg),
                   Text(
-                    l10n.learnOnlyRelatedSdgs,
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    l10n.learnOnlyRelatedSdgs.toUpperCase(),
+                    style: theme.overline,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: spacingSm),
@@ -97,48 +100,27 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
     );
   }
 
-  Widget _buildDescription(
-    BuildContext context,
-    ThemeData theme,
-    Color categoryColor,
-  ) {
-    final desc = action.description(languageCode);
-    final hasLong = action.descriptionLong(languageCode).isNotEmpty;
-
-    if (!hasLong) {
-      return Text(
-        desc,
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-        textAlign: TextAlign.center,
-      );
-    }
-
-    return GestureDetector(
-      onTap: () => ActionScienceBottomSheet.show(
-        context,
-        action: action,
-        languageCode: languageCode,
+  Widget _buildDescription(BuildContext context, ThemeData theme) {
+    final l10n = AppLocalizations.of(context);
+    final description = PhraseText(
+      action.description(languageCode),
+      locale: Locale(languageCode),
+      style: theme.textTheme.bodyMedium?.copyWith(
+        color: theme.colorScheme.onSurfaceVariant,
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: Text(
-              desc,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: categoryColor,
-                decoration: TextDecoration.underline,
-                decorationColor: categoryColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(width: spacingSm),
-          Icon(Icons.info_outline, size: 16, color: categoryColor),
-        ],
+      textAlign: TextAlign.center,
+    );
+    if (action.descriptionLong(languageCode).isEmpty) return description;
+
+    return Center(
+      child: TermWithInfo(
+        term: description,
+        tooltip: l10n.actionScienceTooltip,
+        onPressed: () => ActionScienceBottomSheet.show(
+          context,
+          action: action,
+          languageCode: languageCode,
+        ),
       ),
     );
   }
@@ -150,11 +132,10 @@ class LearnOnlyInfoDialog extends ConsumerWidget {
       runSpacing: 6,
       children: [
         for (final number in parsedSdgNumbers(sdgNumbers))
-          sdgNumberBadge(
+          SdgNumberBadge(
             '$number',
             goalMap[number]?.color ?? Colors.grey,
             diameter: 28,
-            fontSize: 12,
           ),
       ],
     );

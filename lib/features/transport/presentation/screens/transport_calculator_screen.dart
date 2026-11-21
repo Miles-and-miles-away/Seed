@@ -6,6 +6,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/domain/services/impact_equivalencies.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
@@ -317,12 +318,19 @@ class _TransportCalculatorScreenState
           accentColor: ActionCategory.transport.color,
           headline: l10n.transportComparisonDelta(
             bestLabel,
-            formatCO2Compact(summary.deltaGrams.round()),
+            formatCO2Compact(summary.deltaGrams.round(), l10n.localeName),
             worstLabel,
             summary.deltaPercent.round(),
           ),
           equivalencyText: (trees != null && trees >= 0.05)
-              ? l10n.transportComparisonTreesEquiv(trees.toStringAsFixed(1))
+              ? l10n.transportComparisonTreesEquiv(
+                  formatDecimal(
+                    trees,
+                    l10n.localeName,
+                    minDigits: 1,
+                    maxDigits: 1,
+                  ),
+                )
               : null,
           basisNotes: _basisNotes(l10n, modesById, options),
         ),
@@ -387,9 +395,10 @@ class _TransportCalculatorScreenState
           co2Grams: deltaGrams.round(),
         ),
     successMessage: l10n.transportChoiceLoggedMessage(
-      formatCO2Compact(deltaGrams.round()),
+      formatCO2Compact(deltaGrams.round(), l10n.localeName),
     ),
     onSuccess: () {
+      MascotCheer.show(context);
       ref.read(journeyOptionsProvider.notifier).clear();
       setState(() {
         for (final cities in _legCities) {

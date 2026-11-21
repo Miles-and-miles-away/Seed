@@ -186,8 +186,9 @@ class _EnergyExploreScreenState extends ConsumerState<EnergyExploreScreen> {
           ],
           const SizedBox(height: spacingMd),
         ],
-        Text(
+        PhraseText(
           l10n.energyExploreIntro(anchorUnitPhrase),
+          minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),
@@ -210,8 +211,9 @@ class _EnergyExploreScreenState extends ConsumerState<EnergyExploreScreen> {
         const SizedBox(height: spacingLg),
         // The sqrt scale is a deliberate distortion: without saying so,
         // the bars would overstate every small row.
-        Text(
+        PhraseText(
           l10n.energyExploreBarNote,
+          minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),
