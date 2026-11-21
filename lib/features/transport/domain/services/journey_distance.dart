@@ -13,10 +13,6 @@ import 'package:seed_app/features/transport/data/models/transport_mode_model.dar
 /// and active-mode estimates.
 const groundCircuityFactor = 1.3;
 
-/// Flights are estimated as great-circle + 95 km, the EN 16258
-/// convention used by myclimate and EU MRV for routing detours.
-const flightDetourKm = 95.0;
-
 /// Ground modes are offered up to this straight-line distance --
 /// product rule: a plausible long drive or one rail/coach journey
 /// (matches the city_pairs prototype intent).
@@ -110,7 +106,8 @@ String cityPairKey(City a, City b) {
 /// - [kindGround]: same landmass or a rail_tunnel link, within
 ///   [groundModeMaxKm] straight-line, and not water-blocked;
 ///   estimate = haversine x 1.3
-/// - [kindAir]: at least [minFlightKm]; estimate = haversine + 95
+/// - [kindAir]: at least [minFlightKm]; estimate = haversine (the
+///   DESNZ flight factors already carry the 8% routing uplift)
 /// - [kindFerry]: a ferry link between the masses whose port
 ///   catchments admit both cities, within the link's
 ///   [CityLink.maxKm] (default [ferryModeMaxKm]);
@@ -149,7 +146,7 @@ Map<String, double> suggestedDistancesKm(
     result[kindActive] = straight * groundCircuityFactor;
   }
   if (straight >= minFlightKm) {
-    result[kindAir] = straight + flightDetourKm;
+    result[kindAir] = straight;
   }
   final ferry = _link(a, b, links, 'ferry');
   if (ferry != null &&
@@ -158,7 +155,7 @@ Map<String, double> suggestedDistancesKm(
     result[kindFerry] = straight;
   }
   if (result.isEmpty && straight >= fallbackAirMinKm) {
-    result[kindAir] = straight + flightDetourKm;
+    result[kindAir] = straight;
   }
   return result;
 }

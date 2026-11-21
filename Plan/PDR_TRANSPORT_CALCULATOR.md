@@ -93,7 +93,14 @@ were superseded; do not "fix" data backwards from old text.
 - **Private jet ships 1,700** (1,000 derived base x 1.7 RF,
   DESNZ 2025 para 8.43); airline factors include RF; helicopter
   is combustion-only. In-chart jet footnote is a UI requirement.
-- **Taxi ships per-vehicle 208.06**, per_vehicle true,
+- **Lifecycle boundary (REF-02).** Every DESNZ fuel factor ships
+  with its well-to-tank term, to match the lifecycle grid factor
+  and gas. Radiative forcing applies to the fuel burned only,
+  never to well-to-tank. Private jet, helicopter and the
+  Shinkansen have no published supply-chain term, so they stay
+  direct-only and the methodology says so.
+- **Taxi ships per-vehicle 259.82** (DESNZ, including
+  well-to-tank), per_vehicle true,
   max_occupants 4. Do NOT ship the 148.61 per-passenger variant
   (dated 1.4-occupancy embedded invisibly). Deadheading is
   excluded by DEFRA (para 5.42, quoted); note says so.

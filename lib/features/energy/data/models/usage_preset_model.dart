@@ -7,15 +7,14 @@ part 'usage_preset_model.freezed.dart';
 part 'usage_preset_model.g.dart';
 
 /// A named quantity for an energy behavior (e.g. "A typical shower
-/// (10 min)", "1 hour at 26 C"), so users enter amounts they recognise
+/// (10 min)", "An evening (4 h)"), so users enter amounts they recognise
 /// rather than raw units (Phase 8.14). Picking a preset fills an
 /// editable units field, exactly like a food serving fills grams.
 ///
 /// [units] is in the behavior's own unit, so it is minutes for a
 /// shower, hours for an air conditioner and dimensionless multiples of
-/// one use for a bath. The setpoint presets are not whole numbers: an
-/// hour of cooling at 26 C is 1.35783 baseline hours, because METI
-/// publishes the per-degree delta rather than a separate figure.
+/// one use for a bath. Some presets are not whole numbers: one mug in a
+/// kettle is 0.3 uses.
 @freezed
 abstract class UsagePreset with _$UsagePreset {
   @JsonSerializable(fieldRename: FieldRename.snake)

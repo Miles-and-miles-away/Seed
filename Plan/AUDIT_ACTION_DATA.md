@@ -147,7 +147,9 @@ The `impact` score should reflect this broader value.
 > docs until `npm run seed` prunes the demoted action.
 > Backfilling the rest needs each primary re-fetched and quoted
 > live per section 2, so it is its own pass per category. Update
-> this count when that happens.
+> this count when that happens. Current count: **91 shipping
+> actions, 53 with both an empty `sources[]` and a null
+> `confidence`, 30 of them nonzero**.
 
 ```javascript
 {
@@ -233,12 +235,12 @@ ZERO_CO2_SCALE   = 3
 ### Why the 0.4 exponent?
 
 Linear CO2-to-points would make "purchase an EV"
-(3,400,000g) worth 34,000x more than "recycle a can"
+(1,300,000g) worth 13,000x more than "recycle a can"
 (100g). The 0.4 power compresses this:
 - 100^0.4 = 6.3
-- 3,400,000^0.4 = 410
+- 1,300,000^0.4 = 279
 
-So the EV is ~65x the can in points, not 34,000x. This
+So the EV is ~44x the can in points, not 13,000x. This
 keeps daily habits competitive with rare big actions --
 logging recycling every day for a year accumulates far
 more than one EV purchase.
@@ -284,14 +286,14 @@ points = round(2 * 3 * 1.1 * 1.15)
        = round(7.59) = 8 pts
 ```
 
-**Purchase EV** (co2:3400000, eff:5, freq:1, imp:5)
+**Purchase EV** (co2:1300000, eff:5, freq:1, imp:4)
 ```
 effortMult = 0.7 + (5 * 0.15) = 1.45
 rarityMult = 1.3 - (1 * 0.1) = 1.20
-impactMult = 0.85 + (5 * 0.075) = 1.225
-points = round(3400000^0.4 * 1.45 * 1.2 * 1.225)
-       = round(410 * 2.13)
-       = round(873) = 873 pts
+impactMult = 0.85 + (4 * 0.075) = 1.15
+points = round(1300000^0.4 * 1.45 * 1.2 * 1.15)
+       = round(278.98 * 2.001)
+       = round(558.2) = 558 pts
 ```
 
 ### Point Sanity Check Table
@@ -313,11 +315,11 @@ fall in a believable range relative to existing actions.
 | Air dry laundry | 1500 | 2 | 3 | 2 | ~26 | instance |
 | Secondhand clothing | 15000 | 2 | 3 | 3 | ~78 | instance |
 | Install LED | 25000 | 1 | 1 | 3 | ~63 | one-time |
-| Train instead of flight | 96000 | 3 | 1 | 4 | ~156 | instance |
-| Fix water leak | 100000 | 3 | 1 | 4 | ~153 | one-time |
+| Train instead of flight | 110000 | 3 | 1 | 4 | ~165 | instance |
+| Fix water leak | 4100 | 3 | 1 | 4 | ~44 | one-time |
 | Donate textiles | 40000 | 2 | 2 | 3 | ~101 | instance |
 | Install solar | 2500000 | 5 | 1 | 5 | ~735 | one-time |
-| Purchase EV | 3400000 | 5 | 1 | 5 | ~873 | one-time |
+| Purchase EV | 1300000 | 5 | 1 | 4 | ~558 | one-time |
 | Eco meeting (0 CO2) | 0 | 2 | 2 | 4 | ~8 | instance |
 | Household task (0 CO2) | 0 | 2 | 4 | 4 | ~5 | instance |
 
@@ -411,22 +413,31 @@ Check for overlap with existing actions before adding.
 and "farmers market" described the same shopping trip.
 Merge or remove the weaker one.
 
+This check is about duplicate actions in the library. Overlap
+between two logged actions (a vegan day and a skipped beef meal
+on the same day) is accepted, and the methodology text says so.
+
 ### Beware of one-time vs ongoing framing
 
 If an action is logged once but produces ongoing savings,
 the CO2 value must reflect the **projected benefit over
-a stated period** (typically first year), not a single
+the first year only**, not a single
 day's savings. Conversely, do not give a daily action
 a lifetime CO2 value.
 
 Examples:
 - Install LED: 25,000g = first-year savings (51.5W diff
   x 3hrs/day x 365 x 458g/kWh = 25,820, rounded down)
-- Fix leak: 100,000g = conservative 1-year savings
-  (~300g/day x 365)
-- EV purchase: 3,400,000g = 2-year projected savings
+- Fix leak: 4,100g = first-year savings (EPA: a tap that
+  drips once a second wastes more than 3,000 US gallons a year,
+  11.356 m3 x DESNZ water supply plus treatment 0.36218 kg/m3)
+- EV purchase: 1,300,000g = first-year savings (DfT NTS0901
+  7,100 miles = 11,426 km x (DESNZ petrol 207.51 - BEV 86 g/km)
+  = 1,388,415, rounded down)
 
-Always state the projection window in the comment.
+Always state the projection window in the comment. Carbon
+stored by a living thing (a planted tree) is not claimed: the
+action ships at 0 g and earns points for effort only.
 
 ---
 
@@ -487,10 +498,10 @@ These are the tier-1 sources used for CO2 estimation.
 New actions should cite from this list where possible.
 
 - **DEFRA/DESNZ GHG Conversion Factors** - UK Government
-  (transport, energy, waste). Two releases are live: transport
-  ships the **2025** factors with the 2026 deltas flagged for the
-  next pass, energy ships the **2026** natural-gas row. Record the
-  release vintage on every figure -- aggregators mix them.
+  (transport, energy, waste). Transport and energy ship one
+  release, and both include the well-to-tank term (lifecycle
+  boundary, the same as the grid factor). Record the release
+  vintage on every figure -- aggregators mix them.
 - **Poore & Nemecek 2018** - Science meta-analysis of
   38,700 farms (food lifecycle emissions)
 - **US EPA** - Greenhouse Gas Equivalencies Calculator,

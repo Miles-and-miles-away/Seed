@@ -241,14 +241,14 @@ void main() {
       await expectRefusal(tester, 'category error');
     });
 
-    testWidgets('a cross-carrier pair refuses with the crossover copy', (
+    testWidgets('a cross-carrier pair refuses with the carrier copy', (
       tester,
     ) async {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
       await addUsage(tester, behaviorName: 'kettle');
       await addUsage(tester, behaviorName: 'gas_hob', column: 1);
-      await expectRefusal(tester, '241 g CO2e per kWh');
+      await expectRefusal(tester, 'gas and electricity in different mixes');
     });
 
     testWidgets('a sub-20% pair refuses naming the bar', (tester) async {

@@ -8,8 +8,8 @@
     "grid_factors": {
       "global_average_g_co2e_per_kwh": 458,
       "source": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
-      "natural_gas_g_co2e_per_kwh": 182,
-      "gas_source": "DEFRA/DESNZ 2026, Scope 1 combustion, Gross CV",
+      "natural_gas_g_co2e_per_kwh": 212,
+      "gas_source": "DEFRA/DESNZ 2026, Gross CV: Scope 1 combustion 0.18231 + Scope 3 well-to-tank 0.03021 = 0.21252, rounded down",
       "note": "Superseded the retired 386 g CO2/kWh on 2026-08-02 (decision E1). Regional factors are a separate open question -- see Plan/PDR_GRID_REGIONALISATION.md."
     },
     "primary_sources": [
@@ -318,8 +318,8 @@
       "description_en": "Walk to your destination (~1.5 km) instead of driving",
       "description_ja": "車を使わずに目的地まで歩く",
       "description_es": "Caminar hasta tu destino en vez de conducir",
-      "co2_grams": 240,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2025 average petrol car, the value shipped in data/app/transport_modes.json). 1.5 km x 162.72 = 244.08 g, rounded down to 240 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "co2_grams": 310,
+      "calculation_notes": "car_petrol_avg 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99, the value shipped in data/app/transport_modes.json). 1.5 km x 207.51 = 311.26 g, rounded down to 310 g.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -334,16 +334,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2025 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025",
-          "quote": "Conversion factors 2025: flat file (for automatic processing only)",
-          "accessed": "2026-10-27"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
         },
         {
-          "name": "SustainMetrics, DEFRA 2025 passenger vehicles",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
-          "accessed": "2026-07-19"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -356,8 +356,8 @@
       "description_en": "Bike instead of drive for a short trip (under 3km)",
       "description_ja": "短距離（3km未満）の移動に車の代わりに自転車を使用",
       "description_es": "Ir en bici en vez de en coche en un trayecto corto (menos de 3 km)",
-      "co2_grams": 480,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2025 average petrol car, the value shipped in data/app/transport_modes.json). 3 km x 162.72 = 488.16 g, rounded down to 480 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "co2_grams": 620,
+      "calculation_notes": "car_petrol_avg 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99, the value shipped in data/app/transport_modes.json). 3 km x 207.51 = 622.53 g, rounded down to 620 g.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -372,16 +372,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2025 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025",
-          "quote": "Conversion factors 2025: flat file (for automatic processing only)",
-          "accessed": "2026-10-27"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
         },
         {
-          "name": "SustainMetrics, DEFRA 2025 passenger vehicles",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
-          "accessed": "2026-07-19"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -394,8 +394,8 @@
       "description_en": "Bike instead of drive for a medium trip (~6 km)",
       "description_ja": "中距離（約6km）の移動に車の代わりに自転車を使用",
       "description_es": "Ir en bici en vez de en coche en un trayecto medio (unos 6 km)",
-      "co2_grams": 970,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2025 average petrol car, the value shipped in data/app/transport_modes.json). 6 km x 162.72 = 976.32 g, rounded down to 970 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "co2_grams": 1200,
+      "calculation_notes": "car_petrol_avg 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99, the value shipped in data/app/transport_modes.json). 6 km x 207.51 = 1245.06 g, rounded down to 1200 g.",
       "effort": 3,
       "frequency": 3,
       "impact": 2,
@@ -410,16 +410,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2025 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025",
-          "quote": "Conversion factors 2025: flat file (for automatic processing only)",
-          "accessed": "2026-10-27"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
         },
         {
-          "name": "SustainMetrics, DEFRA 2025 passenger vehicles",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
-          "accessed": "2026-07-19"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -432,8 +432,8 @@
       "description_en": "Take bus or train instead of driving (~10 km trip)",
       "description_ja": "車の代わりにバスや電車を利用",
       "description_es": "Ir en autobús o en tren en vez de en coche",
-      "co2_grams": 1000,
-      "calculation_notes": "10km; car-bus net ~1040g saved",
+      "co2_grams": 790,
+      "calculation_notes": "per 10 km trip, bus basis: DESNZ 2026 average petrol car 207.51 g CO2e/km minus DESNZ 2026 average local bus 128.00 g CO2e/pkm, both including fuel supply (well-to-tank) = 79.51 g/km x 10 km = 795.1 g, rounded down to 790 g (savings always round DOWN). The same factors as car_petrol_avg and bus_city in data/app/transport_modes.json.",
       "effort": 2,
       "frequency": 4,
       "impact": 3,
@@ -446,7 +446,32 @@
       "is_active": true,
       "sort_order": 4,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Bus | Average local bus | passenger.km | kg CO2e | 0.10151",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- bus | Average local bus | passenger.km | kg CO2e | 0.02649",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "carpool",
@@ -478,11 +503,11 @@
       "name_en": "Purchase Electric Vehicle",
       "name_ja": "電気自動車を購入",
       "name_es": "Comprar coche eléctrico",
-      "description_en": "Purchase an electric vehicle instead of a gasoline car",
+      "description_en": "Purchase an electric car instead of a petrol car",
       "description_ja": "ガソリン車の代わりに電気自動車を購入する",
       "description_es": "Comprar un coche eléctrico en vez de uno de gasolina",
-      "co2_grams": 3400000,
-      "calculation_notes": "one-time milestone",
+      "co2_grams": 1300000,
+      "calculation_notes": "First-year saving. 7,100 miles/yr (DfT NTS0901a, all cars, England, 2025) x 1.609344 = 11,426 km. Per km: average petrol car 207.51 g CO2e/km (DESNZ 2026, direct 161.52 + well-to-tank 45.99) - electric car 86 g CO2e/km (0.188 kWh/km x 458 g CO2e/kWh, the transport calculator car_bev factor) = 121.51 g/km. 11,426 km x 121.51 = 1,388,415 g, rounded down to 1,300,000 g. Manufacturing is excluded for both cars.",
       "effort": 5,
       "frequency": 1,
       "impact": 4,
@@ -498,10 +523,28 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "UK DEFRA 2024",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
-          "quote": "Battery Electric Cars: Emissions for battery electric cars have decreased by 13.56%, driven by the penetration of newer, more efficient electric vehicles.",
-          "accessed": "2026-01-31"
+          "name": "DfT National Travel Survey NTS0901",
+          "url": "https://assets.publishing.service.gov.uk/media/6a9ed42af36e1f225ecb7eab/nts0901.ods",
+          "quote": "NTS0901a: Annual mileage of cars by fuel type (miles): England, 2002 onwards ... Year | Petrol | Diesel | Hybrid | Plug-in hybrid | Battery electric | All cars ... 2025 | 6,200 | 8,000 | 8,100 | [u] | 9,400 | 7,100",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "EV Database",
+          "url": "https://ev-database.org/cheatsheet/energy-consumption-electric-car",
+          "quote": "Average 188 Wh/km",
+          "accessed": "2026-07-19"
         }
       ]
     },
@@ -514,8 +557,8 @@
       "description_en": "Take a train instead of a domestic flight",
       "description_ja": "国内線の代わりに電車を利用",
       "description_es": "Ir en tren en vez de coger un vuelo nacional",
-      "co2_grams": 96000,
-      "calculation_notes": "per 500 km trip: DEFRA 2025 domestic flight 229.28 g CO2e/pkm (average passenger, radiative forcing included) minus DEFRA 2025 national rail 35.46 g CO2e/pkm = 193.82 g/km x 500 km = 96,910 g, rounded down to 96,000 g (savings always round DOWN). The same factors as flight_domestic and rail_national in data/app/transport_modes.json.",
+      "co2_grams": 110000,
+      "calculation_notes": "per 500 km trip: DESNZ 2026 domestic flight 262.78 g CO2e/pkm (average passenger, radiative forcing on the direct part, including fuel supply) minus DESNZ 2026 national rail 39.89 g CO2e/pkm (including fuel supply) = 222.89 g/km x 500 km = 111,445 g, rounded down to 110,000 g (savings always round DOWN). The same factors as flight_domestic and rail_national in data/app/transport_modes.json.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -529,16 +572,28 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "OpenCO2.net",
-          "url": "https://www.openco2.net/en/emission-factor/2171/",
-          "quote": "229,28 g/hkm",
-          "accessed": "2026-07-17"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- air | Flights | Domestic, to/from UK | Average passenger | With RF | passenger.km | kg CO2e | 0.22928",
+          "accessed": "2026-11-21"
         },
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Rail > National rail | Scope 3 | 0.03546 | passenger.km",
-          "accessed": "2026-07-17"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- business travel- air | WTT- flights | Domestic, to/from UK | Average passenger | With RF | passenger.km | kg CO2e | 0.0335",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Rail | National rail | passenger.km | kg CO2e | 0.03092",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- rail | National rail | passenger.km | kg CO2e | 0.00897",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -551,8 +606,8 @@
       "description_en": "Take a bus instead of driving (~7 km trip)",
       "description_ja": "通勤に車の代わりにバスを利用",
       "description_es": "Ir en autobús en vez de en coche para ir al trabajo",
-      "co2_grams": 500,
-      "calculation_notes": "~7km; bus 89g/pkm vs car 164g/km",
+      "co2_grams": 550,
+      "calculation_notes": "per 7 km trip: DESNZ 2026 average petrol car 207.51 g CO2e/km minus DESNZ 2026 average local bus 128.00 g CO2e/pkm, both including fuel supply (well-to-tank) = 79.51 g/km x 7 km = 556.6 g, rounded down to 550 g (savings always round DOWN). The same factors as car_petrol_avg and bus_city in data/app/transport_modes.json.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -565,7 +620,32 @@
       "is_active": true,
       "sort_order": 8,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Bus | Average local bus | passenger.km | kg CO2e | 0.10151",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- bus | Average local bus | passenger.km | kg CO2e | 0.02649",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "escooter_trip",
@@ -1161,8 +1241,8 @@
       "description_en": "Lower your air conditioner's heating setting by 1 degree today",
       "description_ja": "今日はエアコン暖房の設定温度を1度下げる",
       "description_es": "Bajar hoy 1 grado la calefacción del aire acondicionado",
-      "co2_grams": 140,
-      "calculation_notes": "METI measured: 53.08 kWh/yr saved per 1 C at 9 h/day over a 169-day heating season = 0.3141 kWh/day x 458 = 144, rounded down to 140. Room heat-pump aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
+      "co2_grams": 40,
+      "calculation_notes": "METI: 15.80 kWh/yr saved per 1 C lower on a 2.5 kW aircon, modelled on a wooden south-facing house in Tokyo (JIS C 9612:2013), over a 169-day heating season = 0.093491 kWh/day x 458 = 42.8, rounded down to 40. Room heat-pump aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1178,8 +1258,8 @@
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
-          "quote": "外気温度6℃の時、エアコン（2.2kW）の暖房設定温度を21℃から20℃にした場合（使用時間：9時間／日）年間で電気53.08kWhの省エネ",
-          "accessed": "2026-08-02"
+          "quote": "暖房期間中にエアコン（2.5kW）の設定温度を1℃下げた場合 年間で電気 15.80 kWh の省エネ ... 東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）",
+          "accessed": "2026-11-21"
         },
         {
           "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
@@ -1198,8 +1278,8 @@
       "description_en": "Raise your AC thermostat by 1 degree today",
       "description_ja": "今日は冷房の設定温度を1度上げる",
       "description_es": "Subir la temperatura del aire acondicionado 1 grado hoy",
-      "co2_grams": 120,
-      "calculation_notes": "METI measured: 30.24 kWh/yr saved per 1 C at 9 h/day over a 112-day cooling season = 0.2700 kWh/day x 458 = 124, rounded down to 120. Room aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
+      "co2_grams": 35,
+      "calculation_notes": "METI: 8.80 kWh/yr saved per 1 C higher on a 2.5 kW aircon, modelled on a wooden south-facing house in Tokyo (JIS C 9612:2013), over a 112-day cooling season = 0.078571 kWh/day x 458 = 35.98, rounded down to 35. Room aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1215,8 +1295,8 @@
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
-          "quote": "外気温度31℃の時、エアコン（2.2kW）の冷房設定温度を27℃から1℃上げた場合（使用時間：9時間／日）年間で電気30.24kWhの省エネ",
-          "accessed": "2026-08-02"
+          "quote": "冷房期間中にエアコン（2.5kW）の設定温度を1℃上げた場合 年間で電気 8.80 kWh の省エネ ... 東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）",
+          "accessed": "2026-11-21"
         },
         {
           "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
@@ -1316,8 +1396,8 @@
       "description_en": "Use a fan instead of air conditioning today",
       "description_ja": "今日はエアコンの代わりに扇風機を使用する",
       "description_es": "Usar un ventilador en vez del aire acondicionado hoy",
-      "co2_grams": 600,
-      "calculation_notes": "(aircon_cooling 0.167679 kWh/h - Panasonic F-CV339 DC living fan 0.022 kWh/h) x 9 h = 1.311111 kWh x 458 g CO2e/kWh = 600.5 g, rounded down to 600 g. The aircon rate is METI's measured seasonal average (18.78 kWh/yr per daily hour over a 112-day cooling season), never the JIS nameplate; the 9 h/day basis is METI's own on the same page. Fan runs at its highest notch, the conservative direction for a saving.",
+      "co2_grams": 840,
+      "calculation_notes": "(aircon_cooling 0.226607 kWh/h - Panasonic F-CV339 DC living fan 0.022 kWh/h) x 9 h = 1.841463 kWh x 458 g CO2e/kWh = 843.4 g, rounded down to 840 g. The aircon rate is METI's average for a 2.5 kW unit in a model wooden house in Tokyo (JIS C 9612:2013): 25.38 kWh/yr per daily hour over a 112-day cooling season, never the JIS nameplate. The 9 h/day is an app assumption for a day of cooling: METI states no daily hours for air conditioners. Fan runs at its highest notch, the conservative direction for a saving.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1333,14 +1413,14 @@
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
-          "quote": "冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ",
-          "accessed": "2026-08-09"
+          "quote": "冷房期間中にエアコン（2.5kW）の使用を1日1時間短縮した場合 年間で電気 25.38 kWh の省エネ",
+          "accessed": "2026-11-21"
         },
         {
           "name": "資源エネルギー庁 省エネポータルサイト (計算根拠)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/index.html#konkyo",
-          "quote": "※掲載データは、一般財団法人省エネルギーセンターの実測値を使用しています。 ... 暖房期間 5.5か月（10月28日〜4月14日）169日 冷房期間 3.6か月（6月2日〜9月21日）112日 中間期84日",
-          "accessed": "2026-08-03"
+          "quote": "掲載データは、一般財団法人省エネルギーセンター及び資源エネルギー庁委託事業で実施した測定等の結果を使用しています。 ... 暖房期間 5.5か月（10月28日〜4月14日）169日 冷房期間 3.6か月（6月2日〜9月21日）112日 中間期84日",
+          "accessed": "2026-11-21"
         },
         {
           "name": "Panasonic F-CV339 仕様",
@@ -1742,8 +1822,8 @@
       "description_en": "Reduce shower time by 2+ minutes",
       "description_ja": "シャワーの時間を2分以上短縮",
       "description_es": "Acortar la ducha al menos 2 minutos",
-      "co2_grams": 110,
-      "calculation_notes": "2 min x 59 g/min = 118, rounded down to 110. 59 g/min is the gas carrier floor (7.844784 L/min, delta-T 27.2 K); electric resistance is 114 g/min and a heat pump 26 g/min.",
+      "co2_grams": 130,
+      "calculation_notes": "2 min x 69 g/min = 138, rounded down to 130. 69 g/min is the gas carrier floor (shower_gas 0.328036 kWh/min x 212 g CO2e/kWh, gas including well-to-tank; 7.844784 L/min, delta-T 27.2 K); electric resistance is 114 g/min and a heat pump 26 g/min.",
       "effort": 2,
       "frequency": 5,
       "impact": 2,
@@ -1757,6 +1837,18 @@
       "sort_order": 1,
       "confidence": "medium",
       "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 1 | Fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.18231",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.03021",
+          "accessed": "2026-11-21"
+        },
         {
           "name": "co2data.org",
           "url": "https://www.co2data.org/c/shower",
@@ -1833,8 +1925,8 @@
       "description_en": "Fix a dripping tap or water leak",
       "description_ja": "水漏れや蛇口のポタポタを修理",
       "description_es": "Reparar un grifo que gotea o una fuga de agua",
-      "co2_grams": 100000,
-      "calculation_notes": "lifetime water + energy return",
+      "co2_grams": 4100,
+      "calculation_notes": "one year after the fix: a tap dripping once a second wastes more than 3,000 US gallons a year (EPA WaterSense) = 11.356 m3 x (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 4,113 g, rounded down to 4,100 g. One-off actions count a one-year window. Water heating is excluded because a drip is mostly cold water.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -1844,8 +1936,27 @@
       ],
       "is_active": true,
       "sort_order": 4,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Fix a Leak Week",
+          "url": "https://www.epa.gov/watersense/fix-leak-week",
+          "quote": "A leaky faucet that drips at the rate of one drip per second can waste more than 3,000 gallons per year.",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "cold_water_rinse",
@@ -1972,8 +2083,8 @@
       "description_en": "Take a short shower instead of a full bath",
       "description_ja": "湯船にお湯をためずに短いシャワーで済ませる",
       "description_es": "Darse una ducha corta en vez de un baño completo",
-      "co2_grams": 770,
-      "calculation_notes": "bath_gas 7.526854 kWh - 10-min shower_gas 3.28036 kWh = 4.2465 kWh x 182 = 773, rounded down to 770. Gas floor across carriers; the shower happens either way in JP practice, so a shared bath skipped saves the whole fill.",
+      "co2_grams": 900,
+      "calculation_notes": "bath_gas 7.526854 kWh - 10-min shower_gas 3.28036 kWh = 4.2465 kWh x 212 (gas including well-to-tank) = 900.3, rounded down to 900. Gas floor across carriers; the shower happens either way in JP practice, so a shared bath skipped saves the whole fill.",
       "effort": 2,
       "frequency": 5,
       "impact": 2,
@@ -2010,6 +2121,12 @@
           "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
           "quote": "ghg-conversion-factors-2026-flat-format-revised.xlsx, Version 1.2, natural gas Scope 1 Gross CV = 0.18231 kg CO2e/kWh. Extracted from the flat-format spreadsheet; the value is not rendered as page text on gov.uk.",
           "accessed": "2026-08-02"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.03021",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -2019,11 +2136,11 @@
       "name_en": "Plant a Tree",
       "name_ja": "木を植える",
       "name_es": "Plantar un árbol",
-      "description_en": "Plant a tree to absorb CO2 for years to come",
-      "description_ja": "CO2を吸収する木を植える",
-      "description_es": "Plantar un árbol para absorber CO2 en los años venideros",
-      "co2_grams": 15000,
-      "calculation_notes": "~15kg first-year absorption",
+      "description_en": "Plant a tree for shade and wildlife",
+      "description_ja": "木陰と生き物のために木を植える",
+      "description_es": "Plantar un árbol para dar sombra y hábitat a la fauna",
+      "co2_grams": 0,
+      "calculation_notes": "No sequestration claim: 0 g. A sapling absorbs little in its first years, survival is uncertain, and the carbon is stored only while the tree lives. The action still earns points for the effort.",
       "effort": 4,
       "frequency": 1,
       "impact": 5,
@@ -2034,15 +2151,8 @@
       ],
       "is_active": true,
       "sort_order": 1,
-      "confidence": "medium",
-      "sources": [
-        {
-          "name": "EPA",
-          "url": "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator",
-          "quote": "Urban trees sequester 85-140 lbs CO2 over first 10 years.",
-          "accessed": "2026-01-31"
-        }
-      ]
+      "confidence": null,
+      "sources": []
     },
     {
       "action_id": "beach_cleanup",
@@ -2132,8 +2242,8 @@
       "description_en": "Participate in a community garden session",
       "description_ja": "コミュニティガーデンの活動に参加",
       "description_es": "Participar en una sesión de huerto comunitario",
-      "co2_grams": 200,
-      "calculation_notes": "sequestration + local food miles",
+      "co2_grams": 0,
+      "calculation_notes": "social and food-security value; no CO2 claim (urban agriculture averages about 6x the footprint of conventional farming per unit of food, see Plan/RESEARCH_ACTIONS.md)",
       "effort": 3,
       "frequency": 3,
       "impact": 4,
