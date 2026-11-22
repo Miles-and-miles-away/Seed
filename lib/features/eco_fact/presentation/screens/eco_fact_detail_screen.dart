@@ -51,12 +51,22 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
         _maybeMarkViewed(isLocked: isLocked);
 
         final name = fact.name(locale);
-        final title = name.isNotEmpty ? name : l10n.ecoFactTitle;
+        final card = EcoFactCard(fact: fact, isLocked: isLocked);
+        final inBar = name.isNotEmpty && _fitsAppBar(context, name);
         return Scaffold(
-          appBar: AppBar(title: Text(title)),
+          appBar: AppBar(title: Text(inBar ? name : l10n.ecoFactTitle)),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(spacingLg),
-            child: EcoFactCard(fact: fact, isLocked: isLocked),
+            child: inBar || name.isEmpty
+                ? card
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(name, style: _titleStyle(context)),
+                      const SizedBox(height: spacingMd),
+                      card,
+                    ],
+                  ),
           ),
         );
       },
@@ -69,6 +79,24 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
         body: const Center(child: ErrorDisplay()),
       ),
     );
+  }
+
+  TextStyle? _titleStyle(BuildContext context) {
+    final theme = Theme.of(context);
+    return theme.appBarTheme.titleTextStyle ?? theme.textTheme.titleLarge;
+  }
+
+  // Assumes a centred title with a back button on each side.
+  bool _fitsAppBar(BuildContext context, String name) {
+    final painter = TextPainter(
+      text: TextSpan(text: name, style: _titleStyle(context)),
+      maxLines: 1,
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout(maxWidth: MediaQuery.sizeOf(context).width - 2 * kToolbarHeight);
+    final fits = !painter.didExceedMaxLines;
+    painter.dispose();
+    return fits;
   }
 
   void _maybeMarkViewed({required bool isLocked}) {

@@ -640,6 +640,25 @@
   "ecoFactTitle": "Eco-dato del día",
   "ecoFactDidYouKnow": "¿Sabías que...?",
   "ecoFactSource": "Fuente",
+  "labelPrefix": "{label}: ",
+  "@labelPrefix": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "sentencePair": "{first} {second}",
+  "@sentencePair": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
   "ecoFactLocked": "¡Completa el desafío de hoy para desbloquear este dato!",
   "ecoFactInboxTitle": "Bandeja de entrada",
   "ecoFactInboxEmpty": "Aún no hay correo. Completa el desafío de hoy para recibir tu primer eco-dato.",

@@ -712,6 +712,25 @@
   "ecoFactTitle": "Today's Eco-Fact",
   "ecoFactDidYouKnow": "Did you know?",
   "ecoFactSource": "Source",
+  "labelPrefix": "{label}: ",
+  "@labelPrefix": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "sentencePair": "{first} {second}",
+  "@sentencePair": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
   "ecoFactLocked": "Complete today's challenge to unlock this fact!",
   "ecoFactInboxTitle": "Inbox",
   "ecoFactInboxEmpty": "No mail yet. Complete today's challenge to receive your first eco-fact.",

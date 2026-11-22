@@ -2284,6 +2284,18 @@ abstract class AppLocalizations {
   /// **'Source'**
   String get ecoFactSource;
 
+  /// No description provided for @labelPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: '**
+  String labelPrefix(String label);
+
+  /// No description provided for @sentencePair.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} {second}'**
+  String sentencePair(String first, String second);
+
   /// No description provided for @ecoFactLocked.
   ///
   /// In en, this message translates to:

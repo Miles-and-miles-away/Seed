@@ -640,6 +640,25 @@
   "ecoFactTitle": "今日のエコファクト",
   "ecoFactDidYouKnow": "知っていましたか？",
   "ecoFactSource": "出典",
+  "labelPrefix": "{label}：",
+  "@labelPrefix": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "sentencePair": "{first}{second}",
+  "@sentencePair": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
   "ecoFactLocked": "今日のチャレンジを完了してファクトを解除しよう！",
   "ecoFactInboxTitle": "受信トレイ",
   "ecoFactInboxEmpty": "まだメールはありません。今日のチャレンジを完了して最初のエコファクトを受け取ろう。",

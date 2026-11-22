@@ -338,6 +338,46 @@ describe('users/{userId} update — ownership', () => {
   });
 });
 
+describe('users/{userId} update: map key bounds', () => {
+  const userRef = () => doc(aliceDb(), `users/${ALICE}`);
+  const sdgStats = (ids) =>
+    Object.fromEntries(ids.map((id) => [id, {count: 1, co2: 0}]));
+  const allSdgs = Array.from({length: 17}, (_, i) => `${i + 1}`);
+
+  beforeEach(() => seed(`users/${ALICE}`, baseUserDoc));
+
+  test('accepts sdgStats keyed by all 17 SDG ids', async () => {
+    await assertSucceeds(updateDoc(userRef(), {sdgStats: sdgStats(allSdgs)}));
+  });
+
+  test('rejects an sdgStats key that is not an SDG id', async () => {
+    await assertFails(
+      updateDoc(userRef(), {sdgStats: sdgStats([...allSdgs, '18'])}),
+    );
+  });
+
+  test('accepts the settings shape the app writes', async () => {
+    await assertSucceeds(
+      updateDoc(userRef(), {
+        settings: {
+          language: 'ja',
+          themeMode: 'dark',
+          notificationsEnabled: true,
+          reminderHour: 9,
+          reminderMinute: 0,
+          actionRemindersEnabled: true,
+          actionReminders: {recycle: {hour: 8, minute: 30}},
+          analyticsEnabled: false,
+          walkthroughFound: ['intro'],
+          seenStreakMilestones: {1: true},
+          reminderSchedules: [],
+          smartRemindersEnabled: true,
+        },
+      }),
+    );
+  });
+});
+
 describe('users/{userId} update — score integrity', () => {
   // Scoring runs client-side; the rules enforce types, monotonicity,
   // bounded jumps, and that any points increase arrives in an
@@ -673,6 +713,44 @@ describe('users/{userId}/actionLog/{logId}', () => {
       });
       await assertSucceeds(batch.commit());
     });
+
+  test('the widest client transaction (21 user fields) passes', async () => {
+    await seed(`users/${ALICE}`, {
+      ...baseUserDoc,
+      mascots: [{id: 'm1', speciesId: 'seed', mascotPoints: 0}],
+      activeMascotId: 'm1',
+      activeMultiDayChallenge: {templateId: 'md1', currentDay: 2},
+    });
+    const db = aliceDb();
+    const batch = writeBatch(db);
+    batch.set(doc(db, logPath), validLog);
+    const userUpdate = {
+      points: 10,
+      level: 1,
+      currentStreak: 1,
+      longestStreak: 1,
+      lastActionDate: serverTimestamp(),
+      lastActionUtcOffsetMinutes: 540,
+      totalCo2Grams: 500,
+      totalActionsCount: increment(1),
+      sdgStats: {12: {count: 1, co2: 500}},
+      categoryActionCounts: {recycling: 1},
+      uniqueActionIds: arrayUnion(ACTION_ID),
+      mascots: [{id: 'm1', speciesId: 'seed', mascotPoints: 10}],
+      eggPendingDiscovery: true,
+      eggPendingDiscoverySince: Timestamp.now(),
+      challengeCompletedDate: '2026-06-10',
+      challengeStreak: 1,
+      challengesCompleted: 1,
+      recentChallengeIds: ['recycling_1'],
+      unlockedFactDates: arrayUnion('2026-06-10'),
+      activeMultiDayChallenge: {},
+      completedMultiDayChallenges: arrayUnion('md1'),
+    };
+    expect(Object.keys(userUpdate)).toHaveLength(21);
+    batch.update(doc(db, `users/${ALICE}`), userUpdate);
+    await assertSucceeds(batch.commit());
+  });
 
   test('rejects a standalone create (no user-doc update)', async () => {
     await assertFails(setDoc(doc(aliceDb(), logPath), validLog));

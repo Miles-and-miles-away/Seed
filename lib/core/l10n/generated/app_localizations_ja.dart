@@ -1341,6 +1341,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get ecoFactSource => '出典';
 
   @override
+  String labelPrefix(String label) {
+    return '$label：';
+  }
+
+  @override
+  String sentencePair(String first, String second) {
+    return '$first$second';
+  }
+
+  @override
   String get ecoFactLocked => '今日のチャレンジを完了してファクトを解除しよう！';
 
   @override

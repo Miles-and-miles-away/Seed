@@ -1426,6 +1426,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ecoFactSource => 'Fuente';
 
   @override
+  String labelPrefix(String label) {
+    return '$label: ';
+  }
+
+  @override
+  String sentencePair(String first, String second) {
+    return '$first $second';
+  }
+
+  @override
   String get ecoFactLocked =>
       '¡Completa el desafío de hoy para desbloquear este dato!';
 
