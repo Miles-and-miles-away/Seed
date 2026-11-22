@@ -241,6 +241,18 @@ void main() {
       expect(find.textContaining('less than Test Car'), findsNothing);
     });
 
+    testWidgets('equal journeys show no saving and no bank action', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addLeg(tester, modeName: 'Test Rail', distance: '100');
+      await addLeg(tester, modeName: 'Test Rail', distance: '100', column: 1);
+
+      expect(find.textContaining('same emissions'), findsOneWidget);
+      expect(find.textContaining('as a choice I took today'), findsNothing);
+    });
+
     testWidgets('a CO2e total links to a definition of the unit', (
       tester,
     ) async {

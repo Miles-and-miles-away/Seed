@@ -212,14 +212,16 @@ class SettingsRepository {
   }
 
   /// Everything stored for [uid], as indented JSON for a data export.
+  /// Reads the server, so offline it throws rather than export a partial cache.
   Future<String> exportUserData(String uid) async {
+    const server = GetOptions(source: Source.server);
     final userDoc = _userDoc(uid);
     final export = <String, Object?>{
       'exportedAt': DateTime.now().toUtc().toIso8601String(),
-      'user': (await userDoc.get()).data(),
+      'user': (await userDoc.get(server)).data(),
     };
     for (final name in _exportedSubcollections) {
-      final snapshot = await userDoc.collection(name).get();
+      final snapshot = await userDoc.collection(name).get(server);
       export[name] = {for (final d in snapshot.docs) d.id: d.data()};
     }
     return const JsonEncoder.withIndent('  ', _toJsonValue).convert(export);

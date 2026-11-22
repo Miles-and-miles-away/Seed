@@ -242,6 +242,33 @@ void main() {
       ]);
     });
 
+    test('name sort ignores case and accents', () async {
+      final c = await pumpedContainer([
+        actionLibraryProvider.overrideWith(
+          (_) async => [
+            _a(id: 'walk', name: 'Walk'),
+            _a(id: 'eat', name: 'eat local'),
+            _a(id: 'dia', name: 'Día sin coche'),
+            _a(id: 'ducha', name: 'Ducha corta'),
+          ],
+        ),
+      ], warm: actionLibraryProvider);
+      c
+        ..listen(filteredActionsProvider, (_, _) {})
+        ..listen(selectedSortOptionProvider, (_, _) {});
+      c
+          .read(selectedSortOptionProvider.notifier)
+          .select(ActionSortOption.alphabeticalAsc);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(c.read(filteredActionsProvider).value!.map((a) => a.id), [
+        'dia',
+        'ducha',
+        'eat',
+        'walk',
+      ]);
+    });
+
     test('alphabeticalDesc reverses the order', () async {
       expect(await sortedIds(ActionSortOption.alphabeticalDesc), [
         'walk',

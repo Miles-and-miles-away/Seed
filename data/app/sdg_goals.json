@@ -28,8 +28,8 @@
     "titleEs": "Hambre cero",
     "shortTitleJa": "飢餓をゼロに",
     "shortTitleEs": "Hambre cero",
-    "descriptionJa": "飢餓に終止符を打ち、食料の安定確保と栄養状態の改善を達成するとともに、持続可能な農業を推進する。世界の飢餓は2022年をピークに3年連続で減少しています。それでも2025年には、世界人口の推定7.8%が飢餓に直面しました。農業は世界の労働者の約4分の1を雇用しています。",
-    "descriptionEs": "Poner fin al hambre, lograr la seguridad alimentaria, mejorar la nutrición y promover la agricultura sostenible. El hambre en el mundo alcanzó su máximo en 2022 y ha disminuido durante tres años seguidos. Aun así, se estima que el 7,8% de la población mundial pasó hambre en 2025. La agricultura emplea a cerca de una cuarta parte de los trabajadores del mundo.",
+    "descriptionJa": "飢餓に終止符を打ち、食料の安定確保と栄養状態の改善を達成するとともに、持続可能な農業を推進する。世界の飢餓は2022年をピークに3年連続で減少しています。それでも2025年には、世界人口の推定7.8%が飢餓に直面しました。食料・農業部門は、開発のための重要な解決策を提供します。農業は世界の労働者の約4分の1を雇用しており、農村部の貧困世帯にとって重要な収入源です。",
+    "descriptionEs": "Poner fin al hambre, lograr la seguridad alimentaria, mejorar la nutrición y promover la agricultura sostenible. El hambre en el mundo alcanzó su máximo en 2022 y ha disminuido durante tres años seguidos. Aun así, se estima que el 7,8% de la población mundial pasó hambre en 2025. El sector de la alimentación y la agricultura ofrece soluciones clave para el desarrollo. La agricultura emplea aproximadamente a una cuarta parte de los trabajadores del mundo y es una fuente importante de ingresos para los hogares rurales pobres.",
     "keyFigureEn": "7.8%",
     "keyFigureJa": "7.8%",
     "keyFigureEs": "7,8%",
@@ -47,8 +47,8 @@
     "titleEs": "Salud y bienestar",
     "shortTitleJa": "健康と福祉",
     "shortTitleEs": "Salud y bienestar",
-    "descriptionJa": "あらゆる年齢のすべての人の健康的な生活を確保し、福祉を推進する。主な死因や疾病のいくつかについて大きな進歩がありました。平均寿命は大幅に延び、乳児と妊産婦の死亡率は低下しました。しかし、疾病を完全に根絶し、根強い健康問題や新たな健康問題に対処するには、さらなる努力が必要です。",
-    "descriptionEs": "Garantizar una vida sana y promover el bienestar de todos a todas las edades. Hemos logrado grandes avances contra varias de las principales causas de muerte y enfermedad. La esperanza de vida ha aumentado de forma espectacular; las tasas de mortalidad infantil y materna han disminuido. Sin embargo, se necesitan más esfuerzos para erradicar enfermedades y abordar problemas de salud persistentes y emergentes."
+    "descriptionJa": "あらゆる年齢のすべての人の健康的な生活を確保し、福祉を推進する。主な死因や疾病のいくつかについて大きな進歩がありました。平均寿命は大幅に延び、乳児と妊産婦の死亡率は低下しました。HIVとマラリアによる死亡は減少に転じました。しかし、疾病を完全に根絶し、根強い健康問題や新たな健康問題に対処するには、さらなる努力が必要です。",
+    "descriptionEs": "Garantizar una vida sana y promover el bienestar de todos a todas las edades. Hemos logrado grandes avances contra varias de las principales causas de muerte y enfermedad. La esperanza de vida ha aumentado de forma espectacular; las tasas de mortalidad infantil y materna han disminuido. Hemos logrado invertir la tendencia de las muertes por VIH y malaria. Sin embargo, se necesitan más esfuerzos para erradicar por completo las enfermedades y abordar problemas de salud persistentes y emergentes."
   },
   {
     "number": 4,
@@ -61,8 +61,8 @@
     "titleEs": "Educación de calidad",
     "shortTitleJa": "質の高い教育",
     "shortTitleEs": "Educación",
-    "descriptionJa": "すべての人に包摂的かつ公平で質の高い教育を提供し、生涯学習の機会を促進する。教育は社会経済的な地位の向上を可能にし、貧困から脱出するための鍵です。2000年から2015年にかけて、教育へのアクセスと就学率の向上に大きな進歩がありました。しかしその後は停滞し、2024年時点で2億7,300万人の子どもと若者が学校に通えていません。",
-    "descriptionEs": "Garantizar una educación inclusiva y equitativa de calidad y promover oportunidades de aprendizaje permanente para todos. La educación permite la movilidad socioeconómica ascendente y es clave para escapar de la pobreza. Entre 2000 y 2015 se lograron avances importantes en el acceso a la educación. Sin embargo, desde entonces el progreso se ha estancado y 273 millones de niños y jóvenes seguían sin escolarizar en 2024.",
+    "descriptionJa": "すべての人に包摂的かつ公平で質の高い教育を提供し、生涯学習の機会を促進する。教育は社会経済的な地位の向上を可能にし、貧困から脱出するための鍵です。2000年から2015年にかけて、教育へのアクセスとあらゆるレベルでの就学率の向上に大きな進歩がありました。しかしその後は停滞し、2024年時点で2億7,300万人の子どもと若者が学校に通えていません。",
+    "descriptionEs": "Garantizar una educación inclusiva y equitativa de calidad y promover oportunidades de aprendizaje permanente para todos. La educación permite la movilidad socioeconómica ascendente y es clave para escapar de la pobreza. Entre 2000 y 2015 se lograron avances importantes en el acceso a la educación y en las tasas de escolarización en todos los niveles. Sin embargo, desde entonces el progreso se ha estancado y 273 millones de niños y jóvenes seguían sin escolarizar en 2024.",
     "keyFigureEn": "273 million",
     "keyFigureJa": "2億7,300万",
     "keyFigureEs": "273 millones",
@@ -80,8 +80,8 @@
     "titleEs": "Igualdad de género",
     "shortTitleJa": "ジェンダー平等",
     "shortTitleEs": "Igualdad de género",
-    "descriptionJa": "ジェンダーの平等を達成し、すべての女性と女児のエンパワーメントを図る。ジェンダーの平等は基本的人権であるだけでなく、平和で豊かで持続可能な世界のために必要な基盤です。女性と女児に教育、医療、ディーセント・ワーク、政治・経済的意思決定への平等なアクセスを提供することが持続可能な経済を促進します。",
-    "descriptionEs": "Lograr la igualdad de género y empoderar a todas las mujeres y niñas. La igualdad de género no es solo un derecho humano fundamental, sino una base necesaria para un mundo pacífico, próspero y sostenible. Dar a mujeres y niñas acceso en igualdad de condiciones a la educación, la sanidad, el trabajo decente y la representación en los procesos de toma de decisiones impulsará economías sostenibles."
+    "descriptionJa": "ジェンダーの平等を達成し、すべての女性と女児のエンパワーメントを図る。ジェンダーの平等は基本的人権であるだけでなく、平和で豊かで持続可能な世界のために必要な基盤です。女性と女児に教育、医療、ディーセント・ワーク、政治・経済的意思決定への平等なアクセスを提供することは、持続可能な経済を促進し、社会と人類全体に恩恵をもたらします。",
+    "descriptionEs": "Lograr la igualdad de género y empoderar a todas las mujeres y niñas. La igualdad de género no es solo un derecho humano fundamental, sino una base necesaria para un mundo pacífico, próspero y sostenible. Dar a mujeres y niñas acceso en igualdad de condiciones a la educación, la sanidad, el trabajo decente y la representación en los procesos de toma de decisiones políticas y económicas impulsará economías sostenibles y beneficiará a las sociedades y a la humanidad en su conjunto."
   },
   {
     "number": 6,
@@ -93,8 +93,8 @@
     "titleEs": "Agua limpia y saneamiento",
     "shortTitleJa": "安全な水",
     "shortTitleEs": "Agua limpia",
-    "descriptionJa": "すべての人に水と衛生へのアクセスと持続可能な管理を確保する。2022年には、世界人口の約半数が1年のうち少なくとも一時期、深刻な水不足に直面しました。2015年から2024年にかけて9億6,100万人が安全に管理された飲料水を利用できるようになりましたが、2024年時点でも4人に1人がまだ利用できていません。",
-    "descriptionEs": "Garantizar la disponibilidad y la gestión sostenible del agua y el saneamiento para todos. En 2022, aproximadamente la mitad de la población mundial sufrió escasez grave de agua durante al menos parte del año. Entre 2015 y 2024, 961 millones de personas obtuvieron acceso a agua potable gestionada de forma segura, pero 1 de cada 4 personas seguía sin tenerla en 2024.",
+    "descriptionJa": "すべての人に水と衛生へのアクセスと持続可能な管理を確保する。2022年には、世界人口の約半数が1年のうち少なくとも一時期、深刻な水不足に直面しました。世界の気温上昇に伴い、この状況はさらに悪化すると予測されています。2015年から2024年にかけて9億6,100万人が安全に管理された飲料水を利用できるようになりましたが、2024年時点でも4人に1人がまだ利用できていません。",
+    "descriptionEs": "Garantizar la disponibilidad y la gestión sostenible del agua y el saneamiento para todos. En 2022, aproximadamente la mitad de la población mundial sufrió escasez grave de agua durante al menos parte del año. Se prevé que esta cifra aumente con la subida de las temperaturas mundiales. Entre 2015 y 2024, 961 millones de personas obtuvieron acceso a agua potable gestionada de forma segura, pero 1 de cada 4 personas seguía sin tenerla en 2024.",
     "keyFigureEn": "961 million",
     "keyFigureJa": "9億6,100万",
     "keyFigureEs": "961 millones",
@@ -112,8 +112,8 @@
     "titleEs": "Energía asequible y no contaminante",
     "shortTitleJa": "クリーンエネルギー",
     "shortTitleEs": "Energía limpia",
-    "descriptionJa": "すべての人に手頃で信頼でき、持続可能かつ近代的なエネルギーへのアクセスを確保する。エネルギーは今日世界が直面するほぼすべての主要な課題と機会の中心にあります。世界は順調に前進しており、貧しい国々でのエネルギーアクセスが加速し、エネルギー効率は改善を続けています。",
-    "descriptionEs": "Garantizar el acceso a una energía asequible, fiable, sostenible y moderna para todos. La energía es fundamental para casi todos los grandes desafíos y oportunidades del mundo actual. El mundo está progresando: el acceso a la energía en los países más pobres ha comenzado a acelerarse y la eficiencia energética sigue mejorando."
+    "descriptionJa": "すべての人に手頃で信頼でき、持続可能かつ近代的なエネルギーへのアクセスを確保する。エネルギーは今日世界が直面するほぼすべての主要な課題と機会の中心にあります。雇用、安全保障、気候変動、食料生産、所得の向上のいずれにおいても、すべての人がエネルギーを利用できることが不可欠です。世界は順調に前進しており、貧しい国々でのエネルギーアクセスが加速し始め、エネルギー効率は改善を続けています。",
+    "descriptionEs": "Garantizar el acceso a una energía asequible, fiable, sostenible y moderna para todos. La energía es fundamental para casi todos los grandes desafíos y oportunidades del mundo actual. Ya sea para el empleo, la seguridad, el cambio climático, la producción de alimentos o el aumento de los ingresos, el acceso a la energía para todos es esencial. El mundo está progresando a buen ritmo: el acceso a la energía en los países más pobres ha comenzado a acelerarse y la eficiencia energética sigue mejorando."
   },
   {
     "number": 8,
@@ -126,7 +126,7 @@
     "titleEs": "Trabajo decente y crecimiento económico",
     "shortTitleJa": "働きがいと成長",
     "shortTitleEs": "Trabajo decente",
-    "descriptionJa": "すべての人のための持続的、包摂的かつ持続可能な経済成長、完全かつ生産的な雇用およびディーセント・ワークを推進する。2025年の世界の失業率は4.9%でしたが、労働者の約58%は、契約も保護も安定した収入もないインフォーマルな仕事に就いていました。仕事があっても貧困から抜け出せるとは限らず、2025年には2億8,400万人の労働者が極度の貧困の中で暮らしていました。2025年には、若者の5人に1人が就業も就学も職業訓練もしていませんでした。",
+    "descriptionJa": "すべての人のための持続的、包摂的かつ持続可能な経済成長、完全かつ生産的な雇用およびディーセント・ワークを推進する。2025年の世界の失業率は4.9%でしたが、労働者の58%近くは、契約も保護も安定した収入もないインフォーマルな仕事に就いていました。仕事があっても貧困から抜け出せるとは限らず、2025年には2億8,400万人の労働者が極度の貧困の中で暮らしていました。2025年には、若者の5人に1人が就業も就学も職業訓練もしていませんでした。",
     "descriptionEs": "Promover el crecimiento económico sostenido, inclusivo y sostenible, el empleo pleno y productivo y el trabajo decente para todos. El desempleo mundial se situó en el 4,9% en 2025, pero casi el 58% de los trabajadores tenía un empleo informal, sin contrato, protección ni ingresos fiables. Tener un empleo no garantiza salir de la pobreza: 284 millones de trabajadores vivían en pobreza extrema en 2025. En 2025, uno de cada cinco jóvenes ni estudiaba, ni trabajaba ni recibía formación.",
     "keyFigureEn": "284 million",
     "keyFigureJa": "2億8,400万",
@@ -146,8 +146,8 @@
     "titleEs": "Industria, innovación e infraestructura",
     "shortTitleJa": "技術革新",
     "shortTitleEs": "Innovación",
-    "descriptionJa": "強靭なインフラを整備し、包摂的で持続可能な産業化を推進するとともに、技術革新の拡大を図る。インフラと技術革新への投資は、経済成長と開発の重要な推進力です。世界人口の半数以上が都市に住む現在、公共交通と再生可能エネルギーはますます重要になっています。",
-    "descriptionEs": "Construir infraestructuras resilientes, promover la industrialización inclusiva y sostenible y fomentar la innovación. La inversión en infraestructuras e innovación es un motor crucial del crecimiento económico. Con más de la mitad de la población mundial viviendo ya en ciudades, el transporte colectivo y las energías renovables son cada vez más importantes."
+    "descriptionJa": "強靭なインフラを整備し、包摂的で持続可能な産業化を推進するとともに、技術革新の拡大を図る。インフラと技術革新への投資は、経済成長と開発の重要な推進力です。世界人口の半数以上が都市に住む現在、公共交通と再生可能エネルギー、そして新しい産業や情報通信技術の成長は、ますます重要になっています。",
+    "descriptionEs": "Construir infraestructuras resilientes, promover la industrialización inclusiva y sostenible y fomentar la innovación. La inversión en infraestructuras e innovación es un motor crucial del crecimiento económico y del desarrollo. Con más de la mitad de la población mundial viviendo ya en ciudades, el transporte colectivo y las energías renovables son cada vez más importantes, al igual que el crecimiento de nuevas industrias y de las tecnologías de la información y las comunicaciones."
   },
   {
     "number": 10,
@@ -178,8 +178,8 @@
     "titleEs": "Ciudades y comunidades sostenibles",
     "shortTitleJa": "持続可能な都市",
     "shortTitleEs": "Ciudades sostenibles",
-    "descriptionJa": "都市と人間の居住地を包摂的、安全、強靭かつ持続可能にする。都市はアイデア、商業、文化、科学、生産性、社会開発などの拠点です。都市は人々の社会的・経済的な発展を可能にしてきました。しかし、土地と資源に負担をかけずに雇用と繁栄を生み出し続ける都市を維持するには、多くの課題があります。",
-    "descriptionEs": "Lograr que las ciudades y los asentamientos humanos sean inclusivos, seguros, resilientes y sostenibles. Las ciudades son centros de ideas, comercio, cultura, ciencia y productividad. En el mejor de los casos, han permitido a las personas progresar social y económicamente. Sin embargo, existen muchos desafíos para mantener ciudades que creen empleo y prosperidad sin agotar los recursos."
+    "descriptionJa": "都市と人間の居住地を包摂的、安全、強靭かつ持続可能にする。都市はアイデア、商業、文化、科学、生産性、社会開発など、多くのものの拠点です。都市は、うまく機能すれば、人々の社会的・経済的な発展を可能にしてきました。しかし、土地と資源に負担をかけずに雇用と繁栄を生み出し続ける都市を維持するには、多くの課題があります。",
+    "descriptionEs": "Lograr que las ciudades y los asentamientos humanos sean inclusivos, seguros, resilientes y sostenibles. Las ciudades son centros de ideas, comercio, cultura, ciencia, productividad, desarrollo social y mucho más. En el mejor de los casos, han permitido a las personas progresar social y económicamente. Sin embargo, existen muchos desafíos para mantener las ciudades de forma que sigan creando empleo y prosperidad sin agotar la tierra ni los recursos."
   },
   {
     "number": 12,
@@ -191,7 +191,7 @@
     "titleEs": "Producción y consumo responsables",
     "shortTitleJa": "責任ある消費と生産",
     "shortTitleEs": "Consumo responsable",
-    "descriptionJa": "持続可能な消費と生産のパターンを確保する。経済成長と持続可能な開発を達成するには、商品と資源の生産・消費方法を変えることで、エコロジカル・フットプリントを早急に削減する必要があります。農業は世界最大の水使用者であり、2015年から2023年にかけて水利用効率を39%改善しました。これはほかのどの部門よりも大きな改善です。",
+    "descriptionJa": "持続可能な消費と生産のパターンを確保する。経済成長と持続可能な開発を達成するには、商品と資源の生産・消費方法を変えることで、エコロジカル・フットプリントを早急に削減する必要があります。農業は世界最大の水使用者であり、2015年から2023年にかけて水利用効率を39%改善しました。これは他のどの部門よりも大きな改善です。",
     "descriptionEs": "Garantizar modalidades de consumo y producción sostenibles. Para lograr el crecimiento económico y el desarrollo sostenible es urgente reducir nuestra huella ecológica cambiando la forma en que producimos y consumimos bienes y recursos. La agricultura es el mayor consumidor de agua a nivel mundial y entre 2015 y 2023 mejoró su eficiencia en el uso del agua un 39%, más que cualquier otro sector.",
     "keyFigureEn": "39%",
     "keyFigureJa": "39%",
@@ -211,7 +211,7 @@
     "shortTitleJa": "気候変動対策",
     "shortTitleEs": "Acción climática",
     "descriptionJa": "気候変動とその影響に立ち向かうため、緊急対策を取る。気候変動はすべての大陸のすべての国に影響を与えています。国の経済を混乱させ、生活と生計に影響を与えています。気象パターンは変化し、海面は上昇し、気象現象はより極端になっています。温室効果ガスの排出量は史上最高水準にあります。",
-    "descriptionEs": "Adoptar medidas urgentes para combatir el cambio climático y sus efectos. El cambio climático afecta a todos los países de todos los continentes. Está perturbando las economías nacionales y afectando vidas y medios de subsistencia. Los patrones meteorológicos están cambiando, el nivel del mar está subiendo y los fenómenos meteorológicos son cada vez más extremos."
+    "descriptionEs": "Adoptar medidas urgentes para combatir el cambio climático y sus efectos. El cambio climático afecta a todos los países de todos los continentes. Está perturbando las economías nacionales y afectando vidas y medios de subsistencia. Los patrones meteorológicos están cambiando, el nivel del mar está subiendo y los fenómenos meteorológicos son cada vez más extremos. Las emisiones de gases de efecto invernadero se encuentran en los niveles más altos de la historia."
   },
   {
     "number": 14,
@@ -223,8 +223,8 @@
     "titleEs": "Vida submarina",
     "shortTitleJa": "海の豊かさ",
     "shortTitleEs": "Vida submarina",
-    "descriptionJa": "海洋と海洋資源を持続可能な開発に向けて保全し、持続可能な形で利用する。海洋は、地球を人類が暮らせる場所にしている地球規模のシステムを動かしています。雨水、飲料水、天候、気候、海岸線、食料の多く、そして呼吸する空気中の酸素さえも、すべて最終的には海がもたらし、調整しています。",
-    "descriptionEs": "Conservar y utilizar sosteniblemente los océanos, los mares y los recursos marinos para el desarrollo sostenible. Los océanos impulsan los sistemas globales que hacen habitable la Tierra. El agua de lluvia, el agua potable, el clima, las costas, gran parte de nuestros alimentos e incluso el oxígeno que respiramos dependen, en última instancia, del mar."
+    "descriptionJa": "海洋と海洋資源を持続可能な開発に向けて保全し、持続可能な形で利用する。海洋は、地球を人類が暮らせる場所にしている地球規模のシステムを動かしています。雨水、飲料水、天候、気候、海岸線、食料の多く、そして呼吸する空気中の酸素さえも、すべて最終的には海がもたらし、調整しています。この不可欠な地球規模の資源を慎重に管理することは、持続可能な未来の重要な要素です。",
+    "descriptionEs": "Conservar y utilizar sosteniblemente los océanos, los mares y los recursos marinos para el desarrollo sostenible. Los océanos impulsan los sistemas globales que hacen habitable la Tierra para la humanidad. En última instancia, es el mar el que proporciona y regula el agua de lluvia, el agua potable, el tiempo, el clima, las costas, gran parte de nuestros alimentos e incluso el oxígeno del aire que respiramos. La gestión cuidadosa de este recurso mundial esencial es un elemento clave de un futuro sostenible."
   },
   {
     "number": 15,
@@ -236,8 +236,8 @@
     "titleEs": "Vida de ecosistemas terrestres",
     "shortTitleJa": "陸の豊かさ",
     "shortTitleEs": "Vida terrestre",
-    "descriptionJa": "陸上生態系の保護、回復および持続可能な利用の推進、森林の持続可能な管理、砂漠化への対処、土地劣化の阻止および逆転、ならびに生物多様性損失の阻止を図る。人間の生活は食料と生計のために海と同様に陸地に依存しています。森林は世界の陸地の32%を覆い、数百万の種に重要な生息地を提供しています。",
-    "descriptionEs": "Proteger, restablecer y promover el uso sostenible de los ecosistemas terrestres, gestionar sosteniblemente los bosques, luchar contra la desertificación, detener e invertir la degradación de las tierras y detener la pérdida de biodiversidad. Los bosques cubren el 32% de la superficie terrestre mundial y proporcionan hábitats vitales para millones de especies.",
+    "descriptionJa": "陸上生態系の保護、回復および持続可能な利用の推進、森林の持続可能な管理、砂漠化への対処、土地劣化の阻止および逆転、ならびに生物多様性損失の阻止を図る。人間の生活は食料と生計のために海と同様に陸地に依存しています。森林は世界の陸地の32%を覆い、数百万の種に重要な生息地を提供するとともに、きれいな空気と水の重要な供給源となっています。",
+    "descriptionEs": "Proteger, restablecer y promover el uso sostenible de los ecosistemas terrestres, gestionar sosteniblemente los bosques, luchar contra la desertificación, detener e invertir la degradación de las tierras y detener la pérdida de biodiversidad. La vida humana depende tanto de la tierra como del océano para su sustento y sus medios de vida. Los bosques cubren el 32% de la superficie terrestre mundial y proporcionan hábitats vitales para millones de especies, además de ser fuentes importantes de aire y agua limpios.",
     "keyFigureEn": "32%",
     "keyFigureJa": "32%",
     "keyFigureEs": "32%",
@@ -256,8 +256,8 @@
     "titleEs": "Paz, justicia e instituciones sólidas",
     "shortTitleJa": "平和と公正",
     "shortTitleEs": "Paz y justicia",
-    "descriptionJa": "持続可能な開発に向けて平和で包摂的な社会を推進し、すべての人に司法へのアクセスを提供し、あらゆるレベルにおいて効果的で責任ある包摂的な制度を構築する。紛争、不安定、脆弱な制度、限られた司法へのアクセスは、持続可能な開発に対する大きな脅威であり続けています。",
-    "descriptionEs": "Promover sociedades pacíficas e inclusivas para el desarrollo sostenible, facilitar el acceso a la justicia para todos y construir instituciones eficaces, responsables e inclusivas a todos los niveles. Los conflictos, la inseguridad, las instituciones débiles y el acceso limitado a la justicia siguen siendo una gran amenaza para el desarrollo sostenible."
+    "descriptionJa": "持続可能な開発に向けて平和で包摂的な社会を推進し、すべての人に司法へのアクセスを提供し、あらゆるレベルにおいて効果的で責任ある包摂的な制度を構築する。紛争、不安定、脆弱な制度、限られた司法へのアクセスは、持続可能な開発に対する大きな脅威であり続けています。武力による暴力と不安定は開発に破壊的な影響を及ぼし、経済成長を妨げ、しばしば長年にわたる不満を生みます。",
+    "descriptionEs": "Promover sociedades pacíficas e inclusivas para el desarrollo sostenible, facilitar el acceso a la justicia para todos y construir instituciones eficaces, responsables e inclusivas a todos los niveles. Los conflictos, la inseguridad, las instituciones débiles y el acceso limitado a la justicia siguen siendo una gran amenaza para el desarrollo sostenible. La violencia armada y la inseguridad tienen un efecto destructivo en el desarrollo, afectan al crecimiento económico y a menudo generan agravios duraderos."
   },
   {
     "number": 17,
@@ -270,7 +270,7 @@
     "titleEs": "Alianzas para lograr los objetivos",
     "shortTitleJa": "パートナーシップ",
     "shortTitleEs": "Alianzas",
-    "descriptionJa": "持続可能な開発に向けて実施手段を強化し、グローバル・パートナーシップを活性化する。SDGsは強力なグローバル・パートナーシップと協力によってのみ実現できます。開発アジェンダを成功させるには、政府、民間セクター、市民社会の間の包摂的なパートナーシップが必要です。",
-    "descriptionEs": "Fortalecer los medios de implementación y revitalizar la Alianza Mundial para el Desarrollo Sostenible. Los ODS solo pueden lograrse con alianzas mundiales sólidas y cooperación. Para que una agenda de desarrollo tenga éxito, se necesitan alianzas inclusivas entre gobiernos, sector privado y sociedad civil, basadas en principios, valores y objetivos compartidos."
+    "descriptionJa": "持続可能な開発に向けて実施手段を強化し、グローバル・パートナーシップを活性化する。SDGsは強力なグローバル・パートナーシップと協力によってのみ実現できます。開発アジェンダを成功させるには、政府、民間セクター、市民社会の間の包摂的なパートナーシップが必要です。これらのパートナーシップは、原則と価値観、共有されたビジョン、そして人々と地球を中心に据えた共通の目標の上に築かれます。",
+    "descriptionEs": "Fortalecer los medios de implementación y revitalizar la Alianza Mundial para el Desarrollo Sostenible. Los ODS solo pueden lograrse con alianzas mundiales sólidas y cooperación. Para que una agenda de desarrollo tenga éxito, se necesitan alianzas inclusivas entre gobiernos, sector privado y sociedad civil. Estas alianzas se basan en principios y valores, en una visión compartida y en objetivos compartidos que sitúan a las personas y al planeta en el centro."
   }
 ]

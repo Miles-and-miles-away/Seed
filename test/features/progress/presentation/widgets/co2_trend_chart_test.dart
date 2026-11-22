@@ -50,6 +50,26 @@ void main() {
       expect(find.byType(LineChart), findsOneWidget);
     });
 
+    testWidgets('gives screen readers a text summary', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          child: Co2TrendChart(
+            data: _fixture(points: const [(0, 500), (3, 1200), (6, 900)]),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.bySemanticsLabel(
+          'CO2 saved per day over 7 days. '
+          'Average 867\u00a0g a day, highest 1.2\u00a0kg.',
+        ),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('draws the best-fit line inside the plot area', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
@@ -90,6 +110,31 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('the end label survives an autumn DST change', (tester) async {
+      // Spans the London and New York autumn changes; fails at the old
+      // code under TZ=Europe/London or TZ=America/New_York.
+      final day = DateTime(2027, 11, 8);
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          child: Co2TrendChart(
+            data: Co2TrendData(
+              points: [
+                Co2TrendPoint(date: DateTime(2027, 10, 27), grams: 500),
+                Co2TrendPoint(date: day, grams: 800),
+              ],
+              averageGrams: 650,
+              windowStart: DateTime(2027, 10, 26),
+              windowEnd: DateTime(2027, 11, 9),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Nov 8'), findsOneWidget);
     });
   });
 }

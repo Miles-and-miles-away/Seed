@@ -13,9 +13,7 @@ import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/eco_dex/eco_dex.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
-import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
-import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
-import 'package:seed_app/features/settings/presentation/widgets/streak_milestone_dialog.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import '../providers/actions_providers.dart';
 import '../widgets/action_log_confirmation_dialog.dart';
 import '../widgets/learn_only_info_dialog.dart';
@@ -34,6 +32,7 @@ Future<ActionLogResult?> logActionWithWaitMessage(
   ActionModel action, {
   required String languageCode,
   String? note,
+  bool countsAsUnique = true,
 }) async {
   final notifier = ref.read(actionLogProvider.notifier);
   final messenger = ScaffoldMessenger.of(context);
@@ -61,6 +60,7 @@ Future<ActionLogResult?> logActionWithWaitMessage(
     action,
     note: note,
     languageCode: languageCode,
+    countsAsUnique: countsAsUnique,
   );
   if (!notifier.isBusy && messenger.mounted) {
     _waiting[messenger]?.close();
@@ -95,6 +95,22 @@ Future<void> handleActionTap(
   if (result == null || !result.confirmed) return;
   if (!context.mounted) return;
 
+  await _logAndReport(
+    context,
+    ref,
+    action: action,
+    note: result.note,
+    languageCode: languageCode,
+  );
+}
+
+Future<void> _logAndReport(
+  BuildContext context,
+  WidgetRef ref, {
+  required ActionModel action,
+  required String? note,
+  required String languageCode,
+}) async {
   // The notifier drops a repeat of a log still waiting or in flight.
   if (ref.read(actionLogProvider.notifier).isPending(action.id)) return;
 
@@ -102,7 +118,7 @@ Future<void> handleActionTap(
     context,
     ref,
     action,
-    note: result.note,
+    note: note,
     languageCode: languageCode,
   );
 
@@ -137,10 +153,11 @@ Future<void> handleActionTap(
       );
     }
 
-    // Eco-Dex discovery evaluation
-    final newIds = await ref
-        .read(ecoDexDiscoveryProvider.notifier)
-        .discoverNewEntries(minActionsCount: logResult.newTotalActionsCount);
+    final newIds = await discoverAndCelebrateEcoDex(
+      context,
+      ref,
+      minActionsCount: logResult.newTotalActionsCount,
+    );
     if (!context.mounted) return;
 
     // Only the crossing log cheers, and not when a dialog or the inbox
@@ -154,43 +171,18 @@ Future<void> handleActionTap(
       MascotCheer.show(context, bottomClearance: appBottomNavHeight(context));
     }
 
-    if (newIds.isNotEmpty) {
-      final ecoDex = await ref.read(ecoDexDataProvider.future);
-      final byId = {for (final e in ecoDex.entries) e.id: e};
-      final entries = newIds
-          .map((id) => byId[id])
-          .whereType<EcoDexEntry>()
-          .toList();
-      if (entries.isNotEmpty && context.mounted) {
-        await showEcoDexCelebrations(context, entries: entries);
-      }
+    if (!logResult.challengeCompleted ||
+        ref.read(mascotCelebrationPendingProvider)) {
+      return;
     }
-
-    if (logResult.shouldShowMilestone && context.mounted) {
-      final settings = await ref.read(userSettingsProvider.future);
-      final milestoneWeek = logResult.crossedMilestoneWeek!;
-      final alreadySeen = settings.hasSeenMilestone(milestoneWeek);
-
-      if (!alreadySeen && context.mounted) {
-        await showStreakMilestoneCelebration(
-          context,
-          ref,
-          weekNumber: milestoneWeek,
-          totalDays: logResult.newStreakDays,
-        );
-      }
-    }
-
-    // A pending evolution dialog sits on this route, which go would drop.
-    if (logResult.challengeCompleted &&
-        context.mounted &&
-        !ref.read(mascotCelebrationPendingProvider)) {
-      // Pushing a Home-branch page from a root route duplicates the shell.
-      if (StatefulNavigationShell.maybeOf(context) != null) {
-        unawaited(context.push(appRoutes.dailyFact));
-      } else {
-        context.go(appRoutes.dailyFact);
-      }
+    // The shell shows celebrations on this route, which go would drop.
+    await celebrationsDone(context);
+    if (!context.mounted) return;
+    // Pushing a Home-branch page from a root route duplicates the shell.
+    if (StatefulNavigationShell.maybeOf(context) != null) {
+      unawaited(context.push(appRoutes.dailyFact));
+    } else {
+      context.go(appRoutes.dailyFact);
     }
   } else {
     final logState = ref.read(actionLogProvider);
@@ -198,11 +190,43 @@ Future<void> handleActionTap(
     // logged -- nothing to report.
     if (logState.isLoading || !logState.hasError) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.of(context);
+    final message = logErrorMessage(context, logState.error);
+    final errorColor = Theme.of(context).colorScheme.error;
+    messenger.showSnackBar(
       SnackBar(
-        content: Text(logErrorMessage(context, logState.error)),
+        content: Text(message),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Theme.of(context).colorScheme.error,
+        backgroundColor: errorColor,
+        persist: false,
+        action: isOfflineError(logState.error)
+            ? SnackBarAction(
+                label: AppLocalizations.of(context).buttonRetry,
+                textColor: Theme.of(context).colorScheme.onError,
+                onPressed: () {
+                  // Retry needs its screen, so repeat that nothing was saved.
+                  if (!context.mounted) {
+                    messenger.showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: errorColor,
+                      ),
+                    );
+                    return;
+                  }
+                  unawaited(
+                    _logAndReport(
+                      context,
+                      ref,
+                      action: action,
+                      note: note,
+                      languageCode: languageCode,
+                    ),
+                  );
+                },
+              )
+            : null,
       ),
     );
   }

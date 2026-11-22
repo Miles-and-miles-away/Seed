@@ -949,7 +949,7 @@ void main() {
         'Which produces more carbon?',
         'Tap or drag up the one that produces more',
       ),
-      ('ja', 'どちらがCO2を多く出す？', '多く出すほうをタップするか、上にドラッグ'),
+      ('ja', 'どちらがCO2を多く出す？', '多く出す方をタップするか、上にドラッグ'),
       (
         'es',
         '¿Cuál emite más CO2?',

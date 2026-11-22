@@ -334,6 +334,25 @@ def delete_page(email: str) -> str:
     return page(title, by_lang, email)
 
 
+NOT_FOUND_TEXT = {
+    'en': 'This page does not exist.',
+    'ja': 'このページは存在しません。',
+    'es': 'Esta página no existe.',
+}
+
+
+def not_found_page(email: str) -> str:
+    by_lang = {
+        lang: f'<p>{html.escape(text)}</p>' for lang, text in NOT_FOUND_TEXT.items()
+    }
+    title = {
+        'en': 'Page Not Found',
+        'ja': 'ページが見つかりません',
+        'es': 'Página no encontrada',
+    }
+    return page(title, by_lang, email)
+
+
 HOME_BETA_BUTTON = {
     'en': 'Help test Seed: join the beta',
     'ja': 'Seedのテストに参加する',
@@ -397,13 +416,20 @@ def subset_fonts(text: str) -> None:
         ])
 
 
-BETA_IMAGE_ALT = (
-    'Four Seed screens: the home screen with the mascot, logging an '
-    'action, the Climate Action goal, and the fact pairs game'
-)
-BETA_HERO = (
+BETA_IMAGE_ALT = {
+    'en': 'Four Seed screens: the home screen with the mascot, logging an '
+    'action, the Climate Action goal, and the fact pairs game',
+    'ja': 'Seedの4つの画面：マスコットのいるホーム画面、アクションの記録、'
+    '目標「気候変動に具体的な対策を」、ファクトペアのゲーム',
+    'es': 'Cuatro pantallas de Seed: la pantalla de inicio con la mascota, '
+    'el registro de una acción, el objetivo «Acción por el clima» y el juego '
+    'Parejas de datos',
+}
+BETA_HERO = ''.join(
+    f'<div lang="{lang}"{"" if lang == "en" else " hidden"}>'
     '<img class="preview" src="/images/seed-preview.webp" width="1400" height="744" '
-    f'alt="{BETA_IMAGE_ALT}">'
+    f'alt="{html.escape(BETA_IMAGE_ALT[lang])}"></div>'
+    for lang in LANGS
 )
 
 BETA_TEXT = {
@@ -791,7 +817,7 @@ def beta_meta(title: str, description: str) -> str:
         'og:image': f'{SITE_URL}/images/seed-preview.jpg',
         'og:image:width': '1400',
         'og:image:height': '744',
-        'og:image:alt': BETA_IMAGE_ALT,
+        'og:image:alt': BETA_IMAGE_ALT['en'],
     }
     return ''.join(
         f'<meta property="{key}" content="{html.escape(value)}">\n'
@@ -861,6 +887,7 @@ def main() -> None:
         'delete-account': delete_page(email),
         'beta': beta_page(email),
         'index': index_page(email),
+        '404': not_found_page(email),
     }
     for name, text in pages.items():
         (OUT / f'{name}.html').write_text(text, encoding='utf-8')

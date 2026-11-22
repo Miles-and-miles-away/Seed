@@ -108,7 +108,7 @@ void main() {
       test('creates the doc when the server has none', () async {
         const user = AppUserModel(uid: 'u1', email: 'new@example.com');
 
-        await dataSource.createUserIfAbsent(user, isCurrent: () => true);
+        await dataSource.createUserIfAbsent(user, isCurrent: () async => true);
 
         final doc = await usersCollection().doc('u1').get();
         expect(doc.data()!['email'], 'new@example.com');
@@ -122,7 +122,7 @@ void main() {
 
         await dataSource.createUserIfAbsent(
           const AppUserModel(uid: 'u1', email: 'new@example.com'),
-          isCurrent: () => true,
+          isCurrent: () async => true,
         );
 
         final data = (await usersCollection().doc('u1').get()).data()!;
@@ -133,7 +133,7 @@ void main() {
       test('skips the write once the user is no longer current', () async {
         await dataSource.createUserIfAbsent(
           const AppUserModel(uid: 'u1', email: 'new@example.com'),
-          isCurrent: () => false,
+          isCurrent: () async => false,
         );
 
         expect((await usersCollection().doc('u1').get()).exists, isFalse);

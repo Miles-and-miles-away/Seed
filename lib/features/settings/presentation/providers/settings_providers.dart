@@ -14,6 +14,7 @@ import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/app_language_provider.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/providers/notification_providers.dart';
+import 'package:seed_app/shared/services/streak_service.dart';
 
 part 'settings_providers.g.dart';
 
@@ -133,6 +134,24 @@ Set<String>? walkthroughFound(Ref ref) {
   return _setting(ref, (s) => s.walkthroughFound.toSet(), null);
 }
 
+/// The streak milestone the user reached and has not seen yet, or null.
+@riverpod
+({int week, int days})? pendingStreakMilestone(Ref ref) {
+  final user = ref.watch(currentUserProvider);
+  final settings = ref.watch(userSettingsProvider);
+  if (user.isLoading || settings.isLoading) return null;
+  final (u, s) = (user.value, settings.value);
+  if (u == null || s == null) return null;
+  final days = displayedStreak(
+    storedStreak: u.currentStreak,
+    lastActionDate: u.lastActionDate,
+    now: ref.watch(clockProvider)(),
+  );
+  final week = days ~/ 7;
+  if (!weekMilestones.contains(week) || s.hasSeenMilestone(week)) return null;
+  return (week: week, days: days);
+}
+
 /// Returns the preferred theme mode, defaulting to the system setting.
 @riverpod
 ThemeMode themeMode(Ref ref) {
@@ -144,7 +163,7 @@ ThemeMode themeMode(Ref ref) {
 @riverpod
 Locale appLocale(Ref ref) {
   final language = ref.watch(currentLanguageProvider);
-  return Locale(language);
+  return language == 'en' ? britishEnglish : Locale(language);
 }
 
 // =============================================================================

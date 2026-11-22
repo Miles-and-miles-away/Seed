@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
-import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import '../providers/auth_providers.dart';
 
 /// Listens to [authProvider] from a screen's `build` and reports failures
-/// as a localized error SnackBar.
+/// as a localized error SnackBar. A cancelled sign-in sheet is not a failure.
 ///
 /// [onError] runs before the SnackBar; [onCompleted] runs once a pending
 /// operation succeeds. The router tears these screens down on auth-state
@@ -28,11 +27,17 @@ void listenAuthResult(
         if (previous?.isLoading ?? false) onCompleted?.call();
       },
       error: (error, _) {
+        if (error is AuthException && error.code == authCodeSignInCancelled) {
+          return;
+        }
         onError?.call();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(mapAuthErrorToMessage(error, l10n)),
-            backgroundColor: AppColors.error,
+            content: Text(
+              mapAuthErrorToMessage(error, l10n),
+              style: TextStyle(color: Theme.of(context).colorScheme.onError),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
       },

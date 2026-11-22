@@ -91,6 +91,24 @@ void main() {
       await disposeAndFlush(tester);
     });
 
+    testWidgets('screen readers hear which species is selected', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      await pumpSelectionScreen(tester);
+
+      final species = find.byWidgetPredicate(
+        (w) => w is Semantics && (w.properties.button ?? false),
+      );
+      final selected = tester
+          .widgetList<Semantics>(species)
+          .where((w) => w.properties.selected ?? false);
+      expect(selected, hasLength(1));
+
+      await disposeAndFlush(tester);
+      semantics.dispose();
+    });
+
     testWidgets('empty name shows the required-name error', (tester) async {
       await pumpSelectionScreen(tester);
 

@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart' as rive;
 
+import 'package:seed_app/core/utils/reduce_motion.dart';
+
 /// View model property names authored in the mascot Rive files.
 ///
 /// The Face artboard binds its gaze and expressions to these; the app
@@ -46,8 +48,9 @@ void pauseRive(rive.RiveWidgetController controller) =>
 
 /// Renders a mascot asset, dispatching on file extension.
 ///
-/// Animated Rive mascots (`.riv`) play their default state machine;
-/// everything else renders as a static SVG.
+/// Animated Rive mascots (`.riv`) play their default state machine,
+/// frozen on the first frame under reduce motion; everything else
+/// renders as a static SVG.
 class MascotImage extends StatefulWidget {
   const MascotImage({
     required this.assetPath,
@@ -133,6 +136,7 @@ class _MascotImageState extends State<MascotImage> {
       );
     }
     final artboardName = widget.artboardName;
+    final reduceMotion = reduceMotionOf(context);
     return SizedBox(
       width: widget.width,
       height: widget.height,
@@ -140,14 +144,19 @@ class _MascotImageState extends State<MascotImage> {
       // sibling animation repaints the artboard too.
       child: RepaintBoundary(
         child: rive.RiveWidgetBuilder(
-          // Force a fresh builder when the target artboard changes; the
-          // builder resolves its artboard once on load.
-          key: ValueKey('${widget.assetPath}#${artboardName ?? ''}'),
+          // Force a fresh builder when the target artboard or the reduce
+          // motion setting changes; the builder resolves both once on load.
+          key: ValueKey(
+            '${widget.assetPath}#${artboardName ?? ''}#$reduceMotion',
+          ),
           fileLoader: fileLoader,
           artboardSelector: artboardName == null
               ? rive.ArtboardSelector.byDefault()
               : rive.ArtboardSelector.byName(artboardName),
-          onLoaded: (state) => widget.onRiveInit?.call(state.controller),
+          onLoaded: (state) {
+            widget.onRiveInit?.call(state.controller);
+            if (reduceMotion) pauseRive(state.controller);
+          },
           builder: (context, state) => switch (state) {
             rive.RiveLoaded(:final controller) => rive.RiveWidget(
               controller: controller,

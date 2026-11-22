@@ -23,9 +23,10 @@ service cloud.firestore {
     // users are isolated today). What the rules below DO enforce:
     //   - field whitelist, types, and bounds on the user document
     //   - score fields never decrease and cannot be removed once set
-    //   - points only grow as part of a well-formed action-log write
+    //   - points only grow in a scoring-shaped user-doc write
     //     (bounded jump, lastActionDate bumped to the server time,
-    //     exactly one new action counted)
+    //     exactly one new action counted). The user doc rule cannot
+    //     see the log, so a points bump with no log entry still passes
     //   - actionLog entries match the canonical actionLibrary points
     //     AND co2Grams, and must arrive in the same transaction as the
     //     matching user-doc update (blocks direct log floods)
@@ -54,7 +55,7 @@ service cloud.firestore {
           'language', 'notificationTime', 'createdAt', 'emailVerified',
           'dailyGoalTarget', 'mascots', 'activeMascotId', 'egg',
           'eggPendingDiscovery', 'eggPendingDiscoverySince',
-          'notificationsEnabled', 'lastActionDate',
+          'notificationsEnabled', 'lastActionDate', 'lastActionUtcOffsetMinutes',
           'streakGracePeriodAvailable', 'fcmToken', 'totalCo2Grams',
           'totalActionsCount', 'sdgStats', 'viewedFactDates',
           'unlockedFactDates', 'challengeCompletedDate',
@@ -62,7 +63,8 @@ service cloud.firestore {
           'recentChallengeIds', 'activeMultiDayChallenge',
           'completedMultiDayChallenges', 'ecodexDiscovered',
           'uniqueActionIds', 'categoryActionCounts', 'settings',
-          'lastStreakReminderDate'
+          'lastStreakReminderDate', 'lastCustomActionAt',
+          'lastCustomActionId'
         ];
       }
 
@@ -149,6 +151,15 @@ service cloud.firestore {
                 && d.totalActionsCount <= 10000000))
         && (!('lastActionDate' in keys) || d.lastActionDate == null
             || d.lastActionDate is timestamp)
+        && (!('lastActionUtcOffsetMinutes' in keys)
+            || (d.lastActionUtcOffsetMinutes is int
+                && d.lastActionUtcOffsetMinutes >= -720
+                && d.lastActionUtcOffsetMinutes <= 840))
+        && (!('lastCustomActionAt' in keys)
+            || d.lastCustomActionAt is timestamp)
+        && (!('lastCustomActionId' in keys)
+            || (d.lastCustomActionId is string
+                && d.lastCustomActionId.size() <= 200))
         && (!('sdgStats' in keys) || d.sdgStats is map)
         && (!('viewedFactDates' in keys)
             || (d.viewedFactDates is list
@@ -211,6 +222,10 @@ service cloud.firestore {
             && (!('challengesCompleted' in old)
                 || 'challengesCompleted' in d)
             && (!('lastActionDate' in old) || 'lastActionDate' in d)
+            // Only ever bumped to now, next to a template create.
+            && (d.get('lastCustomActionAt', null)
+                    == old.get('lastCustomActionAt', null)
+                || d.get('lastCustomActionAt', null) == request.time)
             && d.get('points', 0) >= old.get('points', 0)
             && d.get('level', 1) >= old.get('level', 1)
             && d.get('longestStreak', 0) >= old.get('longestStreak', 0)
@@ -221,10 +236,10 @@ service cloud.firestore {
                 >= old.get('challengesCompleted', 0)
             && d.get('totalActionsCount', 0)
                 - old.get('totalActionsCount', 0) <= 1
-            // Bounded by the largest canonical per-action saving
-            // (~3.4t) with generous headroom.
+            // 100 t per log, so extreme banked journeys pass. The app
+            // checks AppConstants.maxBankCo2Grams before any write.
             && d.get('totalCo2Grams', 0)
-                - old.get('totalCo2Grams', 0) <= 10000000
+                - old.get('totalCo2Grams', 0) <= 100000000
             // Points may only grow as part of an action-log shaped
             // write: bounded jump, lastActionDate bumped to now, and
             // exactly one new action counted.
@@ -238,6 +253,10 @@ service cloud.firestore {
             // previous bump. The client writes it with
             // FieldValue.serverTimestamp(), which rules evaluate as
             // request.time.
+            // The offset moves only inside the scoring write.
+            && (d.get('lastActionUtcOffsetMinutes', null)
+                    == old.get('lastActionUtcOffsetMinutes', null)
+                || d.get('lastActionDate', null) == request.time)
             && (d.get('lastActionDate', null)
                     == old.get('lastActionDate', null)
                 || (d.get('lastActionDate', null) == request.time
@@ -344,10 +363,9 @@ service cloud.firestore {
         // Custom transport actions (Phase 8.6) are validated against
         // the user's own template instead of the read-only library:
         // the log's points and co2Grams must equal the template the
-        // user created. No numeric ceiling -- users are isolated (no
-        // leaderboards), so self-reported inflation only affects the
-        // user's own stats. The existing per-write totalCo2Grams cap
-        // on the user doc still bounds a single log.
+        // user created. Users are isolated (no leaderboards), so the
+        // only ceilings are the template's co2Grams cap and the
+        // per-write totalCo2Grams cap on the user doc.
         function matchesCustomAction(log, customAction) {
           return log.points == customAction.points
               && log.co2Grams is int
@@ -403,6 +421,7 @@ service cloud.firestore {
             && a.name.size() <= 500
             && a.co2Grams is int
             && a.co2Grams >= 0
+            && a.co2Grams <= 100000000
             // Matches the actionLog points ceiling so a template that
             // could never be logged cannot be created.
             && a.points is int
@@ -421,9 +440,24 @@ service cloud.firestore {
         }
 
         allow read: if isOwner(userId);
+        // One template per 5s, batched with a lastCustomActionAt bump on
+        // an existing user doc. Every create in a batch sees the same
+        // user doc, so the doc also names the one template it allows.
+        function customActionRateOk() {
+          let user = /databases/$(database)/documents/users/$(userId);
+          let before = get(user).data;
+          let after = getAfter(user).data;
+          return after.get('lastCustomActionAt', null) == request.time
+            && after.get('lastCustomActionId', null) == actionId
+            && (before.get('lastCustomActionAt', null) == null
+                || request.time > before.lastCustomActionAt
+                    + duration.value(5, 's'));
+        }
+
         allow create: if isOwner(userId)
             && isVerifiedUser()
-            && validCustomAction(request.resource.data);
+            && validCustomAction(request.resource.data)
+            && customActionRateOk();
         // Templates are logging fingerprints; editing one would let a
         // past log's fingerprint change. Recreate instead of edit.
         allow update: if false;
@@ -471,7 +505,7 @@ service cloud.firestore {
             && s.get('totalPoints', 0) <= 100000000
             && s.get('totalCo2Grams', 0) is int
             && s.get('totalCo2Grams', 0) >= 0
-            && s.get('totalCo2Grams', 0) <= 100000000
+            && s.get('totalCo2Grams', 0) <= 1000000000
             && (!('completedSdgs' in s)
                 || (s.completedSdgs is list
                     && s.completedSdgs.size() <= 17

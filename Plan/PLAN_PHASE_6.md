@@ -196,8 +196,10 @@ Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
 ```
 
 - `today` -> sum of today's daily summary; previous = yesterday's.
-- `thisWeek` -> Mon-Sun in device timezone (week starts Monday); previous = last week.
-- `thisMonth` -> calendar month; previous = previous calendar month.
+- `thisWeek` -> Mon-Sun in device timezone (week starts Monday); previous = the
+  same days of last week (Monday to today's weekday).
+- `thisMonth` -> calendar month; previous = the same number of days at the
+  start of the previous month, cut at that month's end.
 - `allTime` -> `user.totalCo2Grams`; previous = 0 -> badge hidden.
 
 Date math lives in a pure helper (`time_period_range.dart`) for

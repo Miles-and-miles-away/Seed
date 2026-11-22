@@ -15,6 +15,7 @@ import 'package:seed_app/features/eco_dex/presentation/widgets/profile_eco_dex_s
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
+import 'package:seed_app/shared/providers/day_change_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
@@ -306,6 +307,8 @@ class ProfileScreen extends ConsumerWidget {
     final totalCo2 = ref.watch(totalCo2SavedProvider);
     final totalActions = ref.watch(totalActionsCountProvider);
     final daysSinceJoined = ref.watch(daysSinceJoinedProvider);
+    // Rebuilds at midnight, so a streak broken overnight reads 0.
+    ref.watch(dayChangeProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,7 +326,7 @@ class ProfileScreen extends ConsumerWidget {
                 // broken the streak (the stored value is only corrected
                 // at the next log).
                 value:
-                    '${displayedStreak(storedStreak: user.currentStreak, lastActionDate: user.lastActionDate, now: ref.watch(clockProvider)())}',
+                    '${displayedStreak(storedStreak: user.currentStreak, lastActionDate: user.lastActionDate, lastActionUtcOffsetMinutes: user.lastActionUtcOffsetMinutes, now: ref.watch(clockProvider)())}',
                 label: l10n.profileCurrentStreak,
                 iconColor: Colors.orange,
               ),

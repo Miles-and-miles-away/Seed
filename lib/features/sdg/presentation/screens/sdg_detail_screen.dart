@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/services/analytics_service.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
+
 import '../widgets/sdg_actions_grid.dart';
 import '../widgets/sdg_impact_card.dart';
 import '../widgets/sdg_progress_chart_viewer.dart';
@@ -153,7 +154,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
       expandedHeight: 200,
       pinned: true,
       backgroundColor: goal.color,
-      foregroundColor: Colors.white,
+      foregroundColor: inkOnFill(goal.color),
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: BoxDecoration(
@@ -197,7 +198,7 @@ class _SdgDetailScreenState extends ConsumerState<SdgDetailScreen> {
           child: Text(
             AppLocalizations.of(context).sdgGoalNumber(goal.number),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: Colors.white,
+              color: inkOnFill(goal.color),
               fontWeight: FontWeight.bold,
             ),
           ),

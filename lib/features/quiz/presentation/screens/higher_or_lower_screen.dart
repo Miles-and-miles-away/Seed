@@ -5,10 +5,10 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/text_styles.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/energy/data/models/energy_behavior_model.dart';
 import 'package:seed_app/features/energy/domain/services/energy_calculator.dart';
 import 'package:seed_app/features/energy/presentation/providers/energy_providers.dart';
@@ -414,9 +414,7 @@ class _HigherOrLowerScreenState extends ConsumerState<HigherOrLowerScreen> {
       _higherIndex = null;
     }
     final theme = Theme.of(context);
-    final reduceMotion =
-        MediaQuery.disableAnimationsOf(context) ||
-        MediaQuery.reduceMotionOf(context);
+    final reduceMotion = reduceMotionOf(context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _measureTokens();
     });
@@ -712,10 +710,7 @@ class _SwipeHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final still =
-        this.still ||
-        MediaQuery.disableAnimationsOf(context) ||
-        MediaQuery.reduceMotionOf(context);
+    final still = this.still || reduceMotionOf(context);
     final icon = Icon(
       Icons.keyboard_double_arrow_up,
       size: _hintIconSize,

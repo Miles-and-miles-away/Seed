@@ -77,4 +77,13 @@ void main() {
 
     expect(await _viewedAfterOpening(tester, key), isEmpty);
   });
+
+  testWidgets('a key for a day that does not exist stores nothing', (
+    tester,
+  ) async {
+    // DateTime.tryParse rolls month 99 over into a later year.
+    expect(DateTime.tryParse('2026-99-99'), isNotNull);
+
+    expect(await _viewedAfterOpening(tester, '2026-99-99'), isEmpty);
+  });
 }

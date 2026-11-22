@@ -115,11 +115,13 @@ class FactViewedNotifier extends _$FactViewedNotifier {
   AsyncValue<void> build() => const AsyncValue.data(null);
 
   /// Marks a date's fact as viewed. Safe no-op for a date already in
-  /// `viewedFactDates`.
+  /// `viewedFactDates` or after today.
   Future<void> markDateViewed(String dateKey) async {
     final user = ref.read(currentUserProvider).value;
     if (user == null) return;
     if (user.viewedFactDates.contains(dateKey)) return;
+    final todayKey = formatDateKey(ref.read(clockProvider)());
+    if (dateKey.compareTo(todayKey) > 0) return;
 
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
