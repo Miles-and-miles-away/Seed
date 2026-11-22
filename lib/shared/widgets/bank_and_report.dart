@@ -21,15 +21,20 @@ Future<void> bankAndReport(
   final result = await log();
   if (result == null || !context.mounted) return;
   if (result.hasError) {
+    final message = logErrorMessage(context, result.error);
     messenger.showSnackBar(
       SnackBar(
-        content: Text(logErrorMessage(context, result.error)),
+        content: Text(message),
         persist: false,
         action: isOfflineError(result.error)
             ? SnackBarAction(
                 label: AppLocalizations.of(context).buttonRetry,
                 onPressed: () {
-                  if (!context.mounted) return;
+                  // Retry needs its screen, so repeat that nothing was saved.
+                  if (!context.mounted) {
+                    messenger.showSnackBar(SnackBar(content: Text(message)));
+                    return;
+                  }
                   unawaited(
                     bankAndReport(
                       context,

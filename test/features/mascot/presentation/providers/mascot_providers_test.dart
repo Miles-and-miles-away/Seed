@@ -414,6 +414,21 @@ void main() {
       }
     });
 
+    test('reads the last log at the offset it was written in', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionDate: DateTime.utc(2026, 3, 8, 10),
+            lastActionUtcOffsetMinutes: 840,
+          ),
+        ),
+        clockProvider.overrideWithValue(() => now),
+      ]);
+      expect(c.read(welcomeBackSmileDueProvider), isFalse);
+    });
+
     test('plays once for each gap', () async {
       final users = StreamController<AppUserModel?>();
       addTearDown(users.close);

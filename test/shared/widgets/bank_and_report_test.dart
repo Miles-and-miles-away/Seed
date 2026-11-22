@@ -49,6 +49,61 @@ void main() {
     expect(find.text('Banked'), findsOneWidget);
   });
 
+  testWidgets('Retry after its screen closed repeats the error', (
+    tester,
+  ) async {
+    var attempts = 0;
+    await tester.pumpWidget(
+      createTestWidget(
+        scaffold: true,
+        child: Builder(
+          builder: (context) => ElevatedButton(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => Scaffold(
+                  body: Builder(
+                    builder: (context) => ElevatedButton(
+                      onPressed: () => bankAndReport(
+                        context,
+                        log: () async {
+                          attempts++;
+                          return AsyncValue.error(
+                            FirebaseException(
+                              plugin: 'cloud_firestore',
+                              code: 'unavailable',
+                            ),
+                            StackTrace.empty,
+                          );
+                        },
+                        successMessage: 'Banked',
+                        onSuccess: () {},
+                      ),
+                      child: const Text('bank'),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            child: const Text('open'),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('bank'));
+    await tester.pumpAndSettle();
+    tester.state<NavigatorState>(find.byType(Navigator)).pop();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Retry'));
+    await tester.pumpAndSettle();
+
+    expect(attempts, 1);
+    expect(find.textContaining('while offline'), findsOneWidget);
+    expect(find.text('Retry'), findsNothing);
+  });
+
   testWidgets('a later bank clears a stale Retry', (tester) async {
     var successes = 0;
     await bankWith(tester, [

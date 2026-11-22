@@ -266,15 +266,19 @@ class WelcomeBackSmiled extends _$WelcomeBackSmiled {
 @riverpod
 bool welcomeBackSmileDue(Ref ref) {
   if (ref.watch(mascotCelebrationPendingProvider)) return false;
-  final lastActionDate = ref.watch(
-    currentUserProvider.select((user) => user.value?.lastActionDate),
+  final (lastActionDate, offsetMinutes) = ref.watch(
+    currentUserProvider.select(
+      (user) =>
+          (user.value?.lastActionDate, user.value?.lastActionUtcOffsetMinutes),
+    ),
   );
   if (lastActionDate == null ||
       lastActionDate == ref.watch(welcomeBackSmiledProvider)) {
     return false;
   }
   final today = ref.watch(clockProvider)();
-  return calendarDaysBetween(lastActionDate, today) >= welcomeBackMinDays;
+  final last = localDateAt(lastActionDate, offsetMinutes);
+  return calendarDaysBetween(last, today) >= welcomeBackMinDays;
 }
 
 /// Fires the mascot smile animation, e.g. before opening the action log.

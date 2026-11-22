@@ -216,18 +216,31 @@ Future<void> _logAndReport(
     // logged -- nothing to report.
     if (logState.isLoading || !logState.hasError) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.of(context);
+    final message = logErrorMessage(context, logState.error);
+    final errorColor = Theme.of(context).colorScheme.error;
+    messenger.showSnackBar(
       SnackBar(
-        content: Text(logErrorMessage(context, logState.error)),
+        content: Text(message),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Theme.of(context).colorScheme.error,
+        backgroundColor: errorColor,
         persist: false,
         action: isOfflineError(logState.error)
             ? SnackBarAction(
                 label: AppLocalizations.of(context).buttonRetry,
                 textColor: Theme.of(context).colorScheme.onError,
                 onPressed: () {
-                  if (!context.mounted) return;
+                  // Retry needs its screen, so repeat that nothing was saved.
+                  if (!context.mounted) {
+                    messenger.showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: errorColor,
+                      ),
+                    );
+                    return;
+                  }
                   unawaited(
                     _logAndReport(
                       context,

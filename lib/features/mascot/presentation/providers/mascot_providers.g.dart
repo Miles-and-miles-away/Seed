@@ -1085,7 +1085,7 @@ final class WelcomeBackSmileDueProvider
 }
 
 String _$welcomeBackSmileDueHash() =>
-    r'100f34bfba39a9237ef0d726c2c3b201203bbc01';
+    r'fbf6dbd659b0cb23fbab127fa33f5af17a04b5f2';
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
