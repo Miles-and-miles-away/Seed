@@ -76,6 +76,8 @@ abstract class AppConstants {
   static const fieldLongestStreak = 'longestStreak';
   static const fieldLastActionDate = 'lastActionDate';
   static const fieldLastActionUtcOffsetMinutes = 'lastActionUtcOffsetMinutes';
+  static const fieldLastCustomActionAt = 'lastCustomActionAt';
+  static const fieldLastCustomActionId = 'lastCustomActionId';
   static const fieldTotalCo2Grams = 'totalCo2Grams';
   static const fieldTotalActionsCount = 'totalActionsCount';
   static const fieldCategoryActionCounts = 'categoryActionCounts';

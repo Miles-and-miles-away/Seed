@@ -13,6 +13,7 @@ export interface AuthUserLister {
     maxResults: number,
     pageToken?: string,
   ): Promise<{ users: UserRecord[]; pageToken?: string }>;
+  getUser(uid: string): Promise<UserRecord>;
   deleteUser(uid: string): Promise<void>;
 }
 
@@ -52,6 +53,8 @@ export async function handleCleanupUnverifiedUsers(
   let deleted = 0;
   for (const uid of stale) {
     try {
+      // The listing can be minutes old: skip anyone who verified since.
+      if (!isStaleUnverified(await auth.getUser(uid), nowMs)) continue;
       // Data first, as in deleteUserAccount, so a failure stays retryable.
       await db.recursiveDelete(db.collection(USERS_COLLECTION).doc(uid));
       await auth.deleteUser(uid);
@@ -69,6 +72,7 @@ export const cleanupUnverifiedUsers = onSchedule(
     schedule: '0 3 * * *',
     timeZone: 'UTC',
     retryCount: 1,
+    timeoutSeconds: 540,
     memory: '256MiB',
     region: 'asia-northeast1',
     maxInstances: 1,

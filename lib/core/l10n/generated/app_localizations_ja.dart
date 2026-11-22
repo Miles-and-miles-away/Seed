@@ -482,6 +482,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get accountSettingsChangePassword => 'パスワードを変更';
 
   @override
+  String get accountSettingsYourData => 'あなたのデータ';
+
+  @override
+  String get accountSettingsExportData => 'データをダウンロード';
+
+  @override
+  String get accountSettingsExportDataSubtitle =>
+      'Seedがあなたのアカウントに保存しているすべてのデータのコピー';
+
+  @override
   String get accountSettingsDeleteAccount => 'アカウントを削除';
 
   @override

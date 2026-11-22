@@ -42,7 +42,17 @@ class CustomActionRepository {
       final data = withId.toJson()
         ..remove('id')
         ..['createdAt'] = FieldValue.serverTimestamp();
-      await ref.set(data);
+      final userRef = _firestore
+          .collection(AppConstants.collectionUsers)
+          .doc(userId);
+      await (_firestore.batch()
+            ..set(ref, data)
+            ..update(userRef, {
+              AppConstants.fieldLastCustomActionAt:
+                  FieldValue.serverTimestamp(),
+              AppConstants.fieldLastCustomActionId: id,
+            }))
+          .commit();
     }
     return withId;
   }

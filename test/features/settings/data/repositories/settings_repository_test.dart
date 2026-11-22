@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -114,6 +116,16 @@ void main() {
           stream,
           emits(predicate<UserSettingsModel>((s) => s.language == 'es')),
         );
+      });
+
+      test('malformed settings keep an analytics opt-out', () async {
+        await userDoc(testUid).set({
+          'settings': {'analyticsEnabled': false, 'themeMode': 7},
+        });
+
+        final settings = await repository.watchSettings(testUid).first;
+
+        expect(settings.analyticsEnabled, isFalse);
       });
 
       test('emits defaults when user doc missing', () async {
@@ -348,6 +360,44 @@ void main() {
         expect(milestones['1'], isTrue);
         expect(milestones['4'], isTrue);
       });
+    });
+  });
+
+  group('exportUserData', () {
+    test('exports the user doc and every subcollection as JSON', () async {
+      final when = DateTime.utc(2026, 11, 21, 9, 30);
+      await userDoc(testUid).set({
+        'email': 'test@example.com',
+        'createdAt': Timestamp.fromDate(when),
+      });
+      final log = userDoc(testUid).collection(AppConstants.collectionActionLog);
+      await log.doc('log1').set({'actionId': 'walk'});
+      await userDoc(testUid)
+          .collection(AppConstants.collectionCustomActions)
+          .doc('c1')
+          .set({'name': 'Mine'});
+      await userDoc(testUid)
+          .collection(AppConstants.collectionDailySummaries)
+          .doc('2026-11-21')
+          .set({'points': 5});
+      await userDoc('someone-else').set({'email': 'other@example.com'});
+
+      final json = await repository.exportUserData(testUid);
+      final data = jsonDecode(json) as Map<String, dynamic>;
+
+      final user = data['user'] as Map<String, dynamic>;
+      expect(user['email'], 'test@example.com');
+      expect(user['createdAt'], when.toIso8601String());
+      expect(data[AppConstants.collectionActionLog], {
+        'log1': {'actionId': 'walk'},
+      });
+      expect(data[AppConstants.collectionCustomActions], {
+        'c1': {'name': 'Mine'},
+      });
+      expect(data[AppConstants.collectionDailySummaries], {
+        '2026-11-21': {'points': 5},
+      });
+      expect(json, isNot(contains('other@example.com')));
     });
   });
 }

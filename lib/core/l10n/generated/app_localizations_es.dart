@@ -504,6 +504,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get accountSettingsChangePassword => 'Cambiar contraseña';
 
   @override
+  String get accountSettingsYourData => 'Tus datos';
+
+  @override
+  String get accountSettingsExportData => 'Descargar mis datos';
+
+  @override
+  String get accountSettingsExportDataSubtitle =>
+      'Una copia de todo lo que Seed guarda de tu cuenta';
+
+  @override
   String get accountSettingsDeleteAccount => 'Eliminar cuenta';
 
   @override
