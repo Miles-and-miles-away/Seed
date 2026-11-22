@@ -89,15 +89,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionLogTitle => 'アクションを記録';
 
   @override
-  String get actionSearchHint => 'アクションを検索...';
+  String get actionSearchHint => 'アクションを検索…';
 
   @override
   String actionLogged(int points) {
-    return '記録しました！ $pointsポイント獲得';
+    final intl.NumberFormat pointsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String pointsString = pointsNumberFormat.format(points);
+
+    return '記録しました！ $pointsStringポイント獲得';
   }
 
   @override
-  String get actionLogging => '記録中...';
+  String get actionLogging => '記録中…';
 
   @override
   String get noActionsFound => 'アクションが見つかりません';
@@ -119,27 +123,44 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String pointsLabel(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countポイント',
+      other: '$countStringポイント',
     );
     return '$_temp0';
   }
 
   @override
   String levelLabel(int level) {
-    return 'レベル$level';
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return 'レベル$levelString';
   }
 
   @override
   String stageWithLevel(String stage, int level) {
-    return '$stage（レベル$level）';
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return '$stage（レベル$levelString）';
   }
 
   @override
   String streakLabel(int days) {
-    return '$days日連続';
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
+    return '$daysString日連続';
   }
 
   @override
@@ -157,7 +178,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String mascotEvolution(int stage) {
-    return '進化段階$stage';
+    final intl.NumberFormat stageNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stageString = stageNumberFormat.format(stage);
+
+    return '進化段階$stageString';
   }
 
   @override
@@ -170,7 +195,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mascotNameLabel => '相棒に名前をつけよう';
 
   @override
-  String get mascotNameHint => '例：めばえ、はっぱ、つぼみ...';
+  String get mascotNameHint => '例：めばえ、はっぱ、つぼみ…';
 
   @override
   String get mascotNameRequired => '名前を入力してください';
@@ -218,22 +243,35 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String profileNextLevel(int points) {
-    return '次のレベルまで$pointsポイント';
+    final intl.NumberFormat pointsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String pointsString = pointsNumberFormat.format(points);
+
+    return '次のレベルまで$pointsStringポイント';
   }
 
   @override
   String profileDaysActive(int days) {
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: '$days日',
+      other: '$daysString日',
     );
     return '$_temp0';
   }
 
   @override
   String profileEvolutionStage(int stage) {
-    return '進化段階$stage';
+    final intl.NumberFormat stageNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stageString = stageNumberFormat.format(stage);
+
+    return '進化段階$stageString';
   }
 
   @override
@@ -565,12 +603,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String streakMilestoneWeeks(int count) {
-    return '$count週間連続達成！';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$countString週間連続達成！';
   }
 
   @override
   String streakMilestoneDays(int count) {
-    return '$count日連続でアクションを記録しました！';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$countString日連続でアクションを記録しました！';
   }
 
   @override
@@ -587,7 +633,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String streakBrokenPrevious(int count) {
-    return '前回の記録: $count日';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '前回の記録：$countString日';
   }
 
   @override
@@ -598,29 +648,29 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String sortButtonTooltip(String option) {
-    return '並べ替え: $option';
+    return '並べ替え：$option';
   }
 
   @override
   String get sortShuffle => 'シャッフル';
 
   @override
-  String get sortAlphabeticalAZ => '名前（五十音順）';
+  String get sortAlphabeticalAZ => '名前順';
 
   @override
-  String get sortAlphabeticalZA => '名前（五十音逆順）';
+  String get sortAlphabeticalZA => '名前（逆順）';
 
   @override
-  String get sortCo2HighToLow => 'CO₂ (多い順)';
+  String get sortCo2HighToLow => 'CO₂（多い順）';
 
   @override
-  String get sortCo2LowToHigh => 'CO₂ (少ない順)';
+  String get sortCo2LowToHigh => 'CO₂（少ない順）';
 
   @override
-  String get sortPointsHighToLow => 'ポイント (多い順)';
+  String get sortPointsHighToLow => 'ポイント（多い順）';
 
   @override
-  String get sortPointsLowToHigh => 'ポイント (少ない順)';
+  String get sortPointsLowToHigh => 'ポイント（少ない順）';
 
   @override
   String get filterBySDG => 'SDGsで絞り込む';
@@ -638,10 +688,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String sdgActionsLogged(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count件のアクションを記録',
+      other: '$countString件のアクションを記録',
     );
     return '$_temp0';
   }
@@ -700,7 +754,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String legalLastUpdated(String date) {
-    return '最終更新日: $date';
+    return '最終更新日：$date';
   }
 
   @override
@@ -728,7 +782,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String eggProgressLabel(int current, int total) {
-    return '$current日目/$total日';
+    final intl.NumberFormat currentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String currentString = currentNumberFormat.format(current);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return '$currentString日目/$totalString日';
   }
 
   @override
@@ -831,10 +892,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String reminderRepeatCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count回',
+      other: '$countString回',
     );
     return '$_temp0';
   }
@@ -855,16 +920,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String reminderLimit(int max) {
-    return 'アクションのリマインダーは$max件までです。';
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return 'アクションのリマインダーは$maxString件までです。';
   }
 
   @override
   String reminderSummary(String days, String time, int hour) {
+    final intl.NumberFormat hourNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String hourString = hourNumberFormat.format(hour);
+
     return '$days $time';
   }
 
   @override
   String reminderSummaryUntil(String days, String time, int hour, String date) {
+    final intl.NumberFormat hourNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String hourString = hourNumberFormat.format(hour);
+
     return '$days $time（$dateまで）';
   }
 
@@ -885,7 +965,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String reminderListIntro(int max) {
-    return '各アクションのベルからリマインダーを設定できます（最大$max件）。タップすると変更・削除できます。';
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return '各アクションのベルからリマインダーを設定できます（最大$maxString件）。タップすると変更・削除できます。';
   }
 
   @override
@@ -948,11 +1033,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get feedbackDescriptionLabel => 'フィードバックの内容';
 
   @override
-  String get feedbackDescriptionHint => 'ご意見をお聞かせください...';
+  String get feedbackDescriptionHint => 'ご意見をお聞かせください…';
 
   @override
   String get feedbackMetadataNote =>
-      '調査のため、以下の情報を一緒に送信します: アプリのバージョン、端末とOS、言語、アカウントID。';
+      '調査のため、以下の情報を一緒に送信します：アプリのバージョン、端末とOS、言語、アカウントID。';
 
   @override
   String feedbackMetaAppVersion(String version) {
@@ -988,22 +1073,38 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String mascotLevelShort(int level) {
-    return 'Lv $level';
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return 'Lv $levelString';
   }
 
   @override
   String mascotLevelsToGo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'あと$countレベル',
+      other: 'あと$countStringレベル',
     );
     return '$_temp0';
   }
 
   @override
   String mascotLevelProgress(int current, int max) {
-    return 'レベル $current / $max';
+    final intl.NumberFormat currentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String currentString = currentNumberFormat.format(current);
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return 'レベル $currentString / $maxString';
   }
 
   @override
@@ -1062,12 +1163,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String sdgGoalNumber(int number) {
-    return '目標 $number';
+    final intl.NumberFormat numberNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String numberString = numberNumberFormat.format(number);
+
+    return '目標 $numberString';
   }
 
   @override
   String sdgGoalNumberTitle(int number, String title) {
-    return '目標 $number：$title';
+    final intl.NumberFormat numberNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String numberString = numberNumberFormat.format(number);
+
+    return '目標 $numberString：$title';
   }
 
   @override
@@ -1113,7 +1222,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authHaveAccount => 'アカウントをお持ちの方';
 
   @override
-  String get authAgreePrefix => '以下に同意します: ';
+  String get authAgreePrefix => '以下に同意します：';
 
   @override
   String get authAgreeAnd => 'および';
@@ -1148,7 +1257,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'メール内のリンクを開いてアカウントを認証したら、ここに戻って下のボタンをタップしてください。';
 
   @override
-  String get authChecking => '確認中...';
+  String get authChecking => '確認中…';
 
   @override
   String get authVerifiedButton => 'メールを認証しました';
@@ -1186,17 +1295,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String pointsAbbreviated(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}pt',
+      other: '${countString}pt',
     );
     return '$_temp0';
   }
 
   @override
   String stageFallback(int stage) {
-    return 'ステージ $stage';
+    final intl.NumberFormat stageNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stageString = stageNumberFormat.format(stage);
+
+    return 'ステージ $stageString';
   }
 
   @override
@@ -1307,12 +1424,24 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String challengeStreakDays(int days) {
-    return 'チャレンジ$days日連続';
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
+    return 'チャレンジ$daysString日連続';
   }
 
   @override
   String challengeMultiDayProgress(int current, int target) {
-    return '$target日中$current日目';
+    final intl.NumberFormat currentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String currentString = currentNumberFormat.format(current);
+    final intl.NumberFormat targetNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String targetString = targetNumberFormat.format(target);
+
+    return '$targetString日中$currentString日目';
   }
 
   @override
@@ -1344,10 +1473,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String challengeDays(int days) {
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: '$days日間',
+      other: '$daysString日間',
     );
     return '$_temp0';
   }
@@ -1481,7 +1615,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String ecoDexProgress(int discovered, int total) {
-    return '$discovered / $total 発見済み';
+    final intl.NumberFormat discoveredNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String discoveredString = discoveredNumberFormat.format(discovered);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return '$discoveredString / $totalString 発見済み';
   }
 
   @override
@@ -1492,7 +1633,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String ecoDexAchievement(String hint) {
-    return '実績: $hint';
+    return '実績：$hint';
   }
 
   @override
@@ -1506,7 +1647,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String ecoDexEntryTitle(String name) {
-    return 'エコ図鑑: $name';
+    return 'エコ図鑑：$name';
   }
 
   @override
@@ -1514,7 +1655,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String ecoDexDiscoveryMoreQueued(int count) {
-    return '他に$count件';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '他に$countString件';
   }
 
   @override
@@ -1607,7 +1752,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportOccupantsSemantic(int count) {
-    return '乗車人数：$count人';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '乗車人数：$countString人';
   }
 
   @override
@@ -1637,22 +1786,34 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportOccupantsValue(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count人',
+      other: '$countString人',
     );
     return '$_temp0';
   }
 
   @override
   String transportModeFactorPerPassenger(int grams) {
-    return '1kmあたり$grams g CO2e';
+    final intl.NumberFormat gramsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String gramsString = gramsNumberFormat.format(grams);
+
+    return '1kmあたり$gramsString g CO2e';
   }
 
   @override
   String transportModeFactorPerVehicle(int grams) {
-    return '車両1kmあたり$grams g CO2e';
+    final intl.NumberFormat gramsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String gramsString = gramsNumberFormat.format(grams);
+
+    return '車両1kmあたり$gramsString g CO2e';
   }
 
   @override
@@ -1761,17 +1922,30 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportComparisonFull(int max) {
-    return '比較枠がいっぱいです（最大$max件）';
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return '比較枠がいっぱいです（最大$maxString件）';
   }
 
   @override
   String transportCompareOptions(int count) {
-    return '$count件を比較';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$countString件を比較';
   }
 
   @override
   String transportOptionStaged(int count) {
-    return '選択肢$countを追加しました';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '選択肢$countStringを追加しました';
   }
 
   @override
@@ -1781,7 +1955,11 @@ class AppLocalizationsJa extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$labelは$worseよりCO2eが$amount少なくなります（$percent%減）';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return '$labelは$worseよりCO2eが$amount少なくなります（$percentString%減）';
   }
 
   @override
@@ -1794,11 +1972,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String transportMethodologyBody(int grid) {
-    return 'このツールの数値はすべて学習用の推定値であり、下記の出典にたどれます。\n\n### 対象となる排出\n運用エネルギーのみを対象とします。エンジンが燃やす燃料と、電動モードの発電による排出です。車両の製造やインフラ建設は除外します。徒歩と自転車は慣例上ゼロとします（消費カロリーは通常の食事に上乗せされない可能性があるため除外）。\n\n### 乗車人数\n自動車とタクシーは車両単位で測定し、乗車人数で割ります。バス・鉄道・飛行機は既に一般的な乗車率での旅客単位です。\n\n### 飛行機と放射強制力\n航空機は飛行機雲や高高度の影響により、CO2以外でも気候を温暖化させます。DESNZ 2025に従い、飛行機とプライベートジェットの係数にはCO2成分へ1.7倍（中央値）の上乗せを含みます。プライベートジェットも同じ上乗せを含むため、比較は対等です。\n\n### 電動モードと電源構成\n電気自動車・電動自転車・電動キックボードは走行時の排気ガスはゼロで、排出は発電に由来します。本ツールは世界平均の電源構成として1kWhあたり${grid}g CO2eを用います。これは国や時間帯で大きく変動するため、実際の値はこれより高くも低くもなります。\n\n### 平均値であり、あなたの旅程そのものではありません\n係数はカテゴリの平均であり、あなたの具体的な車両・経路・運転の仕方ではありません。選択肢の比較には使えますが、厳密な炭素計算には向きません。\n\n### 僅差の場合\n長距離バスと鉄道のように非常に近い手段もあり、その順位は年ごとの係数改定で入れ替わることがあります。小さな差は明確な勝者ではなく引き分けとみなしてください。';
+    final intl.NumberFormat gridNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String gridString = gridNumberFormat.format(grid);
+
+    return 'このツールの数値はすべて学習用の推定値であり、下記の出典にたどれます。\n\n### 対象となる排出\n運用エネルギーのみを対象とします。エンジンが燃やす燃料と、電動モードの発電による排出です。車両の製造やインフラ建設は除外します。徒歩と自転車は慣例上ゼロとします（消費カロリーは通常の食事に上乗せされない可能性があるため除外）。\n\n### 乗車人数\n自動車とタクシーは車両単位で測定し、乗車人数で割ります。バス・鉄道・飛行機は既に一般的な乗車率での旅客単位です。\n\n### 飛行機と放射強制力\n航空機は飛行機雲や高高度の影響により、CO2以外でも気候を温暖化させます。DESNZ 2025に従い、飛行機とプライベートジェットの係数にはCO2成分へ1.7倍（中央値）の上乗せを含みます。プライベートジェットも同じ上乗せを含むため、比較は対等です。\n\n### 電動モードと電源構成\n電気自動車・電動自転車・電動キックボードは走行時の排気ガスはゼロで、排出は発電に由来します。本ツールは世界平均の電源構成として1kWhあたり${gridString}g CO2eを用います。これは国や時間帯で大きく変動するため、実際の値はこれより高くも低くもなります。\n\n### 平均値であり、あなたの旅程そのものではありません\n係数はカテゴリの平均であり、あなたの具体的な車両・経路・運転の仕方ではありません。選択肢の比較には使えますが、厳密な炭素計算には向きません。\n\n### 僅差の場合\n長距離バスと鉄道のように非常に近い手段もあり、その順位は年ごとの係数改定で入れ替わることがあります。小さな差は明確な勝者ではなく引き分けとみなしてください。';
   }
 
   @override
-  String get transportLogChoiceTitle => '環境にやさしいほうを選びますか？';
+  String get transportLogChoiceTitle => '環境に優しい方を選びますか？';
 
   @override
   String transportLogChoiceBody(String amount) {
@@ -1866,7 +2049,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get foodChangeItem => '変更';
 
   @override
-  String get foodQuantityLabel => '分量 (g)';
+  String get foodQuantityLabel => '分量（g）';
 
   @override
   String get foodQuantityInvalid => '0 g以上の分量を入力してください';
@@ -1890,7 +2073,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get foodColumnEmptyHint => '「食材を追加」をタップして献立を作りましょう';
 
   @override
-  String get foodSearchHint => '食材を検索...';
+  String get foodSearchHint => '食材を検索…';
 
   @override
   String get foodSearchNoResults => '一致する食材がありません。';
@@ -1944,17 +2127,30 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String foodComparisonFull(int max) {
-    return '比較枠がいっぱいです（最大$max件）';
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return '比較枠がいっぱいです（最大$maxString件）';
   }
 
   @override
   String foodCompareOptions(int count) {
-    return '$count件を比較';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$countString件を比較';
   }
 
   @override
   String foodOptionStaged(int count) {
-    return '選択肢$countを追加しました';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '選択肢$countStringを追加しました';
   }
 
   @override
@@ -1996,17 +2192,29 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String foodVerdictTooClose(int percent) {
-    return 'この2つの食事の差は$percent%以内です。ここに掲載する食品の多くはカテゴリ全体の平均値を共有しており、統計的に同等の値も少なくありません。これほど小さな差は、元になる研究が実際に区別できる範囲の内側にあります。合計値は上に表示していますが、どちらが優れているかの判定は行いません。';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'この2つの食事の差は$percentString%以内です。ここに掲載する食品の多くはカテゴリ全体の平均値を共有しており、統計的に同等の値も少なくありません。これほど小さな差は、元になる研究で確実に区別できる精度を下回ります。合計値は上に表示していますが、どちらが優れているかの判定は行いません。';
   }
 
   @override
   String foodVerdictCrossSource(int percent) {
-    return 'この2つの食事は異なる研究で測定されており、片方はサプライチェーンの範囲がより短いものです。両者の差の一部は実際の差ではなく、その測定範囲の違いによる可能性があります。そのため、片方が他方の半分未満（約$percent%減）にならない限り、どちらが良いかは判定しません。';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'この2つの食事は異なる研究で測定されており、片方はサプライチェーンの範囲がより短いものです。両者の差の一部は実際の差ではなく、その測定範囲の違いによる可能性があります。そのため、片方が他方の半分未満（約$percentString%減）にならない限り、どちらが良いかは判定しません。';
   }
 
   @override
   String foodVerdictTiedBasis(int percent) {
-    return 'この差は、元をたどると同じ研究値を共有する食材によって生じています。そうした食材どうしの数値の違いは、農場で測定された差ではなく、元の研究における会計上の選択によるものです。その影響を取り除くと、2つの食事の差は$percent%以内に収まります。そのため、どちらが優れているかの判定は行いません。合計値は上に表示しています。';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'この差は、元をたどると同じ研究値を共有する食材によって生じています。そうした食材どうしの数値の違いは、農場で測定された差ではなく、元の研究における会計上の選択によるものです。その影響を取り除くと、2つの食事の差は$percentString%以内に収まります。そのため、どちらが優れているかの判定は行いません。合計値は上に表示しています。';
   }
 
   @override
@@ -2015,12 +2223,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
-    return '原因はあなたの食事ではなく「$item」です。この食品は元の研究の中で数値が大きく割れています。排出量が極端に大きい少数の生産者が平均を押し上げ、平均は中央値の$ratio倍になっています。つまり、どの農場を数えるかで結果が大きく変わります。約$percent%の差があればこの不確かさを上回りますが、今回は届いていません。通常のアクションとして食事を記録することは可能です。';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return '原因はあなたの食事ではなく「$item」です。この食品は元の研究の中で数値が大きく割れています。排出量が極端に大きい少数の生産者が平均を押し上げ、平均は中央値の$ratio倍になっています。つまり、どの農場を数えるかで結果が大きく変わります。約$percentString%の差があればこの不確かさを上回りますが、今回は届いていません。通常のアクションとして食事を記録することは可能です。';
   }
 
   @override
   String get foodComparisonTooClose =>
-      'この2つは差が小さすぎて判定できません。差が20%未満の場合、その差は元になる研究で区別できる範囲に収まるため、どちらが良いかは示さず、両方の合計のみを表示します。';
+      'この2つは差が小さすぎて判定できません。差が20%未満の場合、その差は元になる研究で確実に区別できる精度を下回るため、どちらが良いかは示さず、両方の合計のみを表示します。';
 
   @override
   String foodComparisonDelta(
@@ -2029,12 +2241,21 @@ class AppLocalizationsJa extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$labelは$worseよりCO2eが$amount少なくなります（$percent%減）';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return '$labelは$worseよりCO2eが$amount少なくなります（$percentString%減）';
   }
 
   @override
   String foodComparisonCarKmEquiv(int km) {
-    return 'これはガソリン車で約${km}km走らないのと同じです';
+    final intl.NumberFormat kmNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String kmString = kmNumberFormat.format(km);
+
+    return 'これはガソリン車で約${kmString}km走らないのと同じです';
   }
 
   @override
@@ -2071,7 +2292,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get foodMethodologyBody =>
-      'このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約38,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。係数は中央値ではなく、サプライチェーン損失を含む生産量加重平均です。平均値のほうが世界全体の影響をよく表すためです。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 勝ち負けを断定しない理由\nここに掲載する数値はすべて、数千の農場の平均です。そして農場はその平均の周りに均等に分布しているわけではありません。排出量が極端に大きい少数の生産者が平均を押し上げるため、平均は「典型的な農場」より高い位置にきます。だからこそ元の研究は中央値（世界の生産量の半分がその上、半分が下にある値）も併せて公表しています。多くの食品では平均と中央値は近い値です。しかし一部ではそうではありません。ダークチョコレートは平均46.65 kg CO2e/kgに対し中央値18.7、養殖魚は13.63に対し5.1です。\n\n本アプリは平均を採用しています。典型的な農場ではなく、世界全体への影響量を表す数値だからです。その結果として、値が近い2つの食品は、どちらの統計値を見るかで順位が入れ替わることがあります。そこで本アプリは、差が20%以上ある場合にのみ「こちらの方が少ない」と表示します。20%未満の場合は両方の合計値だけを示し、判断はお任せします。\n\nこの20%はきりのよい数字を選んだのではなく、検証した結果です。元の研究が平均と中央値の両方を公表している食品のすべての組み合わせを調べたところ、差が20%以上あればどちらの統計値でも順位は同じ方向を示しました。例外は3つです。ダークチョコレート、養殖魚、ナッツ（種実類）は、その食品自身の平均と中央値が2倍以上離れています。この3つはどれだけ差があっても信頼できないため、優劣の判定には一切使用しません。また、異なる研究にまたがる比較の場合（一部の食品はサプライチェーンの範囲が短い別の情報源で測定されています）、片方が他方の半分未満でなければ判定しません。それより小さい差は、各研究が何を計算に含めたかの違いにすぎない可能性があるからです。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」のフットプリントは「輸入した豆」よりはるかに大きいままで、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。';
+      'このツールの数値はすべて学習用の推計値で、下記の出典をたどれます。\n\n### 対象範囲\n各係数は、Our World in Dataが公開するPoore & Nemecekの2018年メタ分析（約3万8,000農場）に基づき、土地利用の変化・農業・飼料・加工・輸送・包装を含む「ゆりかごから小売まで」の全ライフサイクルを対象とします。家庭での調理エネルギーと家庭の食品廃棄は含みません。これは交通の計算機（運用エネルギーのみ）より広い範囲なので、2つのツールの数値を合算しないでください。係数は中央値ではなく、サプライチェーン損失を含む生産量加重平均です。平均値の方が世界全体の影響をよく表すためです。\n\n### 1つの数値、大きなばらつき\nこれらは世界的なカテゴリ平均です。同じ食品でも生産者によって10〜50倍変わります。牛肉はたんぱく質100gあたり約9〜105 kg CO2e、トマトは露地の旬なら0.45 kg CO2e/kg、加温温室なら2.20です。特定の農場を判断するためではなく、食品どうしの比較に使ってください。\n\n### 勝ち負けを断定しない理由\nここに掲載する数値はすべて、数千の農場の平均です。そして農場はその平均の周りに均等に分布しているわけではありません。排出量が極端に大きい少数の生産者が平均を押し上げるため、平均は「典型的な農場」より高い位置にきます。だからこそ元の研究は中央値（世界の生産量の半分がその上、半分が下にある値）も併せて公表しています。多くの食品では平均と中央値は近い値です。しかし一部ではそうではありません。ダークチョコレートは平均46.65 kg CO2e/kgに対し中央値18.7、養殖魚は13.63に対し5.1です。\n\n本アプリは平均を採用しています。典型的な農場ではなく、世界全体への影響量を表す数値だからです。その結果として、値が近い2つの食品は、どちらの統計値を見るかで順位が入れ替わることがあります。そこで本アプリは、差が20%以上ある場合にのみ「こちらの方が少ない」と表示します。20%未満の場合は両方の合計値だけを示し、判断はお任せします。\n\nこの20%はきりのよい数字を選んだのではなく、検証した結果です。元の研究が平均と中央値の両方を公表している食品のすべての組み合わせを調べたところ、差が20%以上あればどちらの統計値でも順位は同じ方向を示しました。例外は3つです。ダークチョコレート、養殖魚、ナッツ（種実類）は、その食品自身の平均と中央値が2倍以上離れています。この3つはどれだけ差があっても信頼できないため、優劣の判定には一切使用しません。また、異なる研究にまたがる比較の場合（一部の食品はサプライチェーンの範囲が短い別の情報源で測定されています）、片方が他方の半分未満でなければ判定しません。それより小さい差は、各研究が何を計算に含めたかの違いにすぎない可能性があるからです。\n\n### 「有機」と「地産」\nここには有機・地産による割引はなく、これは意図的です。輸送は通常、食品のフットプリントの10%未満なので、「地産の牛肉」のフットプリントは「輸入した豆」よりはるかに大きいままで、有機はkgあたりで同程度かむしろ高いことも多いです。何を食べるかは、どこから来たか・どう育てられたかよりはるかに重要です。';
 
   @override
   String get energyGroupHotWater => 'お湯';
@@ -2193,17 +2414,25 @@ class AppLocalizationsJa extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$labelは$worseよりCO2eが$amount少なくなります（$percent%減）';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return '$labelは$worseよりCO2eが$amount少なくなります（$percentString%減）';
   }
 
   @override
   String energyComparisonRatio(String worse, String multiple, String label) {
-    return '$worse のCO2eは $label の約$multiple倍です';
+    return '$worseのCO2eは$labelの$multiple倍です';
   }
 
   @override
   String energyComparisonSavesEquiv(String amount, int charges) {
-    return '$amountの削減です。スマホ充電およそ$charges回分の電力にあたります';
+    final intl.NumberFormat chargesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String chargesString = chargesNumberFormat.format(charges);
+
+    return '$amountの削減です。スマホ充電およそ$chargesString回分の電力にあたります';
   }
 
   @override
@@ -2213,17 +2442,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energyPhoneChargesEquiv(int charges) {
-    return 'スマホ充電およそ$charges回分の電力にあたります';
+    final intl.NumberFormat chargesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String chargesString = chargesNumberFormat.format(charges);
+
+    return 'スマホ充電およそ$chargesString回分の電力にあたります';
   }
 
   @override
   String energyGridBasisNote(int grid) {
-    return 'グラム表示は世界平均の電力係数 $grid g CO2e/kWh（Ember、2025年データ）に基づきます';
+    final intl.NumberFormat gridNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String gridString = gridNumberFormat.format(grid);
+
+    return 'グラム表示は世界平均の電力係数 $gridString g CO2e/kWh（Ember、2025年データ）に基づきます';
   }
 
   @override
   String energyGridBasisNoteRatio(int grid) {
-    return 'グラム表示は世界平均の電力係数 $grid g CO2e/kWh（Ember、2025年データ）に基づきます。倍率はどの電力網でも変わりません';
+    final intl.NumberFormat gridNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String gridString = gridNumberFormat.format(grid);
+
+    return 'グラム表示は世界平均の電力係数 $gridString g CO2e/kWh（Ember、2025年データ）に基づきます。倍率はどの電力網でも変わりません';
   }
 
   @override
@@ -2231,7 +2474,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energyMethodologyBody(int grid) {
-    return 'このツールの数値はすべて学びのための概算で、末尾の出典まで遡れます。\n\n### 何を数えているか\n家庭で使うときに消費する電気・ガス（運用エネルギー）だけを数えます。移動計算機と同じ流儀で、ライフサイクル全体を数える食事計算機とは意図的に異なります。3つの計算機の結果を足し合わせないでください。それぞれ別の問いに答えています。ガスは燃焼分のみで、上流分（約+17%）は移動計算機との整合のため含めていません。ここではポイントは付きません。エネルギー習慣の記録はアクションログで行います。\n\n### なぜ世界共通の1つの係数なのか\n電気のクリーンさは国によって大きく違います。同じ乾燥機1回分でも、英国では約0.6 kg、日本では約1.9 kg、インドでは約3.1 kgのCO2eと、同じ行動で5倍の開きです。太陽光・風力・原子力か、石炭か。電気がどこから来るかは、何をするかと同じくらい効きます。\n\n国ごとの係数も検討しましたが、採用しませんでした。正確を期すには国、地域や電力会社（米国の平均1つの中に26地域分の幅が隠れています）、さらには時間帯まで必要になります。昼の太陽光が豊富な時間帯は、同じ電力網でも夕方のピークよりずっとクリーンだからです。しかもこれらの数値は動きます。英国の公式係数は1回の年次改定で26%下がりました。それぞれ勝手に古びる100個の数値を抱えるより、1つの数値で正直に概算するほうが誠実だと考えました。\n\n代わりに、3つのことをしています。\n\n**出典と年次を明記した世界平均を1つ。** Emberが公表する2025年の世界平均、$grid g CO2e/kWhを使います。日本の係数は約429 g/kWhでこれに近い一方、英国やフランスには高すぎ、インドやポーランドには低すぎる値です。\n\n**誰にとっても正しい比較。** この計算機の比較のほとんどは、同じ種類のエネルギーで動くもの同士です。湯船とシャワー、乾燥機と外干し、温水洗濯と冷水洗濯。そこでは電力係数が完全に打ち消し合います。湯船は10分のシャワーの約2.3倍。グラスゴーでも東京でもデリーでも同じです。絶対値は電力網で変わりますが、倍率は変わりません。\n\n**電力網次第で答えが変わる比較には、判定を出しません。** ガスと電気の比較だけは本当に逆転します。約241 g CO2e/kWhを下回る電力網では電気温水が、上回る電力網ではガスが有利です。英国はすでにこの線を下回り、日本は大きく上回っています。だから両方の数値を並べ、勝者は宣言しません。正直な答えはあなたの行動ではなく、住む場所で決まるからです。\n\n自分の電力網を確かめたい場合は、電力会社や政府のエネルギー統計が公表する係数を上の$gridと見比べてください。この計算機の数値がどちらに傾くか分かります。\n\n### 熱がすべて\n熱を作る・運ぶ行動（シャワー、湯船、乾燥、冷暖房）は、光や計算しかしない行動の20〜670倍のエネルギーを使います。扇風機は冷房グループの例外で、熱ではなく空気を動かすため、エアコン1時間の約8分の1しか使いません。下のランキングは各行動の標準的な1回分での比較です。冷蔵庫は1日約1 kWhですが、シャワーのように「短く使う」ことができないため一覧には入れていません。効くのは買い替え時の省エネ性能です。\n\n暖房4方式を同じ実測基準（資源エネルギー庁）で1時間あたりに換算すると:\n\n- エアコン暖房（ヒートポンプ）: 110 g CO2e\n- ガスファンヒーター: 181 g\n- 石油ファンヒーター: 245 g\n- 電気ストーブ（抵抗加熱）: 550 g\n\nエアコン暖房の排出は電気ストーブの約5分の1、ガスの約1.6分の1、灯油の約2.2分の1です。灯油は電気ストーブには勝ちますが、ヒートポンプには大きく負けます。だからこの4つは必ず並べて示します。\n\n### 実測値主義\nエアコンの数値は実使用1時間の実測平均（省エネルギーセンター経由・資源エネルギー庁）です。カタログの定格は全負荷での測定のため約2.5倍大きくなります。こたつはメーカー自身のサーモスタット平均実測値で、電気ストーブの約8分の1ですが、このデータセットで最も不確かな数値です。設定温度のプリセットは±2℃までに制限しています。クールビズ・ウォームビズでおなじみの目安は1℃あたり冷房約13%・暖房約10%（環境省）ですが、資源エネルギー庁の実測からは15.2%・12.6%が導かれます。1℃あたりの節約は線形ではなく、概算として扱ってください。\n\n### 待機電力の本当のところ\n機器1台あたりの待機電力は1〜3Wから約0.5Wまで下がりましたが、機器の数がそれ以上に増えました。ローレンス・バークレー国立研究所によれば、家庭の待機電力は「ほぼ同じ量のまま、より多くの製品に分散した」状態です。待機電力は無視できるものでも、電気代の10%でもありません。\n\n### 照明\n消灯の数値は8.5WのLED電球（4時間で約15 g）を前提にしています。白熱電球なら同じ4時間で約110 g。そして電球の交換は、消灯よりはるかに大きな削減になります。\n\n### 回避排出について\nアクションログの中古系アクション（中古車、古着、図書館）は「新品を買わない」という選択への評価です。2人が同じ回避製造を各自の記録に付けるのは矛盾しませんが、その2つを合算することはできません。製造は1回しか起きていないからです。';
+    final intl.NumberFormat gridNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String gridString = gridNumberFormat.format(grid);
+
+    return 'このツールの数値はすべて学びのための概算で、末尾の出典まで遡れます。\n\n### 何を数えているか\n家庭で使うときに消費する電気・ガス（運用エネルギー）だけを数えます。移動計算機と同じ流儀で、ライフサイクル全体を数える食事計算機とは意図的に異なります。3つの計算機の結果を足し合わせないでください。それぞれ別の問いに答えています。ガスは燃焼分のみで、上流分（約+17%）は移動計算機との整合のため含めていません。ここではポイントは付きません。エネルギー習慣の記録はアクションログで行います。\n\n### なぜ世界共通の1つの係数なのか\n電気のクリーンさは国によって大きく違います。同じ乾燥機1回分でも、英国では約0.6 kg、日本では約1.9 kg、インドでは約3.1 kgのCO2eと、同じ行動で5倍の開きです。太陽光・風力・原子力か、石炭か。電気がどこから来るかは、何をするかと同じくらい効きます。\n\n国ごとの係数も検討しましたが、採用しませんでした。正確を期すには国、地域や電力会社（米国の平均1つの中に26地域分の幅が隠れています）、さらには時間帯まで必要になります。昼の太陽光が豊富な時間帯は、同じ電力網でも夕方のピークよりずっとクリーンだからです。しかもこれらの数値は動きます。英国の公式係数は1回の年次改定で26%下がりました。それぞれ勝手に古びる100個の数値を抱えるより、1つの数値で正直に概算する方が誠実だと考えました。\n\n代わりに、3つのことをしています。\n\n**出典と年次を明記した世界平均を1つ。** Emberが公表する2025年の世界平均、$gridString g CO2e/kWhを使います。日本の係数は約429 g/kWhでこれに近い一方、英国やフランスには高すぎ、インドやポーランドには低すぎる値です。\n\n**誰にとっても正しい比較。** この計算機の比較のほとんどは、同じ種類のエネルギーで動くもの同士です。湯船とシャワー、乾燥機と外干し、温水洗濯と冷水洗濯。そこでは電力係数が完全に打ち消し合います。湯船は10分のシャワーの約2.3倍。グラスゴーでも東京でもデリーでも同じです。絶対値は電力網で変わりますが、倍率は変わりません。\n\n**電力網次第で答えが変わる比較には、判定を出しません。** ガスと電気の比較だけは本当に逆転します。約241 g CO2e/kWhを下回る電力網では電気温水が、上回る電力網ではガスが有利です。英国はすでにこの線を下回り、日本は大きく上回っています。だから両方の数値を並べ、勝者は宣言しません。正直な答えはあなたの行動ではなく、住む場所で決まるからです。\n\n自分の電力網を確かめたい場合は、電力会社や政府のエネルギー統計が公表する係数を上の$gridStringと見比べてください。この計算機の数値がどちらに傾くか分かります。\n\n### 熱がすべて\n熱を作る・運ぶ行動（シャワー、湯船、乾燥、冷暖房）は、光や計算しかしない行動の20〜670倍のエネルギーを使います。扇風機は冷房グループの例外で、熱ではなく空気を動かすため、エアコン1時間の約8分の1しか使いません。下のランキングは各行動の標準的な1回分での比較です。冷蔵庫は1日約1 kWhですが、シャワーのように「短く使う」ことができないため一覧には入れていません。効くのは買い替え時の省エネ性能です。\n\n暖房4方式を同じ実測基準（資源エネルギー庁）で1時間あたりに換算すると：\n\n- エアコン暖房（ヒートポンプ）：110 g CO2e\n- ガスファンヒーター：181 g\n- 石油ファンヒーター：245 g\n- 電気ストーブ（抵抗加熱）：550 g\n\nエアコン暖房の排出は電気ストーブの約5分の1、ガスの約1.6分の1、灯油の約2.2分の1です。灯油は電気ストーブには勝ちますが、ヒートポンプには大きく負けます。だからこの4つは必ず並べて示します。\n\n### 実測値主義\nエアコンの数値は実使用1時間の実測平均（省エネルギーセンター経由・資源エネルギー庁）です。カタログの定格は全負荷での測定のため約2.5倍大きくなります。こたつはメーカー自身のサーモスタット平均実測値で、電気ストーブの約8分の1ですが、このデータセットで最も不確かな数値です。設定温度のプリセットは±2°Cまでに制限しています。クールビズ・ウォームビズでおなじみの目安は1°Cあたり冷房約13%・暖房約10%（環境省）ですが、資源エネルギー庁の実測からは15.2%・12.6%が導かれます。1°Cあたりの節約は線形ではなく、概算として扱ってください。\n\n### 待機電力の本当のところ\n機器1台あたりの待機電力は1〜3Wから約0.5Wまで下がりましたが、機器の数がそれ以上に増えました。ローレンス・バークレー国立研究所によれば、家庭の待機電力は「ほぼ同じ量のまま、より多くの製品に分散した」状態です。待機電力は無視できるものでも、電気代の10%でもありません。\n\n### 照明\n消灯の数値は8.5WのLED電球（4時間で約15 g）を前提にしています。白熱電球なら同じ4時間で約110 g。そして電球の交換は、消灯よりはるかに大きな削減になります。\n\n### 回避排出について\nアクションログの中古系アクション（中古車、古着、図書館）は「新品を買わない」という選択への評価です。2人が同じ回避製造を各自の記録に付けるのは矛盾しませんが、その2つを合算することはできません。製造は1回しか起きていないからです。';
   }
 
   @override
@@ -2243,7 +2491,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get energyRankedGasNote =>
-      'ガス機器も同じ並びに入れています。ここで比べているのはエネルギーの量だからです。ひとつ注意点があります。同じ湯船でも、ガス給湯は電気給湯よりエネルギーを多く使いますが、現在の世界平均の電力係数では排出量はガスのほうが少なくなります。電力が約241 g CO2e/kWhを下回ると逆転し、電気が有利になります。エネルギーの量は自分で選べる部分、電力のクリーンさは国によって違い、年々改善していく部分です。';
+      'ガス機器も同じ並びに入れています。ここで比べているのはエネルギーの量だからです。一つ注意点があります。同じ湯船でも、ガス給湯は電気給湯よりエネルギーを多く使いますが、現在の世界平均の電力係数では排出量はガスの方が少なくなります。電力が約241 g CO2e/kWhを下回ると逆転し、電気が有利になります。エネルギーの量は自分で選べる部分、電力のクリーンさは国によって違い、年々改善していく部分です。';
 
   @override
   String energyRankedMultiple(String multiple) {
@@ -2263,7 +2511,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energyVerdictTooClose(int percent) {
-    return 'この2つの差は$percent%以内で、元の測定値の精度の範囲に収まっています。どちらが良いと判定するのは、出典にない精度を読み取ることになります。';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'この2つの差は$percentString%以内で、元の測定値の精度の範囲に収まっています。どちらが良いと判定するのは、出典にない精度を読み取ることになります。';
   }
 
   @override
@@ -2325,7 +2577,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get quizTitle => '多い？ 少ない？';
 
   @override
-  String get quizQuestion => '多く出すほうをタップするか、上にドラッグ';
+  String get quizQuestion => '多く出す方をタップするか、上にドラッグ';
 
   @override
   String get quizSubtitle => 'どちらがCO2を多く出す？';
@@ -2335,7 +2587,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String quizAnnounceRight(int count) {
-    return '正解！連続$count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '正解！連続$countString';
   }
 
   @override
@@ -2409,12 +2665,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String quizStreakLabel(int count) {
-    return '連続$count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '連続$countString';
   }
 
   @override
   String quizBestLabel(int count) {
-    return '最高$count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '最高$countString';
   }
 
   @override
@@ -2440,12 +2704,23 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String factPairsFound(int found, int total) {
-    return 'ペア $found/$total';
+    final intl.NumberFormat foundNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String foundString = foundNumberFormat.format(found);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'ペア $foundString/$totalString';
   }
 
   @override
   String factPairsMoves(int count) {
-    return '手数 $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '手数 $countString';
   }
 
   @override
@@ -2456,17 +2731,28 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String factPairsFinished(int moves) {
+    final intl.NumberFormat movesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String movesString = movesNumberFormat.format(moves);
+
     String _temp0 = intl.Intl.pluralLogic(
       moves,
       locale: localeName,
-      other: '$moves手ですべてのペアを見つけました',
+      other: '$movesString手ですべてのペアを見つけました',
     );
     return '$_temp0';
   }
 
   @override
   String factPairsCardHidden(int index, int total) {
-    return '$total枚中$index枚目、裏向き';
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return '$totalString枚中$indexString枚目、裏向き';
   }
 
   @override
@@ -2482,12 +2768,23 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String factGamesLockedBody(int needed) {
-    return '$needed件のエコ図鑑エントリーを発見すると、このゲームが開きます。アクションを記録したりチャレンジを達成したりして発見しよう。見つけたエントリーは、ここで問題として出てくることがあります。';
+    final intl.NumberFormat neededNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String neededString = neededNumberFormat.format(needed);
+
+    return '$neededString件のエコ図鑑エントリーを発見すると、このゲームが開きます。アクションを記録したりチャレンジを達成したりして発見しよう。見つけたエントリーは、ここで問題として出てくることがあります。';
   }
 
   @override
   String factGamesLockedProgress(int count, int needed) {
-    return '発見したエコ図鑑エントリー $count/$needed';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+    final intl.NumberFormat neededNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String neededString = neededNumberFormat.format(needed);
+
+    return '発見したエコ図鑑エントリー $countString/$neededString';
   }
 
   @override
@@ -2504,12 +2801,23 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String factRecallProgress(int index, int total) {
-    return '第$index問（全$total問）';
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return '第$indexString問（全$totalString問）';
   }
 
   @override
   String factRecallScore(int count) {
-    return '正解 $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '正解 $countString';
   }
 
   @override
@@ -2534,7 +2842,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String factRecallFinished(int correct, int total) {
-    return '$total問中$correct問正解';
+    final intl.NumberFormat correctNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String correctString = correctNumberFormat.format(correct);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return '$totalString問中$correctString問正解';
   }
 
   @override
@@ -2587,7 +2902,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String factRecallWashes(String figure) {
-    return '1回の洗濯あたりで比べると、60℃洗いのCO2eは20℃洗いの約$figureです。';
+    return '1回の洗濯あたりで比べると、60°C洗いのCO2eは20°C洗いの約$figureです。';
   }
 
   @override
@@ -2666,7 +2981,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walkthroughDailyChallenge1 =>
-      '毎日新しいチャレンジがひとつ。達成すると今日のエコファクトが開き、チャレンジの連続記録も続きます。';
+      '毎日新しいチャレンジが一つ。達成すると今日のエコファクトが開き、チャレンジの連続記録も続きます。';
 
   @override
   String get walkthroughSdg1 =>
@@ -2677,7 +2992,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walkthroughCalculators1 =>
-      '3つの計算ツールで2つの選択肢を並べて比べられます。移動：好きな手段を組み合わせた2つのルート。環境にやさしい方を選んだら、アクションとして記録できます。';
+      '3つの計算ツールで2つの選択肢を並べて比べられます。移動：好きな手段を組み合わせた2つのルート。環境に優しい方を選んだら、アクションとして記録できます。';
 
   @override
   String get walkthroughCalculators2 => '食事：2つの献立を材料ごとに比較。軽い方を選んだら、こちらも記録できます。';
@@ -2703,7 +3018,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walkthroughProgress3 =>
-      'エコ図鑑：Seedを使うなかで見つかる地球の豆知識。ひとつひとつが小さな知識で、ポイントではありません。';
+      'エコ図鑑：Seedを使うなかで見つかる地球の豆知識。一つ一つが小さな知識で、ポイントではありません。';
 
   @override
   String get walkthroughComplete =>

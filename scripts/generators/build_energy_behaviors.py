@@ -230,7 +230,7 @@ BEHAVIORS = [
             'RESEARCH_ENERGY section 3.1.',
       notes_ja=('7.844784 L/分（現行のシャワーヘッド3機種の平均、決定E4）'
                 '× 0.03162756 kWh/L（1 Lを27.2 K加熱：'
-                '年平均12.8℃の水道水を40℃で出湯、SAP 10.1）'
+                '年平均12.8°Cの水道水を40°Cで出湯、SAP 10.1）'
                 '= 0.248111 kWh/分の熱量です。電気抵抗式の給湯は効率がほぼ100%なの'
                 'で、この値をそのまま採用しています。RESEARCH_ENERGY 3.1節に基づき'
                 'ます。'),
@@ -350,13 +350,13 @@ BEHAVIORS = [
       notes_sha='64b39bbc8802207c2cc0426663ddce0af7374f8b5f4b94de6020e3fe7e741a2e'),
  # ---- laundry_wash ----
  dict(id='wash_cold', group='laundry_wash', carrier='electricity', unit='use',
-      kwh=0.350, en='Washing machine, cold (20 C)', ja='洗濯機（20℃）',
+      kwh=0.350, en='Washing machine, cold (20 C)', ja='洗濯機（20°C）',
       es='Lavado en frío (20 °C)', conf='high', presets=ONE_LOAD,
       sources=[BOSCH_WM_20],
       notes='Bosch WNA14400GR Cottons 20 C at 9.0 kg, EN50229. Three temperatures from '
             'one machine, one standard and one document (decision E6). '
             'RESEARCH_ENERGY section 3.2.',
-      notes_ja=('Bosch WNA14400GRの綿コース20℃、9.0 kgでのEN50229の値です。'
+      notes_ja=('Bosch WNA14400GRの綿コース20°C、9.0 kgでのEN50229の値です。'
                 '3つの温度は、同じ1台の機種、同じ規格、'
                 '同じ文書から取っています（決定E6）。RESEARCH_ENERGY 3.2節に基づき'
                 'ます。'),
@@ -366,18 +366,18 @@ BEHAVIORS = [
                 'sección 3.2.'),
       notes_sha='4886cb830ce1bab62a2c7cfe398289280cddc872bfe366f315491d5f6c70fd06'),
  dict(id='wash_warm', group='laundry_wash', carrier='electricity', unit='use',
-      kwh=1.300, en='Washing machine, warm (40 C)', ja='洗濯機（40℃）',
-      es='Lavado en templado (40 °C)', conf='high', presets=ONE_LOAD,
+      kwh=1.300, en='Washing machine, warm (40 C)', ja='洗濯機（40°C）',
+      es='Lavado templado (40 °C)', conf='high', presets=ONE_LOAD,
       sources=[BOSCH_WM_40],
       notes='Bosch WNA14400GR Cottons 40 C at 9.0 kg, EN50229. '
             'RESEARCH_ENERGY section 3.2.',
-      notes_ja=('Bosch WNA14400GRの綿コース40℃、9.0 kgでのEN50229の値です。'
+      notes_ja=('Bosch WNA14400GRの綿コース40°C、9.0 kgでのEN50229の値です。'
                 'RESEARCH_ENERGY 3.2節に基づきます。'),
       notes_es=('Bosch WNA14400GR, programa Algodón a 40 °C con 9,0 kg, EN50229. '
                 'Según RESEARCH_ENERGY, sección 3.2.'),
       notes_sha='c9b2dd627f84f135d96eb7bb18510ec9c2887489331fa71f2961e83c4ced27d0'),
  dict(id='wash_hot', group='laundry_wash', carrier='electricity', unit='use',
-      kwh=1.700, en='Washing machine, hot (60 C)', ja='洗濯機（60℃）',
+      kwh=1.700, en='Washing machine, hot (60 C)', ja='洗濯機（60°C）',
       es='Lavado en caliente (60 °C)', conf='medium', presets=ONE_LOAD,
       sources=[BOSCH_WM_60],
       notes='Bosch WNA14400GR Cottons 60 C at 9.0 kg, EN50229. This is a user-selected '
@@ -388,11 +388,11 @@ BEHAVIORS = [
             'section 4 on purpose: that table says High, while section 3.2 splits it '
             'as High (provenance) / Medium (representativeness), and a user meets the '
             'representativeness half. RESEARCH_ENERGY section 3.2.',
-      notes_ja=('Bosch WNA14400GRの綿コース60℃、9.0 kgでのEN50229の値です。'
-                'これは利用者が自分で選ぶ60℃のコースです。EUラベルの「Cottons '
-                'colour 60 C」コースは0.900 kWhで、実際には60℃に達しません。'
+      notes_ja=('Bosch WNA14400GRの綿コース60°C、9.0 kgでのEN50229の値です。'
+                'これは利用者が自分で選ぶ60°Cのコースです。EUラベルの「Cottons '
+                'colour 60 C」コースは0.900 kWhで、実際には60°Cに達しません。'
                 'そのため、必須の補足表示にある「その約半分」とは0.9/1.7のことで'
-                'す。「60℃」の洗濯は、機械がどの60℃を指すかによって0.90〜1.70 kWhに'
+                'す。「60°C」の洗濯は、機械がどの60°Cを指すかによって0.90〜1.70 kWhに'
                 'なります。信頼度は意図的に4節と異なります。'
                 '4節の表では「高」ですが、3.2節では「高（出所）/ 中（代表性）'
                 '」に分けており、利用者が直面するのは代表性の側だからです。'
@@ -458,11 +458,11 @@ BEHAVIORS = [
       notes_sha='11166712f3268de4c48c9d1c72d3c6daada29ba1c93a5ffb51476a1c4184ec31'),
  # ---- space_heat / space_cool ----
  dict(id='aircon_heating', group='space_heat', carrier='electricity', unit='hour',
-      kwh=0.241006, en='Air conditioner, heating (20 C)', ja='エアコン暖房（20℃）',
+      kwh=0.241006, en='Air conditioner, heating (20 C)', ja='エアコン暖房（20°C）',
       es='Aire acondicionado, calefacción (20 °C)', conf='high',
-      presets=[P('hour_20c', '1 hour at 20 C', '20℃で1時間', '1 hora a 20 °C', 1.0),
-               P('hour_21c', '1 hour at 21 C', '21℃で1時間', '1 hora a 21 °C', 1.14480),
-               P('hour_22c', '1 hour at 22 C', '22℃で1時間', '1 hora a 22 °C', 1.28960)],
+      presets=[P('hour_20c', '1 hour at 20 C', '20°Cで1時間', '1 hora a 20 °C', 1.0),
+               P('hour_21c', '1 hour at 21 C', '21°Cで1時間', '1 hora a 21 °C', 1.14480),
+               P('hour_22c', '1 hour at 22 C', '22°Cで1時間', '1 hora a 22 °C', 1.28960)],
       sources=[METI_AC_HEAT],
       notes='METI publishes 40.73 kWh/year saved by shortening heating one hour a day '
             'at a 20 C setpoint, sourced to 省エネルギーセンター実測値; over the 169-day '
@@ -473,16 +473,16 @@ BEHAVIORS = [
             'kWh/h per 1 C) and are capped at +2 C '
             'because neither source supports extrapolating further. '
             'RESEARCH_ENERGY section 3.3.',
-      notes_ja=('資源エネルギー庁は、設定温度20℃の暖房を1日1時間短縮すると年間40.73'
+      notes_ja=('資源エネルギー庁は、設定温度20°Cの暖房を1日1時間短縮すると年間40.73'
                 ' kWhの省エネになると公表しており、'
                 '出典は省エネルギーセンター実測値です。169日間の暖房期間で割ると'
                 '0.241006 kWh/hになります。定格値ではなく実測値です：'
                 'Panasonic CS-227VBのJIS定格は455 Wで約1.9倍高いですが、'
                 'これは全負荷で測定しているためです。'
                 'この値をカタログ値に「修正」しないでください。'
-                '設定温度のプリセットには資源エネルギー庁の絶対差分（1℃あたり'
+                '設定温度のプリセットには資源エネルギー庁の絶対差分（1°Cあたり'
                 '+0.034898 kWh/h）を使い、どちらの出典もそれ以上の外挿を裏付けてい'
-                'ないため、+2℃までに制限しています。RESEARCH_ENERGY 3.3節に基づきま'
+                'ないため、+2°Cまでに制限しています。RESEARCH_ENERGY 3.3節に基づきま'
                 'す。'),
       notes_es=('METI publica que acortar una hora al día la calefacción con la '
                 'consigna a 20 °C ahorra 40,73 kWh/año, con '
@@ -579,12 +579,12 @@ BEHAVIORS = [
                 'RESEARCH_ENERGY, sección 3.3.'),
       notes_sha='95fb589e197d0e196496b4167660424a0c7594e4dd4ee6ca5e8be74bfa669277'),
  dict(id='aircon_cooling', group='space_cool', carrier='electricity', unit='hour',
-      kwh=0.167679, en='Air conditioner, cooling (28 C)', ja='エアコン冷房（28℃）',
+      kwh=0.167679, en='Air conditioner, cooling (28 C)', ja='エアコン冷房（28°C）',
       es='Aire acondicionado, refrigeración (28 °C)', conf='high',
-      presets=[P('hour_28c', '1 hour at 28 C', '28℃で1時間', '1 hora a 28 °C', 1.0),
-               P('hour_27c', '1 hour at 27 C', '27℃で1時間', '1 hora a 27 °C', 1.17891),
-               P('hour_26c', '1 hour at 26 C', '26℃で1時間', '1 hora a 26 °C', 1.35783),
-               P('evening_26c', 'An evening (4 h at 26 C)', '夜に26℃で4時間',
+      presets=[P('hour_28c', '1 hour at 28 C', '28°Cで1時間', '1 hora a 28 °C', 1.0),
+               P('hour_27c', '1 hour at 27 C', '27°Cで1時間', '1 hora a 27 °C', 1.17891),
+               P('hour_26c', '1 hour at 26 C', '26°Cで1時間', '1 hora a 26 °C', 1.35783),
+               P('evening_26c', 'An evening (4 h at 26 C)', '夜に26°Cで4時間',
                  'Una tarde (4 h a 26 °C)', 5.43132)],
       sources=[METI_AC_COOL],
       notes='METI publishes 18.78 kWh/year saved by shortening cooling one hour a day '
@@ -593,13 +593,13 @@ BEHAVIORS = [
             'rating is 435 W, about 2.6x higher. Setpoint presets use METI absolute '
             'deltas (+0.030 kWh/h per 1 C), capped at -2 C. '
             'RESEARCH_ENERGY section 3.3.',
-      notes_ja=('資源エネルギー庁は、設定温度28℃の冷房を1日1時間短縮すると年間18.78'
+      notes_ja=('資源エネルギー庁は、設定温度28°Cの冷房を1日1時間短縮すると年間18.78'
                 ' kWhの省エネになると公表しており、'
                 '出典は省エネルギーセンター実測値です。112日間の冷房期間で割ると'
                 '0.167679 kWh/hになります。定格値ではなく実測値です：'
                 'PanasonicのJIS定格は435 Wで、約2.6倍高くなっています。'
-                '設定温度のプリセットには資源エネルギー庁の絶対差分（1℃あたり+0.030'
-                ' kWh/h）を使い、-2℃までに制限しています。'
+                '設定温度のプリセットには資源エネルギー庁の絶対差分（1°Cあたり+0.030'
+                ' kWh/h）を使い、-2°Cまでに制限しています。'
                 'RESEARCH_ENERGY 3.3節に基づきます。'),
       notes_es=('METI publica que acortar una hora al día el aire acondicionado '
                 'con la consigna a 28 °C ahorra 18,78 kWh/año, con '
@@ -649,10 +649,10 @@ BEHAVIORS = [
             'kJ/kg-K x 85 K); divided by a kettle efficiency of 0.85. Metered '
             'cross-check in the same paper: 1.50 L from 18 C consumed 0.17 kWh = '
             '0.113 kWh/L. RESEARCH_ENERGY section 3.4.',
-      notes_ja=('15℃の水1 Lを沸かすのに物理的に最低限必要なエネルギーは0.09883611 '
+      notes_ja=('15°Cの水1 Lを沸かすのに物理的に最低限必要なエネルギーは0.09883611 '
                 'kWhです（1 kg × 4.186 kJ/kg-K × 85 K）。'
                 'これを電気ケトルの効率0.85で割っています。'
-                '同じ論文の実測による照合では、18℃の水1.50 Lで0.17 kWhを消費し、'
+                '同じ論文の実測による照合では、18°Cの水1.50 Lで0.17 kWhを消費し、'
                 '0.113 kWh/Lでした。RESEARCH_ENERGY 3.4節に基づきます。'),
       notes_es=('El mínimo físico para hervir 1 L desde 15 °C es 0,09883611 kWh (1 '
                 'kg × 4,186 kJ/kg-K × 85 K), dividido entre una eficiencia del '
@@ -800,10 +800,10 @@ BEHAVIORS = [
                 'すべて同じ実測基準です。保温は必ず炊飯のあとに行うものなので、'
                 '1つの値にまとめています（オーナー判断、2026-09-02）。'
                 '保温だけを単独で載せると炊飯より下位に並び、'
-                'ご飯を保温するほうが安い選択肢であるかのように読めてしまいますが、'
-                'そのような選択肢は誰にもありません。4時間は出典が示す目安です -- '
-                '約4時間を超えると電子レンジで温め直すほうが保温より少なく、'
-                '7〜8時間を超えると炊き直すほうが少なくなります。'
+                'ご飯を保温する方が安い選択肢であるかのように読めてしまいますが、'
+                'そのような選択肢は誰にもありません。4時間は出典が示す目安です。'
+                '約4時間を超えると電子レンジで温め直す方が保温より少なく、'
+                '7〜8時間を超えると炊き直す方が少なくなります。'
                 'RESEARCH_ENERGY 3.4節に基づきます。'),
       notes_es=('0,16 kWh del ciclo (la fila de «Arrocera, un ciclo»: 158 Wh '
                 'medidos, 163 Wh corroborados) más 4 × 16,5 Wh/h manteniendo '
@@ -812,7 +812,7 @@ BEHAVIORS = [
                 'previo (decisión del responsable, 2026-09-02): por separado '
                 'quedaba por debajo del ciclo y parecía que mantener el arroz '
                 'caliente fuera la opción más barata, una elección que nadie '
-                'tiene. Las 4 horas son la pauta que da la fuente -- pasadas unas '
+                'tiene. Las 4 horas son la pauta que da la fuente: pasadas unas '
                 '4 horas, recalentar en el microondas gasta menos que mantenerlo '
                 'caliente, y pasadas 7-8 horas, también gasta menos cocinar dos '
                 'veces. Según RESEARCH_ENERGY, sección 3.4.'),
