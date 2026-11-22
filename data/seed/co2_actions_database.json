@@ -1773,8 +1773,8 @@
       "description_en": "Repair a broken item instead of buying a new one",
       "description_ja": "壊れた物を、新品を買わずに修理する",
       "description_es": "Reparar un objeto roto en vez de comprar uno nuevo",
-      "co2_grams": 7500,
-      "calculation_notes": "weighted avg across item types",
+      "co2_grams": 2100,
+      "calculation_notes": "per repair, cotton T-shirt basis as the low case. WRAP 2025: P = 4.2 kg CO2e to make a new T-shirt, D = 50% displacement in its worked example. 4.2 x 0.5 = 2.1 kg. The repair itself is counted as zero. Most repaired items (shoes, coats, electricals) carry more embedded carbon, so this is a low figure.",
       "effort": 3,
       "frequency": 2,
       "impact": 4,
@@ -1785,8 +1785,15 @@
       ],
       "is_active": true,
       "sort_order": 7,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "WRAP 2025, Displacement Rates Untangled: A Standardised Methodology (Textiles 2030)",
+          "url": "https://www.wrap.ngo/sites/default/files/2025-02/WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf",
+          "quote": "0.4 – (4.2 x 0.5) = -1.7 kgCO2e",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "borrow_instead_buy",
@@ -1798,7 +1805,7 @@
       "description_ja": "新品を買う代わりに道具を借りる",
       "description_es": "Pedir prestada una herramienta en vez de comprar una nueva",
       "co2_grams": 8000,
-      "calculation_notes": "excl. books",
+      "calculation_notes": "per borrow. Library of Things 2024 method: 28 kg CO2e average to make an item in its catalogue x 50% of borrows that prevent a purchase = 14 kg. The 28 kg is their own assumption with no cited source, so the app keeps the lower 8 kg.",
       "effort": 2,
       "frequency": 2,
       "impact": 3,
@@ -1809,8 +1816,21 @@
       ],
       "is_active": true,
       "sort_order": 8,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "Library of Things, How we calculate our impact (2024 update)",
+          "url": "https://www.libraryofthings.co.uk/blog/how-we-calculate-our-impact-2024-update",
+          "quote": "Each borrow therefore prevents 14kg of C02e on average",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Library of Things, How we calculate our impact (2024 update)",
+          "url": "https://www.libraryofthings.co.uk/blog/how-we-calculate-our-impact-2024-update",
+          "quote": "50% of borrows prevents a purchase",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "plastic_free_hygiene",
@@ -1866,11 +1886,11 @@
       "name_en": "Donate Unused Items",
       "name_ja": "不要品を寄付",
       "name_es": "Donar artículos sin uso",
-      "description_en": "Donate items you no longer need instead of trashing them",
-      "description_ja": "不要品をゴミに捨てずに寄付する",
-      "description_es": "Donar cosas que ya no necesitas en vez de tirarlas",
-      "co2_grams": 12000,
-      "calculation_notes": "per-donation-run: multiple items",
+      "description_en": "Donate about 1kg of items you no longer need instead of throwing them away",
+      "description_ja": "不要な物を約1kg、捨てずに寄付する",
+      "description_es": "Donar cerca de 1kg de cosas que ya no necesitas en vez de tirarlas",
+      "co2_grams": 1900,
+      "calculation_notes": "per kg donated. BHF: over 71,000 tonnes of donations reused a year and 135,000 tonnes of CO2 prevented = 1.90 kg CO2 per kg. BHF gives no year or method. Clothes have their own action (donate_clothes).",
       "effort": 2,
       "frequency": 2,
       "impact": 3,
@@ -1881,8 +1901,15 @@
       ],
       "is_active": true,
       "sort_order": 11,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "British Heart Foundation, Donating goods",
+          "url": "https://www.bhf.org.uk/shop/donating-goods",
+          "quote": "We reuse over 71,000 tonnes of donations a year and prevent 135,000 tonnes of CO2 being released into the atmosphere.",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "no_impulse_buy",

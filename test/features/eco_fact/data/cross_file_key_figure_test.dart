@@ -44,7 +44,7 @@ const _reviewedDistinct = {
   '60%': {'fact 100', 'fact 340', 'dex circular_02', 'dex circular_10'},
   '39%': {'fact 120', 'SDG 12'},
   '32%': {'dex food_01', 'SDG 15'},
-  '75%': {'fact 132', 'fact 188', 'fact 316', 'dex food_09', 'dex gem_02'},
+  '75%': {'fact 188', 'fact 316', 'dex food_09', 'dex gem_02'},
   '12%': {'fact 162', 'dex energy_11', 'dex circular_08'},
   '16%': {'fact 291', 'dex people_03'},
   '41%': {'dex bio_07', 'dex energy_01'},

@@ -34,7 +34,7 @@
     "sourceEn": "UNEP / Ethiopian Government",
     "sourceEs": "UNEP / Ethiopian Government",
     "sourceJa": "UNEP / Ethiopian Government",
-    "sourceUrl": "https://www.unep.org/news-and-stories/story/ethiopias-350-million-tree-planting-day",
+    "sourceUrl": "https://www.unep.org/en/news-and-stories/story/ethiopia-plants-over-350-million-trees-day-setting-new-world-record",
     "relatedSdgs": [
       13,
       15
@@ -91,13 +91,13 @@
   {
     "dayOfYear": 5,
     "category": "positiveNews",
-    "factEn": "Global renewable energy capacity additions hit a record in 2023, growing almost 50% year-on-year. The world added 510 GW of new renewable capacity in a single year, led by solar power.",
-    "factEs": "La capacidad de energía renovable añadida en el mundo batió un récord en 2023, con un aumento de casi el 50% interanual. El mundo sumó 510 GW de nueva capacidad renovable en un solo año, con la energía solar a la cabeza.",
-    "factJa": "2023年の世界の再生可能エネルギーの新規導入量は記録を更新し、前年比約50%増となりました。太陽光発電を筆頭に、1年間で世界全体に510 GWもの新たな再生可能エネルギー設備が追加されました。",
-    "sourceEn": "International Energy Agency (IEA)",
-    "sourceEs": "International Energy Agency (IEA)",
-    "sourceJa": "International Energy Agency (IEA)",
-    "sourceUrl": "https://www.iea.org/reports/renewables-2023",
+    "factEn": "The world added 692 GW of renewable power capacity in 2025, another record, and total renewable capacity grew by 15.5% in a year. Solar power led the increase with 511 GW.",
+    "factEs": "En 2025, el mundo añadió 692 GW de capacidad de energía renovable, un nuevo récord, y la capacidad renovable total creció un 15,5% en un año. La energía solar encabezó el aumento con 511 GW.",
+    "factJa": "2025年、世界では692 GWの再生可能エネルギー発電設備が新たに導入されて再び過去最高を更新し、再生可能エネルギーの総容量は1年で15.5%増加しました。増加を牽引したのは太陽光発電で、511 GWでした。",
+    "sourceEn": "International Renewable Energy Agency (IRENA)",
+    "sourceEs": "International Renewable Energy Agency (IRENA)",
+    "sourceJa": "International Renewable Energy Agency (IRENA)",
+    "sourceUrl": "https://www.irena.org/News/pressreleases/2026/Apr/Near-700-GW-Surge-in-2025-Proves-Renewable-Energy-Resilience",
     "relatedSdgs": [
       7,
       13
@@ -116,7 +116,7 @@
     "sourceEn": "European Commission",
     "sourceEs": "European Commission",
     "sourceJa": "European Commission",
-    "sourceUrl": "https://commission.europa.eu/energy-climate-change-environment/standards-tools-and-labels/products-labelling-rules-and-requirements/sustainable-products/right-repair_en",
+    "sourceUrl": "https://commission.europa.eu/document/download/2d443b31-dc2a-4e54-a9ec-5fbb61c895e9_en?filename=2024_07_18_QA_Right2repair_FINAL.pdf",
     "relatedSdgs": [
       9,
       12
@@ -215,7 +215,7 @@
     "sourceEn": "US Department of Energy / Argonne National Laboratory",
     "sourceEs": "US Department of Energy / Argonne National Laboratory",
     "sourceJa": "US Department of Energy / Argonne National Laboratory",
-    "sourceUrl": "https://www.energy.gov/energysaver/idling",
+    "sourceUrl": "https://www.fueleconomy.gov/feg/driveHabits.jsp",
     "relatedSdgs": [
       11,
       13
@@ -291,7 +291,7 @@
     "sourceEn": "European Environmental Bureau",
     "sourceEs": "European Environmental Bureau",
     "sourceJa": "European Environmental Bureau",
-    "sourceUrl": "https://eeb.org/library/cool-products-dont-cost-the-earth-full-report/",
+    "sourceUrl": "https://eeb.org/en/library/coolproducts-report/",
     "relatedSdgs": [
       12
     ],
@@ -753,13 +753,13 @@
   {
     "dayOfYear": 34,
     "category": "comparison",
-    "factEn": "Sending one email emits about 4 g of CO2. But an email with a large attachment can emit 50 g. The world sends 350 billion emails per day -- reducing unnecessary emails and attachments adds up.",
-    "factEs": "Enviar un correo electrónico emite unos 4 g de CO2. Pero un correo con un archivo adjunto grande puede emitir 50 g. El mundo envía 350.000 millones de correos al día. Reducir los correos y archivos adjuntos innecesarios acaba sumando.",
-    "factJa": "メール1通の送信で約4 gのCO2が排出されます。しかし、大きな添付ファイル付きのメールは50 gを排出することがあります。世界では1日に3,500億通のメールが送信されています。不要なメールや添付ファイルを減らせば、積み重なって大きな効果になります。",
-    "sourceEn": "Berners-Lee, The Carbon Footprint of Everything",
-    "sourceEs": "Berners-Lee, The Carbon Footprint of Everything",
-    "sourceJa": "Berners-Lee, The Carbon Footprint of Everything",
-    "sourceUrl": "https://www.sciencedirect.com/science/article/pii/S0959652620307551",
+    "factEn": "ADEME, the French environment agency, estimates that a year of email (50 a week without attachments, sent from a smartphone on wifi in France) emits about 0.27 kg CO2e. Making one smartphone emits about 79 kg: most of a digital footprint comes from building devices, not using them.",
+    "factEs": "La ADEME, la agencia francesa de medio ambiente, estima que un año de correo electrónico (50 correos a la semana sin adjuntos, enviados desde un móvil por wifi en Francia) emite aproximadamente 0,27 kg CO2e. Fabricar un móvil emite aproximadamente 79 kg: la mayor parte de la huella digital procede de fabricar los dispositivos, no de usarlos.",
+    "factJa": "フランス環境・エネルギー管理庁（ADEME）の推計では、1年間のメール（添付ファイルなしで週50通、フランスでスマートフォンからWi-Fiで送信）の排出量は約0.27 kg CO2eです。スマートフォン1台の製造では約79 kgが排出されます。デジタルのフットプリントの大半は、機器の使用ではなく製造から生じます。",
+    "sourceEn": "ADEME, Impact CO2",
+    "sourceEs": "ADEME, Impact CO2",
+    "sourceJa": "ADEME, Impact CO2",
+    "sourceUrl": "https://impactco2.fr/outils/usagenumerique",
     "relatedSdgs": [
       12,
       13
@@ -890,7 +890,7 @@
     "sourceEn": "WRAP UK / Charity Retail Association",
     "sourceEs": "WRAP UK / Charity Retail Association",
     "sourceJa": "WRAP UK / Charity Retail Association",
-    "sourceUrl": "https://www.charityretail.org.uk/charity-shops-and-waste-charges/",
+    "sourceUrl": "https://web.archive.org/web/20190819163620/https://www.charityretail.org.uk/charity-shops-and-waste-charges/",
     "relatedSdgs": [
       12
     ],
@@ -1111,7 +1111,7 @@
     "sourceEn": "World Bank",
     "sourceEs": "World Bank",
     "sourceJa": "World Bank",
-    "sourceUrl": "https://www.worldbank.org/en/news/feature/2007/03/15/restoring-chinas-loess-plateau",
+    "sourceUrl": "https://web.archive.org/web/20260811202938/https://www.worldbank.org/en/news/feature/2007/03/15/restoring-chinas-loess-plateau",
     "relatedSdgs": [
       1,
       15
@@ -2519,7 +2519,7 @@
     "sourceEn": "US Department of Energy",
     "sourceEs": "US Department of Energy",
     "sourceJa": "US Department of Energy",
-    "sourceUrl": "https://www.energy.gov/energysaver/maintaining-your-air-conditioner",
+    "sourceUrl": "https://web.archive.org/web/20241215045250/https://www.energy.gov/energysaver/maintaining-your-air-conditioner",
     "relatedSdgs": [
       3,
       7
@@ -2651,7 +2651,7 @@
     "sourceEn": "US Department of Energy",
     "sourceEs": "US Department of Energy",
     "sourceJa": "US Department of Energy",
-    "sourceUrl": "https://www.energy.gov/energysaver/fans-cooling",
+    "sourceUrl": "https://www.energy.gov/sites/default/files/2022-08/energy-saver-guide-2022.pdf",
     "relatedSdgs": [
       7
     ],
@@ -2756,7 +2756,7 @@
     "sourceEn": "Energy Star / US Department of Energy",
     "sourceEs": "Energy Star / US Department of Energy",
     "sourceJa": "Energy Star / US Department of Energy",
-    "sourceUrl": "https://www.energy.gov/energysaver/laundry",
+    "sourceUrl": "https://www.energystar.gov/products/clothes_washers",
     "relatedSdgs": [
       7,
       12
@@ -2925,13 +2925,13 @@
   {
     "dayOfYear": 132,
     "category": "individual",
-    "factEn": "75% of the world's food comes from just 12 plant species and 5 animal species. Diversifying what we grow and eat is critical for food security and resilience.",
-    "factEs": "El 75% de los alimentos del mundo proviene de solo 12 especies vegetales y 5 especies animales. Diversificar lo que cultivamos y comemos es fundamental para la seguridad alimentaria y la resiliencia.",
-    "factJa": "世界の食料の75%は、わずか12種の植物と5種の動物からもたらされています。食料安全保障と回復力を高めるには、栽培し、食べるものを多様化することが欠かせません。",
+    "factEn": "More than 6,000 plant species have been cultivated for food, yet only 9 account for 66% of total crop production. Diversifying what we grow and eat is critical for food security and resilience.",
+    "factEs": "Se han cultivado más de 6.000 especies vegetales para la alimentación, pero solo 9 representan el 66% de la producción agrícola total. Diversificar lo que cultivamos y comemos es fundamental para la seguridad alimentaria y la resiliencia.",
+    "factJa": "食用として栽培されてきた植物は6,000種を超えますが、作物生産全体の66%をわずか9種が占めています。食料安全保障と回復力を高めるには、栽培し、食べるものを多様化することが欠かせません。",
     "sourceEn": "UN Food and Agriculture Organization",
     "sourceEs": "UN Food and Agriculture Organization",
     "sourceJa": "UN Food and Agriculture Organization",
-    "sourceUrl": "https://www.fao.org/4/y5609e/y5609e02.htm",
+    "sourceUrl": "https://www.fao.org/interactive/state-of-biodiversity-for-food-agriculture/en/",
     "relatedSdgs": [
       2,
       15
@@ -2940,12 +2940,12 @@
     "nameEn": "We Eat Too Few Crops",
     "nameEs": "Poca variedad alimentaria",
     "nameJa": "作物の多様性不足",
-    "keyFigureEn": "75%",
-    "keyFigureEs": "75%",
-    "keyFigureJa": "75%",
-    "clueEn": "Share of world food from a few species",
-    "clueJa": "少数の種に頼る世界の食料の割合",
-    "clueEs": "Proporción de los alimentos del mundo que aportan unas pocas especies"
+    "keyFigureEn": "66%",
+    "keyFigureEs": "66%",
+    "keyFigureJa": "66%",
+    "clueEn": "Share of total crop production from a few plant species",
+    "clueJa": "少数の植物種が占める作物生産全体の割合",
+    "clueEs": "Proporción de la producción agrícola total que aportan unas pocas especies vegetales"
   },
   {
     "dayOfYear": 133,
@@ -3429,13 +3429,13 @@
   {
     "dayOfYear": 156,
     "category": "individual",
-    "factEn": "Every year, 8 million tonnes of plastic enter the ocean -- equivalent to dumping a garbage truck of plastic into the sea every single minute.",
-    "factEs": "Cada año, 8 millones de toneladas de plástico llegan al océano, lo que equivale a vaciar un camión de basura lleno de plástico en el mar cada minuto.",
-    "factJa": "毎年800万トンのプラスチックが海洋に流入しています。これは1分ごとにごみ収集車1台分のプラスチックを海に投棄し続けているのと同じです。",
+    "factEn": "About 11 million tonnes of plastic flow into the ocean every year. Without urgent change, this could rise to as much as 37 million tonnes a year by 2040.",
+    "factEs": "Cada año llegan al océano unos 11 millones de toneladas de plástico. Sin un cambio urgente, la cifra podría aumentar hasta 37 millones de toneladas al año en 2040.",
+    "factJa": "毎年約1,100万トンのプラスチックが海洋に流れ込んでいます。早急な変化がなければ、2040年までに年間最大3,700万トンに増える可能性があります。",
     "sourceEn": "UN Environment Programme",
     "sourceEs": "UN Environment Programme",
     "sourceJa": "UN Environment Programme",
-    "sourceUrl": "https://www.unep.org/interactives/beat-plastic-pollution/",
+    "sourceUrl": "https://www.unep.org/news-and-stories/story/how-source-sea-approach-can-curb-threat-plastic-pollution",
     "relatedSdgs": [
       12,
       14
@@ -3444,9 +3444,9 @@
     "nameEn": "Plastic Tide",
     "nameEs": "La marea de plástico",
     "nameJa": "海に流れるプラ",
-    "keyFigureEn": "8 million",
-    "keyFigureEs": "8 millones",
-    "keyFigureJa": "800万",
+    "keyFigureEn": "11 million",
+    "keyFigureEs": "11 millones",
+    "keyFigureJa": "1,100万",
     "clueEn": "Tonnes of plastic entering the ocean every year",
     "clueJa": "毎年海に流れ込むプラスチック（トン）",
     "clueEs": "Toneladas de plástico que llegan al océano al año"
@@ -3705,13 +3705,13 @@
   {
     "dayOfYear": 168,
     "category": "comparison",
-    "factEn": "Every year, 12 million hectares of productive land are lost to desertification and drought -- an area the size of England. Sustainable farming can reverse this trend.",
-    "factEs": "Cada año, 12 millones de hectáreas de tierra productiva se pierden por la desertificación y la sequía, una superficie del tamaño de Inglaterra. La agricultura sostenible puede revertir esta tendencia.",
-    "factJa": "毎年1,200万 haの農地が砂漠化と干ばつによって失われています。これはイングランドと同じ広さです。持続可能な農業によってこの傾向を逆転させることができます。",
+    "factEn": "Between 2015 and 2019, the world lost at least 100 million hectares of healthy and productive land each year, adding up to twice the size of Greenland. Restoring degraded land can help reverse this loss.",
+    "factEs": "Entre 2015 y 2019, el mundo perdió cada año al menos 100 millones de hectáreas de tierra sana y productiva, lo que suma el doble de la superficie de Groenlandia. Restaurar la tierra degradada puede ayudar a revertir esta pérdida.",
+    "factJa": "2015年から2019年にかけて、世界では毎年少なくとも1億 haの健全で生産的な土地が失われ、その合計はグリーンランドの2倍の面積に相当します。劣化した土地を回復させることが、この損失を食い止める助けになります。",
     "sourceEn": "UN Convention to Combat Desertification",
     "sourceEs": "UN Convention to Combat Desertification",
     "sourceJa": "UN Convention to Combat Desertification",
-    "sourceUrl": "https://www.unccd.int/land-and-life/desertification/overview",
+    "sourceUrl": "https://www.unccd.int/news-stories/press-releases/least-100-million-hectares-healthy-land-now-lost-each-year",
     "relatedSdgs": [
       2,
       15
@@ -3720,12 +3720,12 @@
     "nameEn": "Land We Lose",
     "nameEs": "Tierra que perdemos",
     "nameJa": "砂漠化の進行",
-    "keyFigureEn": "12 million",
-    "keyFigureEs": "12 millones",
-    "keyFigureJa": "1,200万",
-    "clueEn": "Hectares of productive land lost to desertification yearly",
-    "clueJa": "砂漠化で毎年失われる農地（ヘクタール）",
-    "clueEs": "Hectáreas de tierra productiva perdidas al año por la desertificación"
+    "keyFigureEn": "100 million",
+    "keyFigureEs": "100 millones",
+    "keyFigureJa": "1億",
+    "clueEn": "Hectares of healthy land lost to degradation each year",
+    "clueJa": "劣化で毎年失われた健全な土地（ヘクタール）",
+    "clueEs": "Hectáreas de tierra sana perdidas cada año por la degradación"
   },
   {
     "dayOfYear": 169,
@@ -4584,7 +4584,7 @@
     "sourceEn": "US Department of Energy",
     "sourceEs": "US Department of Energy",
     "sourceJa": "US Department of Energy",
-    "sourceUrl": "https://www.energy.gov/energysaver/gas-mileage-tips",
+    "sourceUrl": "https://www.fueleconomy.gov/feg/maintain.jsp",
     "relatedSdgs": [
       12,
       13
@@ -5157,7 +5157,7 @@
     "sourceEn": "US Department of Energy",
     "sourceEs": "US Department of Energy",
     "sourceJa": "US Department of Energy",
-    "sourceUrl": "https://www.energy.gov/energysaver/do-it-yourself-savings-project-insulate-hot-water-pipes",
+    "sourceUrl": "https://www.energy.gov/sites/default/files/2022-08/energy-saver-guide-2022.pdf",
     "relatedSdgs": [
       7
     ],
@@ -6899,7 +6899,7 @@
     "sourceEn": "US Department of Energy",
     "sourceEs": "US Department of Energy",
     "sourceJa": "US Department of Energy",
-    "sourceUrl": "https://www.energy.gov/energysaver/energy-efficient-computers-home-office-equipment-and-electronics",
+    "sourceUrl": "https://www.energy.gov/sites/default/files/2022-08/energy-saver-guide-2022.pdf",
     "relatedSdgs": [
       7
     ],
@@ -7890,13 +7890,13 @@
   {
     "dayOfYear": 359,
     "category": "natureWonder",
-    "factEn": "Arctic foxes change the colour of their fur with the seasons -- white in winter for snow camouflage, brown in summer for tundra. As Arctic temperatures rise twice as fast as the global average, the timing of this colour change is shifting, leaving some foxes mismatched with their environment.",
-    "factEs": "Los zorros árticos cambian el color de su pelaje con las estaciones. El pelaje es blanco en invierno para camuflarse en la nieve y marrón en verano para la tundra. Como en el Ártico las temperaturas suben el doble de rápido que la media mundial, el momento de este cambio de color se está desplazando, y algunos zorros ya no encajan con su entorno.",
-    "factJa": "ホッキョクギツネは季節によって毛の色を変えます。雪に溶け込む冬の白色から、ツンドラに合わせた夏の茶色へと変化します。北極の気温が世界平均の2倍の速さで上昇するにつれ、この色の変化のタイミングがずれ始め、一部のキツネが環境に合わない色になっています。",
-    "sourceEn": "NOAA Arctic Report Card / Nature Climate Change",
-    "sourceEs": "NOAA Arctic Report Card / Nature Climate Change",
-    "sourceJa": "NOAA Arctic Report Card / Nature Climate Change",
-    "sourceUrl": "https://arctic.noaa.gov/report-card/",
+    "factEn": "Many Arctic foxes moult into a white winter coat that blends in with snow, and a 2022 study in Sweden found that they moulted earlier in autumn and later in spring in colder, snowier years. As snow seasons shorten, a white coat can stand out against bare ground.",
+    "factEs": "Muchos zorros árticos mudan a un pelaje blanco de invierno que se confunde con la nieve, y un estudio de 2022 en Suecia halló que mudaban antes en otoño y más tarde en primavera en los años más fríos y con más nieve. A medida que se acortan las temporadas de nieve, un pelaje blanco puede destacar sobre el suelo sin nieve.",
+    "factJa": "多くのホッキョクギツネは、雪に溶け込む白い冬毛に生え換わります。スウェーデンでの2022年の研究では、寒く雪の多い年ほど秋の換毛が早く、春の換毛が遅いことがわかりました。雪の季節が短くなると、白い毛は雪のない地面で目立ってしまうことがあります。",
+    "sourceEn": "Zimova et al., Biology Letters 2022",
+    "sourceEs": "Zimova et al., Biology Letters 2022",
+    "sourceJa": "Zimova et al., Biology Letters 2022",
+    "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9667137/",
     "relatedSdgs": [
       13,
       15
