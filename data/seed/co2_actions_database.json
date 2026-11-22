@@ -344,8 +344,8 @@
       "description_en": "Take used batteries to a proper recycling drop-off",
       "description_ja": "使用済み電池をリサイクル回収場所へ",
       "description_es": "Llevar pilas usadas a un punto de reciclaje adecuado",
-      "co2_grams": 95,
-      "calculation_notes": "batch ~4 AA; 1-2kg CO2/kg",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. DESNZ 2026 waste disposal: batteries to landfill 9.00687 - open-loop recycling 4.65358 = 4.35 kg CO2e per tonne, which is less than 1 g for a household batch. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 2,
       "impact": 2,
@@ -357,7 +357,20 @@
       "is_active": true,
       "sort_order": 10,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | Waste disposal | Electrical items | Batteries | Landfill | tonnes | kg CO2e | 9.00687",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | Waste disposal | Electrical items | Batteries | Open-loop | tonnes | kg CO2e | 4.65358",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "recycle_cooking_oil",
@@ -557,8 +570,8 @@
       "description_en": "Share a ride instead of driving alone (~10 km trip)",
       "description_ja": "一人で運転する代わりに相乗りする",
       "description_es": "Compartir viaje en vez de conducir solo",
-      "co2_grams": 800,
-      "calculation_notes": "~10km; halve per-person emissions",
+      "co2_grams": 1000,
+      "calculation_notes": "Two people share one car for 10 km: 10 km x 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99) / 2 = 1,037 g, rounded down to 1,000 g. The 10 km trip is an assumption.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -569,8 +582,21 @@
       ],
       "is_active": true,
       "sort_order": 5,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "electric_car_purchase",
@@ -818,8 +844,8 @@
       "description_en": "Combine multiple errands into one trip to reduce driving",
       "description_ja": "複数の用事を1回の外出にまとめて車の使用を減らす",
       "description_es": "Agrupar varios recados en un solo viaje para conducir menos",
-      "co2_grams": 600,
-      "calculation_notes": "save ~4km + cold-start penalty",
+      "co2_grams": 830,
+      "calculation_notes": "4 km of driving avoided x 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99) = 830.04 g, rounded down to 830 g. The 4 km is an assumption. No cold-start penalty is counted.",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -830,8 +856,21 @@
       ],
       "is_active": true,
       "sort_order": 11,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "skip_high_impact_food",
@@ -1010,8 +1049,8 @@
       "description_en": "Buy fruits and vegetables that are in season locally",
       "description_ja": "地元で旬の野菜や果物を購入",
       "description_es": "Comprar fruta y verdura local de temporada",
-      "co2_grams": 500,
-      "calculation_notes": "avoids heated greenhouse produce",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. The saving depends on the produce that is replaced and on the amount, and neither is defined. Seasonal local produce is not always lower: imports from unheated greenhouses can beat heated local greenhouses. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -1023,7 +1062,20 @@
       "is_active": true,
       "sort_order": 5,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "Frankowska, Jeswani and Azapagic 2019, Environmental impacts of vegetables consumption in the UK (Science of the Total Environment)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31108271/",
+          "quote": "Importing vegetables grown in unheated greenhouses in Europe has a lower impact than UK vegetables cultivated in heated greenhouses, despite the transportation.",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Frankowska, Jeswani and Azapagic 2019, Environmental impacts of vegetables consumption in the UK (Science of the Total Environment)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31108271/",
+          "quote": "The impacts of air-freighted fresh vegetables are around five times higher than of those produced domestically.",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "vegan_day",
@@ -1067,8 +1119,8 @@
       "description_en": "Bring a homemade lunch instead of buying packaged food",
       "description_ja": "市販の弁当の代わりに手作り弁当を持参",
       "description_es": "Llevar comida de casa en vez de comprarla envasada",
-      "co2_grams": 300,
-      "calculation_notes": "saves packaging + transport CO2",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the meal that it replaces and its packaging are not defined. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1841,8 +1893,8 @@
       "description_en": "Use bar soap, shampoo bars, or other plastic-free hygiene products today",
       "description_ja": "今日は固形石鹸やシャンプーバーなどプラスチックフリーの衛生用品を使用",
       "description_es": "Usar jabón en barra, champú sólido u otros productos de higiene sin plástico hoy",
-      "co2_grams": 15,
-      "calculation_notes": "per-trip: multiple items reframe",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: no source compares the daily CO2 of bar and bottled products. The action still earns points for the effort.",
       "effort": 1,
       "frequency": 5,
       "impact": 2,
@@ -1865,8 +1917,8 @@
       "description_en": "Buy items in bulk to reduce packaging waste",
       "description_ja": "包装ゴミを減らすためにまとめ買いする",
       "description_es": "Comprar a granel para reducir los residuos de envases",
-      "co2_grams": 200,
-      "calculation_notes": "per-trip: multiple items reframe",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the products and the packaging avoided per trip are not defined. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -1920,8 +1972,8 @@
       "description_en": "Avoid an unnecessary impulse purchase today",
       "description_ja": "今日は不要な衝動買いを避ける",
       "description_es": "Evitar una compra impulsiva innecesaria hoy",
-      "co2_grams": 200,
-      "calculation_notes": "avg product ~200g embedded CO2",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the product that was not bought is not defined. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1944,8 +1996,8 @@
       "description_en": "Choose products with minimal or no packaging",
       "description_ja": "包装が少ないまたは無い商品を選択",
       "description_es": "Elegir productos con poco o ningún embalaje",
-      "co2_grams": 50,
-      "calculation_notes": "~50g packaging CO2 avoided",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the material and mass of the packaging avoided are not defined. The action still earns points for the effort.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -2055,8 +2107,8 @@
       "description_en": "Turn off the tap while brushing teeth",
       "description_ja": "歯を磨いている間は水を止める",
       "description_es": "Cerrar el grifo mientras te cepillas los dientes",
-      "co2_grams": 20,
-      "calculation_notes": "mostly cold; pump/treat CO2 only",
+      "co2_grams": 5,
+      "calculation_notes": "EPA WaterSense: 8 US gallons a day at two brushings = 4 gal = 15.14 L per brushing x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 5.48 g, rounded down to 5 g. Cold water, so no heating is counted.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
@@ -2066,8 +2118,27 @@
       ],
       "is_active": true,
       "sort_order": 2,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Statistics and Facts",
+          "url": "https://www.epa.gov/watersense/statistics-and-facts",
+          "quote": "Turning off the tap while brushing your teeth can save 8 gallons of water per day",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "full_dishwasher",
@@ -2144,8 +2215,8 @@
       "description_en": "Rinse dishes with cold water instead of hot",
       "description_ja": "食器を温水ではなく冷水ですすぐ",
       "description_es": "Enjuagar los platos con agua fría en vez de caliente",
-      "co2_grams": 30,
-      "calculation_notes": "avoids heating 6-18L rinse water",
+      "co2_grams": 36,
+      "calculation_notes": "6 L of hot rinse water avoided. EPA WaterSense: 10 US gallons (37.85 L) from a running tap uses 60 W x 18 h = 1.08 kWh, so 0.0285 kWh/L. 6 L x 0.0285 = 0.171 kWh x 212.52 g CO2e/kWh (DESNZ 2026 natural gas 182.31 + well-to-tank 30.21) = 36.4 g, rounded down to 36 g. The 6 L is an assumption.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
@@ -2156,8 +2227,27 @@
       ],
       "is_active": true,
       "sort_order": 5,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Statistics and Facts",
+          "url": "https://www.epa.gov/watersense/statistics-and-facts",
+          "quote": "Letting your faucet run for five minutes while washing dishes can waste 10 gallons of water and uses enough energy to power a 60-watt light bulb for 18 hours.",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 1 | Fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.18231",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.03021",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "install_rain_collector",
@@ -2168,8 +2258,8 @@
       "description_en": "Set up a rain barrel or collection system for garden watering",
       "description_ja": "庭の水やり用に雨水タンクや集水システムを設置する",
       "description_es": "Instalar un depósito o sistema de recogida de agua de lluvia para regar el jardín",
-      "co2_grams": 750,
-      "calculation_notes": "one-time install",
+      "co2_grams": 900,
+      "calculation_notes": "One year after the install: 2,500 L collected (RHS low end, small shed roof, dry south-east England) x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 905 g, rounded down to 900 g. One-off actions count a one-year window. Assumes that all collected water replaces mains water.",
       "effort": 3,
       "frequency": 1,
       "impact": 3,
@@ -2179,8 +2269,27 @@
       ],
       "is_active": true,
       "sort_order": 6,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "RHS, Water: collecting, storing and using",
+          "url": "https://www.rhs.org.uk/garden-jobs/water-collecting-storing-and-using",
+          "quote": "2,500–3,500 litres of rainwater each year can be collected from the roof of a small shed",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "water_plants_morning",
@@ -2191,8 +2300,8 @@
       "description_en": "Water garden in the morning to reduce evaporation",
       "description_ja": "蒸発を減らすため朝に水やりをする",
       "description_es": "Regar el jardín por la mañana para reducir la evaporación",
-      "co2_grams": 5,
-      "calculation_notes": "reduces evaporation loss ~25%",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. The volume of one watering session is not defined, and no source measures the water saved by watering in the morning and not at midday. The action still earns points for the effort.",
       "effort": 1,
       "frequency": 4,
       "impact": 1,
@@ -2203,7 +2312,14 @@
       "is_active": true,
       "sort_order": 7,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Watering Tips",
+          "url": "https://www.epa.gov/watersense/watering-tips",
+          "quote": "Avoid watering in the middle of the day when the hot sun will evaporate much of the water before it can get to thirsty plants.",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "reuse_cooking_water",
@@ -2214,8 +2330,8 @@
       "description_en": "Reuse pasta or vegetable cooking water for plants",
       "description_ja": "パスタや野菜の茹で汁を植物に再利用",
       "description_es": "Reutilizar el agua de cocer pasta o verduras para regar",
-      "co2_grams": 5,
-      "calculation_notes": "displaces ~3L mains for plants",
+      "co2_grams": 1,
+      "calculation_notes": "3 L of mains water displaced x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 1.09 g, rounded down to 1 g. The 3 L is an assumption.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -2225,8 +2341,21 @@
       ],
       "is_active": true,
       "sort_order": 8,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "turn_off_tap_dishes",
@@ -2237,8 +2366,8 @@
       "description_en": "Turn off the tap while scrubbing dishes",
       "description_ja": "食器をこすっている間は水を止める",
       "description_es": "Cerrar el grifo mientras friegas los platos",
-      "co2_grams": 25,
-      "calculation_notes": "~12L hot water, partial heating share; EPA WaterSense ~25g per wash",
+      "co2_grams": 4,
+      "calculation_notes": "12 L of running water avoided x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 4.35 g, rounded down to 4 g. 12 L is about 95 seconds at the EPA WaterSense rate of 10 US gallons in five minutes, and is an assumption. Supply and treatment only: the hot share is unknown, so no heating is counted.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
@@ -2248,8 +2377,27 @@
       ],
       "is_active": true,
       "sort_order": 9,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Statistics and Facts",
+          "url": "https://www.epa.gov/watersense/statistics-and-facts",
+          "quote": "Letting your faucet run for five minutes while washing dishes can waste 10 gallons of water and uses enough energy to power a 60-watt light bulb for 18 hours.",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "shorter_bath",
@@ -2492,8 +2640,8 @@
       "description_en": "Buy from a business with strong sustainability practices",
       "description_ja": "持続可能な取り組みをする企業から購入",
       "description_es": "Comprar en un negocio con buenas prácticas de sostenibilidad",
-      "co2_grams": 200,
-      "calculation_notes": "eco biz ~20-50% lower footprint",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the product and the business are not defined. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -2516,8 +2664,8 @@
       "description_en": "Organize or join a clothing or item swap event",
       "description_ja": "衣類や物品の交換イベントを企画するか参加する",
       "description_es": "Organizar o asistir a un evento de intercambio de ropa o artículos",
-      "co2_grams": 1000,
-      "calculation_notes": "multiple items reused; conserv.",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the number of items swapped and what they replace are not defined. The action still earns points for the effort.",
       "effort": 4,
       "frequency": 1,
       "impact": 4,
