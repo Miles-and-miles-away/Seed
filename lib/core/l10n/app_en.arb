@@ -188,7 +188,7 @@
   "errorAuth": "Authentication failed. Please try again.",
   "errorOpenLink": "Could not open link.",
   "errorActionTooSoon": "Please wait a few seconds between actions.",
-  "errorActionRejected": "This action could not be logged. Check that your device's date and time are set automatically, then try again.",
+  "errorActionRejected": "This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device's date and time are set automatically.",
   "errorSavingTooLarge": "A saving above {limit} is too large to log as one action. Check the distances and amounts.",
   "@errorSavingTooLarge": {
     "placeholders": {

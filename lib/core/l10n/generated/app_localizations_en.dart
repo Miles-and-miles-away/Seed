@@ -328,7 +328,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorActionRejected =>
-      'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.';
+      'This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device\'s date and time are set automatically.';
 
   @override
   String errorSavingTooLarge(String limit) {

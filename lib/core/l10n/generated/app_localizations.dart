@@ -661,7 +661,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorActionRejected.
   ///
   /// In en, this message translates to:
-  /// **'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.'**
+  /// **'This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device\'s date and time are set automatically.'**
   String get errorActionRejected;
 
   /// No description provided for @errorSavingTooLarge.

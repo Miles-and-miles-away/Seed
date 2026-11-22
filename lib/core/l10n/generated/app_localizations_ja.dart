@@ -325,7 +325,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get errorActionRejected =>
-      'アクションを記録できませんでした。端末の日付と時刻が自動設定になっているか確認して、もう一度お試しください。';
+      'アクションを記録できませんでした。数秒待ってから、もう一度お試しください。それでも記録できない場合は、端末の日付と時刻が自動設定になっているか確認してください。';
 
   @override
   String errorSavingTooLarge(String limit) {

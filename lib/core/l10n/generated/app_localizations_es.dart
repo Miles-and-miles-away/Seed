@@ -330,7 +330,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorActionRejected =>
-      'No se ha podido registrar la acción. Comprueba que la fecha y la hora del dispositivo se ajustan automáticamente y vuelve a intentarlo.';
+      'No se ha podido registrar la acción. Espera unos segundos y vuelve a intentarlo. Si vuelve a fallar, comprueba que la fecha y la hora del dispositivo se ajustan automáticamente.';
 
   @override
   String errorSavingTooLarge(String limit) {

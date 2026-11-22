@@ -59,8 +59,8 @@ String logErrorMessage(BuildContext context, Object? error) {
     );
     return l10n.errorSavingTooLarge('$tonnes${unitSpace}t');
   }
-  // permission-denied right after a log is the server's 5s rate limit;
-  // otherwise it is a device clock too far off for the rules.
+  // permission-denied right after a log here is the 5s rate limit. Else it
+  // is a log from another device moments ago, or a wrong device clock.
   if (error is FirebaseException && error.code == 'permission-denied') {
     return _sinceLastLog.isRunning && _sinceLastLog.elapsed < _rateLimitWindow
         ? l10n.errorActionTooSoon
