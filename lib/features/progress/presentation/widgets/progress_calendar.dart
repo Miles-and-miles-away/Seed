@@ -88,11 +88,12 @@ class ProgressCalendar extends ConsumerWidget {
   Widget _buildWeekdayLabels(BuildContext context) {
     final theme = Theme.of(context);
     final locale = Localizations.localeOf(context).toString();
+    final firstDay = MaterialLocalizations.of(context).firstDayOfWeekIndex;
     // Narrow stand-alone weekdays: the first letter of the short form
     // collides in Spanish (martes and miércoles are both "M").
     final weekdays = List.generate(7, (i) {
       // Jan 5, 2025 is a Sunday
-      final date = DateTime(2025, 1, 5 + i);
+      final date = DateTime(2025, 1, 5 + firstDay + i);
       return DateFormat('ccccc', locale).format(date);
     });
 
@@ -120,8 +121,8 @@ class ProgressCalendar extends ConsumerWidget {
   ) {
     // Get the first day of the month
     final firstDayOfMonth = DateTime(selectedMonth.year, selectedMonth.month);
-    // Get the weekday of the first day (0 = Sunday in our grid)
-    final startingWeekday = firstDayOfMonth.weekday % 7;
+    final firstDay = MaterialLocalizations.of(context).firstDayOfWeekIndex;
+    final startingWeekday = (firstDayOfMonth.weekday - firstDay) % 7;
 
     // Build rows
     final rows = <Widget>[];

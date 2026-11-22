@@ -22,7 +22,7 @@ class MascotStatsCard extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final locale = Localizations.localeOf(context).languageCode;
+    final locale = Localizations.localeOf(context).toString();
 
     final createdAt = mascot.createdAt;
     final birthdayText = createdAt != null

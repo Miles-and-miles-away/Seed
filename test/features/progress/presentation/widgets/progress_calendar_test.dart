@@ -7,6 +7,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/progress/presentation/widgets/progress_calendar.dart';
+import 'package:seed_app/shared/providers/app_language_provider.dart';
 
 /// Test implementation of SelectedMonth notifier for testing purposes.
 class TestSelectedMonth extends SelectedMonth {
@@ -75,7 +76,7 @@ void main() {
         child: MaterialApp(
           locale: locale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+          supportedLocales: appSupportedLocales,
           home: const Scaffold(body: ProgressCalendar()),
         ),
       );
@@ -106,6 +107,35 @@ void main() {
       expect(find.text('M'), findsOneWidget);
       expect(find.text('X'), findsOneWidget);
     });
+
+    for (final (locale, first, monday) in const [
+      (britishEnglish, 'M', 'M'),
+      (Locale('es'), 'L', 'L'),
+      (Locale('ja'), '日', '月'),
+    ]) {
+      testWidgets('$locale week starts on $first', (tester) async {
+        setMobileScreenSize(tester);
+        addTearDown(() => resetScreenSize(tester));
+
+        // ignore: avoid_redundant_argument_values
+        final january = DateTime(2024, 1);
+        await tester.pumpWidget(
+          createTestWidget(selectedMonth: january, locale: locale),
+        );
+        await tester.pumpAndSettle();
+
+        final labels = tester
+            .widgetList<Text>(find.byType(Text))
+            .map((t) => t.data)
+            .toList();
+        expect(labels[1], first);
+        // 1 January 2024 is a Monday.
+        expect(
+          tester.getCenter(find.text('1')).dx,
+          tester.getCenter(find.text(monday).first).dx,
+        );
+      });
+    }
 
     testWidgets('month buttons carry labels', (tester) async {
       final semantics = tester.ensureSemantics();

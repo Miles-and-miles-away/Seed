@@ -17,6 +17,8 @@ the calculators' notes.
 ## Style Rules
 - **Register**: Spain Spanish, informal *tú* (as in `app_es.arb`). Use
   Spain vocabulary: *móvil*, *coche*, *ordenador*, *Ajustes*.
+  Exception: the legal text (privacy policy, terms) keeps formal
+  *usted*, as is usual for legal text in Spain.
 - **Spelling**: full accents and ñ everywhere (*energía*, *eléctrico*,
   *año*). Text without accents is a defect, not a style.
 - **Punctuation**: open every question and exclamation with ¿ and ¡,

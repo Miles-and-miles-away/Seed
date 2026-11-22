@@ -35,11 +35,12 @@
   "homeNoActions": "Aún no hay acciones registradas. ¡Empieza tu aventura!",
   "actionLogTitle": "Registrar acción",
   "actionSearchHint": "Buscar acciones...",
-  "actionLogged": "¡Acción registrada! Has ganado {points} puntos",
+  "actionLogged": "{points, plural, one{¡Acción registrada! Has ganado 1 punto} other{¡Acción registrada! Has ganado {points} puntos}}",
   "@actionLogged": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -54,7 +55,8 @@
   "@pointsLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -62,7 +64,8 @@
   "@levelLabel": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -71,7 +74,8 @@
   "@streakLabel": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -96,7 +100,8 @@
   "@mascotEvolution": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -122,7 +127,8 @@
   "@profileNextLevel": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -130,7 +136,8 @@
   "@profileDaysActive": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -138,7 +145,8 @@
   "@profileEvolutionStage": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -256,11 +264,12 @@
   "aboutSettingsPrivacy": "Política de privacidad",
   "aboutSettingsTerms": "Términos de servicio",
   "streakMilestoneTitle": "¡Increíble!",
-  "streakMilestoneWeeks": "¡Racha de {count} semanas!",
+  "streakMilestoneWeeks": "{count, plural, one{¡Racha de {count} semana!} other{¡Racha de {count} semanas!}}",
   "@streakMilestoneWeeks": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -268,7 +277,8 @@
   "@streakMilestoneDays": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -280,7 +290,8 @@
   "@streakBrokenPrevious": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -309,7 +320,8 @@
   "@sdgActionsLogged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -362,10 +374,12 @@
   "@eggProgressLabel": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -405,7 +419,8 @@
   "@reminderRepeatCount": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -424,7 +439,8 @@
   "@reminderLimit": {
     "placeholders": {
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -438,7 +454,8 @@
         "type": "String"
       },
       "hour": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -452,7 +469,8 @@
         "type": "String"
       },
       "hour": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "date": {
         "type": "String"
@@ -507,7 +525,8 @@
   "@mascotLevelShort": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -515,7 +534,8 @@
   "@mascotLevelsToGo": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -523,10 +543,12 @@
   "@mascotLevelProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -552,7 +574,8 @@
   "@sdgGoalNumber": {
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -598,7 +621,8 @@
   "@pointsAbbreviated": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -606,7 +630,8 @@
   "@stageFallback": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -657,11 +682,12 @@
       }
     }
   },
-  "challengeStreakDays": "Racha de desafíos: {days} días",
+  "challengeStreakDays": "{days, plural, one{Racha de desafíos: {days} día} other{Racha de desafíos: {days} días}}",
   "@challengeStreakDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -669,10 +695,12 @@
   "@challengeMultiDayProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "target": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -689,7 +717,8 @@
   "@challengeDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -742,10 +771,12 @@
   "@ecoDexProgress": {
     "placeholders": {
       "discovered": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -761,7 +792,8 @@
   "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -918,7 +950,8 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -926,7 +959,8 @@
   "@foodCompareOptions": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -934,7 +968,8 @@
   "@foodOptionStaged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -983,12 +1018,13 @@
   "@foodVerdictBlockedTitle": {
     "description": "Title of the dialog explaining the logging minimum"
   },
-  "foodVerdictTooClose": "Estas dos comidas están a menos del {percent}% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.",
+  "foodVerdictTooClose": "Estas dos comidas están a menos del {percent}% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda por debajo de lo que la investigación de origen puede distinguir con fiabilidad. Arriba tienes ambos totales; simplemente no declaramos una ganadora.",
   "@foodVerdictTooClose": {
     "description": "Body: the two meals are inside the data resolution",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -997,7 +1033,8 @@
     "description": "Body: the meals come from different studies",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1014,11 +1051,12 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
-  "foodComparisonTooClose": "Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.",
+  "foodComparisonTooClose": "Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda por debajo de lo que la investigación de origen puede distinguir con fiabilidad, así que mostramos ambos totales sin elegir una ganadora.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"
   },
@@ -1035,7 +1073,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1043,7 +1082,8 @@
   "@foodComparisonCarKmEquiv": {
     "placeholders": {
       "km": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1127,7 +1167,7 @@
   "energyGridBasisNote": "Las cifras en gramos suponen la red eléctrica media mundial, {grid} g CO2e/kWh (Ember, datos de 2025)",
   "energyGridBasisNoteRatio": "Las cifras en gramos suponen la red eléctrica media mundial, {grid} g CO2e/kWh (Ember, datos de 2025); el múltiplo se mantiene en cualquier red",
   "energyMethodologyTitle": "Metodología y fuentes",
-  "energyMethodologyBody": "Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos {grid}\u00A0g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el {grid} de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.",
+  "energyMethodologyBody": "Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos {grid}\u00A0g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el {grid} de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por aproximadamente una octava parte del consumo por hora de un aire acondicionado. Una nevera consume aproximadamente 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.",
   "energyRankedTitle": "A dónde va tu energía",
   "energyRankedIntro": "Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de una hora de luz LED. Cada fila indica su base (un uso, una hora o un día) debajo del nombre. Esto ordena la energía consumida, que es la parte que deciden tus hábitos.",
   "energyRankedGasNote": "Los aparatos de gas están en la misma lista, porque aquí se ordena por energía. Ojo a un detalle: un calentador de gas usa más energía que uno eléctrico para el mismo baño y, aun así, con la red media mundial de hoy emite menos. Por debajo de unos 241 g CO2e por kWh de electricidad, el resultado se invierte y gana la electricidad. La energía que usas es lo que eliges tú; lo limpia que sea la red depende de tu país y mejora cada año.",
@@ -1212,23 +1252,23 @@
   "factRecallFinished": "{correct, plural, one{{correct} acierto de {total}} other{{correct} aciertos de {total}}}",
   "factRecallYourWrongAnswer": "tu respuesta, incorrecta",
   "factRecallTimes": "{count, plural, =1{{multiple} vez} other{{multiple} veces}}",
-  "factRecallBeefTofu": "Por cada 100 g, la carne de vacuno genera cerca de {figure} más CO2e que el tofu.",
-  "factRecallChickenBeans": "Por cada 100 g, el pollo genera cerca de {figure} más CO2e que las alubias y lentejas secas.",
-  "factRecallBeefChicken": "Por cada 100 g, la carne de vacuno genera cerca de {figure} más CO2e que el pollo.",
-  "factRecallMilkOat": "Por cada 100 ml, la leche de vaca genera cerca de {figure} más CO2e que la bebida de avena.",
-  "factRecallFlightShinkansen": "Por pasajero y kilómetro, un vuelo nacional emite cerca de {figure} más CO2e que el Shinkansen.",
-  "factRecallPrivateJet": "Por pasajero y kilómetro, un jet privado emite cerca de {figure} más CO2e que un vuelo de larga distancia en clase turista.",
-  "factRecallBulbs": "Por hora, una bombilla incandescente emite cerca de {figure} más CO2e que una bombilla LED.",
-  "factRecallShowers": "Por minuto, una ducha con agua caliente eléctrica emite cerca de {figure} más CO2e que una con bomba de calor.",
-  "factRecallWashes": "Por colada, un lavado a 60 °C emite cerca de {figure} más CO2e que uno a 20 °C.",
-  "factRecallCooling": "Por hora, un aire acondicionado en modo refrigeración emite cerca de {figure} más CO2e que un ventilador.",
-  "factRecallDishwasher": "Por ciclo, el programa normal del lavavajillas emite cerca de un {figure} más CO2e que el programa eco.",
-  "factRecallLambPork": "Por cada 100 g, el cordero genera cerca de {figure} más CO2e que el cerdo.",
-  "factRecallFerry": "Por pasajero y kilómetro, quien viaja en ferri con coche emite cerca de {figure} más CO2e que quien embarca a pie.",
-  "factRecallDryers": "Por colada, una secadora con resistencia emite cerca de {figure} más CO2e que una con bomba de calor.",
-  "factRecallCarCoach": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de {figure} más CO2e que un autocar de larga distancia.",
-  "factRecallCarBus": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de un {figure} más CO2e que un autobús urbano.",
-  "factRecallCarRail": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de {figure} más CO2e que el tren nacional o de cercanías.",
+  "factRecallBeefTofu": "Por cada 100 g, la carne de vacuno genera aproximadamente {figure} más CO2e que el tofu.",
+  "factRecallChickenBeans": "Por cada 100 g, el pollo genera aproximadamente {figure} más CO2e que las alubias y lentejas secas.",
+  "factRecallBeefChicken": "Por cada 100 g, la carne de vacuno genera aproximadamente {figure} más CO2e que el pollo.",
+  "factRecallMilkOat": "Por cada 100 ml, la leche de vaca genera aproximadamente {figure} más CO2e que la bebida de avena.",
+  "factRecallFlightShinkansen": "Por pasajero y kilómetro, un vuelo nacional emite aproximadamente {figure} más CO2e que el Shinkansen.",
+  "factRecallPrivateJet": "Por pasajero y kilómetro, un jet privado emite aproximadamente {figure} más CO2e que un vuelo de larga distancia en clase turista.",
+  "factRecallBulbs": "Por hora, una bombilla incandescente emite aproximadamente {figure} más CO2e que una bombilla LED.",
+  "factRecallShowers": "Por minuto, una ducha con agua caliente eléctrica emite aproximadamente {figure} más CO2e que una con bomba de calor.",
+  "factRecallWashes": "Por colada, un lavado a 60 °C emite aproximadamente {figure} más CO2e que uno a 20 °C.",
+  "factRecallCooling": "Por hora, un aire acondicionado en modo refrigeración emite aproximadamente {figure} más CO2e que un ventilador.",
+  "factRecallDishwasher": "Por ciclo, el programa normal del lavavajillas emite aproximadamente un {figure} más CO2e que el programa eco.",
+  "factRecallLambPork": "Por cada 100 g, el cordero genera aproximadamente {figure} más CO2e que el cerdo.",
+  "factRecallFerry": "Por pasajero y kilómetro, quien viaja en ferri con coche emite aproximadamente {figure} más CO2e que quien embarca a pie.",
+  "factRecallDryers": "Por colada, una secadora con resistencia emite aproximadamente {figure} más CO2e que una con bomba de calor.",
+  "factRecallCarCoach": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente {figure} más CO2e que un autocar de larga distancia.",
+  "factRecallCarBus": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente un {figure} más CO2e que un autobús urbano.",
+  "factRecallCarRail": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente {figure} más CO2e que el tren nacional o de cercanías.",
   "walkthroughIntro1": "Hola, soy {name}. Seed convierte las pequeñas decisiones de cada día en un hábito, y yo crezco contigo.",
   "walkthroughIntro2": "Aquí hay más de lo que parece. He hecho una lista de cosas por descubrir. Todo lo que brilla en dorado aún te espera.",
   "walkthroughItemLogAction": "Registra tu primera acción",
