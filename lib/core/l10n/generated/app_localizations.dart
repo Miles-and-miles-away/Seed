@@ -634,6 +634,12 @@ abstract class AppLocalizations {
   /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
 
+  /// No description provided for @startupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Seed could not start. Close the app and open it again.'**
+  String get startupFailed;
+
   /// No description provided for @errorNetwork.
   ///
   /// In en, this message translates to:

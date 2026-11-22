@@ -193,6 +193,7 @@
   "categoryAdvocacy": "Advocacy",
   "categoryLearning": "Learning",
   "errorGeneric": "Something went wrong. Please try again.",
+  "startupFailed": "Seed could not start. Close the app and open it again.",
   "errorNetwork": "No internet connection.",
   "errorAuth": "Authentication failed. Please try again.",
   "errorOpenLink": "Could not open link.",

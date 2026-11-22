@@ -175,6 +175,7 @@
   "categoryAdvocacy": "Activismo",
   "categoryLearning": "Aprendizaje",
   "errorGeneric": "Algo ha ido mal. Inténtalo de nuevo.",
+  "startupFailed": "Seed no ha podido iniciarse. Cierra la aplicación y vuelve a abrirla.",
   "errorNetwork": "Sin conexión a internet.",
   "errorAuth": "Error de autenticación. Inténtalo de nuevo.",
   "errorOpenLink": "No se ha podido abrir el enlace.",

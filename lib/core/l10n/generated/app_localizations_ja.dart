@@ -350,6 +350,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get errorGeneric => 'エラーが発生しました。もう一度お試しください。';
 
   @override
+  String get startupFailed => 'Seedを起動できませんでした。アプリを閉じて、もう一度開いてください。';
+
+  @override
   String get errorNetwork => 'インターネット接続がありません。';
 
   @override

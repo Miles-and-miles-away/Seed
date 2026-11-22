@@ -359,6 +359,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorGeneric => 'Something went wrong. Please try again.';
 
   @override
+  String get startupFailed =>
+      'Seed could not start. Close the app and open it again.';
+
+  @override
   String get errorNetwork => 'No internet connection.';
 
   @override

@@ -175,6 +175,7 @@
   "categoryAdvocacy": "働きかけ",
   "categoryLearning": "学習",
   "errorGeneric": "エラーが発生しました。もう一度お試しください。",
+  "startupFailed": "Seedを起動できませんでした。アプリを閉じて、もう一度開いてください。",
   "errorNetwork": "インターネット接続がありません。",
   "errorAuth": "認証に失敗しました。もう一度お試しください。",
   "errorOpenLink": "リンクを開けませんでした。",

@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/app.dart';
+import 'app/startup_error_app.dart';
 import 'core/constants/app_constants.dart';
 import 'core/utils/app_logger.dart';
 import 'firebase_options.dart';
@@ -28,6 +29,8 @@ const _useEmulator = bool.fromEnvironment('USE_EMULATOR');
 // falls back to a per-device token. Never commit its value.
 // ignore: do_not_use_environment
 const _appCheckDebugToken = String.fromEnvironment('APP_CHECK_DEBUG_TOKEN');
+
+var _started = false;
 
 void main() async {
   await runZonedGuarded(
@@ -109,6 +112,7 @@ void main() async {
       // Register background message handler for FCM
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
+      _started = true;
       runApp(
         ProviderScope(
           overrides: [languageStoreProvider.overrideWithValue(languageStore)],
@@ -124,7 +128,12 @@ void main() async {
     },
     (error, stack) {
       // Catch any errors that weren't caught by the Flutter framework
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      try {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      } on Object {
+        // No Firebase app exists when the init itself failed.
+      }
+      if (!_started) runApp(const StartupErrorApp());
     },
   );
 }
