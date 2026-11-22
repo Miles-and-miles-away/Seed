@@ -9,7 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 /// lists it here; the same statistic gets a different figure instead.
 const _reviewedDistinct = {
   '25%': {
-    'fact 7',
     'fact 109',
     'dex food_03',
     'dex food_05',
@@ -20,7 +19,6 @@ const _reviewedDistinct = {
   '30%': {
     'fact 30',
     'fact 138',
-    'fact 171',
     'fact 189',
     'fact 249',
     'fact 312',
@@ -41,10 +39,16 @@ const _reviewedDistinct = {
     'dex food_08',
   },
   '10%': {'fact 79', 'fact 320', 'dex energy_07'},
-  '60%': {'fact 100', 'fact 340', 'dex circular_02', 'dex circular_10'},
+  '60%': {
+    'fact 100',
+    'fact 340',
+    'fact 345',
+    'dex circular_02',
+    'dex circular_10',
+  },
   '39%': {'fact 120', 'SDG 12'},
   '32%': {'dex food_01', 'SDG 15'},
-  '75%': {'fact 188', 'fact 316', 'dex food_09', 'dex gem_02'},
+  '75%': {'fact 76', 'fact 188', 'fact 316', 'dex food_09', 'dex gem_02'},
   '12%': {'fact 162', 'dex energy_11', 'dex circular_08'},
   '16%': {'fact 291', 'dex people_03'},
   '41%': {'dex bio_07', 'dex energy_01'},

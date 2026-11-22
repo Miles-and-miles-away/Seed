@@ -135,13 +135,13 @@
   {
     "dayOfYear": 7,
     "category": "individual",
-    "factEn": "Meal planning for one week reduces household food waste by up to 25%. That saves money and prevents roughly 1.5 kg of CO2 per week from decomposing food in landfill.",
-    "factEs": "Planificar las comidas de una semana reduce hasta en un 25% el desperdicio de alimentos en el hogar. Eso ahorra dinero y evita cada semana aproximadamente 1,5 kg de CO2 procedentes de la descomposición de alimentos en el vertedero.",
-    "factJa": "1週間分の献立を立てることで、家庭の食品ロスを最大25%削減できます。お金の節約になるだけでなく、埋立地で食品が分解されて出るCO2を週に約1.5 kg抑えることができます。",
+    "factEn": "UK households wasted 6.0 million tonnes of food and drink in 2022, about 88 kg per person. Most of it, 4.4 million tonnes, was edible. Plan your meals for the week and buy only what you will eat.",
+    "factEs": "Los hogares del Reino Unido desperdiciaron 6,0 millones de toneladas de alimentos y bebidas en 2022, unos 88 kg por persona. La mayor parte, 4,4 millones de toneladas, era comestible. Planifica las comidas de la semana y compra solo lo que vayas a comer.",
+    "factJa": "2022年、英国の家庭は600万トンの食べ物と飲み物を廃棄しました。一人当たり約88 kgです。そのうち440万トンは食べられる部分でした。1週間分の献立を立てて、食べる分だけ買いましょう。",
     "sourceEn": "WRAP UK",
     "sourceEs": "WRAP UK",
     "sourceJa": "WRAP UK",
-    "sourceUrl": "https://wrap.org.uk/taking-action/food-drink/actions/plan-meals",
+    "sourceUrl": "https://www.wrap.ngo/resources/report/household-food-and-drink-waste-uk-2022",
     "relatedSdgs": [
       2,
       12
@@ -150,12 +150,12 @@
     "nameEn": "Plan Your Meals",
     "nameEs": "Planifica tus comidas",
     "nameJa": "献立で食品ロス減",
-    "keyFigureEn": "25%",
-    "keyFigureEs": "25%",
-    "keyFigureJa": "25%",
-    "clueEn": "Food waste cut by weekly meal planning",
-    "clueJa": "週ごとの献立計画で減らせる食品ロス",
-    "clueEs": "Reducción del desperdicio de alimentos con el menú semanal"
+    "keyFigureEn": "88 kg",
+    "keyFigureEs": "88 kg",
+    "keyFigureJa": "88 kg",
+    "clueEn": "Food and drink wasted per person in UK homes",
+    "clueJa": "2022年に英国の家庭で1人が廃棄した飲食物",
+    "clueEs": "Alimentos y bebidas desperdiciados por persona en hogares británicos"
   },
   {
     "dayOfYear": 8,
@@ -325,10 +325,10 @@
     "factEn": "The wood frog can survive being frozen solid for months. Its body produces a natural antifreeze that protects cells, and it thaws back to life each spring -- a marvel of evolution.",
     "factEs": "La rana de bosque puede sobrevivir completamente congelada durante meses. Su cuerpo produce un anticongelante natural que protege las células, y cada primavera se descongela y vuelve a la vida, una maravilla de la evolución.",
     "factJa": "アメリカアカガエルは数か月間、体が完全に凍った状態でも生き延びることができます。細胞を守る天然の不凍液を体内で生成し、毎年春になると解けて息を吹き返します。まさに進化の驚異です。",
-    "sourceEn": "Journal of Experimental Biology / Smithsonian",
-    "sourceEs": "Journal of Experimental Biology / Smithsonian",
-    "sourceJa": "Journal of Experimental Biology / Smithsonian",
-    "sourceUrl": "https://nationalzoo.si.edu/animals/wood-frog",
+    "sourceEn": "US National Park Service",
+    "sourceEs": "US National Park Service",
+    "sourceJa": "US National Park Service",
+    "sourceUrl": "https://www.nps.gov/gaar/learn/nature/wood-frog-page-2.htm",
     "relatedSdgs": [
       15
     ],
@@ -814,13 +814,13 @@
   {
     "dayOfYear": 37,
     "category": "mythBuster",
-    "factEn": "Biodegradable plastics rarely break down in landfills. They need specific industrial composting conditions (58+ degrees C) that most waste facilities don't provide.",
-    "factEs": "Los plásticos biodegradables rara vez se descomponen en los vertederos. Necesitan condiciones específicas de compostaje industrial (más de 58 grados C) que la mayoría de las instalaciones de residuos no proporcionan.",
-    "factJa": "生分解性プラスチックは埋立地ではほとんど分解されません。分解には58℃以上という産業用コンポスト特有の条件が必要ですが、多くの廃棄物処理施設ではその条件が整っていません。",
+    "factEn": "Biodegradable plastics rarely break down in the ocean. Some need industrial composters and prolonged temperatures above 50 degrees C, conditions that are rarely, if ever, met in marine environments.",
+    "factEs": "Los plásticos biodegradables rara vez se descomponen en el océano. Algunos necesitan compostadores industriales y temperaturas prolongadas de más de 50 grados C, condiciones que rara vez o nunca se dan en el medio marino.",
+    "factJa": "生分解性プラスチックは海ではほとんど分解されません。一部の種類は、産業用コンポスト施設と50℃を超える温度が長く続くことを必要とします。海洋環境でこの条件が整うことは、ほとんどありません。",
     "sourceEn": "UN Environment Programme",
     "sourceEs": "UN Environment Programme",
     "sourceJa": "UN Environment Programme",
-    "sourceUrl": "https://www.unep.org/resources/report/biodegradable-plastics-and-marine-litter",
+    "sourceUrl": "https://wedocs.unep.org/handle/20.500.11822/7468",
     "relatedSdgs": [
       12,
       14
@@ -1144,20 +1144,20 @@
   {
     "dayOfYear": 52,
     "category": "mythBuster",
-    "factEn": "Black plastic containers look recyclable but are often invisible to recycling sorting machines. They end up in landfill even when placed in the recycling bin. Avoid them when possible.",
-    "factEs": "Los envases de plástico negro parecen reciclables, pero a menudo son invisibles para las máquinas clasificadoras de reciclaje. Acaban en el vertedero incluso cuando se depositan en el contenedor de reciclaje. Evítalos siempre que puedas.",
-    "factJa": "黒いプラスチック容器はリサイクル可能に見えますが、リサイクル施設の選別機に認識されないことがよくあります。リサイクルボックスに入れても、最終的には埋立地に送られてしまいます。できる限り避けるようにしましょう。",
-    "sourceEn": "WRAP UK / Resource Association",
-    "sourceEs": "WRAP UK / Resource Association",
-    "sourceJa": "WRAP UK / Resource Association",
-    "sourceUrl": "https://wrap.org.uk/resources/guide/black-plastic-packaging",
+    "factEn": "Black plastic containers look recyclable but are often invisible to recycling sorting machines. They commonly end up in landfill or incineration even when placed in the recycling bin. Avoid them when possible.",
+    "factEs": "Los envases de plástico negro parecen reciclables, pero a menudo son invisibles para las máquinas clasificadoras de reciclaje. Suelen acabar en el vertedero o en la incineradora incluso cuando se depositan en el contenedor de reciclaje. Evítalos siempre que puedas.",
+    "factJa": "黒いプラスチック容器はリサイクル可能に見えますが、リサイクル施設の選別機に認識されないことがよくあります。リサイクルボックスに入れても、多くは埋め立てられるか焼却されます。できる限り避けるようにしましょう。",
+    "sourceEn": "WRAP UK",
+    "sourceEs": "WRAP UK",
+    "sourceJa": "WRAP UK",
+    "sourceUrl": "https://www.wrap.ngo/content/recyclability-black-plastic-packaging-2",
     "relatedSdgs": [
       12
     ],
     "unWorldDay": null,
     "nameEn": "Why Black Plastic Fails",
     "nameEs": "El plástico negro",
-    "nameJa": "黒プラは分別されない"
+    "nameJa": "黒いプラは選別されない"
   },
   {
     "dayOfYear": 53,
@@ -1457,26 +1457,20 @@
   {
     "dayOfYear": 66,
     "category": "mythBuster",
-    "factEn": "Closing the fridge door quickly is good practice, but dirty condenser coils force the compressor to work much harder. Cleaning them twice a year can improve efficiency by 10-15%.",
-    "factEs": "Cerrar rápido la puerta de la nevera es una buena práctica, pero un serpentín del condensador sucio obliga al compresor a trabajar mucho más. Limpiarlo dos veces al año puede mejorar la eficiencia en un 10-15%.",
-    "factJa": "冷蔵庫のドアを素早く閉めることは良い習慣ですが、放熱コイルが汚れているとコンプレッサーに大きな負担がかかります。年2回の清掃でエネルギー効率を10〜15%改善できます。",
+    "factEn": "Closing the fridge door quickly is good practice, but the back of the fridge matters too. The US Department of Energy advises you to keep the condenser coils clean on older models.",
+    "factEs": "Cerrar rápido la puerta de la nevera es una buena práctica, pero la parte trasera también importa. El Departamento de Energía de EE. UU. aconseja mantener limpio el serpentín del condensador en los modelos antiguos.",
+    "factJa": "冷蔵庫のドアを素早く閉めることは良い習慣ですが、冷蔵庫の裏側も大切です。米国エネルギー省は、古い機種では放熱コイルをきれいに保つようすすめています。",
     "sourceEn": "US Department of Energy",
     "sourceEs": "US Department of Energy",
     "sourceJa": "US Department of Energy",
-    "sourceUrl": "https://www.energy.gov/energysaver/refrigerators-and-freezers",
+    "sourceUrl": "https://www.energy.gov/sites/default/files/2021-08/ES-KitchenAppliances_080221.pdf",
     "relatedSdgs": [
       7
     ],
     "unWorldDay": null,
     "nameEn": "Clean the Coils",
     "nameEs": "Limpia el serpentín",
-    "nameJa": "冷蔵庫の裏を掃除",
-    "keyFigureEn": "10-15%",
-    "keyFigureEs": "10-15%",
-    "keyFigureJa": "10〜15%",
-    "clueEn": "Fridge efficiency gain from cleaning the coils",
-    "clueJa": "放熱コイル掃除による冷蔵庫の効率改善",
-    "clueEs": "Mejora de eficiencia de la nevera al limpiar el serpentín"
+    "nameJa": "冷蔵庫の裏を掃除"
   },
   {
     "dayOfYear": 67,
@@ -1688,13 +1682,13 @@
   {
     "dayOfYear": 76,
     "category": "mythBuster",
-    "factEn": "Wrapping food in aluminium foil is not always wasteful. Foil is 100% recyclable and infinitely reusable, unlike cling film. Wash it, fold it, and recycle it when it wears out.",
-    "factEs": "Envolver alimentos en papel de aluminio no siempre es un desperdicio. El aluminio es 100% reciclable e infinitamente reutilizable, a diferencia del film transparente. Lávalo, dóblalo y recíclalo cuando se desgaste.",
-    "factJa": "アルミホイルで食品を包むことが必ずしも無駄とは言えません。ホイルは100%リサイクル可能で何度でも再利用できますが、食品用ラップはそうはいきません。洗って折りたたみ、傷んだらリサイクルしましょう。",
-    "sourceEn": "Aluminum Association / WRAP UK",
-    "sourceEs": "Aluminum Association / WRAP UK",
-    "sourceJa": "Aluminum Association / WRAP UK",
-    "sourceUrl": "https://www.aluminum.org/aluminum-recycling",
+    "factEn": "Wrapping food in aluminium foil is not always wasteful. Aluminium can be recycled again and again with no theoretical limit, and around 75% of all the aluminium ever produced is still in use today. Wash used foil, reuse it, and recycle it when it wears out.",
+    "factEs": "Envolver alimentos en papel de aluminio no siempre es un desperdicio. El aluminio se puede reciclar una y otra vez sin límite teórico, y aproximadamente el 75% de todo el aluminio producido hasta hoy sigue en uso. Lava el papel usado, reutilízalo y recíclalo cuando se desgaste.",
+    "factJa": "アルミホイルで食品を包むことが必ずしも無駄とは言えません。アルミニウムは理論上、何度でも繰り返しリサイクルできます。これまでに生産されたアルミニウムの約75%が、今も使われています。使ったホイルは洗って再利用し、傷んだらリサイクルしましょう。",
+    "sourceEn": "Aluminum Association",
+    "sourceEs": "Aluminum Association",
+    "sourceJa": "Aluminum Association",
+    "sourceUrl": "https://www.aluminum.org/Recycling",
     "relatedSdgs": [
       12
     ],
@@ -1702,12 +1696,12 @@
     "nameEn": "Foil Is Recyclable",
     "nameEs": "El aluminio se recicla",
     "nameJa": "アルミホイルはリサイクルできる",
-    "keyFigureEn": "100%",
-    "keyFigureEs": "100%",
-    "keyFigureJa": "100%",
-    "clueEn": "How recyclable aluminium foil is",
-    "clueJa": "アルミホイルのリサイクル可能な割合",
-    "clueEs": "Cuánto se puede reciclar el papel de aluminio"
+    "keyFigureEn": "75%",
+    "keyFigureEs": "75%",
+    "keyFigureJa": "75%",
+    "clueEn": "Share of all aluminium ever made still in use",
+    "clueJa": "これまでに作られたアルミニウムのうち今も使われている割合",
+    "clueEs": "Parte de todo el aluminio producido que sigue en uso"
   },
   {
     "dayOfYear": 77,
@@ -2027,13 +2021,13 @@
   {
     "dayOfYear": 92,
     "category": "comparison",
-    "factEn": "Air-drying one load of laundry saves about 1.7 kg of CO2. Over a year, a household that always air-dries saves as much CO2 as a return flight from London to Madrid.",
-    "factEs": "Secar al aire una carga de ropa ahorra aproximadamente 1,7 kg de CO2. En un año, un hogar que siempre seca al aire ahorra tanto CO2 como un vuelo de ida y vuelta de Londres a Madrid.",
-    "factJa": "洗濯物1回分を自然乾燥にすると、約1.7 kgのCO2を削減できます。いつも自然乾燥にしている家庭では、年間でロンドンからマドリードへの往復フライトに匹敵するCO2を削減できます。",
-    "sourceEn": "Energy Saving Trust / US EPA",
-    "sourceEs": "Energy Saving Trust / US EPA",
-    "sourceJa": "Energy Saving Trust / US EPA",
-    "sourceUrl": "https://energysavingtrust.org.uk/advice/washing-and-drying/",
+    "factEn": "Line-drying your clothes instead of using a tumble dryer can save about £50 a year in Great Britain, the Energy Saving Trust says. Dry them outside in warmer weather, or on racks inside the house.",
+    "factEs": "Tender la ropa en lugar de usar la secadora puede ahorrar unas 50 libras al año en Gran Bretaña, según Energy Saving Trust. Tiéndela fuera cuando haga buen tiempo o en un tendedero dentro de casa.",
+    "factJa": "衣類乾燥機を使わずに洗濯物を干すと、英国（グレートブリテン）では年間約50ポンドを節約できると、Energy Saving Trustは述べています。暖かい時期は外に、それ以外は室内のラックに干しましょう。",
+    "sourceEn": "Energy Saving Trust",
+    "sourceEs": "Energy Saving Trust",
+    "sourceJa": "Energy Saving Trust",
+    "sourceUrl": "https://energysavingtrust.org.uk/hub/quick-tips-to-save-energy/",
     "relatedSdgs": [
       7,
       13
@@ -2041,13 +2035,7 @@
     "unWorldDay": null,
     "nameEn": "Skip the Dryer",
     "nameEs": "Tiende al aire",
-    "nameJa": "洗濯物は自然乾燥",
-    "keyFigureEn": "1.7 kg",
-    "keyFigureEs": "1,7 kg",
-    "keyFigureJa": "1.7 kg",
-    "clueEn": "CO2 saved by air-drying one laundry load",
-    "clueJa": "洗濯物一回分の自然乾燥で減らせるCO2",
-    "clueEs": "CO2 que se ahorra al secar al aire una colada"
+    "nameJa": "洗濯物は自然乾燥"
   },
   {
     "dayOfYear": 93,
@@ -2601,13 +2589,13 @@
   {
     "dayOfYear": 117,
     "category": "comparison",
-    "factEn": "A 15-minute video call produces roughly 9 g of CO2 -- over 350 times less than driving 20 km to an in-person meeting. Remote work is one of the easiest ways to cut business travel emissions.",
-    "factEs": "Una videollamada de 15 minutos produce aproximadamente 9 g de CO2, más de 350 veces menos que conducir 20 km para una reunión presencial. El teletrabajo es una de las formas más fáciles de reducir las emisiones por viajes de negocios.",
-    "factJa": "15分間のビデオ通話で発生するCO2は約9 gです。これは対面会議のために車で20 km移動する場合の350分の1以下です。リモートワークは出張による排出量を削減する最も簡単な方法の一つです。",
-    "sourceEn": "IEA / Carbon Trust",
-    "sourceEs": "IEA / Carbon Trust",
-    "sourceJa": "IEA / Carbon Trust",
-    "sourceUrl": "https://www.carbontrust.com/news-and-insights/insights/homeworking",
+    "factEn": "One hour of streaming video causes about 36 g of CO2, the IEA estimates. That is far lower than early headlines claimed. A video call instead of a drive to a meeting keeps travel emissions down.",
+    "factEs": "Una hora de vídeo en streaming genera unos 36 g de CO2, según la AIE. Es mucho menos de lo que afirmaban los primeros titulares. Una videollamada en lugar de un trayecto en coche a una reunión reduce las emisiones del transporte.",
+    "factJa": "IEAの推計では、動画を1時間ストリーミングしたときのCO2は約36 gです。これは、以前の報道が伝えた数字よりはるかに少ない量です。会議のために車で移動する代わりにビデオ通話を使えば、移動による排出量を抑えられます。",
+    "sourceEn": "IEA",
+    "sourceEs": "IEA",
+    "sourceJa": "IEA",
+    "sourceUrl": "https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines",
     "relatedSdgs": [
       9,
       13
@@ -2616,12 +2604,12 @@
     "nameEn": "Skip the Meeting Drive",
     "nameEs": "La reunión virtual",
     "nameJa": "会議はリモートで",
-    "keyFigureEn": "9 g",
-    "keyFigureEs": "9 g",
-    "keyFigureJa": "9 g",
-    "clueEn": "CO2 from a short video call",
-    "clueJa": "短いビデオ通話によるCO2",
-    "clueEs": "CO2 de una videollamada corta"
+    "keyFigureEn": "36 g",
+    "keyFigureEs": "36 g",
+    "keyFigureJa": "36 g",
+    "clueEn": "CO2 from one hour of streaming video",
+    "clueJa": "動画を1時間ストリーミングしたときのCO2",
+    "clueEs": "CO2 de una hora de vídeo en streaming"
   },
   {
     "dayOfYear": 118,
@@ -2863,13 +2851,13 @@
   {
     "dayOfYear": 129,
     "category": "individual",
-    "factEn": "Extending the life of a garment by just 9 months reduces its carbon, water, and waste footprint by 20-30%. Learning basic repairs like sewing a button or patching a hole is one of the simplest ways to cut clothing waste.",
-    "factEs": "Alargar solo 9 meses la vida de una prenda reduce su huella de carbono, hídrica y de residuos en un 20-30%. Aprender arreglos básicos, como coser un botón o remendar un agujero, es una de las formas más sencillas de reducir el desperdicio textil.",
-    "factJa": "衣服の寿命をたった9か月延ばすだけで、そのカーボンフットプリント、水の使用量、廃棄物を20〜30%削減できます。ボタン付けや穴の補修といった基本的な繕い方を身につけることは、衣類の廃棄を減らす最も簡単な方法の一つです。",
+    "factEn": "Extending the life of a garment by just 9 months reduces its carbon, water, and waste footprint by up to 20%. Learning basic repairs like sewing a button or patching a hole is one of the simplest ways to cut clothing waste.",
+    "factEs": "Alargar solo 9 meses la vida de una prenda reduce su huella de carbono, hídrica y de residuos hasta en un 20%. Aprender arreglos básicos, como coser un botón o remendar un agujero, es una de las formas más sencillas de reducir los residuos textiles.",
+    "factJa": "衣服の寿命をたった9か月延ばすだけで、そのカーボンフットプリント、水の使用量、廃棄物を最大20%削減できます。ボタン付けや穴の補修といった基本的な繕い方を身につけることは、衣類の廃棄を減らす最も簡単な方法の一つです。",
     "sourceEn": "WRAP UK",
     "sourceEs": "WRAP UK",
     "sourceJa": "WRAP UK",
-    "sourceUrl": "https://wrap.org.uk/taking-action/textiles/citizens/love-your-clothes",
+    "sourceUrl": "https://www.wrap.ngo/resources/case-study/extending-product-lifetimes-wraps-work-clothing-durability",
     "relatedSdgs": [
       12
     ],
@@ -3243,13 +3231,13 @@
   {
     "dayOfYear": 147,
     "category": "mythBuster",
-    "factEn": "Glass is not always more eco-friendly than plastic. Glass bottles are heavier to transport and take more energy to produce. The best container is one you reuse many times.",
-    "factEs": "El vidrio no siempre es más ecológico que el plástico. Las botellas de vidrio pesan más en el transporte y su fabricación requiere más energía. El mejor envase es el que reutilizas muchas veces.",
-    "factJa": "ガラスが常にプラスチックよりも環境に優しいとは言えません。ガラス瓶は重いため輸送の負担が大きく、製造にも多くのエネルギーを必要とします。最も優れた容器は、何度も繰り返し使うものです。",
-    "sourceEn": "UK WRAP",
-    "sourceEs": "UK WRAP",
-    "sourceJa": "UK WRAP",
-    "sourceUrl": "https://wrap.org.uk/resources/guide/drinks-packaging",
+    "factEn": "Glass is not always more eco-friendly than plastic. A University of Southampton life-cycle study found glass drink bottles considerably more environmentally impactful than plastic bottles. The best container is one you reuse many times.",
+    "factEs": "El vidrio no siempre es más ecológico que el plástico. Un análisis de ciclo de vida de la Universidad de Southampton concluyó que las botellas de vidrio para bebidas tienen un impacto ambiental considerablemente mayor que las de plástico. El mejor envase es el que reutilizas muchas veces.",
+    "factJa": "ガラスが常にプラスチックよりも環境に優しいとは言えません。サウサンプトン大学のライフサイクル評価では、飲料用のガラス瓶はプラスチックボトルよりも環境への影響がかなり大きいとわかりました。最も優れた容器は、何度も繰り返し使うものです。",
+    "sourceEn": "University of Southampton",
+    "sourceEs": "University of Southampton",
+    "sourceJa": "University of Southampton",
+    "sourceUrl": "https://www.southampton.ac.uk/news/2020/11/drink-bottles-environmental-impact.page",
     "relatedSdgs": [
       12
     ],
@@ -3774,26 +3762,20 @@
   {
     "dayOfYear": 171,
     "category": "individual",
-    "factEn": "Defrosting your freezer regularly improves its efficiency by up to 30%. A heavily frosted freezer works harder and uses significantly more electricity.",
-    "factEs": "Descongelar el congelador con regularidad mejora su eficiencia hasta en un 30%. Un congelador con mucha escarcha trabaja más y consume significativamente más electricidad.",
-    "factJa": "冷凍庫を定期的に霜取りすることで、効率が最大30%向上します。霜が厚く付いた冷凍庫は余計に負荷がかかり、より多くの電力を消費します。",
+    "factEn": "Defrost your freezer once or twice a year. The Energy Saving Trust says this makes sure it works efficiently.",
+    "factEs": "Descongela el congelador una o dos veces al año. Según Energy Saving Trust, así te aseguras de que funcione de forma eficiente.",
+    "factJa": "冷凍庫の霜取りは年に1〜2回行いましょう。Energy Saving Trustによると、これで冷凍庫が効率よく動きます。",
     "sourceEn": "Energy Saving Trust UK",
     "sourceEs": "Energy Saving Trust UK",
     "sourceJa": "Energy Saving Trust UK",
-    "sourceUrl": "https://energysavingtrust.org.uk/guidance/cold-appliances/",
+    "sourceUrl": "https://energysavingtrust.org.uk/top-five-tips-save-energy-kitchen/",
     "relatedSdgs": [
       7
     ],
     "unWorldDay": null,
     "nameEn": "Defrost Your Freezer",
     "nameEs": "Descongela el congelador",
-    "nameJa": "冷凍庫の霜取り",
-    "keyFigureEn": "30%",
-    "keyFigureEs": "30%",
-    "keyFigureJa": "30%",
-    "clueEn": "Freezer efficiency gain from regular defrosting",
-    "clueJa": "定期的な霜取りによる冷凍庫の効率改善",
-    "clueEs": "Mejora de eficiencia del congelador al descongelarlo a menudo"
+    "nameJa": "冷凍庫の霜取り"
   },
   {
     "dayOfYear": 172,
@@ -3880,13 +3862,13 @@
   {
     "dayOfYear": 176,
     "category": "individual",
-    "factEn": "Using a pressure cooker reduces cooking time and energy use by up to 70% compared to conventional methods. It also retains more nutrients in the food.",
-    "factEs": "Usar una olla a presión reduce el tiempo de cocción y el consumo de energía hasta en un 70% en comparación con los métodos convencionales. Además, conserva más nutrientes en los alimentos.",
-    "factJa": "圧力鍋を使うと、従来の調理方法と比べて調理時間とエネルギー使用量を最大70%削減できます。また、食材の栄養も逃げにくくなります。",
-    "sourceEn": "US Department of Energy",
-    "sourceEs": "US Department of Energy",
-    "sourceJa": "US Department of Energy",
-    "sourceUrl": "https://www.energy.gov/energysaver/kitchen-appliances",
+    "factEn": "A pressure cooker saves energy. In one test, boiling 1 kg of potatoes in a pressure cooker used about 35% less energy than a normal saucepan, and took 20 minutes instead of 30.",
+    "factEs": "La olla a presión ahorra energía. En una prueba, hervir 1 kg de patatas en una olla a presión consumió aproximadamente un 35% menos de energía que en una cacerola normal, y tardó 20 minutos en lugar de 30.",
+    "factJa": "圧力鍋はエネルギーの節約になります。ある実験では、ジャガイモ1 kgを圧力鍋でゆでると、普通の鍋より約35%少ないエネルギーですみました。時間も30分から20分に短くなりました。",
+    "sourceEn": "The Conversation / Nottingham Trent University",
+    "sourceEs": "The Conversation / Nottingham Trent University",
+    "sourceJa": "The Conversation / Nottingham Trent University",
+    "sourceUrl": "https://theconversation.com/air-fryers-and-pressure-cookers-how-you-can-save-money-on-your-cooking-bills-192303",
     "relatedSdgs": [
       7
     ],
@@ -3894,12 +3876,12 @@
     "nameEn": "Pressure-Cook It",
     "nameEs": "Usa la olla a presión",
     "nameJa": "圧力鍋で時短省エネ",
-    "keyFigureEn": "70%",
-    "keyFigureEs": "70%",
-    "keyFigureJa": "70%",
-    "clueEn": "Cooking energy saved with a pressure cooker",
-    "clueJa": "圧力鍋で減らせる調理エネルギー",
-    "clueEs": "Energía de cocción que ahorra la olla exprés"
+    "keyFigureEn": "35%",
+    "keyFigureEs": "35%",
+    "keyFigureJa": "35%",
+    "clueEn": "Energy a pressure cooker saved boiling potatoes",
+    "clueJa": "圧力鍋でジャガイモをゆでて減らせたエネルギー",
+    "clueEs": "Energía que ahorró la olla a presión al hervir patatas"
   },
   {
     "dayOfYear": 177,
@@ -4080,13 +4062,13 @@
   {
     "dayOfYear": 186,
     "category": "mythBuster",
-    "factEn": "Flushing unused medicines down the toilet pollutes waterways and harms aquatic life. Return them to a pharmacy instead -- drug take-back programs safely incinerate collected medicines, preventing contamination of water supplies.",
-    "factEs": "Tirar medicamentos sin usar por el inodoro contamina las vías fluviales y daña la vida acuática. Llévalos mejor a una farmacia. Los programas de recogida de medicamentos los incineran de forma segura, lo que evita la contaminación del suministro de agua.",
-    "factJa": "使わなくなった薬をトイレに流すと、川や水路が汚染され、水生生物に悪影響を与えます。代わりに薬局に返却しましょう。回収された薬は安全に焼却され、水源の汚染を防いでいます。",
-    "sourceEn": "US FDA / EPA",
-    "sourceEs": "US FDA / EPA",
-    "sourceJa": "US FDA / EPA",
-    "sourceUrl": "https://www.fda.gov/drugs/disposal-unused-medicines-what-you-should-know",
+    "factEn": "Do not flush most unused medicines down the toilet. The US FDA says the best way to dispose of most medicines is a drug take-back location or a pre-paid mail-back envelope. Flush only medicines on the FDA flush list, and only when no take-back option is available.",
+    "factEs": "No tires por el inodoro la mayoría de los medicamentos sin usar. Según la FDA de EE. UU., la mejor forma de desechar la mayoría de los medicamentos es llevarlos a un punto de recogida o enviarlos en un sobre de devolución prepagado. Tira por el inodoro solo los que figuran en la lista de la FDA, y solo si no hay ninguna opción de recogida.",
+    "factJa": "使わなくなった薬のほとんどは、トイレに流してはいけません。米国FDAによると、ほとんどの薬の最もよい捨て方は、薬の回収場所に持ち込むか、料金支払い済みの返送用封筒で送ることです。流してよいのはFDAの「フラッシュリスト」にある薬だけで、回収を利用できない場合に限ります。",
+    "sourceEn": "US FDA",
+    "sourceEs": "US FDA",
+    "sourceJa": "US FDA",
+    "sourceUrl": "https://www.fda.gov/drugs/safe-disposal-medicines/disposal-unused-medicines-what-you-should-know",
     "relatedSdgs": [
       3,
       6,
@@ -4095,7 +4077,7 @@
     "unWorldDay": null,
     "nameEn": "Return Old Medicine",
     "nameEs": "Devuelve los medicamentos",
-    "nameJa": "薬局に返却"
+    "nameJa": "古い薬は回収へ"
   },
   {
     "dayOfYear": 187,
@@ -4329,21 +4311,21 @@
   {
     "dayOfYear": 197,
     "category": "mythBuster",
-    "factEn": "Draining pasta water down the sink wastes a free fertiliser. Starchy cooking water is rich in nutrients and can be cooled and used to water houseplants or garden beds.",
-    "factEs": "Tirar el agua de la pasta por el desagüe desperdicia un fertilizante gratuito. El agua de cocción rica en almidón contiene muchos nutrientes y puede enfriarse para regar plantas de interior o jardines.",
-    "factJa": "パスタのゆで汁を流しに捨てると、無料の肥料を無駄にしていることになります。デンプンを含むゆで汁は栄養豊富なので、冷ましてから観葉植物や花壇の水やりに使えます。",
+    "factEn": "Water from the kitchen sink does not have to go down the drain. The Royal Horticultural Society says this 'grey water' is useful for garden plants during water shortages. Use it within 24 hours, ideally on ornamental plants.",
+    "factEs": "El agua del fregadero no tiene por qué irse por el desagüe. Según la Royal Horticultural Society, estas «aguas grises» son útiles para regar las plantas del jardín en épocas de escasez de agua. Úsalas en un plazo de 24 horas, a ser posible en plantas ornamentales.",
+    "factJa": "台所の流しの水は、必ずしも排水口に流す必要はありません。王立園芸協会によると、この「雑排水」は水不足のときに庭の植物の水やりに役立ちます。24時間以内に使い、できれば観賞用の植物に与えましょう。",
     "sourceEn": "Royal Horticultural Society",
     "sourceEs": "Royal Horticultural Society",
     "sourceJa": "Royal Horticultural Society",
-    "sourceUrl": "https://www.rhs.org.uk/prevention-protection/watering-wisely",
+    "sourceUrl": "https://www.rhs.org.uk/garden-jobs/water-collecting-storing-and-using",
     "relatedSdgs": [
       6,
       12
     ],
     "unWorldDay": null,
-    "nameEn": "Feed Plants Pasta Water",
-    "nameEs": "Agua de pasta al huerto",
-    "nameJa": "ゆで汁で水やり"
+    "nameEn": "Reuse Kitchen Water",
+    "nameEs": "Reutiliza el agua de la cocina",
+    "nameJa": "台所の水を再利用"
   },
   {
     "dayOfYear": 198,
@@ -5557,13 +5539,13 @@
   {
     "dayOfYear": 254,
     "category": "mythBuster",
-    "factEn": "Hand-washing dishes often uses more water and energy than a full dishwasher. A modern energy-efficient dishwasher uses as little as 6 litres per cycle vs. 40+ litres by hand.",
-    "factEs": "Fregar a mano a menudo gasta más agua y energía que un lavavajillas lleno. Un lavavajillas moderno de bajo consumo gasta tan solo 6 litros por ciclo frente a más de 40 litros a mano.",
-    "factJa": "手で食器を洗うと、満杯の食洗機よりも多くの水とエネルギーを使うことがよくあります。最新の省エネ型食洗機は1回わずか6リットルの水で済みますが、手洗いでは40リットル以上使うことがあります。",
-    "sourceEn": "University of Bonn study / Energy Saving Trust",
-    "sourceEs": "University of Bonn study / Energy Saving Trust",
-    "sourceJa": "University of Bonn study / Energy Saving Trust",
-    "sourceUrl": "https://energysavingtrust.org.uk/guidance/dishwashers/",
+    "factEn": "Hand-washing dishes often uses more water and energy than a dishwasher. With typical habits, machines caused less than half the greenhouse gas emissions and used less than half the water, a University of Michigan study found.",
+    "factEs": "Fregar a mano a menudo gasta más agua y energía que un lavavajillas. Con los hábitos más comunes, el lavavajillas generó menos de la mitad de las emisiones de gases de efecto invernadero y gastó menos de la mitad del agua, según un estudio de la Universidad de Míchigan.",
+    "factJa": "手で食器を洗うと、食洗機よりも多くの水とエネルギーを使うことがよくあります。ミシガン大学の研究では、一般的な使い方の場合、食洗機の温室効果ガス排出量と水の使用量はどちらも手洗いの半分未満でした。",
+    "sourceEn": "University of Michigan",
+    "sourceEs": "University of Michigan",
+    "sourceJa": "University of Michigan",
+    "sourceUrl": "https://news.umich.edu/fighting-climate-change-at-the-sink-a-guide-to-greener-dishwashing/",
     "relatedSdgs": [
       6,
       7
@@ -5571,18 +5553,18 @@
     "unWorldDay": null,
     "nameEn": "Dishwasher Beats Hand-Wash",
     "nameEs": "El lavavajillas ahorra",
-    "nameJa": "食洗機の省水"
+    "nameJa": "食洗機で節水・省エネ"
   },
   {
     "dayOfYear": 255,
     "category": "mythBuster",
-    "factEn": "Running a half-empty washing machine does not use half the energy. It uses almost the same water and electricity as a full load. Always wait for a full load to maximise efficiency.",
-    "factEs": "Poner una lavadora a media carga no consume la mitad de energía. Consume casi la misma agua y electricidad que una carga completa. Espera siempre a tener una carga completa para maximizar la eficiencia.",
-    "factJa": "洗濯物が半分の量で洗濯機を回しても、エネルギーが半分で済むわけではありません。満杯のときとほぼ同じだけ水と電気を使います。効率を最大限に高めるため、常に洗濯物をためてから回しましょう。",
+    "factEn": "A half-empty washing machine wastes energy. The Energy Saving Trust says using the machine only for full loads helps save energy. One fewer load a week, washed at 30 degrees C, saves about £26 a year in Great Britain.",
+    "factEs": "Una lavadora a media carga desperdicia energía. Según Energy Saving Trust, usar la lavadora solo con cargas completas ayuda a ahorrar energía. Poner una lavadora menos a la semana y lavar a 30 grados C ahorra unas 26 libras al año en Gran Bretaña.",
+    "factJa": "洗濯物が半分の量で洗濯機を回すと、エネルギーが無駄になります。Energy Saving Trustによると、満杯のときだけ洗濯機を使うと省エネになります。洗濯を週に1回減らして30℃で洗うと、英国（グレートブリテン）では年間約26ポンドを節約できます。",
     "sourceEn": "Energy Saving Trust UK",
     "sourceEs": "Energy Saving Trust UK",
     "sourceJa": "Energy Saving Trust UK",
-    "sourceUrl": "https://energysavingtrust.org.uk/guidance/washing-machines/",
+    "sourceUrl": "https://energysavingtrust.org.uk/top-five-tips-save-energy-kitchen/",
     "relatedSdgs": [
       6,
       7
@@ -6133,13 +6115,13 @@
   {
     "dayOfYear": 280,
     "category": "comparison",
-    "factEn": "Buildings are responsible for 37% of global energy-related CO2 emissions. Simple retrofits like insulation and LED lighting can cut a building's energy use by 50%.",
-    "factEs": "Los edificios son responsables del 37% de las emisiones globales de CO2 relacionadas con la energía. Reformas sencillas, como el aislamiento y la iluminación LED, pueden reducir el consumo energético de un edificio en un 50%.",
-    "factJa": "建物は世界のエネルギー関連CO2排出量の37%を占めています。断熱材やLED照明などのシンプルな改修工事で、建物のエネルギー使用量を50%削減できます。",
+    "factEn": "Buildings and construction caused around 37% of global energy and process-related CO2 emissions in 2021. The UN says the sector must improve building energy performance to decarbonise by 2050.",
+    "factEs": "Los edificios y la construcción causaron aproximadamente el 37% de las emisiones globales de CO2 relacionadas con la energía y los procesos en 2021. Según la ONU, el sector debe mejorar la eficiencia energética de los edificios para descarbonizarse antes de 2050.",
+    "factJa": "2021年、建物・建設部門は世界のエネルギーおよびプロセス関連CO2排出量の約37%を占めました。国連は、2050年までに脱炭素化するには建物のエネルギー性能を高める必要があるとしています。",
     "sourceEn": "UN Environment Programme",
     "sourceEs": "UN Environment Programme",
     "sourceJa": "UN Environment Programme",
-    "sourceUrl": "https://www.unep.org/resources/report/2022-global-status-report-buildings-and-construction",
+    "sourceUrl": "https://wedocs.unep.org/handle/20.500.11822/41133",
     "relatedSdgs": [
       7,
       11,
@@ -6242,20 +6224,20 @@
   {
     "dayOfYear": 285,
     "category": "natureWonder",
-    "factEn": "Lichens are not single organisms but partnerships between fungi and algae that have existed for 400 million years. They colonise bare rock and slowly create the soil that makes plant life possible.",
-    "factEs": "Los líquenes no son organismos individuales, sino asociaciones entre hongos y algas que existen desde hace 400 millones de años. Colonizan la roca desnuda y lentamente crean el suelo que hace posible la vida vegetal.",
-    "factJa": "地衣類は単一の生物ではなく、4億年前から続く、菌類と藻類の共生体です。むき出しの岩に定着し、ゆっくりと植物の生育を可能にする土壌を作り出していきます。",
-    "sourceEn": "British Lichen Society / Natural History Museum",
-    "sourceEs": "British Lichen Society / Natural History Museum",
-    "sourceJa": "British Lichen Society / Natural History Museum",
-    "sourceUrl": "https://www.nhm.ac.uk/discover/what-are-lichens.html",
+    "factEn": "Lichens are not single organisms but partnerships between fungi and algae that have existed for 400 million years. They colonise extreme places, such as rock newly exposed by volcanic eruptions and land left bare by retreating glaciers.",
+    "factEs": "Los líquenes no son organismos individuales, sino asociaciones entre hongos y algas que existen desde hace 400 millones de años. Colonizan lugares extremos, como la roca que queda al descubierto tras una erupción volcánica y los terrenos que dejan los glaciares al retroceder.",
+    "factJa": "地衣類は単一の生物ではなく、4億年前から続く、菌類と藻類の共生体です。火山の噴火で新しく現れた岩の表面や、氷河が後退した土地など、厳しい環境にも定着します。",
+    "sourceEn": "Natural History Museum",
+    "sourceEs": "Natural History Museum",
+    "sourceJa": "Natural History Museum",
+    "sourceUrl": "https://www.nhm.ac.uk/resources-rx/files/31feat_lichens_born_survivors-16064.pdf",
     "relatedSdgs": [
       15
     ],
     "unWorldDay": null,
     "nameEn": "Lichens Start Life",
     "nameEs": "Líquenes pioneros",
-    "nameJa": "地衣類のパイオニア",
+    "nameJa": "地衣類は生命の先駆け",
     "keyFigureEn": "400 million",
     "keyFigureEs": "400 millones",
     "keyFigureJa": "4億",
@@ -6455,7 +6437,7 @@
     "sourceEn": "Carbon Brief",
     "sourceEs": "Carbon Brief",
     "sourceJa": "Carbon Brief",
-    "sourceUrl": "https://www.carbonbrief.org/qa-the-role-of-fossil-gas-in-the-energy-mix/",
+    "sourceUrl": "https://www.carbonbrief.org/qa-what-does-bidens-lng-pause-mean-for-global-emissions",
     "relatedSdgs": [
       7,
       13
@@ -6798,13 +6780,13 @@
   {
     "dayOfYear": 310,
     "category": "comparison",
-    "factEn": "During the 1991 Gulf War, burning oil wells released an estimated 1 billion barrels of oil and created a toxic smoke plume visible from space. Supporting post-conflict environmental cleanup is critical for both ecosystems and displaced communities.",
-    "factEs": "Durante la Guerra del Golfo de 1991, los pozos de petróleo en llamas liberaron aproximadamente 1.000 millones de barriles de petróleo y crearon una columna de humo tóxico visible desde el espacio. Apoyar la restauración ambiental posconflicto es fundamental tanto para los ecosistemas como para las comunidades desplazadas.",
-    "factJa": "1991年の湾岸戦争では、油井の炎上により推定10億バレルの石油が放出され、宇宙からも視認できる有毒な煙の柱が生じました。紛争後の環境回復を支援することは、生態系にとっても、避難を強いられた人々にとっても不可欠です。",
-    "sourceEn": "UNEP Post-Conflict Environmental Assessment",
-    "sourceEs": "UNEP Post-Conflict Environmental Assessment",
-    "sourceJa": "UNEP Post-Conflict Environmental Assessment",
-    "sourceUrl": "https://www.unep.org/explore-topics/disasters-conflicts/what-we-do/recovery/post-conflict-environmental-assessment",
+    "factEn": "In February 1991, near the end of the Gulf War, about 750 oil wells in Kuwait were set on fire. Around 4 to 6 million barrels of crude oil burned each day for weeks, and astronauts photographed the smoke from space.",
+    "factEs": "En febrero de 1991, cerca del final de la Guerra del Golfo, se incendiaron unos 750 pozos de petróleo en Kuwait. Durante semanas ardieron aproximadamente entre 4 y 6 millones de barriles de crudo al día, y los astronautas fotografiaron el humo desde el espacio.",
+    "factJa": "1991年2月、湾岸戦争の終わり近くに、クウェートで約750の油井に火が放たれました。数週間にわたり、毎日およそ400万〜600万バレルの原油が燃え、宇宙飛行士が宇宙からその煙を撮影しました。",
+    "sourceEn": "NASA Earth Observatory",
+    "sourceEs": "NASA Earth Observatory",
+    "sourceJa": "NASA Earth Observatory",
+    "sourceUrl": "https://science.nasa.gov/earth/earth-observatory/every-flight-is-a-mission-to-planet-earth/",
     "relatedSdgs": [
       15,
       16
@@ -6813,12 +6795,12 @@
     "nameEn": "Oil Fires Remembered",
     "nameEs": "Incendios del Golfo",
     "nameJa": "湾岸戦争の油田火災",
-    "keyFigureEn": "1 billion",
-    "keyFigureEs": "1.000 millones",
-    "keyFigureJa": "10億",
-    "clueEn": "Barrels of oil released by Gulf War well fires",
-    "clueJa": "湾岸戦争の油井炎上で放出された石油（バレル）",
-    "clueEs": "Barriles de petróleo liberados por los pozos en llamas de la Guerra del Golfo"
+    "keyFigureEn": "750",
+    "keyFigureEs": "750",
+    "keyFigureJa": "750",
+    "clueEn": "Oil wells set on fire in Kuwait in 1991",
+    "clueJa": "1991年にクウェートで火を放たれた油井の数",
+    "clueEs": "Pozos de petróleo incendiados en Kuwait en 1991"
   },
   {
     "dayOfYear": 311,
@@ -7102,13 +7084,13 @@
   {
     "dayOfYear": 324,
     "category": "individual",
-    "factEn": "Choosing digital tickets, boarding passes, and receipts instead of paper saves an estimated 10 billion paper receipts per year in the US alone -- enough to circle the Earth 15 times.",
-    "factEs": "Elegir billetes digitales, tarjetas de embarque y recibos en lugar de papel ahorra aproximadamente 10.000 millones de recibos de papel al año solo en EE. UU., suficientes para rodear la Tierra 15 veces.",
-    "factJa": "紙の代わりに電子チケットや搭乗券、レシートを選ぶことで、米国だけで年間推定100億枚の紙のレシートを節約できます。並べると地球を15周するほどの量です。",
-    "sourceEn": "Green America / EPA",
-    "sourceEs": "Green America / EPA",
-    "sourceJa": "Green America / EPA",
-    "sourceUrl": "https://www.greenamerica.org/skip-slip-campaign",
+    "factEn": "Paper receipts in the US use about 3.68 million trees and 10 billion gallons of water every year, Green America reports. Choose a digital receipt, or no receipt, when you can.",
+    "factEs": "Los recibos de papel consumen en EE. UU. unos 3,68 millones de árboles y 10.000 millones de galones de agua al año, según Green America. Elige el recibo digital, o ninguno, siempre que puedas.",
+    "factJa": "Green Americaによると、米国では紙のレシートのために毎年約368万本の木と100億ガロンの水が使われています。できるときは電子レシートを選ぶか、レシートを断りましょう。",
+    "sourceEn": "Green America",
+    "sourceEs": "Green America",
+    "sourceJa": "Green America",
+    "sourceUrl": "https://reports.greenamerica.org/skip-the-slip",
     "relatedSdgs": [
       12,
       15
@@ -7120,9 +7102,9 @@
     "keyFigureEn": "10 billion",
     "keyFigureEs": "10.000 millones",
     "keyFigureJa": "100億",
-    "clueEn": "Paper receipts saved yearly by going digital in the US",
-    "clueJa": "米国で電子化により毎年減らせる紙レシート",
-    "clueEs": "Recibos de papel evitados al año en EE. UU. al pasar a lo digital"
+    "clueEn": "Gallons of water used yearly for US paper receipts",
+    "clueJa": "米国で紙レシートのために毎年使われる水（ガロン）",
+    "clueEs": "Galones de agua al año para los recibos de papel estadounidenses"
   },
   {
     "dayOfYear": 325,
@@ -7272,26 +7254,26 @@
   {
     "dayOfYear": 331,
     "category": "mythBuster",
-    "factEn": "Closing curtains at night reduces heat loss through windows by up to 17%. Thermal curtains are one of the cheapest energy-saving upgrades, yet most people overlook them.",
-    "factEs": "Cerrar las cortinas por la noche reduce la pérdida de calor a través de las ventanas hasta en un 17%. Las cortinas térmicas son una de las mejoras de ahorro energético más baratas, pero la mayoría de las personas las pasan por alto.",
-    "factJa": "夜間にカーテンを閉めることで、窓からの熱損失を最大17%削減できます。断熱カーテンは最も安上がりな省エネ対策の一つですが、見落とされがちです。",
-    "sourceEn": "Energy Saving Trust UK",
-    "sourceEs": "Energy Saving Trust UK",
-    "sourceJa": "Energy Saving Trust UK",
-    "sourceUrl": "https://energysavingtrust.org.uk/advice/curtains-and-blinds/",
+    "factEn": "Closing your curtains during heating hours cuts energy use by around 2% over a typical year, University of Salford tests on a small Victorian terrace found. Windows are often among the thermally weakest parts of a home.",
+    "factEs": "Cerrar las cortinas durante las horas de calefacción reduce el consumo de energía en torno a un 2% en un año normal, según ensayos de la Universidad de Salford en una pequeña casa adosada victoriana. Las ventanas suelen ser una de las partes térmicamente más débiles de una vivienda.",
+    "factJa": "暖房を使う時間にカーテンを閉めると、1年間のエネルギー使用量が約2%減ります。これは、サルフォード大学がビクトリア朝時代の小さなテラスハウスで行った試験の結果です。窓は多くの場合、家の中で熱が最も逃げやすい部分の一つです。",
+    "sourceEn": "University of Salford",
+    "sourceEs": "University of Salford",
+    "sourceJa": "University of Salford",
+    "sourceUrl": "https://blogs.salford.ac.uk/made-in-salford/2022/11/08/energy-savings-advice-from-professor-richard-fitton/",
     "relatedSdgs": [
       7
     ],
     "unWorldDay": null,
     "nameEn": "Close the Curtains",
     "nameEs": "Cierra las cortinas",
-    "nameJa": "厚手カーテンで保温",
-    "keyFigureEn": "17%",
-    "keyFigureEs": "17%",
-    "keyFigureJa": "17%",
-    "clueEn": "Window heat loss cut by closing curtains",
-    "clueJa": "カーテンを閉めて減らせる窓からの熱損失",
-    "clueEs": "Pérdida de calor por ventanas que se evita con cortinas"
+    "nameJa": "カーテンを閉めて保温",
+    "keyFigureEn": "2%",
+    "keyFigureEs": "2%",
+    "keyFigureJa": "2%",
+    "clueEn": "Yearly energy saved by closing the curtains",
+    "clueJa": "カーテンを閉めて減らせる年間のエネルギー",
+    "clueEs": "Energía anual que se ahorra al cerrar las cortinas"
   },
   {
     "dayOfYear": 332,
@@ -7374,10 +7356,10 @@
     "factEn": "Planting trees is not a silver bullet for climate change. If planted in the wrong place (like snowy regions), trees can absorb heat and actually warm the climate. Location and species matter.",
     "factEs": "Plantar árboles no es una solución mágica para el cambio climático. Si se plantan en el lugar equivocado (como las regiones nevadas), los árboles pueden absorber calor e incluso calentar el clima. La ubicación y la especie importan.",
     "factJa": "植樹は気候変動に対する万能薬ではありません。積雪地帯など適切でない場所に植えると、木が熱を吸収して気候をかえって温暖化させる可能性があります。場所と樹種の選択が重要です。",
-    "sourceEn": "Windisch et al., Nature Climate Change 2024",
-    "sourceEs": "Windisch et al., Nature Climate Change 2024",
-    "sourceJa": "Windisch et al., Nature Climate Change 2024",
-    "sourceUrl": "https://www.nature.com/articles/s41558-024-01999-7",
+    "sourceEn": "Windisch et al., Nature Climate Change 2021",
+    "sourceEs": "Windisch et al., Nature Climate Change 2021",
+    "sourceJa": "Windisch et al., Nature Climate Change 2021",
+    "sourceUrl": "https://www.nature.com/articles/s41558-021-01161-z",
     "relatedSdgs": [
       13,
       15
@@ -7451,13 +7433,13 @@
   {
     "dayOfYear": 339,
     "category": "natureWonder",
-    "factEn": "One tablespoon of healthy soil contains more microorganisms than there are people on Earth. Soil stores more carbon than the atmosphere and all plant life combined.",
-    "factEs": "Una cucharada de suelo sano contiene más microorganismos que personas hay en la Tierra. El suelo almacena más carbono que la atmósfera y toda la vida vegetal juntas.",
-    "factJa": "健康な土の大さじ1杯には、地球上の人口よりも多くの微生物が含まれています。土壌は、大気とすべての植物を合わせたよりも多くの炭素を蓄えています。",
+    "factEn": "A tablespoon of soil contains more living organisms than there are people on Earth. Soils also give us 95% of our food.",
+    "factEs": "Una cucharada de suelo contiene más organismos vivos que personas hay en la Tierra. Además, el 95% de nuestros alimentos procede del suelo.",
+    "factJa": "大さじ1杯の土には、地球上の人口よりも多くの生き物が含まれています。私たちの食料の95%も土から生まれます。",
     "sourceEn": "UN Food and Agriculture Organization",
     "sourceEs": "UN Food and Agriculture Organization",
     "sourceJa": "UN Food and Agriculture Organization",
-    "sourceUrl": "https://www.fao.org/soils-portal/soil-biodiversity/en/",
+    "sourceUrl": "https://www.fao.org/world-soil-day/en",
     "relatedSdgs": [
       2,
       15
@@ -7465,7 +7447,13 @@
     "unWorldDay": "World Soil Day",
     "nameEn": "Life in a Spoonful",
     "nameEs": "La vida en una cucharada",
-    "nameJa": "一さじの中の宇宙"
+    "nameJa": "一さじの中の命",
+    "keyFigureEn": "95%",
+    "keyFigureJa": "95%",
+    "keyFigureEs": "95%",
+    "clueEn": "Share of our food that comes from soils",
+    "clueJa": "土から生まれる食料の割合",
+    "clueEs": "Parte de nuestros alimentos que procede del suelo"
   },
   {
     "dayOfYear": 340,
@@ -7574,13 +7562,13 @@
   {
     "dayOfYear": 345,
     "category": "natureWonder",
-    "factEn": "Mountains supply fresh water to half the world's population. Climate change is melting mountain glaciers so fast that many communities face severe water shortages within 30 years.",
-    "factEs": "Las montañas suministran agua dulce a la mitad de la población mundial. El cambio climático está derritiendo los glaciares de montaña tan rápido que muchas comunidades se enfrentarán a una grave escasez de agua en un plazo de 30 años.",
-    "factJa": "山岳地帯は世界の人口の半分に淡水を供給しています。気候変動により山岳氷河が急速に溶けており、多くの地域社会が30年以内に深刻な水不足に直面する可能性があります。",
-    "sourceEn": "UN Environment Programme",
-    "sourceEs": "UN Environment Programme",
-    "sourceJa": "UN Environment Programme",
-    "sourceUrl": "https://www.unep.org/explore-topics/climate-action/what-we-do/climate-adaptation/mountains",
+    "factEn": "Mountains supply up to 60% of the world's annual freshwater flows, and about two billion people downstream depend on that water. As the world warms, glaciers are melting faster than ever.",
+    "factEs": "Las montañas aportan hasta el 60% de los caudales anuales de agua dulce del mundo, y unos 2.000 millones de personas río abajo dependen de esa agua. A medida que el planeta se calienta, los glaciares se derriten más rápido que nunca.",
+    "factJa": "山は世界の年間淡水流量の最大60%を供給しており、下流の約20億人がその水に頼っています。世界の気温が上がるにつれて、氷河はこれまでにない速さで溶けています。",
+    "sourceEn": "UN World Water Development Report 2025",
+    "sourceEs": "UN World Water Development Report 2025",
+    "sourceJa": "UN World Water Development Report 2025",
+    "sourceUrl": "https://www.unwater.org/publications/un-world-water-development-report-2025",
     "relatedSdgs": [
       6,
       15
@@ -7589,12 +7577,12 @@
     "nameEn": "Mountains Give Water",
     "nameEs": "Agua de la montaña",
     "nameJa": "山は水の源",
-    "keyFigureEn": "30 years",
-    "keyFigureEs": "30 años",
-    "keyFigureJa": "30年",
-    "clueEn": "Time until mountain communities face water shortages",
-    "clueJa": "山岳地域が深刻な水不足に直面するまでの期間",
-    "clueEs": "Plazo hasta la escasez de agua en las comunidades de montaña"
+    "keyFigureEn": "60%",
+    "keyFigureEs": "60%",
+    "keyFigureJa": "60%",
+    "clueEn": "Share of annual freshwater flows that mountains supply",
+    "clueJa": "山が供給する年間淡水流量の割合",
+    "clueEs": "Parte de los caudales anuales de agua dulce que aportan las montañas"
   },
   {
     "dayOfYear": 346,
