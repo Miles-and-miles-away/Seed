@@ -38,7 +38,7 @@
 | solar energy/power | 太陽光エネルギー / 太陽光発電 | |
 | wind energy/power | 風力エネルギー / 風力発電 | |
 | fossil fuels | 化石燃料 | |
-| deforestation | 森林伐採 | |
+| deforestation | 森林減少 | (!) Not 森林伐採, which means tree felling |
 | reforestation | 植林 | |
 | biodiversity | 生物多様性 | |
 | ecosystem | 生態系 | |

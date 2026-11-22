@@ -32,6 +32,8 @@ void main() {
       expect(es.factRecallFinished(1, 5), '1 acierto de 5');
       expect(es.factRecallFinished(0, 5), '0 aciertos de 5');
       expect(es.factRecallFinished(4, 5), '4 aciertos de 5');
+      expect(es.challengeStreakDays(1), 'Racha de desafíos: 1 día');
+      expect(es.challengeStreakDays(3), 'Racha de desafíos: 3 días');
     });
 
     test('Japanese renders counts without crashing (single form)', () {

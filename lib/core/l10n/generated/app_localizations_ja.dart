@@ -2577,7 +2577,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get quizTitle => '多い？ 少ない？';
 
   @override
-  String get quizQuestion => '多く出すほうをタップするか、上にドラッグ';
+  String get quizQuestion => '多く出す方をタップするか、上にドラッグ';
 
   @override
   String get quizSubtitle => 'どちらがCO2を多く出す？';

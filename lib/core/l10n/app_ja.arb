@@ -1191,7 +1191,7 @@
   "energyExploreSheetMultiple": "{anchorUnit}の{multiple}倍",
   "energyExploreWallCaptionOne": "アイコン1つが{anchorUnit}",
   "quizTitle": "多い？ 少ない？",
-  "quizQuestion": "多く出すほうをタップするか、上にドラッグ",
+  "quizQuestion": "多く出す方をタップするか、上にドラッグ",
   "quizSubtitle": "どちらがCO2を多く出す？",
   "quizChooseHint": "こちらを選ぶ",
   "quizAnnounceRight": "正解！連続{count}",
