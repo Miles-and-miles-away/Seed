@@ -252,6 +252,32 @@ void main() {
       expect(await isCurrent(), isFalse);
     });
 
+    test('ensureUserDoc rethrows a reload that failed offline', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(
+        user.reload,
+      ).thenThrow(FirebaseAuthException(code: 'network-request-failed'));
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final isCurrent =
+          verify(
+                () => userDs.createUserIfAbsent(
+                  any(),
+                  isCurrent: captureAny(named: 'isCurrent'),
+                ),
+              ).captured.single
+              as Future<bool> Function();
+      await expectLater(isCurrent(), throwsA(isA<FirebaseAuthException>()));
+    });
+
     test('ensureUserDoc does nothing when signed out', () async {
       when(() => authDs.currentUser).thenReturn(null);
 

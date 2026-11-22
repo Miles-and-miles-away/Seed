@@ -63,7 +63,8 @@ service cloud.firestore {
           'recentChallengeIds', 'activeMultiDayChallenge',
           'completedMultiDayChallenges', 'ecodexDiscovered',
           'uniqueActionIds', 'categoryActionCounts', 'settings',
-          'lastStreakReminderDate', 'lastCustomActionAt'
+          'lastStreakReminderDate', 'lastCustomActionAt',
+          'lastCustomActionId'
         ];
       }
 
@@ -152,6 +153,9 @@ service cloud.firestore {
             || d.lastActionDate is timestamp)
         && (!('lastCustomActionAt' in keys)
             || d.lastCustomActionAt is timestamp)
+        && (!('lastCustomActionId' in keys)
+            || (d.lastCustomActionId is string
+                && d.lastCustomActionId.size() <= 200))
         && (!('sdgStats' in keys) || d.sdgStats is map)
         && (!('viewedFactDates' in keys)
             || (d.viewedFactDates is list
@@ -429,12 +433,14 @@ service cloud.firestore {
 
         allow read: if isOwner(userId);
         // One template per 5s, batched with a lastCustomActionAt bump on
-        // an existing user doc, so a script cannot flood the collection.
+        // an existing user doc. Every create in a batch sees the same
+        // user doc, so the doc also names the one template it allows.
         function customActionRateOk() {
           let user = /databases/$(database)/documents/users/$(userId);
           let before = get(user).data;
-          return getAfter(user).data.get('lastCustomActionAt', null)
-                == request.time
+          let after = getAfter(user).data;
+          return after.get('lastCustomActionAt', null) == request.time
+            && after.get('lastCustomActionId', null) == actionId
             && (before.get('lastCustomActionAt', null) == null
                 || request.time > before.lastCustomActionAt
                     + duration.value(5, 's'));

@@ -9,6 +9,14 @@ import '../models/app_user_model.dart';
 
 const _pendingWritesTimeout = Duration(seconds: 3);
 
+/// Auth error codes that mean the signed-in account can no longer be used.
+const _accountGoneCodes = {
+  'user-not-found',
+  'user-disabled',
+  'user-token-expired',
+  'invalid-user-token',
+};
+
 /// Repository that coordinates authentication and user data operations.
 class AuthRepository {
   AuthRepository({
@@ -160,12 +168,14 @@ class AuthRepository {
 
   /// A missing doc can mean the account was deleted on another device while
   /// this one still holds a valid ID token, so ask Auth before recreating it.
+  /// Any other reload failure (offline) rethrows, so the recovery retries.
   Future<bool> _accountStillExists(User firebaseUser) async {
     if (currentUser?.uid != firebaseUser.uid) return false;
     try {
       await firebaseUser.reload();
     } on FirebaseAuthException catch (e) {
-      appLogger.warning('User reload failed, doc not recreated: ${e.code}');
+      if (!_accountGoneCodes.contains(e.code)) rethrow;
+      appLogger.warning('Account is gone, doc not recreated: ${e.code}');
       return false;
     }
     return currentUser?.uid == firebaseUser.uid;

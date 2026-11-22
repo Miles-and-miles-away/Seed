@@ -844,7 +844,10 @@ describe('users/{userId}/customActions/{actionId}', () => {
   function createTemplate(db, data = validCustom, path = customPath) {
     const batch = writeBatch(db);
     batch.set(doc(db, path), data);
-    batch.update(doc(db, userPath), {lastCustomActionAt: serverTimestamp()});
+    batch.update(doc(db, userPath), {
+      lastCustomActionAt: serverTimestamp(),
+      lastCustomActionId: path.split('/').pop(),
+    });
     return batch.commit();
   }
 
@@ -921,6 +924,30 @@ describe('users/{userId}/customActions/{actionId}', () => {
       batch.set(doc(db, userPath), {
         ...baseUserDoc,
         lastCustomActionAt: serverTimestamp(),
+        lastCustomActionId: 'c1',
+      });
+      await assertFails(batch.commit());
+    });
+
+    test('a batch of two creates on one bump is denied', async () => {
+      const db = aliceDb();
+      const batch = writeBatch(db);
+      batch.set(doc(db, customPath), validCustom);
+      batch.set(doc(db, `${customPath}2`), validCustom);
+      batch.update(doc(db, userPath), {
+        lastCustomActionAt: serverTimestamp(),
+        lastCustomActionId: 'c1',
+      });
+      await assertFails(batch.commit());
+    });
+
+    test('a bump that names another template is denied', async () => {
+      const db = aliceDb();
+      const batch = writeBatch(db);
+      batch.set(doc(db, customPath), validCustom);
+      batch.update(doc(db, userPath), {
+        lastCustomActionAt: serverTimestamp(),
+        lastCustomActionId: 'other',
       });
       await assertFails(batch.commit());
     });
@@ -954,7 +981,10 @@ describe('users/{userId}/customActions/{actionId}', () => {
       const db = aliceDb();
       const batch = writeBatch(db);
       batch.set(doc(db, customPath), validCustom);
-      batch.update(doc(db, userPath), {lastCustomActionAt: Timestamp.now()});
+      batch.update(doc(db, userPath), {
+        lastCustomActionAt: Timestamp.now(),
+        lastCustomActionId: 'c1',
+      });
       await assertFails(batch.commit());
     });
 

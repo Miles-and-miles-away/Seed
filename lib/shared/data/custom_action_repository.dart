@@ -50,6 +50,7 @@ class CustomActionRepository {
             ..update(userRef, {
               AppConstants.fieldLastCustomActionAt:
                   FieldValue.serverTimestamp(),
+              AppConstants.fieldLastCustomActionId: id,
             }))
           .commit();
     }

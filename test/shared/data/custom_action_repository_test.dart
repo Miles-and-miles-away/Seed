@@ -46,14 +46,15 @@ void main() {
     expect(await customActionCount(), 1);
   });
 
-  test('a new template bumps lastCustomActionAt on the user doc', () async {
-    await repository.create(uid, action());
+  test('a new template stamps its time and id on the user doc', () async {
+    final created = await repository.create(uid, action());
 
     final user = await firestore
         .collection(AppConstants.collectionUsers)
         .doc(uid)
         .get();
     expect(user.data()![AppConstants.fieldLastCustomActionAt], isNotNull);
+    expect(user.data()![AppConstants.fieldLastCustomActionId], created.id);
   });
 
   test('distinct choices get distinct templates', () async {

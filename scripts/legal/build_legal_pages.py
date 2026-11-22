@@ -297,6 +297,25 @@ def delete_page(email: str) -> str:
     return page(title, by_lang)
 
 
+NOT_FOUND_TEXT = {
+    'en': 'This page does not exist.',
+    'ja': 'このページは存在しません。',
+    'es': 'Esta página no existe.',
+}
+
+
+def not_found_page() -> str:
+    by_lang = {
+        lang: f'<p>{html.escape(text)}</p>' for lang, text in NOT_FOUND_TEXT.items()
+    }
+    title = {
+        'en': 'Page Not Found',
+        'ja': 'ページが見つかりません',
+        'es': 'Página no encontrada',
+    }
+    return page(title, by_lang)
+
+
 HOME_BETA_BUTTON = {
     'en': 'Help test Seed: join the beta',
     'ja': 'Seedのテストに参加する',
@@ -787,6 +806,7 @@ def main() -> None:
     (OUT / 'delete-account.html').write_text(delete_page(email), encoding='utf-8')
     (OUT / 'index.html').write_text(index_page(email), encoding='utf-8')
     (OUT / 'beta.html').write_text(beta_page(email), encoding='utf-8')
+    (OUT / '404.html').write_text(not_found_page(), encoding='utf-8')
     for name, sections in lists.items():
         print(f'{name}: {len(sections)} sections')
 
