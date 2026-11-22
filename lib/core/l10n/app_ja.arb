@@ -360,13 +360,10 @@
       }
     }
   },
-  "eggStreakResetMessage": "1日空いたため、タマゴのカウントは1日目からやり直しです。",
-  "speciesUnlockHint": "相棒がステージ{stage}（レベル{level}）になると、タマゴが見つかります。タマゴからは新しい相棒が孵化します。",
+  "eggStreakResetMessage": "1日空いたため、タマゴのカウントは最初からやり直しです。",
+  "speciesUnlockHint": "相棒がレベル{level}になると、タマゴが見つかります。タマゴからは新しい相棒が孵化します。",
   "@speciesUnlockHint": {
     "placeholders": {
-      "stage": {
-        "type": "int"
-      },
       "level": {
         "type": "int"
       }

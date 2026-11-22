@@ -751,11 +751,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eggStreakResetMessage =>
-      'You missed a day, so your egg\'s count started again at day 1.';
+      'You missed a day, so your egg\'s count started again.';
 
   @override
-  String speciesUnlockHint(int stage, int level) {
-    return 'When a companion reaches stage $stage (Level $level), you find an egg. A new companion hatches from it.';
+  String speciesUnlockHint(int level) {
+    return 'When a companion reaches Level $level, you find an egg. A new companion hatches from it.';
   }
 
   @override

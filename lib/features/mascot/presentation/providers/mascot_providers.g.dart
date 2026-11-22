@@ -689,6 +689,54 @@ final class HasEggProvider extends $FunctionalProvider<bool, bool, bool>
 
 String _$hasEggHash() => r'001d7c8b459b39dc8ed56e683a3fb21ae8804383';
 
+/// The egg's count as it stands today: a missed day has already ended it,
+/// before the next log writes the restart.
+
+@ProviderFor(eggStreakDays)
+final eggStreakDaysProvider = EggStreakDaysProvider._();
+
+/// The egg's count as it stands today: a missed day has already ended it,
+/// before the next log writes the restart.
+
+final class EggStreakDaysProvider extends $FunctionalProvider<int, int, int>
+    with $Provider<int> {
+  /// The egg's count as it stands today: a missed day has already ended it,
+  /// before the next log writes the restart.
+  EggStreakDaysProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'eggStreakDaysProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$eggStreakDaysHash();
+
+  @$internal
+  @override
+  $ProviderElement<int> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  int create(Ref ref) {
+    return eggStreakDays(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$eggStreakDaysHash() => r'9d38c08028b776000926d6ce9d51bccde366b650';
+
 /// Egg hatching progress (0.0 to 1.0).
 
 @ProviderFor(eggHatchingProgress)
@@ -734,7 +782,66 @@ final class EggHatchingProgressProvider
 }
 
 String _$eggHatchingProgressHash() =>
-    r'1e21a80390cefe4ee20f0e6a3b17cfdc27588aac';
+    r'fc34ab61d7c206a735e53da750164d9e78d9fc89';
+
+/// Counts the logs that started the egg's count again after a missed day.
+
+@ProviderFor(EggStreakResetSignal)
+final eggStreakResetSignalProvider = EggStreakResetSignalProvider._();
+
+/// Counts the logs that started the egg's count again after a missed day.
+final class EggStreakResetSignalProvider
+    extends $NotifierProvider<EggStreakResetSignal, int> {
+  /// Counts the logs that started the egg's count again after a missed day.
+  EggStreakResetSignalProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'eggStreakResetSignalProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$eggStreakResetSignalHash();
+
+  @$internal
+  @override
+  EggStreakResetSignal create() => EggStreakResetSignal();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$eggStreakResetSignalHash() =>
+    r'11b6a15b54b17a888f53c6e00fa1a8178d43c90e';
+
+/// Counts the logs that started the egg's count again after a missed day.
+
+abstract class _$EggStreakResetSignal extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<int, int>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
 
 /// Whether to show the egg discovery celebration.
 /// True if eggPendingDiscovery flag is set.

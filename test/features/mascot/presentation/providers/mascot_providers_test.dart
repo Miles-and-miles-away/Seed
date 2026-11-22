@@ -101,6 +101,32 @@ void main() {
       },
     );
 
+    test('a missed day ends the count before the next log', () async {
+      Future<ProviderContainer> onDay(int day) => pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            egg: EggModel(
+              receivedAt: DateTime(2026, 3),
+              hatchingStreakDays: 12,
+              lastHatchingActivityDate: DateTime(2026, 3, 9, 23),
+            ),
+          ),
+        ),
+        clockProvider.overrideWithValue(() => DateTime(2026, 3, day, 1)),
+      ]);
+
+      for (final day in [9, 10]) {
+        final c = await onDay(day);
+        expect(c.read(eggStreakDaysProvider), 12, reason: 'day $day');
+        expect(c.read(eggHatchingProgressProvider), closeTo(0.4, 0.01));
+      }
+      final missed = await onDay(11);
+      expect(missed.read(eggStreakDaysProvider), 0);
+      expect(missed.read(eggHatchingProgressProvider), 0);
+    });
+
     test('shouldShowEggDiscovery reads the flag from user', () async {
       final c = await _container(
         user: const AppUserModel(

@@ -157,8 +157,9 @@ nav stays visible and the tab it was opened from stays selected.
 - Functionality: rename (edit/check/cancel), switch-mascot dialog,
   mascot thumbnails (always shown, with the egg at the end when one
   exists), a line under them that gives the days left to hatch the egg
-  and the reset rule, or the stage that earns an egg while a species
-  is unowned, evolution timeline (stage names sit below each
+  and the reset rule (after a missed day it says the count started
+  again), or the level that earns an egg while a species is unowned,
+  evolution timeline (stage names sit below each
   stage card, up to two lines), next-evolution progress. While the
   mascot loads the screen shows a spinner under a "Mascot" app bar with
   a back arrow.

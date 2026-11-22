@@ -22,7 +22,7 @@ class EggProgressWidget extends ConsumerWidget {
     if (egg == null) return const SizedBox.shrink();
 
     final progress = ref.watch(eggHatchingProgressProvider);
-    final streakDays = egg.hatchingStreakDays;
+    final streakDays = ref.watch(eggStreakDaysProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
 

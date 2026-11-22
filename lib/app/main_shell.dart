@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/actions.dart';
+import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
 
 import '../core/constants/ui_constants.dart';
 import '../features/mascot/mascot.dart';
@@ -72,6 +74,13 @@ class _MainShellState extends ConsumerState<MainShell> {
             }
           });
         }
+      })
+      // One listener covers every screen that logs an action
+      ..listenManual(eggStreakResetSignalProvider, (_, _) {
+        showEggResetMessage(
+          ScaffoldMessenger.of(context),
+          AppLocalizations.of(context),
+        );
       });
   }
 

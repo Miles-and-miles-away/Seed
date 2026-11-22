@@ -445,6 +445,9 @@ class ActionLogNotifier extends _$ActionLogNotifier {
           ..invalidate(co2TrendDataProvider)
           ..invalidate(co2CategoryDataProvider)
           ..invalidate(monthCalendarDataProvider);
+        if (result.value?.eggStreakReset ?? false) {
+          ref.read(eggStreakResetSignalProvider.notifier).fire();
+        }
       }
 
       // Telemetry must never gate the points animation, which fires as

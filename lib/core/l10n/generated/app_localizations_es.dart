@@ -758,11 +758,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eggStreakResetMessage =>
-      'Te has saltado un día, así que la cuenta de tu huevo ha vuelto a empezar en el día 1.';
+      'Te has saltado un día, así que la cuenta de tu huevo ha vuelto a empezar.';
 
   @override
-  String speciesUnlockHint(int stage, int level) {
-    return 'Cuando un compañero llega a la etapa $stage (Nivel $level), encuentras un huevo. De él eclosiona un nuevo compañero.';
+  String speciesUnlockHint(int level) {
+    return 'Cuando un compañero llega al nivel $level, encuentras un huevo. De él eclosiona un nuevo compañero.';
   }
 
   @override

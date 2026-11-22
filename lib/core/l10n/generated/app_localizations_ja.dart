@@ -725,11 +725,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get eggStreakResetMessage => '1日空いたため、タマゴのカウントは1日目からやり直しです。';
+  String get eggStreakResetMessage => '1日空いたため、タマゴのカウントは最初からやり直しです。';
 
   @override
-  String speciesUnlockHint(int stage, int level) {
-    return '相棒がステージ$stage（レベル$level）になると、タマゴが見つかります。タマゴからは新しい相棒が孵化します。';
+  String speciesUnlockHint(int level) {
+    return '相棒がレベル$levelになると、タマゴが見つかります。タマゴからは新しい相棒が孵化します。';
   }
 
   @override

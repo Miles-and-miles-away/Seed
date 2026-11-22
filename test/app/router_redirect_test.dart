@@ -307,6 +307,31 @@ void main() {
     const exploreTabIndex = 2;
     const profileTabIndex = 3;
 
+    testWidgets('the shell says when a log restarted the egg count', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      await tester.pumpWidget(
+        buildApp(authReturning(createMockUser()), withMascot: true),
+      );
+      await pumpRedirects(tester);
+
+      containerOf(tester).read(eggStreakResetSignalProvider.notifier).fire();
+      await tester.pump();
+
+      // Every route's scaffold draws the snackbar, so look in the shell's.
+      expect(
+        find.descendant(
+          of: find.byType(MainShell),
+          matching: find.text(
+            "You missed a day, so your egg's count started again.",
+          ),
+        ),
+        findsOneWidget,
+      );
+      await disposeAndFlush(tester);
+    });
+
     testWidgets('Explore is the third shell branch', (tester) async {
       setLargeScreenSize(tester);
       await tester.pumpWidget(

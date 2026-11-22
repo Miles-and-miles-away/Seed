@@ -1375,14 +1375,14 @@ abstract class AppLocalizations {
   /// No description provided for @eggStreakResetMessage.
   ///
   /// In en, this message translates to:
-  /// **'You missed a day, so your egg\'s count started again at day 1.'**
+  /// **'You missed a day, so your egg\'s count started again.'**
   String get eggStreakResetMessage;
 
   /// No description provided for @speciesUnlockHint.
   ///
   /// In en, this message translates to:
-  /// **'When a companion reaches stage {stage} (Level {level}), you find an egg. A new companion hatches from it.'**
-  String speciesUnlockHint(int stage, int level);
+  /// **'When a companion reaches Level {level}, you find an egg. A new companion hatches from it.'**
+  String speciesUnlockHint(int level);
 
   /// No description provided for @eggDiscoveryDismiss.
   ///

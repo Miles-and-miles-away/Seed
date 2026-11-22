@@ -27,6 +27,28 @@ const _maxLogWait = Duration(seconds: 30);
 final _waiting =
     Expando<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>>();
 
+// The egg reset message of each messenger, until it closes.
+final _eggReset =
+    Expando<ScaffoldFeatureController<SnackBar, SnackBarClosedReason>>();
+
+/// Tells the user that a missed day started the egg's count again.
+void showEggResetMessage(
+  ScaffoldMessengerState messenger,
+  AppLocalizations l10n,
+) {
+  final shown = _eggReset[messenger] = messenger.showSnackBar(
+    SnackBar(
+      content: Text(l10n.eggStreakResetMessage),
+      behavior: SnackBarBehavior.floating,
+    ),
+  );
+  unawaited(
+    shown.closed.whenComplete(() {
+      if (_eggReset[messenger] == shown) _eggReset[messenger] = null;
+    }),
+  );
+}
+
 /// Logs [action], with a message while the log waits out the rules' gap.
 Future<ActionLogResult?> logActionWithWaitMessage(
   BuildContext context,
@@ -37,15 +59,20 @@ Future<ActionLogResult?> logActionWithWaitMessage(
 }) async {
   final notifier = ref.read(actionLogProvider.notifier);
   final messenger = ScaffoldMessenger.of(context);
+  final l10n = AppLocalizations.of(context);
+  var eggResetCleared = false;
   if (_waiting[messenger] == null &&
       (notifier.isBusy || actionLogCooldown() > Duration.zero)) {
+    // Unlike the other messages, the egg reset is still news after the wait.
+    eggResetCleared = _eggReset[messenger] != null;
+    _eggReset[messenger] = null;
     // Emptied first: a queued message would show after the wait is over.
     messenger
       ..clearSnackBars()
       ..removeCurrentSnackBar();
     final waiting = _waiting[messenger] = messenger.showSnackBar(
       SnackBar(
-        content: Text(AppLocalizations.of(context).actionLogging),
+        content: Text(l10n.actionLogging),
         behavior: SnackBarBehavior.floating,
         duration: _maxLogWait,
       ),
@@ -65,6 +92,9 @@ Future<ActionLogResult?> logActionWithWaitMessage(
   if (!notifier.isBusy && messenger.mounted) {
     _waiting[messenger]?.close();
     _waiting[messenger] = null;
+  }
+  if (eggResetCleared && _eggReset[messenger] == null && messenger.mounted) {
+    showEggResetMessage(messenger, l10n);
   }
   return result;
 }
@@ -133,15 +163,6 @@ Future<void> handleActionTap(
           ),
           behavior: SnackBarBehavior.floating,
           backgroundColor: Theme.of(context).colorScheme.tertiary,
-        ),
-      );
-    }
-
-    if (logResult.eggStreakReset) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context).eggStreakResetMessage),
-          behavior: SnackBarBehavior.floating,
         ),
       );
     }

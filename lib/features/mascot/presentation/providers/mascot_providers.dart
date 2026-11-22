@@ -137,13 +137,31 @@ EggModel? currentEgg(Ref ref) => ref.watch(currentUserProvider).value?.egg;
 @riverpod
 bool hasEgg(Ref ref) => ref.watch(currentEggProvider) != null;
 
-/// Egg hatching progress (0.0 to 1.0).
+/// The egg's count as it stands today: a missed day has already ended it,
+/// before the next log writes the restart.
 @riverpod
-double eggHatchingProgress(Ref ref) {
+int eggStreakDays(Ref ref) {
   final egg = ref.watch(currentEggProvider);
   if (egg == null) return 0;
-  return (egg.hatchingStreakDays / AppConstants.eggHatchingStreakRequired)
-      .clamp(0.0, 1.0);
+  final last = egg.lastHatchingActivityDate;
+  final missedDay =
+      last != null && calendarDaysBetween(last, ref.watch(clockProvider)()) > 1;
+  return missedDay ? 0 : egg.hatchingStreakDays;
+}
+
+/// Egg hatching progress (0.0 to 1.0).
+@riverpod
+double eggHatchingProgress(Ref ref) =>
+    (ref.watch(eggStreakDaysProvider) / AppConstants.eggHatchingStreakRequired)
+        .clamp(0.0, 1.0);
+
+/// Counts the logs that started the egg's count again after a missed day.
+@riverpod
+class EggStreakResetSignal extends _$EggStreakResetSignal {
+  @override
+  int build() => 0;
+
+  void fire() => state++;
 }
 
 /// Whether to show the egg discovery celebration.

@@ -388,13 +388,10 @@
       }
     }
   },
-  "eggStreakResetMessage": "You missed a day, so your egg's count started again at day 1.",
-  "speciesUnlockHint": "When a companion reaches stage {stage} (Level {level}), you find an egg. A new companion hatches from it.",
+  "eggStreakResetMessage": "You missed a day, so your egg's count started again.",
+  "speciesUnlockHint": "When a companion reaches Level {level}, you find an egg. A new companion hatches from it.",
   "@speciesUnlockHint": {
     "placeholders": {
-      "stage": {
-        "type": "int"
-      },
       "level": {
         "type": "int"
       }

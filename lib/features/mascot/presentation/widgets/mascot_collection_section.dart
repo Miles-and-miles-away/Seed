@@ -76,8 +76,12 @@ class MascotCollectionSection extends ConsumerWidget {
   String? _hint(WidgetRef ref, AppLocalizations l10n) {
     final egg = ref.watch(currentEggProvider);
     if (egg != null) {
+      final days = ref.watch(eggStreakDaysProvider);
+      if (days == 0 && egg.hatchingStreakDays > 1) {
+        return l10n.eggStreakResetMessage;
+      }
       return l10n.eggDaysLeftHint(
-        AppConstants.eggHatchingStreakRequired - egg.hatchingStreakDays,
+        AppConstants.eggHatchingStreakRequired - days,
       );
     }
     final species = ref.watch(mascotSpeciesDataProvider).value ?? [];
@@ -88,7 +92,6 @@ class MascotCollectionSection extends ConsumerWidget {
       return null;
     }
     return l10n.speciesUnlockHint(
-      AppConstants.speciesUnlockStage,
       stages[AppConstants.speciesUnlockStage - 1].level,
     );
   }
