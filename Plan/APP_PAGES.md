@@ -160,9 +160,10 @@ exist in release builds.
 - Links: none
 - Functionality: the selected code-drawn hero (breathes, blinks,
   follows the pointer, waves when tapped) beside the matching Rive
-  artboard, a 48 dp static pair, a static cast of all 8 code-drawn
-  stages (tap one to select it), and an app bar button that fires the
-  smile trigger.
+  artboard, a 48 dp static pair, a static cast of every code-drawn
+  stage (tap one to select it), and an app bar button that fires the
+  smile trigger. A species with no Rive file shows the code-drawn
+  mascot alone.
 
 ### Challenges (`/home/challenges`)
 List of six multi-day challenges with state (completed / active /

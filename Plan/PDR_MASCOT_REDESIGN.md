@@ -5,8 +5,9 @@
 section 9 questions on 2026-11-21. The R1 prototype is in code. The
 owner chose the outlined variant (Q4). The code-drawn generation is
 named **v3**. It follows the Rive files `sprout_v2` and `coral_v2`,
-which are its design baseline. The rest look of all 8 v3 characters
-(4 Sprout stages, 4 Coral stages) is in code for owner review.
+which are its design baseline. The rest look of all 12 v3 characters
+(4 stages each of Sprout, Coral and Funghi) is in code for owner
+review.
 **Purpose:** Research brief (DOCUMENT_TYPES 4b). Decide whether
 Seed replaces its image-based Rive mascots with characters drawn
 and animated from Dart code, and define the style, rig, gestures,
@@ -210,6 +211,8 @@ Each species has:
 
 - one golden test that renders all 4 stages x the key poses into a
   single contact sheet image,
+- one golden test that renders all 4 stages x the rest, smile, wave
+  and wink poses at portrait size into a single 4 x 4 sheet image,
 - geometry tests for the number checks in section 2.4.
 
 The owner approves style from the contact sheet. The simulator is
@@ -292,9 +295,29 @@ tall thin branches.
 
 Coral is redesigned in code like every other species (Q2).
 
-**Species 3: Funghi** (Q3), from PLAN_FOR_DESIGNER. A cap reads
-as a head, and the theme (fungi as the planet's recyclers) fits
-Seed. It is the last species in the rollout (R4).
+**Funghi (data id `fungi`).** Species 3 (Q3), from
+PLAN_FOR_DESIGNER. A cap reads as a head, and the theme (fungi as
+the planet's recyclers) fits Seed. It is the last species in the
+rollout (R4). Cream stem body with the face on it, a tan cap, and a
+mint glow that grows at every stage. Funghi has no Rive file, so the
+drawings in the designer brief are its only baseline. The mouth is
+a little smaller than the mouth of the other species, and a blush
+shows at rest. From the Cap stage the eyes sit near the widest part
+of the stem, at least two thirds of an eye height below the cap, so
+that the cap reads as a hat and not as a brow. The eyes are set close
+together, with a clear space between the eyes and the mouth. The
+lower glow of the iris is the mint of the gills. Draw no pale
+scalloped shape near the mouth, because it reads as teeth. The look
+must stay clear of existing commercial mushroom characters: no red
+cap, no round spots on the cap, always visible gills, always arms and
+feet from stage 2.
+
+| Stage | Form |
+|---|---|
+| Spore | Round cream ball with a glowing lower rim and one curled glowing thread on top. No arms. |
+| Cap | Egg-shaped stem with a small tan dome cap, glowing gills under the cap, round arms and feet. |
+| Colony | Larger cap with a glowing patch on top. One baby mushroom at each side, on short glowing threads. |
+| Network | Wide cap with a glowing patch that drips, two baby mushrooms at each side on a longer thread network. |
 
 ## 6. Rollout
 
@@ -308,11 +331,11 @@ Seed. It is the last species in the rollout (R4).
 
 Production does not change until R2 ends.
 
-The owner asked for the stage looks of both species before the
-gesture work. The v3 rest look of all 8 stages is therefore drawn
-first, with a cast line-up golden and one contact sheet golden per
-species (M9). R2 and R3 keep the rest of their scope: the full
-gesture set, the stage morph, the anchors and the `MascotImage`
+The owner asked for the stage looks of all three species before
+the gesture work. The v3 rest look of every stage is therefore
+drawn first, with a cast line-up golden and one contact sheet golden
+per species (M9). R2, R3 and R4 keep the rest of their scope: the
+full gesture set, the stage morph, the anchors and the `MascotImage`
 dispatch.
 
 ## 7. Acceptance criteria

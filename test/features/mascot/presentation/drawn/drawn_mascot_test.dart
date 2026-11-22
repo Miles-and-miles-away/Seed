@@ -23,14 +23,19 @@ final _keyPoses = <String, MascotPose>{
   'look down': const MascotPose(gaze: Offset(0, 1)),
   'smile': const MascotPose(smile: 1),
   'wave': wave(const MascotPose(), 0.5),
+  'wink': const MascotPose(wink: 1, smile: 0.6),
 };
 
 const _stages = [1, 2, 3, 4];
 const _heroSize = 120.0;
 const _thumbSize = 48.0;
+const _portraitSize = 260.0;
 const _thumbPoses = ['rest', 'smile', 'wave'];
-const _sheetSize = Size(1200, 600);
-const _lineUpSize = Size(1200, 460);
+const _portraitPoses = ['rest', 'smile', 'wave', 'wink'];
+const _sheetSize = Size(1320, 600);
+const _portraitSheetSize = Size(1200, 1200);
+const _goldenScale = 2.0;
+final _lineUpSize = Size(drawnSpeciesIds.length * 520, 460);
 const _opaque = 128;
 const _pixelsPerUnit = 2;
 const _eyeSamples = 32;
@@ -132,11 +137,18 @@ Future<void> _expectGolden(
   List<Widget> bands,
   String file,
 ) async {
-  sizeViewport(tester, size: size);
+  sizeViewport(tester, size: size * _goldenScale);
   await tester.pumpWidget(
     Directionality(
       textDirection: TextDirection.ltr,
-      child: RepaintBoundary(child: Column(children: bands)),
+      child: RepaintBoundary(
+        child: FittedBox(
+          child: SizedBox.fromSize(
+            size: size,
+            child: Column(children: bands),
+          ),
+        ),
+      ),
     ),
   );
   await expectLater(
@@ -198,6 +210,22 @@ void main() {
               ]),
           ]),
         ], '${speciesId}_contact_sheet.png');
+      });
+
+      testWidgets('the $speciesId portrait sheet', (tester) async {
+        await _expectGolden(tester, _portraitSheetSize, [
+          _band(Brightness.light, [
+            for (final stage in _stages)
+              _spread([
+                for (final pose in _portraitPoses)
+                  _cell(
+                    drawnMascotPainter(speciesId, stage, _keyPoses[pose]!),
+                    _portraitSize,
+                    'stage $stage $pose',
+                  ),
+              ]),
+          ]),
+        ], '${speciesId}_portrait_sheet.png');
       });
     }
   });

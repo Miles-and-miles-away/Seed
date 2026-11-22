@@ -75,6 +75,15 @@ abstract class DrawnMascotPainter extends CustomPainter {
   Color get outline;
   FacePalette get facePalette;
 
+  /// Mouth size as a share of the face kit's mouth.
+  double get mouthScale => 0.7;
+
+  /// The drop from the eye centres to the mouth, in face units.
+  double get mouthDrop => 112;
+
+  /// The share of the smile blush that shows without a smile.
+  double get restBlush => 0;
+
   /// Paints what stands on the ground and does not move with the body.
   void paintGround(Canvas canvas);
 
@@ -239,8 +248,9 @@ abstract class DrawnMascotPainter extends CustomPainter {
     canvas
       ..translate(rig.face.dx + turn.dx, rig.face.dy + turn.dy)
       ..scale(faceScale);
-    if (pose.smile > 0) {
-      final blush = fill(_blush.withValues(alpha: _blush.a * pose.smile));
+    final blushShare = [pose.smile, pose.wink, restBlush].reduce(math.max);
+    if (blushShare > 0) {
+      final blush = fill(_blush.withValues(alpha: _blush.a * blushShare));
       for (final side in const [-1.0, 1.0]) {
         canvas.drawOval(oval(Offset(side * 215, 118), 84, 50), blush);
       }
@@ -249,8 +259,8 @@ abstract class DrawnMascotPainter extends CustomPainter {
       canvas,
       pose,
       eyeGap: rig.eyeGap / faceScale,
-      mouthDrop: 112,
-      mouthScale: 0.7,
+      mouthDrop: mouthDrop,
+      mouthScale: mouthScale,
     );
   }
 

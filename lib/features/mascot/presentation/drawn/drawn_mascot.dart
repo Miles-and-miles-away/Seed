@@ -7,13 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/features/mascot/presentation/drawn/coral_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/fungi_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/sprout_painter.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 
 /// Species ids that have a code-drawn painter.
-const List<String> drawnSpeciesIds = ['seed', 'coral'];
+const List<String> drawnSpeciesIds = ['seed', 'coral', 'fungi'];
 
 DrawnMascotPainter drawnMascotPainter(
   String speciesId,
@@ -21,6 +22,7 @@ DrawnMascotPainter drawnMascotPainter(
   MascotPose pose = const MascotPose(),
 ]) => switch (speciesId) {
   'coral' => CoralPainter(stage: stage, pose: pose),
+  'fungi' => FungiPainter(stage: stage, pose: pose),
   _ => SproutPainter(stage: stage, pose: pose),
 };
 

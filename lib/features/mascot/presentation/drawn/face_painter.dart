@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
@@ -59,13 +60,16 @@ class FacePainter {
     required double mouthDrop,
     required double mouthScale,
   }) {
-    final open = pose.eyeOpen * (1 - pose.smile);
     for (final side in const [-1.0, 1.0]) {
+      final squeeze = side > 0
+          ? math.max(pose.smile, pose.wink)
+          : pose.smile * (1 - pose.wink);
+      final open = pose.eyeOpen * (1 - squeeze);
       canvas
         ..save()
         ..translate(side * eyeGap / 2 - _eyeCentre.dx, -_eyeCentre.dy);
       if (open < _shutBelow) {
-        _paintShutEye(canvas, pose.smile);
+        _paintShutEye(canvas, squeeze);
       } else {
         _paintOpenEye(canvas, open, pose.gaze);
       }

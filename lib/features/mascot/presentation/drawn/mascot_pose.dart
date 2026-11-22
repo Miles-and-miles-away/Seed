@@ -18,6 +18,7 @@ class MascotPose {
     this.gaze = Offset.zero,
     this.eyeOpen = 1,
     this.smile = 0,
+    this.wink = 0,
   });
 
   /// Body height change as a fraction; the width compensates.
@@ -38,6 +39,9 @@ class MascotPose {
   /// 0 is the rest mouth, 1 is the open happy mouth.
   final double smile;
 
+  /// 1 shuts the screen-right eye and keeps the other eye open.
+  final double wink;
+
   MascotPose copyWith({
     double? squash,
     double? lean,
@@ -47,6 +51,7 @@ class MascotPose {
     Offset? gaze,
     double? eyeOpen,
     double? smile,
+    double? wink,
   }) => MascotPose(
     squash: squash ?? this.squash,
     lean: lean ?? this.lean,
@@ -56,6 +61,7 @@ class MascotPose {
     gaze: gaze ?? this.gaze,
     eyeOpen: eyeOpen ?? this.eyeOpen,
     smile: smile ?? this.smile,
+    wink: wink ?? this.wink,
   );
 }
 

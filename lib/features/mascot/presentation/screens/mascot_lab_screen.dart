@@ -31,8 +31,7 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final rive = _rive[_speciesId]!;
-    final artboard = '${rive.artboard}_stage$_stage';
+    final rive = _rive[_speciesId];
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -44,7 +43,7 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
         ],
       ),
       body: ListView(
-        key: ValueKey(artboard),
+        key: ValueKey('$_speciesId $_stage'),
         padding: const EdgeInsets.all(spacingLg),
         children: [
           MascotHousing(
@@ -56,12 +55,13 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
                   stage: _stage,
                   size: _heroSize,
                 ),
-                MascotImage(
-                  assetPath: rive.asset,
-                  artboardName: artboard,
-                  width: _heroSize,
-                  height: _heroSize,
-                ),
+                if (rive != null)
+                  MascotImage(
+                    assetPath: rive.asset,
+                    artboardName: '${rive.artboard}_stage$_stage',
+                    width: _heroSize,
+                    height: _heroSize,
+                  ),
               ],
             ),
           ),
@@ -75,12 +75,13 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
                 size: _thumbSize,
                 animate: false,
               ),
-              MascotAvatar(
-                assetPath: rive.asset,
-                artboardName: artboard,
-                size: _thumbSize,
-                animate: false,
-              ),
+              if (rive != null)
+                MascotAvatar(
+                  assetPath: rive.asset,
+                  artboardName: '${rive.artboard}_stage$_stage',
+                  size: _thumbSize,
+                  animate: false,
+                ),
             ],
           ),
           const SizedBox(height: spacingLg),
