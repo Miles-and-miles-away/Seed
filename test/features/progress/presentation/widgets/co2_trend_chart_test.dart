@@ -91,5 +91,30 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
     });
+
+    testWidgets('the end label survives an autumn DST change', (tester) async {
+      // Spans the London and New York autumn changes; fails at the old
+      // code under TZ=Europe/London or TZ=America/New_York.
+      final day = DateTime(2027, 11, 8);
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          child: Co2TrendChart(
+            data: Co2TrendData(
+              points: [
+                Co2TrendPoint(date: DateTime(2027, 10, 27), grams: 500),
+                Co2TrendPoint(date: day, grams: 800),
+              ],
+              averageGrams: 650,
+              windowStart: DateTime(2027, 10, 26),
+              windowEnd: DateTime(2027, 11, 9),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Nov 8'), findsOneWidget);
+    });
   });
 }

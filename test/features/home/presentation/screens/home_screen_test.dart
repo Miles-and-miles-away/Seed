@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +18,8 @@ import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dar
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
+import 'package:seed_app/shared/providers/day_change_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -40,12 +44,15 @@ void main() {
       WidgetTester tester, {
       Locale? locale,
       TextScaler textScaler = TextScaler.noScaling,
+      Stream<List<MascotModel>>? mascots,
     }) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            // Mock hasMascotProvider to return false (show mascot selection prompt)
             hasMascotProvider.overrideWithValue(false),
+            allMascotsProvider.overrideWith(
+              (_) => mascots ?? Stream.value(const <MascotModel>[]),
+            ),
             homeVisitSignalProvider.overrideWith(_StubHomeVisitSignal.new),
           ],
           child: MaterialApp(
@@ -130,6 +137,17 @@ void main() {
       await disposeAndFlush(tester);
     });
 
+    testWidgets('no mascot prompt while the user doc loads', (tester) async {
+      final pending = StreamController<List<MascotModel>>();
+      addTearDown(pending.close);
+
+      await pumpHomeScreen(tester, mascots: pending.stream);
+
+      expect(find.byIcon(Icons.pets), findsNothing);
+
+      await disposeAndFlush(tester);
+    });
+
     testWidgets('the mascot opens as a labelled button', (tester) async {
       final semantics = tester.ensureSemantics();
       final router = GoRouter(
@@ -186,6 +204,71 @@ void main() {
       expect(find.text(_mascotStub), findsOneWidget);
 
       semantics.dispose();
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('the streak drops to 0 when midnight breaks it', (
+      tester,
+    ) async {
+      var now = DateTime(2026, 6, 17, 23, 50);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            languageStoreOverride(),
+            clockProvider.overrideWithValue(() => now),
+            homeVisitSignalProvider.overrideWith(_StubHomeVisitSignal.new),
+            hasMascotProvider.overrideWithValue(true),
+            activeMascotProvider.overrideWith(
+              (_) => Stream.value(
+                const MascotModel(id: 'm', speciesId: 'seed', name: 'Pip'),
+              ),
+            ),
+            userOverride(
+              AppUserModel(
+                uid: 'u',
+                email: 'e',
+                currentStreak: 9,
+                lastActionDate: DateTime(2026, 6, 16, 12),
+              ),
+            ),
+            activeMascotAssetPathProvider.overrideWith(
+              (_) => 'assets/images/mascot/seed_stage1.svg',
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: appTheme(Brightness.light),
+            home: const HomeScreen(),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      String? streak() => tester
+          .widget<Text>(
+            find
+                .descendant(
+                  of: find
+                      .ancestor(
+                        of: find.byIcon(Icons.local_fire_department),
+                        matching: find.byType(Row),
+                      )
+                      .first,
+                  matching: find.byType(Text),
+                )
+                .first,
+          )
+          .data;
+      expect(streak(), '9');
+
+      now = DateTime(2026, 6, 18, 0, 0, 2);
+      ProviderScope.containerOf(
+        tester.element(find.byType(HomeScreen)),
+      ).read(dayChangeProvider.notifier).checkDayChanged();
+      await tester.pump();
+
+      expect(streak(), '0');
       await disposeAndFlush(tester);
     });
 

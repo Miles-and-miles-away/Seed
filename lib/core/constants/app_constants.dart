@@ -53,8 +53,18 @@ abstract class AppConstants {
   static const maxMascotsPerUser = 20;
   static const maxMascotNameLength = 20;
 
+  // Matches the per-write totalCo2Grams cap in firestore.rules.
+  static const maxBankCo2Grams = 100000000;
+
+  // Matches the uniqueActionIds size cap in firestore.rules.
+  static const maxUniqueActionIds = 2000;
+
+  // Matches the customActions name size cap (UTF-16 units) in firestore.rules.
+  static const maxCustomActionNameLength = 500;
+
   // Auth throttling
   static const authCooldownSeconds = 3;
+  static const verificationResendCooldownSeconds = 60;
 
   // User profile limits
   static const maxDisplayNameLength = 50;
@@ -72,6 +82,9 @@ abstract class AppConstants {
   static const fieldCurrentStreak = 'currentStreak';
   static const fieldLongestStreak = 'longestStreak';
   static const fieldLastActionDate = 'lastActionDate';
+  static const fieldLastActionUtcOffsetMinutes = 'lastActionUtcOffsetMinutes';
+  static const fieldLastCustomActionAt = 'lastCustomActionAt';
+  static const fieldLastCustomActionId = 'lastCustomActionId';
   static const fieldTotalCo2Grams = 'totalCo2Grams';
   static const fieldTotalActionsCount = 'totalActionsCount';
   static const fieldCategoryActionCounts = 'categoryActionCounts';

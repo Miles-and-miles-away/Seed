@@ -265,7 +265,7 @@ abstract class AppLocalizations {
   /// No description provided for @actionLogged.
   ///
   /// In en, this message translates to:
-  /// **'Action logged! {points} points earned'**
+  /// **'{points, plural, one{Action logged! 1 point earned} other{Action logged! {points} points earned}}'**
   String actionLogged(int points);
 
   /// No description provided for @actionLogging.
@@ -661,8 +661,14 @@ abstract class AppLocalizations {
   /// No description provided for @errorActionRejected.
   ///
   /// In en, this message translates to:
-  /// **'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.'**
+  /// **'This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device\'s date and time are set automatically.'**
   String get errorActionRejected;
+
+  /// No description provided for @errorSavingTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'A saving above {limit} is too large to log as one action. Check the distances and amounts.'**
+  String errorSavingTooLarge(String limit);
 
   /// No description provided for @errorLogActionOffline.
   ///
@@ -946,6 +952,24 @@ abstract class AppLocalizations {
   /// **'Change Password'**
   String get accountSettingsChangePassword;
 
+  /// No description provided for @accountSettingsYourData.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Data'**
+  String get accountSettingsYourData;
+
+  /// No description provided for @accountSettingsExportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Download My Data'**
+  String get accountSettingsExportData;
+
+  /// No description provided for @accountSettingsExportDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy of everything Seed stores for your account'**
+  String get accountSettingsExportDataSubtitle;
+
   /// No description provided for @accountSettingsDeleteAccount.
   ///
   /// In en, this message translates to:
@@ -1017,6 +1041,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email updated successfully'**
   String get accountSettingsEmailUpdated;
+
+  /// No description provided for @accountSettingsEmailLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a link to your new email address. Open it to finish the change.'**
+  String get accountSettingsEmailLinkSent;
 
   /// No description provided for @accountSettingsPasswordUpdated.
   ///
@@ -3136,6 +3166,12 @@ abstract class AppLocalizations {
   /// **'Build both options to compare them'**
   String get calculatorNeedBothOptions;
 
+  /// Shown in place of the result when both journeys round to the same emissions
+  ///
+  /// In en, this message translates to:
+  /// **'Both options have the same emissions, so there is no saving to log'**
+  String get calculatorSameEmissions;
+
   /// Tooltip on the remove button of a card inside a comparison column
   ///
   /// In en, this message translates to:
@@ -3338,6 +3374,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a quantity of 0 g or more'**
   String get foodQuantityInvalid;
+
+  /// No description provided for @quantityTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'That number is too large'**
+  String get quantityTooLarge;
 
   /// No description provided for @quantityAmbiguousSeparator.
   ///
@@ -3556,7 +3598,7 @@ abstract class AppLocalizations {
   /// Body: the two meals are inside the data resolution
   ///
   /// In en, this message translates to:
-  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
+  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is below what the underlying research can reliably tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
   String foodVerdictTooClose(int percent);
 
   /// Body: the meals come from different studies
@@ -3586,7 +3628,7 @@ abstract class AppLocalizations {
   /// Shown instead of a verdict when two meals are within the comparison gate
   ///
   /// In en, this message translates to:
-  /// **'These two are too close to call. The gap sits inside what the underlying research can actually resolve, so we show both totals without naming a winner.'**
+  /// **'These two are too close to call. The gap is smaller than the underlying research can reliably resolve, so we show both totals without naming a winner.'**
   String get foodComparisonTooClose;
 
   /// No description provided for @foodComparisonDelta.

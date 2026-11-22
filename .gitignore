@@ -82,6 +82,7 @@ functions/lib/
 
 # Service account keys
 **/serviceAccountKey.json
+*-firebase-adminsdk-*.json
 
 Plan/notes.md
 

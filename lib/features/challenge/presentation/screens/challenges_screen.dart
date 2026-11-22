@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/domain/models/active_multi_day_challenge.dart';
@@ -306,6 +307,7 @@ class _ChallengeTemplateCard extends ConsumerWidget {
       await ref
           .read(multiDayChallengeProvider.notifier)
           .startChallenge(template.id);
+      if (context.mounted) _reportFailure(context, ref, l10n);
     }
   }
 
@@ -321,6 +323,23 @@ class _ChallengeTemplateCard extends ConsumerWidget {
     );
     if (confirmed && context.mounted) {
       await ref.read(multiDayChallengeProvider.notifier).abandonChallenge();
+      if (context.mounted) _reportFailure(context, ref, l10n);
     }
+  }
+
+  void _reportFailure(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
+    final error = ref.read(multiDayChallengeProvider).error;
+    if (error == null) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          isOfflineError(error) ? l10n.errorNetwork : l10n.errorGeneric,
+        ),
+      ),
+    );
   }
 }

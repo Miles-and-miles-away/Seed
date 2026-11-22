@@ -84,12 +84,28 @@ void main() {
       expect(range.start.weekday, DateTime.monday);
     });
 
+    test('previous of thisWeek on a Wednesday is last Mon-Wed', () {
+      final now = DateTime(2026, 4, 29, 9);
+      final range = TimePeriodRange.previous(TimePeriod.thisWeek, now: now);
+
+      expect(range.start, DateTime(2026, 4, 20));
+      expect(range.end, DateTime(2026, 4, 23));
+    });
+
     test('previous of thisMonth handles January -> previous December', () {
       final now = DateTime(2026, 1, 10);
       final range = TimePeriodRange.previous(TimePeriod.thisMonth, now: now);
 
       expect(range.start, DateTime(2025, 12));
-      expect(range.end, DateTime(2026));
+      expect(range.end, DateTime(2025, 12, 11));
+    });
+
+    test('previous of thisMonth stops at the end of a shorter month', () {
+      final now = DateTime(2026, 3, 31);
+      final range = TimePeriodRange.previous(TimePeriod.thisMonth, now: now);
+
+      expect(range.start, DateTime(2026, 2));
+      expect(range.end, DateTime(2026, 3));
     });
 
     test('previous of allTime is a zero-width range at today', () {

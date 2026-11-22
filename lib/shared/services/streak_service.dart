@@ -28,6 +28,7 @@ StreakUpdateResult calculateStreakUpdate({
   required int currentStreak,
   required int longestStreak,
   required DateTime now,
+  int? lastActionUtcOffsetMinutes,
 }) {
   if (lastActionDate == null) {
     // First action ever - start streak at 1
@@ -38,7 +39,10 @@ StreakUpdateResult calculateStreakUpdate({
     );
   }
 
-  final difference = calendarDaysBetween(lastActionDate, now);
+  final difference = calendarDaysBetween(
+    localDateAt(lastActionDate, lastActionUtcOffsetMinutes),
+    now,
+  );
 
   if (difference <= 0) {
     // Same day - streak continues but doesn't increment. Negative
@@ -87,9 +91,11 @@ int displayedStreak({
   required int storedStreak,
   required DateTime? lastActionDate,
   required DateTime now,
+  int? lastActionUtcOffsetMinutes,
 }) {
   if (lastActionDate == null) return storedStreak;
-  if (calendarDaysBetween(lastActionDate, now) > 1) return 0;
+  final last = localDateAt(lastActionDate, lastActionUtcOffsetMinutes);
+  if (calendarDaysBetween(last, now) > 1) return 0;
   return storedStreak;
 }
 

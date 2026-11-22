@@ -22,12 +22,9 @@ bool isConditionMet(EcoDexCondition condition, AppUserModel user) {
       categoriesCoveredCount(user) >= count,
     UniqueActionsLoggedCondition(:final count) =>
       user.uniqueActionIds.length >= count,
-    // Social sign-in fills name and photo up front, so without the
-    // action gate this lands on top of the first-action entry.
+    // No photo: only social sign-in sets one. The gate skips the first log.
     ProfileCompleteCondition() =>
-      user.displayName != null &&
-          user.photoUrl != null &&
-          user.totalActionsCount >= 2,
+      user.displayName != null && user.totalActionsCount >= 2,
     WalkthroughCompleteCondition() => WalkthroughItem.checklist.every(
       (item) => user.walkthroughFound.contains(item.name),
     ),

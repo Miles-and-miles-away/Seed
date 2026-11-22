@@ -219,6 +219,8 @@ class NotificationService {
 
     final sameMinute = <int, int>{};
     for (final reminder in reminders) {
+      // One falls due during the awaits above, and the plugin throws on it.
+      if (!reminder.time.isAfter(DateTime.now())) continue;
       final channel = channels[reminder.channelId]!;
       final minute =
           reminder.time.millisecondsSinceEpoch ~/
