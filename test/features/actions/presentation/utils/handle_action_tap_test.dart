@@ -83,9 +83,11 @@ class _FakeDiscovery extends EcoDexDiscoveryNotifier {
   int? receivedMinCount;
 
   @override
-  Future<List<String>> discoverNewEntries({int? minActionsCount}) async {
+  Future<({List<String> unlocked, List<String> claimed})> discoverNewEntries({
+    int? minActionsCount,
+  }) async {
     receivedMinCount = minActionsCount;
-    return newIds;
+    return (unlocked: newIds, claimed: newIds);
   }
 }
 

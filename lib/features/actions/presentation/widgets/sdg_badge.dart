@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:seed_app/core/theme/app_colors.dart';
+
 /// The SDG numbers in 1..17, ascending; anything else is dropped.
 List<int> parsedSdgNumbers(List<String> sdgNumbers) =>
     sdgNumbers
@@ -29,7 +31,7 @@ class SdgNumberBadge extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: Colors.white,
+          color: inkOnFill(color),
           fontWeight: FontWeight.bold,
         ),
       ),

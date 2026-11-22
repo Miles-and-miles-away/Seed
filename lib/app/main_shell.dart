@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seed_app/features/actions/actions.dart';
-import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/eco_dex.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/settings/presentation/widgets/streak_milestone_dialog.dart';
@@ -42,7 +41,6 @@ class _MainShellState extends ConsumerState<MainShell> {
   final _shownMilestoneWeeks = <int>{};
   final _shownEvolutions = <String>{};
   final _shownHatchIds = <String>{};
-  String? _ecoDexCheckedUid;
 
   @override
   void initState() {
@@ -81,11 +79,12 @@ class _MainShellState extends ConsumerState<MainShell> {
         (_, _) => _scheduleCelebrations(),
         fireImmediately: true,
       )
-      ..listenManual(currentUserProvider.select((u) => u.value?.uid), (_, uid) {
-        if (uid == null || uid == _ecoDexCheckedUid) return;
-        _ecoDexCheckedUid = uid;
-        unawaited(discoverAndCelebrateEcoDex(context, ref));
-      }, fireImmediately: true);
+      // Derived from the user doc, so unlocks from any log path show here.
+      ..listenManual(
+        ecoDexNewUnlocksProvider,
+        (_, _) => _scheduleCelebrations(),
+        fireImmediately: true,
+      );
   }
 
   // One pass per frame, so changes that land together queue in a fixed order.
@@ -130,6 +129,9 @@ class _MainShellState extends ConsumerState<MainShell> {
         .firstOrNull;
     if (hatched != null && _shownHatchIds.add(hatched.id)) {
       unawaited(showEggHatchingCelebration(context, hatched));
+    }
+    if (ref.read(ecoDexNewUnlocksProvider).value?.isNotEmpty ?? false) {
+      unawaited(discoverAndCelebrateEcoDex(context, ref));
     }
   }
 

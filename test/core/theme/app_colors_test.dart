@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -5,6 +8,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/theme/app_theme.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -189,6 +193,12 @@ void main() {
       'warning': AppColors.warning,
       'celebrationOrange': AppColors.celebrationOrange,
       'gold': AppColors.gold,
+      for (final e
+          in jsonDecode(File('data/app/sdg_goals.json').readAsStringSync())
+              as List<dynamic>)
+        'SDG ${(e as Map<String, dynamic>)['number']}': SdgGoal.fromJson(
+          e,
+        ).color,
     };
     for (final MapEntry(:key, :value) in fills.entries) {
       test('$key label reads at body-text contrast', () {

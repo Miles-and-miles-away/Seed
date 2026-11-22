@@ -63,9 +63,9 @@ class _FilterChipRowState extends State<FilterChipRow> {
 /// Chrome shared by both filter rows: white fill, outlined, [accent]
 /// when selected. [shape] and [avatar] are what keep the rows apart.
 ///
-/// [onAccent] is what reads on [accent], so it is the caller's: white
-/// over a brand colour, `onPrimary` over the scheme's own primary,
-/// which is a light tone in the dark theme.
+/// [onAccent] is what reads on [accent], so it is the caller's:
+/// [inkOnFill] over a brand colour, `onPrimary` over the scheme's own
+/// primary, which is a light tone in the dark theme.
 Widget filterChip(
   BuildContext context, {
   required String label,

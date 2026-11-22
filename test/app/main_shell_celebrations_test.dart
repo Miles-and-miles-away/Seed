@@ -50,10 +50,12 @@ class _FakeDiscovery extends EcoDexDiscoveryNotifier {
   List<String> newIds = const [];
 
   @override
-  Future<List<String>> discoverNewEntries({int? minActionsCount}) async {
+  Future<({List<String> unlocked, List<String> claimed})> discoverNewEntries({
+    int? minActionsCount,
+  }) async {
     final ids = newIds;
     newIds = const [];
-    return ids;
+    return (unlocked: ids, claimed: ids);
   }
 }
 
@@ -397,9 +399,37 @@ void main() {
     final discovery = _FakeDiscovery()..newIds = ['forests_01'];
     await _pumpApp(
       tester,
-      await _store(_userDoc(level: 12, points: calculatePointsForLevel(12))),
+      await _store(
+        _userDoc(
+          level: 12,
+          points: calculatePointsForLevel(12),
+          extra: {AppConstants.fieldTotalActionsCount: 1},
+        ),
+      ),
       discovery: discovery,
     );
+
+    expect(find.byType(EcoDexCelebrationScreen), findsOneWidget);
+    await _popTop(tester);
+    await _unmount(tester);
+  });
+
+  testWidgets('an unlock from a write outside the log tap is celebrated', (
+    tester,
+  ) async {
+    final discovery = _FakeDiscovery();
+    final fs = await _store(
+      _userDoc(level: 12, points: calculatePointsForLevel(12)),
+    );
+    await _pumpApp(tester, fs, discovery: discovery);
+    expect(find.byType(EcoDexCelebrationScreen), findsNothing);
+
+    // A bank or calendar reproduce write, which skips handleActionTap.
+    discovery.newIds = ['forests_01'];
+    await fs.collection(AppConstants.collectionUsers).doc(_uid).update({
+      AppConstants.fieldTotalActionsCount: 1,
+    });
+    await _settle(tester, 40);
 
     expect(find.byType(EcoDexCelebrationScreen), findsOneWidget);
     await _popTop(tester);

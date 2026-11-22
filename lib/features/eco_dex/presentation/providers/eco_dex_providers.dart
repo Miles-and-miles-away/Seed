@@ -131,24 +131,35 @@ Future<List<String>> ecoDexNewUnlocks(Ref ref) async {
 /// user had just earned.
 @Riverpod(keepAlive: true)
 class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
+  // uid:entryId already handed out, so two callers never celebrate one entry.
+  final _claimed = <String>{};
+
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
-  /// Discovers entries whose conditions are met.
-  /// Returns the list of newly discovered entry IDs.
+  /// Discovers entries whose conditions are met and saves them.
+  /// Returns every unlocked, unsaved entry ID and, as `claimed`, the ones
+  /// no earlier call has returned as claimed.
   ///
   /// [minActionsCount] is the expected post-log total: the user-doc
   /// stream emission races the log transaction, so without waiting an
   /// unlock earned by that very action would be missed until the next
   /// one.
-  Future<List<String>> discoverNewEntries({int? minActionsCount}) async {
+  Future<({List<String> unlocked, List<String> claimed})> discoverNewEntries({
+    int? minActionsCount,
+  }) async {
+    const none = (unlocked: <String>[], claimed: <String>[]);
     if (minActionsCount != null) {
       await _waitForUserCount(minActionsCount);
     }
     final newUnlocks = await ref.read(ecoDexNewUnlocksProvider.future);
-    if (newUnlocks.isEmpty) return [];
+    if (newUnlocks.isEmpty) return none;
     final user = ref.read(currentUserProvider).value;
-    if (user == null) return [];
+    if (user == null) return none;
+    final claimed = [
+      for (final id in newUnlocks)
+        if (_claimed.add('${user.uid}:$id')) id,
+    ];
 
     // Not awaited: offline the write only completes on server ack, and
     // the celebrations must not wait for it.
@@ -157,7 +168,7 @@ class EcoDexDiscoveryNotifier extends _$EcoDexDiscoveryNotifier {
         (Object e) => appLogger.warning('Eco-Dex discovery not saved: $e'),
       ),
     );
-    return newUnlocks;
+    return (unlocked: newUnlocks, claimed: claimed);
   }
 
   @protected

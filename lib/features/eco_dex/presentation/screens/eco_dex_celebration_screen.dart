@@ -152,22 +152,22 @@ Future<void> showEcoDexCelebrations(
   }
 }
 
-/// Records newly unlocked Eco-Dex entries, celebrates them and returns
-/// their ids. See [EcoDexDiscoveryNotifier.discoverNewEntries] for
-/// [minActionsCount].
+/// Records newly unlocked Eco-Dex entries, celebrates the ones no other
+/// caller has claimed, and returns every unlocked id. See
+/// [EcoDexDiscoveryNotifier.discoverNewEntries] for [minActionsCount].
 Future<List<String>> discoverAndCelebrateEcoDex(
   BuildContext context,
   WidgetRef ref, {
   int? minActionsCount,
 }) async {
-  final newIds = await ref
+  final (:unlocked, :claimed) = await ref
       .read(ecoDexDiscoveryProvider.notifier)
       .discoverNewEntries(minActionsCount: minActionsCount);
-  if (newIds.isEmpty || !context.mounted) return newIds;
+  if (claimed.isEmpty || !context.mounted) return unlocked;
   final ecoDex = await ref.read(ecoDexDataProvider.future);
   final byId = {for (final e in ecoDex.entries) e.id: e};
-  final entries = newIds.map((id) => byId[id]).whereType<EcoDexEntry>();
-  if (!context.mounted) return newIds;
+  final entries = claimed.map((id) => byId[id]).whereType<EcoDexEntry>();
+  if (!context.mounted) return unlocked;
   await showEcoDexCelebrations(context, entries: entries.toList());
-  return newIds;
+  return unlocked;
 }
