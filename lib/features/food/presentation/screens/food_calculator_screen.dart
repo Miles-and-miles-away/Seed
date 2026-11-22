@@ -144,7 +144,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       for (final ingredients in options)
         FoodCalculator.mealCo2eGrams(itemsById, ingredients),
     ];
-    final summary = options.every((i) => i.isNotEmpty)
+    final summary = options.every((i) => i.any((x) => x.grams > 0))
         ? compareTotals(totals)
         : null;
     // Marking a column "best" is a verdict in its own right, so it
