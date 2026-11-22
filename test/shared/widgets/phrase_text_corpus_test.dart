@@ -352,7 +352,7 @@ void main() {
   test('corpora are complete', () {
     expect(_arb.length, greaterThan(600));
     expect(_facts, hasLength(366));
-    expect(_actions, hasLength(91));
+    expect(_actions, hasLength(92));
     expect(_challenges, isNotEmpty);
     expect(_dailyCard, hasLength(24));
     expect(_dailyCard, contains('「電気を消す」を記録して、今日のエコファクトを解除しよう'));

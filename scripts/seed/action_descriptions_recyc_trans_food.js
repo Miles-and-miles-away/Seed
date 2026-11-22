@@ -11,7 +11,7 @@
 
 const descriptions = {
   // -------------------------------------------------------
-  // RECYCLING (10 actions)
+  // RECYCLING (11 actions)
   // -------------------------------------------------------
   recycle_aluminum_can: {
     en:
@@ -325,63 +325,71 @@ const descriptions = {
 
   recycle_textiles: {
     en:
-      'Recycling a bag of textiles prevents '
-      + 'roughly **40,000g** of CO2 by '
-      + 'diverting fabric from landfills and '
-      + 'reducing demand for virgin fibre '
-      + 'production. People are estimated to '
-      + 'buy 60% more clothes and wear them for '
-      + 'half as long '
-      + '([UNEP](https://www.unep.org/news-and'
-      + '-stories/story/environmental-costs-fast'
-      + '-fashion)). Reusing textiles '
-      + 'avoids the water-intensive cotton '
-      + 'farming and petroleum-based synthetic '
-      + 'fibre manufacturing processes '
-      + '([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)). Even worn-out fabrics can be '
-      + 'downcycled into insulation or rags.',
+      'Putting one worn-out T-shirt in a textile bank instead of th'
+      + 'e bin saves about **120g** of CO2. A cotton T-shirt weighs a'
+      + 'bout 0.25kg ([WRAP](https://web.archive.org/web/2020/https:/'
+      + '/www.truevaluemetrics.org/DBpdfs/Issues/SupplyChain/Textiles'
+      + '/WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf)). In the UK, a tonn'
+      + 'e of clothing in landfill causes about 497kg of CO2, but sen'
+      + 'ding it for recycling causes about 5kg ([DESNZ 2026](https:/'
+      + '/assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c6'
+      + '2ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx)).'
+      + ' This figure counts only the landfill emissions you avoid. I'
+      + 'f the garment can still be worn, donating it saves much more'
+      + '.',
     ja:
-      '衣類を袋ごとリサイクルすると約'
-      + '**40,000g**のCO2を削減'
-      + 'でき、布地の埋立処分を回避し'
-      + 'バージン繊維の生産需要を減らせ'
-      + 'ます。人々は60%多くの衣類を購入し、'
-      + '着用期間は半分になっていると'
-      + '推定されています（[UNEP](https://www'
-      + '.unep.org/news-and-stories/story'
-      + '/environmental-costs-fast-fashion)）。'
-      + '繊維の再利用は、水資源を大量に'
-      + '使う綿花栽培や石油由来の合成繊維'
-      + '製造を回避します（[DEFRA 2024]'
-      + '(https://www.gov.uk/government'
-      + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)）。'
-      + '着古した布地も断熱材やウエスに'
-      + 'ダウンサイクルできます。',
+      '着られなくなったTシャツ1枚をごみではなく回収ボックスに出すと、約**120g**のCO2を削減できます。綿のTシャツは'
+      + '1枚約0.25kgです（[WRAP](https://web.archive.org/web/2020/https://'
+      + 'www.truevaluemetrics.org/DBpdfs/Issues/SupplyChain/Textiles/'
+      + 'WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf)）。イギリスでは、服1トンを埋め立てると約'
+      + '497kgのCO2が出ますが、リサイクルに回すと約5kgです（[DESNZ 2026](https://assets.p'
+      + 'ublishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-'
+      + 'conversion-factors-2026-flat-format-revised.xlsx)）。この数字は、埋め立'
+      + 'てで出るはずだったCO2だけを数えています。まだ着られる服なら、寄付するほうがずっと多く削減できます。',
     es:
-      'Reciclar una bolsa de textiles evita '
-      + 'unas **40.000g** de CO2 al '
-      + 'desviar telas de los vertederos y '
-      + 'reducir la demanda de producción de '
-      + 'fibra virgen. Se estima que la gente '
-      + 'compra un 60% más de ropa y la usa la '
-      + 'mitad de tiempo '
-      + '([UNEP](https://www.unep.org/news-and'
-      + '-stories/story/environmental-costs-fast'
-      + '-fashion)). '
-      + 'Reutilizar textiles evita el cultivo '
-      + 'de algodón intensivo en agua y la '
-      + 'fabricación de fibras sintéticas '
-      + 'derivadas del petróleo '
-      + '([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)). Incluso las telas gastadas '
-      + 'pueden reciclarse como aislamiento '
-      + 'o trapos.',
+      'Llevar una camiseta gastada al contenedor textil en lugar de'
+      + ' a la basura ahorra unos **120g** de CO2. Una camiseta de al'
+      + 'godón pesa unos 0,25kg ([WRAP](https://web.archive.org/web/2'
+      + '020/https://www.truevaluemetrics.org/DBpdfs/Issues/SupplyCha'
+      + 'in/Textiles/WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf)). En el '
+      + 'Reino Unido, una tonelada de ropa en el vertedero genera uno'
+      + 's 497kg de CO2, pero enviarla a reciclar genera unos 5kg ([D'
+      + 'ESNZ 2026](https://assets.publishing.service.gov.uk/media/6a'
+      + '6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-form'
+      + 'at-revised.xlsx)). Esta cifra solo cuenta las emisiones del '
+      + 'vertedero que evitas. Si la prenda aún se puede usar, donarl'
+      + 'a ahorra mucho más.',
+  },
+
+  donate_clothes: {
+    en:
+      'Giving one wearable T-shirt to a charity shop or resale inst'
+      + 'ead of throwing it away saves about **1.7kg** of CO2. Making'
+      + ' a new cotton T-shirt causes about 4.2kg of CO2 ([WRAP](http'
+      + 's://www.wrap.ngo/sites/default/files/2025-02/WRAP-Textiles-2'
+      + '030-Displacement-rate-report-REV1.pdf)). Not every second-ha'
+      + 'nd purchase replaces a new one: WRAP found that about 65% do'
+      + ' for UK peer-to-peer resale, and this figure uses a lower 50'
+      + '%, minus 0.4kg for transport and packaging. Heavier clothes '
+      + 'such as jeans save more.',
+    ja:
+      'まだ着られるTシャツ1枚を捨てずに寄付や再販売に回すと、約**1.7kg**のCO2を削減できます。新しい綿のTシャツを'
+      + '作ると、約4.2kgのCO2が出ます（[WRAP](https://www.wrap.ngo/sites/default'
+      + '/files/2025-02/WRAP-Textiles-2030-Displacement-rate-report-R'
+      + 'EV1.pdf)）。古着を買っても、いつも新品を買うのをやめるわけではありません。WRAPによると、イギリスの個人間の売'
+      + 'り買いでは約65%が新品の代わりになっています。この数字はそれより低い50%を使い、運送と包装の0.4kgを引いています'
+      + '。ジーンズのような重い服なら、もっと多く削減できます。',
+    es:
+      'Dar una camiseta que aún se puede usar a una tienda solidari'
+      + 'a o de reventa en lugar de tirarla ahorra unos **1,7kg** de '
+      + 'CO2. Fabricar una camiseta de algodón nueva genera unos 4,2k'
+      + 'g de CO2 ([WRAP](https://www.wrap.ngo/sites/default/files/20'
+      + '25-02/WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf))'
+      + '. No todas las compras de segunda mano sustituyen a una nuev'
+      + 'a: WRAP calculó que lo hacen un 65% en la reventa entre part'
+      + 'iculares en el Reino Unido, y esta cifra usa un 50%, más baj'
+      + 'o, y resta 0,4kg de transporte y embalaje. La ropa más pesad'
+      + 'a, como los vaqueros, ahorra más.',
   },
 
   recycle_batteries: {

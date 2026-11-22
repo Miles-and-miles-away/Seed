@@ -246,14 +246,14 @@
     {
       "action_id": "recycle_textiles",
       "category": "recycling",
-      "name_en": "Recycle Textiles",
-      "name_ja": "衣類をリサイクル",
-      "name_es": "Reciclar textiles",
-      "description_en": "Donate or recycle old clothing and textiles",
-      "description_ja": "古い衣類を寄付またはリサイクル",
-      "description_es": "Donar o reciclar ropa y textiles viejos",
-      "co2_grams": 40000,
-      "calculation_notes": "per-bag: ~3kg x 13kg/kg",
+      "name_en": "Recycle Worn-Out Clothes",
+      "name_ja": "着られない服をリサイクル",
+      "name_es": "Reciclar ropa gastada",
+      "description_en": "Put a worn-out garment in a textile bank instead of the bin",
+      "description_ja": "着られなくなった服を、ごみではなく回収ボックスへ",
+      "description_es": "Llevar una prenda gastada al contenedor textil en vez de a la basura",
+      "co2_grams": 120,
+      "calculation_notes": "per garment, cotton T-shirt basis. Weight: WRAP 2012, about 120 million T-shirts at about 30,000 tonnes = 0.25 kg each. DESNZ 2026 clothing waste disposal: landfill 496.80605 minus closed-loop 4.65358 = 492.15 kg CO2e per tonne. 0.25 kg x 0.49215 = 123 g, rounded down to 120 g. DESNZ waste factors give no credit for avoided virgin fibre, so this counts only the avoided landfill emissions. A wearable garment belongs in donate_clothes.",
       "effort": 2,
       "frequency": 2,
       "impact": 3,
@@ -264,8 +264,76 @@
       ],
       "is_active": true,
       "sort_order": 8,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Waste disposal | Other | Clothing |  | Landfill | tonnes | kg CO2e | 496.80605",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Waste disposal | Other | Clothing |  | Closed-loop | tonnes | kg CO2e | 4.65358",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2012, Valuing Our Clothes: the evidence base (technical report), p.42 (archived copy)",
+          "url": "https://web.archive.org/web/2020/https://www.truevaluemetrics.org/DBpdfs/Issues/SupplyChain/Textiles/WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf",
+          "quote": "around 120 million t-shirts are re-used (ca 30,000 tonnes) in some form each year",
+          "accessed": "2026-11-22"
+        }
+      ]
+    },
+    {
+      "action_id": "donate_clothes",
+      "category": "recycling",
+      "name_en": "Donate Clothes for Reuse",
+      "name_ja": "服を寄付して再利用",
+      "name_es": "Donar ropa para reutilizar",
+      "description_en": "Give wearable clothes to a charity shop or resale instead of throwing them away",
+      "description_ja": "まだ着られる服を、捨てずに寄付や再販売に回す",
+      "description_es": "Dar ropa que aún se puede usar a una tienda solidaria o de reventa en vez de tirarla",
+      "co2_grams": 1700,
+      "calculation_notes": "per garment, cotton T-shirt basis. WRAP 2025 worked example: net avoided N = E - (P x D) = 0.4 - (4.2 x 0.5) = -1.7 kg CO2e, where P = 4.2 kg to make a new T-shirt, E = 0.4 kg for resale transport and packaging, D = 50% displacement. WRAP measured 64.6% for UK peer-to-peer resale, so the example's 50% is the lower rate and no charity-shop rate is published. WRAP 2012: 450,000 t CO2e avoided by about 120 million T-shirts re-used = about 3.75 kg each, so 1.7 kg is the lower figure. Heavier garments such as jeans save more (see secondhand_clothing).",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 3,
+      "icon_name": "checkroom",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "WRAP 2025, Displacement Rates Untangled: A Standardised Methodology (Textiles 2030)",
+          "url": "https://www.wrap.ngo/sites/default/files/2025-02/WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf",
+          "quote": "0.4 – (4.2 x 0.5) = -1.7 kgCO2e",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2025, Displacement Rates Untangled: A Standardised Methodology (Textiles 2030)",
+          "url": "https://www.wrap.ngo/sites/default/files/2025-02/WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf",
+          "quote": "64.6% Over 3 in 5 second-hand clothing purchases displace new",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2012, Valuing Our Clothes: the evidence base (technical report), p.42 (archived copy)",
+          "url": "https://web.archive.org/web/2020/https://www.truevaluemetrics.org/DBpdfs/Issues/SupplyChain/Textiles/WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf",
+          "quote": "avoidance of 450,000 tonnes CO2e per year",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2012, Valuing Our Clothes: the evidence base (technical report), p.42 (archived copy)",
+          "url": "https://web.archive.org/web/2020/https://www.truevaluemetrics.org/DBpdfs/Issues/SupplyChain/Textiles/WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf",
+          "quote": "around 120 million t-shirts are re-used (ca 30,000 tonnes) in some form each year",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "recycle_batteries",
@@ -287,7 +355,7 @@
         "13"
       ],
       "is_active": true,
-      "sort_order": 9,
+      "sort_order": 10,
       "confidence": null,
       "sources": []
     },
@@ -312,7 +380,7 @@
         "14"
       ],
       "is_active": true,
-      "sort_order": 10,
+      "sort_order": 11,
       "confidence": null,
       "sources": []
     },

@@ -21,6 +21,7 @@ const actionIconMap = <String, IconData>{
   'bolt': Icons.bolt,
   'power': Icons.power_off,
   'dry_cleaning': Icons.dry_cleaning,
+  'checkroom': Icons.checkroom,
   'water_drop': Icons.water_drop,
   'shower': Icons.shower,
   'local_grocery': Icons.local_grocery_store,

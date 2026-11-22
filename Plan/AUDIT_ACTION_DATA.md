@@ -147,9 +147,9 @@ The `impact` score should reflect this broader value.
 > docs until `npm run seed` prunes the demoted action.
 > Backfilling the rest needs each primary re-fetched and quoted
 > live per section 2, so it is its own pass per category. Update
-> this count when that happens. Current count: **91 shipping
-> actions, 53 with both an empty `sources[]` and a null
-> `confidence`, 30 of them nonzero**.
+> this count when that happens. Current count: **92 shipping
+> actions, 48 with both an empty `sources[]` and a null
+> `confidence`, 25 of them nonzero**.
 
 ```javascript
 {
