@@ -1,6 +1,7 @@
-// Same gaze maths as the app: full deflection half of (3 x mascot size) away.
 const LOOK_RANGE = 100;
-const GAZE_REACH = 3;
+// The eyes follow the pointer inside a circle: the body plus about 2 cm.
+const BODY_RADIUS = 0.3;
+const GAZE_MARGIN_PX = 76;
 const STATE_MACHINE = 'State Machine 1';
 const WINK_MIN_MS = 30_000;
 const WINK_MAX_MS = 180_000;
@@ -80,19 +81,22 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('canvas.mascot').forEach((c) => observer.observe(c));
 
-const clamp = (v) => Math.max(-1, Math.min(1, v));
-
-addEventListener('pointermove', (ev) => {
+// With the look at 0 the rig looks around, faces front and winks by itself.
+function steer(ev) {
   for (const m of mascots) {
     if (!m.visible || !m.face) continue;
     const b = m.canvas.getBoundingClientRect();
-    const half = (b.width * GAZE_REACH) / 2;
-    const x = clamp((ev.clientX - (b.left + b.width / 2)) / half);
-    const y = clamp((ev.clientY - (b.top + b.height / 2)) / half);
-    m.face.number('lookX').value = x * LOOK_RANGE;
-    m.face.number('lookY').value = y * LOOK_RANGE;
+    const reach = b.width * BODY_RADIUS + GAZE_MARGIN_PX;
+    const x = ev ? (ev.clientX - (b.left + b.width / 2)) / reach : 0;
+    const y = ev ? (ev.clientY - (b.top + b.height / 2)) / reach : 0;
+    const scale = Math.hypot(x, y) <= 1 ? LOOK_RANGE : 0;
+    m.face.number('lookX').value = x * scale;
+    m.face.number('lookY').value = y * scale;
   }
-}, {passive: true});
+}
+
+addEventListener('pointermove', steer, {passive: true});
+document.documentElement.addEventListener('pointerleave', () => steer());
 
 addEventListener('resize', () => {
   for (const m of mascots) m.r.resizeDrawingSurfaceToCanvas();

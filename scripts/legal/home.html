@@ -5,18 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Seed is a free daily habit tracker for sustainability. Log everyday actions, earn points for the CO2 you save, and watch your mascot grow.">
 <title>Seed</title>
-<link rel="preload" href="/fonts/mplus-rounded-1c-700.woff2" as="font" type="font/woff2" crossorigin>
+{{styles}}
 <link rel="stylesheet" href="/home.css">
 </head>
 <body>
 
 <header class="nav">
-  <a class="brand" href="/">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor"
-      d="M20 3C10 3 4 8.5 4 15c0 1.6.4 3 1 4.2L3.5 20.7 4.9 22l1.7-1.7
-      C7.7 20.8 9 21 10.5 21 17 21 21 14.5 21 4V3z"/></svg>
-    Seed
-  </a>
+{{brand}}
   <nav>
     <a href="#how">{{nav_how}}</a>
     <a href="#features">{{nav_features}}</a>
@@ -26,7 +21,6 @@
       <option value="ja" lang="ja">日本語</option>
       <option value="es" lang="es">Español</option>
     </select>
-    <a class="pill" href="/beta">{{nav_beta}}</a>
   </nav>
 </header>
 
@@ -56,13 +50,7 @@
     </div>
   </div>
 
-  <svg class="hill" viewBox="0 0 1440 220" preserveAspectRatio="none"
-    aria-hidden="true">
-    <path class="hill-back" d="M0 150 C 280 40 520 60 760 120 S 1240 170
-      1440 70 V220 H0z"/>
-    <path class="hill-front" d="M0 120 C 240 190 520 200 800 130 S 1260 60
-      1440 140 V220 H0z"/>
-  </svg>
+{{hill}}
 </section>
 
 <section class="land" id="how">
@@ -173,17 +161,7 @@
 
 </main>
 
-<footer>
-  <div class="wrap foot">
-    <p>{{footer_langs}}</p>
-    <nav>
-      <a href="mailto:{{email}}">{{email}}</a>
-      <a href="/privacy">{{privacy}}</a>
-      <a href="/terms">{{terms}}</a>
-      <a href="/delete-account">{{delete}}</a>
-    </nav>
-  </div>
-</footer>
+{{footer}}
 
 <script src="/vendor/rive.js"></script>
 <script src="/home.js"></script>

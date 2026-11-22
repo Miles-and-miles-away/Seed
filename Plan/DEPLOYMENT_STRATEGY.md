@@ -81,10 +81,12 @@ The home page comes from the same generator. Its layout is
 `scripts/legal/home.html` and its text in three languages is
 `scripts/legal/home_text.json`. The generator also copies the mascot
 `.riv` files into `public/riv` and cuts the app font in `assets/fonts`
-to the glyphs the home page uses, into `public/fonts`. Edit
-`public/home.css` and `public/home.js` in place. `public/vendor` holds
-the Rive web runtime, and its `README.txt` names the package to replace
-it from.
+to the glyphs the pages use, into `public/fonts`. Edit the stylesheets
+and `public/home.js` in place: `public/site.css` is the theme that
+every page shares, `public/home.css` styles the home page, and
+`public/page.css` styles the legal pages and `/beta`. `public/vendor`
+holds the Rive web runtime, and its `README.txt` names the package to
+replace it from.
 
 The mascots need two entries in the Content-Security-Policy header in
 `firebase.json`: `'wasm-unsafe-eval'` in `script-src` for the runtime

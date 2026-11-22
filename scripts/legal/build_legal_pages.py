@@ -7,8 +7,9 @@ public/beta.html.
 
 Also renders the home page public/index.html from home.html and
 home_text.json beside this script, copies the mascot .riv files to
-public/riv and cuts the app font down to the glyphs the home page shows.
-public/home.css and public/home.js are edited in place.
+public/riv and cuts the app font down to the glyphs the pages show.
+public/site.css, public/home.css, public/page.css and public/home.js are
+edited in place.
 
 Run from the repo root, in the seed conda env (the font step needs
 fonttools and brotli):
@@ -118,32 +119,6 @@ def body_html(body: str) -> str:
     return ''.join(parts)
 
 
-CSS = """:root{color-scheme:light dark;--fg:#1f2a1f;--bg:#f7f4ec;--muted:#5b665b;
---accent:#3b7a4a;--card:#fffdf7;--line:#e3ded2}
-@media(prefers-color-scheme:dark){:root{--fg:#ece9df;--bg:#171b17;
---muted:#a8b0a8;--accent:#7cc48d;--card:#1f241f;--line:#2f362f}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,
-"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--fg);
-background:var(--bg)}main{max-width:44rem;margin:0 auto;padding:2rem 1.25rem 4rem}
-header{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:baseline;
-justify-content:space-between;border-bottom:1px solid var(--line);
-padding-bottom:1rem;margin-bottom:1.5rem}header a{color:var(--accent);
-text-decoration:none;font-weight:600}nav a{margin-right:1rem}
-h1{font-size:1.6rem;margin:.5rem 0 .25rem}h2{font-size:1.15rem;margin:1.75rem 0 .5rem}
-.lang{appearance:none;
--webkit-appearance:none;margin:1rem 0 .5rem;padding:.35rem 2.25rem .35rem .9rem;
-border:1px solid var(--line);border-radius:999px;color:var(--fg);font:inherit;
-font-size:.9rem;background:linear-gradient(45deg,transparent 50%,currentColor 50%)
-calc(100% - 1.15rem) 55%/.3rem .3rem no-repeat,linear-gradient(135deg,
-currentColor 50%,transparent 50%) calc(100% - .85rem) 55%/.3rem .3rem no-repeat,
-var(--card)}
-section[lang]{padding-top:1rem}section[lang]+section[lang]{
-border-top:1px solid var(--line);margin-top:2.5rem}
-.lang:not([hidden])~section[lang]{border-top:0;margin-top:0}ul{padding-left:1.25rem}
-ol{padding-left:1.25rem}code{background:var(--card);border:1px solid var(--line);
-padding:.05rem .35rem;border-radius:4px}
-"""
-
 LANG_JS = """(()=>{const s=document.querySelector('select.lang'),
 secs=document.querySelectorAll('body [lang]:not(option)'),
 has=l=>[...s.options].some(o=>o.value===l),
@@ -158,11 +133,6 @@ try{localStorage.setItem('lang',s.value)}catch(e){}}})();
 """
 
 
-def stylesheets(landing: bool) -> str:
-    names = ['site.css', 'landing.css'] if landing else ['site.css']
-    return ''.join(f'<link rel="stylesheet" href="/{n}">\n' for n in names)
-
-
 def tr(texts: dict[str, str]) -> str:
     return ''.join(
         f'<span lang="{lang}"{"" if lang == "en" else " hidden"}>'
@@ -175,13 +145,51 @@ def arb_text(key: str) -> dict[str, str]:
     return {lang: arb(lang)[key] for lang in LANGS}
 
 
+STYLES = (
+    '<link rel="preload" href="/fonts/mplus-rounded-1c-700.woff2" as="font" '
+    'type="font/woff2" crossorigin>\n'
+    '<link rel="stylesheet" href="/site.css">'
+)
+BRAND = """<a class="brand" href="/">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor"
+d="M20 3C10 3 4 8.5 4 15c0 1.6.4 3 1 4.2L3.5 20.7 4.9 22l1.7-1.7
+C7.7 20.8 9 21 10.5 21 17 21 21 14.5 21 4V3z"/></svg>
+Seed
+</a>"""
+HILL = """<svg class="hill" viewBox="0 0 1440 220" preserveAspectRatio="none"
+aria-hidden="true">
+<path class="hill-back" d="M0 150 C 280 40 520 60 760 120 S 1240 170
+1440 70 V220 H0z"/>
+<path class="hill-front" d="M0 120 C 240 190 520 200 800 130 S 1260 60
+1440 140 V220 H0z"/>
+</svg>"""
+
+
+def home_text() -> dict[str, dict[str, str]]:
+    return json.loads((HERE / 'home_text.json').read_text(encoding='utf-8'))
+
+
+def footer(email: str) -> str:
+    return f"""<footer>
+<div class="wrap foot">
+<p><a href="mailto:{email}">{email}</a></p>
+<nav>
+<a href="/privacy">{tr(arb_text('privacyPolicyTitle'))}</a>
+<a href="/terms">{tr(arb_text('termsOfServiceTitle'))}</a>
+<a href="/delete-account">{tr(arb_text('accountSettingsDeleteAccount'))}</a>
+</nav>
+</div>
+</footer>"""
+
+
 def page(
     title: dict[str, str],
     sections_by_lang: dict[str, str],
+    email: str,
     description: str = '',
-    landing: bool = False,
     hero: str = '',
     head: str = '',
+    pill: bool = True,
 ) -> str:
     langs = [lang for lang in LANGS if sections_by_lang.get(lang)]
     options = ''.join(
@@ -191,8 +199,13 @@ def page(
     multi = len(langs) > 1
     switcher = (
         '<select class="lang" aria-label="Language / 言語 / Idioma" hidden>'
-        f'{options}</select>'
+        f'{options}</select>\n'
     ) if multi else ''
+    beta = (
+        f'<a class="pill" href="/beta">{tr(home_text()["nav_beta"])}</a>\n'
+        if pill
+        else ''
+    )
     script = '<script src="/lang.js"></script>\n' if multi else ''
     blocks = ''.join(
         f'<section lang="{lang}" id="{lang}">{sections_by_lang[lang]}</section>'
@@ -209,27 +222,37 @@ def page(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 {desc}{head}<title>{html.escape(title['en'])} - Seed</title>
-{stylesheets(landing)}</head>
+{STYLES}
+<link rel="stylesheet" href="/page.css">
+</head>
 <body>
-<main>
-<header>
-<a href="/">Seed</a>
-<nav><a href="/privacy">{tr(arb_text('privacyPolicyTitle'))}</a><a href="/terms">{
-tr(arb_text('termsOfServiceTitle'))}</a>
-<a href="/delete-account">{tr(arb_text('accountSettingsDeleteAccount'))}</a></nav>
+<header class="nav">
+{BRAND}
+<nav>
+{switcher}{beta}</nav>
 </header>
-<h1>{tr(title)}</h1>
-{hero}
-{switcher}
-{blocks}
-{script}</main>
-</body>
+<main>
+<div class="top">
+<div class="wrap"><h1>{tr(title)}</h1></div>
+{HILL}
+</div>
+<div class="ground">
+<article class="sheet">
+{hero}{blocks}
+</article>
+</div>
+</main>
+{footer(email)}
+{script}</body>
 </html>
 """
 
 
 def legal_page(
-    title: dict[str, str], lists: dict[str, list[tuple[str, str]]], prefix: str
+    title: dict[str, str],
+    lists: dict[str, list[tuple[str, str]]],
+    prefix: str,
+    email: str,
 ) -> str:
     by_lang = {}
     for lang in LANGS:
@@ -237,7 +260,7 @@ def legal_page(
         by_lang[lang] = ''.join(
             f'<h2>{html.escape(t)}</h2>{body_html(b)}' for t, b in sections
         )
-    return page(title, by_lang)
+    return page(title, by_lang, email)
 
 
 DELETE_TEXT = {
@@ -308,7 +331,7 @@ def delete_page(email: str) -> str:
         'ja': 'アカウントの削除',
         'es': 'Eliminar su cuenta',
     }
-    return page(title, by_lang)
+    return page(title, by_lang, email)
 
 
 HOME_BETA_BUTTON = {
@@ -337,15 +360,15 @@ def evolution_strip() -> str:
 
 
 def index_page(email: str) -> str:
-    texts = json.loads((HERE / 'home_text.json').read_text(encoding='utf-8'))
-    texts |= {
-        'tagline': arb_text('appTagline'),
-        'cta': HOME_BETA_BUTTON,
-        'privacy': arb_text('privacyPolicyTitle'),
-        'terms': arb_text('termsOfServiceTitle'),
-        'delete': arb_text('accountSettingsDeleteAccount'),
+    texts = home_text()
+    texts |= {'tagline': arb_text('appTagline'), 'cta': HOME_BETA_BUTTON}
+    raw = {
+        'styles': STYLES,
+        'brand': BRAND,
+        'hill': HILL,
+        'evolution': evolution_strip(),
+        'footer': footer(email),
     }
-    raw = {'email': html.escape(email), 'evolution': evolution_strip()}
     return re.sub(
         r'\{\{(\w+)\}\}',
         lambda m: raw.get(m[1]) or tr(texts[m[1]]),
@@ -374,27 +397,12 @@ def subset_fonts(text: str) -> None:
         ])
 
 
-LANDING_CSS = """.lead{font-size:1.1rem}.agree{background:var(--card);border:1px solid
-var(--line);border-radius:12px;padding:.25rem 1.25rem;margin:1.5rem 0}
-h3{font-size:1.05rem;margin:1.25rem 0 .25rem}.steps{list-style:none;padding:0;
-counter-reset:step}.steps>li{counter-increment:step;position:relative;
-padding-left:2.75rem;margin:1.75rem 0}.steps>li::before{content:counter(step);
-position:absolute;left:0;top:0;width:2rem;height:2rem;border-radius:50%;
-background:var(--accent);color:var(--bg);font-weight:700;display:flex;
-align-items:center;justify-content:center}.steps h3{margin-top:.2rem}
-.btn{display:block;margin-top:.75rem;padding:.85rem 1rem;border-radius:12px;
-background:var(--accent);color:var(--bg);font-weight:600;text-align:center;
-text-decoration:none}.btn:focus-visible{outline:3px solid var(--fg);
-outline-offset:2px}section a{color:var(--accent);overflow-wrap:anywhere}
-.hero{display:block;width:100%;height:auto;border-radius:12px;margin:.75rem 0 0}
-"""
-
 BETA_IMAGE_ALT = (
     'Four Seed screens: the home screen with the mascot, logging an '
     'action, the Climate Action goal, and the fact pairs game'
 )
 BETA_HERO = (
-    '<img class="hero" src="/images/seed-preview.webp" width="1400" height="744" '
+    '<img class="preview" src="/images/seed-preview.webp" width="1400" height="744" '
     f'alt="{BETA_IMAGE_ALT}">'
 )
 
@@ -409,10 +417,10 @@ BETA_TEXT = {
         'with sources cited in the app, and actions are linked to the UN '
         'Sustainable Development Goals. There are daily and longer challenges, '
         'an Eco-Dex of facts you unlock as you log, a couple of quiz games, and '
-        'calculators for comparing journeys, meals and home appliances. Seed is '
-        'in English, Japanese and Spanish.',
-        'why': 'Seed is made by one developer, and right now it needs help '
-        'finding bugs and improving usability: what is confusing or broken, '
+        'calculators for comparing journeys, meals and home appliances.',
+        'why': 'Seed is the passion project of one developer, Miles. It has no '
+        'hidden costs, no data sales, just good old science communication '
+        'fun. Right now it needs help finding bugs and improving usability: what is confusing or broken, '
         'whether a number or translation looks wrong, and whether it actually '
         'makes you want to keep logging.',
         'agree_title': "What you're agreeing to",
@@ -428,9 +436,6 @@ BETA_TEXT = {
             'Leaving whenever you like once the 14 days are up.',
         ],
         'android_title': 'On Android',
-        'android_intro': 'Android testers matter most right now. Google will '
-        'not let a new app be published until at least 12 testers have stayed '
-        'opted in for 14 days in a row.',
         'steps': [
             (
                 'Join the Google Group',
@@ -482,9 +487,19 @@ BETA_TEXT = {
             ),
             (
                 'Is it safe? Is it finished?',
-                'Seed is in early testing, so expect a few rough edges: that is '
-                'what your feedback is for. It is covered by the Seed {privacy}, '
-                'and you can {delete} at any time.',
+                'Yes, it is safe. Seed installs through Google Play or '
+                'TestFlight like any other app, it is covered by the Seed '
+                '{privacy}, and you can {delete} at any time. It is not quite '
+                'finished, and that is where you come in: your feedback shapes '
+                'the final polish before launch.',
+            ),
+            (
+                'When will Seed be released?',
+                'There is no date yet. On Android there is one hurdle first: '
+                'Google will not let a new app be published until at least 12 '
+                'testers have stayed opted in for 14 days in a row. That is why '
+                'Android testers matter most right now: every tester who stays '
+                'for the fortnight brings the launch closer.',
             ),
             (
                 'Does testing on iPhone help too?',
@@ -515,10 +530,10 @@ BETA_TEXT = {
         'アプリ内に記載しています。アクションは国連の持続可能な開発目標（SDGs）'
         'と結びついています。毎日のチャレンジや複数日チャレンジ、記録するたびに'
         '地球の豆知識が解放されるエコ図鑑、ちょっとしたクイズゲーム、移動・'
-        '食事・家電を比べられる計算ツールもあります。Seedは英語、日本語、スペイン語に対応して'
-        'います。',
-        'why': 'Seedはひとりの開発者が作っていて、今はバグ探しと使いやすさの'
-        '改善に協力してくださる方を募集しています。分かりにくいところや動かない'
+        '食事・家電を比べられる計算ツールもあります。',
+        'why': 'Seedは、ひとりの開発者Milesが情熱を注いで作っているアプリです。'
+        '隠れた費用も、データの販売もありません。あるのは、科学を楽しく伝えたい'
+        'という思いだけです。今は、バグ探しと使いやすさの改善に協力してくださる方を募集しています。分かりにくいところや動かない'
         'ところ、数字や翻訳のおかしな点、そして記録を続けたくなるかどうかを、'
         'ぜひ教えてください。',
         'agree_title': '参加にあたってお願いすること',
@@ -534,9 +549,6 @@ BETA_TEXT = {
             '14日が過ぎたら、いつでもテストをやめられます。',
         ],
         'android_title': 'Androidの場合',
-        'android_intro': '今いちばん必要なのはAndroidのテスターです。Googleの'
-        'ルールでは、新しいアプリを公開するには、12人以上のテスターが14日間'
-        '続けてテストに参加している必要があります。',
         'steps': [
             (
                 'Google グループに参加する',
@@ -589,10 +601,19 @@ BETA_TEXT = {
             ),
             (
                 '安全ですか？完成していますか？',
-                'Seedはまだテストの初期段階なので、不具合や使いにくいところも'
-                'あると思います。それを見つけるために、皆さんのご意見が役に'
-                '立ちます。このテストにはSeedの{privacy}が適用され、{delete}は'
-                'いつでも削除できます。',
+                'はい、安全です。Seedはほかのアプリと同じように、Google Play'
+                'またはTestFlightからインストールします。このテストにはSeedの'
+                '{privacy}が適用され、{delete}はいつでも削除できます。まだ完成は'
+                'していませんが、だからこそ皆さんの力が必要です。いただいた'
+                'ご意見が、公開前の最後の仕上げに活かされます。',
+            ),
+            (
+                'Seedはいつ公開されますか？',
+                '公開日はまだ決まっていません。Androidでは、その前にひとつ条件が'
+                'あります。Googleのルールでは、新しいアプリを公開するには、'
+                '12人以上のテスターが14日間続けてテストに参加している必要が'
+                'あります。今いちばん必要なのがAndroidのテスターなのはそのためで、'
+                '14日間参加してくださるテスターが増えるほど、公開が近づきます。',
             ),
             (
                 'iPhoneでのテストも役に立ちますか？',
@@ -627,9 +648,11 @@ BETA_TEXT = {
         'la ONU. Hay desafíos diarios y más largos, un Eco-Dex de datos que '
         'desbloqueas a medida que registras acciones, un par de juegos de '
         'preguntas y calculadoras para comparar trayectos, comidas y '
-        'electrodomésticos. Seed está disponible en inglés, japonés y español.',
-        'why': 'Seed la desarrolla una sola persona y ahora mismo necesita '
-        'ayuda para encontrar errores y mejorar la usabilidad: qué resulta '
+        'electrodomésticos.',
+        'why': 'Seed es el proyecto personal de un solo desarrollador, Miles, '
+        'hecho con pasión. No tiene costes ocultos ni venta de datos: solo '
+        'divulgación científica de la buena, hecha para disfrutar. Ahora mismo '
+        'necesita ayuda para encontrar errores y mejorar la usabilidad: qué resulta '
         'confuso o no funciona, si algún número o traducción parece incorrecto '
         'y si de verdad te anima a seguir registrando acciones.',
         'agree_title': 'A qué te comprometes',
@@ -646,9 +669,6 @@ BETA_TEXT = {
             'Pasados los 14 días, puedes salir cuando quieras.',
         ],
         'android_title': 'En Android',
-        'android_intro': 'Ahora mismo hacen más falta testers en Android. '
-        'Google no permite publicar una aplicación nueva hasta que al menos 12 '
-        'testers hayan permanecido en la prueba durante 14 días seguidos.',
         'steps': [
             (
                 'Únete al grupo de Google',
@@ -702,10 +722,20 @@ BETA_TEXT = {
             ),
             (
                 '¿Es segura? ¿Está terminada?',
-                'Seed está en una fase temprana de pruebas, así que cuenta con '
-                'que tenga algún fallo: para eso sirven tus comentarios. Se '
-                'aplica la {privacy} de Seed y puedes {delete} en cualquier '
-                'momento.',
+                'Sí, es segura. Seed se instala desde Google Play o TestFlight '
+                'como cualquier otra aplicación, se aplica la {privacy} de Seed '
+                'y puedes {delete} en cualquier momento. Aún no está terminada '
+                'del todo, y ahí es donde entras tú: tus comentarios dan forma '
+                'a los últimos retoques antes del lanzamiento.',
+            ),
+            (
+                '¿Cuándo se publicará Seed?',
+                'Todavía no hay fecha. En Android hay antes un obstáculo: '
+                'Google no permite publicar una aplicación nueva hasta que al '
+                'menos 12 testers hayan permanecido en la prueba durante 14 '
+                'días seguidos. Por eso ahora mismo hacen más falta testers en '
+                'Android: cada tester que se queda los 14 días acerca el '
+                'lanzamiento.',
             ),
             (
                 '¿Sirve también probarla en iPhone?',
@@ -792,7 +822,6 @@ def beta_page(email: str) -> str:
             f'<div class="agree"><h2>{html.escape(t["agree_title"])}</h2>'
             f'<ul>{agree}</ul></div>'
             f'<h2>{html.escape(t["android_title"])}</h2>'
-            f'<p>{html.escape(t["android_intro"])}</p>'
             f'{beta_steps(t["steps"], android_urls)}'
             f'<h2>{html.escape(t["ios_title"])}</h2>'
             f'{beta_steps(t["ios_steps"], ios_urls)}'
@@ -811,10 +840,11 @@ def beta_page(email: str) -> str:
     return page(
         title,
         by_lang,
+        email,
         description=description,
-        landing=True,
         hero=BETA_HERO,
         head=beta_meta(title['en'], description),
+        pill=False,
     )
 
 
@@ -822,24 +852,23 @@ def main() -> None:
     consts, lists = parse_dart()
     email = consts['_contactEmail']
     OUT.mkdir(exist_ok=True)
-    (OUT / 'site.css').write_text(CSS, encoding='utf-8')
-    (OUT / 'landing.css').write_text(LANDING_CSS, encoding='utf-8')
     (OUT / 'lang.js').write_text(LANG_JS, encoding='utf-8')
-    (OUT / 'privacy.html').write_text(
-        legal_page(arb_text('privacyPolicyTitle'), lists, 'privacy'), encoding='utf-8'
-    )
-    (OUT / 'terms.html').write_text(
-        legal_page(arb_text('termsOfServiceTitle'), lists, 'terms'), encoding='utf-8'
-    )
-    (OUT / 'delete-account.html').write_text(delete_page(email), encoding='utf-8')
-    index = index_page(email)
-    (OUT / 'index.html').write_text(index, encoding='utf-8')
+    pages = {
+        'privacy': legal_page(
+            arb_text('privacyPolicyTitle'), lists, 'privacy', email
+        ),
+        'terms': legal_page(arb_text('termsOfServiceTitle'), lists, 'terms', email),
+        'delete-account': delete_page(email),
+        'beta': beta_page(email),
+        'index': index_page(email),
+    }
+    for name, text in pages.items():
+        (OUT / f'{name}.html').write_text(text, encoding='utf-8')
     copy_mascots()
     if FONT_DIR.exists():
-        subset_fonts(index)
+        subset_fonts(''.join(pages.values()))
     else:
         print(f'fonts: skipped, {FONT_DIR} not found')
-    (OUT / 'beta.html').write_text(beta_page(email), encoding='utf-8')
     for name, sections in lists.items():
         print(f'{name}: {len(sections)} sections')
 
