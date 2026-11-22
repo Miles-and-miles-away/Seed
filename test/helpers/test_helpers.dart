@@ -112,14 +112,16 @@ void sizeViewport(WidgetTester tester, {Size size = const Size(1200, 2400)}) {
   });
 }
 
-/// Loads Roboto (in `test/fonts/`) under the family name Material uses on
-/// Android, which is the test platform. The default test font draws every
-/// Latin glyph 1em wide, so Spanish and English layouts need real metrics;
-/// kana and kanji are 1em in both, so Japanese layouts do not.
+/// Loads the bundled app font under its theme family name. The default
+/// test font draws every Latin glyph 1em wide, so Spanish and English
+/// layouts need real metrics; kana and kanji are 1em in both, so Japanese
+/// layouts do not.
 Future<void> loadTestFonts() async {
-  final loader = FontLoader('Roboto');
-  for (final file in ['Roboto-Regular.ttf', 'Roboto-Medium.ttf']) {
-    final bytes = File('test/fonts/$file').readAsBytesSync();
+  final loader = FontLoader('MPLUSRounded1c');
+  for (final weight in ['Regular', 'Medium', 'Bold']) {
+    final bytes = File(
+      'assets/fonts/MPLUSRounded1c-$weight.ttf',
+    ).readAsBytesSync();
     loader.addFont(Future.value(ByteData.sublistView(bytes)));
   }
   await loader.load();
