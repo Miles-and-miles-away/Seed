@@ -136,8 +136,12 @@ aria-hidden="true">
       <div class="shot">
         <div class="blob b-leaf" aria-hidden="true"></div>
         <div class="phone tilt-l">
-          <img src="/images/log-action.gif" width="320" height="622"
-            loading="lazy" alt="">
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)"
+              srcset="/images/log-action.webp">
+            <img src="/images/log-action.gif" width="320" height="622"
+              loading="lazy" alt="">
+          </picture>
         </div>
         <p class="sr"><span lang="en">Logging an action in Seed</span><span lang="ja" hidden>Seedでアクションを記録する様子</span><span lang="es" hidden>Registro de una acción en Seed</span></p>
         <span class="chip chip-d" aria-hidden="true"><span lang="en">Daily challenge done</span><span lang="ja" hidden>毎日のチャレンジ達成</span><span lang="es" hidden>Desafío diario completado</span></span>
@@ -187,8 +191,8 @@ aria-hidden="true">
 </div>
 </footer>
 
+<script src="/lang.js"></script>
 <script src="/vendor/rive.js"></script>
 <script src="/home.js"></script>
-<script src="/lang.js"></script>
 </body>
 </html>

@@ -121,8 +121,12 @@
       <div class="shot">
         <div class="blob b-leaf" aria-hidden="true"></div>
         <div class="phone tilt-l">
-          <img src="/images/log-action.gif" width="320" height="622"
-            loading="lazy" alt="">
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)"
+              srcset="/images/log-action.webp">
+            <img src="/images/log-action.gif" width="320" height="622"
+              loading="lazy" alt="">
+          </picture>
         </div>
         <p class="sr">{{f3_alt}}</p>
         <span class="chip chip-d" aria-hidden="true">{{chip_done}}</span>
@@ -163,8 +167,8 @@
 
 {{footer}}
 
+<script src="/lang.js"></script>
 <script src="/vendor/rive.js"></script>
 <script src="/home.js"></script>
-<script src="/lang.js"></script>
 </body>
 </html>
