@@ -44,7 +44,7 @@ Future<AsyncValue<void>?> bankChoice(
           userId,
           CustomAction(
             id: '',
-            name: name,
+            name: _fitName(name),
             co2Grams: co2Grams,
             points: choicePoints(co2Grams),
             category: category,
@@ -63,6 +63,16 @@ Future<AsyncValue<void>?> bankChoice(
   });
 
   return ref.mounted ? result : null;
+}
+
+/// [name] cut to the rules' cap with an ellipsis, keeping surrogate pairs.
+String _fitName(String name) {
+  const max = AppConstants.maxCustomActionNameLength;
+  if (name.length <= max) return name;
+  var end = max - 1;
+  final last = name.codeUnitAt(end - 1);
+  if (last >= 0xD800 && last <= 0xDBFF) end -= 1;
+  return '${name.substring(0, end)}\u2026';
 }
 
 /// One unique-action id per kind of choice (category and the mode or

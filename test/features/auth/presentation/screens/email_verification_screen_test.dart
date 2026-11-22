@@ -126,6 +126,49 @@ void main() {
       expect(find.text('Verification email sent!'), findsOneWidget);
     });
 
+    testWidgets('resend stays disabled for the cooldown after a send', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      await pumpVerification(tester);
+
+      await tester.tap(find.text('Resend Email'));
+      await tester.pump();
+      await tester.tap(find.text('Resend Email'), warnIfMissed: false);
+      await tester.pump();
+      verify(() => mockUser.sendEmailVerification()).called(1);
+
+      await tester.pump(const Duration(seconds: 61));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Resend Email'));
+      await tester.pump();
+      verify(() => mockUser.sendEmailVerification()).called(1);
+    });
+
+    testWidgets('returning to the app checks verification quietly', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      when(() => mockUser.emailVerified).thenReturn(false);
+      when(() => mockUser.getIdToken(true)).thenAnswer((_) async => 'token');
+      await pumpVerification(tester);
+
+      for (final state in [
+        AppLifecycleState.inactive,
+        AppLifecycleState.hidden,
+        AppLifecycleState.paused,
+        AppLifecycleState.hidden,
+        AppLifecycleState.inactive,
+        AppLifecycleState.resumed,
+      ]) {
+        tester.binding.handleAppLifecycleStateChanged(state);
+      }
+      await tester.pumpAndSettle();
+
+      verify(() => mockUser.reload()).called(1);
+      expect(find.textContaining('not verified'), findsNothing);
+    });
+
     testWidgets('a failed resend does not say the email was sent', (
       tester,
     ) async {

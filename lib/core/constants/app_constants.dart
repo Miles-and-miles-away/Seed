@@ -59,8 +59,12 @@ abstract class AppConstants {
   // Matches the uniqueActionIds size cap in firestore.rules.
   static const maxUniqueActionIds = 2000;
 
+  // Matches the customActions name size cap (UTF-16 units) in firestore.rules.
+  static const maxCustomActionNameLength = 500;
+
   // Auth throttling
   static const authCooldownSeconds = 3;
+  static const verificationResendCooldownSeconds = 60;
 
   // User profile limits
   static const maxDisplayNameLength = 50;

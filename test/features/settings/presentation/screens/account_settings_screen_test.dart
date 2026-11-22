@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -414,6 +416,39 @@ void main() {
         findsOneWidget,
       );
       expect(find.byType(SnackBar), findsOneWidget);
+    });
+
+    testWidgets('leaving during a failing re-auth never deletes the account', (
+      tester,
+    ) async {
+      final reauth = Completer<void>();
+      when(
+        () => repository.reauthenticateWithEmailPassword(any(), any()),
+      ).thenAnswer((_) => reauth.future);
+      await pumpScreen(tester, currentUser: testUser, repository: repository);
+
+      await tester.tap(find.text('Delete Account'));
+      await tester.pumpAndSettle();
+      final fields = find.byType(TextFormField);
+      await tester.enterText(fields.first, 'user@example.com');
+      await tester.enterText(fields.last, 'wrong');
+      await tester.tap(find.text('Delete My Account'));
+      await tester.pump();
+
+      unawaited(
+        tester
+            .state<NavigatorState>(find.byType(Navigator))
+            .pushReplacement(
+              MaterialPageRoute<void>(builder: (_) => const SizedBox()),
+            ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(AccountSettingsScreen), findsNothing);
+
+      reauth.completeError(FirebaseAuthException(code: 'wrong-password'));
+      await tester.pumpAndSettle();
+
+      verifyNever(() => repository.deleteAccount());
     });
     group('data export', () {
       List<Override> exportOverrides(SettingsRepository repository) => [

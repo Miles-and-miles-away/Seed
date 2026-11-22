@@ -46,10 +46,40 @@ void main() {
       expect(isAmbiguousDecimalInput(value.text, 'es'), isTrue);
     });
 
-    test('rejects negatives and non-finite values', () {
+    test('rejects negatives, non-finite and overflowing values', () {
       expect(parseDecimalInput('-1', 'en'), isNull);
       expect(parseDecimalInput('NaN', 'en'), isNull);
+      expect(parseDecimalInput('Infinity', 'en'), isNull);
       expect(parseDecimalInput('', 'en'), isNull);
+      expect(parseDecimalInput('1' * 308, 'en'), isNull);
+      expect(parseDecimalInput('1000000000', 'en'), 1e9);
+    });
+  });
+
+  group('decimalInputFormatter', () {
+    String apply(String old, String typed) => decimalInputFormatter
+        .formatEditUpdate(
+          TextEditingValue(text: old),
+          TextEditingValue(
+            text: typed,
+            selection: TextSelection.collapsed(offset: typed.length),
+          ),
+        )
+        .text;
+
+    test('reads full-width digits and separators as ASCII', () {
+      expect(apply('', '\uFF11\uFF12\uFF0E\uFF15'), '12.5');
+      expect(apply('', '\uFF13\uFF0C\uFF14'), '3,4');
+    });
+
+    test('refuses a sign or exponent whole instead of keeping a part', () {
+      expect(apply('', '-5'), '');
+      expect(apply('', '1e308'), '');
+      expect(apply('12', '12-'), '12');
+    });
+
+    test('trims pasted spaces', () {
+      expect(apply('', ' 12.5 '), '12.5');
     });
   });
 

@@ -26,4 +26,21 @@ void main() {
     expect(checked, isPositive);
     expect(wrong, isEmpty);
   });
+
+  test('a zero-CO2 hint names zero-CO2 actions in every language', () {
+    const markers = {'En': 'zero-CO2', 'Ja': 'CO2ゼロ', 'Es': 'sin CO2'};
+    final wrong = <String>[];
+    var checked = 0;
+    for (final entry in entries) {
+      final condition = entry['condition'] as Map<String, dynamic>;
+      if (condition['type'] != 'uniqueZeroCo2Actions') continue;
+      checked++;
+      for (final MapEntry(key: lang, value: marker) in markers.entries) {
+        final hint = entry['hint$lang'] as String;
+        if (!hint.contains(marker)) wrong.add('${entry['id']}.hint$lang');
+      }
+    }
+    expect(checked, isPositive);
+    expect(wrong, isEmpty);
+  });
 }

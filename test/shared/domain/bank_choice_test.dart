@@ -135,6 +135,30 @@ void main() {
     expect(log.calls, isEmpty);
   });
 
+  test('a name above the rules cap is shortened, not denied', () async {
+    final repo = _MockCustomActionRepository();
+    when(() => repo.create(any(), any())).thenAnswer((_) async => _template);
+    final container = await _bankContainer(
+      repo,
+      _FailingActionLog(Exception('rejected')),
+    );
+    container.listen(transportChoiceLoggerProvider, (_, _) {});
+
+    await container
+        .read(transportChoiceLoggerProvider.notifier)
+        .logChoice(
+          name: '${'a' * 498}\u{1F96C}${'b' * 10}',
+          co2Grams: 500,
+          chosenIds: const ['train'],
+          baselineIds: const ['plane'],
+        );
+
+    final saved =
+        verify(() => repo.create(any(), captureAny())).captured.single
+            as CustomAction;
+    expect(saved.name, '${'a' * 498}\u2026');
+  });
+
   test('leaving during the template write still logs the action', () async {
     final repo = _MockCustomActionRepository();
     final create = Completer<CustomAction>();
