@@ -5,8 +5,8 @@ import 'package:seed_app/features/transport/data/models/transport_mode_model.dar
 
 /// Pure CO2e arithmetic for transport journeys.
 ///
-/// Educational feature: results are never converted to points or
-/// logged CO2 savings (No Fake Points principle, Phase 8 plan).
+/// Results become points only when the user banks a lower-carbon
+/// choice through `bankChoice`; the arithmetic here awards nothing.
 class TransportCalculator {
   const TransportCalculator._();
 

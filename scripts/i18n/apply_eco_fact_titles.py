@@ -23,7 +23,7 @@ FACTS_PATH = ROOT / 'data' / 'app' / 'eco_facts.json'
 
 TITLES: dict[int, str] = {
     1: "A Plant-Based Month",
-    2: "16 Billion Trees",
+    2: "Ethiopia's Tree Record",
     3: "Bottled vs Tap",
     4: "Dryers vs Paper Towels",
     5: "A Record Year for Renewables",
@@ -392,7 +392,7 @@ TITLES: dict[int, str] = {
 
 ES_TITLES: dict[int, str] = {
     1: "Un mes vegetal",
-    2: "16 mil millones de árboles",
+    2: "El récord de árboles de Etiopía",
     3: "Botella vs grifo",
     4: "Secadores vs toallas",
     5: "Récord de renovables",
@@ -762,7 +762,7 @@ ES_TITLES: dict[int, str] = {
 
 JA_TITLES: dict[int, str] = {
     1: "植物性の1ヶ月",
-    2: "160億本の植林",
+    2: "エチオピアの植樹記録",
     3: "ペットボトル対水道水",
     4: "ハンドドライヤーの真実",
     5: "再エネ記録の年",

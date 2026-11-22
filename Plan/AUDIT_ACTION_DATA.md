@@ -573,15 +573,12 @@ function computePoints(action) {
 }
 ```
 
-### Streak Bonus (applied at log time in Dart)
-
-Points earned per log are multiplied by a streak bonus:
-- Formula: `bonus = 1.0 + (streakDays * 0.033)`
-- Capped at 2.0x (reached at 30-day streak)
-- This means a 30-day streak doubles all points earned
+Streaks award no bonus points: points per log are the action's points only.
 
 ### Level Curve
 
+Source: `AppConstants.pointsPerLevel` and `AppConstants.levelScalingFactor`.
+
 - Base: 100 points per level
-- Scaling factor: 1.5x per level (geometric)
-- Level N requires: sum of 100 * 1.5^(i-1) for i=1..N-1
+- Scaling factor: 1.05x per level (geometric)
+- Level N requires: sum of 100 * 1.05^(i-1) for i=1..N-1

@@ -139,15 +139,15 @@
     "number": 9,
     "title": "Industry, Innovation and Infrastructure",
     "shortTitle": "Innovation",
-    "description": "Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation. Investment in infrastructure and innovation are crucial drivers of economic growth and development. With over half the world population now living in cities, mass transport and renewable energy are becoming ever more important, as are the growth of new industries and information and communication technologies.",
+    "description": "Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation. Investment in infrastructure and innovation are crucial drivers of economic growth and development. With nearly half the world population now living in cities, mass transport and renewable energy are becoming ever more important, as are the growth of new industries and information and communication technologies.",
     "color": "FD6925",
     "isLearnOnly": true,
     "titleJa": "産業と技術革新の基盤をつくろう",
     "titleEs": "Industria, innovación e infraestructura",
     "shortTitleJa": "技術革新",
     "shortTitleEs": "Innovación",
-    "descriptionJa": "強靭なインフラを整備し、包摂的で持続可能な産業化を推進するとともに、技術革新の拡大を図る。インフラと技術革新への投資は、経済成長と開発の重要な推進力です。世界人口の半数以上が都市に住む現在、公共交通と再生可能エネルギーはますます重要になっています。",
-    "descriptionEs": "Construir infraestructuras resilientes, promover la industrialización inclusiva y sostenible y fomentar la innovación. La inversión en infraestructuras e innovación es un motor crucial del crecimiento económico. Con más de la mitad de la población mundial viviendo ya en ciudades, el transporte colectivo y las energías renovables son cada vez más importantes."
+    "descriptionJa": "強靭なインフラを整備し、包摂的で持続可能な産業化を推進するとともに、技術革新の拡大を図る。インフラと技術革新への投資は、経済成長と開発の重要な推進力です。世界人口の半数近くが都市に住む現在、公共交通と再生可能エネルギーはますます重要になっています。",
+    "descriptionEs": "Construir infraestructuras resilientes, promover la industrialización inclusiva y sostenible y fomentar la innovación. La inversión en infraestructuras e innovación es un motor crucial del crecimiento económico. Con casi la mitad de la población mundial viviendo ya en ciudades, el transporte colectivo y las energías renovables son cada vez más importantes."
   },
   {
     "number": 10,
@@ -263,7 +263,7 @@
     "number": 17,
     "title": "Partnerships for the Goals",
     "shortTitle": "Partnerships",
-    "description": "Strengthen the means of implementation and revitalize the Global Partnership for Sustainable Development. The SDGs can only be realized with strong global partnerships and cooperation. A successful development agenda requires inclusive partnerships between governments, the private sector and civil society. These partnerships built upon principles and values, a shared vision, and shared goals that place people and the planet at the centre.",
+    "description": "Strengthen the means of implementation and revitalize the Global Partnership for Sustainable Development. The SDGs can only be realized with strong global partnerships and cooperation. A successful development agenda requires inclusive partnerships between governments, the private sector and civil society. These partnerships are built upon principles and values, a shared vision, and shared goals that place people and the planet at the centre.",
     "color": "19486A",
     "isLearnOnly": true,
     "titleJa": "パートナーシップで目標を達成しよう",
