@@ -76,10 +76,26 @@ copy, `seed-preview.jpg`, for link previews.
 The legal HTML in `public/` is generated from the in-app text in
 `legal_content.dart`, so the app and the hosted legal pages never
 diverge.
-After editing that file, rebuild and redeploy:
+
+The home page comes from the same generator. Its layout is
+`scripts/legal/home.html` and its text in three languages is
+`scripts/legal/home_text.json`. The generator also copies the mascot
+`.riv` files into `public/riv` and cuts the app font in `assets/fonts`
+to the glyphs the home page uses, into `public/fonts`. Edit
+`public/home.css` and `public/home.js` in place. `public/vendor` holds
+the Rive web runtime, and its `README.txt` names the package to replace
+it from.
+
+The mascots need two entries in the Content-Security-Policy header in
+`firebase.json`: `'wasm-unsafe-eval'` in `script-src` for the runtime
+and `blob:` in `img-src` for the images inside the `.riv` files.
+
+After editing any of these sources, rebuild in the `seed` conda env
+(the font step needs `fonttools` and `brotli`) and redeploy:
 
 ```bash
-python3 scripts/legal/build_legal_pages.py
+conda activate seed
+python scripts/legal/build_legal_pages.py
 npm run firebase -- deploy --only hosting --project prod
 ```
 

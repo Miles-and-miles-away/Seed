@@ -2,9 +2,16 @@
 
 Reads lib/features/settings/data/legal_content.dart (the single source
 of truth shown inside the app) and writes public/privacy.html,
-public/terms.html, public/delete-account.html and public/index.html,
-plus the tester page public/beta.html.
-Run from the repo root after editing legal_content.dart:
+public/terms.html and public/delete-account.html, plus the tester page
+public/beta.html.
+
+Also renders the home page public/index.html from home.html and
+home_text.json beside this script, copies the mascot .riv files to
+public/riv and cuts the app font down to the glyphs the home page shows.
+public/home.css and public/home.js are edited in place.
+
+Run from the repo root, in the seed conda env (the font step needs
+fonttools and brotli):
 
     python3 scripts/legal/build_legal_pages.py
 """
@@ -14,6 +21,7 @@ from __future__ import annotations
 import html
 import json
 import re
+import shutil
 from pathlib import Path
 
 BETA_GROUP_URL = 'https://groups.google.com/g/seed-android-testers'
@@ -28,6 +36,12 @@ ROOT = Path(__file__).resolve().parents[2]
 DART = ROOT / 'lib' / 'features' / 'settings' / 'data' / 'legal_content.dart'
 ARB_DIR = ROOT / 'lib' / 'core' / 'l10n'
 OUT = ROOT / 'public'
+HERE = Path(__file__).resolve().parent
+SPECIES = ROOT / 'data' / 'app' / 'mascot_species.json'
+FONT_DIR = ROOT / 'assets' / 'fonts'
+FONT_WEIGHTS = {'Medium': 500, 'Bold': 700}
+FONT_BASE_RANGE = 'U+0020-007E,U+00A0-00FF'
+HOME_SPECIES = 'seed'
 
 LANGS = ['en', 'ja', 'es']
 LANG_NAMES = {'en': 'English', 'ja': '日本語', 'es': 'Español'}
@@ -131,7 +145,7 @@ padding:.05rem .35rem;border-radius:4px}
 """
 
 LANG_JS = """(()=>{const s=document.querySelector('select.lang'),
-secs=document.querySelectorAll('main [lang]:not(option)'),
+secs=document.querySelectorAll('body [lang]:not(option)'),
 has=l=>[...s.options].some(o=>o.value===l),
 pick=l=>{for(const x of secs)x.hidden=x.lang!==l;s.value=l;
 document.documentElement.lang=l;
@@ -304,27 +318,60 @@ HOME_BETA_BUTTON = {
 }
 
 
-def index_page(email: str) -> str:
-    mail = html.escape(email)
-    by_lang = {}
-    for lang in LANGS:
-        s = {k: html.escape(v) for k, v in arb(lang).items()}
-        t = BETA_TEXT[lang]
-        by_lang[lang] = (
-            f'<p class="lead">{s["appTagline"]}</p>'
-            f'<a class="btn" href="/beta">{html.escape(HOME_BETA_BUTTON[lang])}</a>'
-            f'<p>{html.escape(t["lead"])}</p>'
-            f'<p>{html.escape(t["about"])}</p>'
-            f'<h2>{s["settingsSupport"]}</h2>'
-            f'<p><a href="mailto:{mail}">{mail}</a></p>'
-            f'<ul><li><a href="/privacy">{s["privacyPolicyTitle"]}</a></li>'
-            f'<li><a href="/terms">{s["termsOfServiceTitle"]}</a></li>'
-            f'<li><a href="/delete-account">{s["accountSettingsDeleteAccount"]}</a>'
-            '</li></ul>'
-        )
-    return page(
-        dict.fromkeys(LANGS, 'Seed'), by_lang, landing=True, hero=BETA_HERO
+def species() -> list[dict]:
+    return json.loads(SPECIES.read_text(encoding='utf-8'))
+
+
+def evolution_strip() -> str:
+    stages = next(s for s in species() if s['id'] == HOME_SPECIES)['evolutionStages']
+    level = arb_text('levelLabel')
+    return '\n'.join(
+        '<figure><canvas class="mascot" '
+        f'data-riv="/riv/{Path(st["assetPath"]).name}" '
+        f'data-artboard="{st["artboardName"]}" aria-hidden="true"></canvas>'
+        f'<figcaption><b>{tr({g: st["name" + g.capitalize()] for g in LANGS})}</b>'
+        f'{tr({g: level[g].replace("{level}", str(st["level"])) for g in LANGS})}'
+        '</figcaption></figure>'
+        for st in stages
     )
+
+
+def index_page(email: str) -> str:
+    texts = json.loads((HERE / 'home_text.json').read_text(encoding='utf-8'))
+    texts |= {
+        'tagline': arb_text('appTagline'),
+        'cta': HOME_BETA_BUTTON,
+        'privacy': arb_text('privacyPolicyTitle'),
+        'terms': arb_text('termsOfServiceTitle'),
+        'delete': arb_text('accountSettingsDeleteAccount'),
+    }
+    raw = {'email': html.escape(email), 'evolution': evolution_strip()}
+    return re.sub(
+        r'\{\{(\w+)\}\}',
+        lambda m: raw.get(m[1]) or tr(texts[m[1]]),
+        (HERE / 'home.html').read_text(encoding='utf-8'),
+    )
+
+
+def copy_mascots() -> None:
+    (OUT / 'riv').mkdir(exist_ok=True)
+    for path in {st['assetPath'] for s in species() for st in s['evolutionStages']}:
+        shutil.copyfile(ROOT / path, OUT / 'riv' / Path(path).name)
+
+
+def subset_fonts(text: str) -> None:
+    from fontTools import subset
+
+    (OUT / 'fonts').mkdir(exist_ok=True)
+    for name, weight in FONT_WEIGHTS.items():
+        subset.main([
+            str(FONT_DIR / f'MPLUSRounded1c-{name}.ttf'),
+            f'--text={text}',
+            f'--unicodes={FONT_BASE_RANGE}',
+            '--name-IDs=*',
+            '--flavor=woff2',
+            f'--output-file={OUT / "fonts" / f"mplus-rounded-1c-{weight}.woff2"}',
+        ])
 
 
 LANDING_CSS = """.lead{font-size:1.1rem}.agree{background:var(--card);border:1px solid
@@ -785,7 +832,13 @@ def main() -> None:
         legal_page(arb_text('termsOfServiceTitle'), lists, 'terms'), encoding='utf-8'
     )
     (OUT / 'delete-account.html').write_text(delete_page(email), encoding='utf-8')
-    (OUT / 'index.html').write_text(index_page(email), encoding='utf-8')
+    index = index_page(email)
+    (OUT / 'index.html').write_text(index, encoding='utf-8')
+    copy_mascots()
+    if FONT_DIR.exists():
+        subset_fonts(index)
+    else:
+        print(f'fonts: skipped, {FONT_DIR} not found')
     (OUT / 'beta.html').write_text(beta_page(email), encoding='utf-8')
     for name, sections in lists.items():
         print(f'{name}: {len(sections)} sections')
