@@ -112,10 +112,6 @@ void main() {
     }
   });
 
-  test('11. international rail < shinkansen', () {
-    expect(factor('rail_international'), lessThan(factor('rail_shinkansen')));
-  });
-
   test('12. taxi > city bus', () {
     expect(factor('taxi'), greaterThan(factor('bus_city')));
   });

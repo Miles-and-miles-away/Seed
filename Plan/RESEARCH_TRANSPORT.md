@@ -724,11 +724,11 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
 | bus_city | City bus | 128.0 | pkm | DESNZ 2026 + WTT (avg local bus) | High |
 | coach | Coach (long distance) | 46.04 | pkm | DESNZ 2026 + WTT (direct 39.48) | High |
 | taxi | Taxi | 259.82 | vkm | DESNZ 2026 + WTT regular taxi (R2-D1): duty-cycle uplift, deadheading excluded per DESNZ 5.42 | Medium-high |
-| rail_national | Local / national rail | 39.89 | pkm | DESNZ 2026 + WTT | High |
-| rail_international | International rail (Eurostar) | 12.52 | pkm | DESNZ 2026 + WTT; order-of-magnitude only (D3) | High |
+| rail_national | Local / national rail | 50.86 | pkm | derived: ORR 2024-25 traction energy, electricity x 458 house grid, diesel at DESNZ 2026 gas oil + WTT | Medium-high |
+| rail_international | International rail (Eurostar) | 39.69 | pkm | derived: DESNZ 2026 direct / UK grid 130.96 = kWh/pkm, x 458 house grid | Medium-high |
 | rail_shinkansen | Shinkansen (bullet train) | 20 | pkm | JR East 年度2023 Shinkansen-segment disclosure + MLIT-supervised Navitime | Medium-high |
-| metro | Metro / underground | 22.77 | pkm | DESNZ 2026 + WTT (London Underground) | High |
-| tram | Tram / light rail | 28.7 | pkm | DESNZ 2026 + WTT | High |
+| metro | Metro / underground | 54.17 | pkm | derived: DESNZ 2026 London Underground direct / UK grid 130.96, x 458 house grid | Medium-high |
+| tram | Tram / light rail | 74.18 | pkm | derived: DESNZ 2026 direct / UK grid 130.96, x 458 house grid | Medium-high |
 | ferry_foot | Ferry (foot passenger) | 22.95 | pkm | DESNZ 2026 + WTT | High |
 | ferry_car | Ferry (car passenger) | 158.65 | pkm | DESNZ 2026 + WTT; one leg covers vehicle + passenger (D3) | High |
 | flight_domestic | Domestic flight | 262.78 | pkm | DESNZ 2026 + WTT, avg passenger, RF on direct part | High |
@@ -773,13 +773,13 @@ data pass rather than assume it survives.
 
 1. walking (0) <= cycling-family (cycle 0, ebike 2,
    escooter_private 6) < every motorized mode's per-passenger
-   figure. Thinnest margin: rail_international 12.52 vs
+   figure. Thinnest margin: ferry_foot 22.95 vs
    e-scooter 7.
 2. Retired: shinkansen vs metro/tram/national-rail. Shinkansen
    is direct CO2 only, the rail band is CO2e with well-to-tank,
    so the pair is not like for like (see non-invariants).
 3. rail band < city bus < solo average petrol car
-   (22.77-39.89 < 128.0 < 207.51)
+   (50.86-74.18 < 128.0 < 207.51)
 4. coach < solo average petrol car (46.04 < 207.51)
 5. electric car < every combustion car variant (86 < 162.76+)
 6. long-haul < short-haul < domestic flight per km
@@ -791,7 +791,8 @@ data pass rather than assume it survives.
 9. helicopter > every ground mode's solo per-passenger figure
    (450 > 341.34)
 10. private jet > every other mode (1700 > 450)
-11. rail_international < shinkansen (12.52 < 20)
+11. Retired: rail_international vs shinkansen. Eurostar is on the
+    house grid, the Shinkansen on JR East's own figure.
 12. taxi > city bus (259.82 > 128.0; duty-cycle uplift,
     deadheading excluded per DESNZ 5.42)
 13. ferry_car > ferry_foot (158.65 > 22.95)
@@ -799,12 +800,13 @@ data pass rather than assume it survives.
 **Deliberate non-invariants** (do NOT pin; they are the honest
 surprises the feature exists to surface):
 - coach vs national rail ordering flipped between DEFRA 2025 and
-  2026 (27.76 vs 35.46 became 46.04 vs 39.89 with WTT).
+  2026 (27.76 vs 35.46 became 46.04 vs 39.89 with WTT, then
+  46.04 vs 50.86 on the house grid).
 - short-haul economy flight (148.25) is LOWER per km than a solo
   average petrol car (207.51) -- the car needs 2+ occupants to
   win. Distance still decides total impact.
 - Shinkansen (20, JR East, direct CO2 only) vs metro, tram and
-  national rail (22.77-39.89, DESNZ CO2e with well-to-tank): the
+  national rail (50.86-74.18, house grid lifecycle): the
   bases differ, so no ordering is pinned.
 
 ---

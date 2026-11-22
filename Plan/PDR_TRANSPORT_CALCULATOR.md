@@ -93,6 +93,13 @@ were superseded; do not "fix" data backwards from old text.
 - **Private jet ships 1,700** (1,000 derived base x 1.7 RF,
   DESNZ 2025 para 8.43); airline factors include RF; helicopter
   is combustion-only. In-chart jet footnote is a UI requirement.
+- **One grid basis for electric rail (REF-12).** Metro, tram and
+  international rail use kWh per passenger-km x 458, where
+  kWh = the DESNZ direct factor / the DESNZ UK grid factor of the
+  same year. National rail uses ORR traction energy totals: the
+  electricity at 458, the diesel at DESNZ gas oil plus
+  well-to-tank. Do NOT restore the UK-grid DESNZ rail factors.
+  The Shinkansen keeps JR East's own figure (no kWh published).
 - **Lifecycle boundary (REF-02).** Every DESNZ fuel factor ships
   with its well-to-tank term, to match the lifecycle grid factor
   and gas. Radiative forcing applies to the fuel burned only,
@@ -243,9 +250,12 @@ Moved here 2026-08-30 from RESEARCH_TRANSPORT.md Appendix A.4.
 
 The comparison view picks the honest flight band from leg distance
 rather than letting a short leg be overstated at the long-haul
-rate: **> 3,700 km = long-haul**; otherwise **same country =
-domestic**, **different countries = short-haul** (the DEFRA
-<= 3,700 km boundary, RESEARCH_TRANSPORT.md section 4). No
+rate: **> 3,700 km = long-haul**; otherwise **both ends in the UK,
+Isle of Man or Channel Islands = domestic**, **any other pair =
+short-haul** (the DEFRA <= 3,700 km boundary, RESEARCH_TRANSPORT.md
+section 4). DESNZ defines domestic as a UK flight with no distance
+limit (methodology paper para 8.8), so a same-country flight elsewhere
+gets the short-haul factor, not the UK domestic one. No
 invented medium-haul cutoff -- DEFRA publishes no medium-haul
 factor, so the three bands stand (owner Q&A, 2026-07-22). The
 picker offers only the band a city pair resolves to.

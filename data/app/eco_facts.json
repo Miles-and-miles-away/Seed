@@ -1056,13 +1056,13 @@
   {
     "dayOfYear": 48,
     "category": "mythBuster",
-    "factEn": "Hydrogen cars sound futuristic, but making hydrogen from natural gas (95% of current production) emits almost as much CO2 as using petrol. Only 'green' hydrogen from renewables is truly clean.",
-    "factEs": "Los coches de hidrógeno parecen futuristas, pero producir hidrógeno a partir de gas natural (el 95% de la producción actual) emite casi tanto CO2 como usar gasolina. Solo el hidrógeno «verde» producido con energías renovables es verdaderamente limpio.",
-    "factJa": "水素自動車には未来的な響きがありますが、現在の生産の95%を占める天然ガスから水素を製造すると、ガソリンを使用する場合とほぼ同量のCO2が排出されます。真にクリーンなのは、再生可能エネルギーから作る「グリーン」水素だけです。",
+    "factEn": "Hydrogen cars sound futuristic, but over 99% of today's hydrogen is not low-emissions, and nearly two-thirds is made from natural gas. Hydrogen is only as clean as the way it is made.",
+    "factEs": "Los coches de hidrógeno parecen futuristas, pero más del 99% del hidrógeno actual no es de bajas emisiones, y casi dos tercios se producen a partir de gas natural. El hidrógeno solo es tan limpio como la forma en que se produce.",
+    "factJa": "水素自動車には未来的な響きがありますが、現在の水素の99%以上は低排出ではなく、約3分の2は天然ガスから作られています。水素がどれだけクリーンかは、その作り方で決まります。",
     "sourceEn": "International Energy Agency",
     "sourceEs": "International Energy Agency",
     "sourceJa": "International Energy Agency",
-    "sourceUrl": "https://www.iea.org/reports/global-hydrogen-review-2023",
+    "sourceUrl": "https://www.iea.org/reports/global-hydrogen-review-2025",
     "relatedSdgs": [
       7,
       9
@@ -1071,12 +1071,12 @@
     "nameEn": "Green Hydrogen Only",
     "nameEs": "Hidrógeno verde real",
     "nameJa": "グリーン水素に限る",
-    "keyFigureEn": "95%",
-    "keyFigureEs": "95%",
-    "keyFigureJa": "95%",
-    "clueEn": "Share of hydrogen made from natural gas",
-    "clueJa": "天然ガスから作られる水素の割合",
-    "clueEs": "Proporción del hidrógeno producido con gas natural"
+    "keyFigureEn": "99%",
+    "keyFigureEs": "99%",
+    "keyFigureJa": "99%",
+    "clueEn": "Share of hydrogen that is not low-emissions",
+    "clueJa": "低排出ではない水素の割合",
+    "clueEs": "Proporción del hidrógeno que no es de bajas emisiones"
   },
   {
     "dayOfYear": 49,
@@ -3280,13 +3280,13 @@
   {
     "dayOfYear": 149,
     "category": "individual",
-    "factEn": "Armed conflicts contaminate soil, destroy forests, and pollute water supplies for decades. The UN estimates that over 70% of armed conflicts since 1998 have involved exploitation of natural resources, from timber to minerals.",
-    "factEs": "Los conflictos armados contaminan durante décadas el suelo y los suministros de agua, y destruyen bosques. La ONU estima que más del 70% de los conflictos armados desde 1998 han implicado la explotación de recursos naturales, desde madera hasta minerales.",
-    "factJa": "武力紛争は数十年にわたり土壌を汚染し、森林を破壊し、水源を汚染します。1998年以降の武力紛争の70%以上が、木材から鉱物に至る天然資源の搾取を伴っていると国連は推計しています。",
+    "factEn": "Armed conflicts contaminate soil, destroy forests, and pollute water supplies for decades. UNEP estimates that at least 40% of internal conflicts over the past 60 years have been linked to natural resources, from timber and diamonds to land and water.",
+    "factEs": "Los conflictos armados contaminan durante décadas el suelo y los suministros de agua, y destruyen bosques. UNEP estima que al menos el 40% de los conflictos internos de los últimos 60 años han estado ligados a los recursos naturales, desde la madera y los diamantes hasta la tierra y el agua.",
+    "factJa": "武力紛争は数十年にわたり土壌を汚染し、森林を破壊し、水源を汚染します。UNEPは、過去60年間の国内紛争の少なくとも40%が、木材やダイヤモンドから土地や水まで、天然資源と結びついていたと推計しています。",
     "sourceEn": "UNEP",
     "sourceEs": "UNEP",
     "sourceJa": "UNEP",
-    "sourceUrl": "https://www.unep.org/explore-topics/disasters-conflicts",
+    "sourceUrl": "https://wedocs.unep.org/20.500.11822/7867",
     "relatedSdgs": [
       15,
       16
@@ -3295,12 +3295,12 @@
     "nameEn": "War Wrecks Nature",
     "nameEs": "Guerra y naturaleza",
     "nameJa": "紛争と環境破壊",
-    "keyFigureEn": "70%",
-    "keyFigureEs": "70%",
-    "keyFigureJa": "70%",
-    "clueEn": "Share of armed conflicts tied to natural resources",
-    "clueJa": "天然資源の搾取が絡む武力紛争の割合",
-    "clueEs": "Proporción de conflictos armados ligados a recursos naturales"
+    "keyFigureEn": "40%",
+    "keyFigureEs": "40%",
+    "keyFigureJa": "40%",
+    "clueEn": "Share of internal conflicts linked to natural resources",
+    "clueJa": "天然資源と結びついた国内紛争の割合",
+    "clueEs": "Proporción de conflictos internos ligados a recursos naturales"
   },
   {
     "dayOfYear": 150,

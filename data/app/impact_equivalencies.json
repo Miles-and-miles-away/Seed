@@ -1,7 +1,7 @@
 [
   {
     "type": "trees",
-    "gramsPerUnit": 21000,
+    "gramsPerUnit": 60000,
     "sourceName": "US EPA — Greenhouse Gas Equivalencies Calculator",
     "sourceUrl": "https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references"
   },

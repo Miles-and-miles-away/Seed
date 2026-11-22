@@ -1,7 +1,7 @@
 {
   "metadata": {
     "version": 1,
-    "scope": "Fuel and energy emissions on a lifecycle basis: direct combustion (CO2, CH4, N2O) plus the well-to-tank term (extracting, refining and transporting the fuel) for engine modes. Electric cars, e-bikes and e-scooters use the house lifecycle grid factor for their charging energy; national and international rail, metro and tram use the DESNZ 2026 factors with their well-to-tank term. Human-powered modes (walking, cycling) count as zero by convention: metabolic food energy is excluded for all of them. The often-quoted metabolic figures (walking ~56 g/km, cycling 16-50 g/km) are documented in the methodology sheet with OWID's caveat that those calories may not be additional to a normal diet. Vehicle manufacturing and infrastructure construction are excluded everywhere. Airline and private-jet factors include the radiative-forcing uplift (DESNZ methodology, 1.7x central estimate) on the direct part only; helicopter is combustion-only (low-altitude flight), per entry. Private jet, helicopter and Shinkansen are derived from sources with no well-to-tank term, so they stay direct-only. Primary vintage: UK DESNZ 2026 unless a mode notes otherwise.",
+    "scope": "Fuel and energy emissions on a lifecycle basis: direct combustion (CO2, CH4, N2O) plus the well-to-tank term (extracting, refining and transporting the fuel) for engine modes. Electric cars, e-bikes, e-scooters, international rail, metro and tram use the house lifecycle grid factor for their electricity. National rail uses it for its electric share, and DESNZ 2026 gas oil with its well-to-tank term for its diesel share (ORR 2024-25 energy totals). Human-powered modes (walking, cycling) count as zero by convention: metabolic food energy is excluded for all of them. The often-quoted metabolic figures (walking ~56 g/km, cycling 16-50 g/km) are documented in the methodology sheet with OWID's caveat that those calories may not be additional to a normal diet. Vehicle manufacturing and infrastructure construction are excluded everywhere. Airline and private-jet factors include the radiative-forcing uplift (DESNZ methodology, 1.7x central estimate) on the direct part only; helicopter is combustion-only (low-altitude flight), per entry. Private jet, helicopter and Shinkansen are derived from sources with no well-to-tank term, so they stay direct-only. Primary vintage: UK DESNZ 2026 unless a mode notes otherwise.",
     "primary_source": "UK DESNZ/DEFRA 2026 GHG Conversion Factors",
     "grid_factor_g_per_kwh": 458,
     "citation_note": "Table-row citations (DESNZ 2026 flat file, EV Database) are transcribed as pipe-delimited row cells with ASCII substitutions ('>' for '›', '-' for em dash); they are row transcriptions, not page sentences."
@@ -421,24 +421,30 @@
       "name_en": "Local / national rail",
       "name_ja": "在来線・国内鉄道",
       "name_es": "Tren nacional / de cercanías",
-      "g_co2e_per_km": 39.89,
+      "g_co2e_per_km": 50.86,
       "per_vehicle": false,
-      "calculation_notes": "DESNZ 2026 national rail average, per passenger-km, including fuel supply: direct factor 30.92 plus the well-to-tank (upstream fuel supply) factor 8.97 = 39.89.",
-      "calculation_notes_ja": "DESNZ 2026の国内鉄道平均、旅客キロあたりの値で、燃料供給分を含みます。直接排出の係数30.92に、ウェル・トゥ・タンク（上流の燃料供給）の係数8.97を足して39.89です。",
-      "calculation_notes_es": "Media del tren nacional de DESNZ 2026, por pasajero-km, con el suministro de combustible incluido: factor directo de 30,92 más el factor del pozo al depósito (suministro previo del combustible) de 8,97 = 39,89.",
-      "calculation_notes_src_sha": "0267e6543a63474efcbe03ff6ec6758a38429c04a373afa7f9905f1355d5b6ce",
+      "calculation_notes": "Derived on the house grid basis from ORR passenger-train totals for April 2024 to March 2025: traction electricity 4,050 million kWh x the house grid factor 458 g CO2e/kWh = 1,854.9 kt, plus traction diesel 423 million litres x DESNZ 2026 gas oil 2.75541 kg CO2e/litre with its well-to-tank factor 0.62665 = 1,430.6 kt. Total 3,285.5 kt / 64.6 billion passenger-km = 50.86. Gas oil matches ORR's own diesel figure (1,166 kt for 423 million litres). ORR's energy totals include Eurostar's UK side, but the passenger-km total does not, so the figure may be slightly high. On the UK grid, DESNZ gives 39.89 including fuel supply.",
+      "calculation_notes_ja": "共通の電力係数で、ORRの2024年4月から2025年3月の旅客列車の合計から算出：牽引用電力40億5,000万kWhに共通の電力係数458 g CO2e/kWhを掛けて1,854.9 kt。これに牽引用軽油4億2,300万リットルにDESNZ 2026のガスオイルの係数2.75541 kg CO2e/リットルとウェル・トゥ・タンクの係数0.62665を掛けた1,430.6 ktを足します。合計3,285.5 ktを646億旅客キロで割って50.86です。ガスオイルはORR自身の軽油の値（4億2,300万リットルで1,166 kt）と一致します。ORRのエネルギーの合計には英国側のユーロスターが含まれますが、旅客キロの合計には含まれないため、この値はやや高めかもしれません。英国の電力では、DESNZは燃料供給分を含めて39.89としています。",
+      "calculation_notes_es": "Calculado con el factor de red común a partir de los totales de trenes de pasajeros de ORR de abril de 2024 a marzo de 2025: electricidad de tracción de 4.050 millones de kWh por el factor de red común de 458 g CO2e/kWh = 1.854,9 kt, más gasóleo de tracción de 423 millones de litros por el factor del gasóleo industrial (gas oil) de DESNZ 2026 de 2,75541 kg CO2e/litro con su factor del pozo al depósito de 0,62665 = 1.430,6 kt. Total de 3.285,5 kt / 64,6 mil millones de pasajeros-km = 50,86. El gas oil coincide con la cifra de gasóleo de la propia ORR (1.166 kt para 423 millones de litros). Los totales de energía de ORR incluyen el lado del Reino Unido de Eurostar, pero el total de pasajeros-km no, así que la cifra puede ser algo alta. Con la red del Reino Unido, DESNZ da 39,89 con el suministro de combustible incluido.",
+      "calculation_notes_src_sha": "5f330aa31ea3d7a81f79eaafe00b250b142ed05801aed19e239e7648cc6fd14e",
       "sources": [
         {
-          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
-          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
-          "quote": "Business travel- land | Rail | National rail | passenger.km | kg CO2e | 0.03092",
-          "accessed": "2026-11-21"
+          "name": "ORR Rail environment, April 2024 to March 2025",
+          "url": "https://dataportal.orr.gov.uk/media/xw4f0ohl/rail-environment-2024-25.pdf",
+          "quote": "total traction electricity consumption for passenger trains was 4,050 million kilowatt hours | Total traction diesel consumption for passenger trains was 423 million litres | Emissions from diesel consumption were 1,166",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "ORR Passenger rail usage, January to March 2025",
+          "url": "https://dataportal.orr.gov.uk/media/zzlpyvq4/passenger-rail-usage-jan-mar-2025.pdf",
+          "quote": "From April 2024 to March 2025 there were 64.6 billion passenger kilometres.",
+          "accessed": "2026-11-22"
         },
         {
           "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
           "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
-          "quote": "WTT- pass vehs & travel- land | WTT- rail | National rail | passenger.km | kg CO2e | 0.00897",
-          "accessed": "2026-11-21"
+          "quote": "Fuels | Liquid fuels | Gas oil | litres | kg CO2e | 2.75541 | WTT- fuels | Liquid fuels | Gas oil | litres | kg CO2e | 0.62665",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -448,12 +454,12 @@
       "name_en": "International rail (Eurostar)",
       "name_ja": "国際鉄道（ユーロスター）",
       "name_es": "Tren internacional (Eurostar)",
-      "g_co2e_per_km": 12.52,
+      "g_co2e_per_km": 39.69,
       "per_vehicle": false,
-      "calculation_notes": "DESNZ 2026 international rail, per passenger-km, including fuel supply: direct factor 11.35 plus the well-to-tank (upstream fuel supply) factor 1.17 = 12.52. Eurostar-weighted and French-nuclear-specific -- NOT generic high-speed rail. Treat as order-of-magnitude only.",
-      "calculation_notes_ja": "DESNZ 2026の国際鉄道、旅客キロあたりの値で、燃料供給分を含みます。直接排出の係数11.35に、ウェル・トゥ・タンク（上流の燃料供給）の係数1.17を足して12.52です。ユーロスターの比重が大きく、フランスの原子力発電に特有の値で、高速鉄道一般の値ではありません。桁の目安としてのみ扱ってください。",
-      "calculation_notes_es": "Tren internacional de DESNZ 2026, por pasajero-km, con el suministro de combustible incluido: factor directo de 11,35 más el factor del pozo al depósito (suministro previo del combustible) de 1,17 = 12,52. Ponderado por Eurostar y propio de la energía nuclear francesa; NO es una cifra genérica de la alta velocidad. Tómala solo como orden de magnitud.",
-      "calculation_notes_src_sha": "94e233d58f15adce17bcf4fe98e6a0254a26e29bd520135f116b6e010d116eb9",
+      "calculation_notes": "Derived on the house grid basis: the DESNZ 2026 international rail (Eurostar) direct factor 11.35 g CO2e/pkm, divided by the DESNZ 2026 UK grid factor 130.96 g CO2e/kWh, gives 0.087 kWh per passenger-km. That x the house grid factor 458 g CO2e/kWh = 39.69. The 458 factor is lifecycle, so no separate well-to-tank term is added. DESNZ uses Eurostar electricity on the UK side only (methodology para 5.66). On the UK grid, DESNZ gives 12.52 including fuel supply.",
+      "calculation_notes_ja": "共通の電力係数で算出：DESNZ 2026の国際鉄道（ユーロスター）の直接排出係数11.35 g CO2e/旅客キロを、DESNZ 2026の英国電力係数130.96 g CO2e/kWhで割ると、旅客キロあたり0.087 kWhです。これに共通の電力係数458 g CO2e/kWhを掛けて39.69です。458はライフサイクルの係数なので、ウェル・トゥ・タンクの係数は別に足しません。DESNZは英国側で使われたユーロスターの電力だけを使っています（方法論の5.66項）。英国の電力では、DESNZは燃料供給分を含めて12.52としています。",
+      "calculation_notes_es": "Calculado con el factor de red común: el factor directo del tren internacional (Eurostar) de DESNZ 2026, 11,35 g CO2e/pasajero-km, dividido entre el factor de la red del Reino Unido de DESNZ 2026, 130,96 g CO2e/kWh, da 0,087 kWh por pasajero-km. Eso por el factor de red común de 458 g CO2e/kWh = 39,69. El factor 458 es de ciclo de vida, así que no se suma un factor aparte del pozo al depósito. DESNZ usa solo la electricidad de Eurostar en el lado del Reino Unido (párrafo 5.66 de la metodología). Con la red del Reino Unido, DESNZ da 12,52 con el suministro de combustible incluido.",
+      "calculation_notes_src_sha": "a09cb39ebbb6d881325f148d259c2cbea5786ab83271288f73890a6e52ab908b",
       "sources": [
         {
           "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
@@ -464,8 +470,8 @@
         {
           "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
           "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
-          "quote": "WTT- pass vehs & travel- land | WTT- rail | International rail | passenger.km | kg CO2e | 0.00117",
-          "accessed": "2026-11-21"
+          "quote": "UK electricity | Electricity generated | Electricity: UK | kWh | kg CO2e | 0.13096",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -508,12 +514,12 @@
       "name_en": "Metro / underground",
       "name_ja": "地下鉄",
       "name_es": "Metro",
-      "g_co2e_per_km": 22.77,
+      "g_co2e_per_km": 54.17,
       "per_vehicle": false,
-      "calculation_notes": "DESNZ 2026 London Underground, per passenger-km, including fuel supply: direct factor 15.49 plus the well-to-tank (upstream fuel supply) factor 7.28 = 22.77.",
-      "calculation_notes_ja": "DESNZ 2026のロンドン地下鉄の値で、旅客キロあたりです。燃料供給分を含みます。直接排出の係数15.49に、ウェル・トゥ・タンク（上流の燃料供給）の係数7.28を足して22.77です。",
-      "calculation_notes_es": "Metro de Londres de DESNZ 2026, por pasajero-km, con el suministro de combustible incluido: factor directo de 15,49 más el factor del pozo al depósito (suministro previo del combustible) de 7,28 = 22,77.",
-      "calculation_notes_src_sha": "163f20aab5047775f56b5a3c835083a5194f756c8f2c78feeb7d7aa80977da50",
+      "calculation_notes": "Derived on the house grid basis: the DESNZ 2026 London Underground direct factor 15.49 g CO2e/pkm, divided by the DESNZ 2026 UK grid factor 130.96 g CO2e/kWh, gives 0.118 kWh per passenger-km. That x the house grid factor 458 g CO2e/kWh = 54.17. The 458 factor is lifecycle, so no separate well-to-tank term is added. On the UK grid, DESNZ gives 22.77 including fuel supply.",
+      "calculation_notes_ja": "共通の電力係数で算出：DESNZ 2026のロンドン地下鉄の直接排出係数15.49 g CO2e/旅客キロを、DESNZ 2026の英国電力係数130.96 g CO2e/kWhで割ると、旅客キロあたり0.118 kWhです。これに共通の電力係数458 g CO2e/kWhを掛けて54.17です。458はライフサイクルの係数なので、ウェル・トゥ・タンクの係数は別に足しません。英国の電力では、DESNZは燃料供給分を含めて22.77としています。",
+      "calculation_notes_es": "Calculado con el factor de red común: el factor directo del metro de Londres de DESNZ 2026, 15,49 g CO2e/pasajero-km, dividido entre el factor de la red del Reino Unido de DESNZ 2026, 130,96 g CO2e/kWh, da 0,118 kWh por pasajero-km. Eso por el factor de red común de 458 g CO2e/kWh = 54,17. El factor 458 es de ciclo de vida, así que no se suma un factor aparte del pozo al depósito. Con la red del Reino Unido, DESNZ da 22,77 con el suministro de combustible incluido.",
+      "calculation_notes_src_sha": "00b9b25188c17b901354f07b637f146b59a2c84ce0fc2f3298a9bf685b8a736a",
       "sources": [
         {
           "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
@@ -524,8 +530,8 @@
         {
           "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
           "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
-          "quote": "WTT- pass vehs & travel- land | WTT- rail | London Underground | passenger.km | kg CO2e | 0.00728",
-          "accessed": "2026-11-21"
+          "quote": "UK electricity | Electricity generated | Electricity: UK | kWh | kg CO2e | 0.13096",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -535,12 +541,12 @@
       "name_en": "Tram / light rail",
       "name_ja": "路面電車・LRT",
       "name_es": "Tranvía / tren ligero",
-      "g_co2e_per_km": 28.7,
+      "g_co2e_per_km": 74.18,
       "per_vehicle": false,
-      "calculation_notes": "DESNZ 2026 light rail and tram average, per passenger-km, including fuel supply: direct factor 21.21 plus the well-to-tank (upstream fuel supply) factor 7.49 = 28.70.",
-      "calculation_notes_ja": "DESNZ 2026のライトレール・路面電車の平均、旅客キロあたりの値で、燃料供給分を含みます。直接排出の係数21.21に、ウェル・トゥ・タンク（上流の燃料供給）の係数7.49を足して28.70です。",
-      "calculation_notes_es": "Media del tren ligero y el tranvía de DESNZ 2026, por pasajero-km, con el suministro de combustible incluido: factor directo de 21,21 más el factor del pozo al depósito (suministro previo del combustible) de 7,49 = 28,70.",
-      "calculation_notes_src_sha": "9946e7091810372e27a70c9edb9241c6aa8760ec664bf60f6721623d26efe056",
+      "calculation_notes": "Derived on the house grid basis: the DESNZ 2026 light rail and tram direct factor 21.21 g CO2e/pkm, divided by the DESNZ 2026 UK grid factor 130.96 g CO2e/kWh, gives 0.162 kWh per passenger-km. That x the house grid factor 458 g CO2e/kWh = 74.18. The 458 factor is lifecycle, so no separate well-to-tank term is added. On the UK grid, DESNZ gives 28.70 including fuel supply.",
+      "calculation_notes_ja": "共通の電力係数で算出：DESNZ 2026のライトレール・路面電車の直接排出係数21.21 g CO2e/旅客キロを、DESNZ 2026の英国電力係数130.96 g CO2e/kWhで割ると、旅客キロあたり0.162 kWhです。これに共通の電力係数458 g CO2e/kWhを掛けて74.18です。458はライフサイクルの係数なので、ウェル・トゥ・タンクの係数は別に足しません。英国の電力では、DESNZは燃料供給分を含めて28.70としています。",
+      "calculation_notes_es": "Calculado con el factor de red común: el factor directo del tren ligero y el tranvía de DESNZ 2026, 21,21 g CO2e/pasajero-km, dividido entre el factor de la red del Reino Unido de DESNZ 2026, 130,96 g CO2e/kWh, da 0,162 kWh por pasajero-km. Eso por el factor de red común de 458 g CO2e/kWh = 74,18. El factor 458 es de ciclo de vida, así que no se suma un factor aparte del pozo al depósito. Con la red del Reino Unido, DESNZ da 28,70 con el suministro de combustible incluido.",
+      "calculation_notes_src_sha": "e90006cc04047113e38788cb8e439c9b23a3362260039245134ce7d889216bf9",
       "sources": [
         {
           "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
@@ -551,8 +557,8 @@
         {
           "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
           "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
-          "quote": "WTT- pass vehs & travel- land | WTT- rail | Light rail and tram | passenger.km | kg CO2e | 0.00749",
-          "accessed": "2026-11-21"
+          "quote": "UK electricity | Electricity generated | Electricity: UK | kWh | kg CO2e | 0.13096",
+          "accessed": "2026-11-22"
         }
       ]
     },

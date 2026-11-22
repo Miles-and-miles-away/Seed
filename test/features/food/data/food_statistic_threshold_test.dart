@@ -11,10 +11,11 @@ import '../../../helpers/dataset_helpers.dart';
 /// together on means can swap places on medians, so a verdict would be
 /// an artefact of the statistic rather than a finding.
 ///
-/// This asserts the property the in-app methodology page claims:
-/// above a 20% gap the ordering is the same under either statistic,
-/// once the four items whose OWN mean and median differ by 2x or more
-/// are excluded -- for those, no gap is safe. Cheese and dark chocolate
+/// This asserts that, for the products listed below, a gap above 20%
+/// keeps the same ordering under either statistic once the four items
+/// whose OWN mean and median differ by 2x or more are excluded. The
+/// oils and soy milk are not listed, and pairs among them are reported
+/// to reverse, so the in-app copy calls 20% a guide, not a guarantee. Cheese and dark chocolate
 /// are 48.8% apart on means and still swap.
 ///
 /// Means: live per-kg grapher, verified 2026-08-08. Medians: the

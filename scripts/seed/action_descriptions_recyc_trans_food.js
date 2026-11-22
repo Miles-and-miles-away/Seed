@@ -195,47 +195,29 @@ const descriptions = {
 
   recycle_glass: {
     en:
-      'Recycling a typical ~250g glass jar '
-      + 'saves about **167g** of CO2 by '
-      + 'reducing the energy needed to melt '
-      + 'raw materials. Glass recycling saves '
-      + 'roughly 300g of CO2 per 450g wine '
-      + 'bottle (~667g per kg) according to '
-      + 'the [EPA WARM model]'
-      + '(https://www.epa.gov/warm). '
-      + 'Like aluminium, glass can be recycled '
-      + 'endlessly without degradation. Every '
-      + '10% increase in recycled cullet used '
-      + 'in production cuts energy consumption '
-      + 'by about 3%.',
+      'Recycling a typical ~250g glass jar instead of sending it to landf'
+      + 'ill saves about **80g** of CO2, mostly by reducing the energy need'
+      + 'ed to melt raw materials. The US EPA puts the saving at about 0.33'
+      + 'kg of CO2 per kg of glass ([EPA WARM v16](https://www.epa.gov/warm'
+      + '/documentation-chapters-greenhouse-gas-emission-and-energy-factors'
+      + '-used-waste-reduction-model)). Like aluminium, glass can be recycl'
+      + 'ed again and again.',
     ja:
-      '標準的な約250gのガラス瓶1本の'
-      + 'リサイクルで約**167g**のCO2を削減'
-      + 'できます。原料を溶かすのに必要な'
-      + 'エネルギーが減るためです。'
-      + '[EPA WARM model](https://www.epa.gov'
-      + '/warm)によると、450gのワインボトル'
-      + '1本で約300gのCO2を節約でき（1kg'
-      + 'あたり約667g）、アルミニウム同様、'
-      + 'ガラスは劣化なく無限にリサイクル'
-      + '可能です。カレット（リサイクル'
-      + 'ガラス）の使用率を10%上げると'
-      + 'エネルギー消費が約3%削減されます。',
+      '標準的な約250gのガラス瓶1本を埋め立てずにリサイクルすると、約**80g**のCO2を削減できます。主に原料を溶かすエネルギーが'
+      + '減るためです。米国EPAはガラス1kgあたり約0.33kgのCO2削減としています（[EPA WARM v16](https://w'
+      + 'ww.epa.gov/warm/documentation-chapters-greenhouse-gas-emission-and'
+      + '-energy-factors-used-waste-reduction-model)）。アルミニウムと同じく、ガラスは何度でもリサ'
+      + 'イクルできます。',
     es:
-      'Reciclar un frasco de vidrio típico '
-      + 'de ~250g ahorra unos **167g** de CO2 '
-      + 'al reducir la energía para fundir '
-      + 'materias primas. El reciclaje de '
-      + 'vidrio ahorra unos 300g de CO2 por '
-      + 'botella de vino de 450g (~667g por '
-      + 'kg) según el [EPA WARM model]'
-      + '(https://www.epa.gov/warm). '
-      + 'Al igual que el aluminio, el vidrio se '
-      + 'puede reciclar infinitamente sin '
-      + 'degradarse. Cada 10% de aumento en el '
-      + 'uso de casco reciclado reduce el '
-      + 'consumo energético un 3%.',
+      'Reciclar un frasco de vidrio típico de ~250g en vez de llevarlo al'
+      + ' vertedero ahorra unos **80g** de CO2, sobre todo porque se necesi'
+      + 'ta menos energía para fundir las materias primas. La EPA de EE. UU'
+      + '. calcula un ahorro de unos 0,33kg de CO2 por kg de vidrio ([EPA W'
+      + 'ARM v16](https://www.epa.gov/warm/documentation-chapters-greenhous'
+      + 'e-gas-emission-and-energy-factors-used-waste-reduction-model)). Co'
+      + 'mo el aluminio, el vidrio se puede reciclar una y otra vez.',
   },
+
 
   recycle_paper: {
     en:
@@ -734,30 +716,34 @@ const descriptions = {
   train_vs_flight: {
     en:
       'Choosing a train over a domestic flight for a 500km journey saves '
-      + 'roughly **110,000g** of CO2 equivalent. A domestic flight emits about '
+      + 'roughly **100,000g** of CO2 equivalent. A domestic flight emits about '
       + '263g/km per passenger, including the warming effect of emissions at '
-      + 'altitude, while national rail emits about 40g/km, both including fuel '
-      + 'supply ([DESNZ 2026](https://www.gov.uk/government/publications/g'
-      + 'reenhouse-gas-reporting-conversion-factors-2026)), the factors the '
-      + 'Transport Calculator uses. Per kilometre, that makes the train more '
-      + 'than 6 times cleaner.',
+      + 'altitude ([DESNZ 2026](https://www.gov.uk/government/publications/g'
+      + 'reenhouse-gas-reporting-conversion-factors-2026)). National rail '
+      + 'emits about 51g/km on the global-average electricity grid ([ORR]('
+      + 'https://dataportal.orr.gov.uk/media/xw4f0ohl/rail-environment-2024-25'
+      + '.pdf)). Both include fuel supply and match the Transport Calculator. '
+      + 'Per kilometre, that makes the train more than 5 times cleaner.',
     ja:
-      '500kmの移動で国内線の代わりに鉄道を選ぶと約**110,000g**のCO2相当を削減'
+      '500kmの移動で国内線の代わりに鉄道を選ぶと約**100,000g**のCO2相当を削減'
       + 'できます。国内線は高高度での排出による温暖化効果を含めて乗客1人あたり'
-      + '約263g/km、国内の鉄道は約40g/km排出します。どちらも燃料供給を含む値で'
-      + 'す（[DESNZ 2026](https://www.gov.uk/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors-2026)）。これは「移動のCO2計算」と同'
-      + 'じ係数です。kmあたりでは、鉄道は6倍以上クリーンです。',
+      + '約263g/km排出します（[DESNZ 2026](https://www.gov.uk/government/publi'
+      + 'cations/greenhouse-gas-reporting-conversion-factors-2026)）。国内の鉄道'
+      + 'は世界平均の電力で約51g/km排出します（[ORR](https://dataportal.orr.go'
+      + 'v.uk/media/xw4f0ohl/rail-environment-2024-25.pdf)）。どちらも燃料供給を'
+      + '含み、「移動のCO2計算」と同じ係数です。kmあたりでは、鉄道は5倍以上クリ'
+      + 'ーンです。',
     es:
       'Elegir el tren en vez de un vuelo nacional para un viaje de 500km '
-      + 'ahorra aproximadamente **110.000g** de CO2 equivalente. Un vuelo '
+      + 'ahorra aproximadamente **100.000g** de CO2 equivalente. Un vuelo '
       + 'nacional emite unos 263g/km por pasajero, incluido el efecto de '
-      + 'calentamiento de las emisiones en altitud, mientras que el tren '
-      + 'nacional emite unos 40g/km, ambos con el suministro de combustible '
-      + 'incluido ([DESNZ 2026](https://www.gov.uk/government/publications/g'
-      + 'reenhouse-gas-reporting-conversion-factors-2026)), los factores que '
-      + 'usa la calculadora «Transporte». Por kilómetro, el tren es más de 6 '
-      + 'veces más limpio.',
+      + 'calentamiento de las emisiones en altitud ([DESNZ 2026](https://www.'
+      + 'gov.uk/government/publications/greenhouse-gas-reporting-conversion-'
+      + 'factors-2026)). El tren nacional emite unos 51g/km con la red '
+      + 'eléctrica media mundial ([ORR](https://dataportal.orr.gov.uk/media/'
+      + 'xw4f0ohl/rail-environment-2024-25.pdf)). Ambos incluyen el suministro '
+      + 'de combustible y coinciden con la calculadora «Transporte». Por '
+      + 'kilómetro, el tren es más de 5 veces más limpio.',
   },
 
   take_bus: {
@@ -794,49 +780,31 @@ const descriptions = {
 
   escooter_trip: {
     en:
-      'Riding an e-scooter instead of '
-      + 'driving saves roughly **375g** of CO2 '
-      + 'on a short urban trip. E-scooters emit '
-      + 'about 27-40g/km compared to 164g/km '
-      + 'for a petrol car ([DEFRA 2024]'
-      + '(https://www.gov.uk/government'
-      + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)). '
-      + 'They are ideal for last-mile '
-      + 'transportation connecting transit stops '
-      + 'to final destinations. Shared e-scooter '
-      + 'programs have expanded rapidly in '
-      + 'cities worldwide, making them easily '
-      + 'accessible.',
+      'Riding your own e-scooter instead of driving on a 2.5km trip saves'
+      + ' about **500g** of CO2. An average petrol car emits about 208g/km,'
+      + ' including fuel supply ([DESNZ 2026](https://www.gov.uk/government'
+      + '/publications/greenhouse-gas-reporting-conversion-factors-2026)). '
+      + 'A private e-scooter uses about 7g/km of electricity ([Springer 202'
+      + '4](https://link.springer.com/article/10.1186/s12302-024-00920-x)).'
+      + ' This counts electricity only, not the scooter\'s manufacture. E-sc'
+      + 'ooters suit the last mile from a transit stop to your destination.',
     ja:
-      '車の代わりに電動キックボードで移動'
-      + 'すると短距離の都市移動で約'
-      + '**375g**の'
-      + 'CO2を削減できます。電動キック'
-      + 'ボードは約27〜40g/km、ガソリン車は'
-      + '164g/kmの排出です（[DEFRA 2024]'
-      + '(https://www.gov.uk/government'
-      + '/publications/greenhouse-gas-reporting'
-      + '-conversion-factors-2024)）。'
-      + '公共交通の駅から目的地までのラスト'
-      + 'マイル移動に最適です。シェアリング'
-      + 'サービスが世界中の都市で急速に普及し'
-      + '手軽に利用できるようになっています。',
+      '2.5kmの移動で車の代わりに自分の電動キックボードを使うと、約**500g**のCO2を削減できます。平均的なガソリン車は燃料供給'
+      + 'を含めて1kmあたり約208gを排出します（[DESNZ 2026](https://www.gov.uk/government/p'
+      + 'ublications/greenhouse-gas-reporting-conversion-factors-2026)）。個人所'
+      + '有の電動キックボードの電力由来の排出は1kmあたり約7gです（[Springer 2024](https://link.spring'
+      + 'er.com/article/10.1186/s12302-024-00920-x)）。この数値は電力だけを数えたもので、キックボー'
+      + 'ドの製造分は含みません。駅から目的地までのラストマイル移動に向いています。',
     es:
-      'Usar un patinete eléctrico en vez de '
-      + 'conducir ahorra aproximadamente '
-      + '**375g** de CO2 en un viaje urbano '
-      + 'corto. Los patinetes emiten unos '
-      + '27-40g/km frente a 164g/km de un coche '
-      + '([DEFRA 2024](https://www.gov.uk'
-      + '/government/publications/greenhouse'
-      + '-gas-reporting-conversion-factors'
-      + '-2024)). Son ideales para el transporte '
-      + 'de última milla conectando paradas de '
-      + 'transporte público con destinos finales. Los '
-      + 'programas compartidos se han expandido '
-      + 'rápidamente en ciudades de todo el '
-      + 'mundo.',
+      'Usar tu propio patinete eléctrico en vez del coche en un trayecto '
+      + 'de 2,5km ahorra unos **500g** de CO2. Un coche de gasolina medio e'
+      + 'mite unos 208g/km, incluido el suministro de combustible ([DESNZ 2'
+      + '026](https://www.gov.uk/government/publications/greenhouse-gas-rep'
+      + 'orting-conversion-factors-2026)). Un patinete eléctrico privado ga'
+      + 'sta unos 7g/km de electricidad ([Springer 2024](https://link.sprin'
+      + 'ger.com/article/10.1186/s12302-024-00920-x)). Solo cuenta la elect'
+      + 'ricidad, no la fabricación del patinete. Es ideal para la última m'
+      + 'illa, desde una parada de transporte público hasta tu destino.',
   },
 
   ev_charging_green: {
@@ -1095,7 +1063,7 @@ const descriptions = {
     en:
       'Replacing a fish meal with a '
       + 'plant-based option saves roughly '
-      + '**560g** of CO2 equivalent. '
+      + '**460g** of CO2 equivalent. '
       + 'Wild-caught white fish such as cod '
       + 'and haddock average '
       + 'about 5kg CO2eq per kilogram be'
@@ -1107,12 +1075,11 @@ const descriptions = {
       + '[Poore & Nemecek, Science '
       + '2018](https://www.science.org/doi'
       + '/10.1126/science.aaq0216)). '
-      + 'Small oily fish such as sardines and '
-      + 'mackerel are lower still, so this is '
-      + 'a conservative estimate.',
+      + 'Herring and sardines are lower, so '
+      + 'the saving is smaller for them.',
     ja:
       '魚の1食分を植物性の選択肢に替えると'
-      + '約**560g**のCO2相当を削減'
+      + '約**460g**のCO2相当を削減'
       + 'できます。タラなどの'
       + '天然の白身魚は加工と輸送を除いて約5kg '
       + 'CO2eq/kg'
@@ -1124,13 +1091,12 @@ const descriptions = {
       + 'Nemecek, '
       + 'Science 2018](https://www.science.org'
       + '/doi/10.1126/science.aaq0216)）。'
-      + 'イワシやサバなどの小型青魚はさらに'
-      + '低いため、これは控えめな見積もり'
-      + 'です。',
+      + 'ニシンやイワシはさらに低いため、'
+      + 'その場合の削減量は小さくなります。',
     es:
       'Reemplazar una comida de pescado por '
       + 'una opción vegetal ahorra '
-      + 'aproximadamente **560g** de CO2 '
+      + 'aproximadamente **460g** de CO2 '
       + 'equivalente. El pescado blanco '
       + 'salvaje, como el '
       + 'bacalao y el eglefino, promedia unos '
@@ -1144,9 +1110,8 @@ const descriptions = {
       + '[Poore & Nemecek, Science 2018]'
       + '(https://www.science.org/doi/10.1126'
       + '/science.aaq0216)). '
-      + 'El pescado azul pequeño, como '
-      + 'sardinas y caballa, es aún menor, así '
-      + 'que es una estimación conservadora.',
+      + 'El arenque y la sardina emiten menos, '
+      + 'así que con ellos el ahorro es menor.',
   },
 
   no_food_waste: {

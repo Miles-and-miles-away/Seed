@@ -759,8 +759,10 @@ Ships at **0.025 kWh/h**, the 適温 22 Wh/h rounded up.
 
 **The JP heating hierarchy (methodology context, one source).**
 METI publishes gas and kerosene fan heaters on the identical
-1-hour-per-day basis, so all four heating options are directly
-comparable. Our figures are lifecycle (gas 212 g/kWh, kerosene
+1-hour-per-day basis, so the first three heating options are
+directly comparable. The resistance heater row is the 1.2 kW
+rating on high (section 3.3), not a METI figure, so its ratios
+are upper bounds. Our figures are lifecycle (gas 212 g/kWh, kerosene
 DESNZ burning oil 2.54016 + 0.53078 = 3.07094 kg CO2e/L), so they
 sit above METI's own combustion-only CO2:
 

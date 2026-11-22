@@ -33,7 +33,7 @@ const _figures = {
   'transport:ferry-car-foot': ('6.9 times', '6.9倍', '6,9 veces'),
   'transport:car-coach': ('4.5 times', '4.5倍', '4,5 veces'),
   'transport:car-bus': ('62%', '62%', '62%'),
-  'transport:car-rail': ('5.2 times', '5.2倍', '5,2 veces'),
+  'transport:car-rail': ('4.1 times', '4.1倍', '4,1 veces'),
   'energy:bulbs': ('7.1 times', '7.1倍', '7,1 veces'),
   'energy:showers': ('4.3 times', '4.3倍', '4,3 veces'),
   'energy:washes': ('4.9 times', '4.9倍', '4,9 veces'),

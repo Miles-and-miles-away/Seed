@@ -174,8 +174,8 @@
       "description_en": "Recycle glass jars and bottles instead of trashing",
       "description_ja": "ガラス瓶をゴミ箱ではなくリサイクルへ",
       "description_es": "Reciclar frascos y botellas de vidrio en vez de tirarlos",
-      "co2_grams": 167,
-      "calculation_notes": "avg 250g jar; EPA WARM 667g/kg (~300g per 450g bottle) = ~167g",
+      "co2_grams": 80,
+      "calculation_notes": "per ~250 g jar, recycled instead of landfilled: EPA WARM v16 glass recycling -0.28 and landfilling +0.02 MTCO2E per short ton (Exhibit 1-4), net 0.30 t per 907.185 kg = 0.3307 kg CO2e/kg. 0.25 kg x 330.7 g/kg = 82.7 g, rounded down to 80 g (savings always round DOWN). The 250 g jar mass is an assumption, so confidence is medium. WARM is a US model.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -185,8 +185,15 @@
       ],
       "is_active": true,
       "sort_order": 5,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WARM Version 16, Containers, Packaging and Non-Durable Goods Materials (Glass chapter), December 2023",
+          "url": "https://www.epa.gov/system/files/documents/2023-12/warm_containers_packaging_and_non-durable_goods_materials_v16_dec.pdf",
+          "quote": "Glass (0.53) (0.28) NA 0.03 0.02 NA",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "recycle_paper",
@@ -557,8 +564,8 @@
       "description_en": "Take a train instead of a domestic flight",
       "description_ja": "国内線の代わりに電車を利用",
       "description_es": "Ir en tren en vez de coger un vuelo nacional",
-      "co2_grams": 110000,
-      "calculation_notes": "per 500 km trip: DESNZ 2026 domestic flight 262.78 g CO2e/pkm (average passenger, radiative forcing on the direct part, including fuel supply) minus DESNZ 2026 national rail 39.89 g CO2e/pkm (including fuel supply) = 222.89 g/km x 500 km = 111,445 g, rounded down to 110,000 g (savings always round DOWN). The same factors as flight_domestic and rail_national in data/app/transport_modes.json.",
+      "co2_grams": 100000,
+      "calculation_notes": "per 500 km trip: DESNZ 2026 domestic flight 262.78 g CO2e/pkm (average passenger, radiative forcing on the direct part, including fuel supply) minus national rail 50.86 g CO2e/pkm (ORR 2024-25 traction energy at the house grid factor 458 and DESNZ 2026 gas oil, including fuel supply) = 211.92 g/km x 500 km = 105,960 g, rounded down to 100,000 g (savings always round DOWN). The same factors as flight_domestic and rail_national in data/app/transport_modes.json.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -584,16 +591,22 @@
           "accessed": "2026-11-21"
         },
         {
-          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
-          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
-          "quote": "Business travel- land | Rail | National rail | passenger.km | kg CO2e | 0.03092",
-          "accessed": "2026-11-21"
+          "name": "ORR Rail environment, April 2024 to March 2025",
+          "url": "https://dataportal.orr.gov.uk/media/xw4f0ohl/rail-environment-2024-25.pdf",
+          "quote": "total traction electricity consumption for passenger trains was 4,050 million kilowatt hours | Total traction diesel consumption for passenger trains was 423 million litres",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "ORR Passenger rail usage, January to March 2025",
+          "url": "https://dataportal.orr.gov.uk/media/zzlpyvq4/passenger-rail-usage-jan-mar-2025.pdf",
+          "quote": "From April 2024 to March 2025 there were 64.6 billion passenger kilometres.",
+          "accessed": "2026-11-22"
         },
         {
           "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
           "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
-          "quote": "WTT- pass vehs & travel- land | WTT- rail | National rail | passenger.km | kg CO2e | 0.00897",
-          "accessed": "2026-11-21"
+          "quote": "Fuels | Liquid fuels | Gas oil | litres | kg CO2e | 2.75541 | WTT- fuels | Liquid fuels | Gas oil | litres | kg CO2e | 0.62665",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -653,11 +666,11 @@
       "name_en": "E-Scooter Instead of Driving",
       "name_ja": "電動キックボードで移動",
       "name_es": "Patinete eléctrico en vez de coche",
-      "description_en": "Use an e-scooter instead of driving for a short trip",
-      "description_ja": "短距離移動に車の代わりに電動キックボードを使用",
-      "description_es": "Usar un patinete eléctrico en vez de conducir en un trayecto corto",
-      "co2_grams": 375,
-      "calculation_notes": "~2.5km; car-scooter net ~322g",
+      "description_en": "Ride your own e-scooter instead of driving for a short trip",
+      "description_ja": "短距離移動に車の代わりに自分の電動キックボードを使用",
+      "description_es": "Usar tu propio patinete eléctrico en vez de conducir en un trayecto corto",
+      "co2_grams": 500,
+      "calculation_notes": "per 2.5 km trip: car_petrol_avg 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99) minus escooter_private 7 g CO2e/km (Springer 2024, 14-15.8 Wh/km at the house grid factor 458 g CO2e/kWh, upper end), both the values shipped in data/app/transport_modes.json = 200.51 g/km x 2.5 km = 501.28 g, rounded down to 500 g (savings always round DOWN). Electricity only: scooter manufacture is excluded, as in escooter_private. Confidence medium because the 2.5 km trip length is an assumption.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -668,8 +681,33 @@
       ],
       "is_active": true,
       "sort_order": 9,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "Springer Environmental Sciences Europe 2024",
+          "url": "https://link.springer.com/article/10.1186/s12302-024-00920-x",
+          "quote": "1.4 kWh/100 km",
+          "accessed": "2026-07-17"
+        },
+        {
+          "name": "Springer Environmental Sciences Europe 2024",
+          "url": "https://link.springer.com/article/10.1186/s12302-024-00920-x",
+          "quote": "The Al e-scooter has an electricity consumption of 1.576 kWh/100 km, based on its 20.1 km range and a Li-Ion battery capacity of 316.8 Wh",
+          "accessed": "2026-07-18"
+        }
+      ]
     },
     {
       "action_id": "ev_charging_green",
@@ -985,8 +1023,8 @@
       "description_en": "Choose a plant-based meal instead of fish today",
       "description_ja": "今日は魚の代わりに植物性の食事を選択する",
       "description_es": "Elegir un plato vegetal en vez de pescado hoy",
-      "co2_grams": 560,
-      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 569 g. Rounded down to 560 g (conservative; savings always round DOWN). Re-based 2026-08-08: the seafood source decision retired the assembled fish_wild 9.5 this action previously used, and the reward fell 1200 -> 560 g with it. Sources transcribed 2026-09-01 from the white_fish item and the shared pulses baseline, both live-verified in RESEARCH_FOOD.md section 3.1; confidence medium because the fish leg is Gephart's narrower farm-gate boundary against a P&N-boundary baseline (reads low, so the mismatch is conservative for a saving).",
+      "co2_grams": 460,
+      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus a plant alternative of the same 150 g serving: beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg x 150 g = 268.5 g, rounded up to 300 g = 469 g. Rounded down to 460 g (savings always round DOWN). The 150 g baseline matches the fish serving, as the other meatless actions match 100 g to 100 g. Herring and sardines (wild) are 3.8779404 kg/kg in the same source, so the saving is smaller for them. Confidence medium because the fish leg is Gephart's narrower farm-gate boundary against a P&N-boundary baseline (reads low, so the mismatch is conservative for a saving).",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -1446,7 +1484,7 @@
       "description_ja": "レジ袋の代わりにエコバッグを使用",
       "description_es": "Usar una bolsa reutilizable en vez de una de plástico",
       "co2_grams": 10,
-      "calculation_notes": "one plastic bag ~10g CO2",
+      "calculation_notes": "per bag avoided: UK Environment Agency 2011 HDPE carrier bag, 0.830 kg CO2e per 82.14 bags (the reference flow) when every bag is reused as a bin liner = 10.1 g, rounded down to 10 g (1.578 kg = 19.2 g at the study's 40.28% bin-liner reuse). Break-even: at least 11 uses for non-woven PP and 131 for cotton (UK EA), 52 for cotton on climate change alone (Danish EPA 2018).",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -1460,16 +1498,22 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "Danish EPA LCA 2018",
-          "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
-          "quote": "Cotton bags need 7,100-20,000 uses to break even on all environmental indicators. Polypropylene bags break even in 10-45 uses.",
-          "accessed": "2026-01-31"
+          "name": "UK Environment Agency 2011, Life cycle assessment of supermarket carrier bags",
+          "url": "https://assets.publishing.service.gov.uk/media/5a7bff74ed915d01ba1ca7c7/scho0711buan-e-e.pdf",
+          "quote": "No secondary use 2.082 40.28% secondary use 1.578 100% secondary use 0.830",
+          "accessed": "2026-11-22"
         },
         {
-          "name": "Danish EPA LCA 2018",
+          "name": "UK Environment Agency 2011, Life cycle assessment of supermarket carrier bags",
+          "url": "https://assets.publishing.service.gov.uk/media/5a7bff74ed915d01ba1ca7c7/scho0711buan-e-e.pdf",
+          "quote": "The paper, LDPE, non-woven PP and cotton bags should be reused at least 3, 4, 11 and 131 times respectively",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Danish EPA 2018, Life Cycle Assessment of grocery carrier bags",
           "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
-          "quote": "HDPE carrier bags have the lowest environmental impact in all categories when used once.",
-          "accessed": "2026-01-31"
+          "quote": "Conventional cotton bags: Reuse for grocery shopping at least 52 times for climate change",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -1482,8 +1526,8 @@
       "description_en": "Bring your own reusable cup for drinks",
       "description_ja": "飲み物にマイカップを持参",
       "description_es": "Llevar tu propio vaso reutilizable para bebidas",
-      "co2_grams": 60,
-      "calculation_notes": "disposable cup ~60g CO2",
+      "co2_grams": 20,
+      "calculation_notes": "per cup avoided: Foteinis 2020 via Scottish Government 2024 Table 3, paper cup 29.9 g minus reusable PP cup 9.2 g per use over 500 uses = 20.7 g, rounded down to 20 g. The lowest pairing in Table 3 (Edge 2018, paper 36.8 g vs PP 17.2 g) is 19.6 g. Break-even about 6 uses (Eunomia 2023, commissioned by TOMRA).",
       "effort": 2,
       "frequency": 5,
       "impact": 2,
@@ -1494,8 +1538,27 @@
       ],
       "is_active": true,
       "sort_order": 2,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Scottish Government 2024, Single-use disposable beverage cups charge SEA, Environmental Report, Table 3",
+          "url": "https://www.gov.scot/publications/single-use-disposable-beverage-cups-charge-strategic-environmental-assessment-environmental-report/pages/5/",
+          "quote": "Foteinis (2020) [71] 500 29.9 (paper) 9.2 (Polypropylene with silicone band)",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Scottish Government 2024, Single-use disposable beverage cups charge SEA, Environmental Report",
+          "url": "https://www.gov.scot/publications/single-use-disposable-beverage-cups-charge-strategic-environmental-assessment-environmental-report/pages/5/",
+          "quote": "over a lifetime of 500 uses, a reusable cup is responsible for greenhouse gas emissions equivalent to 4.6kg CO2e",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Eunomia 2023, Assessing Climate Impact: Reusable Systems vs. Single-use Takeaway Packaging, Table E-1",
+          "url": "https://circulareconomy.europa.eu/platform/sites/default/files/2023-09/Assessing-the-Climate-Impact-Reusable-systems-vs.-Single-Use-Takeaway-Packaging-v-2.2.pdf",
+          "quote": "Cups for Cold Drinks 6 83% Cups for Warm Drinks 6 83%",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "reusable_water_bottle",
@@ -1506,8 +1569,8 @@
       "description_en": "Use a reusable bottle instead of single-use plastic",
       "description_ja": "使い捨てペットボトルの代わりにマイボトルを使用",
       "description_es": "Usar una botella reutilizable en vez de botellas de plástico desechables",
-      "co2_grams": 160,
-      "calculation_notes": "per-day: ~2 bottles avoided",
+      "co2_grams": 35,
+      "calculation_notes": "per refill: 0.5128 kg CO2e per 10 single-use 0.5 L PET bottles = 51.3 g each, minus 0.1462 kg for a reusable PET bottle used 10 times = 14.6 g per use; 51.3 - 14.6 = 36.7 g, rounded down to 35 g. Johannesburg setting, 10 uses a year, hand washing. The study states no break-even.",
       "effort": 1,
       "frequency": 5,
       "impact": 3,
@@ -1521,10 +1584,16 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "Carbon Trust",
-          "url": "https://www.carbontrust.com/",
-          "quote": "Single-use plastic bottles have significant lifecycle emissions from production, filling, and transport.",
-          "accessed": "2026-01-31"
+          "name": "Olatayo, Mativenga and Marnewick 2021, South African Journal of Science 117(11/12), Table 3",
+          "url": "https://scielo.org.za/pdf/sajs/v117n11-12/19.pdf",
+          "quote": "Global warming kg CO2 eq. 0.5128 0.1462",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Olatayo, Mativenga and Marnewick 2021, South African Journal of Science 117(11/12)",
+          "url": "https://scielo.org.za/pdf/sajs/v117n11-12/19.pdf",
+          "quote": "the functional unit of 10 single-use 0.5L PET bottles was assumed",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -1537,8 +1606,8 @@
       "description_en": "Use your own container for takeout food",
       "description_ja": "テイクアウト用にマイ容器を持参",
       "description_es": "Usar tu propio recipiente para comida para llevar",
-      "co2_grams": 100,
-      "calculation_notes": "takeout container ~100g CO2",
+      "co2_grams": 10,
+      "calculation_notes": "per use: Yadav et al. 2024, single-use container 20 g minus reusable 7 g per use at 100 uses = 13 g, rounded down to 10 g (5 g at 10 uses). Break-even about 6 uses (Yadav), 13 for bowls (Eunomia 2023).",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -1549,8 +1618,21 @@
       ],
       "is_active": true,
       "sort_order": 4,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Yadav et al. 2024, Life cycle assessment of reusable plastic food packaging, Journal of Cleaner Production 448, 141529 (abstract)",
+          "url": "https://doi.org/10.1016/j.jclepro.2024.141529",
+          "quote": "the global warming potential (GWP) for a single-use container (0.020 kg CO2 eq./FU) per FU had higher GWP than 10 uses (0.015 kg CO2 eq./FU) and 100 uses (0.007 kg CO2 eq./FU) of the reusable container (EoL recycling)",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Eunomia 2023, Assessing Climate Impact: Reusable Systems vs. Single-use Takeaway Packaging, Table E-1",
+          "url": "https://circulareconomy.europa.eu/platform/sites/default/files/2023-09/Assessing-the-Climate-Impact-Reusable-systems-vs.-Single-Use-Takeaway-Packaging-v-2.2.pdf",
+          "quote": "Bowls 13 92%",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "refuse_disposables",
