@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 
 const _mascotSize = 160.0;
@@ -58,13 +60,14 @@ class MascotCheer extends ConsumerStatefulWidget {
 
   /// Shows the jump cheer in the root overlay, [bottomClearance] above the
   /// bottom safe area (the bottom nav's height on screens that have it).
-  /// A no-op while one is showing, while an evolution or egg celebration
-  /// is pending, or without a mascot asset.
+  /// A no-op while one is showing, while a celebration is pending, showing
+  /// or queued, or without a mascot asset.
   static void show(BuildContext context, {double bottomClearance = 0}) {
     if (_showing) return;
     final container = ProviderScope.containerOf(context, listen: false);
     if (container.read(activeMascotAssetPathProvider) == null ||
-        container.read(mascotCelebrationPendingProvider)) {
+        container.read(mascotCelebrationPendingProvider) ||
+        celebrationsPending(context).value > 0) {
       return;
     }
     _showing = true;
@@ -97,12 +100,16 @@ class _MascotCheerState extends ConsumerState<MascotCheer>
   late final _hop = AnimationController(vsync: this, duration: _hopDuration);
   late bool _reduceMotion;
   Timer? _stayTimer;
+  ValueListenable<int>? _celebrations;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_rise != null) return;
     _reduceMotion = reduceMotionOf(context);
+    if (widget._isJump) {
+      _celebrations = celebrationsPending(context)..addListener(_standAside);
+    }
     final rise = _rise = AnimationController(
       vsync: this,
       duration: _reduceMotion ? Duration.zero : durationSlower,
@@ -113,6 +120,11 @@ class _MascotCheerState extends ConsumerState<MascotCheer>
       reverseCurve: Curves.easeIn,
     );
     rise.forward().then((_) => _cheer());
+  }
+
+  // A celebration queued after the cheer started takes the stage.
+  void _standAside() {
+    if (_celebrations!.value > 0) widget._onDone?.call();
   }
 
   void _cheer() {
@@ -131,6 +143,7 @@ class _MascotCheerState extends ConsumerState<MascotCheer>
   @override
   void dispose() {
     _stayTimer?.cancel();
+    _celebrations?.removeListener(_standAside);
     _curve.dispose();
     _hop.dispose();
     _rise!.dispose();

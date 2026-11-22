@@ -233,6 +233,14 @@ class _EggHatchingCelebrationState
                                           ),
                                       textAlign: TextAlign.center,
                                     ),
+                                    // The shell asks again on the next start.
+                                    TextButton(
+                                      onPressed: widget.onDismiss,
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      child: Text(l10n.challengeDialogLater),
+                                    ),
                                   ],
                                 ],
                               )

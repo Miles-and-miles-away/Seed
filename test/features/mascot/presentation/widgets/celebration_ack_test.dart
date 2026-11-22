@@ -230,6 +230,30 @@ void main() {
       await flush(tester);
     });
 
+    testWidgets('Later closes it, only after a failed write', (tester) async {
+      final failed = Completer<void>();
+      when(
+        () => repo.updateMascotName(any(), any(), any()),
+      ).thenAnswer((_) => failed.future);
+
+      await nameIt(tester);
+      final later = find.text(
+        AppLocalizations.of(
+          tester.element(find.byType(EggHatchingCelebration)),
+        ).challengeDialogLater,
+      );
+      expect(later, findsNothing);
+
+      failed.completeError(Exception('offline'));
+      await settle(tester);
+      // Lets the name input finish sliding into place.
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.tap(later);
+
+      expect(dismissed, isTrue);
+      await flush(tester);
+    });
+
     testWidgets('it closes once the name is stored, before activation', (
       tester,
     ) async {

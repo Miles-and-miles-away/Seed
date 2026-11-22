@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_cheer.dart';
 
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
+
 import '../../../../helpers/test_helpers.dart';
 
 const _svg = 'assets/images/mascot/seed_stage1.svg';
@@ -66,6 +68,37 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
 
       MascotCheer.show(await pumpHost(tester));
+      await tester.pump();
+      expect(find.byType(MascotCheer), findsOneWidget);
+      await runOut(tester);
+    });
+
+    testWidgets('stands aside for a celebration, before or after', (
+      tester,
+    ) async {
+      final context = await pumpHost(tester);
+      MascotCheer.show(context);
+      await tester.pump();
+      expect(find.byType(MascotCheer), findsOneWidget);
+
+      late VoidCallback dismiss;
+      final closed = showCelebrationOverlay(context, (onDismiss) {
+        dismiss = onDismiss;
+        return const Placeholder();
+      });
+      await tester.pump();
+      await tester.pump();
+      expect(find.byType(Placeholder), findsOneWidget);
+      expect(find.byType(MascotCheer), findsNothing);
+
+      MascotCheer.show(context);
+      await tester.pump();
+      expect(find.byType(MascotCheer), findsNothing);
+
+      dismiss();
+      await closed;
+      await tester.pump();
+      MascotCheer.show(context);
       await tester.pump();
       expect(find.byType(MascotCheer), findsOneWidget);
       await runOut(tester);

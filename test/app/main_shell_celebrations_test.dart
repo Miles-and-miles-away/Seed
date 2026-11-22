@@ -14,6 +14,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/actions.dart';
+import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/data/challenge_templates_data.dart';
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
@@ -139,6 +140,7 @@ Future<void> _pumpApp(
   FakeFirebaseFirestore fs, {
   Set<int> seenWeeks = const {},
   _FakeDiscovery? discovery,
+  bool challengeLog = false,
   Widget app = const _RouterApp(),
 }) async {
   tester.view.physicalSize = const Size(800, 1400);
@@ -159,9 +161,13 @@ Future<void> _pumpApp(
           (_) async => [_species('seed'), _species('leaf')],
         ),
         userSettingsProvider.overrideWith((_) => Stream.value(settings)),
-        ecoDexDiscoveryProvider.overrideWith(
-          () => discovery ?? _FakeDiscovery(),
-        ),
+        // The real notifier, so the shell and the tap handler share claims.
+        if (challengeLog)
+          actionLogProvider.overrideWith(_ChallengeLog.new)
+        else
+          ecoDexDiscoveryProvider.overrideWith(
+            () => discovery ?? _FakeDiscovery(),
+          ),
         ecoDexDataProvider.overrideWith(
           (_) async => ecoDexDataFor([ecoDexEntry('forests_01')]),
         ),
@@ -202,6 +208,68 @@ Future<void> _log(WidgetTester tester) async {
   }
   expect(done, isTrue, reason: 'logAction did not complete');
   await _settle(tester, 40);
+}
+
+/// The real notifier, with every log marked as completing the challenge.
+class _ChallengeLog extends ActionLogNotifier {
+  @override
+  Future<ActionLogResult?> logAction(
+    ActionModel action, {
+    String? note,
+    String languageCode = 'en',
+  }) async {
+    final r = await super.logAction(
+      action,
+      note: note,
+      languageCode: languageCode,
+    );
+    if (r == null) return null;
+    return ActionLogResult(
+      actionLog: r.actionLog,
+      newStreakDays: r.newStreakDays,
+      crossedMilestoneWeek: r.crossedMilestoneWeek,
+      hatchedMascotId: r.hatchedMascotId,
+      challengeCompleted: true,
+      newTotalActionsCount: r.newTotalActionsCount,
+      newGoalCount: r.newGoalCount,
+    );
+  }
+}
+
+/// Logs [_walk] through handleActionTap on the action log route, then
+/// expects [celebration] to hold the inbox back until it closes.
+Future<void> _expectInboxWaitsFor(
+  WidgetTester tester,
+  Finder celebration,
+) async {
+  final router = _container(tester).read(routerProvider);
+  unawaited(router.push(appRoutes.actionLog));
+  await _settle(tester);
+  final screen = tester.state<ConsumerState<ActionLogScreen>>(
+    find.byType(ActionLogScreen),
+  );
+  unawaited(
+    handleActionTap(
+      screen.context,
+      screen.ref,
+      action: _walk,
+      languageCode: 'en',
+    ),
+  );
+  await _settle(tester, 5);
+  await tester.tap(find.text('Confirm'));
+  // Device-sized frames: at coarser steps the handler claims the Eco-Dex
+  // entries before the shell does, and then waits by itself.
+  for (var i = 0; i < 600; i++) {
+    await tester.pump(const Duration(milliseconds: 10));
+  }
+
+  expect(celebration, findsOneWidget);
+  expect(router.state.uri.path, appRoutes.actionLog);
+
+  await _popTop(tester);
+  await _settle(tester, 20);
+  expect(router.state.uri.path, appRoutes.dailyFact);
 }
 
 Future<void> _popTop(WidgetTester tester) async {
@@ -434,5 +502,47 @@ void main() {
     expect(find.byType(EcoDexCelebrationScreen), findsOneWidget);
     await _popTop(tester);
     await _unmount(tester);
+  });
+
+  group('a challenge-completing log on the action log route', () {
+    testWidgets('opens the inbox after the Eco-Dex celebration', (
+      tester,
+    ) async {
+      final fs = await _store(
+        _userDoc(level: 12, points: calculatePointsForLevel(12)),
+      );
+      await _pumpApp(tester, fs, challengeLog: true);
+
+      await _expectInboxWaitsFor(tester, find.byType(EcoDexCelebrationScreen));
+      await _unmount(tester);
+    });
+
+    testWidgets('opens the inbox after the hatching celebration', (
+      tester,
+    ) async {
+      final fs = await _store(
+        _userDoc(
+          level: 30,
+          points: calculatePointsForLevel(30),
+          lastSeenStage: 3,
+          extra: {
+            AppConstants.fieldEcodexDiscovered: ['forests_01'],
+            AppConstants.fieldEgg: {
+              'receivedAt': Timestamp.fromDate(
+                _yesterday.subtract(const Duration(days: 30)),
+              ),
+              AppConstants.fieldHatchingStreakDays: 29,
+              AppConstants.fieldLastHatchingActivityDate: Timestamp.fromDate(
+                _yesterday,
+              ),
+            },
+          },
+        ),
+      );
+      await _pumpApp(tester, fs, challengeLog: true);
+
+      await _expectInboxWaitsFor(tester, find.byType(EggHatchingCelebration));
+      await _unmount(tester);
+    });
   });
 }

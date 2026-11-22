@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -133,6 +134,10 @@ class CelebrationScrollBody extends StatelessWidget {
 }
 
 final _celebrationQueues = Expando<Future<void>>();
+final _celebrationCounts = Expando<ValueNotifier<int>>();
+
+ValueNotifier<int> _countOn(NavigatorState navigator) =>
+    _celebrationCounts[navigator] ??= ValueNotifier(0);
 
 /// Presents [builder]'s widget as a full-screen celebration: transparent
 /// barrier, no transition, dismiss wired to pop. The shared launcher every
@@ -148,6 +153,7 @@ Future<void> showCelebrationOverlay(
 ) {
   final navigator = Navigator.of(context, rootNavigator: true);
   final previous = _celebrationQueues[navigator] ?? Future<void>.value();
+  final count = _countOn(navigator)..value += 1;
   final shown = previous.then((_) {
     if (!context.mounted) return null;
     var dismissed = false;
@@ -162,6 +168,24 @@ Future<void> showCelebrationOverlay(
       }),
     );
   });
-  _celebrationQueues[navigator] = shown.catchError((Object _) {});
+  _celebrationQueues[navigator] = shown
+      .catchError((Object _) {})
+      .whenComplete(() => count.value--);
   return shown;
+}
+
+/// How many celebrations are showing or queued on [context]'s root
+/// navigator. Lesser reactions stand aside while it is above zero.
+ValueListenable<int> celebrationsPending(BuildContext context) =>
+    _countOn(Navigator.of(context, rootNavigator: true));
+
+/// Completes once no celebration is showing or queued on [context]'s root
+/// navigator, those queued during the wait included.
+Future<void> celebrationsDone(BuildContext context) async {
+  final navigator = Navigator.of(context, rootNavigator: true);
+  Future<void>? awaited;
+  while (awaited != _celebrationQueues[navigator]) {
+    awaited = _celebrationQueues[navigator];
+    await awaited;
+  }
 }

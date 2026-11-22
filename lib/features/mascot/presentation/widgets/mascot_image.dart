@@ -136,6 +136,7 @@ class _MascotImageState extends State<MascotImage> {
       );
     }
     final artboardName = widget.artboardName;
+    final reduceMotion = reduceMotionOf(context);
     return SizedBox(
       width: widget.width,
       height: widget.height,
@@ -143,16 +144,18 @@ class _MascotImageState extends State<MascotImage> {
       // sibling animation repaints the artboard too.
       child: RepaintBoundary(
         child: rive.RiveWidgetBuilder(
-          // Force a fresh builder when the target artboard changes; the
-          // builder resolves its artboard once on load.
-          key: ValueKey('${widget.assetPath}#${artboardName ?? ''}'),
+          // Force a fresh builder when the target artboard or the reduce
+          // motion setting changes; the builder resolves both once on load.
+          key: ValueKey(
+            '${widget.assetPath}#${artboardName ?? ''}#$reduceMotion',
+          ),
           fileLoader: fileLoader,
           artboardSelector: artboardName == null
               ? rive.ArtboardSelector.byDefault()
               : rive.ArtboardSelector.byName(artboardName),
           onLoaded: (state) {
             widget.onRiveInit?.call(state.controller);
-            if (mounted && reduceMotionOf(context)) pauseRive(state.controller);
+            if (reduceMotion) pauseRive(state.controller);
           },
           builder: (context, state) => switch (state) {
             rive.RiveLoaded(:final controller) => rive.RiveWidget(
