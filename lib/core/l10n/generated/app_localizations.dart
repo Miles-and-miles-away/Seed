@@ -2590,6 +2590,12 @@ abstract class AppLocalizations {
   /// **'trend'**
   String get trendChartTrendLabel;
 
+  /// No description provided for @trendChartSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{CO2 saved over 1 day} other{CO2 saved per day over {days} days}}. Average {average} a day, highest {peak}.'**
+  String trendChartSemantics(int days, String average, String peak);
+
   /// No description provided for @categoryChartTitle.
   ///
   /// In en, this message translates to:

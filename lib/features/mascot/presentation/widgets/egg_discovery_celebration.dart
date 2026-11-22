@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
@@ -48,9 +49,17 @@ class _EggDiscoveryCelebrationState
     _startAnimationSequence();
   }
 
-  Future<void> _startAnimationSequence() async {
-    unawaited(_glowController.repeat(reverse: true));
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (reduceMotionOf(context)) {
+      _glowController.stop();
+    } else if (!_glowController.isAnimating) {
+      unawaited(_glowController.repeat(reverse: true));
+    }
+  }
 
+  Future<void> _startAnimationSequence() async {
     await Future<void>.delayed(durationNormal);
     if (mounted) setState(() => _showContent = true);
 
@@ -80,13 +89,11 @@ class _EggDiscoveryCelebrationState
         // Content
         if (_showContent)
           SafeArea(
-            child: Column(
+            child: CelebrationScrollBody(
               children: [
-                const Spacer(),
+                const SizedBox.shrink(),
 
                 CelebrationTitle(l10n.eggDiscoveryTitle, delay: 100.ms),
-
-                const Spacer(),
 
                 // Egg with pulsing glow
                 AnimatedBuilder(
@@ -127,52 +134,64 @@ class _EggDiscoveryCelebrationState
                           ),
                 ),
 
-                const Spacer(),
-
-                // Message
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: spacingXxxl),
-                  child: PhraseText(
-                    l10n.eggDiscoveryMessage(mascot?.name ?? ''),
-                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxxl,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: Colors.white,
-                      height: 1.5,
+                Column(
+                  children: [
+                    // Message
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: spacingXxxl,
+                      ),
+                      child: PhraseText(
+                        l10n.eggDiscoveryMessage(mascot?.name ?? ''),
+                        minLineWidth:
+                            phraseNarrowestScreenWidth - 2 * spacingXxxl,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: Colors.white,
+                          height: 1.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ).animate().fadeIn(delay: 800.ms, duration: 400.ms),
                     ),
-                    textAlign: TextAlign.center,
-                  ).animate().fadeIn(delay: 800.ms, duration: 400.ms),
+
+                    const SizedBox(height: spacingMd),
+
+                    // Subtitle
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: spacingHuge,
+                      ),
+                      child: PhraseText(
+                        l10n.eggDiscoverySubtitle,
+                        minLineWidth:
+                            phraseNarrowestScreenWidth - 2 * spacingHuge,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white70,
+                        ),
+                        textAlign: TextAlign.center,
+                      ).animate().fadeIn(delay: 1000.ms, duration: 400.ms),
+                    ),
+                  ],
                 ),
 
-                const SizedBox(height: spacingMd),
+                const SizedBox.shrink(),
 
-                // Subtitle
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: spacingHuge),
-                  child: PhraseText(
-                    l10n.eggDiscoverySubtitle,
-                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingHuge,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.white70,
-                    ),
-                    textAlign: TextAlign.center,
-                  ).animate().fadeIn(delay: 1000.ms, duration: 400.ms),
+                Column(
+                  children: [
+                    // Dismiss button
+                    if (_showButton)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: spacingHuge,
+                        ),
+                        child: CelebrationButton(
+                          label: l10n.eggDiscoveryDismiss,
+                          onPressed: widget.onDismiss,
+                        ),
+                      ),
+
+                    const SizedBox(height: spacingHuge),
+                  ],
                 ),
-
-                const Spacer(flex: 2),
-
-                // Dismiss button
-                if (_showButton)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: spacingHuge,
-                    ),
-                    child: CelebrationButton(
-                      label: l10n.eggDiscoveryDismiss,
-                      onPressed: widget.onDismiss,
-                    ),
-                  ),
-
-                const SizedBox(height: spacingHuge),
               ],
             ),
           ),
