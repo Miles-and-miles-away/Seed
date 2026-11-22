@@ -15,4 +15,14 @@ void main() {
     expect(text, contains('Copyright 2021 Google LLC'));
     expect(text, contains('Apache License'));
   });
+
+  test('the M PLUS Rounded 1c licence reaches the licences page', () async {
+    registerBundledLicences();
+    final font = await LicenseRegistry.licenses
+        .where((entry) => entry.packages.contains('M PLUS Rounded 1c'))
+        .first;
+    final text = font.paragraphs.map((p) => p.text).join('\n');
+    expect(text, contains('The Rounded M+ Project Authors'));
+    expect(text, contains('SIL OPEN FONT LICENSE Version 1.1'));
+  });
 }
