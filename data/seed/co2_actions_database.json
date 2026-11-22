@@ -112,8 +112,8 @@
       "description_en": "Flatten and recycle cardboard boxes",
       "description_ja": "段ボール箱を潰してリサイクル",
       "description_es": "Aplanar y reciclar cajas de cartón",
-      "co2_grams": 500,
-      "calculation_notes": "typical ~230g box; EPA WARM 2160g/kg = ~500g",
+      "co2_grams": 840,
+      "calculation_notes": "One box of about 230 g per log. EPA WARM v16 corrugated containers: net recycling -3.14 and net landfilling 0.18 MTCO2e per short ton, so recycling saves 3.32 / 0.907185 = 3.660 kg CO2e per kg against landfill. 0.23 kg x 3.660 = 841.7 g, rounded down to 840 g. The 230 g box is an assumption. US data.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -124,8 +124,15 @@
       ],
       "is_active": true,
       "sort_order": 3,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WARM v16, Containers, Packaging and Non-Durable Goods Materials, Exhibit 3-7 (MTCO2E/Short Ton)",
+          "url": "https://www.epa.gov/system/files/documents/2023-12/warm_containers_packaging_and_non-durable_goods_materials_v16_dec.pdf",
+          "quote": "Corrugated Containers (5.58) (3.14) NA (0.49) 0.18 NA",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "composting",
@@ -204,8 +211,8 @@
       "description_en": "Recycle paper instead of throwing it in the trash",
       "description_ja": "紙をゴミ箱ではなくリサイクルへ",
       "description_es": "Reciclar papel en vez de tirarlo a la basura",
-      "co2_grams": 50,
-      "calculation_notes": "~100g paper; 0.5kg CO2/kg saved",
+      "co2_grams": 390,
+      "calculation_notes": "About 100 g of paper per log. EPA WARM v16 mixed paper (primarily residential): net recycling -3.55 and net landfilling 0.02 MTCO2e per short ton, so recycling saves 3.57 / 0.907185 = 3.935 kg CO2e per kg against landfill. 0.1 kg x 3.935 = 393.5 g, rounded down to 390 g. The 100 g is an assumption. US data.",
       "effort": 1,
       "frequency": 5,
       "impact": 2,
@@ -216,8 +223,15 @@
       ],
       "is_active": true,
       "sort_order": 6,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WARM v16, Containers, Packaging and Non-Durable Goods Materials, Exhibit 3-7 (MTCO2E/Short Ton)",
+          "url": "https://www.epa.gov/system/files/documents/2023-12/warm_containers_packaging_and_non-durable_goods_materials_v16_dec.pdf",
+          "quote": "Mixed Paper (primarily residential) (6.00) (3.55) NA (0.49) 0.02 NA",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "recycle_ewaste",
@@ -225,11 +239,11 @@
       "name_en": "Recycle E-Waste",
       "name_ja": "電子機器をリサイクル",
       "name_es": "Reciclar residuos electrónicos",
-      "description_en": "Take old electronics to an e-waste recycling centre",
-      "description_ja": "古い電子機器をリサイクルセンターへ持参",
-      "description_es": "Llevar aparatos electrónicos viejos a un punto limpio",
-      "co2_grams": 2000,
-      "calculation_notes": "per-phone: one device",
+      "description_en": "Take one old phone to an e-waste recycling point (per phone)",
+      "description_ja": "古い携帯電話1台を回収・リサイクル拠点へ持参（1台あたり）",
+      "description_es": "Llevar un móvil viejo a un punto limpio (por móvil)",
+      "co2_grams": 210,
+      "calculation_notes": "Per phone, one device per log. EPA WARM v16 portable electronic devices: net recycling -1.06 and net landfilling 0.02 MTCO2e per short ton, so recycling saves 1.08 / 0.907185 = 1.19 kg CO2e per kg against landfill. One phone of 177 g (iPhone 17) x 1.19 = 210.7 g, rounded down to 210 g. US data. A heavier device such as a laptop saves more per item.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -240,8 +254,21 @@
       ],
       "is_active": true,
       "sort_order": 7,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WARM v16, Electronics, Exhibit 1-5 (MTCO2E/Short Ton)",
+          "url": "https://www.epa.gov/system/files/documents/2023-12/warm_electronics_v16_dec.pdf",
+          "quote": "Portable Electronic Devices (29.83) (1.06) NA 0.65 0.02 NA",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Apple, iPhone 17 Technical Specifications",
+          "url": "https://www.apple.com/iphone-17/specs/",
+          "quote": "Weight: 6.24 ounces (177 grams)",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "recycle_textiles",
@@ -381,8 +408,8 @@
       "description_en": "Take used cooking oil to a recycling collection point",
       "description_ja": "使用済み食用油をリサイクル回収場所へ",
       "description_es": "Llevar aceite usado a un punto de recogida para reciclaje",
-      "co2_grams": 1500,
-      "calculation_notes": "per ~0.6L drop-off; waste-oil biodiesel saves ~2,460g/L vs fossil diesel (EPA 86% lifecycle reduction)",
+      "co2_grams": 620,
+      "calculation_notes": "About 250 mL of used oil per log. DESNZ 2026: diesel 2.66155 + well-to-tank 0.62409 = 3.28564 kg CO2e/L; biodiesel from used cooking oil 0.16751 + 0.3534 = 0.52091 kg CO2e/L. One litre of biodiesel (33 MJ) replaces 33/36 L of diesel (36 MJ/L): 3.28564 x 33/36 - 0.52091 = 2.4909 kg CO2e per litre. 0.25 L x 2,490.9 = 622.7 g, rounded down to 620 g. Assumptions: the 250 mL, and that 1 L of used oil makes 1 L of biodiesel that replaces fossil diesel.",
       "effort": 2,
       "frequency": 2,
       "impact": 3,
@@ -394,8 +421,45 @@
       ],
       "is_active": true,
       "sort_order": 11,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 1 | Fuels | Liquid fuels | Diesel (100% mineral diesel) | litres | kg CO2e | 2.66155",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- fuels | Liquid fuels | Diesel (100% mineral diesel) | litres | kg CO2e | 0.62409",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 1 | Bioenergy | Biofuel | Biodiesel ME (from used cooking oil) | litres | kg CO2e | 0.16751",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- bioenergy | WTT- biofuel | Biodiesel ME (from used cooking oil) | litres | kg CO2e | 0.3534",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "Directive (EU) 2018/2001, Annex III",
+          "url": "https://www.legislation.gov.uk/eudr/2018/2001/annex/III",
+          "quote": "fatty acid methyl ester (methyl-ester produced from oil of biomass origin) 37 33",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Directive (EU) 2018/2001, Annex III",
+          "url": "https://www.legislation.gov.uk/eudr/2018/2001/annex/III",
+          "quote": "FOSSIL FUELS Petrol 43 32 Diesel 43 36",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "walk_instead_drive",
@@ -812,8 +876,8 @@
       "description_en": "Charge your EV using renewable energy sources",
       "description_ja": "再生可能エネルギーで電気自動車を充電",
       "description_es": "Cargar tu coche eléctrico con energía renovable",
-      "co2_grams": 4500,
-      "calculation_notes": "~10 kWh charge x 458 g/kWh = 4580, rounded down to 4500. The 458 g/kWh grid factor is sourced; the ~10 kWh session size is an assumption with no primary behind it (RESEARCH_ENERGY has no charging-session basis), which is why confidence is low.",
+      "co2_grams": 4100,
+      "calculation_notes": "One charge of 9.1 kWh (DfT/OLEV mean domestic charge, 2017 data) x 458 g CO2e/kWh (Ember, world average grid) = 4,167.8 g, rounded down to 4,100 g. Market-based: the renewable electricity counts as 0 g. The session data is from 2017, older than the recency rule, and the 2017 fleet had many plug-in hybrids.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -832,6 +896,12 @@
           "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
           "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
           "accessed": "2026-08-02"
+        },
+        {
+          "name": "DfT/OLEV, Electric Chargepoint Analysis 2017: Domestics",
+          "url": "https://assets.publishing.service.gov.uk/media/5c114a0fe5274a0bad85ade0/electric-chargepoint-analysis-2017-domestics.pdf",
+          "accessed": "2026-11-23",
+          "quote": "The median average energy drawn from domestic chargepoints was 7.5 kWh per charge in 2017, whilst the mean average was 9.1 kWh."
         }
       ]
     },
@@ -2149,8 +2219,8 @@
       "description_en": "Only run the dishwasher when full",
       "description_ja": "食洗機は満杯にしてから回す",
       "description_es": "Poner el lavavajillas solo cuando esté lleno",
-      "co2_grams": 80,
-      "calculation_notes": "avoids partial load waste",
+      "co2_grams": 90,
+      "calculation_notes": "Per full run. One avoided wash = 1.12 kWh (Which?) x 458 g CO2e/kWh (Ember, world average) = 512.96 g, plus 12.96 L x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 4.69 g: 517.65 g. EPA WaterSense: full loads avoid one load a week, so 52 avoided washes spread over 280 washes a year (EU energy label convention) = 52 / 280 x 517.65 = 96.1 g, rounded down to 90 g. Mixed basis: a US habit figure with an EU label convention.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -2161,8 +2231,51 @@
       ],
       "is_active": true,
       "sort_order": 3,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Statistics and Facts",
+          "url": "https://www.epa.gov/watersense/statistics-and-facts",
+          "quote": "Running the dishwasher only when it's full can eliminate one load of dishes per week and save the average family nearly 320 gallons of water annually.",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Which?, How little water dishwashers use compared to hand-washing",
+          "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
+          "quote": "Dishwashers on average use around 1.12kWh of energy per wash",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Which?, How little water dishwashers use compared to hand-washing",
+          "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
+          "quote": "Dishwasher (main wash) 926 millilitres 12.96 litres",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Commission Delegated Regulation (EU) No 1059/2010 (adopted text)",
+          "url": "https://www.legislation.gov.uk/eur/2010/1059/adopted/data.html",
+          "quote": "280 total number of standard cleaning cycles per year",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "fix_leak",
