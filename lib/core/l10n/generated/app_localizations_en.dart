@@ -808,6 +808,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'Log actions every day for 30 days to hatch it.';
 
   @override
+  String eggDaysLeftHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Log actions on $count more days to hatch your egg.',
+      one: 'Log actions on $count more day to hatch your egg.',
+    );
+    return '$_temp0 Miss a day and the count starts again.';
+  }
+
+  @override
+  String get eggStreakResetMessage =>
+      'You missed a day, so your egg\'s count started again.';
+
+  @override
+  String speciesUnlockHint(int level) {
+    return 'When a companion reaches Level $level, you find an egg. A new companion hatches from it.';
+  }
+
+  @override
   String get eggDiscoveryDismiss => 'How exciting!';
 
   @override
@@ -1613,6 +1633,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trendChartTrendLabel => 'trend';
+
+  @override
+  String trendChartSemantics(int days, String average, String peak) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'CO2 saved per day over $days days',
+      one: 'CO2 saved over 1 day',
+    );
+    return '$_temp0. Average $average a day, highest $peak.';
+  }
 
   @override
   String get categoryChartTitle => 'By category';

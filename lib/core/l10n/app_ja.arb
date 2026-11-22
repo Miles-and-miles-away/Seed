@@ -366,6 +366,23 @@
     }
   },
   "eggDiscoverySubtitle": "30日間毎日アクションを記録して孵化させよう。",
+  "eggDaysLeftHint": "{count, plural, other{あと{count}日アクションを記録するとタマゴが孵化します。}}1日でも空くと、カウントは最初からやり直しです。",
+  "@eggDaysLeftHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eggStreakResetMessage": "1日空いたため、タマゴのカウントは最初からやり直しです。",
+  "speciesUnlockHint": "相棒がレベル{level}になると、タマゴが見つかります。タマゴからは新しい相棒が孵化します。",
+  "@speciesUnlockHint": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "eggDiscoveryDismiss": "楽しみ！",
   "eggHatchingTitle": "孵化中！",
   "eggHatchingNamePrompt": "新しい相棒に名前をつけよう",
@@ -742,6 +759,7 @@
   "trendChartTitle": "日々の推移",
   "trendChartAverageLabel": "平均",
   "trendChartTrendLabel": "傾向",
+  "trendChartSemantics": "{days}日間の1日ごとのCO2削減量。1日平均{average}、最大{peak}。",
   "categoryChartTitle": "カテゴリ別",
   "categoryOther": "その他",
   "equivalentToHeader": "つまり",

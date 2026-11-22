@@ -62,114 +62,117 @@ class _EmailVerificationScreenState
           onPressed: _handleSignOut,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(spacingXxl),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(spacingXxl),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer,
-                shape: BoxShape.circle,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(spacingXxl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(spacingXxl),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.mark_email_unread_outlined,
+                  size: 64,
+                  color: theme.colorScheme.primary,
+                ),
               ),
-              child: Icon(
-                Icons.mark_email_unread_outlined,
-                size: 64,
-                color: theme.colorScheme.primary,
+              const SizedBox(height: spacingXxxl),
+              Text(
+                l10n.authCheckEmail,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: spacingXxxl),
-            Text(
-              l10n.authCheckEmail,
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: spacingLg),
+              Text(
+                l10n.authVerificationSentTo,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: spacingLg),
-            Text(
-              l10n.authVerificationSentTo,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+              const SizedBox(height: spacingSm),
+              Text(
+                userEmail,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: spacingSm),
-            Text(
-              userEmail,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
+              const SizedBox(height: spacingLg),
+              Text(
+                l10n.authVerifyInstructions,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: spacingLg),
-            Text(
-              l10n.authVerifyInstructions,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+              const SizedBox(height: spacingXxxl),
+              FilledButton.icon(
+                onPressed: (isLoading || _checkingVerification)
+                    ? null
+                    : _checkEmailVerified,
+                icon: _checkingVerification
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Icon(Icons.check_circle_outline),
+                label: Text(
+                  _checkingVerification
+                      ? l10n.authChecking
+                      : l10n.authVerifiedButton,
+                ),
+                style: FilledButton.styleFrom(
+                  minimumSize: const Size.fromHeight(spacingHuge),
+                ),
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: spacingXxxl),
-            FilledButton.icon(
-              onPressed: (isLoading || _checkingVerification)
-                  ? null
-                  : _checkEmailVerified,
-              icon: _checkingVerification
-                  ? const SizedBox(
-                      height: 18,
-                      width: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Icon(Icons.check_circle_outline),
-              label: Text(
-                _checkingVerification
-                    ? l10n.authChecking
-                    : l10n.authVerifiedButton,
+              const SizedBox(height: spacingLg),
+              OutlinedButton.icon(
+                onPressed: (isLoading || _resendCooldown != null)
+                    ? null
+                    : () async {
+                        await ref
+                            .read(authProvider.notifier)
+                            .resendVerificationEmail();
+                        // listenAuthResult already reported a failure.
+                        if (!context.mounted ||
+                            ref.read(authProvider).hasError) {
+                          return;
+                        }
+                        _startResendCooldown();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.authVerificationSent)),
+                        );
+                      },
+                icon: isLoading
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.refresh),
+                label: Text(l10n.authResendEmail),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(spacingHuge),
+                ),
               ),
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(spacingHuge),
+              const SizedBox(height: spacingXxxl),
+              TextButton(
+                onPressed: isLoading ? null : _handleSignOut,
+                child: Text(l10n.authDifferentEmail),
               ),
-            ),
-            const SizedBox(height: spacingLg),
-            OutlinedButton.icon(
-              onPressed: (isLoading || _resendCooldown != null)
-                  ? null
-                  : () async {
-                      await ref
-                          .read(authProvider.notifier)
-                          .resendVerificationEmail();
-                      // listenAuthResult already reported a failure.
-                      if (!context.mounted || ref.read(authProvider).hasError) {
-                        return;
-                      }
-                      _startResendCooldown();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.authVerificationSent)),
-                      );
-                    },
-              icon: isLoading
-                  ? const SizedBox(
-                      height: 18,
-                      width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.refresh),
-              label: Text(l10n.authResendEmail),
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size.fromHeight(spacingHuge),
-              ),
-            ),
-            const SizedBox(height: spacingXxxl),
-            TextButton(
-              onPressed: isLoading ? null : _handleSignOut,
-              child: Text(l10n.authDifferentEmail),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -187,12 +190,14 @@ class _EmailVerificationScreenState
       // propagated the updated emailVerified flag yet at this point.
       final verified =
           ref.read(authRepositoryProvider).currentUser?.emailVerified ?? false;
+      final fill = verified ? AppColors.success : AppColors.warning;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             verified ? l10n.authEmailVerified : l10n.authEmailNotVerified,
+            style: TextStyle(color: inkOnFill(fill)),
           ),
-          backgroundColor: verified ? AppColors.success : AppColors.warning,
+          backgroundColor: fill,
         ),
       );
       if (verified) context.go(appRoutes.home);

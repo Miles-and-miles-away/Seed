@@ -50,6 +50,26 @@ void main() {
       expect(find.byType(LineChart), findsOneWidget);
     });
 
+    testWidgets('gives screen readers a text summary', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          child: Co2TrendChart(
+            data: _fixture(points: const [(0, 500), (3, 1200), (6, 900)]),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        find.bySemanticsLabel(
+          'CO2 saved per day over 7 days. '
+          'Average 867\u00a0g a day, highest 1.2\u00a0kg.',
+        ),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('draws the best-fit line inside the plot area', (tester) async {
       await tester.pumpWidget(
         createTestWidget(

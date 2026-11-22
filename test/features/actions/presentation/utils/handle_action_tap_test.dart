@@ -85,9 +85,11 @@ class _FakeDiscovery extends EcoDexDiscoveryNotifier {
   int? receivedMinCount;
 
   @override
-  Future<List<String>> discoverNewEntries({int? minActionsCount}) async {
+  Future<({List<String> unlocked, List<String> claimed})> discoverNewEntries({
+    int? minActionsCount,
+  }) async {
     receivedMinCount = minActionsCount;
-    return newIds;
+    return (unlocked: newIds, claimed: newIds);
   }
 }
 
@@ -318,46 +320,9 @@ void main() {
     await drain(tester);
   });
 
-  testWidgets('a new milestone shows the celebration and marks it seen', (
-    tester,
-  ) async {
+  testWidgets('a crossed milestone is left to the shell', (tester) async {
     log.result = _result(milestoneWeek: 1);
     await pumpHost(tester);
-
-    await tapAndConfirm(tester, until: find.byType(StreakMilestoneDialog));
-    expect(find.byType(StreakMilestoneDialog), findsOneWidget);
-
-    await tester.pump(durationNormal);
-    expect(find.text('1 Week Streak!'), findsOneWidget);
-    await tester.pump(durationCelebration);
-    await tester.tap(find.text('Continue'));
-    for (
-      var i = 0;
-      i < 20 && find.byType(StreakMilestoneDialog).evaluate().isNotEmpty;
-      i++
-    ) {
-      await tester.pump();
-    }
-
-    expect(find.byType(StreakMilestoneDialog), findsNothing);
-    final doc = await firestore
-        .collection(AppConstants.collectionUsers)
-        .doc(_uid)
-        .get();
-    final settings = doc.data()![AppConstants.fieldSettings] as Map;
-    final seen = settings[AppConstants.fieldSeenStreakMilestones] as Map;
-    expect(seen['1'], isTrue);
-    await drain(tester);
-  });
-
-  testWidgets('an already-seen milestone is not celebrated again', (
-    tester,
-  ) async {
-    log.result = _result(milestoneWeek: 1);
-    await pumpHost(
-      tester,
-      settings: const UserSettingsModel(seenStreakMilestones: {'1': true}),
-    );
 
     await tapAndConfirm(
       tester,
@@ -365,7 +330,6 @@ void main() {
     );
 
     expect(find.byType(StreakMilestoneDialog), findsNothing);
-    expect(find.text('Action logged! 20 points earned'), findsOneWidget);
     await drain(tester);
   });
 
@@ -602,6 +566,56 @@ void main() {
       expect(find.text(logging), findsNothing);
       expect(find.text(logged), findsOneWidget);
       await drain(tester);
+    });
+
+    group('with the egg reset message', () {
+      const reset = "You missed a day, so your egg's count started again.";
+
+      Future<void> showReset(WidgetTester tester) async {
+        final context = tester.element(find.byType(ElevatedButton));
+        showEggResetMessage(
+          ScaffoldMessenger.of(context),
+          AppLocalizations.of(context),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text(reset), findsOneWidget);
+      }
+
+      Future<void> logInsideTheGap(WidgetTester tester) async {
+        markActionLogged();
+        log.gate = Completer<void>();
+        await tapAndConfirm(tester, until: find.text(logging));
+        expect(find.text(reset), findsNothing);
+        log.gate!.complete();
+        await swapSnackBars(tester);
+      }
+
+      testWidgets('shows it again when the wait cut it short', (tester) async {
+        log.result = _result();
+        await pumpHost(tester);
+        await showReset(tester);
+
+        await logInsideTheGap(tester);
+
+        expect(find.text(reset), findsOneWidget);
+        await drain(tester);
+      });
+
+      testWidgets('does not repeat it once it ran its time', (tester) async {
+        log.result = _result();
+        await pumpHost(tester);
+        await showReset(tester);
+        await tester.pump(const Duration(seconds: 4));
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text(reset), findsNothing);
+
+        await logInsideTheGap(tester);
+
+        expect(find.text(logged), findsOneWidget);
+        await drain(tester);
+        expect(find.text(reset), findsNothing);
+      });
     });
 
     testWidgets('a failed write swaps the message for the error', (

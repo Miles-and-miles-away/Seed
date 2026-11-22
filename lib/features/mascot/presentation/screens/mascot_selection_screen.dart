@@ -240,39 +240,43 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
           final species = speciesList[index];
           final isSelected = index == _selectedSpeciesIndex;
 
-          return GestureDetector(
-            onTap: () => setState(() => _selectedSpeciesIndex = index),
-            child: Container(
-              width: 80,
-              margin: const EdgeInsets.symmetric(horizontal: spacingSm),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primaryContainer
-                    : Theme.of(context).colorScheme.surfaceContainerLow,
-                borderRadius: borderRadiusMd,
-                border: isSelected
-                    ? Border.all(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      )
-                    : null,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MascotAvatar(
-                    assetPath: species.evolutionStages.first.assetPath,
-                    artboardName: species.evolutionStages.first.artboardName,
-                    size: 50,
-                    animate: false,
-                  ),
-                  const SizedBox(height: spacingXs),
-                  Text(
-                    species.name(locale),
-                    style: Theme.of(context).textTheme.labelSmall,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+          return Semantics(
+            button: true,
+            selected: isSelected,
+            child: GestureDetector(
+              onTap: () => setState(() => _selectedSpeciesIndex = index),
+              child: Container(
+                width: 80,
+                margin: const EdgeInsets.symmetric(horizontal: spacingSm),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.primaryContainer
+                      : Theme.of(context).colorScheme.surfaceContainerLow,
+                  borderRadius: borderRadiusMd,
+                  border: isSelected
+                      ? Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2,
+                        )
+                      : null,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MascotAvatar(
+                      assetPath: species.evolutionStages.first.assetPath,
+                      artboardName: species.evolutionStages.first.artboardName,
+                      size: 50,
+                      animate: false,
+                    ),
+                    const SizedBox(height: spacingXs),
+                    Text(
+                      species.name(locale),
+                      style: Theme.of(context).textTheme.labelSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             ),
           );

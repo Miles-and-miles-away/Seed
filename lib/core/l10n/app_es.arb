@@ -366,6 +366,23 @@
     }
   },
   "eggDiscoverySubtitle": "Registra acciones todos los días durante 30 días para que eclosione.",
+  "eggDaysLeftHint": "{count, plural, one{Registra acciones {count} día más para que tu huevo eclosione.} other{Registra acciones {count} días más para que tu huevo eclosione.}} Si te saltas un día, la cuenta empieza de nuevo.",
+  "@eggDaysLeftHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eggStreakResetMessage": "Te has saltado un día, así que la cuenta de tu huevo ha vuelto a empezar.",
+  "speciesUnlockHint": "Cuando un compañero llega al nivel {level}, encuentras un huevo. De él eclosiona un nuevo compañero.",
+  "@speciesUnlockHint": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "eggDiscoveryDismiss": "¡Qué emocionante!",
   "eggHatchingTitle": "¡Está eclosionando!",
   "eggHatchingNamePrompt": "Dale un nombre a tu nuevo compañero",
@@ -742,6 +759,7 @@
   "trendChartTitle": "Tendencia diaria",
   "trendChartAverageLabel": "media",
   "trendChartTrendLabel": "tendencia",
+  "trendChartSemantics": "{days, plural, =1{CO2 ahorrado en 1 día} other{CO2 ahorrado al día durante {days} días}}. Media de {average} al día; máximo, {peak}.",
   "categoryChartTitle": "Por categoría",
   "categoryOther": "Otros",
   "equivalentToHeader": "Equivale a",
