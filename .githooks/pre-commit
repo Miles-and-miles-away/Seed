@@ -23,6 +23,10 @@ PATTERNS = [
     r"password\s*=\s*['\"]?\S+",
     r"Bearer\s+[A-Za-z0-9._~+/-]+=*",
     r"AIza[0-9A-Za-z_-]{35}",
+    r"-----BEGIN [A-Z ]*PRIVATE KEY-----",
+    r"\"private_key\"\s*:",
+    r"gh[pousr]_[A-Za-z0-9]{36}",
+    r"github_pat_[A-Za-z0-9_]{22,}",
 ]
 SCAN = re.compile("|".join(PATTERNS))
 SKIP = (".lock", "analysis_options", "CLAUDE.md", "pre-commit")

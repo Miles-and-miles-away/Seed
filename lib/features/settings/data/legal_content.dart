@@ -37,7 +37,7 @@ class LegalDocument {
   }
 }
 
-const _lastUpdated = '2026-09-20';
+const _lastUpdated = '2026-11-21';
 const _contactEmail = 'support@seedahabit.com';
 
 /// Privacy policy content per locale.
@@ -66,14 +66,18 @@ const _privacyEn = [
         'third parties\n'
         '- You can delete your account and all '
         'data at any time\n'
-        '- Anonymous analytics can be opted out '
-        'in settings',
+        '- Pseudonymous analytics can be turned off '
+        'in settings\n'
+        '- You can download a copy of your data from '
+        'Settings > Account',
   ),
   LegalSection(
     title: 'Introduction',
     body:
-        'Seed ("we", "our", or "us") operates the Seed '
-        'mobile application. This Privacy Policy explains '
+        'The Seed mobile application is operated by '
+        'Miles Desforges, a sole trader ("we", "our", or '
+        '"us"), who is the data controller for your '
+        'personal data. This Privacy Policy explains '
         'how we collect, use, and protect your personal '
         'information when you use our app.',
   ),
@@ -84,14 +88,20 @@ const _privacyEn = [
         '- Email address (for account creation '
         'and authentication)\n'
         '- Display name (optional, shown in your profile)\n'
+        '- Personal goal (optional, shown on your home screen)\n'
+        '- Profile photo link (the address of your Google '
+        'profile picture, if you sign in with Google)\n'
         '- Action log history (sustainability actions you '
         'record)\n'
-        '- Device push notification token (for sending '
-        'reminders)\n'
+        '- Device push notification token (to send push '
+        'notifications from our servers)\n'
         '- Approximate location (country or region, derived '
         'from your IP address by analytics)\n'
-        '- Anonymous usage analytics (app feature usage, '
-        'crash reports)',
+        '- Pseudonymous usage analytics (app feature usage, '
+        'crash reports, performance data), linked to an '
+        'app instance identifier and not to your account\n'
+        '- Feedback emails you send us, which include your '
+        'user ID and app and device details',
   ),
   LegalSection(
     title: 'How We Use Your Information',
@@ -104,9 +114,26 @@ const _privacyEn = [
         '- Send push notifications and daily reminders '
         '(with your permission)\n'
         '- Improve app performance and fix bugs through '
-        'anonymous analytics\n'
+        'pseudonymous analytics\n'
         '- Display your progress, streaks, and mascot '
-        'evolution',
+        'evolution\n'
+        '- Answer feedback and support requests',
+  ),
+  LegalSection(
+    title: 'Legal Basis for Processing',
+    body:
+        'Under the UK GDPR, we rely on these legal bases:\n\n'
+        '- Contract: to provide your account, record your '
+        'actions, and show your progress\n'
+        '- Consent: to send push notifications and '
+        'reminders. You can withdraw consent at any time '
+        'in your device settings\n'
+        '- Legitimate interests: to improve the app with '
+        'analytics, crash reports, and performance data, '
+        'to protect the service from abuse with App '
+        'Check, and to answer your feedback. You can turn '
+        'off analytics, crash reports, and performance '
+        'data in the app settings',
   ),
   LegalSection(
     title: 'Data Storage and Security',
@@ -116,7 +143,32 @@ const _privacyEn = [
         'security measures including encrypted '
         'connections (TLS/SSL), Firebase Security Rules '
         'to restrict data access, and authentication '
-        'tokens to protect your account.',
+        'tokens to protect your account.\n\n'
+        "Your account data is stored in Google Cloud's "
+        'Tokyo, Japan region. The UK recognises Japan as '
+        'giving adequate protection to personal data. '
+        'Firebase Authentication processes sign-in data '
+        'in the United States. Google LLC is certified '
+        'under the UK Extension to the EU-U.S. Data '
+        'Privacy Framework. Other Firebase services can '
+        "process data on Google's global infrastructure "
+        "under Google's data processing terms.",
+  ),
+  LegalSection(
+    title: 'Data Retention',
+    body:
+        'We keep your data only as long as we need it:\n\n'
+        '- Account data: until you delete your account. '
+        'Firebase Authentication removes sign-in records '
+        'from its backups within 180 days of deletion\n'
+        '- Accounts with an unverified email address: '
+        'deleted automatically after 7 days\n'
+        '- Crash reports: 90 days\n'
+        '- Performance data: up to 60 days\n'
+        '- App Check data: up to 30 days\n'
+        '- Analytics data: up to 14 months\n'
+        '- Feedback emails: as long as we need them to '
+        'answer and act on your feedback',
   ),
   LegalSection(
     title: 'Third-Party Services',
@@ -125,13 +177,15 @@ const _privacyEn = [
         '- Firebase Authentication (account management)\n'
         '- Cloud Firestore (data storage)\n'
         '- Firebase Cloud Messaging (push notifications)\n'
-        '- Firebase Analytics (anonymous usage data)\n'
+        '- Firebase Analytics (pseudonymous usage data)\n'
         '- Firebase Crashlytics (crash reporting)\n'
         '- Firebase Performance Monitoring '
         '(app performance data)\n'
         '- Firebase App Check (abuse prevention)\n'
         '- Google Sign-In (optional sign-in method)\n'
-        '- Sign in with Apple (optional sign-in method)\n\n'
+        '- Sign in with Apple (optional sign-in method)\n'
+        '- Cloudflare Email Routing (forwards the feedback '
+        'and support emails you send us)\n\n'
         'These services have their own privacy policies. '
         'We do not sell or share your personal data with '
         'any other third parties.',
@@ -149,19 +203,35 @@ const _privacyEn = [
   LegalSection(
     title: 'Your Rights',
     body:
-        'You have the right to:\n\n'
-        '- Access your personal data at any time through '
-        'the app\n'
+        'Under the UK GDPR, you have the right to:\n\n'
+        '- Access your personal data. You can see it in '
+        'the app, or download a copy from Settings > '
+        'Account > Download My Data\n'
+        '- Correct your data. You can edit your display '
+        'name, goal, and email in Settings > Account\n'
         '- Delete your account and all associated data '
         'from Settings > Account\n'
-        '- Opt out of push notifications through your '
+        '- Receive your data in a portable format. The '
+        'download is a JSON file\n'
+        '- Restrict or object to processing. You can turn '
+        'off analytics in the app settings, or contact us\n'
+        '- Withdraw consent to push notifications in your '
         'device settings\n'
-        '- Opt out of analytics data collection through '
-        'the app settings\n\n'
+        "- Complain to the Information Commissioner's "
+        'Office (ICO) at ico.org.uk\n\n'
+        'To use a right that the app does not cover, email '
+        'us at $_contactEmail. We will reply within one '
+        'month.\n\n'
+        'If you live outside the UK, the data protection '
+        'law of your country may give you similar rights, '
+        'and you may be able to complain to your local data '
+        'protection authority.\n\n'
         'When you delete your account, all your data '
         'including action history, mascot progress, and '
         'profile information is permanently removed from '
-        'our servers.',
+        'our servers. Analytics, crash, and performance '
+        'data are not linked to your account and are '
+        'deleted on the schedule in Data Retention.',
   ),
   LegalSection(
     title: 'Changes to This Policy',
@@ -193,13 +263,16 @@ const _privacyJa = [
         '共有することはありません\n'
         '- いつでもアカウントとすべてのデータを'
         '削除できます\n'
-        '- 匿名分析は設定からオプトアウトできます',
+        '- 仮名化された分析は設定からオフにできます\n'
+        '- 設定 > アカウントからデータのコピーを'
+        'ダウンロードできます',
   ),
   LegalSection(
     title: 'はじめに',
     body:
-        'Seed（以下「当社」）は、Seedモバイル'
-        'アプリケーションを運営しています。'
+        'Seedモバイルアプリケーションは、個人事業主の'
+        'Miles Desforges（以下「当社」）が運営しており、'
+        '当社がお客様の個人データの管理者です。'
         'このプライバシーポリシーは、アプリの利用時に'
         '当社がどのように個人情報を収集、使用、'
         '保護するかを説明するものです。',
@@ -210,10 +283,19 @@ const _privacyJa = [
         '当社は以下の情報を収集します：\n\n'
         '- メールアドレス（アカウント作成および認証用）\n'
         '- 表示名（任意、プロフィールに表示）\n'
+        '- 目標（任意、ホーム画面に表示）\n'
+        '- プロフィール写真のリンク（Googleでサインインした場合の、'
+        'Googleプロフィール画像のアドレス）\n'
         '- アクション履歴（記録されたサステナビリティ活動）\n'
-        '- デバイスプッシュ通知トークン（リマインダー送信用）\n'
+        '- デバイスプッシュ通知トークン'
+        '（当社のサーバーからプッシュ通知を送信するため）\n'
         '- おおよその位置情報（分析のためIPアドレスから推定される国または地域）\n'
-        '- 匿名の利用分析データ（アプリ機能の使用状況、クラッシュレポート）',
+        '- 仮名化された利用分析データ（アプリ機能の使用状況、'
+        'クラッシュレポート、パフォーマンスデータ）。'
+        'アカウントではなく、アプリのインスタンス識別子に'
+        '紐付けられます\n'
+        '- お客様から届いたフィードバックメール'
+        '（ユーザーID、アプリとデバイスの情報を含みます）',
   ),
   LegalSection(
     title: '情報の利用方法',
@@ -222,8 +304,26 @@ const _privacyJa = [
         '- アカウントの認証とアプリへのアクセス提供\n'
         '- サステナビリティ活動の追跡と環境への影響の計算\n'
         '- プッシュ通知と毎日のリマインダーの送信（許可を得た場合）\n'
-        '- 匿名分析によるアプリパフォーマンスの向上とバグの修正\n'
-        '- 進捗、連続記録、マスコットの進化の表示',
+        '- 仮名化された分析によるアプリパフォーマンスの'
+        '向上とバグの修正\n'
+        '- 進捗、連続記録、マスコットの進化の表示\n'
+        '- フィードバックとお問い合わせへの回答',
+  ),
+  LegalSection(
+    title: '処理の法的根拠',
+    body:
+        '英国GDPRに基づき、当社は以下の法的根拠に'
+        '依拠します：\n\n'
+        '- 契約：アカウントの提供、アクションの記録、'
+        '進捗の表示のため\n'
+        '- 同意：プッシュ通知とリマインダーの送信のため。'
+        'デバイス設定からいつでも同意を撤回できます\n'
+        '- 正当な利益：分析、クラッシュレポート、'
+        'パフォーマンスデータによるアプリの改善、'
+        'App Checkによる不正利用からのサービス保護、'
+        'フィードバックへの回答のため。分析、'
+        'クラッシュレポート、パフォーマンスデータは'
+        'アプリ設定からオフにできます',
   ),
   LegalSection(
     title: 'データの保存とセキュリティ',
@@ -233,7 +333,32 @@ const _privacyJa = [
         '暗号化された接続（TLS/SSL）、'
         'Firebaseセキュリティルールによるデータアクセス'
         '制限、認証トークンによるアカウント保護など、'
-        '業界標準のセキュリティ対策を使用しています。',
+        '業界標準のセキュリティ対策を使用しています。\n\n'
+        'お客様のアカウントデータは、Google Cloudの'
+        '日本・東京リージョンに保存されます。英国は、'
+        '日本が個人データを十分に保護していると'
+        '認めています。Firebase Authenticationは'
+        'サインインデータを米国で処理します。Google LLCは'
+        'EU-U.S. Data Privacy Frameworkの英国拡張の'
+        '認証を受けています。その他のFirebaseサービスは、'
+        'Googleのデータ処理規約に基づき、Googleの'
+        'グローバルなインフラでデータを処理する'
+        '場合があります。',
+  ),
+  LegalSection(
+    title: 'データの保存期間',
+    body:
+        '当社はデータを必要な期間だけ保存します：\n\n'
+        '- アカウントデータ：アカウントを削除するまで。'
+        'Firebase Authenticationは削除から180日以内に'
+        'バックアップからサインイン記録を削除します\n'
+        '- メールアドレスが未確認のアカウント：'
+        '7日後に自動的に削除されます\n'
+        '- クラッシュレポート：90日\n'
+        '- パフォーマンスデータ：最長60日\n'
+        '- App Checkのデータ：最長30日\n'
+        '- 分析データ：最長14か月\n'
+        '- フィードバックメール：回答と対応に必要な期間',
   ),
   LegalSection(
     title: 'サードパーティサービス',
@@ -242,13 +367,15 @@ const _privacyJa = [
         '- Firebase Authentication（アカウント管理）\n'
         '- Cloud Firestore（データ保存）\n'
         '- Firebase Cloud Messaging（プッシュ通知）\n'
-        '- Firebase Analytics（匿名利用データ）\n'
+        '- Firebase Analytics（仮名化された利用データ）\n'
         '- Firebase Crashlytics（クラッシュレポート）\n'
         '- Firebase Performance Monitoring'
         '（アプリのパフォーマンスデータ）\n'
         '- Firebase App Check（不正利用防止）\n'
         '- Google Sign-In（任意のサインイン方法）\n'
-        '- Sign in with Apple（任意のサインイン方法）\n\n'
+        '- Sign in with Apple（任意のサインイン方法）\n'
+        '- Cloudflare Email Routing（お客様から届いた'
+        'フィードバックメールとお問い合わせメールの転送）\n\n'
         'これらのサービスには独自のプライバシーポリシーがあります。'
         '当社はお客様の個人データを他の第三者に販売または共有することはありません。',
   ),
@@ -264,14 +391,35 @@ const _privacyJa = [
   LegalSection(
     title: 'お客様の権利',
     body:
-        'お客様には以下の権利があります：\n\n'
-        '- アプリを通じていつでも個人データにアクセス\n'
-        '- 設定 > アカウントからアカウントと関連データをすべて削除\n'
-        '- デバイス設定からプッシュ通知をオプトアウト\n'
-        '- アプリ設定から分析データ収集をオプトアウト\n\n'
+        '英国GDPRに基づき、お客様には以下の権利が'
+        'あります：\n\n'
+        '- 個人データへのアクセス。アプリで確認するか、'
+        '設定 > アカウント > データをダウンロードから'
+        'コピーを入手できます\n'
+        '- データの訂正。表示名、目標、メールアドレスは'
+        '設定 > アカウントで編集できます\n'
+        '- 設定 > アカウントからアカウントと関連データを'
+        'すべて削除\n'
+        '- 持ち運び可能な形式でのデータの受け取り。'
+        'ダウンロードはJSONファイルです\n'
+        '- 処理の制限または異議申し立て。分析は'
+        'アプリ設定からオフにできます。または当社に'
+        'ご連絡ください\n'
+        '- デバイス設定からプッシュ通知への同意を撤回\n'
+        '- 英国情報コミッショナー事務局（ICO、ico.org.uk）'
+        'への苦情申し立て\n\n'
+        'アプリで対応していない権利を行使するには、'
+        '$_contactEmail までメールでご連絡ください。'
+        '1か月以内に回答します。\n\n'
+        '英国外にお住まいの場合、お住まいの国のデータ保護法に'
+        'より同様の権利が認められることがあり、お住まいの国の'
+        'データ保護機関に苦情を申し立てられる場合があります。\n\n'
         'アカウントを削除すると、アクション履歴、'
         'マスコットの進捗、プロフィール情報を含む'
-        'すべてのデータがサーバーから完全に削除されます。',
+        'すべてのデータがサーバーから完全に削除されます。'
+        '分析、クラッシュ、パフォーマンスのデータは'
+        'アカウントに紐付けられておらず、「データの'
+        '保存期間」に記載の期間で削除されます。',
   ),
   LegalSection(
     title: 'ポリシーの変更',
@@ -303,14 +451,19 @@ const _privacyEs = [
         'con terceros\n'
         '- Puede eliminar su cuenta y todos sus '
         'datos en cualquier momento\n'
-        '- Los análisis anónimos se pueden '
-        'desactivar en los ajustes',
+        '- Los análisis seudonimizados se pueden '
+        'desactivar en los ajustes\n'
+        '- Puede descargar una copia de sus datos '
+        'desde Ajustes > Cuenta',
   ),
   LegalSection(
     title: 'Introducción',
     body:
-        'Seed («nosotros») gestiona la '
-        'aplicación móvil Seed. Esta Política de '
+        'La aplicación móvil Seed la gestiona '
+        'Miles Desforges, empresario individual '
+        '(«nosotros»), que es el responsable del '
+        'tratamiento de sus datos personales. Esta '
+        'Política de '
         'Privacidad explica cómo recopilamos, usamos y '
         'protegemos su información personal cuando '
         'utiliza nuestra aplicación.',
@@ -323,14 +476,25 @@ const _privacyEs = [
         'creación de cuenta y autenticación)\n'
         '- Nombre para mostrar (opcional, mostrado en '
         'su perfil)\n'
+        '- Objetivo personal (opcional, mostrado en '
+        'la pantalla de inicio)\n'
+        '- Enlace a la foto de perfil (la dirección de su '
+        'imagen de perfil de Google, si inicia sesión con '
+        'Google)\n'
         '- Historial de acciones (actividades de '
         'sostenibilidad registradas)\n'
         '- Token de notificaciones push del dispositivo '
-        '(para enviar recordatorios)\n'
+        '(para enviar notificaciones push desde nuestros '
+        'servidores)\n'
         '- Ubicación aproximada (país o región, derivada de '
         'su dirección IP por los análisis)\n'
-        '- Datos anónimos de uso (uso de funciones '
-        'de la aplicación, informes de errores)',
+        '- Datos de uso seudonimizados (uso de funciones '
+        'de la aplicación, informes de errores, datos de '
+        'rendimiento), vinculados a un identificador de '
+        'instancia de la aplicación y no a su cuenta\n'
+        '- Los correos de comentarios que nos envía, que '
+        'incluyen su ID de usuario y datos de la '
+        'aplicación y del dispositivo',
   ),
   LegalSection(
     title: 'Cómo usamos su información',
@@ -343,9 +507,31 @@ const _privacyEs = [
         '- Enviar notificaciones push y recordatorios '
         'diarios (con su permiso)\n'
         '- Mejorar el rendimiento de la aplicación y '
-        'corregir errores mediante análisis anónimos\n'
+        'corregir errores mediante análisis '
+        'seudonimizados\n'
         '- Mostrar su progreso, rachas y evolución '
-        'de su mascota',
+        'de su mascota\n'
+        '- Responder a comentarios y solicitudes de '
+        'asistencia',
+  ),
+  LegalSection(
+    title: 'Base jurídica del tratamiento',
+    body:
+        'Conforme al RGPD del Reino Unido, nos basamos en '
+        'estas bases jurídicas:\n\n'
+        '- Contrato: para ofrecer su cuenta, registrar sus '
+        'acciones y mostrar su progreso\n'
+        '- Consentimiento: para enviar notificaciones push '
+        'y recordatorios. Puede retirar su consentimiento '
+        'en cualquier momento desde los ajustes de su '
+        'dispositivo\n'
+        '- Interés legítimo: para mejorar la aplicación '
+        'con análisis, informes de errores y datos de '
+        'rendimiento, para proteger el servicio contra '
+        'abusos con App Check y para responder a sus '
+        'comentarios. Puede desactivar los análisis, los '
+        'informes de errores y los datos de rendimiento en '
+        'los ajustes de la aplicación',
   ),
   LegalSection(
     title: 'Almacenamiento y seguridad de datos',
@@ -356,7 +542,36 @@ const _privacyEs = [
         'sector, como conexiones cifradas '
         '(TLS/SSL), reglas de seguridad de Firebase para '
         'restringir el acceso a los datos y tokens de '
-        'autenticación para proteger su cuenta.',
+        'autenticación para proteger su cuenta.\n\n'
+        'Los datos de su cuenta se almacenan en la región '
+        'de Google Cloud de Tokio (Japón). El Reino Unido '
+        'reconoce que Japón ofrece una protección adecuada '
+        'de los datos personales. Firebase Authentication '
+        'trata los datos de inicio de sesión en Estados '
+        'Unidos. Google LLC está certificada conforme a la '
+        'extensión del Reino Unido del EU-U.S. Data Privacy '
+        'Framework. Otros servicios de Firebase pueden '
+        'tratar datos en la infraestructura global de '
+        'Google conforme a las condiciones de tratamiento '
+        'de datos de Google.',
+  ),
+  LegalSection(
+    title: 'Conservación de los datos',
+    body:
+        'Conservamos sus datos solo el tiempo necesario:\n\n'
+        '- Datos de la cuenta: hasta que elimine su '
+        'cuenta. Firebase Authentication elimina los '
+        'registros de inicio de sesión de sus copias de '
+        'seguridad en un plazo de 180 días\n'
+        '- Cuentas con el correo electrónico sin '
+        'verificar: se eliminan automáticamente a los '
+        '7 días\n'
+        '- Informes de errores: 90 días\n'
+        '- Datos de rendimiento: hasta 60 días\n'
+        '- Datos de App Check: hasta 30 días\n'
+        '- Datos analíticos: hasta 14 meses\n'
+        '- Correos de comentarios: el tiempo necesario para '
+        'responder y actuar sobre sus comentarios',
   ),
   LegalSection(
     title: 'Servicios de terceros',
@@ -367,13 +582,16 @@ const _privacyEs = [
         '- Cloud Firestore (almacenamiento de datos)\n'
         '- Firebase Cloud Messaging '
         '(notificaciones push)\n'
-        '- Firebase Analytics (datos de uso anónimos)\n'
+        '- Firebase Analytics (datos de uso '
+        'seudonimizados)\n'
         '- Firebase Crashlytics (informes de errores)\n'
         '- Firebase Performance Monitoring '
         '(datos de rendimiento de la aplicación)\n'
         '- Firebase App Check (prevención de abusos)\n'
         '- Google Sign-In (método de inicio de sesión opcional)\n'
-        '- Sign in with Apple (método de inicio de sesión opcional)\n\n'
+        '- Sign in with Apple (método de inicio de sesión opcional)\n'
+        '- Cloudflare Email Routing (reenvía los correos de '
+        'comentarios y de asistencia que nos envía)\n\n'
         'Estos servicios tienen sus propias políticas de '
         'privacidad. No vendemos ni compartimos sus datos '
         'personales con otros terceros.',
@@ -392,20 +610,41 @@ const _privacyEs = [
   LegalSection(
     title: 'Sus derechos',
     body:
-        'Usted tiene derecho a:\n\n'
-        '- Acceder a sus datos personales en cualquier '
-        'momento a través de la aplicación\n'
+        'Conforme al RGPD del Reino Unido, usted tiene '
+        'derecho a:\n\n'
+        '- Acceder a sus datos personales. Puede verlos en '
+        'la aplicación o descargar una copia desde '
+        'Ajustes > Cuenta > Descargar mis datos\n'
+        '- Rectificar sus datos. Puede editar su nombre de '
+        'usuario, su objetivo y su correo electrónico en '
+        'Ajustes > Cuenta\n'
         '- Eliminar su cuenta y todos los datos asociados '
         'desde Ajustes > Cuenta\n'
-        '- Desactivar las notificaciones push desde los '
-        'ajustes de su dispositivo\n'
-        '- Desactivar la recopilación de datos analíticos '
-        'desde los ajustes de la aplicación\n\n'
+        '- Recibir sus datos en un formato portable. La '
+        'descarga es un archivo JSON\n'
+        '- Limitar el tratamiento u oponerse a él. Puede '
+        'desactivar los análisis en los ajustes de la '
+        'aplicación o ponerse en contacto con nosotros\n'
+        '- Retirar su consentimiento a las notificaciones '
+        'push desde los ajustes de su dispositivo\n'
+        '- Presentar una reclamación ante la Oficina del '
+        'Comisionado de Información del Reino Unido (ICO) '
+        'en ico.org.uk\n\n'
+        'Para ejercer un derecho que la aplicación no '
+        'cubre, escríbanos a $_contactEmail. Le '
+        'responderemos en el plazo de un mes.\n\n'
+        'Si reside fuera del Reino Unido, la legislación de '
+        'protección de datos de su país puede otorgarle '
+        'derechos similares, y es posible que pueda '
+        'presentar una reclamación ante la autoridad de '
+        'protección de datos de su país.\n\n'
         'Cuando elimina su cuenta, todos sus datos, '
         'incluidos el historial de acciones, el progreso '
         'de la mascota y la información del perfil, se '
-        'eliminan '
-        'permanentemente de nuestros servidores.',
+        'eliminan permanentemente de nuestros servidores. '
+        'Los datos analíticos, de errores y de rendimiento '
+        'no están vinculados a su cuenta y se eliminan '
+        'según los plazos de «Conservación de los datos».',
   ),
   LegalSection(
     title: 'Cambios en esta política',

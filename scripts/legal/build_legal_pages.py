@@ -104,8 +104,7 @@ def body_html(body: str) -> str:
     return ''.join(parts)
 
 
-CSS = """
-:root{color-scheme:light dark;--fg:#1f2a1f;--bg:#f7f4ec;--muted:#5b665b;
+CSS = """:root{color-scheme:light dark;--fg:#1f2a1f;--bg:#f7f4ec;--muted:#5b665b;
 --accent:#3b7a4a;--card:#fffdf7;--line:#e3ded2}
 @media(prefers-color-scheme:dark){:root{--fg:#ece9df;--bg:#171b17;
 --muted:#a8b0a8;--accent:#7cc48d;--card:#1f241f;--line:#2f362f}}
@@ -131,8 +130,7 @@ ol{padding-left:1.25rem}code{background:var(--card);border:1px solid var(--line)
 padding:.05rem .35rem;border-radius:4px}
 """
 
-LANG_SCRIPT = """<script>
-(()=>{const s=document.querySelector('select.lang'),
+LANG_JS = """(()=>{const s=document.querySelector('select.lang'),
 secs=document.querySelectorAll('main [lang]:not(option)'),
 has=l=>[...s.options].some(o=>o.value===l),
 pick=l=>{for(const x of secs)x.hidden=x.lang!==l;s.value=l;
@@ -143,8 +141,12 @@ let saved;try{saved=localStorage.getItem('lang')}catch(e){}
 pick(has(h)?h:has(saved)?saved:has(n)?n:s.options[0].value);s.hidden=false;
 s.onchange=()=>{pick(s.value);history.replaceState(null,'','#'+s.value);
 try{localStorage.setItem('lang',s.value)}catch(e){}}})();
-</script>
 """
+
+
+def stylesheets(landing: bool) -> str:
+    names = ['site.css', 'landing.css'] if landing else ['site.css']
+    return ''.join(f'<link rel="stylesheet" href="/{n}">\n' for n in names)
 
 
 def tr(texts: dict[str, str]) -> str:
@@ -163,7 +165,7 @@ def page(
     title: dict[str, str],
     sections_by_lang: dict[str, str],
     description: str = '',
-    extra_css: str = '',
+    landing: bool = False,
     hero: str = '',
     head: str = '',
 ) -> str:
@@ -177,7 +179,7 @@ def page(
         '<select class="lang" aria-label="Language / 言語 / Idioma" hidden>'
         f'{options}</select>'
     ) if multi else ''
-    script = LANG_SCRIPT if multi else ''
+    script = '<script src="/lang.js"></script>\n' if multi else ''
     blocks = ''.join(
         f'<section lang="{lang}" id="{lang}">{sections_by_lang[lang]}</section>'
         for lang in langs
@@ -193,8 +195,7 @@ def page(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 {desc}{head}<title>{html.escape(title['en'])} - Seed</title>
-<style>{CSS}{extra_css}</style>
-</head>
+{stylesheets(landing)}</head>
 <body>
 <main>
 <header>
@@ -296,6 +297,25 @@ def delete_page(email: str) -> str:
     return page(title, by_lang)
 
 
+NOT_FOUND_TEXT = {
+    'en': 'This page does not exist.',
+    'ja': 'このページは存在しません。',
+    'es': 'Esta página no existe.',
+}
+
+
+def not_found_page() -> str:
+    by_lang = {
+        lang: f'<p>{html.escape(text)}</p>' for lang, text in NOT_FOUND_TEXT.items()
+    }
+    title = {
+        'en': 'Page Not Found',
+        'ja': 'ページが見つかりません',
+        'es': 'Página no encontrada',
+    }
+    return page(title, by_lang)
+
+
 HOME_BETA_BUTTON = {
     'en': 'Help test Seed: join the beta',
     'ja': 'Seedのテストに参加する',
@@ -322,12 +342,11 @@ def index_page(email: str) -> str:
             '</li></ul>'
         )
     return page(
-        dict.fromkeys(LANGS, 'Seed'), by_lang, extra_css=BETA_CSS, hero=BETA_HERO
+        dict.fromkeys(LANGS, 'Seed'), by_lang, landing=True, hero=BETA_HERO
     )
 
 
-BETA_CSS = """
-.lead{font-size:1.1rem}.agree{background:var(--card);border:1px solid
+LANDING_CSS = """.lead{font-size:1.1rem}.agree{background:var(--card);border:1px solid
 var(--line);border-radius:12px;padding:.25rem 1.25rem;margin:1.5rem 0}
 h3{font-size:1.05rem;margin:1.25rem 0 .25rem}.steps{list-style:none;padding:0;
 counter-reset:step}.steps>li{counter-increment:step;position:relative;
@@ -772,7 +791,7 @@ def beta_page(email: str) -> str:
         title,
         by_lang,
         description=description,
-        extra_css=BETA_CSS,
+        landing=True,
         hero=BETA_HERO,
         head=beta_meta(title['en'], description),
     )
@@ -782,6 +801,9 @@ def main() -> None:
     consts, lists = parse_dart()
     email = consts['_contactEmail']
     OUT.mkdir(exist_ok=True)
+    (OUT / 'site.css').write_text(CSS, encoding='utf-8')
+    (OUT / 'landing.css').write_text(LANDING_CSS, encoding='utf-8')
+    (OUT / 'lang.js').write_text(LANG_JS, encoding='utf-8')
     (OUT / 'privacy.html').write_text(
         legal_page(arb_text('privacyPolicyTitle'), lists, 'privacy'), encoding='utf-8'
     )
@@ -791,6 +813,7 @@ def main() -> None:
     (OUT / 'delete-account.html').write_text(delete_page(email), encoding='utf-8')
     (OUT / 'index.html').write_text(index_page(email), encoding='utf-8')
     (OUT / 'beta.html').write_text(beta_page(email), encoding='utf-8')
+    (OUT / '404.html').write_text(not_found_page(), encoding='utf-8')
     for name, sections in lists.items():
         print(f'{name}: {len(sections)} sections')
 

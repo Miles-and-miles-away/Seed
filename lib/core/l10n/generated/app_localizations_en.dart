@@ -540,6 +540,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountSettingsChangePassword => 'Change Password';
 
   @override
+  String get accountSettingsYourData => 'Your Data';
+
+  @override
+  String get accountSettingsExportData => 'Download My Data';
+
+  @override
+  String get accountSettingsExportDataSubtitle =>
+      'A copy of everything Seed stores for your account';
+
+  @override
   String get accountSettingsDeleteAccount => 'Delete Account';
 
   @override
