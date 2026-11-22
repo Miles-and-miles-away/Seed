@@ -946,6 +946,24 @@ abstract class AppLocalizations {
   /// **'Change Password'**
   String get accountSettingsChangePassword;
 
+  /// No description provided for @accountSettingsYourData.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Data'**
+  String get accountSettingsYourData;
+
+  /// No description provided for @accountSettingsExportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Download My Data'**
+  String get accountSettingsExportData;
+
+  /// No description provided for @accountSettingsExportDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy of everything Seed stores for your account'**
+  String get accountSettingsExportDataSubtitle;
+
   /// No description provided for @accountSettingsDeleteAccount.
   ///
   /// In en, this message translates to:
