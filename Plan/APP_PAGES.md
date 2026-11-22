@@ -893,7 +893,9 @@ Settings hub.
 - Links: `/login` (on account deletion)
 - Functionality: profile section (display name dialog, My Goal picker
   sheet with presets + free text), change email dialog, change password
-  dialog, delete account dialog with re-authentication.
+  dialog, "Download My Data" (shares a JSON export of the user doc and
+  its subcollections through the system share sheet), delete account
+  dialog with re-authentication.
 
 ### About (`.../settings/about`)
 - Links:
