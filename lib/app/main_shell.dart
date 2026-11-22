@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/actions.dart';
+import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
 import 'package:seed_app/features/eco_dex/eco_dex.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/settings/presentation/widgets/streak_milestone_dialog.dart';
@@ -84,7 +86,14 @@ class _MainShellState extends ConsumerState<MainShell> {
         ecoDexNewUnlocksProvider,
         (_, _) => _scheduleCelebrations(),
         fireImmediately: true,
-      );
+      )
+      // One listener covers every screen that logs an action
+      ..listenManual(eggStreakResetSignalProvider, (_, _) {
+        showEggResetMessage(
+          ScaffoldMessenger.of(context),
+          AppLocalizations.of(context),
+        );
+      });
   }
 
   // One pass per frame, so changes that land together queue in a fixed order.

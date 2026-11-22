@@ -99,6 +99,7 @@ class ActionLogRepository {
     var newCurrentStreak = 1;
     String? hatchedMascotId;
     var challengeCompleted = false;
+    var eggStreakReset = false;
     var newTotalActionsCount = 1;
     var newGoalCount = 1;
 
@@ -113,6 +114,7 @@ class ActionLogRepository {
       newCurrentStreak = 1;
       hatchedMascotId = null;
       challengeCompleted = false;
+      eggStreakReset = false;
       newTotalActionsCount = 1;
       newGoalCount = 1;
 
@@ -279,6 +281,7 @@ class ActionLogRepository {
                 ),
           now,
         );
+        eggStreakReset = eggResult.streakBroken;
 
         if (eggResult.shouldHatch) {
           // Ensure we have latest mascots list
@@ -477,6 +480,7 @@ class ActionLogRepository {
       crossedMilestoneWeek: crossedMilestoneWeek,
       newStreakDays: newCurrentStreak,
       hatchedMascotId: hatchedMascotId,
+      eggStreakReset: eggStreakReset,
       challengeCompleted: challengeCompleted,
       newTotalActionsCount: newTotalActionsCount,
       newGoalCount: newGoalCount,
@@ -498,6 +502,7 @@ class ActionLogResult {
     required this.newStreakDays,
     this.crossedMilestoneWeek,
     this.hatchedMascotId,
+    this.eggStreakReset = false,
     this.challengeCompleted = false,
     this.newTotalActionsCount = 1,
     this.newGoalCount = 1,
@@ -513,6 +518,9 @@ class ActionLogResult {
 
   /// ID of newly hatched mascot (if egg hatched).
   final String? hatchedMascotId;
+
+  /// Whether a missed day sent the egg's count back to day 1.
+  final bool eggStreakReset;
 
   /// Whether today's daily challenge was completed.
   final bool challengeCompleted;

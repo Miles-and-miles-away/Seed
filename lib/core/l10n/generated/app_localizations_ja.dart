@@ -781,6 +781,24 @@ class AppLocalizationsJa extends AppLocalizations {
   String get eggDiscoverySubtitle => '30日間毎日アクションを記録して孵化させよう。';
 
   @override
+  String eggDaysLeftHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'あと$count日アクションを記録するとタマゴが孵化します。',
+    );
+    return '${_temp0}1日でも空くと、カウントは最初からやり直しです。';
+  }
+
+  @override
+  String get eggStreakResetMessage => '1日空いたため、タマゴのカウントは最初からやり直しです。';
+
+  @override
+  String speciesUnlockHint(int level) {
+    return '相棒がレベル$levelになると、タマゴが見つかります。タマゴからは新しい相棒が孵化します。';
+  }
+
+  @override
   String get eggDiscoveryDismiss => '楽しみ！';
 
   @override

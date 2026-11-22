@@ -568,6 +568,56 @@ void main() {
       await drain(tester);
     });
 
+    group('with the egg reset message', () {
+      const reset = "You missed a day, so your egg's count started again.";
+
+      Future<void> showReset(WidgetTester tester) async {
+        final context = tester.element(find.byType(ElevatedButton));
+        showEggResetMessage(
+          ScaffoldMessenger.of(context),
+          AppLocalizations.of(context),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text(reset), findsOneWidget);
+      }
+
+      Future<void> logInsideTheGap(WidgetTester tester) async {
+        markActionLogged();
+        log.gate = Completer<void>();
+        await tapAndConfirm(tester, until: find.text(logging));
+        expect(find.text(reset), findsNothing);
+        log.gate!.complete();
+        await swapSnackBars(tester);
+      }
+
+      testWidgets('shows it again when the wait cut it short', (tester) async {
+        log.result = _result();
+        await pumpHost(tester);
+        await showReset(tester);
+
+        await logInsideTheGap(tester);
+
+        expect(find.text(reset), findsOneWidget);
+        await drain(tester);
+      });
+
+      testWidgets('does not repeat it once it ran its time', (tester) async {
+        log.result = _result();
+        await pumpHost(tester);
+        await showReset(tester);
+        await tester.pump(const Duration(seconds: 4));
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text(reset), findsNothing);
+
+        await logInsideTheGap(tester);
+
+        expect(find.text(logged), findsOneWidget);
+        await drain(tester);
+        expect(find.text(reset), findsNothing);
+      });
+    });
+
     testWidgets('a failed write swaps the message for the error', (
       tester,
     ) async {

@@ -825,6 +825,26 @@ class AppLocalizationsEs extends AppLocalizations {
       'Registra acciones todos los días durante 30 días para que eclosione.';
 
   @override
+  String eggDaysLeftHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Registra acciones $count días más para que tu huevo eclosione.',
+      one: 'Registra acciones $count día más para que tu huevo eclosione.',
+    );
+    return '$_temp0 Si te saltas un día, la cuenta empieza de nuevo.';
+  }
+
+  @override
+  String get eggStreakResetMessage =>
+      'Te has saltado un día, así que la cuenta de tu huevo ha vuelto a empezar.';
+
+  @override
+  String speciesUnlockHint(int level) {
+    return 'Cuando un compañero llega al nivel $level, encuentras un huevo. De él eclosiona un nuevo compañero.';
+  }
+
+  @override
   String get eggDiscoveryDismiss => '¡Qué emocionante!';
 
   @override
