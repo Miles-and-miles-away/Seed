@@ -162,16 +162,6 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String streakLabel(int days) {
-    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
-      localeName,
-    );
-    final String daysString = daysNumberFormat.format(days);
-
-    return 'Racha de $daysString días';
-  }
-
-  @override
   String co2Saved(String amount) {
     return '$amount CO₂ ahorrado';
   }
@@ -684,15 +674,6 @@ class AppLocalizationsEs extends AppLocalizations {
       '¡No te preocupes! Empieza una nueva racha hoy.';
 
   @override
-  String streakBrokenPrevious(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Racha anterior: $countString días';
-  }
-
-  @override
   String get streakBrokenStartNew => 'Empezar una nueva racha';
 
   @override
@@ -729,11 +710,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get allCategories => 'Todos';
-
-  @override
-  String co2PerAction(Object amount) {
-    return '${amount}g CO₂';
-  }
 
   @override
   String get sdgYourImpact => 'Tu impacto';
@@ -1088,7 +1064,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Seed ayuda a registrar acciones sostenibles alineadas con los Objetivos de Desarrollo Sostenible de la ONU.';
 
   @override
-  String get aboutFooterMade => 'Hecho con cariño por nuestro planeta.';
+  String get aboutFooterMade => 'Hecho con cariño para nuestro planeta.';
 
   @override
   String get aboutSdgIconsCredit => 'Iconos de los ODS: Naciones Unidas';
@@ -2072,15 +2048,6 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String transportCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Comparar $countString opciones';
-  }
-
-  @override
   String transportOptionStaged(int count) {
     final intl.NumberFormat countNumberFormat =
         intl.NumberFormat.decimalPattern(localeName);
@@ -2280,15 +2247,6 @@ class AppLocalizationsEs extends AppLocalizations {
     final String maxString = maxNumberFormat.format(max);
 
     return 'Comparación completa ($maxString opciones)';
-  }
-
-  @override
-  String foodCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Comparar $countString opciones';
   }
 
   @override

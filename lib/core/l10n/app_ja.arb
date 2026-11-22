@@ -70,15 +70,6 @@
     }
   },
   "stageWithLevel": "{stage}（レベル{level}）",
-  "streakLabel": "{days}日連続",
-  "@streakLabel": {
-    "placeholders": {
-      "days": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "co2Saved": "{amount} CO₂削減",
   "@co2Saved": {
     "placeholders": {
@@ -287,15 +278,6 @@
   "streakMilestoneContinue": "続ける",
   "streakBrokenTitle": "連続記録が途切れました",
   "streakBrokenMessage": "大丈夫！今日から新しい記録を始めましょう。",
-  "streakBrokenPrevious": "前回の記録：{count}日",
-  "@streakBrokenPrevious": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "streakBrokenStartNew": "新しい記録を始める",
   "sortLabel": "並べ替え",
   "sortButtonTooltip": "並べ替え：{option}",
@@ -315,7 +297,6 @@
   "sortPointsLowToHigh": "ポイント（少ない順）",
   "filterBySDG": "SDGsで絞り込む",
   "allCategories": "すべて",
-  "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "あなたの貢献",
   "sdgActionsLogged": "{count, plural, other{{count}件のアクションを記録}}",
   "@sdgActionsLogged": {
@@ -873,7 +854,6 @@
   "scienceSourcesHeading": "出典",
   "scienceAccessed": "{date}に取得",
   "transportComparisonFull": "比較枠がいっぱいです（最大{max}件）",
-  "transportCompareOptions": "{count}件を比較",
   "transportOptionStaged": "選択肢{count}を追加しました",
   "transportComparisonDelta": "{label}は{worse}よりCO2eが{amount}少なくなります（{percent}%減）",
   "transportComparisonTreesEquiv": "これは約{count}本の木が1年間CO2を吸収する量に相当します",
@@ -954,15 +934,6 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "foodCompareOptions": "{count}件を比較",
-  "@foodCompareOptions": {
-    "placeholders": {
-      "count": {
         "type": "int",
         "format": "decimalPattern"
       }

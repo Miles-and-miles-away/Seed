@@ -70,15 +70,6 @@
     }
   },
   "stageWithLevel": "{stage} (Nivel {level})",
-  "streakLabel": "Racha de {days} días",
-  "@streakLabel": {
-    "placeholders": {
-      "days": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "co2Saved": "{amount} CO₂ ahorrado",
   "@co2Saved": {
     "placeholders": {
@@ -287,15 +278,6 @@
   "streakMilestoneContinue": "Continuar",
   "streakBrokenTitle": "Racha interrumpida",
   "streakBrokenMessage": "¡No te preocupes! Empieza una nueva racha hoy.",
-  "streakBrokenPrevious": "Racha anterior: {count} días",
-  "@streakBrokenPrevious": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "streakBrokenStartNew": "Empezar una nueva racha",
   "sortLabel": "Ordenar",
   "sortButtonTooltip": "Ordenar: {option}",
@@ -315,7 +297,6 @@
   "sortPointsLowToHigh": "Puntos (de menor a mayor)",
   "filterBySDG": "Filtrar por ODS",
   "allCategories": "Todos",
-  "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "Tu impacto",
   "sdgActionsLogged": "{count, plural, one{{count} acción registrada} other{{count} acciones registradas}}",
   "@sdgActionsLogged": {
@@ -501,7 +482,7 @@
   "settingsFeedbackSubtitle": "Informa de un error o cuéntanos tu opinión",
   "aboutLegal": "Legal",
   "aboutFooterSdg": "Seed ayuda a registrar acciones sostenibles alineadas con los Objetivos de Desarrollo Sostenible de la ONU.",
-  "aboutFooterMade": "Hecho con cariño por nuestro planeta.",
+  "aboutFooterMade": "Hecho con cariño para nuestro planeta.",
   "aboutSdgIconsCredit": "Iconos de los ODS: Naciones Unidas",
   "aboutSubtitleTracker": "Seed - Seguimiento de hábitos sostenibles",
   "feedbackTitle": "Enviar comentarios",
@@ -873,7 +854,6 @@
   "scienceSourcesHeading": "Fuentes",
   "scienceAccessed": "Consultado el {date}",
   "transportComparisonFull": "Comparación completa ({max} opciones)",
-  "transportCompareOptions": "Comparar {count} opciones",
   "transportOptionStaged": "Opción {count} añadida",
   "transportComparisonDelta": "{label} emite {amount} CO2e menos que {worse} ({percent}% menos)",
   "transportComparisonTreesEquiv": "Equivale a unos {count} árboles absorbiendo CO2 durante un año",
@@ -954,15 +934,6 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "foodCompareOptions": "Comparar {count} opciones",
-  "@foodCompareOptions": {
-    "placeholders": {
-      "count": {
         "type": "int",
         "format": "decimalPattern"
       }

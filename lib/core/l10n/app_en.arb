@@ -81,15 +81,6 @@
       }
     }
   },
-  "streakLabel": "{days} day streak",
-  "@streakLabel": {
-    "placeholders": {
-      "days": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "co2Saved": "{amount} CO₂ saved",
   "@co2Saved": {
     "placeholders": {
@@ -319,15 +310,6 @@
   "streakMilestoneContinue": "Continue",
   "streakBrokenTitle": "Streak Broken",
   "streakBrokenMessage": "Don't worry! Start a new streak today.",
-  "streakBrokenPrevious": "Previous streak: {count} days",
-  "@streakBrokenPrevious": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "streakBrokenStartNew": "Start New Streak",
   "sortLabel": "Sort",
   "sortButtonTooltip": "Sort: {option}",
@@ -351,7 +333,6 @@
   "sortPointsLowToHigh": "Points (Low to High)",
   "filterBySDG": "Filter by SDG",
   "allCategories": "All",
-  "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "Your Impact",
   "sdgActionsLogged": "{count, plural, one{{count} action logged} other{{count} actions logged}}",
   "@sdgActionsLogged": {
@@ -1121,15 +1102,6 @@
       }
     }
   },
-  "transportCompareOptions": "Compare {count} options",
-  "@transportCompareOptions": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "transportOptionStaged": "Added option {count}",
   "@transportOptionStaged": {
     "placeholders": {
@@ -1293,15 +1265,6 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "foodCompareOptions": "Compare {count} options",
-  "@foodCompareOptions": {
-    "placeholders": {
-      "count": {
         "type": "int",
         "format": "decimalPattern"
       }

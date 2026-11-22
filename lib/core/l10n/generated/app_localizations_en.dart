@@ -161,16 +161,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String streakLabel(int days) {
-    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
-      localeName,
-    );
-    final String daysString = daysNumberFormat.format(days);
-
-    return '$daysString day streak';
-  }
-
-  @override
   String co2Saved(String amount) {
     return '$amount CO₂ saved';
   }
@@ -672,15 +662,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get streakBrokenMessage => 'Don\'t worry! Start a new streak today.';
 
   @override
-  String streakBrokenPrevious(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Previous streak: $countString days';
-  }
-
-  @override
   String get streakBrokenStartNew => 'Start New Streak';
 
   @override
@@ -717,11 +698,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allCategories => 'All';
-
-  @override
-  String co2PerAction(Object amount) {
-    return '${amount}g CO₂';
-  }
 
   @override
   String get sdgYourImpact => 'Your Impact';
@@ -2019,15 +1995,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String transportCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Compare $countString options';
-  }
-
-  @override
   String transportOptionStaged(int count) {
     final intl.NumberFormat countNumberFormat =
         intl.NumberFormat.decimalPattern(localeName);
@@ -2226,15 +2193,6 @@ class AppLocalizationsEn extends AppLocalizations {
     final String maxString = maxNumberFormat.format(max);
 
     return 'Comparison full ($maxString options)';
-  }
-
-  @override
-  String foodCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Compare $countString options';
   }
 
   @override
