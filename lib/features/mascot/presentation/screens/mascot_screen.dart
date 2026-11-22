@@ -82,14 +82,12 @@ class MascotScreen extends ConsumerWidget {
                   const SizedBox(height: spacingXxxl),
 
                   // My Mascots collection
-                  if (allMascots.length > 1 || hasEgg) ...[
-                    MascotCollectionSection(
-                      mascots: allMascots,
-                      activeMascotId: mascot.id,
-                      hasEgg: hasEgg,
-                    ),
-                    const SizedBox(height: spacingXxxl),
-                  ],
+                  MascotCollectionSection(
+                    mascots: allMascots,
+                    activeMascotId: mascot.id,
+                    hasEgg: hasEgg,
+                  ),
+                  const SizedBox(height: spacingXxxl),
 
                   // Evolution Timeline
                   Text(

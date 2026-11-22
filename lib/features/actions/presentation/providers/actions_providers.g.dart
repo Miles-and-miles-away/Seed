@@ -1032,7 +1032,7 @@ final class ActionLogNotifierProvider
   }
 }
 
-String _$actionLogNotifierHash() => r'a4cfdecd8bfc80567809791fe40ed41636d9f965';
+String _$actionLogNotifierHash() => r'f4ccdcb7dba0a27bb1a4c8f6901340cedeae26d1';
 
 /// Notifier that handles logging actions.
 ///
