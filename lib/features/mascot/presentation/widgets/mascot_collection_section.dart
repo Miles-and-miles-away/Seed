@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
@@ -30,6 +31,7 @@ class MascotCollectionSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
+    final hint = _hint(ref, l10n);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,7 +59,37 @@ class MascotCollectionSection extends ConsumerWidget {
             },
           ),
         ),
+        if (hint != null) ...[
+          const SizedBox(height: spacingMd),
+          Text(
+            hint,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
       ],
+    );
+  }
+
+  /// Days left for the egg, else how to earn one while a species is unowned.
+  String? _hint(WidgetRef ref, AppLocalizations l10n) {
+    final egg = ref.watch(currentEggProvider);
+    if (egg != null) {
+      return l10n.eggDaysLeftHint(
+        AppConstants.eggHatchingStreakRequired - egg.hatchingStreakDays,
+      );
+    }
+    final species = ref.watch(mascotSpeciesDataProvider).value ?? [];
+    final owned = mascots.map((m) => m.speciesId).toSet();
+    final stages = ref.watch(activeSpeciesProvider)?.evolutionStages ?? [];
+    if (stages.length < AppConstants.speciesUnlockStage ||
+        selectableSpecies(species).every((s) => owned.contains(s.id))) {
+      return null;
+    }
+    return l10n.speciesUnlockHint(
+      AppConstants.speciesUnlockStage,
+      stages[AppConstants.speciesUnlockStage - 1].level,
     );
   }
 

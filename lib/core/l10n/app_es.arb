@@ -352,6 +352,26 @@
     }
   },
   "eggDiscoverySubtitle": "Registra acciones todos los días durante 30 días para que eclosione.",
+  "eggDaysLeftHint": "{count, plural, one{Registra acciones {count} día más para que tu huevo eclosione.} other{Registra acciones {count} días más para que tu huevo eclosione.}} Si te saltas un día, la cuenta empieza de nuevo.",
+  "@eggDaysLeftHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eggStreakResetMessage": "Te has saltado un día, así que la cuenta de tu huevo ha vuelto a empezar en el día 1.",
+  "speciesUnlockHint": "Cuando un compañero llega a la etapa {stage} (Nivel {level}), encuentras un huevo. De él eclosiona un nuevo compañero.",
+  "@speciesUnlockHint": {
+    "placeholders": {
+      "stage": {
+        "type": "int"
+      },
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "eggDiscoveryDismiss": "¡Qué emocionante!",
   "eggHatchingTitle": "¡Está eclosionando!",
   "eggHatchingNamePrompt": "Dale un nombre a tu nuevo compañero",

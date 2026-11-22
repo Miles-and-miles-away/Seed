@@ -137,6 +137,15 @@ Future<void> handleActionTap(
       );
     }
 
+    if (logResult.eggStreakReset) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context).eggStreakResetMessage),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+
     // Eco-Dex discovery evaluation
     final newIds = await ref
         .read(ecoDexDiscoveryProvider.notifier)

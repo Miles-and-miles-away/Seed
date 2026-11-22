@@ -76,13 +76,16 @@ class EggProgressWidget extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: spacingXs),
-          Text(
-            l10n.eggProgressLabel(
-              streakDays,
-              AppConstants.eggHatchingStreakRequired,
-            ),
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              l10n.eggProgressLabel(
+                streakDays,
+                AppConstants.eggHatchingStreakRequired,
+              ),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
         ],

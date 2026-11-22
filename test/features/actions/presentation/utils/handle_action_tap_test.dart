@@ -115,6 +115,7 @@ const _learn = ActionModel(
 ActionLogResult _result({
   int? milestoneWeek,
   bool challengeCompleted = false,
+  bool eggStreakReset = false,
   int newTotalActionsCount = 1,
   int newGoalCount = 1,
 }) => ActionLogResult(
@@ -130,6 +131,7 @@ ActionLogResult _result({
   newStreakDays: 7,
   crossedMilestoneWeek: milestoneWeek,
   challengeCompleted: challengeCompleted,
+  eggStreakReset: eggStreakReset,
   newTotalActionsCount: newTotalActionsCount,
   newGoalCount: newGoalCount,
 );
@@ -308,6 +310,25 @@ void main() {
     expect(find.text('Action logged! 20 points earned'), findsOneWidget);
     // The first snackbar has to hide before the queued one animates in.
     final queued = find.text('Challenge completed! Eco-fact unlocked!');
+    for (var i = 0; i < 20 && queued.evaluate().isEmpty; i++) {
+      await tester.pump(const Duration(milliseconds: 500));
+    }
+
+    expect(queued, findsOneWidget);
+    await drain(tester);
+  });
+
+  testWidgets('an egg count that started again queues a message', (
+    tester,
+  ) async {
+    log.result = _result(eggStreakReset: true);
+    await pumpHost(tester);
+
+    await tapAndConfirm(
+      tester,
+      until: find.text('Action logged! 20 points earned'),
+    );
+    final queued = find.textContaining("your egg's count started again");
     for (var i = 0; i < 20 && queued.evaluate().isEmpty; i++) {
       await tester.pump(const Duration(milliseconds: 500));
     }

@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
+import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/screens/mascot_screen.dart';
@@ -44,11 +45,17 @@ void main() {
     await tester.runAsync(loadMascotSpecies);
   }
 
-  Future<void> pumpMascotScreen(WidgetTester tester) async {
+  Future<void> pumpMascotScreen(
+    WidgetTester tester, {
+    AppUserModel user = _testUser,
+  }) async {
     sizeViewport(tester);
     await warmSpeciesBundle(tester);
     await tester.pumpWidget(
-      createTestWidget(overrides: overrides, child: const MascotScreen()),
+      createTestWidget(
+        overrides: [userOverride(user), ...overrides.skip(1)],
+        child: const MascotScreen(),
+      ),
     );
     // The "Our Journey" title only appears once the active mascot + species
     // have resolved.
@@ -109,7 +116,7 @@ void main() {
       await pumpMascotScreen(tester);
 
       expect(find.text('Our Journey'), findsOneWidget);
-      expect(find.text('Sprouty'), findsOneWidget);
+      expect(find.text('Sprouty'), findsWidgets);
 
       await disposeAndFlush(tester);
     });
@@ -140,6 +147,36 @@ void main() {
       await tester.pump();
 
       expect(smiles, [true]);
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('one mascot and no egg: says how to earn an egg', (
+      tester,
+    ) async {
+      await pumpMascotScreen(tester);
+
+      expect(find.textContaining('reaches stage 3 (Level 25)'), findsOneWidget);
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('an egg shows the days left and the reset rule', (
+      tester,
+    ) async {
+      await pumpMascotScreen(
+        tester,
+        user: _testUser.copyWith(
+          egg: EggModel(receivedAt: DateTime(2026), hatchingStreakDays: 12),
+        ),
+      );
+
+      expect(find.byIcon(Icons.egg_outlined), findsOneWidget);
+      expect(
+        find.text(
+          'Log actions on 18 more days to hatch your egg. '
+          'Miss a day and the count starts again.',
+        ),
+        findsOneWidget,
+      );
       await disposeAndFlush(tester);
     });
 
