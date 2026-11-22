@@ -16,13 +16,15 @@ Future<void> bankAndReport(
   required String successMessage,
   required VoidCallback onSuccess,
 }) async {
+  // A stale Retry would bank the same saving again.
+  final messenger = ScaffoldMessenger.of(context)..clearSnackBars();
   final result = await log();
   if (result == null || !context.mounted) return;
-  final messenger = ScaffoldMessenger.of(context);
   if (result.hasError) {
     messenger.showSnackBar(
       SnackBar(
         content: Text(logErrorMessage(context, result.error)),
+        persist: false,
         action: isOfflineError(result.error)
             ? SnackBarAction(
                 label: AppLocalizations.of(context).buttonRetry,

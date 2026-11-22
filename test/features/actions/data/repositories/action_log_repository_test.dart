@@ -417,6 +417,24 @@ void main() {
       expect(data[AppConstants.fieldTotalActionsCount], 1);
     });
 
+    test('a new id at the cap still logs and leaves the ids', () async {
+      final ids = List.generate(
+        AppConstants.maxUniqueActionIds,
+        (i) => 'banked-$i',
+      );
+      await seedUser({AppConstants.fieldUniqueActionIds: ids});
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldUniqueActionIds], ids);
+      expect(data[AppConstants.fieldTotalActionsCount], 1);
+    });
+
     test('a unique key replaces the action id in the ids', () async {
       await seedUser({});
       await repository.logAction(

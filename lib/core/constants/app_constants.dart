@@ -56,6 +56,9 @@ abstract class AppConstants {
   // Matches the per-write totalCo2Grams cap in firestore.rules.
   static const maxBankCo2Grams = 100000000;
 
+  // Matches the uniqueActionIds size cap in firestore.rules.
+  static const maxUniqueActionIds = 2000;
+
   // Auth throttling
   static const authCooldownSeconds = 3;
 

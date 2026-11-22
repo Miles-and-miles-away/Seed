@@ -177,6 +177,12 @@ class ActionLogRepository {
         };
       }
 
+      // At the rules cap a new id would reject the whole log.
+      final uniqueIdCount =
+          (userData[AppConstants.fieldUniqueActionIds] as List<dynamic>?)
+              ?.length ??
+          0;
+
       // Base update map. lastActionDate must be the server timestamp:
       // the rules rate-limit compares it against request.time, so a
       // skewed device clock must not be able to lock the user out (or
@@ -193,7 +199,7 @@ class ActionLogRepository {
         AppConstants.fieldTotalActionsCount: currentActionCount + 1,
         AppConstants.fieldSdgStats: updatedSdgStats,
         AppConstants.fieldCategoryActionCounts: updatedCatCounts,
-        if (countsAsUnique)
+        if (countsAsUnique && uniqueIdCount < AppConstants.maxUniqueActionIds)
           AppConstants.fieldUniqueActionIds: FieldValue.arrayUnion([
             uniqueKey ?? action.id,
           ]),

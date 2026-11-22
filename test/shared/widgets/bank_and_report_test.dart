@@ -49,6 +49,38 @@ void main() {
     expect(find.text('Banked'), findsOneWidget);
   });
 
+  testWidgets('a later bank clears a stale Retry', (tester) async {
+    var successes = 0;
+    await bankWith(tester, [
+      AsyncValue.error(
+        FirebaseException(plugin: 'cloud_firestore', code: 'unavailable'),
+        StackTrace.empty,
+      ),
+      const AsyncValue.data(null),
+    ], onSuccess: () => successes++);
+
+    await tester.tap(find.text('bank'));
+    await tester.pumpAndSettle();
+
+    expect(successes, 1);
+    expect(find.text('Banked'), findsOneWidget);
+    expect(find.text('Retry'), findsNothing);
+  });
+
+  testWidgets('the offline message times out', (tester) async {
+    await bankWith(tester, [
+      AsyncValue.error(
+        FirebaseException(plugin: 'cloud_firestore', code: 'unavailable'),
+        StackTrace.empty,
+      ),
+    ], onSuccess: () {});
+
+    await tester.pump(const Duration(seconds: 10));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Retry'), findsNothing);
+  });
+
   testWidgets('a non-offline error offers no Retry', (tester) async {
     await bankWith(tester, [
       AsyncValue.error(Exception('boom'), StackTrace.empty),

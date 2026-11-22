@@ -221,6 +221,7 @@ Future<void> _logAndReport(
         content: Text(logErrorMessage(context, logState.error)),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Theme.of(context).colorScheme.error,
+        persist: false,
         action: isOfflineError(logState.error)
             ? SnackBarAction(
                 label: AppLocalizations.of(context).buttonRetry,
