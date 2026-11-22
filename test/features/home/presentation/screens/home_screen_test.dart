@@ -20,6 +20,7 @@ import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/providers/day_change_provider.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -197,6 +198,22 @@ void main() {
       final button = find.bySemanticsLabel('Your mascot');
       expect(button, findsOneWidget);
       expect(tester.getSemantics(button).flagsCollection.isButton, isTrue);
+
+      final mascot = tester.element(find.byType(MascotDisplay));
+      expect(TickerMode.valuesOf(mascot).enabled, isTrue);
+      unawaited(
+        showCelebrationOverlay(
+          mascot,
+          (dismiss) => TextButton(onPressed: dismiss, child: const Text('ok')),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      expect(TickerMode.valuesOf(mascot).enabled, isFalse);
+      await tester.tap(find.text('ok'));
+      await tester.pump();
+      await tester.pump();
+      expect(TickerMode.valuesOf(mascot).enabled, isTrue);
 
       await tester.tap(find.byType(MascotDisplay));
       await tester.pump();

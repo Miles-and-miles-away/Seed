@@ -141,6 +141,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
                               artboardName: previousArtboardName,
                               width: 100,
                               height: 100,
+                              onRiveInit: pauseRive,
                             ),
                           ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
                           const SizedBox(width: spacingLg),
