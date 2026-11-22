@@ -839,6 +839,14 @@
   "trendChartTitle": "Daily trend",
   "trendChartAverageLabel": "average",
   "trendChartTrendLabel": "trend",
+  "trendChartSemantics": "{days, plural, =1{CO2 saved over 1 day} other{CO2 saved per day over {days} days}}. Average {average} a day, highest {peak}.",
+  "@trendChartSemantics": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "average": {"type": "String"},
+      "peak": {"type": "String"}
+    }
+  },
   "categoryChartTitle": "By category",
   "categoryOther": "Other",
   "equivalentToHeader": "Equivalent to",

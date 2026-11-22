@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 /// App color palette
@@ -109,12 +111,17 @@ Color readableTextColor(
       .toColor();
 }
 
-/// Ink for a label on a solid [fill]: near-black on a light fill, white
-/// on a dark one. Theme-independent, because the fill is.
+/// Ink for a label on a solid [fill]: white or black, whichever
+/// contrasts more. Theme-independent, because the fill is.
 Color inkOnFill(Color fill) =>
-    ThemeData.estimateBrightnessForColor(fill) == Brightness.light
-    ? Colors.black87
-    : Colors.white;
+    _contrast(Colors.white, fill) >= _contrast(Colors.black, fill)
+    ? Colors.white
+    : Colors.black;
+
+double _contrast(Color a, Color b) {
+  final (la, lb) = (a.computeLuminance(), b.computeLuminance());
+  return (math.max(la, lb) + 0.05) / (math.min(la, lb) + 0.05);
+}
 
 /// The info affordance's reserved colour for a [brightness] surface.
 Color infoColor(Brightness brightness) =>

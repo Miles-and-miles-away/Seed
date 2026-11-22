@@ -1565,6 +1565,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get trendChartTrendLabel => '傾向';
 
   @override
+  String trendChartSemantics(int days, String average, String peak) {
+    return '$days日間の1日ごとのCO2削減量。1日平均$average、最大$peak。';
+  }
+
+  @override
   String get categoryChartTitle => 'カテゴリ別';
 
   @override
