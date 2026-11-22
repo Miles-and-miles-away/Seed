@@ -831,6 +831,7 @@ describe('users/{userId}/actionLog/{logId}', () => {
 
 describe('users/{userId}/customActions/{actionId}', () => {
   const customPath = `users/${ALICE}/customActions/c1`;
+  const userPath = `users/${ALICE}`;
   const validCustom = {
     name: 'Chose Rail over Air',
     co2Grams: 112000,
@@ -840,22 +841,29 @@ describe('users/{userId}/customActions/{actionId}', () => {
     createdAt: Timestamp.now(),
   };
 
+  function createTemplate(db, data = validCustom, path = customPath) {
+    const batch = writeBatch(db);
+    batch.set(doc(db, path), data);
+    batch.update(doc(db, userPath), {lastCustomActionAt: serverTimestamp()});
+    return batch.commit();
+  }
+
   beforeEach(async () => {
-    await seed(`users/${ALICE}`, baseUserDoc);
+    await seed(userPath, baseUserDoc);
   });
 
   test('owner can create a valid template', async () => {
-    await assertSucceeds(setDoc(doc(aliceDb(), customPath), validCustom));
+    await assertSucceeds(createTemplate(aliceDb()));
   });
 
   test('rejects a missing required field', async () => {
     const {points, ...noPoints} = validCustom;
-    await assertFails(setDoc(doc(aliceDb(), customPath), noPoints));
+    await assertFails(createTemplate(aliceDb(), noPoints));
   });
 
   test('rejects relatedSdgs that are not SDG ids', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), customPath), {
+      createTemplate(aliceDb(), {
         ...validCustom,
         relatedSdgs: ['x'.repeat(1000)],
       }),
@@ -864,19 +872,19 @@ describe('users/{userId}/customActions/{actionId}', () => {
 
   test('rejects negative co2Grams', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), customPath), {...validCustom, co2Grams: -1}),
+      createTemplate(aliceDb(), {...validCustom, co2Grams: -1}),
     );
   });
 
   test('rejects points above the 10000 ceiling', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), customPath), {...validCustom, points: 10001}),
+      createTemplate(aliceDb(), {...validCustom, points: 10001}),
     );
   });
 
   test('rejects fields outside the whitelist', async () => {
     await assertFails(
-      setDoc(doc(aliceDb(), customPath), {...validCustom, bonus: 1}),
+      createTemplate(aliceDb(), {...validCustom, bonus: 1}),
     );
   });
 
@@ -898,6 +906,66 @@ describe('users/{userId}/customActions/{actionId}', () => {
     await assertFails(
       setDoc(doc(bobDb(), `users/${ALICE}/customActions/c2`), validCustom),
     );
+  });
+
+  describe('rate gate', () => {
+    test('a template create without the user bump is denied', async () => {
+      await assertFails(setDoc(doc(aliceDb(), customPath), validCustom));
+    });
+
+    test('a template create with no user doc is denied', async () => {
+      await testEnv.clearFirestore();
+      const db = aliceDb();
+      const batch = writeBatch(db);
+      batch.set(doc(db, customPath), validCustom);
+      batch.set(doc(db, userPath), {
+        ...baseUserDoc,
+        lastCustomActionAt: serverTimestamp(),
+      });
+      await assertFails(batch.commit());
+    });
+
+    test('a second create within 5s is denied', async () => {
+      await seed(userPath, {...baseUserDoc, lastCustomActionAt: secondsAgo(1)});
+      await assertFails(createTemplate(aliceDb()));
+    });
+
+    test('a create more than 5s after the last one is allowed', async () => {
+      await seed(userPath, {...baseUserDoc, lastCustomActionAt: secondsAgo(30)});
+      await assertSucceeds(createTemplate(aliceDb()));
+    });
+
+    test('back to back creates are denied after the first', async () => {
+      await assertSucceeds(createTemplate(aliceDb()));
+      await assertFails(
+        createTemplate(aliceDb(), validCustom, `${customPath}2`),
+      );
+    });
+
+    test('a client timestamp for lastCustomActionAt is denied', async () => {
+      await assertFails(
+        updateDoc(doc(aliceDb(), userPath), {
+          lastCustomActionAt: Timestamp.now(),
+        }),
+      );
+    });
+
+    test('a client timestamp in the batch is denied', async () => {
+      const db = aliceDb();
+      const batch = writeBatch(db);
+      batch.set(doc(db, customPath), validCustom);
+      batch.update(doc(db, userPath), {lastCustomActionAt: Timestamp.now()});
+      await assertFails(batch.commit());
+    });
+
+    test('removing lastCustomActionAt is denied', async () => {
+      await seed(userPath, {...baseUserDoc, lastCustomActionAt: secondsAgo(60)});
+      await assertFails(
+        updateDoc(doc(aliceDb(), userPath), {
+          lastCustomActionAt: deleteField(),
+        }),
+      );
+    });
   });
 });
 

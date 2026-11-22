@@ -154,8 +154,21 @@ class AuthRepository {
     if (firebaseUser == null) return;
     await _userDataSource.createUserIfAbsent(
       _newUserModel(firebaseUser, language),
-      isCurrent: () => currentUser?.uid == firebaseUser.uid,
+      isCurrent: () => _accountStillExists(firebaseUser),
     );
+  }
+
+  /// A missing doc can mean the account was deleted on another device while
+  /// this one still holds a valid ID token, so ask Auth before recreating it.
+  Future<bool> _accountStillExists(User firebaseUser) async {
+    if (currentUser?.uid != firebaseUser.uid) return false;
+    try {
+      await firebaseUser.reload();
+    } on FirebaseAuthException catch (e) {
+      appLogger.warning('User reload failed, doc not recreated: ${e.code}');
+      return false;
+    }
+    return currentUser?.uid == firebaseUser.uid;
   }
 
   /// Updates the current user's display name in Firestore.

@@ -199,6 +199,7 @@ void main() {
     test('ensureUserDoc creates only via createUserIfAbsent', () async {
       final user = fakeFirebaseUser();
       when(() => authDs.currentUser).thenReturn(user);
+      when(user.reload).thenAnswer((_) async {});
       when(
         () => userDs.createUserIfAbsent(
           any(),
@@ -215,14 +216,40 @@ void main() {
         ),
       ).captured;
       final created = captured.first as AppUserModel;
-      final isCurrent = captured.last as bool Function();
+      final isCurrent = captured.last as Future<bool> Function();
       expect(created.uid, uid);
       expect(created.email, email);
       expect(created.language, 'es');
-      expect(isCurrent(), isTrue);
+      expect(await isCurrent(), isTrue);
       when(() => authDs.currentUser).thenReturn(null);
-      expect(isCurrent(), isFalse);
+      expect(await isCurrent(), isFalse);
       verifyNever(() => userDs.createUser(any()));
+    });
+
+    test('ensureUserDoc does not recreate a deleted account', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(
+        user.reload,
+      ).thenThrow(FirebaseAuthException(code: 'user-not-found'));
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final isCurrent =
+          verify(
+                () => userDs.createUserIfAbsent(
+                  any(),
+                  isCurrent: captureAny(named: 'isCurrent'),
+                ),
+              ).captured.single
+              as Future<bool> Function();
+      expect(await isCurrent(), isFalse);
     });
 
     test('ensureUserDoc does nothing when signed out', () async {

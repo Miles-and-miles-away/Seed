@@ -10,9 +10,10 @@ void main() {
 
   const uid = 'test-user';
 
-  setUp(() {
+  setUp(() async {
     firestore = FakeFirebaseFirestore();
     repository = CustomActionRepository(firestore);
+    await firestore.collection(AppConstants.collectionUsers).doc(uid).set({});
   });
 
   Future<int> customActionCount() async {
@@ -43,6 +44,16 @@ void main() {
 
     expect(first.id, second.id);
     expect(await customActionCount(), 1);
+  });
+
+  test('a new template bumps lastCustomActionAt on the user doc', () async {
+    await repository.create(uid, action());
+
+    final user = await firestore
+        .collection(AppConstants.collectionUsers)
+        .doc(uid)
+        .get();
+    expect(user.data()![AppConstants.fieldLastCustomActionAt], isNotNull);
   });
 
   test('distinct choices get distinct templates', () async {
