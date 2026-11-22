@@ -16,6 +16,15 @@ const _appLocaleChannel = MethodChannel('seed/app_locale');
 const _methodSdk = 'sdk';
 const _methodSet = 'set';
 
+/// English is en-GB: day-first dates, a Monday week start and a 24 h clock.
+const britishEnglish = Locale('en', 'GB');
+
+/// Last, so a bare `en` still resolves to the `en` strings.
+const appSupportedLocales = [
+  ...AppLocalizations.supportedLocales,
+  britishEnglish,
+];
+
 /// First Android SDK with a per-app language setting (Android 13).
 const perAppLocaleMinSdk = 33;
 

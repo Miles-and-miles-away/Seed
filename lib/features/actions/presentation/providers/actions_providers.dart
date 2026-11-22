@@ -312,6 +312,9 @@ List<ActionModel> _sortActions(
   Map<String, int> shuffleRank,
 ) {
   final sorted = List<ActionModel>.from(actions);
+  int byName(ActionModel a, ActionModel b) => foldForSearch(
+    a.name(languageCode),
+  ).compareTo(foldForSearch(b.name(languageCode)));
 
   switch (sortOption) {
     case ActionSortOption.random:
@@ -319,13 +322,9 @@ List<ActionModel> _sortActions(
         (a, b) => (shuffleRank[a.id] ?? 0).compareTo(shuffleRank[b.id] ?? 0),
       );
     case ActionSortOption.alphabeticalAsc:
-      sorted.sort(
-        (a, b) => a.name(languageCode).compareTo(b.name(languageCode)),
-      );
+      sorted.sort(byName);
     case ActionSortOption.alphabeticalDesc:
-      sorted.sort(
-        (a, b) => b.name(languageCode).compareTo(a.name(languageCode)),
-      );
+      sorted.sort((a, b) => byName(b, a));
     case ActionSortOption.co2HighToLow:
       sorted.sort((a, b) => b.co2Grams.compareTo(a.co2Grams));
     case ActionSortOption.co2LowToHigh:

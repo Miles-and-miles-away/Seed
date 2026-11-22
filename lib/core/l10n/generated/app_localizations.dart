@@ -265,7 +265,7 @@ abstract class AppLocalizations {
   /// No description provided for @actionLogged.
   ///
   /// In en, this message translates to:
-  /// **'Action logged! {points} points earned'**
+  /// **'{points, plural, one{Action logged! 1 point earned} other{Action logged! {points} points earned}}'**
   String actionLogged(int points);
 
   /// No description provided for @actionLogging.
@@ -2671,7 +2671,7 @@ abstract class AppLocalizations {
   /// No description provided for @equivCarKmExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.'**
+  /// **'Average passenger car emissions per kilometre driven, fleet-weighted across petrol and diesel vehicles.'**
   String get equivCarKmExplainer;
 
   /// No description provided for @equivPhoneChargesExplainer.
@@ -3598,7 +3598,7 @@ abstract class AppLocalizations {
   /// Body: the two meals are inside the data resolution
   ///
   /// In en, this message translates to:
-  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
+  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is below what the underlying research can reliably tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
   String foodVerdictTooClose(int percent);
 
   /// Body: the meals come from different studies
@@ -3628,7 +3628,7 @@ abstract class AppLocalizations {
   /// Shown instead of a verdict when two meals are within the comparison gate
   ///
   /// In en, this message translates to:
-  /// **'These two are too close to call. Below a 20% difference the gap sits inside what the underlying research can actually resolve, so we show both totals without naming a winner.'**
+  /// **'These two are too close to call. Below a 20% difference the gap is smaller than the underlying research can reliably resolve, so we show both totals without naming a winner.'**
   String get foodComparisonTooClose;
 
   /// No description provided for @foodComparisonDelta.
