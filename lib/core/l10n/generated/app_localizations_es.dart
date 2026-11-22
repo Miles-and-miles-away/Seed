@@ -2649,7 +2649,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get energyVerdictDifferentGroup =>
-      'Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.';
+      'Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría, no un resultado ajustado. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.';
 
   @override
   String get energyVerdictDifferentCarrier =>
@@ -3090,7 +3090,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factRecallDryers(String figure) {
-    return 'Por colada, una secadora con resistencia emite aproximadamente $figure más CO2e que una con bomba de calor.';
+    return 'Por carga, una secadora con resistencia emite aproximadamente $figure más CO2e que una con bomba de calor.';
   }
 
   @override

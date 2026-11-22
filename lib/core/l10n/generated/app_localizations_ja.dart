@@ -1602,7 +1602,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get equivTreesExplainer =>
-      '成木一本が一年間に吸収する CO2 量の目安です。植えたばかりの苗木が吸収する量はこれよりずっと少なくなります。';
+      '都市部の成木一本が一年間に吸収する CO2 量の目安です。植えたばかりの苗木が吸収する量はこれよりずっと少なく、この値は十分に育った木のものです。';
 
   @override
   String get equivCarKmExplainer =>
@@ -1610,7 +1610,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get equivPhoneChargesExplainer =>
-      '平均的なスマートフォンを一度満充電するのに必要な電力量を、米国の電源構成で換算した値です。再エネ比率の高い地域ではより少なく、石炭依存の高い地域では多くなります。';
+      '平均的なスマートフォンを一度満充電するのに必要な電力量を、米国の電源構成で換算した値です。再エネ比率の高い地域（ノルウェーなど）ではより少なく、石炭依存の高い地域では多くなります。';
 
   @override
   String get equivBurgersExplainer =>
