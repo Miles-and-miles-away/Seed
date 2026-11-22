@@ -293,8 +293,11 @@ class _TransportCalculatorScreenState
     List<List<JourneyLeg>> options,
     ComparisonSummary? summary,
   ) {
-    if (summary == null || summary.deltaGrams <= 0) {
+    if (summary == null) {
       return CalculatorHint(l10n.calculatorNeedBothOptions);
+    }
+    if (summary.deltaGrams.round() <= 0) {
+      return CalculatorHint(l10n.calculatorSameEmissions);
     }
     // On screen the options are the column names; naming a single
     // leg read as an arbitrary pick from the list. The banked action

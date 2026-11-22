@@ -1809,6 +1809,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calculatorNeedBothOptions => 'Build both options to compare them';
 
   @override
+  String get calculatorSameEmissions =>
+      'Both options have the same emissions, so there is no saving to log';
+
+  @override
   String get calculatorRemoveEntry => 'Remove';
 
   @override
@@ -1935,6 +1939,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get foodQuantityInvalid => 'Enter a quantity of 0 g or more';
+
+  @override
+  String get quantityTooLarge => 'That number is too large';
 
   @override
   String get quantityAmbiguousSeparator =>

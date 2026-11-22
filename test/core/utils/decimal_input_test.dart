@@ -54,6 +54,13 @@ void main() {
       expect(parseDecimalInput('1' * 308, 'en'), isNull);
       expect(parseDecimalInput('1000000000', 'en'), 1e9);
     });
+
+    test('flags only numbers above the limit as too large', () {
+      expect(isTooLargeDecimalInput('1000000001'), isTrue);
+      expect(isTooLargeDecimalInput('1' * 400), isTrue);
+      expect(isTooLargeDecimalInput('1000000000'), isFalse);
+      expect(isTooLargeDecimalInput('abc'), isFalse);
+    });
   });
 
   group('decimalInputFormatter', () {

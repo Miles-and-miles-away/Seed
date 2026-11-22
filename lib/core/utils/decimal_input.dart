@@ -50,6 +50,10 @@ bool isAmbiguousDecimalInput(String text, String locale) {
   return RegExp('^[1-9]\\d{0,2}$group\\d{3}\$').hasMatch(trimmed);
 }
 
+/// Whether [text] is a number above the limit of [parseDecimalInput].
+bool isTooLargeDecimalInput(String text) =>
+    (double.tryParse(text.trim().replaceAll(',', '.')) ?? 0) > _maxDecimalInput;
+
 /// [text] as a number from 0 to 1e9, or null when it is not one
 /// or is ambiguous in [locale] (see [isAmbiguousDecimalInput]).
 ///

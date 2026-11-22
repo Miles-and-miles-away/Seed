@@ -1850,6 +1850,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Crea ambas opciones para compararlas';
 
   @override
+  String get calculatorSameEmissions =>
+      'Ambas opciones tienen las mismas emisiones, así que no hay ahorro que registrar';
+
+  @override
   String get calculatorRemoveEntry => 'Quitar';
 
   @override
@@ -1977,6 +1981,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodQuantityInvalid => 'Introduce una cantidad de 0 g o más';
+
+  @override
+  String get quantityTooLarge => 'Ese número es demasiado grande';
 
   @override
   String get quantityAmbiguousSeparator =>

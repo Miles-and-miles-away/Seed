@@ -31,6 +31,7 @@ class EcoDexNextUpSection extends ConsumerWidget {
     final entries = entriesAsync.value;
 
     if (user == null || entries == null) return const SizedBox.shrink();
+    final discoveredCount = entries.where((e) => e.isDiscovered).length;
 
     final candidates =
         entries
@@ -38,7 +39,11 @@ class EcoDexNextUpSection extends ConsumerWidget {
             .map(
               (e) => (
                 entry: e.entry,
-                progress: ecoDexProgressOf(e.entry.condition, user),
+                progress: ecoDexProgressOf(
+                  e.entry.condition,
+                  user,
+                  discoveredCount: discoveredCount,
+                ),
               ),
             )
             // Exclude entries already at 100%: their condition is met but not

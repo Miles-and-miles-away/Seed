@@ -3166,6 +3166,12 @@ abstract class AppLocalizations {
   /// **'Build both options to compare them'**
   String get calculatorNeedBothOptions;
 
+  /// Shown in place of the result when both journeys round to the same emissions
+  ///
+  /// In en, this message translates to:
+  /// **'Both options have the same emissions, so there is no saving to log'**
+  String get calculatorSameEmissions;
+
   /// Tooltip on the remove button of a card inside a comparison column
   ///
   /// In en, this message translates to:
@@ -3368,6 +3374,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter a quantity of 0 g or more'**
   String get foodQuantityInvalid;
+
+  /// No description provided for @quantityTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'That number is too large'**
+  String get quantityTooLarge;
 
   /// No description provided for @quantityAmbiguousSeparator.
   ///

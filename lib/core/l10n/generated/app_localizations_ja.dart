@@ -1755,6 +1755,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get calculatorNeedBothOptions => '比較するには両方の選択肢を作成してください';
 
   @override
+  String get calculatorSameEmissions => 'どちらの選択肢も排出量が同じため、記録できる削減量はありません';
+
+  @override
   String get calculatorRemoveEntry => '削除';
 
   @override
@@ -1879,6 +1882,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get foodQuantityInvalid => '0 g以上の分量を入力してください';
+
+  @override
+  String get quantityTooLarge => '数値が大きすぎます';
 
   @override
   String get quantityAmbiguousSeparator =>

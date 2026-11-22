@@ -1040,6 +1040,10 @@
   "@calculatorNeedBothOptions": {
     "description": "Shown in place of the result when one column is empty"
   },
+  "calculatorSameEmissions": "Both options have the same emissions, so there is no saving to log",
+  "@calculatorSameEmissions": {
+    "description": "Shown in place of the result when both journeys round to the same emissions"
+  },
   "calculatorRemoveEntry": "Remove",
   "@calculatorRemoveEntry": {
     "description": "Tooltip on the remove button of a card inside a comparison column"
@@ -1171,6 +1175,7 @@
   "foodChangeItem": "Change",
   "foodQuantityLabel": "Quantity (g)",
   "foodQuantityInvalid": "Enter a quantity of 0 g or more",
+  "quantityTooLarge": "That number is too large",
   "quantityAmbiguousSeparator": "Type thousands without a separator (1500). For decimals, 1.5 and 1,5 both work.",
   "foodGramsValue": "{grams}\u00A0g",
   "@foodGramsValue": {

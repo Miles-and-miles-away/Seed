@@ -309,6 +309,8 @@ class _LegEditorSheetState extends ConsumerState<LegEditorSheet> {
                           _locale,
                         )
                       ? l10n.quantityAmbiguousSeparator
+                      : isTooLargeDecimalInput(_distanceController.text)
+                      ? l10n.quantityTooLarge
                       : l10n.transportDistanceInvalid,
                   helperText: _distanceIsEstimate
                       ? l10n.transportDistanceEstimateNote

@@ -151,6 +151,8 @@ class _UsageEditorSheetState extends State<UsageEditorSheet> {
                     ? null
                     : isAmbiguousDecimalInput(_controller.text, locale)
                     ? l10n.quantityAmbiguousSeparator
+                    : isTooLargeDecimalInput(_controller.text)
+                    ? l10n.quantityTooLarge
                     : l10n.energyQuantityInvalid,
               ),
               // Typing a raw amount means the user is no longer on a

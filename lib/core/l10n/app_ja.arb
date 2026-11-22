@@ -833,6 +833,7 @@
   "calculatorBrowseAll": "すべて見る",
   "transportColumnEmptyHint": "「区間を追加」をタップして経路を作りましょう",
   "calculatorNeedBothOptions": "比較するには両方の選択肢を作成してください",
+  "calculatorSameEmissions": "どちらの選択肢も排出量が同じため、記録できる削減量はありません",
   "calculatorRemoveEntry": "削除",
   "scienceNotesHeading": "計算方法",
   "scienceSourcesHeading": "出典",
@@ -866,6 +867,7 @@
   "foodChangeItem": "変更",
   "foodQuantityLabel": "分量 (g)",
   "foodQuantityInvalid": "0 g以上の分量を入力してください",
+  "quantityTooLarge": "数値が大きすぎます",
   "quantityAmbiguousSeparator": "千の位は区切らずに入力してください（例：1500）。小数は「1.5」「1,5」のどちらでも入力できます。",
   "foodGramsValue": "{grams}\u00A0g",
   "@foodGramsValue": {
