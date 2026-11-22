@@ -2701,7 +2701,7 @@ abstract class AppLocalizations {
   /// No description provided for @equivPhoneChargesExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.'**
+  /// **'Grid electricity used to fully charge an average smartphone, based on the world average grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.'**
   String get equivPhoneChargesExplainer;
 
   /// No description provided for @equivBurgersExplainer.

@@ -216,8 +216,8 @@
         {
           "id": "full_180l",
           "name_en": "A full bath (~180 L)",
-          "name_ja": "ふつうの湯量（約180L）",
-          "name_es": "Baño normal (~180 L)",
+          "name_ja": "たっぷりの湯量（約180L）",
+          "name_es": "Baño lleno (~180 L)",
           "units": 1.0
         },
         {
@@ -262,8 +262,8 @@
         {
           "id": "full_180l",
           "name_en": "A full bath (~180 L)",
-          "name_ja": "ふつうの湯量（約180L）",
-          "name_es": "Baño normal (~180 L)",
+          "name_ja": "たっぷりの湯量（約180L）",
+          "name_es": "Baño lleno (~180 L)",
           "units": 1.0
         },
         {

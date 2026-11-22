@@ -13,8 +13,8 @@
   },
   {
     "type": "phoneCharges",
-    "gramsPerUnit": 8,
-    "sourceName": "US EPA — Greenhouse Gas Equivalencies Calculator",
+    "gramsPerUnit": 9,
+    "sourceName": "US EPA Greenhouse Gas Equivalencies Calculator; Ember Global Electricity Review 2026",
     "sourceUrl": "https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references"
   },
   {

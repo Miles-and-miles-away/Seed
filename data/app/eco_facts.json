@@ -180,7 +180,7 @@
     "keyFigureJa": "6,000年",
     "clueEn": "How long ago the Sahara was green",
     "clueJa": "サハラ砂漠が緑豊かだったのは何年前",
-    "clueEs": "Cuánto hace que el Sáhara era verde"
+    "clueEs": "Cuánto hace que el Sahara era verde"
   },
   {
     "dayOfYear": 9,
@@ -1910,8 +1910,8 @@
     ],
     "unWorldDay": null,
     "nameEn": "Millions of Green Jobs",
-    "nameEs": "Empleos renovables",
-    "nameJa": "再エネが雇用を生む"
+    "nameEs": "Millones de empleos verdes",
+    "nameJa": "数百万のグリーン雇用"
   },
   {
     "dayOfYear": 87,
@@ -2882,7 +2882,7 @@
     ],
     "unWorldDay": null,
     "nameEn": "2,700 Litres Per Shirt",
-    "nameEs": "El coste de una camiseta",
+    "nameEs": "2.700 litros por camiseta",
     "nameJa": "Tシャツ1枚に2,700リットル"
   },
   {
@@ -3175,7 +3175,7 @@
     "dayOfYear": 144,
     "category": "mythBuster",
     "factEn": "Biofuels are not always carbon-neutral. When forests or peatlands are cleared to grow biofuel crops, the carbon debt can take decades or centuries to repay through fuel savings.",
-    "factEs": "Los biocombustibles no siempre son neutros en carbono. Cuando se talan bosques o turberas para cultivar biocombustibles, la deuda de carbono puede tardar décadas o siglos en saldarse con el ahorro de combustible.",
+    "factEs": "Los biocombustibles no siempre son neutros en carbono. Cuando se talan bosques o se drenan turberas para cultivar biocombustibles, la deuda de carbono puede tardar décadas o siglos en saldarse con el ahorro de combustible.",
     "factJa": "バイオ燃料が常にカーボンニュートラルとは限りません。バイオ燃料作物を栽培するために森林を伐採したり泥炭地を開発したりすると、その炭素負債を燃料の削減効果で返すまでに数十年から数百年かかる場合があります。",
     "sourceEn": "IPCC AR6 WGIII, Chapter 7 (2022)",
     "sourceEs": "IPCC AR6 WGIII, Chapter 7 (2022)",
@@ -4693,7 +4693,7 @@
     "dayOfYear": 215,
     "category": "mythBuster",
     "factEn": "Shade-grown coffee protects 150+ species of migratory birds compared to sun-grown plantations. Certified shade-grown or bird-friendly coffee has a measurably lower biodiversity impact.",
-    "factEs": "El café cultivado bajo sombra protege a más de 150 especies de aves migratorias en comparación con las plantaciones a pleno sol. El café certificado como cultivado bajo sombra o respetuoso con las aves tiene un impacto en la biodiversidad considerablemente menor.",
+    "factEs": "El café cultivado bajo sombra protege a más de 150 especies de aves migratorias en comparación con las plantaciones a pleno sol. El café certificado como cultivado bajo sombra o respetuoso con las aves tiene un impacto en la biodiversidad menor de forma medible.",
     "factJa": "日当たりの良いプランテーションに比べ、木陰で栽培されるコーヒーは150種以上の渡り鳥を守ります。認証済みのシェードグロウンまたはバードフレンドリーコーヒーは、生物多様性への影響が、数値ではっきりわかるほど小さくなります。",
     "sourceEn": "Smithsonian Migratory Bird Center",
     "sourceEs": "Smithsonian Migratory Bird Center",
@@ -5033,7 +5033,7 @@
     ],
     "unWorldDay": null,
     "nameEn": "800,000 Electric Buses",
-    "nameEs": "Autobuses eléctricos",
+    "nameEs": "800.000 autobuses eléctricos",
     "nameJa": "電気バス80万台"
   },
   {
@@ -6584,7 +6584,7 @@
     "keyFigureJa": "70%",
     "clueEn": "Cut in shipping sulphur emissions under IMO rules",
     "clueJa": "IMO規制による海運の硫黄排出の削減率",
-    "clueEs": "Reducción de las emisiones de azufre del transporte marítimo con la OMI"
+    "clueEs": "Reducción de las emisiones de azufre del transporte marítimo con las normas de la OMI"
   },
   {
     "dayOfYear": 301,
@@ -6737,7 +6737,7 @@
     "dayOfYear": 308,
     "category": "comparison",
     "factEn": "Global resource use has grown from 30 billion tonnes in 1970 to 106 billion tonnes a year, and extracting and processing those materials accounts for over 60% of planet-warming emissions. The UN's resource panel projects that systemic shifts, from renewable energy and efficiency to walkable cities, diets with less animal protein and less food waste, could peak extraction by 2040 while the economy keeps growing.",
-    "factEs": "El uso mundial de recursos ha pasado de 30.000 millones de toneladas en 1970 a 106.000 millones de toneladas al año, y extraer y procesar esos materiales genera más del 60% de las emisiones que calientan el planeta. El panel de recursos de la ONU calcula que cambios sistémicos, desde la energía renovable y la eficiencia hasta ciudades transitables a pie, dietas con menos proteína animal y menos desperdicio de alimentos, podrían hacer que la extracción toque techo en 2040 mientras la economía sigue creciendo.",
+    "factEs": "El uso mundial de recursos ha pasado de 30.000 millones de toneladas en 1970 a 106.000 millones de toneladas al año, y extraer y procesar esos materiales genera más del 60% de las emisiones que calientan el planeta. El panel de recursos de la ONU calcula que cambios sistémicos, desde la energía renovable y la eficiencia hasta ciudades transitables a pie, dietas con menos proteína animal y menos desperdicio de alimentos, podrían hacer que la extracción toque techo para 2040 mientras la economía sigue creciendo.",
     "factJa": "世界の資源利用は1970年の300億トンから年間1,060億トンに増え、その採掘と加工が地球温暖化をもたらす排出量の60%以上を占めています。国連の資源パネルは、再生可能エネルギーと省エネから、歩きやすい都市、動物性たんぱく質の少ない食事、食品ロスの削減まで、システム全体の転換によって、経済を成長させながら2040年までに採掘量を頭打ちにできると予測しています。",
     "sourceEn": "UNEP International Resource Panel, Global Resources Outlook 2024",
     "sourceEs": "UNEP International Resource Panel, Global Resources Outlook 2024",
@@ -7279,7 +7279,7 @@
     "dayOfYear": 332,
     "category": "individual",
     "factEn": "Packing a lunch in a reusable container instead of buying takeaway saves an average of 150 single-use packages per year. That is 6 kg of plastic waste avoided.",
-    "factEs": "Llevar la comida en un recipiente reutilizable en lugar de comprar comida para llevar evita una media de 150 envases desechables al año. Son 6 kg de residuos plásticos menos.",
+    "factEs": "Llevar la comida en un recipiente reutilizable en lugar de comprar comida para llevar evita una media de 150 envases de un solo uso al año. Son 6 kg de residuos plásticos menos.",
     "factJa": "テイクアウトを買う代わりに、繰り返し使えるお弁当箱に昼食を詰めれば、年間平均150個の使い捨て容器を使わずに済みます。プラスチックごみにして6 kg分です。",
     "sourceEn": "WRAP UK",
     "sourceEs": "WRAP UK",
@@ -7545,7 +7545,7 @@
     "dayOfYear": 344,
     "category": "mythBuster",
     "factEn": "Luxury 'sustainable' fashion lines are sometimes just greenwashing. A $200 organic cotton shirt is not 10 times greener than a $20 one. Check certifications like GOTS or B Corp, not just price tags.",
-    "factEs": "Las líneas de moda de lujo «sostenible» a veces son solo lavado verde. Una camisa de algodón ecológico de 200 dólares no es 10 veces más ecológica que una de 20 dólares. Fíjate en certificaciones como GOTS o B Corp, no solo las etiquetas de precio.",
+    "factEs": "Las líneas de moda de lujo «sostenible» a veces son solo greenwashing. Una camisa de algodón ecológico de 200 dólares no es 10 veces más ecológica que una de 20 dólares. Fíjate en certificaciones como GOTS o B Corp, no solo en las etiquetas de precio.",
     "factJa": "高級「サステナブル」ファッションラインは、グリーンウォッシングにすぎない場合があります。200ドルのオーガニックコットンシャツが20ドルのものより10倍環境に優しいわけではありません。値札だけでなく、GOTSやB Corpなどの認証を確認しましょう。",
     "sourceEn": "Fashion Revolution / GOTS",
     "sourceEs": "Fashion Revolution / GOTS",
@@ -7694,7 +7694,7 @@
     "keyFigureJa": "7万1,400",
     "clueEn": "Bald eagle nesting pairs after recovery",
     "clueJa": "回復後のハクトウワシのつがいの数",
-    "clueEs": "Parejas reproductoras de pigargo americano tras su recuperación"
+    "clueEs": "Parejas reproductoras de águila calva tras su recuperación"
   },
   {
     "dayOfYear": 351,
@@ -7958,7 +7958,7 @@
     ],
     "unWorldDay": null,
     "nameEn": "137 Nations Aim Zero",
-    "nameEs": "Cero neto global",
+    "nameEs": "137 países hacia el cero neto",
     "nameJa": "ネットゼロを掲げる137か国"
   },
   {

@@ -774,7 +774,7 @@
   "impactInfoSourceLabel": "Fuente",
   "equivTreesExplainer": "CO2 que absorbe en un año un árbol urbano, como media de sus primeros 10 años de crecimiento (US EPA).",
   "equivCarKmExplainer": "Emisiones por kilómetro de un coche de gasolina medio del Reino Unido, incluidas las de producir y transportar su combustible (DESNZ 2026).",
-  "equivPhoneChargesExplainer": "Electricidad de red necesaria para cargar por completo un móvil medio, según el mix eléctrico nacional de EE. UU. Las redes más limpias (p. ej., Noruega) consumen menos; las más dependientes del carbón, más.",
+  "equivPhoneChargesExplainer": "Electricidad de red necesaria para cargar por completo un móvil medio, según el mix eléctrico medio mundial. Las redes más limpias (p. ej., Noruega) consumen menos; las más dependientes del carbón, más.",
   "equivBurgersExplainer": "Emisiones del ciclo de vida completo de una hamburguesa de ternera (113 g de carne), desde la ganadería hasta el comercio. Una hamburguesa de pollo emite unas 7 veces menos; una de alubias, unas 40 veces menos.",
   "equivFormulaTemplate": "g de CO2 / {factor}",
   "@equivFormulaTemplate": {

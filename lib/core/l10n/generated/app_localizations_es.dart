@@ -1740,7 +1740,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get equivPhoneChargesExplainer =>
-      'Electricidad de red necesaria para cargar por completo un móvil medio, según el mix eléctrico nacional de EE. UU. Las redes más limpias (p. ej., Noruega) consumen menos; las más dependientes del carbón, más.';
+      'Electricidad de red necesaria para cargar por completo un móvil medio, según el mix eléctrico medio mundial. Las redes más limpias (p. ej., Noruega) consumen menos; las más dependientes del carbón, más.';
 
   @override
   String get equivBurgersExplainer =>

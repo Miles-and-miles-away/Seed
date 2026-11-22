@@ -877,7 +877,7 @@
   "impactInfoSourceLabel": "Source",
   "equivTreesExplainer": "CO2 absorbed in one year by an urban tree, averaged over its first 10 years of growth (US EPA).",
   "equivCarKmExplainer": "Emissions per kilometre of an average UK petrol car, including the emissions of producing and delivering its fuel (DESNZ 2026).",
-  "equivPhoneChargesExplainer": "Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.",
+  "equivPhoneChargesExplainer": "Grid electricity used to fully charge an average smartphone, based on the world average grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.",
   "equivBurgersExplainer": "Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 7x less; a bean burger roughly 40x less.",
   "equivFormulaTemplate": "g of CO2 / {factor}",
   "@equivFormulaTemplate": {

@@ -1692,7 +1692,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get equivPhoneChargesExplainer =>
-      'Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.';
+      'Grid electricity used to fully charge an average smartphone, based on the world average grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.';
 
   @override
   String get equivBurgersExplainer =>
