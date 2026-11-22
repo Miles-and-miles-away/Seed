@@ -144,7 +144,7 @@ ThemeMode themeMode(Ref ref) {
 @riverpod
 Locale appLocale(Ref ref) {
   final language = ref.watch(currentLanguageProvider);
-  return Locale(language);
+  return language == 'en' ? britishEnglish : Locale(language);
 }
 
 // =============================================================================

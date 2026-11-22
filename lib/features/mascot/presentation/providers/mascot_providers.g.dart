@@ -104,7 +104,8 @@ String _$mascotRepositoryHash() => r'16023de0e8a2ebc97e4ba784213f7b3181c4a0d6';
 ///
 /// Derived from the user document already streamed by
 /// [currentUserProvider]; opening a second Firestore listener on the
-/// same document would only duplicate decode work.
+/// same document would only duplicate decode work. Stays loading until
+/// the user document arrives, so callers can tell loading from none.
 
 @ProviderFor(allMascots)
 final allMascotsProvider = AllMascotsProvider._();
@@ -113,7 +114,8 @@ final allMascotsProvider = AllMascotsProvider._();
 ///
 /// Derived from the user document already streamed by
 /// [currentUserProvider]; opening a second Firestore listener on the
-/// same document would only duplicate decode work.
+/// same document would only duplicate decode work. Stays loading until
+/// the user document arrives, so callers can tell loading from none.
 
 final class AllMascotsProvider
     extends
@@ -129,7 +131,8 @@ final class AllMascotsProvider
   ///
   /// Derived from the user document already streamed by
   /// [currentUserProvider]; opening a second Firestore listener on the
-  /// same document would only duplicate decode work.
+  /// same document would only duplicate decode work. Stays loading until
+  /// the user document arrives, so callers can tell loading from none.
   AllMascotsProvider._()
     : super(
         from: null,
@@ -156,7 +159,7 @@ final class AllMascotsProvider
   }
 }
 
-String _$allMascotsHash() => r'cbef656f60a6cff78533a1b79d40205f8a238c7a';
+String _$allMascotsHash() => r'18aa4bcbc9f7fa94b834f55707ab263db465f667';
 
 /// The active mascot for the current user (derived, see [allMascots]).
 
@@ -735,7 +738,7 @@ final class EggStreakDaysProvider extends $FunctionalProvider<int, int, int>
   }
 }
 
-String _$eggStreakDaysHash() => r'9d38c08028b776000926d6ce9d51bccde366b650';
+String _$eggStreakDaysHash() => r'4d2f4f25fff8b0161929f95fc76229aeb9e9a0dd';
 
 /// Egg hatching progress (0.0 to 1.0).
 
@@ -1189,7 +1192,7 @@ final class WelcomeBackSmileDueProvider
 }
 
 String _$welcomeBackSmileDueHash() =>
-    r'100f34bfba39a9237ef0d726c2c3b201203bbc01';
+    r'fbf6dbd659b0cb23fbab127fa33f5af17a04b5f2';
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///

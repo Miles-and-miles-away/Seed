@@ -60,10 +60,12 @@ List<String> ecoDexDiscovered(Ref ref) {
   return actual;
 }
 
-/// Total discovered count for progress display.
+/// Total discovered count for progress display, ignoring retired ids.
 @riverpod
 int ecoDexDiscoveredCount(Ref ref) {
-  return ref.watch(ecoDexDiscoveredProvider).length;
+  final entries = ref.watch(ecoDexDataProvider).value?.entries ?? const [];
+  final discovered = ref.watch(ecoDexDiscoveredProvider).toSet();
+  return entries.where((entry) => discovered.contains(entry.id)).length;
 }
 
 /// All entries with their discovered state.
@@ -111,13 +113,21 @@ Future<List<String>> ecoDexNewUnlocks(Ref ref) async {
   if (user == null) return [];
 
   final data = await ref.watch(ecoDexDataProvider.future);
-  final discovered = user.ecodexDiscovered.toSet();
+  final known = {for (final entry in data.entries) entry.id};
+  final discovered = user.ecodexDiscovered.where(known.contains).toSet();
   final newUnlocks = <String>[];
 
-  for (final entry in data.entries) {
-    if (discovered.contains(entry.id)) continue;
-    if (isConditionMet(entry.condition, user)) {
-      newUnlocks.add(entry.id);
+  // Repeat so ecodexCount entries see the unlocks found in this call.
+  for (var found = true; found;) {
+    found = false;
+    final current = user.copyWith(ecodexDiscovered: discovered.toList());
+    for (final entry in data.entries) {
+      if (discovered.contains(entry.id)) continue;
+      if (isConditionMet(entry.condition, current)) {
+        newUnlocks.add(entry.id);
+        discovered.add(entry.id);
+        found = true;
+      }
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
 import 'package:seed_app/features/eco_dex/domain/services/eco_dex_progress.dart';
+import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_progress_bar.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 
@@ -42,7 +43,11 @@ class EcoDexLockedSheet extends ConsumerWidget {
     final user = ref.watch(currentUserProvider).value;
     final progress = user == null
         ? null
-        : ecoDexProgressOf(entry.condition, user);
+        : ecoDexProgressOf(
+            entry.condition,
+            user,
+            discoveredCount: ref.watch(ecoDexDiscoveredCountProvider),
+          );
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(

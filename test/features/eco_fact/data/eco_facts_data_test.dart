@@ -100,13 +100,18 @@ void main() {
       expect(dayOfYear(DateTime(2025, 3)), 60);
     });
 
-    test('leap year Dec 31 is day 366', () {
-      // 2024 is a leap year, Dec 31 is day 366
-      expect(dayOfYear(DateTime(2024, 12, 31)), 366);
+    test('leap year keeps dated facts on their calendar day', () {
+      expect(dayOfYear(DateTime(2028, 2, 28)), 59);
+      expect(dayOfYear(DateTime(2028, 3)), 60);
+      expect(
+        dayOfYear(DateTime(2028, 4, 22)),
+        dayOfYear(DateTime(2027, 4, 22)),
+      );
+      expect(dayOfYear(DateTime(2028, 12, 31)), 365);
     });
 
-    test('leap year Feb 29 is day 60', () {
-      expect(dayOfYear(DateTime(2024, 2, 29)), 60);
+    test('leap year Feb 29 shows the leap-day fact', () {
+      expect(dayOfYear(DateTime(2024, 2, 29)), 366);
     });
 
     test('mid-summer date is exact in DST timezones', () {

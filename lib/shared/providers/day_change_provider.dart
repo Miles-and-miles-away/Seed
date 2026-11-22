@@ -75,6 +75,7 @@ class DayChangeNotifier extends _$DayChangeNotifier {
       ..invalidate(todaySummaryProvider)
       ..invalidate(monthCalendarDataProvider)
       ..invalidate(co2StatsProvider)
+      ..invalidate(trendWindowSummariesProvider)
       ..invalidate(co2TrendDataProvider)
       ..invalidate(co2CategoryDataProvider)
       ..invalidate(actionRemindersProvider)

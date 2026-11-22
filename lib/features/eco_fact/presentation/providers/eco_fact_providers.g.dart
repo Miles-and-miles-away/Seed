@@ -329,7 +329,7 @@ final class FactViewedNotifierProvider
 }
 
 String _$factViewedNotifierHash() =>
-    r'18f33f234f77f36907db2538516b37c59e04aff1';
+    r'7ee80bbcdd7e5e36413aee2fdd62f950dc859134';
 
 /// Notifier to mark an eco-fact as viewed.
 

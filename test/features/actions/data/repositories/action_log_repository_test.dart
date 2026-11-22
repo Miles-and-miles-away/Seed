@@ -297,6 +297,63 @@ void main() {
     });
   });
 
+  group('logAction: zone change between two logs', () {
+    // 00:30 on 16 Jun at UTC+14: the day before _now in that zone, and
+    // 15 Jun in the host zone for any host below UTC+13:30.
+    final westOfLastLog = DateTime.utc(2026, 6, 15, 10, 30);
+    // 23:00 on 16 Jun at UTC-12: the day before _now in that zone, and
+    // 17 Jun in the host zone for any host above UTC-11.
+    final eastOfLastLog = DateTime.utc(2026, 6, 17, 11);
+
+    test('a westward move keeps the streak and the egg streak', () async {
+      await seedUser({
+        AppConstants.fieldLastActionDate: Timestamp.fromDate(westOfLastLog),
+        AppConstants.fieldLastActionUtcOffsetMinutes: 840,
+        AppConstants.fieldCurrentStreak: 40,
+        AppConstants.fieldLongestStreak: 40,
+        AppConstants.fieldEgg: {
+          'receivedAt': Timestamp.fromDate(westOfLastLog),
+          AppConstants.fieldHatchingStreakDays: 5,
+          AppConstants.fieldLastHatchingActivityDate: Timestamp.fromDate(
+            westOfLastLog,
+          ),
+        },
+      });
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldCurrentStreak], 41);
+      final egg = data[AppConstants.fieldEgg] as Map<String, dynamic>;
+      expect(egg[AppConstants.fieldHatchingStreakDays], 6);
+      expect(
+        data[AppConstants.fieldLastActionUtcOffsetMinutes],
+        _now.timeZoneOffset.inMinutes,
+      );
+    });
+
+    test('an eastward move counts the next local day', () async {
+      await seedUser({
+        AppConstants.fieldLastActionDate: Timestamp.fromDate(eastOfLastLog),
+        AppConstants.fieldLastActionUtcOffsetMinutes: -720,
+        AppConstants.fieldCurrentStreak: 6,
+        AppConstants.fieldLongestStreak: 6,
+      });
+
+      final result = await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      expect(result.newStreakDays, 7);
+    });
+  });
+
   group('logAction — aggregate counters', () {
     test('per-SDG counters accumulate for all related SDGs', () async {
       await seedUser({
@@ -342,6 +399,55 @@ void main() {
       expect(counts['water'], 5);
       final uniques = data[AppConstants.fieldUniqueActionIds] as List<dynamic>;
       expect(uniques, contains('walk'));
+    });
+
+    test('a log that does not count as unique leaves the ids', () async {
+      final ids = List.generate(2000, (i) => 'banked-$i');
+      await seedUser({AppConstants.fieldUniqueActionIds: ids});
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+        countsAsUnique: false,
+      );
+
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldUniqueActionIds], ids);
+      expect(data[AppConstants.fieldTotalActionsCount], 1);
+    });
+
+    test('a new id at the cap still logs and leaves the ids', () async {
+      final ids = List.generate(
+        AppConstants.maxUniqueActionIds,
+        (i) => 'banked-$i',
+      );
+      await seedUser({AppConstants.fieldUniqueActionIds: ids});
+
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldUniqueActionIds], ids);
+      expect(data[AppConstants.fieldTotalActionsCount], 1);
+    });
+
+    test('a unique key replaces the action id in the ids', () async {
+      await seedUser({});
+      await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+        uniqueKey: 'bank:transport:train>plane',
+      );
+
+      final data = (await getUser()).data()!;
+      expect(data[AppConstants.fieldUniqueActionIds], [
+        'bank:transport:train>plane',
+      ]);
     });
 
     test('action with no related SDGs leaves sdgStats untouched', () async {
@@ -1051,6 +1157,25 @@ void main() {
               as Map<String, dynamic>;
       expect(md[AppConstants.fieldCurrentDay], 2);
       expect(data[AppConstants.fieldCompletedMultiDayChallenges], isNull);
+    });
+
+    test('a multi-day challenge with no template id does not block', () async {
+      await seedUser({
+        AppConstants.fieldActiveMultiDayChallenge: {
+          AppConstants.fieldCurrentDay: 2,
+          AppConstants.fieldTargetDays: 5,
+          AppConstants.fieldLastCompletionDate: '',
+        },
+      });
+
+      final result = await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      expect(result.actionLog.points, 20);
+      expect((await getUser()).data()![AppConstants.fieldPoints], 20);
     });
 
     test('disposes egg instead of hatching at the mascot cap', () async {

@@ -35,11 +35,16 @@ void main() {
     templateData = ChallengeTemplateData(daily: daily, multiDay: multiDay);
   });
 
-  Widget buildScreen({required AppUserModel user}) {
+  Widget buildScreen({
+    required AppUserModel user,
+    FakeFirebaseFirestore? firestore,
+  }) {
     return ProviderScope(
       overrides: [
         currentUserProvider.overrideWith((_) => Stream.value(user)),
-        firestoreProvider.overrideWithValue(FakeFirebaseFirestore()),
+        firestoreProvider.overrideWithValue(
+          firestore ?? FakeFirebaseFirestore(),
+        ),
         challengeTemplateDataProvider.overrideWith((_) async => templateData),
       ],
       child: createTestWidget(child: const ChallengesScreen()),
@@ -121,6 +126,45 @@ void main() {
       // Active card has abandon button, not start
       // Other 5 templates are blocked (no start buttons)
       expect(find.byType(FilledButton), findsNothing);
+    });
+
+    testWidgets('a failed start tells the user', (tester) async {
+      final firestore = FakeFirebaseFirestore();
+      await firestore.collection('users').doc('test-uid').set({
+        'activeMultiDayChallenge': {'templateId': 'md_vegan_week'},
+      });
+      final user = AppUserModel(uid: 'test-uid', email: 'test@example.com');
+
+      await tester.pumpWidget(buildScreen(user: user, firestore: firestore));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(FilledButton).first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(FilledButton).last);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SnackBar), findsOneWidget);
+    });
+
+    testWidgets('a failed abandon tells the user', (tester) async {
+      final user = AppUserModel(
+        uid: 'test-uid',
+        email: 'test@example.com',
+        activeMultiDayChallenge: {
+          'templateId': 'md_vegan_week',
+          'currentDay': 1,
+          'targetDays': 7,
+          'lastCompletionDate': '',
+        },
+      );
+
+      await tester.pumpWidget(buildScreen(user: user));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, 'Abandon').first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(FilledButton).last);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SnackBar), findsOneWidget);
     });
   });
 }
