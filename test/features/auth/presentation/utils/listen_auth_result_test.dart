@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/auth/presentation/utils/listen_auth_result.dart';
@@ -73,6 +74,22 @@ void main() {
       find.descendant(of: find.byType(SnackBar), matching: find.byType(Text)),
       findsOneWidget,
     );
+  });
+
+  testWidgets('a cancelled sign-in sheet reports nothing', (tester) async {
+    when(
+      () => repo.sendPasswordResetEmail(any()),
+    ).thenThrow(AuthException(code: authCodeSignInCancelled));
+    var errors = 0;
+    final container = await pumpHost(tester, onError: () => errors++);
+
+    await container
+        .read(authProvider.notifier)
+        .sendPasswordResetEmail('a@b.com');
+    await tester.pump();
+
+    expect(errors, 0);
+    expect(find.byType(SnackBar), findsNothing);
   });
 
   testWidgets('onError runs on failure and onCompleted does not', (

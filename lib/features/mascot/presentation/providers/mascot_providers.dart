@@ -44,11 +44,12 @@ MascotRepository mascotRepository(Ref ref) =>
 ///
 /// Derived from the user document already streamed by
 /// [currentUserProvider]; opening a second Firestore listener on the
-/// same document would only duplicate decode work.
+/// same document would only duplicate decode work. Stays loading until
+/// the user document arrives, so callers can tell loading from none.
 @riverpod
 Stream<List<MascotModel>> allMascots(Ref ref) async* {
   final user = ref.watch(currentUserProvider).value;
-  yield user?.mascots ?? <MascotModel>[];
+  if (user != null) yield user.mascots;
 }
 
 /// The active mascot for the current user (derived, see [allMascots]).
@@ -275,15 +276,19 @@ class WelcomeBackSmiled extends _$WelcomeBackSmiled {
 @riverpod
 bool welcomeBackSmileDue(Ref ref) {
   if (ref.watch(mascotCelebrationPendingProvider)) return false;
-  final lastActionDate = ref.watch(
-    currentUserProvider.select((user) => user.value?.lastActionDate),
+  final (lastActionDate, offsetMinutes) = ref.watch(
+    currentUserProvider.select(
+      (user) =>
+          (user.value?.lastActionDate, user.value?.lastActionUtcOffsetMinutes),
+    ),
   );
   if (lastActionDate == null ||
       lastActionDate == ref.watch(welcomeBackSmiledProvider)) {
     return false;
   }
   final today = ref.watch(clockProvider)();
-  return calendarDaysBetween(lastActionDate, today) >= welcomeBackMinDays;
+  final last = localDateAt(lastActionDate, offsetMinutes);
+  return calendarDaysBetween(last, today) >= welcomeBackMinDays;
 }
 
 /// Fires the mascot smile animation, e.g. before opening the action log.

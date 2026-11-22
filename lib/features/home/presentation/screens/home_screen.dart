@@ -18,6 +18,7 @@ import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
+import 'package:seed_app/shared/providers/day_change_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
@@ -31,6 +32,7 @@ class HomeScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final hasMascot = ref.watch(hasMascotProvider);
+    final mascotsLoaded = ref.watch(allMascotsProvider).hasValue;
 
     return WalkthroughTrigger(
       item: WalkthroughItem.intro,
@@ -61,7 +63,7 @@ class HomeScreen extends ConsumerWidget {
                     // Mascot section or selection prompt
                     if (hasMascot)
                       _buildMascotSection(context, ref)
-                    else
+                    else if (mascotsLoaded)
                       _buildMascotSelectionPrompt(context, ref, l10n),
                     const SizedBox(height: spacingMd),
 
@@ -141,6 +143,8 @@ class HomeScreen extends ConsumerWidget {
     final mascot = ref.watch(activeMascotProvider).value;
     final user = ref.watch(currentUserProvider).value;
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
+    // Rebuilds at midnight, so a streak broken overnight reads 0.
+    ref.watch(dayChangeProvider);
 
     return MascotHousing(
       child: Column(
@@ -189,7 +193,7 @@ class HomeScreen extends ConsumerWidget {
                 // displayedStreak shows 0 once a missed day has
                 // already broken the streak (the stored value is
                 // only corrected at the next log).
-                '${displayedStreak(storedStreak: user?.currentStreak ?? 0, lastActionDate: user?.lastActionDate, now: ref.watch(clockProvider)())}',
+                '${displayedStreak(storedStreak: user?.currentStreak ?? 0, lastActionDate: user?.lastActionDate, lastActionUtcOffsetMinutes: user?.lastActionUtcOffsetMinutes, now: ref.watch(clockProvider)())}',
                 l10n.profileCurrentStreak,
                 Colors.orange,
               ),

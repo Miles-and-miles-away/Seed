@@ -94,7 +94,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String actionLogged(int points) {
-    return '¡Acción registrada! Has ganado $points puntos';
+    final intl.NumberFormat pointsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String pointsString = pointsNumberFormat.format(points);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      points,
+      locale: localeName,
+      other: '¡Acción registrada! Has ganado $pointsString puntos',
+      one: '¡Acción registrada! Has ganado 1 punto',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -120,28 +130,45 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String pointsLabel(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count puntos',
-      one: '$count punto',
+      other: '$countString puntos',
+      one: '$countString punto',
     );
     return '$_temp0';
   }
 
   @override
   String levelLabel(int level) {
-    return 'Nivel $level';
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return 'Nivel $levelString';
   }
 
   @override
   String stageWithLevel(String stage, int level) {
-    return '$stage (Nivel $level)';
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return '$stage (Nivel $levelString)';
   }
 
   @override
   String streakLabel(int days) {
-    return 'Racha de $days días';
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
+    return 'Racha de $daysString días';
   }
 
   @override
@@ -159,7 +186,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String mascotEvolution(int stage) {
-    return 'Etapa de evolución $stage';
+    final intl.NumberFormat stageNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stageString = stageNumberFormat.format(stage);
+
+    return 'Etapa de evolución $stageString';
   }
 
   @override
@@ -222,23 +253,36 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String profileNextLevel(int points) {
-    return '$points pts para el siguiente nivel';
+    final intl.NumberFormat pointsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String pointsString = pointsNumberFormat.format(points);
+
+    return '$pointsString pts para el siguiente nivel';
   }
 
   @override
   String profileDaysActive(int days) {
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: '$days días',
-      one: '$days día',
+      other: '$daysString días',
+      one: '$daysString día',
     );
     return '$_temp0';
   }
 
   @override
   String profileEvolutionStage(int stage) {
-    return 'Etapa de evolución $stage';
+    final intl.NumberFormat stageNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stageString = stageNumberFormat.format(stage);
+
+    return 'Etapa de evolución $stageString';
   }
 
   @override
@@ -330,7 +374,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorActionRejected =>
-      'No se ha podido registrar la acción. Comprueba que la fecha y la hora del dispositivo se ajustan automáticamente y vuelve a intentarlo.';
+      'No se ha podido registrar la acción. Espera unos segundos y vuelve a intentarlo. Si vuelve a fallar, comprueba que la fecha y la hora del dispositivo se ajustan automáticamente.';
+
+  @override
+  String errorSavingTooLarge(String limit) {
+    return 'Un ahorro de más de $limit es demasiado grande para registrarlo como una sola acción. Comprueba las distancias y las cantidades.';
+  }
 
   @override
   String get errorLogActionOffline =>
@@ -547,6 +596,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get accountSettingsEmailUpdated => 'Correo actualizado correctamente';
 
   @override
+  String get accountSettingsEmailLinkSent =>
+      'Hemos enviado un enlace a tu nueva dirección de correo. Ábrelo para completar el cambio.';
+
+  @override
   String get accountSettingsPasswordUpdated =>
       'Contraseña actualizada correctamente';
 
@@ -590,12 +643,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String streakMilestoneWeeks(int count) {
-    return '¡Racha de $count semanas!';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '¡Racha de $countString semanas!',
+      one: '¡Racha de $countString semana!',
+    );
+    return '$_temp0';
   }
 
   @override
   String streakMilestoneDays(int count) {
-    return '¡Has registrado acciones durante $count días seguidos!';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '¡Has registrado acciones durante $countString días seguidos!';
   }
 
   @override
@@ -614,7 +681,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String streakBrokenPrevious(int count) {
-    return 'Racha anterior: $count días';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Racha anterior: $countString días';
   }
 
   @override
@@ -665,11 +736,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String sdgActionsLogged(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count acciones registradas',
-      one: '$count acción registrada',
+      other: '$countString acciones registradas',
+      one: '$countString acción registrada',
     );
     return '$_temp0';
   }
@@ -759,7 +834,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String eggProgressLabel(int current, int total) {
-    return 'Día $current/$total';
+    final intl.NumberFormat currentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String currentString = currentNumberFormat.format(current);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'Día $currentString/$totalString';
   }
 
   @override
@@ -872,10 +954,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String reminderRepeatCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count veces',
+      other: '$countString veces',
       one: '1 vez',
     );
     return '$_temp0';
@@ -897,11 +983,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String reminderLimit(int max) {
-    return 'Puedes tener hasta $max recordatorios de acciones.';
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return 'Puedes tener hasta $maxString recordatorios de acciones.';
   }
 
   @override
   String reminderSummary(String days, String time, int hour) {
+    final intl.NumberFormat hourNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String hourString = hourNumberFormat.format(hour);
+
     String _temp0 = intl.Intl.pluralLogic(
       hour,
       locale: localeName,
@@ -913,6 +1009,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String reminderSummaryUntil(String days, String time, int hour, String date) {
+    final intl.NumberFormat hourNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String hourString = hourNumberFormat.format(hour);
+
     String _temp0 = intl.Intl.pluralLogic(
       hour,
       locale: localeName,
@@ -940,7 +1041,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String reminderListIntro(int max) {
-    return 'Crea un recordatorio con la campana de cualquier acción, hasta $max. Toca uno para cambiarlo o eliminarlo.';
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return 'Crea un recordatorio con la campana de cualquier acción, hasta $maxString. Toca uno para cambiarlo o eliminarlo.';
   }
 
   @override
@@ -1047,23 +1153,39 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String mascotLevelShort(int level) {
-    return 'Nv $level';
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return 'Nv $levelString';
   }
 
   @override
   String mascotLevelsToGo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count niveles restantes',
-      one: '$count nivel restante',
+      other: '$countString niveles restantes',
+      one: '$countString nivel restante',
     );
     return '$_temp0';
   }
 
   @override
   String mascotLevelProgress(int current, int max) {
-    return 'Nivel $current / $max';
+    final intl.NumberFormat currentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String currentString = currentNumberFormat.format(current);
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return 'Nivel $currentString / $maxString';
   }
 
   @override
@@ -1126,12 +1248,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String sdgGoalNumber(int number) {
-    return 'Objetivo $number';
+    final intl.NumberFormat numberNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String numberString = numberNumberFormat.format(number);
+
+    return 'Objetivo $numberString';
   }
 
   @override
   String sdgGoalNumberTitle(int number, String title) {
-    return 'Objetivo $number: $title';
+    final intl.NumberFormat numberNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String numberString = numberNumberFormat.format(number);
+
+    return 'Objetivo $numberString: $title';
   }
 
   @override
@@ -1255,18 +1385,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String pointsAbbreviated(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count pts',
-      one: '$count pt',
+      other: '$countString pts',
+      one: '$countString pt',
     );
     return '$_temp0';
   }
 
   @override
   String stageFallback(int stage) {
-    return 'Etapa $stage';
+    final intl.NumberFormat stageNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String stageString = stageNumberFormat.format(stage);
+
+    return 'Etapa $stageString';
   }
 
   @override
@@ -1387,12 +1525,30 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String challengeStreakDays(int days) {
-    return 'Racha de desafíos: $days días';
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Racha de desafíos: $daysString días',
+      one: 'Racha de desafíos: $daysString día',
+    );
+    return '$_temp0';
   }
 
   @override
   String challengeMultiDayProgress(int current, int target) {
-    return 'Día $current de $target';
+    final intl.NumberFormat currentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String currentString = currentNumberFormat.format(current);
+    final intl.NumberFormat targetNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String targetString = targetNumberFormat.format(target);
+
+    return 'Día $currentString de $targetString';
   }
 
   @override
@@ -1426,11 +1582,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String challengeDays(int days) {
+    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String daysString = daysNumberFormat.format(days);
+
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: '$days días',
-      one: '$days día',
+      other: '$daysString días',
+      one: '$daysString día',
     );
     return '$_temp0';
   }
@@ -1575,7 +1736,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String ecoDexProgress(int discovered, int total) {
-    return '$discovered / $total descubiertos';
+    final intl.NumberFormat discoveredNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String discoveredString = discoveredNumberFormat.format(discovered);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return '$discoveredString / $totalString descubiertos';
   }
 
   @override
@@ -1608,7 +1776,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String ecoDexDiscoveryMoreQueued(int count) {
-    return '+$count más pendientes';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '+$countString más pendientes';
   }
 
   @override
@@ -1706,7 +1878,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportOccupantsSemantic(int count) {
-    return 'Personas en el vehículo: $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Personas en el vehículo: $countString';
   }
 
   @override
@@ -1737,10 +1913,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportOccupantsValue(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count personas',
+      other: '$countString personas',
       one: '1 persona',
     );
     return '$_temp0';
@@ -1748,12 +1928,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportModeFactorPerPassenger(int grams) {
-    return '$grams g CO2e por km';
+    final intl.NumberFormat gramsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String gramsString = gramsNumberFormat.format(grams);
+
+    return '$gramsString g CO2e por km';
   }
 
   @override
   String transportModeFactorPerVehicle(int grams) {
-    return '$grams g CO2e por vehículo y km';
+    final intl.NumberFormat gramsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String gramsString = gramsNumberFormat.format(grams);
+
+    return '$gramsString g CO2e por vehículo y km';
   }
 
   @override
@@ -1852,6 +2040,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Crea ambas opciones para compararlas';
 
   @override
+  String get calculatorSameEmissions =>
+      'Ambas opciones tienen las mismas emisiones, así que no hay ahorro que registrar';
+
+  @override
   String get calculatorRemoveEntry => 'Quitar';
 
   @override
@@ -1867,17 +2059,30 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportComparisonFull(int max) {
-    return 'Comparación completa ($max opciones)';
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return 'Comparación completa ($maxString opciones)';
   }
 
   @override
   String transportCompareOptions(int count) {
-    return 'Comparar $count opciones';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Comparar $countString opciones';
   }
 
   @override
   String transportOptionStaged(int count) {
-    return 'Opción $count añadida';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Opción $countString añadida';
   }
 
   @override
@@ -1887,7 +2092,11 @@ class AppLocalizationsEs extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$label emite $amount CO2e menos que $worse ($percent% menos)';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return '$label emite $amount CO2e menos que $worse ($percentString% menos)';
   }
 
   @override
@@ -1900,7 +2109,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String transportMethodologyBody(int grid) {
-    return 'Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los medios eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que no tienen por qué añadirse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya se miden por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Según DESNZ 2025, los factores de vuelos y jets privados incluyen un recargo de 1,7 (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo recargo, así que se comparan en igualdad de condiciones.\n\n### Medios eléctricos y la red\nLos coches eléctricos, las bicis y los patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de $grid g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Medias, no tu trayecto exacto\nLos factores son medias por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos medios están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.';
+    final intl.NumberFormat gridNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String gridString = gridNumberFormat.format(grid);
+
+    return 'Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los medios eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que no tienen por qué añadirse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya se miden por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Según DESNZ 2025, los factores de vuelos y jets privados incluyen un recargo de 1,7 (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo recargo, así que se comparan en igualdad de condiciones.\n\n### Medios eléctricos y la red\nLos coches eléctricos, las bicis y los patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de $gridString g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Medias, no tu trayecto exacto\nLos factores son medias por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos medios están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.';
   }
 
   @override
@@ -1981,6 +2195,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get foodQuantityInvalid => 'Introduce una cantidad de 0 g o más';
 
   @override
+  String get quantityTooLarge => 'Ese número es demasiado grande';
+
+  @override
   String get quantityAmbiguousSeparator =>
       'Escribe los miles sin separador (1500). Para los decimales, sirven tanto 1,5 como 1.5.';
 
@@ -2053,17 +2270,30 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String foodComparisonFull(int max) {
-    return 'Comparación completa ($max opciones)';
+    final intl.NumberFormat maxNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String maxString = maxNumberFormat.format(max);
+
+    return 'Comparación completa ($maxString opciones)';
   }
 
   @override
   String foodCompareOptions(int count) {
-    return 'Comparar $count opciones';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Comparar $countString opciones';
   }
 
   @override
   String foodOptionStaged(int count) {
-    return 'Opción $count añadida';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Opción $countString añadida';
   }
 
   @override
@@ -2110,17 +2340,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String foodVerdictTooClose(int percent) {
-    return 'Estas dos comidas están a menos del $percent% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'Estas dos comidas están a menos del $percentString% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda por debajo de lo que la investigación de origen puede distinguir con fiabilidad. Arriba tienes ambos totales; simplemente no declaramos una ganadora.';
   }
 
   @override
   String foodVerdictCrossSource(int percent) {
-    return 'Estas comidas se miden con estudios distintos, y uno de ellos abarca una cadena de suministro más corta. Parte de cualquier diferencia podría deberse a eso y no a algo real, así que necesitaríamos que una emitiera menos de la mitad que la otra (en torno al $percent%) antes de decir cuál es mejor.';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'Estas comidas se miden con estudios distintos, y uno de ellos abarca una cadena de suministro más corta. Parte de cualquier diferencia podría deberse a eso y no a algo real, así que necesitaríamos que una emitiera menos de la mitad que la otra (en torno al $percentString%) antes de decir cuál es mejor.';
   }
 
   @override
   String foodVerdictTiedBasis(int percent) {
-    return 'Esta diferencia se apoya en ingredientes que comparten una misma cifra de investigación de origen. Cuando dos de ellos no coinciden, esa discrepancia es una decisión contable del estudio original y no algo medido en el campo. Si se deja eso a un lado, estas comidas quedan a menos del $percent% una de otra, así que no declaramos una ganadora. Arriba tienes ambos totales.';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'Esta diferencia se apoya en ingredientes que comparten una misma cifra de investigación de origen. Cuando dos de ellos no coinciden, esa discrepancia es una decisión contable del estudio original y no algo medido en el campo. Si se deja eso a un lado, estas comidas quedan a menos del $percentString% una de otra, así que no declaramos una ganadora. Arriba tienes ambos totales.';
   }
 
   @override
@@ -2129,12 +2371,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String foodVerdictUncertainItem(String item, String ratio, int percent) {
-    return 'El problema es $item, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su media hasta $ratio veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al $percent% superaría esa incertidumbre; esta no llega. Puedes registrar la comida como una acción normal.';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'El problema es $item, no tus comidas. La investigación que hay detrás no se pone de acuerdo consigo misma: una minoría de productores de impacto muy alto eleva su media hasta $ratio veces su valor intermedio, así que dónde acaba depende mucho de qué granjas se cuenten. Una diferencia de en torno al $percentString% superaría esa incertidumbre; esta no llega. Puedes registrar la comida como una acción normal.';
   }
 
   @override
   String get foodComparisonTooClose =>
-      'Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.';
+      'Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda por debajo de lo que la investigación de origen puede distinguir con fiabilidad, así que mostramos ambos totales sin elegir una ganadora.';
 
   @override
   String foodComparisonDelta(
@@ -2143,12 +2389,21 @@ class AppLocalizationsEs extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$label emite $amount CO2e menos que $worse ($percent% menos)';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return '$label emite $amount CO2e menos que $worse ($percentString% menos)';
   }
 
   @override
   String foodComparisonCarKmEquiv(int km) {
-    return 'Equivale a unos $km km no recorridos en un coche de gasolina';
+    final intl.NumberFormat kmNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String kmString = kmNumberFormat.format(km);
+
+    return 'Equivale a unos $kmString km no recorridos en un coche de gasolina';
   }
 
   @override
@@ -2311,7 +2566,11 @@ class AppLocalizationsEs extends AppLocalizations {
     String worse,
     int percent,
   ) {
-    return '$label emite $amount CO2e menos que $worse ($percent% menos)';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return '$label emite $amount CO2e menos que $worse ($percentString% menos)';
   }
 
   @override
@@ -2321,10 +2580,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyComparisonSavesEquiv(String amount, int charges) {
+    final intl.NumberFormat chargesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String chargesString = chargesNumberFormat.format(charges);
+
     String _temp0 = intl.Intl.pluralLogic(
       charges,
       locale: localeName,
-      other: '$charges cargas de móvil',
+      other: '$chargesString cargas de móvil',
       one: 'una carga de móvil',
     );
     return 'Ahorras $amount, el equivalente en electricidad a $_temp0';
@@ -2337,10 +2600,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyPhoneChargesEquiv(int charges) {
+    final intl.NumberFormat chargesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String chargesString = chargesNumberFormat.format(charges);
+
     String _temp0 = intl.Intl.pluralLogic(
       charges,
       locale: localeName,
-      other: 'unas $charges cargas de móvil',
+      other: 'unas $chargesString cargas de móvil',
       one: 'una carga de móvil',
     );
     return 'Equivale en electricidad a $_temp0';
@@ -2348,12 +2615,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyGridBasisNote(int grid) {
-    return 'Las cifras en gramos suponen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025)';
+    final intl.NumberFormat gridNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String gridString = gridNumberFormat.format(grid);
+
+    return 'Las cifras en gramos suponen la red eléctrica media mundial, $gridString g CO2e/kWh (Ember, datos de 2025)';
   }
 
   @override
   String energyGridBasisNoteRatio(int grid) {
-    return 'Las cifras en gramos suponen la red eléctrica media mundial, $grid g CO2e/kWh (Ember, datos de 2025); el múltiplo se mantiene en cualquier red';
+    final intl.NumberFormat gridNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String gridString = gridNumberFormat.format(grid);
+
+    return 'Las cifras en gramos suponen la red eléctrica media mundial, $gridString g CO2e/kWh (Ember, datos de 2025); el múltiplo se mantiene en cualquier red';
   }
 
   @override
@@ -2361,7 +2638,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyMethodologyBody(int grid) {
-    return 'Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos $grid g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el $grid de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.';
+    final intl.NumberFormat gridNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String gridString = gridNumberFormat.format(grid);
+
+    return 'Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos $gridString g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el $gridString de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por aproximadamente una octava parte del consumo por hora de un aire acondicionado. Una nevera consume aproximadamente 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.';
   }
 
   @override
@@ -2393,7 +2675,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String energyVerdictTooClose(int percent) {
-    return 'La diferencia entre ambas es de menos del $percent%, dentro de la precisión de las mediciones de origen. Declarar un ganador sería atribuir una exactitud que las fuentes no tienen.';
+    final intl.NumberFormat percentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String percentString = percentNumberFormat.format(percent);
+
+    return 'La diferencia entre ambas es de menos del $percentString%, dentro de la precisión de las mediciones de origen. Declarar un ganador sería atribuir una exactitud que las fuentes no tienen.';
   }
 
   @override
@@ -2465,7 +2751,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String quizAnnounceRight(int count) {
-    return '¡Correcto! Racha: $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '¡Correcto! Racha: $countString';
   }
 
   @override
@@ -2541,12 +2831,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String quizStreakLabel(int count) {
-    return 'Racha: $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Racha: $countString';
   }
 
   @override
   String quizBestLabel(int count) {
-    return 'Mejor: $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Mejor: $countString';
   }
 
   @override
@@ -2574,12 +2872,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factPairsFound(int found, int total) {
-    return 'Parejas: $found de $total';
+    final intl.NumberFormat foundNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String foundString = foundNumberFormat.format(found);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'Parejas: $foundString de $totalString';
   }
 
   @override
   String factPairsMoves(int count) {
-    return 'Movimientos: $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Movimientos: $countString';
   }
 
   @override
@@ -2590,10 +2899,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factPairsFinished(int moves) {
+    final intl.NumberFormat movesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String movesString = movesNumberFormat.format(moves);
+
     String _temp0 = intl.Intl.pluralLogic(
       moves,
       locale: localeName,
-      other: 'Todas las parejas en $moves movimientos',
+      other: 'Todas las parejas en $movesString movimientos',
       one: 'Todas las parejas en 1 movimiento',
     );
     return '$_temp0';
@@ -2601,7 +2914,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factPairsCardHidden(int index, int total) {
-    return 'Carta $index de $total, boca abajo';
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'Carta $indexString de $totalString, boca abajo';
   }
 
   @override
@@ -2617,12 +2937,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factGamesLockedBody(int needed) {
-    return 'Este juego se abre cuando descubras $needed entradas del Eco-Dex. Descúbrelas registrando acciones y completando desafíos; las que encuentres pueden aparecer aquí como preguntas.';
+    final intl.NumberFormat neededNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String neededString = neededNumberFormat.format(needed);
+
+    return 'Este juego se abre cuando descubras $neededString entradas del Eco-Dex. Descúbrelas registrando acciones y completando desafíos; las que encuentres pueden aparecer aquí como preguntas.';
   }
 
   @override
   String factGamesLockedProgress(int count, int needed) {
-    return '$count de $needed entradas del Eco-Dex descubiertas';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+    final intl.NumberFormat neededNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String neededString = neededNumberFormat.format(needed);
+
+    return '$countString de $neededString entradas del Eco-Dex descubiertas';
   }
 
   @override
@@ -2639,12 +2970,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factRecallProgress(int index, int total) {
-    return 'Pregunta $index de $total';
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'Pregunta $indexString de $totalString';
   }
 
   @override
   String factRecallScore(int count) {
-    return 'Aciertos: $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Aciertos: $countString';
   }
 
   @override
@@ -2669,11 +3011,18 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factRecallFinished(int correct, int total) {
+    final intl.NumberFormat correctNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String correctString = correctNumberFormat.format(correct);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
     String _temp0 = intl.Intl.pluralLogic(
       correct,
       locale: localeName,
-      other: '$correct aciertos de $total',
-      one: '$correct acierto de $total',
+      other: '$correctString aciertos de $totalString',
+      one: '$correctString acierto de $totalString',
     );
     return '$_temp0';
   }
@@ -2694,87 +3043,87 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factRecallBeefTofu(String figure) {
-    return 'Por cada 100 g, la carne de vacuno genera cerca de $figure más CO2e que el tofu.';
+    return 'Por cada 100 g, la carne de vacuno genera aproximadamente $figure más CO2e que el tofu.';
   }
 
   @override
   String factRecallChickenBeans(String figure) {
-    return 'Por cada 100 g, el pollo genera cerca de $figure más CO2e que las alubias y lentejas secas.';
+    return 'Por cada 100 g, el pollo genera aproximadamente $figure más CO2e que las alubias y lentejas secas.';
   }
 
   @override
   String factRecallBeefChicken(String figure) {
-    return 'Por cada 100 g, la carne de vacuno genera cerca de $figure más CO2e que el pollo.';
+    return 'Por cada 100 g, la carne de vacuno genera aproximadamente $figure más CO2e que el pollo.';
   }
 
   @override
   String factRecallMilkOat(String figure) {
-    return 'Por cada 100 ml, la leche de vaca genera cerca de $figure más CO2e que la bebida de avena.';
+    return 'Por cada 100 ml, la leche de vaca genera aproximadamente $figure más CO2e que la bebida de avena.';
   }
 
   @override
   String factRecallFlightShinkansen(String figure) {
-    return 'Por pasajero y kilómetro, un vuelo nacional emite cerca de $figure más CO2e que el Shinkansen.';
+    return 'Por pasajero y kilómetro, un vuelo nacional emite aproximadamente $figure más CO2e que el Shinkansen.';
   }
 
   @override
   String factRecallPrivateJet(String figure) {
-    return 'Por pasajero y kilómetro, un jet privado emite cerca de $figure más CO2e que un vuelo de larga distancia en clase turista.';
+    return 'Por pasajero y kilómetro, un jet privado emite aproximadamente $figure más CO2e que un vuelo de larga distancia en clase turista.';
   }
 
   @override
   String factRecallBulbs(String figure) {
-    return 'Por hora, una bombilla incandescente emite cerca de $figure más CO2e que una bombilla LED.';
+    return 'Por hora, una bombilla incandescente emite aproximadamente $figure más CO2e que una bombilla LED.';
   }
 
   @override
   String factRecallShowers(String figure) {
-    return 'Por minuto, una ducha con agua caliente eléctrica emite cerca de $figure más CO2e que una con bomba de calor.';
+    return 'Por minuto, una ducha con agua caliente eléctrica emite aproximadamente $figure más CO2e que una con bomba de calor.';
   }
 
   @override
   String factRecallWashes(String figure) {
-    return 'Por colada, un lavado a 60 °C emite cerca de $figure más CO2e que uno a 20 °C.';
+    return 'Por colada, un lavado a 60 °C emite aproximadamente $figure más CO2e que uno a 20 °C.';
   }
 
   @override
   String factRecallCooling(String figure) {
-    return 'Por hora, un aire acondicionado en modo refrigeración emite cerca de $figure más CO2e que un ventilador.';
+    return 'Por hora, un aire acondicionado en modo refrigeración emite aproximadamente $figure más CO2e que un ventilador.';
   }
 
   @override
   String factRecallDishwasher(String figure) {
-    return 'Por ciclo, el programa normal del lavavajillas emite cerca de un $figure más CO2e que el programa eco.';
+    return 'Por ciclo, el programa normal del lavavajillas emite aproximadamente un $figure más CO2e que el programa eco.';
   }
 
   @override
   String factRecallLambPork(String figure) {
-    return 'Por cada 100 g, el cordero genera cerca de $figure más CO2e que el cerdo.';
+    return 'Por cada 100 g, el cordero genera aproximadamente $figure más CO2e que el cerdo.';
   }
 
   @override
   String factRecallFerry(String figure) {
-    return 'Por pasajero y kilómetro, quien viaja en ferri con coche emite cerca de $figure más CO2e que quien embarca a pie.';
+    return 'Por pasajero y kilómetro, quien viaja en ferri con coche emite aproximadamente $figure más CO2e que quien embarca a pie.';
   }
 
   @override
   String factRecallDryers(String figure) {
-    return 'Por colada, una secadora con resistencia emite cerca de $figure más CO2e que una con bomba de calor.';
+    return 'Por colada, una secadora con resistencia emite aproximadamente $figure más CO2e que una con bomba de calor.';
   }
 
   @override
   String factRecallCarCoach(String figure) {
-    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de $figure más CO2e que un autocar de larga distancia.';
+    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente $figure más CO2e que un autocar de larga distancia.';
   }
 
   @override
   String factRecallCarBus(String figure) {
-    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de un $figure más CO2e que un autobús urbano.';
+    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente un $figure más CO2e que un autobús urbano.';
   }
 
   @override
   String factRecallCarRail(String figure) {
-    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de $figure más CO2e que el tren nacional o de cercanías.';
+    return 'Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente $figure más CO2e que el tren nacional o de cercanías.';
   }
 
   @override

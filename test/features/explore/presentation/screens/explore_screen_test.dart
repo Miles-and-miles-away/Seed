@@ -16,12 +16,14 @@ import 'package:seed_app/core/utils/ja_phrase.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/explore/explore.dart';
 import 'package:seed_app/features/fact_games/fact_games.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 
 import '../../../../helpers/test_helpers.dart';
+import '../../../eco_dex/eco_dex_fixtures.dart';
 import '../../../fact_games/fact_games_fixtures.dart';
 import '../../../walkthrough/walkthrough_test_support.dart';
 
@@ -148,7 +150,14 @@ void main() {
           .isNotEmpty;
       await tester.pumpWidget(
         createTestWidget(
-          overrides: [currentUserProvider.overrideWith((_) => users.stream)],
+          overrides: [
+            currentUserProvider.overrideWith((_) => users.stream),
+            ecoDexDataProvider.overrideWith(
+              (_) async => ecoDexDataFor([
+                for (var i = 0; i < 10; i++) ecoDexEntry('entry_$i'),
+              ]),
+            ),
+          ],
           child: const ExploreScreen(),
         ),
       );

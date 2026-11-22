@@ -125,6 +125,17 @@ void main() {
     expect(ids().toSet(), hasLength(12));
   });
 
+  test('skips a reminder already due and queues the rest', () async {
+    final now = DateTime.now();
+
+    await service.scheduleReminders([
+      reminder(now.subtract(const Duration(seconds: 1))),
+      reminder(now.add(const Duration(days: 1))),
+    ], channels: _channels);
+
+    expect(ids(), hasLength(1));
+  });
+
   test('removes the shown reminders of earlier days only', () async {
     final now = DateTime.now();
     final noon = DateTime(now.year, now.month, now.day + 1, 12);

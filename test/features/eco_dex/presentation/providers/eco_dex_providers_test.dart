@@ -88,21 +88,18 @@ void main() {
   });
 
   group('ecoDexDiscoveredCountProvider', () {
-    test('returns list length', () async {
-      final c = await pumpedContainer([
-        userOverride(
-          const AppUserModel(
-            uid: 'u',
-            email: 'e',
-            ecodexDiscovered: ['a', 'b', 'c'],
-          ),
+    test('counts only ids that are still in the catalogue', () async {
+      final c = await _containerWithData(
+        user: const AppUserModel(
+          uid: 'u',
+          email: 'e',
+          ecodexDiscovered: ['a', 'b', 'retired'],
         ),
-      ]);
-
-      expect(
-        c.read(ecoDexDiscoveredCountProvider),
-        c.read(ecoDexDiscoveredProvider).length,
+        entries: [ecoDexEntry('a'), ecoDexEntry('b'), ecoDexEntry('c')],
       );
+      await c.read(ecoDexDataProvider.future);
+
+      expect(c.read(ecoDexDiscoveredCountProvider), 2);
     });
   });
 
@@ -179,6 +176,31 @@ void main() {
 
       final result = await c.read(ecoDexNewUnlocksProvider.future);
       expect(result, ['newly_unlocked']);
+    });
+
+    test('an ecodexCount entry counts the unlocks found with it', () async {
+      final c = await _containerWithData(
+        user: const AppUserModel(
+          uid: 'u',
+          email: 'e',
+          totalActionsCount: 5,
+          ecodexDiscovered: ['retired'],
+        ),
+        entries: [
+          ecoDexEntry(
+            'meta',
+            condition: const EcoDexCondition.ecodexCount(count: 2),
+          ),
+          ecoDexEntry('a'),
+          ecoDexEntry(
+            'b',
+            condition: const EcoDexCondition.totalActions(count: 5),
+          ),
+        ],
+      );
+
+      final result = await c.read(ecoDexNewUnlocksProvider.future);
+      expect(result, ['a', 'b', 'meta']);
     });
 
     test('returns multiple newly-eligible entries in entry order', () async {

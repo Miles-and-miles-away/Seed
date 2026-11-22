@@ -70,13 +70,14 @@ void main() {
     code: 'permission-denied',
   );
 
-  testWidgets('permission-denied with no recent log reads as a clock problem', (
+  testWidgets('permission-denied with no recent log names both causes', (
     tester,
   ) async {
     expect(
       await messageFor(tester, denied),
-      "This action could not be logged. Check that your device's date and "
-      'time are set automatically, then try again.',
+      'This action could not be logged. Wait a few seconds and try again. '
+      "If it fails again, check that your device's date and time are set "
+      'automatically.',
     );
   });
 
@@ -87,6 +88,14 @@ void main() {
     expect(
       await messageFor(tester, denied),
       'Please wait a few seconds between actions.',
+    );
+  });
+
+  testWidgets('a saving above the cap names the limit', (tester) async {
+    expect(
+      await messageFor(tester, const SavingTooLargeException()),
+      'A saving above 100 t is too large to log as one action. '
+      'Check the distances and amounts.',
     );
   });
 

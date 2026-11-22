@@ -32,6 +32,7 @@ Future<ActionLogResult?> logActionWithWaitMessage(
   ActionModel action, {
   required String languageCode,
   String? note,
+  bool countsAsUnique = true,
 }) async {
   final notifier = ref.read(actionLogProvider.notifier);
   final messenger = ScaffoldMessenger.of(context);
@@ -59,6 +60,7 @@ Future<ActionLogResult?> logActionWithWaitMessage(
     action,
     note: note,
     languageCode: languageCode,
+    countsAsUnique: countsAsUnique,
   );
   if (!notifier.isBusy && messenger.mounted) {
     _waiting[messenger]?.close();
@@ -93,6 +95,22 @@ Future<void> handleActionTap(
   if (result == null || !result.confirmed) return;
   if (!context.mounted) return;
 
+  await _logAndReport(
+    context,
+    ref,
+    action: action,
+    note: result.note,
+    languageCode: languageCode,
+  );
+}
+
+Future<void> _logAndReport(
+  BuildContext context,
+  WidgetRef ref, {
+  required ActionModel action,
+  required String? note,
+  required String languageCode,
+}) async {
   // The notifier drops a repeat of a log still waiting or in flight.
   if (ref.read(actionLogProvider.notifier).isPending(action.id)) return;
 
@@ -100,7 +118,7 @@ Future<void> handleActionTap(
     context,
     ref,
     action,
-    note: result.note,
+    note: note,
     languageCode: languageCode,
   );
 
@@ -172,11 +190,43 @@ Future<void> handleActionTap(
     // logged -- nothing to report.
     if (logState.isLoading || !logState.hasError) return;
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    final messenger = ScaffoldMessenger.of(context);
+    final message = logErrorMessage(context, logState.error);
+    final errorColor = Theme.of(context).colorScheme.error;
+    messenger.showSnackBar(
       SnackBar(
-        content: Text(logErrorMessage(context, logState.error)),
+        content: Text(message),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Theme.of(context).colorScheme.error,
+        backgroundColor: errorColor,
+        persist: false,
+        action: isOfflineError(logState.error)
+            ? SnackBarAction(
+                label: AppLocalizations.of(context).buttonRetry,
+                textColor: Theme.of(context).colorScheme.onError,
+                onPressed: () {
+                  // Retry needs its screen, so repeat that nothing was saved.
+                  if (!context.mounted) {
+                    messenger.showSnackBar(
+                      SnackBar(
+                        content: Text(message),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: errorColor,
+                      ),
+                    );
+                    return;
+                  }
+                  unawaited(
+                    _logAndReport(
+                      context,
+                      ref,
+                      action: action,
+                      note: note,
+                      languageCode: languageCode,
+                    ),
+                  );
+                },
+              )
+            : null,
       ),
     );
   }

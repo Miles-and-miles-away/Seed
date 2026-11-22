@@ -91,7 +91,8 @@ class FoodCalculator {
     Map<String, FoodItem> itemsById,
     List<List<MealIngredient>> options,
   ) {
-    if (summary.deltaGrams <= 0) {
+    // The bank stores whole grams, so a gap that rounds to 0 g is a tie.
+    if (summary.deltaGrams.round() <= 0) {
       return const VerdictCheck(VerdictBlock.tooClose, verdictMinPercent);
     }
     final tiers = <int>{};

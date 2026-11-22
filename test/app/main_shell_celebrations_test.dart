@@ -217,11 +217,15 @@ class _ChallengeLog extends ActionLogNotifier {
     ActionModel action, {
     String? note,
     String languageCode = 'en',
+    bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     final r = await super.logAction(
       action,
       note: note,
       languageCode: languageCode,
+      countsAsUnique: countsAsUnique,
+      uniqueKey: uniqueKey,
     );
     if (r == null) return null;
     return ActionLogResult(

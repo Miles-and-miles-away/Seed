@@ -606,7 +606,7 @@ final class AppLocaleProvider
   }
 }
 
-String _$appLocaleHash() => r'039b0a604fd9f4a680ba4c0e1357a68e1a63f485';
+String _$appLocaleHash() => r'6f21b164f71589a3c61c74bfaa429c38db51f9e6';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

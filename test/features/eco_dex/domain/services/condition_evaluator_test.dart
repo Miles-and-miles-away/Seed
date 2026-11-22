@@ -284,6 +284,14 @@ void main() {
         expect(isConditionMet(condition, user), isFalse);
       });
 
+      test('true for a name without a photo from the second action', () {
+        final user = baseUser().copyWith(
+          displayName: 'Test',
+          totalActionsCount: 2,
+        );
+        expect(isConditionMet(condition, user), isTrue);
+      });
+
       test('true when both set from the second action', () {
         final user = baseUser().copyWith(
           displayName: 'Test',
