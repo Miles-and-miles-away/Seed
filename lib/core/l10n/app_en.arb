@@ -402,6 +402,23 @@
     }
   },
   "eggDiscoverySubtitle": "Log actions every day for 30 days to hatch it.",
+  "eggDaysLeftHint": "{count, plural, one{Log actions on {count} more day to hatch your egg.} other{Log actions on {count} more days to hatch your egg.}} Miss a day and the count starts again.",
+  "@eggDaysLeftHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eggStreakResetMessage": "You missed a day, so your egg's count started again.",
+  "speciesUnlockHint": "When a companion reaches Level {level}, you find an egg. A new companion hatches from it.",
+  "@speciesUnlockHint": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "eggDiscoveryDismiss": "How exciting!",
   "eggHatchingTitle": "It's Hatching!",
   "eggHatchingNamePrompt": "Give your new companion a name",

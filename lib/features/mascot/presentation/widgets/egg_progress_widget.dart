@@ -23,7 +23,7 @@ class EggProgressWidget extends ConsumerWidget {
     if (egg == null) return const SizedBox.shrink();
 
     final progress = ref.watch(eggHatchingProgressProvider);
-    final streakDays = egg.hatchingStreakDays;
+    final streakDays = ref.watch(eggStreakDaysProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
 
@@ -80,13 +80,16 @@ class EggProgressWidget extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: spacingXs),
-          Text(
-            l10n.eggProgressLabel(
-              streakDays,
-              AppConstants.eggHatchingStreakRequired,
-            ),
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              l10n.eggProgressLabel(
+                streakDays,
+                AppConstants.eggHatchingStreakRequired,
+              ),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
         ],

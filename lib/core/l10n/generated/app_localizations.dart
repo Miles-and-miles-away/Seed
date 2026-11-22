@@ -1378,6 +1378,24 @@ abstract class AppLocalizations {
   /// **'Log actions every day for 30 days to hatch it.'**
   String get eggDiscoverySubtitle;
 
+  /// No description provided for @eggDaysLeftHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Log actions on {count} more day to hatch your egg.} other{Log actions on {count} more days to hatch your egg.}} Miss a day and the count starts again.'**
+  String eggDaysLeftHint(int count);
+
+  /// No description provided for @eggStreakResetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You missed a day, so your egg\'s count started again.'**
+  String get eggStreakResetMessage;
+
+  /// No description provided for @speciesUnlockHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When a companion reaches Level {level}, you find an egg. A new companion hatches from it.'**
+  String speciesUnlockHint(int level);
+
   /// No description provided for @eggDiscoveryDismiss.
   ///
   /// In en, this message translates to:
