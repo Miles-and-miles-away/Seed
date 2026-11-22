@@ -13,6 +13,7 @@ export 'data/services/egg_hatching_service.dart';
 
 // Presentation layer
 export 'presentation/providers/mascot_providers.dart';
+export 'presentation/screens/mascot_lab_screen.dart';
 export 'presentation/screens/mascot_screen.dart';
 export 'presentation/screens/mascot_selection_screen.dart';
 export 'presentation/widgets/egg_discovery_celebration.dart';
