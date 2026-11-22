@@ -127,7 +127,7 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "US EPA WARM v16, Containers, Packaging and Non-Durable Goods Materials, Exhibit 3-7 (MTCO2E/Short Ton)",
+          "name": "US EPA WARM v16, Containers, Packaging and Non-Durable Goods Materials, Exhibit 3-7 (MTCO2E/Short Ton; columns: source reduction, recycling, composting, combustion, landfilling, anaerobic digestion)",
           "url": "https://www.epa.gov/system/files/documents/2023-12/warm_containers_packaging_and_non-durable_goods_materials_v16_dec.pdf",
           "quote": "Corrugated Containers (5.58) (3.14) NA (0.49) 0.18 NA",
           "accessed": "2026-11-23"
@@ -226,7 +226,7 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "US EPA WARM v16, Containers, Packaging and Non-Durable Goods Materials, Exhibit 3-7 (MTCO2E/Short Ton)",
+          "name": "US EPA WARM v16, Containers, Packaging and Non-Durable Goods Materials, Exhibit 3-7 (MTCO2E/Short Ton; columns: source reduction, recycling, composting, combustion, landfilling, anaerobic digestion)",
           "url": "https://www.epa.gov/system/files/documents/2023-12/warm_containers_packaging_and_non-durable_goods_materials_v16_dec.pdf",
           "quote": "Mixed Paper (primarily residential) (6.00) (3.55) NA (0.49) 0.02 NA",
           "accessed": "2026-11-23"
@@ -257,7 +257,7 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "US EPA WARM v16, Electronics, Exhibit 1-5 (MTCO2E/Short Ton)",
+          "name": "US EPA WARM v16, Electronics, Exhibit 1-5 (MTCO2E/Short Ton; columns: source reduction, recycling, composting, combustion, landfilling, anaerobic digestion)",
           "url": "https://www.epa.gov/system/files/documents/2023-12/warm_electronics_v16_dec.pdf",
           "quote": "Portable Electronic Devices (29.83) (1.06) NA 0.65 0.02 NA",
           "accessed": "2026-11-23"
@@ -2178,7 +2178,7 @@
       "description_ja": "歯を磨いている間は水を止める",
       "description_es": "Cerrar el grifo mientras te cepillas los dientes",
       "co2_grams": 5,
-      "calculation_notes": "EPA WaterSense: 8 US gallons a day at two brushings = 4 gal = 15.14 L per brushing x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 5.48 g, rounded down to 5 g. Cold water, so no heating is counted.",
+      "calculation_notes": "EPA WaterSense: 8 US gallons a day. At two brushings a day (an assumption) that is 4 gal = 15.14 L per brushing x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 5.48 g, rounded down to 5 g. Cold water, so no heating is counted.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
@@ -2246,7 +2246,7 @@
           "accessed": "2026-11-23"
         },
         {
-          "name": "Which?, How little water dishwashers use compared to hand-washing",
+          "name": "Which?, How little water dishwashers use compared to hand-washing (table columns: avg water per place setting, avg water per 14 place settings)",
           "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
           "quote": "Dishwasher (main wash) 926 millilitres 12.96 litres",
           "accessed": "2026-11-23"
@@ -2329,7 +2329,7 @@
       "description_ja": "食器を温水ではなく冷水ですすぐ",
       "description_es": "Enjuagar los platos con agua fría en vez de caliente",
       "co2_grams": 36,
-      "calculation_notes": "6 L of hot rinse water avoided. EPA WaterSense: 10 US gallons (37.85 L) from a running tap uses 60 W x 18 h = 1.08 kWh, so 0.0285 kWh/L. 6 L x 0.0285 = 0.171 kWh x 212.52 g CO2e/kWh (DESNZ 2026 natural gas 182.31 + well-to-tank 30.21) = 36.4 g, rounded down to 36 g. The 6 L is an assumption.",
+      "calculation_notes": "6 L of hot rinse water avoided. EPA WaterSense: 10 US gallons (37.85 L) from a running tap uses 60 W x 18 h = 1.08 kWh, so 0.0285 kWh/L. 6 L x 0.0285 = 0.171 kWh x 212.52 g CO2e/kWh (DESNZ 2026 natural gas 182.31 + well-to-tank 30.21) = 36.4 g, rounded down to 36 g. Assumptions: the 6 L, that the EPA energy figure is the heat in the hot water, and that gas heats the water.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
