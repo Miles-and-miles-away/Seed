@@ -759,6 +759,7 @@
   "trendChartTitle": "Tendencia diaria",
   "trendChartAverageLabel": "media",
   "trendChartTrendLabel": "tendencia",
+  "trendChartSemantics": "{days, plural, =1{CO2 ahorrado en 1 día} other{CO2 ahorrado al día durante {days} días}}. Media de {average} al día; máximo, {peak}.",
   "categoryChartTitle": "Por categoría",
   "categoryOther": "Otros",
   "equivalentToHeader": "Equivale a",

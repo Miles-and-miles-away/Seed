@@ -264,7 +264,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (!_acceptedTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(l10n.authAcceptTermsError),
+          content: Text(
+            l10n.authAcceptTermsError,
+            style: TextStyle(color: inkOnFill(AppColors.warning)),
+          ),
           backgroundColor: AppColors.warning,
         ),
       );

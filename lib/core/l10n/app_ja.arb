@@ -759,6 +759,7 @@
   "trendChartTitle": "日々の推移",
   "trendChartAverageLabel": "平均",
   "trendChartTrendLabel": "傾向",
+  "trendChartSemantics": "{days}日間の1日ごとのCO2削減量。1日平均{average}、最大{peak}。",
   "categoryChartTitle": "カテゴリ別",
   "categoryOther": "その他",
   "equivalentToHeader": "つまり",

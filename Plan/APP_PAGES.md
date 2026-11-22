@@ -286,8 +286,10 @@ unambiguous exit. Browse and log actions.
   3 s; a smile under reduced motion). Then any Eco-Dex
   and streak celebrations. A log that completes the daily challenge
   opens the Eco Fact Inbox instead of cheering. Neither the cheer nor
-  the inbox plays while an evolution or egg celebration is pending,
-  and only one cheer shows at a time.
+  the inbox plays while an evolution or egg celebration is pending.
+  The cheer also stands aside for any other celebration, showing or
+  queued, and the inbox opens once those close. Only one cheer shows
+  at a time.
 
 ### Calculator colouring (all three)
 

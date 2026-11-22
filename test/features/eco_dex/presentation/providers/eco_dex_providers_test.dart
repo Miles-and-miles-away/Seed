@@ -342,7 +342,8 @@ void main() {
 
       final notifier = c.read(ecoDexDiscoveryProvider.notifier);
       final result = await notifier.discoverNewEntries();
-      expect(result, isEmpty);
+      expect(result.unlocked, isEmpty);
+      expect(result.claimed, isEmpty);
       // Empty-list short-circuits before Firestore call -- no error state.
       expect(c.read(ecoDexDiscoveryProvider).hasError, isFalse);
     });
@@ -364,11 +365,12 @@ void main() {
           .discoverNewEntries()
           .timeout(const Duration(seconds: 1));
 
-      expect(result, ['a']);
+      expect(result.unlocked, ['a']);
+      expect(result.claimed, ['a']);
     });
 
-    test('concurrent discoverNewEntries records each unlock once '
-        'via arrayUnion idempotency', () async {
+    test('concurrent discoverNewEntries records and claims each unlock '
+        'once', () async {
       final firestore = FakeFirebaseFirestore();
       const uid = 'u';
       final userDoc = firestore
@@ -403,8 +405,10 @@ void main() {
         notifier.discoverNewEntries(),
       ]);
 
-      expect(results[0], ['a', 'b']);
-      expect(results[1], ['a', 'b']);
+      expect(results[0].unlocked, ['a', 'b']);
+      expect(results[1].unlocked, ['a', 'b']);
+      expect(results[0].claimed, ['a', 'b']);
+      expect(results[1].claimed, isEmpty);
 
       final snapshot = await userDoc.get();
       final stored = List<String>.from(
@@ -456,7 +460,7 @@ void main() {
           .read(ecoDexDiscoveryProvider.notifier)
           .discoverNewEntries(minActionsCount: 6);
 
-      expect(result, ['b']);
+      expect(result.claimed, ['b']);
       final stored =
           (await userDoc.get()).data()![AppConstants.fieldEcodexDiscovered]
               as List<dynamic>;

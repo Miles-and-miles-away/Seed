@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' show Color;
 
 import 'package:collection/collection.dart';
@@ -8,6 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
@@ -259,7 +261,15 @@ class MascotNotifier extends _$MascotNotifier {
   Future<void> nameHatchedMascot(String mascotId, String name) =>
       _run((repo, user) async {
         await repo.updateMascotName(user.uid, mascotId, name);
-        await repo.setActiveMascot(user.uid, mascotId);
+        // A plain update only completes on server ack, so offline it hangs.
+        unawaited(
+          repo
+              .setActiveMascot(user.uid, mascotId)
+              .catchError(
+                (Object e) =>
+                    appLogger.warning('Hatched mascot not made active: $e'),
+              ),
+        );
       });
 }
 

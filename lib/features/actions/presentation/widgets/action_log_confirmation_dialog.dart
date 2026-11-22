@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
@@ -99,7 +100,7 @@ class _ActionLogConfirmationDialogState
               child: Text(
                 l10n.pointsLabel(widget.action.points),
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: Colors.white,
+                  color: inkOnFill(categoryColor),
                   fontWeight: FontWeight.bold,
                 ),
               ),

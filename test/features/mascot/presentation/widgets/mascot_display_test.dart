@@ -71,24 +71,31 @@ void main() {
       }
     }
 
-    testWidgets('jumpOnLoad under reduced motion smiles and holds it', (
+    testWidgets('reduced motion freezes the mascot with no jump or smile', (
       tester,
     ) async {
+      var jumped = false;
       await tester.runAsync(() async {
         await tester.pumpWidget(
           MediaQuery(
             data: const MediaQueryData(disableAnimations: true),
             child: _wrap(
-              const MascotDisplay(size: 100, jumpOnLoad: true),
+              MascotDisplay(
+                size: 100,
+                jumpOnLoad: true,
+                onJump: () => jumped = true,
+              ),
               assetPath: _riv,
             ),
           ),
         );
         await _pumpUntilRiveLoaded(tester);
-        expect(_smileHold(tester), 1);
-
-        await Future<void>.delayed(durationCelebration * 1.5);
-        expect(_smileHold(tester), 0);
+        final controller = tester
+            .widget<rive.RiveWidget>(find.byType(rive.RiveWidget))
+            .controller;
+        expect(controller.active, isFalse);
+        expect(controller.stateMachine.boundRuntimeViewModelInstance, isNull);
+        expect(jumped, isFalse);
       });
       await tearDownTree(tester);
     });

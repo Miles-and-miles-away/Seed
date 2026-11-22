@@ -1635,6 +1635,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trendChartTrendLabel => 'trend';
 
   @override
+  String trendChartSemantics(int days, String average, String peak) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'CO2 saved per day over $days days',
+      one: 'CO2 saved over 1 day',
+    );
+    return '$_temp0. Average $average a day, highest $peak.';
+  }
+
+  @override
   String get categoryChartTitle => 'By category';
 
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
@@ -34,7 +34,7 @@ class EvolutionTimeline extends StatelessWidget {
           Expanded(
             child: Row(
               children: _stagesAndGaps(
-                (i) => _buildStageCard(i, colorScheme),
+                (i) => _buildStageCard(context, i, colorScheme),
                 (i) => Container(
                   height: 4,
                   margin: const EdgeInsets.symmetric(horizontal: spacingXs),
@@ -112,7 +112,11 @@ class EvolutionTimeline extends StatelessWidget {
     );
   }
 
-  Widget _buildStageCard(int stageIndex, ColorScheme colorScheme) {
+  Widget _buildStageCard(
+    BuildContext context,
+    int stageIndex,
+    ColorScheme colorScheme,
+  ) {
     final stage = stages[stageIndex];
     final isCurrentStage = currentStage == stageIndex + 1;
     final isUnlocked = currentStage >= stageIndex + 1;
@@ -171,7 +175,10 @@ class EvolutionTimeline extends StatelessWidget {
 
     if (isCurrentStage) {
       card = card
-          .animate(onPlay: (c) => c.repeat(reverse: true))
+          .animate(
+            autoPlay: !reduceMotionOf(context),
+            onPlay: (c) => c.repeat(reverse: true),
+          )
           .scale(
             begin: const Offset(1, 1),
             end: const Offset(1.02, 1.02),
