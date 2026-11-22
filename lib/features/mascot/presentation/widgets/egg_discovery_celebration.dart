@@ -125,7 +125,7 @@ class _EggDiscoveryCelebrationState
                             color: AppColors.eggBeige,
                           )
                           .animate()
-                          .fadeIn(delay: 500.ms, duration: 600.ms)
+                          .fadeIn(delay: 500.ms, duration: durationFast)
                           .scale(
                             begin: const Offset(0.3, 0.3),
                             end: const Offset(1, 1),

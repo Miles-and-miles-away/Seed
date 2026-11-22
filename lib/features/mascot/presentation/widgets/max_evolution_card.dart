@@ -79,10 +79,11 @@ class MaxEvolutionCard extends StatelessWidget {
               )
               .animate(
                 autoPlay: !reduceMotionOf(context),
-                onPlay: (c) => c.repeat(reverse: true),
+                onPlay: (c) =>
+                    c.repeat(reverse: true, count: decorativeLoopPasses),
               )
               .shimmer(
-                duration: 2.seconds,
+                duration: durationGlowLoop,
                 color: Colors.white.withValues(alpha: opacityMuted),
               ),
     );
