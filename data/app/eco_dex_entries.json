@@ -2035,9 +2035,9 @@
         "type": "uniqueZeroCo2Actions",
         "count": 1
       },
-      "hintEn": "Log any community, advocacy, or learning action",
-      "hintJa": "コミュニティ、働きかけ、学習のいずれかのアクションを記録しましょう",
-      "hintEs": "Registra cualquier acción comunitaria, de activismo o de aprendizaje"
+      "hintEn": "Log any zero-CO2 action in the library",
+      "hintJa": "ライブラリのCO2ゼロのアクションをどれか1つ記録しましょう",
+      "hintEs": "Registra cualquier acción sin CO2 de la biblioteca"
     },
     {
       "id": "selfless_02",

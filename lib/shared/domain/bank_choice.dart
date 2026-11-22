@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/shared/domain/carbon_comparison.dart';
 import 'package:seed_app/shared/models/custom_action_model.dart';
@@ -12,8 +14,13 @@ const _templateTimeout = Duration(seconds: 5);
 /// template, then logs it through the standard action transaction
 /// (points/streak/mascot/daily summary all handled there).
 ///
-/// No caps -- users are isolated (no leaderboards), so self-reported
-/// inflation only affects their own stats (scoring design decision).
+/// The only cap is [AppConstants.maxBankCo2Grams], the rules' per-write
+/// limit, checked before any write. Users are isolated (no
+/// leaderboards), so self-reported inflation only affects their own
+/// stats (scoring design decision).
+///
+/// The calling notifier must be keepAlive, so a user who leaves the
+/// calculator mid-write still gets the action logged.
 ///
 /// Returns the resulting state, or null when the calling notifier was
 /// disposed mid-flight; a null return must not be written to `state`.
@@ -24,15 +31,20 @@ Future<AsyncValue<void>?> bankChoice(
   required int co2Grams,
   required String category,
   required List<String> relatedSdgs,
+  required Iterable<String> chosenIds,
+  required Iterable<String> baselineIds,
 }) async {
   final result = await AsyncValue.guard(() async {
+    if (co2Grams > AppConstants.maxBankCo2Grams) {
+      throw const SavingTooLargeException();
+    }
     final template = await ref
         .read(customActionRepositoryProvider)
         .create(
           userId,
           CustomAction(
             id: '',
-            name: name,
+            name: _fitName(name),
             co2Grams: co2Grams,
             points: choicePoints(co2Grams),
             category: category,
@@ -40,15 +52,44 @@ Future<AsyncValue<void>?> bankChoice(
           ),
         )
         .timeout(_templateTimeout);
-    if (!ref.mounted) return;
     final logged = await ref
         .read(actionLogProvider.notifier)
         .logAction(
           template.toActionModel(),
           languageCode: ref.read(userLanguageCodeProvider),
+          uniqueKey: bankUniqueKey(category, chosenIds, baselineIds),
         );
-    if (logged == null) throw Exception('Action log was rejected');
+    if (logged == null) _throwLogFailure(ref.read(actionLogProvider));
   });
 
   return ref.mounted ? result : null;
+}
+
+/// [name] cut to the rules' cap with an ellipsis, keeping surrogate pairs.
+String _fitName(String name) {
+  const max = AppConstants.maxCustomActionNameLength;
+  if (name.length <= max) return name;
+  var end = max - 1;
+  final last = name.codeUnitAt(end - 1);
+  if (last >= 0xD800 && last <= 0xDBFF) end -= 1;
+  return '${name.substring(0, end)}\u2026';
+}
+
+/// One unique-action id per kind of choice (category and the mode or
+/// food ids on each side), so repeat banks of one kind count once.
+String bankUniqueKey(
+  String category,
+  Iterable<String> chosenIds,
+  Iterable<String> baselineIds,
+) {
+  String ids(Iterable<String> v) => (v.toSet().toList()..sort()).join('+');
+  return 'bank:$category:${ids(chosenIds)}>${ids(baselineIds)}';
+}
+
+/// Rethrows the action-log failure so the UI can tell offline and rate
+/// limits apart from other errors.
+Never _throwLogFailure(AsyncValue<ActionLogResult?> logState) {
+  final error = logState.error;
+  if (error == null) throw StateError('Action log was not written');
+  Error.throwWithStackTrace(error, logState.stackTrace ?? StackTrace.current);
 }

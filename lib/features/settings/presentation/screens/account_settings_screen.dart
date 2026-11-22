@@ -298,10 +298,10 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     }
   }
 
-  /// Awaits a notifier call and rethrows the failure it keeps in its state.
+  /// Awaits a notifier call, rethrows its failure, and stops once unmounted.
   Future<void> _checked(Future<void> call) async {
     await call;
-    if (!mounted) return;
+    if (!mounted) throw AuthException(code: authCodeSignInCancelled);
     if (ref.read(authProvider) case AsyncError(
       :final error,
       :final stackTrace,
@@ -366,7 +366,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         await _checked(auth.updateEmail(newEmail));
       },
       logLabel: 'Account: email update failed',
-      successMessage: l10n.accountSettingsEmailUpdated,
+      successMessage: l10n.accountSettingsEmailLinkSent,
     );
   }
 

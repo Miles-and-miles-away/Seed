@@ -363,7 +363,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get errorActionRejected =>
-      'アクションを記録できませんでした。端末の日付と時刻が自動設定になっているか確認して、もう一度お試しください。';
+      'アクションを記録できませんでした。数秒待ってから、もう一度お試しください。それでも記録できない場合は、端末の日付と時刻が自動設定になっているか確認してください。';
+
+  @override
+  String errorSavingTooLarge(String limit) {
+    return '$limitを超える削減量は、1つのアクションとして記録できません。距離や量を確認してください。';
+  }
 
   @override
   String get errorLogActionOffline =>
@@ -561,6 +566,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get accountSettingsEmailUpdated => 'メールアドレスが更新されました';
+
+  @override
+  String get accountSettingsEmailLinkSent =>
+      '新しいメールアドレスにリンクを送信しました。リンクを開くと変更が完了します。';
 
   @override
   String get accountSettingsPasswordUpdated => 'パスワードが更新されました';
@@ -1907,6 +1916,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get calculatorNeedBothOptions => '比較するには両方の選択肢を作成してください';
 
   @override
+  String get calculatorSameEmissions => 'どちらの選択肢も排出量が同じため、記録できる削減量はありません';
+
+  @override
   String get calculatorRemoveEntry => '削除';
 
   @override
@@ -2053,6 +2065,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get foodQuantityInvalid => '0 g以上の分量を入力してください';
+
+  @override
+  String get quantityTooLarge => '数値が大きすぎます';
 
   @override
   String get quantityAmbiguousSeparator =>

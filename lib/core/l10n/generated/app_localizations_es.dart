@@ -374,7 +374,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorActionRejected =>
-      'No se ha podido registrar la acción. Comprueba que la fecha y la hora del dispositivo se ajustan automáticamente y vuelve a intentarlo.';
+      'No se ha podido registrar la acción. Espera unos segundos y vuelve a intentarlo. Si vuelve a fallar, comprueba que la fecha y la hora del dispositivo se ajustan automáticamente.';
+
+  @override
+  String errorSavingTooLarge(String limit) {
+    return 'Un ahorro de más de $limit es demasiado grande para registrarlo como una sola acción. Comprueba las distancias y las cantidades.';
+  }
 
   @override
   String get errorLogActionOffline =>
@@ -589,6 +594,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get accountSettingsEmailUpdated => 'Correo actualizado correctamente';
+
+  @override
+  String get accountSettingsEmailLinkSent =>
+      'Hemos enviado un enlace a tu nueva dirección de correo. Ábrelo para completar el cambio.';
 
   @override
   String get accountSettingsPasswordUpdated =>
@@ -2020,6 +2029,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Crea ambas opciones para compararlas';
 
   @override
+  String get calculatorSameEmissions =>
+      'Ambas opciones tienen las mismas emisiones, así que no hay ahorro que registrar';
+
+  @override
   String get calculatorRemoveEntry => 'Quitar';
 
   @override
@@ -2169,6 +2182,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get foodQuantityInvalid => 'Introduce una cantidad de 0 g o más';
+
+  @override
+  String get quantityTooLarge => 'Ese número es demasiado grande';
 
   @override
   String get quantityAmbiguousSeparator =>

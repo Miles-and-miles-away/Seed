@@ -12,6 +12,7 @@ import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
@@ -156,6 +157,10 @@ void main() {
               period: period,
             );
           }),
+          trendWindowSummariesProvider.overrideWith((ref, period) async {
+            built('summaries');
+            return const <DailySummaryModel>[];
+          }),
           co2TrendDataProvider.overrideWith((ref, period) async {
             built('trend');
             return Co2TrendData(
@@ -177,6 +182,7 @@ void main() {
       );
       c
         ..listen(co2StatsProvider(TimePeriod.today), (_, _) {})
+        ..listen(trendWindowSummariesProvider(TimePeriod.today), (_, _) {})
         ..listen(co2TrendDataProvider(TimePeriod.today), (_, _) {})
         ..listen(co2CategoryDataProvider(TimePeriod.today), (_, _) {})
         ..listen(monthCalendarDataProvider, (_, _) {});
@@ -186,7 +192,13 @@ void main() {
       await c.read(actionLogProvider.notifier).logAction(_action);
       await Future<void>.delayed(Duration.zero);
 
-      expect(builds, {'stats': 2, 'trend': 2, 'category': 2, 'calendar': 2});
+      expect(builds, {
+        'stats': 2,
+        'summaries': 2,
+        'trend': 2,
+        'category': 2,
+        'calendar': 2,
+      });
     });
 
     test('reports the action and a crossed milestone to analytics', () async {

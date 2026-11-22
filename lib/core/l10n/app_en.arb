@@ -197,7 +197,15 @@
   "errorAuth": "Authentication failed. Please try again.",
   "errorOpenLink": "Could not open link.",
   "errorActionTooSoon": "Please wait a few seconds between actions.",
-  "errorActionRejected": "This action could not be logged. Check that your device's date and time are set automatically, then try again.",
+  "errorActionRejected": "This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device's date and time are set automatically.",
+  "errorSavingTooLarge": "A saving above {limit} is too large to log as one action. Check the distances and amounts.",
+  "@errorSavingTooLarge": {
+    "placeholders": {
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
   "errorLogActionOffline": "Cannot log an action while offline. Check your connection and try again.",
   "errorAuthEmailInUse": "An account already exists with this email address.",
   "errorAuthInvalidEmail": "Please enter a valid email address.",
@@ -274,6 +282,7 @@
   "accountSettingsConfirmNewPassword": "Confirm new password",
   "accountSettingsPasswordMismatch": "Passwords do not match",
   "accountSettingsEmailUpdated": "Email updated successfully",
+  "accountSettingsEmailLinkSent": "We sent a link to your new email address. Open it to finish the change.",
   "accountSettingsPasswordUpdated": "Password updated successfully",
   "accountSettingsReauthRequired": "Please re-enter your password to continue",
   "accountSettingsProfile": "Profile",
@@ -1070,6 +1079,10 @@
   "@calculatorNeedBothOptions": {
     "description": "Shown in place of the result when one column is empty"
   },
+  "calculatorSameEmissions": "Both options have the same emissions, so there is no saving to log",
+  "@calculatorSameEmissions": {
+    "description": "Shown in place of the result when both journeys round to the same emissions"
+  },
   "calculatorRemoveEntry": "Remove",
   "@calculatorRemoveEntry": {
     "description": "Tooltip on the remove button of a card inside a comparison column"
@@ -1206,6 +1219,7 @@
   "foodChangeItem": "Change",
   "foodQuantityLabel": "Quantity (g)",
   "foodQuantityInvalid": "Enter a quantity of 0 g or more",
+  "quantityTooLarge": "That number is too large",
   "quantityAmbiguousSeparator": "Type thousands without a separator (1500). For decimals, 1.5 and 1,5 both work.",
   "foodGramsValue": "{grams}\u00A0g",
   "@foodGramsValue": {

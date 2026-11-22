@@ -1,4 +1,5 @@
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -123,6 +124,84 @@ void main() {
 
       // Verify snackbar appears
       expect(find.text('Verification email sent!'), findsOneWidget);
+    });
+
+    testWidgets('resend stays disabled for the cooldown after a send', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      await pumpVerification(tester);
+
+      await tester.tap(find.text('Resend Email'));
+      await tester.pump();
+      await tester.tap(find.text('Resend Email'), warnIfMissed: false);
+      await tester.pump();
+      verify(() => mockUser.sendEmailVerification()).called(1);
+
+      await tester.pump(const Duration(seconds: 61));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Resend Email'));
+      await tester.pump();
+      verify(() => mockUser.sendEmailVerification()).called(1);
+    });
+
+    testWidgets('returning to the app checks verification quietly', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      when(() => mockUser.emailVerified).thenReturn(false);
+      when(() => mockUser.getIdToken(true)).thenAnswer((_) async => 'token');
+      await pumpVerification(tester);
+
+      for (final state in [
+        AppLifecycleState.inactive,
+        AppLifecycleState.hidden,
+        AppLifecycleState.paused,
+        AppLifecycleState.hidden,
+        AppLifecycleState.inactive,
+        AppLifecycleState.resumed,
+      ]) {
+        tester.binding.handleAppLifecycleStateChanged(state);
+      }
+      await tester.pumpAndSettle();
+
+      verify(() => mockUser.reload()).called(1);
+      expect(find.textContaining('not verified'), findsNothing);
+    });
+
+    testWidgets('a failed resend does not say the email was sent', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      when(
+        () => mockUser.sendEmailVerification(),
+      ).thenThrow(FirebaseAuthException(code: 'too-many-requests'));
+      await pumpVerification(tester);
+
+      await tester.tap(find.text('Resend Email'));
+      await tester.pump();
+
+      expect(find.text('Verification email sent!'), findsNothing);
+    });
+
+    testWidgets('an offline check does not say the email is unverified', (
+      tester,
+    ) async {
+      setLargeScreenSize(tester);
+      when(
+        () => mockUser.reload(),
+      ).thenThrow(FirebaseAuthException(code: 'network-request-failed'));
+      when(() => mockUser.emailVerified).thenReturn(false);
+      await pumpVerification(tester);
+
+      await tester.tap(find.text("I've Verified My Email"));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Network error'), findsOneWidget);
+      // Let the error SnackBar time out, so a queued one would show.
+      await tester.pump(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('not verified'), findsNothing);
     });
 
     testWidgets('tapping verify button calls reload when email not verified', (

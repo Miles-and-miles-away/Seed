@@ -372,7 +372,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorActionRejected =>
-      'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.';
+      'This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device\'s date and time are set automatically.';
+
+  @override
+  String errorSavingTooLarge(String limit) {
+    return 'A saving above $limit is too large to log as one action. Check the distances and amounts.';
+  }
 
   @override
   String get errorLogActionOffline =>
@@ -586,6 +591,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountSettingsEmailUpdated => 'Email updated successfully';
+
+  @override
+  String get accountSettingsEmailLinkSent =>
+      'We sent a link to your new email address. Open it to finish the change.';
 
   @override
   String get accountSettingsPasswordUpdated => 'Password updated successfully';
@@ -1967,6 +1976,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calculatorNeedBothOptions => 'Build both options to compare them';
 
   @override
+  String get calculatorSameEmissions =>
+      'Both options have the same emissions, so there is no saving to log';
+
+  @override
   String get calculatorRemoveEntry => 'Remove';
 
   @override
@@ -2115,6 +2128,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get foodQuantityInvalid => 'Enter a quantity of 0 g or more';
+
+  @override
+  String get quantityTooLarge => 'That number is too large';
 
   @override
   String get quantityAmbiguousSeparator =>

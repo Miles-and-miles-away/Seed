@@ -23,6 +23,14 @@ void main() {
       expect(progress.fraction, closeTo(0.7, 0.001));
     });
 
+    test('ecodexCount uses the catalogue count over raw ids', () {
+      final user = baseUser().copyWith(ecodexDiscovered: ['a', 'retired']);
+      const condition = EcoDexCondition.ecodexCount(count: 10);
+
+      expect(ecoDexProgressOf(condition, user).current, 2);
+      expect(ecoDexProgressOf(condition, user, discoveredCount: 1).current, 1);
+    });
+
     test('clamps current to target when exceeded', () {
       final user = baseUser().copyWith(totalActionsCount: 25);
       const condition = EcoDexCondition.totalActions(count: 10);

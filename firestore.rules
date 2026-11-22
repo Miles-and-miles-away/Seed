@@ -55,7 +55,7 @@ service cloud.firestore {
           'language', 'notificationTime', 'createdAt', 'emailVerified',
           'dailyGoalTarget', 'mascots', 'activeMascotId', 'egg',
           'eggPendingDiscovery', 'eggPendingDiscoverySince',
-          'notificationsEnabled', 'lastActionDate',
+          'notificationsEnabled', 'lastActionDate', 'lastActionUtcOffsetMinutes',
           'streakGracePeriodAvailable', 'fcmToken', 'totalCo2Grams',
           'totalActionsCount', 'sdgStats', 'viewedFactDates',
           'unlockedFactDates', 'challengeCompletedDate',
@@ -151,6 +151,10 @@ service cloud.firestore {
                 && d.totalActionsCount <= 10000000))
         && (!('lastActionDate' in keys) || d.lastActionDate == null
             || d.lastActionDate is timestamp)
+        && (!('lastActionUtcOffsetMinutes' in keys)
+            || (d.lastActionUtcOffsetMinutes is int
+                && d.lastActionUtcOffsetMinutes >= -720
+                && d.lastActionUtcOffsetMinutes <= 840))
         && (!('lastCustomActionAt' in keys)
             || d.lastCustomActionAt is timestamp)
         && (!('lastCustomActionId' in keys)
@@ -232,10 +236,10 @@ service cloud.firestore {
                 >= old.get('challengesCompleted', 0)
             && d.get('totalActionsCount', 0)
                 - old.get('totalActionsCount', 0) <= 1
-            // Bounded by the largest canonical per-action saving
-            // (~3.4t) with generous headroom.
+            // 100 t per log, so extreme banked journeys pass. The app
+            // checks AppConstants.maxBankCo2Grams before any write.
             && d.get('totalCo2Grams', 0)
-                - old.get('totalCo2Grams', 0) <= 10000000
+                - old.get('totalCo2Grams', 0) <= 100000000
             // Points may only grow as part of an action-log shaped
             // write: bounded jump, lastActionDate bumped to now, and
             // exactly one new action counted.
@@ -249,6 +253,10 @@ service cloud.firestore {
             // previous bump. The client writes it with
             // FieldValue.serverTimestamp(), which rules evaluate as
             // request.time.
+            // The offset moves only inside the scoring write.
+            && (d.get('lastActionUtcOffsetMinutes', null)
+                    == old.get('lastActionUtcOffsetMinutes', null)
+                || d.get('lastActionDate', null) == request.time)
             && (d.get('lastActionDate', null)
                     == old.get('lastActionDate', null)
                 || (d.get('lastActionDate', null) == request.time
@@ -355,10 +363,9 @@ service cloud.firestore {
         // Custom transport actions (Phase 8.6) are validated against
         // the user's own template instead of the read-only library:
         // the log's points and co2Grams must equal the template the
-        // user created. No numeric ceiling -- users are isolated (no
-        // leaderboards), so self-reported inflation only affects the
-        // user's own stats. The existing per-write totalCo2Grams cap
-        // on the user doc still bounds a single log.
+        // user created. Users are isolated (no leaderboards), so the
+        // only ceilings are the template's co2Grams cap and the
+        // per-write totalCo2Grams cap on the user doc.
         function matchesCustomAction(log, customAction) {
           return log.points == customAction.points
               && log.co2Grams is int
@@ -414,6 +421,7 @@ service cloud.firestore {
             && a.name.size() <= 500
             && a.co2Grams is int
             && a.co2Grams >= 0
+            && a.co2Grams <= 100000000
             // Matches the actionLog points ceiling so a template that
             // could never be logged cannot be created.
             && a.points is int
@@ -497,7 +505,7 @@ service cloud.firestore {
             && s.get('totalPoints', 0) <= 100000000
             && s.get('totalCo2Grams', 0) is int
             && s.get('totalCo2Grams', 0) >= 0
-            && s.get('totalCo2Grams', 0) <= 100000000
+            && s.get('totalCo2Grams', 0) <= 1000000000
             && (!('completedSdgs' in s)
                 || (s.completedSdgs is list
                     && s.completedSdgs.size() <= 17
