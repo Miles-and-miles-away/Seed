@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +10,20 @@ import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
+
+/// The furthest a figure may sit below the glow centre, as a fraction of
+/// the mascot box. A lower stage is lifted to this line.
+const double mascotMaxCentreDrop = 0.15;
+
+/// The upward shift, as a fraction of the mascot box, that keeps the
+/// figure at [assetPath] within [mascotMaxCentreDrop] of the centre.
+double mascotCentreLift(String assetPath) {
+  final drawn = drawnMascotStage(assetPath);
+  if (drawn == null) return 0;
+  final centre = drawnMascotCentres[drawn.speciesId]?[drawn.stage - 1];
+  if (centre == null) return 0;
+  return math.max(0, centre - 0.5 - mascotMaxCentreDrop);
+}
 
 /// Displays the user's mascot as the hero: idle motion, pointer gaze and
 /// the smile from [mascotSmileTriggerProvider].
@@ -190,7 +206,13 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       );
     }
 
-    return mascot;
+    if (!widget.showGlow) return mascot;
+    return AnimatedSlide(
+      offset: Offset(0, -mascotCentreLift(assetPath)),
+      duration: reduceMotion ? Duration.zero : durationSlow,
+      curve: Curves.easeInOut,
+      child: mascot,
+    );
   }
 }
 

@@ -47,6 +47,14 @@ const String _drawnPrefix = 'drawn';
 /// the box from its top edge.
 const List<double> drawnMascotHeadTops = [0.44, 0.15, 0.07, 0.02];
 
+/// The vertical centre of each species' figure at each stage, as a
+/// fraction of the box from its top edge.
+const Map<String, List<double>> drawnMascotCentres = {
+  'seed': [0.706, 0.560, 0.519, 0.494],
+  'coral': [0.749, 0.650, 0.579, 0.516],
+  'fungi': [0.750, 0.659, 0.594, 0.549],
+};
+
 /// Renders a mascot, dispatching on the asset path.
 ///
 /// A [drawnMascotPath] renders the code-drawn mascot. Everything else

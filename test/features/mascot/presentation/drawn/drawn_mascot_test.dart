@@ -348,6 +348,23 @@ void main() {
     }
   });
 
+  testWidgets('the figure centres match the drawn bounds', (tester) async {
+    for (final speciesId in drawnSpeciesIds) {
+      for (final stage in _stages) {
+        final raster = await _rasterise(
+          tester,
+          drawnMascotPainter(speciesId, stage),
+        );
+        final centre = (raster.highestRow + raster.lowestRow) / 2 / raster.side;
+        expect(
+          drawnMascotCentres[speciesId]![stage - 1],
+          closeTo(centre, 0.015),
+          reason: '$speciesId stage $stage',
+        );
+      }
+    }
+  });
+
   for (final speciesId in drawnSpeciesIds) {
     test('the $speciesId body grows wider and taller at every stage', () {
       final bodies = [
