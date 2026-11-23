@@ -137,11 +137,7 @@ class EvolutionTimeline extends StatelessWidget {
             : null,
       ),
       child: isUnlocked
-          ? MascotImage(
-              assetPath: stage.assetPath,
-              artboardName: stage.artboardName,
-              onRiveInit: pauseRive,
-            )
+          ? MascotImage(assetPath: stage.assetPath)
           : ColorFiltered(
               colorFilter: const ColorFilter.matrix(<double>[
                 0.2126,
@@ -165,11 +161,7 @@ class EvolutionTimeline extends StatelessWidget {
                 0.4,
                 0,
               ]),
-              child: MascotImage(
-                assetPath: stage.assetPath,
-                artboardName: stage.artboardName,
-                onRiveInit: pauseRive,
-              ),
+              child: MascotImage(assetPath: stage.assetPath),
             ),
     );
 

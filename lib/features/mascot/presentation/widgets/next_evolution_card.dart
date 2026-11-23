@@ -54,11 +54,7 @@ class NextEvolutionCard extends StatelessWidget {
             ),
             child: Opacity(
               opacity: opacityModerate,
-              child: MascotImage(
-                assetPath: nextStage.assetPath,
-                artboardName: nextStage.artboardName,
-                onRiveInit: pauseRive,
-              ),
+              child: MascotImage(assetPath: nextStage.assetPath),
             ),
           ),
           const SizedBox(width: spacingLg),

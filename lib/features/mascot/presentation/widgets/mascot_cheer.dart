@@ -15,7 +15,7 @@ const _mascotSize = 160.0;
 const _jumpMascotSize = 200.0;
 const _stay = Duration(seconds: 3);
 
-// Mirrors the Rive jump at 60 fps: 46 frames of crouch, 12 up, 12 down.
+// A jump at 60 fps: 46 frames of crouch, 12 up, 12 down.
 const _hopDuration = Duration(microseconds: 70 * 1000000 ~/ 60);
 final _hopLift = TweenSequence<double>([
   TweenSequenceItem(tween: ConstantTween(0), weight: 46),

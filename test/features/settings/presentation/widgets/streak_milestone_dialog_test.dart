@@ -32,7 +32,6 @@ void main() {
 
   final baseOverrides = [
     userOverride(const AppUserModel(uid: 'u', email: 'e')),
-    // No mascot art: keeps Rive out of the test.
     activeMascotAssetPathProvider.overrideWith((_) => null),
     activeStageDataProvider.overrideWith((_) => null),
   ];

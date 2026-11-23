@@ -198,13 +198,12 @@ The behaviour users see today stays:
 - non-hero instances do not animate.
 
 `MascotImage` stays the single entry point for every render site.
-It chooses the code-drawn path by species id. The Rive path stays
-for any species that has not migrated yet. A stage selects the
+Every species renders the code-drawn path. A stage selects the
 code-drawn mascot with an `assetPath` of the form
 `drawn/<speciesId>/<stage>` (`drawnMascotPath`), so no render site
 changes. A static site paints one frame. Only `MascotDisplay` asks
 for the hero, and the hero takes the tap for the wave only where
-`MascotDisplay` has a tap handler. The existing
+`MascotDisplay` sets `wavesOnTap`. The existing
 `mascotSmileTriggerProvider` drives the smile.
 
 ### M8. One ticker, only for the hero
@@ -213,6 +212,11 @@ Only the hero mascot on Home and the Mascot tab owns a `Ticker`.
 Thumbnails, the evolution timeline and previews paint one static
 frame and never tick. The hero ticker stops when the screen is not
 visible.
+
+A celebration overlay (evolution, egg hatch, streak milestone) plays
+a routine on its mascot (5.2). That mascot ticks only while the
+overlay shows. The Home hero stops under any overlay, so one ticker
+still runs.
 
 ### M9. Golden contact sheets are the review artefact
 
@@ -235,13 +239,16 @@ Real 3D stays rejected.
 
 ### M11. Retire Rive per species, then remove it
 
+Done: no species uses Rive.
+
 A species switches to code after it passes the section 7 criteria.
 After the last species moves:
 
 - remove `coral_mascot.riv` and `sprout_mascot.riv`,
 - remove the `rive` dependency and the `rive_native` setup step in
   CI and in CLAUDE.md,
-- remove `assetPath` and `artboardName` from `mascot_species.json`.
+- remove `artboardName` from `EvolutionStageModel`. `assetPath`
+  stays, because it holds the `drawnMascotPath` (M7).
 
 ## 5. Character design brief
 
@@ -267,7 +274,15 @@ After the last species moves:
 | Hop | Action logged | Squash and stretch on landing |
 | Nod | Challenge complete | Head joint |
 | Sleep | Night-time or idle | Eyes closed, slower breathing |
-| Celebrate | Evolution | Plays over the stage morph (M4) |
+| Dance | Inside Evolve and Hatch | A side step on every beat: the body dips, the arm away from the lean goes up, the free foot kicks |
+| Cheer | Streak milestone | Both arms up and pumping, stamping from foot to foot |
+| Evolve | Evolution | Smoke puffs up from the ground and hides the old stage, which trembles. The new stage swaps in behind the smoke, which billows out and fades. Then wide eyes and a look down at the new body, a crouch, and Dance. The stage morph (M4) is not built. |
+| Hatch | Egg hatch | A code-drawn egg wobbles and cracks in three steps. The top shell flies off, the bottom shell breaks in two and falls away, and the mascot hops out. Then eyes open slowly, a look left and right, wide eyes, and Dance |
+
+Wide eyes ("wow") grow the eyes and round the mouth into an "o". A
+kick lifts one foot up and out, and never both at once, so the
+mascot stays on the ground. Under reduce motion a routine becomes a
+held smile, and the egg and the smoke do not show.
 
 ### 5.3 Species
 
@@ -335,7 +350,7 @@ and the face on the stem, never on the cap.
 | R2. Sprout | All 4 stages, the full gesture set, stage morph, anchors. `MascotImage` dispatch by species id. | Section 7 criteria |
 | R3. Coral | All 4 stages on the same rig | Section 7 criteria |
 | R4. Funghi | Designed for code from the start | Section 7 criteria |
-| R5. Remove Rive | M11 | `flutter analyze` and `flutter test` pass with no Rive code |
+| R5. Remove Rive | M11 (done) | `flutter analyze` and `flutter test` pass with no Rive code |
 
 Production does not change until R2 ends.
 
@@ -390,4 +405,4 @@ Answered by the owner on 2026-11-21.
   the integration steps, and record Funghi as species 3.
 - `STYLE_GUIDE.md` 2.1 and 6.3: the soft flat rules (M2).
 - `APP_PAGES.md`: the R1 debug route.
-- `CLAUDE.md`: remove the Rive test setup note at R5.
+- `CLAUDE.md`: remove the Rive test setup note at R5 (done).

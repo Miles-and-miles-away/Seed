@@ -269,6 +269,7 @@ class CoralPainter extends DrawnMascotPainter {
         ),
         _limb,
       ),
+      kick: true,
     );
   }
 

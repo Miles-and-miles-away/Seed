@@ -186,8 +186,7 @@ void main() {
       ProviderScope.containerOf(
         tester.element(find.byType(EggHatchingCelebration)),
       ).listen(currentUserProvider, (_, _) {});
-      await tester.pump(durationReveal);
-      await tester.pump(durationCelebration);
+      await tester.pump(eggHatchingPromptDelay);
       await tester.pump(const Duration(milliseconds: 500));
 
       await tester.enterText(find.byType(TextField), 'Pip');

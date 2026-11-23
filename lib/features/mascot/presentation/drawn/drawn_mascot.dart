@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/coral_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/fungi_painter.dart';
@@ -31,8 +32,9 @@ DrawnMascotPainter drawnMascotPainter(
 /// With [animate] it is the hero: it breathes, blinks, follows the
 /// pointer and smiles on [mascotSmileTriggerProvider]. With [wavesOnTap]
 /// it also takes taps and waves. With [hopOnLoad] it hops once when it
-/// first appears. Without [animate] the widget paints one
-/// static frame and owns no ticker.
+/// first appears, and with [routine] it moves to that routine in place of
+/// breathing. Under reduce motion both become a smile. Without [animate]
+/// the widget paints one static frame and owns no ticker.
 class DrawnMascot extends ConsumerStatefulWidget {
   const DrawnMascot({
     required this.speciesId,
@@ -41,6 +43,7 @@ class DrawnMascot extends ConsumerStatefulWidget {
     this.animate = true,
     this.wavesOnTap = false,
     this.hopOnLoad = false,
+    this.routine,
     super.key,
   });
 
@@ -52,6 +55,7 @@ class DrawnMascot extends ConsumerStatefulWidget {
   /// Off by default so that a tap reaches an ancestor, such as a card.
   final bool wavesOnTap;
   final bool hopOnLoad;
+  final MascotRoutine? routine;
 
   @override
   ConsumerState<DrawnMascot> createState() => _DrawnMascotState();
@@ -90,9 +94,12 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _reduceMotion =
-        MediaQuery.disableAnimationsOf(context) ||
-        MediaQuery.reduceMotionOf(context);
+    _reduceMotion = reduceMotionOf(context);
+    // Local, so that other visible mascots do not smile too.
+    if (_reduceMotion && _hopAt != null) {
+      _hopAt = null;
+      _smileUntil = _seconds + _smileHoldSeconds;
+    }
   }
 
   @override
@@ -140,7 +147,11 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
 
     final follow = 1 - math.exp(-dt * _followRate);
     _gaze = Offset.lerp(_gaze, _gazeTarget, follow)!;
-    final smiling = _smileHeld || _seconds < _smileUntil;
+    final routine = widget.routine;
+    final smiling =
+        _smileHeld ||
+        _seconds < _smileUntil ||
+        (_reduceMotion && routine != null);
     _smile += ((smiling ? 1 : 0) - _smile) * follow;
     if (_seconds - _blinkAt >= blinkSeconds) {
       final gap = blinkMaxGapSeconds - blinkMinGapSeconds;
@@ -154,7 +165,9 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
     );
     final waveAt = _waveAt;
     if (!_reduceMotion) {
-      pose = breathe(pose, _seconds);
+      pose = routine == null
+          ? breathe(pose, _seconds)
+          : routine(pose, _seconds);
       if (waveAt != null) {
         final progress = (_seconds - waveAt) / waveSeconds;
         if (progress < 1) {

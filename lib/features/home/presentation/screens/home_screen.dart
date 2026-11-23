@@ -166,7 +166,7 @@ class HomeScreen extends ConsumerWidget {
             label: l10n.mascotLinkTitle,
             child: GestureDetector(
               onTap: () => context.push(appRoutes.mascot),
-              // A celebration covers the hero, so its Rive stops ticking.
+              // A celebration covers the hero, so its ticker stops.
               child: ValueListenableBuilder<int>(
                 valueListenable: celebrationsPending(context),
                 builder: (context, pending, child) =>
@@ -300,7 +300,6 @@ class HomeScreen extends ConsumerWidget {
           MascotAvatar(
             assetPath:
                 firstStage?.assetPath ?? 'assets/images/mascot/seed_stage1.svg',
-            artboardName: firstStage?.artboardName,
           ),
 
           const SizedBox(height: spacingLg),

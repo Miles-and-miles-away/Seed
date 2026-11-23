@@ -225,7 +225,7 @@ class SproutPainter extends DrawnMascotPainter {
   @override
   void paintGround(Canvas canvas) {
     if (stage == 1) return;
-    paintFeet(canvas, () => part(canvas, _foot, _limb));
+    paintFeet(canvas, () => part(canvas, _foot, _limb), kick: true);
   }
 
   @override

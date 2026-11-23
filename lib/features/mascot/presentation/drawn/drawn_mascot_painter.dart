@@ -71,6 +71,8 @@ abstract class DrawnMascotPainter extends CustomPainter {
   static const double _restBlush = 0.9;
   static const double _mouthScale = 0.5;
   static const double _mouthDrop = 62;
+  static const Offset _kickReach = Offset(2.5, -5);
+  static const double _kickTurn = 0.5;
 
   MascotRig get rig;
   MascotBody get body;
@@ -116,14 +118,21 @@ abstract class DrawnMascotPainter extends CustomPainter {
       topAnchor: _inBody(rig.top),
       handL: hand(-1, pose.armL),
       handR: hand(1, pose.armR),
-      footL: Offset(designSize / 2 - rig.footX, groundY),
-      footR: Offset(designSize / 2 + rig.footX, groundY),
+      footL: _foot(-1, pose.kickL),
+      footR: _foot(1, pose.kickR),
     );
   }
 
+  Offset _foot(double side, double kick) =>
+      Offset(designSize / 2 + side * rig.footX, groundY) +
+      _kickReach.scale(side * kick, kick);
+
   /// The outer bounds of both eyes for [pose], before the body transform.
   List<Rect> get eyeBounds {
-    final scale = rig.eyeSize / FacePainter.eyeWidth;
+    final scale =
+        rig.eyeSize /
+        FacePainter.eyeWidth *
+        (1 + FacePainter.wowGrowth * pose.wow);
     final centre = rig.face + pose.gaze * _gazeTurn;
     return [
       for (final side in const [-1.0, 1.0])
@@ -177,12 +186,16 @@ abstract class DrawnMascotPainter extends CustomPainter {
   );
 
   /// Runs [draw] once per foot, mirrored, with the origin on the ground.
-  void paintFeet(Canvas canvas, VoidCallback draw) {
-    for (final side in const [-1.0, 1.0]) {
+  /// With [kick] the pose can lift each foot up and out.
+  void paintFeet(Canvas canvas, VoidCallback draw, {bool kick = false}) {
+    for (final (side, amount) in [(-1.0, pose.kickL), (1.0, pose.kickR)]) {
+      final k = kick ? amount : 0.0;
+      final foot = _foot(side, k);
       canvas
         ..save()
-        ..translate(designSize / 2 + side * rig.footX, groundY)
-        ..scale(side, 1);
+        ..translate(foot.dx, foot.dy)
+        ..scale(side, 1)
+        ..rotate(-_kickTurn * k);
       draw();
       canvas.restore();
     }

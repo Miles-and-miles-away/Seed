@@ -100,9 +100,6 @@ class _WalkthroughOverlayState extends ConsumerState<WalkthroughOverlay> {
     final mascotName =
         ref.watch(activeMascotProvider.select((m) => m.value?.name)) ?? '';
     final assetPath = ref.watch(activeMascotAssetPathProvider);
-    final artboardName = ref.watch(
-      activeStageDataProvider.select((stage) => stage?.artboardName),
-    );
     final found = {...?ref.watch(walkthroughFoundProvider), item.name};
     final pages = [
       ...item.pages(l10n, mascotName: mascotName),
@@ -148,16 +145,11 @@ class _WalkthroughOverlayState extends ConsumerState<WalkthroughOverlay> {
       mainAxisSize: MainAxisSize.min,
       children: [
         // A still frame: Home's mascot keeps animating beneath, and two
-        // live artboards were enough to stall the UI thread.
+        // live mascots were enough to stall the UI thread.
         if (assetPath == null)
           SizedBox(height: mascotSize)
         else
-          MascotAvatar(
-            assetPath: assetPath,
-            artboardName: artboardName,
-            size: mascotSize,
-            animate: false,
-          ),
+          MascotAvatar(assetPath: assetPath, size: mascotSize, animate: false),
         const SizedBox(height: spacingSm),
         Text(
           mascotName,

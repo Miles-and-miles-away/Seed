@@ -1196,7 +1196,7 @@ String _$welcomeBackSmileDueHash() =>
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 
 @ProviderFor(MascotSmileTrigger)
@@ -1204,13 +1204,13 @@ final mascotSmileTriggerProvider = MascotSmileTriggerProvider._();
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 final class MascotSmileTriggerProvider
     extends $NotifierProvider<MascotSmileTrigger, bool> {
   /// Fires the mascot smile animation, e.g. before opening the action log.
   ///
-  /// Rive-animated mascots play their smile timeline; static SVG mascots
+  /// Code-drawn mascots hold a smile; static SVG mascots
   /// ignore it.
   MascotSmileTriggerProvider._()
     : super(
@@ -1244,7 +1244,7 @@ String _$mascotSmileTriggerHash() =>
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 
 abstract class _$MascotSmileTrigger extends $Notifier<bool> {

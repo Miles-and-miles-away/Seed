@@ -36,7 +36,6 @@ dependencies:
   markdown_widget: ^2.3.2
   package_info_plus: ^10.2.2
   path_provider: ^2.1.6
-  rive: ^0.14.1
   riverpod_annotation: ^4.0.2
   share_plus: ^13.3.1
   sign_in_with_apple: ^8.1.0
@@ -70,7 +69,6 @@ flutter:
     - assets/images/sdg_icons/ja/
     - assets/images/sdg_icons/es/
     - assets/images/sdg_progress/
-    - assets/animations/
     - assets/eco_dex/
     - assets/licences/
     - data/app/

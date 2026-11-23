@@ -229,8 +229,8 @@ class FungiPainter extends DrawnMascotPainter {
       for (final baby in _babies[stage - 1]) {
         _paintBaby(canvas, baby);
       }
-      part(canvas, _foot, _limb);
     });
+    paintFeet(canvas, () => part(canvas, _foot, _limb), kick: true);
   }
 
   @override

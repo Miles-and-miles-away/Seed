@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/reveal_effects.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
@@ -18,7 +20,7 @@ import 'mascot_image.dart';
 /// Features:
 /// - Dramatic entrance animation
 /// - Confetti/sparkle particle effects
-/// - Before/after mascot comparison
+/// - Smoke that hides the old stage and clears on the new one
 /// - Stage name reveal
 /// - Dismiss button
 class EvolutionCelebration extends ConsumerStatefulWidget {
@@ -33,6 +35,11 @@ class EvolutionCelebration extends ConsumerStatefulWidget {
 }
 
 class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
+  static const double _mascotSize = 160;
+  static final Duration _glowDelay = Duration(
+    milliseconds: (smokeSwapSeconds * 1000).round(),
+  );
+
   bool _showContent = false;
   bool _showButton = false;
 
@@ -63,9 +70,6 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
     final locale = Localizations.localeOf(context).languageCode;
 
     final assetPath = ref.watch(activeMascotAssetPathProvider);
-    final artboardName = ref.watch(
-      activeStageDataProvider.select((stage) => stage?.artboardName),
-    );
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
     final species = ref.watch(activeSpeciesProvider);
     final currentStage = ref.watch(activeMascotStageProvider);
@@ -75,16 +79,22 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
 
     // Get the previous stage asset path
     String? previousAssetPath;
-    String? previousArtboardName;
     if (species != null && currentStage > 1) {
       final previousStageIndex = currentStage - 2; // 0-indexed
       if (previousStageIndex < species.evolutionStages.length) {
         previousAssetPath =
             species.evolutionStages[previousStageIndex].assetPath;
-        previousArtboardName =
-            species.evolutionStages[previousStageIndex].artboardName;
       }
     }
+
+    final newStage = assetPath == null
+        ? null
+        : MascotImage(
+            assetPath: assetPath,
+            width: _mascotSize,
+            height: _mascotSize,
+            routine: evolve,
+          );
 
     return CelebrationOverlay(
       children: [
@@ -123,89 +133,50 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
                   ],
                 ),
 
-                // Evolution transition
-                SizedBox(
-                  width: double.infinity,
-                  height: 200,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                // Smoke hides the previous stage, then clears on the new one
+                if (newStage != null)
+                  SizedBox(
+                    height: 200,
+                    child: Stack(
+                      alignment: Alignment.center,
                       children: [
-                        // Previous stage (faded)
-                        if (previousAssetPath != null) ...[
-                          Opacity(
-                            opacity: opacityHalf,
-                            child: MascotImage(
-                              assetPath: previousAssetPath,
-                              artboardName: previousArtboardName,
-                              width: 100,
-                              height: 100,
-                              onRiveInit: pauseRive,
-                            ),
-                          ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                          const SizedBox(width: spacingLg),
-                          Icon(
-                                Icons.arrow_forward,
-                                color: colorScheme.primary,
-                                size: 32,
-                              )
-                              .animate()
-                              .fadeIn(delay: 500.ms, duration: 400.ms)
-                              .slideX(begin: -0.5, end: 0),
-                          const SizedBox(width: spacingLg),
-                        ],
-
-                        // New stage (prominent)
-                        if (assetPath != null)
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              // Glow effect
-                              Container(
-                                    width: 180,
-                                    height: 180,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.gold.withValues(
-                                            alpha: opacityHalf,
-                                          ),
-                                          blurRadius: 60,
-                                          spreadRadius: 20,
-                                        ),
-                                      ],
+                        Container(
+                              width: 180,
+                              height: 180,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.gold.withValues(
+                                      alpha: opacityHalf,
                                     ),
-                                  )
-                                  .animate()
-                                  .fadeIn(delay: 600.ms, duration: 600.ms)
-                                  .scale(
-                                    begin: const Offset(0.5, 0.5),
-                                    end: const Offset(1, 1),
+                                    blurRadius: 60,
+                                    spreadRadius: 20,
                                   ),
-
-                              // Mascot
-                              MascotImage(
-                                    assetPath: assetPath,
-                                    artboardName: artboardName,
-                                    width: 160,
-                                    height: 160,
-                                  )
-                                  .animate()
-                                  .fadeIn(delay: 700.ms, duration: durationFast)
-                                  .scale(
-                                    begin: const Offset(0.3, 0.3),
-                                    end: const Offset(1, 1),
-                                    curve: Curves.elasticOut,
-                                    duration: 800.ms,
-                                  ),
-                            ],
+                                ],
+                              ),
+                            )
+                            .animate()
+                            .fadeIn(delay: _glowDelay, duration: 600.ms)
+                            .scale(
+                              begin: const Offset(0.5, 0.5),
+                              end: const Offset(1, 1),
+                            ),
+                        if (previousAssetPath == null)
+                          newStage
+                        else
+                          EvolutionSmoke(
+                            size: _mascotSize,
+                            before: MascotImage(
+                              assetPath: previousAssetPath,
+                              width: _mascotSize,
+                              height: _mascotSize,
+                            ),
+                            after: newStage,
                           ),
                       ],
                     ),
                   ),
-                ),
 
                 Column(
                   children: [

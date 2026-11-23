@@ -163,20 +163,23 @@ nav stays visible and the tab it was opened from stays selected.
   stage card, up to two lines), next-evolution progress. While the
   mascot loads the screen shows a spinner under a "Mascot" app bar with
   a back arrow.
-- Tapping the mascot makes it smile.
+- Tapping the mascot makes it wave.
 
 ### Mascot Lab (`/home/mascot/lab`, debug builds only)
-Side-by-side comparison of the code-drawn (v3) mascots and the Rive
-mascots (PDR_MASCOT_REDESIGN). The route and its entry point do not
-exist in release builds.
+Preview of the code-drawn (v3) mascots and their celebration routines
+(PDR_MASCOT_REDESIGN). The route and its entry point do not exist in
+release builds.
 - Reached from: the flask icon in the Mascot app bar.
 - Links: none
 - Functionality: the selected code-drawn hero (breathes, blinks,
-  follows the pointer, waves when tapped) beside the matching Rive
-  artboard, a 48 dp static pair, a static cast of every code-drawn
-  stage (tap one to select it), and an app bar button that fires the
-  smile trigger. A species with no Rive file shows the code-drawn
-  mascot alone.
+  follows the pointer, waves when tapped) beside its 48 dp static
+  twin, chips that play a routine on the hero from its start (idle,
+  dance, cheer, evolve, hatch), a static cast of every code-drawn stage
+  (tap one to select it), and an app bar button that fires the smile
+  trigger. The hatch chip hatches stage 1 of the selected species from
+  an egg, as the real egg hatch does. The evolve chip plays the smoke
+  that hides the previous stage and clears on the selected stage (on
+  stage 2 when stage 1 is selected).
 
 ### Challenges (`/home/challenges`)
 List of six multi-day challenges with state (completed / active /

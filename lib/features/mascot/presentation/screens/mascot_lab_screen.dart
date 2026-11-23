@@ -1,15 +1,19 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/reveal_effects.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_housing.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 
-/// Debug-only comparison of the code-drawn mascots and the Rive ones.
+/// Debug-only preview of the code-drawn mascots and their routines.
 class MascotLabScreen extends ConsumerStatefulWidget {
   const MascotLabScreen({super.key});
 
@@ -18,9 +22,12 @@ class MascotLabScreen extends ConsumerStatefulWidget {
 }
 
 class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
-  static const Map<String, ({String asset, String artboard})> _rive = {
-    'seed': (asset: 'assets/animations/sprout_mascot.riv', artboard: 'Sprout'),
-    'coral': (asset: 'assets/animations/coral_mascot.riv', artboard: 'Coral'),
+  static const Map<String, MascotRoutine?> _routines = {
+    'idle': null,
+    'dance': dance,
+    'cheer': cheer,
+    'evolve': evolve,
+    'hatch': hatch,
   };
   static const double _heroSize = 150;
   static const double _castSize = 72;
@@ -28,11 +35,24 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
 
   String _speciesId = drawnSpeciesIds.first;
   int _stage = 2;
+  String _routine = _routines.keys.first;
 
   @override
   Widget build(BuildContext context) {
-    final rive = _rive[_speciesId];
-    final drawn = drawnMascotPath(_speciesId, _stage);
+    final stage = switch (_routine) {
+      'hatch' => 1,
+      'evolve' => math.max(2, _stage),
+      _ => _stage,
+    };
+    final drawn = drawnMascotPath(_speciesId, stage);
+    final hero = MascotImage(
+      assetPath: drawn,
+      width: _heroSize,
+      height: _heroSize,
+      hero: true,
+      wavesOnTap: true,
+      routine: _routines[_routine],
+    );
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -44,41 +64,44 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
         ],
       ),
       body: ListView(
-        key: ValueKey('$_speciesId $_stage'),
+        key: ValueKey('$_speciesId $_stage $_routine'),
         padding: const EdgeInsets.all(spacingLg),
         children: [
           MascotHousing(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                MascotImage(
-                  assetPath: drawn,
-                  width: _heroSize,
-                  height: _heroSize,
-                  hero: true,
-                  wavesOnTap: true,
-                ),
-                if (rive != null)
-                  MascotImage(
-                    assetPath: rive.asset,
-                    artboardName: '${rive.artboard}_stage$_stage',
-                    width: _heroSize,
-                    height: _heroSize,
+                switch (_routine) {
+                  'hatch' => HatchingEgg(size: _heroSize, child: hero),
+                  'evolve' => EvolutionSmoke(
+                    size: _heroSize,
+                    before: MascotImage(
+                      assetPath: drawnMascotPath(_speciesId, stage - 1),
+                      width: _heroSize,
+                      height: _heroSize,
+                    ),
+                    after: hero,
                   ),
+                  _ => hero,
+                },
+                MascotAvatar(
+                  assetPath: drawn,
+                  size: _thumbSize,
+                  animate: false,
+                ),
               ],
             ),
           ),
           const SizedBox(height: spacingLg),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: spacingSm,
             children: [
-              MascotAvatar(assetPath: drawn, size: _thumbSize, animate: false),
-              if (rive != null)
-                MascotAvatar(
-                  assetPath: rive.asset,
-                  artboardName: '${rive.artboard}_stage$_stage',
-                  size: _thumbSize,
-                  animate: false,
+              for (final name in _routines.keys)
+                ChoiceChip(
+                  label: Text(name),
+                  selected: name == _routine,
+                  onSelected: (_) => setState(() => _routine = name),
                 ),
             ],
           ),

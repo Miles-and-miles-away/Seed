@@ -320,7 +320,7 @@ bool welcomeBackSmileDue(Ref ref) {
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 @riverpod
 class MascotSmileTrigger extends _$MascotSmileTrigger {

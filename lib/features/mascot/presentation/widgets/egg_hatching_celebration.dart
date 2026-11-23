@@ -9,10 +9,15 @@ import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/reveal_effects.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
+
+/// When the name prompt appears: after the mascot hops out and wakes.
+const eggHatchingPromptDelay = Duration(milliseconds: 2600);
 
 /// Full-screen celebration shown when an egg hatches into
 /// a new mascot. Includes a name input field.
@@ -33,7 +38,11 @@ class EggHatchingCelebration extends ConsumerStatefulWidget {
 
 class _EggHatchingCelebrationState
     extends ConsumerState<EggHatchingCelebration> {
-  bool _showMascot = false;
+  static const double _mascotSize = 160;
+  static final Duration _nameDelay = Duration(
+    milliseconds: (eggSplitSeconds * 1000).round() + 300,
+  );
+
   bool _showNameInput = false;
   final _nameController = TextEditingController();
   bool _isSubmitting = false;
@@ -46,11 +55,7 @@ class _EggHatchingCelebrationState
   }
 
   Future<void> _startSequence() async {
-    // Show mascot reveal after egg crack delay
-    await Future<void>.delayed(durationReveal);
-    if (mounted) setState(() => _showMascot = true);
-
-    await Future<void>.delayed(durationCelebration);
+    await Future<void>.delayed(eggHatchingPromptDelay);
     if (mounted) setState(() => _showNameInput = true);
   }
 
@@ -94,7 +99,6 @@ class _EggHatchingCelebrationState
         ? getSpeciesById(widget.hatchedMascot.speciesId, speciesList)
         : null;
     final assetPath = species?.evolutionStages.first.assetPath;
-    final artboardName = species?.evolutionStages.first.artboardName;
     final speciesName = species?.name(locale) ?? '';
 
     return CelebrationOverlay(
@@ -109,30 +113,18 @@ class _EggHatchingCelebrationState
 
               CelebrationTitle(l10n.eggHatchingTitle),
 
-              // Egg cracking -> mascot reveal
-              if (!_showMascot)
-                const Icon(Icons.egg, size: 120, color: AppColors.eggBeige)
-                    .animate()
-                    .shake(duration: 600.ms, hz: 6)
-                    .then()
-                    .scale(end: const Offset(1.3, 1.3), duration: 200.ms)
-              else if (assetPath != null)
+              if (assetPath != null)
                 Column(
                   children: [
-                    MascotImage(
-                          assetPath: assetPath,
-                          artboardName: artboardName,
-                          width: 160,
-                          height: 160,
-                        )
-                        .animate()
-                        .fadeIn(duration: durationFast)
-                        .scale(
-                          begin: const Offset(0.3, 0.3),
-                          end: const Offset(1, 1),
-                          curve: Curves.elasticOut,
-                          duration: 800.ms,
-                        ),
+                    HatchingEgg(
+                      size: _mascotSize,
+                      child: MascotImage(
+                        assetPath: assetPath,
+                        width: _mascotSize,
+                        height: _mascotSize,
+                        routine: hatch,
+                      ),
+                    ),
                     const SizedBox(height: spacingLg),
                     Text(
                       speciesName,
@@ -140,11 +132,11 @@ class _EggHatchingCelebrationState
                         color: AppColors.gold,
                         fontWeight: FontWeight.bold,
                       ),
-                    ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
+                    ).animate().fadeIn(delay: _nameDelay, duration: 400.ms),
                   ],
                 )
               else
-                const SizedBox.shrink(),
+                const SizedBox.square(dimension: _mascotSize),
 
               Column(
                 children: [

@@ -116,7 +116,6 @@ void main() {
               const MascotModel(id: 'm', speciesId: 'seed', name: 'Pip'),
             ),
           ),
-          // An SVG keeps MascotDisplay off Rive.
           activeMascotAssetPathProvider.overrideWith(
             (_) => 'assets/images/mascot/seed_stage1.svg',
           ),

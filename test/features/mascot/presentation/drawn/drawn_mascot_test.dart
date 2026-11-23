@@ -28,6 +28,24 @@ final _keyPoses = <String, MascotPose>{
   'hop air': hop(const MascotPose(), _hopPeak),
 };
 
+// Routine frames: checked for geometry, kept out of the goldens.
+final _celebrationPoses = <String, MascotPose>{
+  for (var beat = 0; beat < 4; beat++)
+    'dance beat ${beat / 2}': dance(
+      const MascotPose(),
+      danceBeatSeconds * (2 + beat / 2),
+    ),
+  'cheer up': cheer(const MascotPose(), 1 + 0.25 / cheerHz),
+  'cheer down': cheer(const MascotPose(), 1 + 0.75 / cheerHz),
+  'evolve gasp': evolve(const MascotPose(), evolveGaspSeconds / 2),
+  'evolve crouch': evolve(const MascotPose(), evolveGaspSeconds + 0.17),
+  'hatch asleep': hatch(const MascotPose(), 0.3),
+  'hatch look': hatch(const MascotPose(), 1.5),
+  'hatch gasp': hatch(const MascotPose(), hatchGaspSeconds - 0.3),
+};
+
+final _geometryPoses = {..._keyPoses, ..._celebrationPoses};
+
 const _hopTakeoff = hopCrouchFrames / 60 / hopSeconds;
 const _hopPeak =
     (hopCrouchFrames + (hopRiseFrames + hopFallFrames) / 4) / 60 / hopSeconds;
@@ -253,7 +271,7 @@ void main() {
     for (final stage in _stages) {
       group('$speciesId stage $stage', () {
         test('keeps the eyes clear of the body outline', () {
-          for (final entry in _keyPoses.entries) {
+          for (final entry in _geometryPoses.entries) {
             final minimum = entry.value.gaze == Offset.zero
                 ? _minEyeClearance
                 : _minGazeClearance;
@@ -269,7 +287,7 @@ void main() {
           tester,
         ) async {
           const ground = DrawnMascotPainter.groundY * _pixelsPerUnit;
-          for (final entry in _keyPoses.entries) {
+          for (final entry in _geometryPoses.entries) {
             final raster = await _rasterise(
               tester,
               drawnMascotPainter(speciesId, stage, entry.value),
@@ -291,7 +309,7 @@ void main() {
             DrawnMascotPainter.designSize,
             DrawnMascotPainter.designSize,
           );
-          for (final entry in _keyPoses.entries) {
+          for (final entry in _geometryPoses.entries) {
             final painter = drawnMascotPainter(speciesId, stage, entry.value);
             final raster = await _rasterise(tester, painter);
             expect(raster.touchesBorder, isFalse, reason: entry.key);
@@ -349,18 +367,24 @@ void main() {
       WidgetTester tester, {
       required bool animate,
       bool hopOnLoad = false,
+      MascotRoutine? routine,
+      bool reduceMotion = false,
     }) => tester.pumpWidget(
       ProviderScope(
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Center(
-            child: DrawnMascot(
-              speciesId: drawnSpeciesIds.first,
-              stage: 2,
-              size: 100,
-              animate: animate,
-              wavesOnTap: true,
-              hopOnLoad: hopOnLoad,
+        child: MediaQuery(
+          data: MediaQueryData(disableAnimations: reduceMotion),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: DrawnMascot(
+                speciesId: drawnSpeciesIds.first,
+                stage: 2,
+                size: 100,
+                animate: animate,
+                wavesOnTap: true,
+                hopOnLoad: hopOnLoad,
+                routine: routine,
+              ),
             ),
           ),
         ),
@@ -434,6 +458,36 @@ void main() {
       expect(pose(tester).armR, lessThan(0.1));
     });
 
+    testWidgets('a routine replaces the breathing and moves the limbs', (
+      tester,
+    ) async {
+      await pumpMascot(tester, animate: true, routine: dance);
+      final arms = <double>{};
+      for (var i = 0; i < 60; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+        arms.add(pose(tester).armL);
+      }
+      expect(arms.reduce(math.max) - arms.reduce(math.min), greaterThan(1));
+      expect(pose(tester).smile, 1);
+    });
+
+    testWidgets('under reduce motion a routine is a held smile', (
+      tester,
+    ) async {
+      await pumpMascot(
+        tester,
+        animate: true,
+        routine: dance,
+        reduceMotion: true,
+      );
+      for (var i = 0; i < 60; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      final held = pose(tester);
+      expect(held.smile, greaterThan(0.9));
+      expect((held.armL, held.kickL, held.lean), (0, 0, 0));
+    });
+
     testWidgets('the eyes follow a pointer and recentre on release', (
       tester,
     ) async {
@@ -477,6 +531,32 @@ void main() {
     }
     expect(last, closeTo(0, 1e-9));
     expect(hop(const MascotPose(), 1).smile, 0);
+  });
+
+  test('a routine never kicks both feet at once', () {
+    for (final routine in [dance, cheer, evolve, hatch]) {
+      for (var i = 0; i < 600; i++) {
+        final pose = routine(const MascotPose(), i / 60);
+        expect(math.min(pose.kickL, pose.kickR), 0, reason: '$routine $i');
+      }
+    }
+  });
+
+  test('a routine starts at rest with no jump in the pose', () {
+    for (final routine in [dance, cheer]) {
+      final start = routine(const MascotPose(), 0);
+      expect((start.armL, start.lean, start.kickL), (0, 0, 0));
+    }
+    for (final routine in [dance, cheer, evolve, hatch]) {
+      var last = routine(const MascotPose(), 0);
+      for (var i = 1; i < 600; i++) {
+        final pose = routine(const MascotPose(), i / 120);
+        expect((pose.armL - last.armL).abs(), lessThan(0.2), reason: '$i');
+        expect((pose.squash - last.squash).abs(), lessThan(0.05));
+        expect((pose.wow - last.wow).abs(), lessThan(0.2), reason: '$i');
+        last = pose;
+      }
+    }
   });
 
   test('a blink opens more slowly than it closes', () {

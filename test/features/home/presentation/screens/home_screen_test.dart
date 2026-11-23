@@ -179,7 +179,6 @@ void main() {
               ),
             ),
             userOverride(const AppUserModel(uid: 'u', email: 'e')),
-            // An SVG keeps MascotDisplay off Rive.
             activeMascotAssetPathProvider.overrideWith(
               (_) => 'assets/images/mascot/seed_stage1.svg',
             ),

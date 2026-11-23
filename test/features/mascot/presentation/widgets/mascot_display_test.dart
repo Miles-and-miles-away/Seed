@@ -3,7 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rive/rive.dart' as rive;
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
@@ -17,9 +16,6 @@ import 'package:seed_app/shared/providers/clock_provider.dart';
 import '../../../../helpers/test_helpers.dart';
 
 const _svg = 'assets/images/mascot/seed_stage1.svg';
-const _riv = 'assets/animations/coral_mascot.riv';
-const _riveLoadTimeout = Duration(seconds: 30);
-const _rivePollInterval = Duration(milliseconds: 25);
 
 Widget _wrap(
   Widget child, {
@@ -33,27 +29,6 @@ Widget _wrap(
   scaffold: true,
   child: Center(child: child),
 );
-
-/// Call inside `runAsync`: Rive decodes on the real event loop.
-Future<void> _pumpUntilRiveLoaded(WidgetTester tester) async {
-  final riveWidget = find.byType(rive.RiveWidget);
-  final deadline = DateTime.now().add(_riveLoadTimeout);
-  while (!tester.any(riveWidget) && DateTime.now().isBefore(deadline)) {
-    await Future<void>.delayed(_rivePollInterval);
-    await tester.pump();
-  }
-  expect(riveWidget, findsOneWidget);
-  await tester.pump();
-}
-
-double _smileHold(WidgetTester tester) {
-  final vm = tester
-      .widget<rive.RiveWidget>(find.byType(rive.RiveWidget))
-      .controller
-      .stateMachine
-      .boundRuntimeViewModelInstance!;
-  return vm.number('face/$mascotVmSmileHold')!.value;
-}
 
 void main() {
   group('MascotDisplay', () {
@@ -86,10 +61,9 @@ void main() {
 
     testWidgets('a code-drawn hero animates without the float and waves on '
         'its own tap', (tester) async {
-      var taps = 0;
       await tester.pumpWidget(
         _wrap(
-          MascotDisplay(size: 100, showGlow: false, onTap: () => taps++),
+          const MascotDisplay(size: 100, showGlow: false, wavesOnTap: true),
           assetPath: drawnMascotPath('seed', 2),
         ),
       );
@@ -104,11 +78,10 @@ void main() {
         await tester.pump(const Duration(milliseconds: 16));
       }
       expect(drawnPose(tester).armR, greaterThan(1));
-      expect(taps, 0);
       await tearDownTree(tester);
     });
 
-    testWidgets('a code-drawn hero with no tap handler leaves the tap to '
+    testWidgets('a code-drawn hero that does not wave leaves the tap to '
         'an ancestor', (tester) async {
       var taps = 0;
       await tester.pumpWidget(
@@ -177,36 +150,12 @@ void main() {
       expect(jumped, isFalse);
       expect(drawnPose(tester).squash, 0);
       expect(drawnPose(tester).smile, greaterThan(0.8));
+      // Local, so that the other visible mascots do not smile too.
+      final container = ProviderScope.containerOf(
+        tester.element(find.byType(MascotDisplay)),
+      );
+      expect(container.read(mascotSmileTriggerProvider), isFalse);
       await tester.pump(durationCelebration);
-      await tearDownTree(tester);
-    });
-
-    testWidgets('reduced motion freezes the mascot with no jump or smile', (
-      tester,
-    ) async {
-      var jumped = false;
-      await tester.runAsync(() async {
-        await tester.pumpWidget(
-          MediaQuery(
-            data: const MediaQueryData(disableAnimations: true),
-            child: _wrap(
-              MascotDisplay(
-                size: 100,
-                jumpOnLoad: true,
-                onJump: () => jumped = true,
-              ),
-              assetPath: _riv,
-            ),
-          ),
-        );
-        await _pumpUntilRiveLoaded(tester);
-        final controller = tester
-            .widget<rive.RiveWidget>(find.byType(rive.RiveWidget))
-            .controller;
-        expect(controller.active, isFalse);
-        expect(controller.stateMachine.boundRuntimeViewModelInstance, isNull);
-        expect(jumped, isFalse);
-      });
       await tearDownTree(tester);
     });
 
@@ -222,8 +171,8 @@ void main() {
       Widget display({bool tickerOn = true}) => TickerMode(
         enabled: tickerOn,
         child: _wrap(
-          const MascotDisplay(size: 100, welcomesBack: true),
-          assetPath: _riv,
+          const MascotDisplay(size: 100, showGlow: false, welcomesBack: true),
+          assetPath: drawnMascotPath('seed', 2),
           overrides: overrides,
         ),
       );
@@ -233,42 +182,6 @@ void main() {
             tester.element(find.byType(MascotDisplay)),
           ).read(welcomeBackSmiledProvider) !=
           null;
-
-      testWidgets('smiles once loaded when due, and records it', (
-        tester,
-      ) async {
-        await tester.runAsync(() async {
-          await tester.pumpWidget(display());
-          await _pumpUntilRiveLoaded(tester);
-          expect(_smileHold(tester), 1);
-          expect(smiled(tester), isTrue);
-        });
-        await tearDownTree(tester);
-      });
-
-      testWidgets('a short smile trigger does not end the longer hold', (
-        tester,
-      ) async {
-        await tester.runAsync(() async {
-          await tester.pumpWidget(display());
-          await _pumpUntilRiveLoaded(tester);
-          expect(_smileHold(tester), 1);
-
-          ProviderScope.containerOf(
-            tester.element(find.byType(MascotDisplay)),
-          ).read(mascotSmileTriggerProvider.notifier).triggerSmile();
-          await tester.pump();
-          await Future<void>.delayed(durationInstant * 2);
-          await tester.pump();
-
-          expect(_smileHold(tester), 1);
-
-          await Future<void>.delayed(durationCelebration);
-          await tester.pump();
-          expect(_smileHold(tester), 0);
-        });
-        await tearDownTree(tester);
-      });
 
       testWidgets('a code-drawn hero smiles when due, and records it', (
         tester,
@@ -290,17 +203,14 @@ void main() {
       });
 
       testWidgets('waits until its ticker is on', (tester) async {
-        await tester.runAsync(() async {
-          await tester.pumpWidget(display(tickerOn: false));
-          await _pumpUntilRiveLoaded(tester);
-          expect(_smileHold(tester), 0);
-          expect(smiled(tester), isFalse);
+        await tester.pumpWidget(display(tickerOn: false));
+        await tester.pump();
+        expect(smiled(tester), isFalse);
 
-          await tester.pumpWidget(display());
-          await tester.pump();
-          expect(_smileHold(tester), 1);
-          expect(smiled(tester), isTrue);
-        });
+        await tester.pumpWidget(display());
+        await tester.pump();
+        expect(smiled(tester), isTrue);
+        await tester.pump(durationCelebration);
         await tearDownTree(tester);
       });
     });
