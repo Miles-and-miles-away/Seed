@@ -64,6 +64,8 @@ const durationShowcase = Duration(milliseconds: 1500);
 // 3s gives 2 distinct fall speeds, 12s gives 7.
 const durationParticleLoop = Duration(seconds: 12);
 const durationGlowLoop = Duration(seconds: 2);
+// A reversing loop counts each direction as one pass.
+const decorativeLoopPasses = 6;
 
 // Opacity values for visual hierarchy.
 const double opacityVeryFaint = 0.08;

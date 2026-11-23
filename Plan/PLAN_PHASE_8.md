@@ -355,7 +355,7 @@ all constants citable, every prefill user-editable):
 | Kind | Offered when | Estimate |
 |------|--------------|----------|
 | ground (car/bus/rail) | same landmass or rail_tunnel link, straight-line <= 2,000 km | haversine x 1.3 circuity |
-| air | straight-line >= 250 km, or >= 100 km when no other kind is available (below 100 km: no suggestions, manual entry) | haversine + 95 km (EN 16258) |
+| air | straight-line >= 250 km, or >= 100 km when no other kind is available (below 100 km: no suggestions, manual entry) | haversine (DESNZ factors carry the 8% uplift) |
 | ferry | ferry link between masses, straight-line <= the link's max_km (default 500) | haversine |
 | active | ground rules and <= 150 km (cycle family); walking only <= 40 km, applied when mapping the kind to modes | haversine x 1.3 |
 
@@ -1301,11 +1301,11 @@ Notes locked in now:
   excludes the ~+17% WTT term for parity with transport; the
   original "incl. well-to-tank" here was superseded).
 - **Climate entries are honest approximations:** aircon/heater
-  per-hour figures are typical-unit averages with spread stated;
-  the setpoint lesson ships as presets on the aircon entries
-  (e.g. "1 hour at 26 C" vs "1 hour at 28 C", capped at +/-2 C
-  from the METI baseline) plus a methodology paragraph, not as a
-  thermal model. The original "1 C ~= 5-10%" here was superseded:
+  per-hour figures are typical-unit averages with spread stated.
+  The setpoint lesson does not ship as calculator presets: METI
+  gives no hours per day for its per-degree savings, so no
+  per-hour step can be derived. It ships through the
+  `raise_ac_thermostat` and `lower_thermostat` actions. The original "1 C ~= 5-10%" here was superseded:
   METI's measured per-degree figures imply 15.2% (cooling) and
   12.6% (heating); 環境省's rule of thumb says 13%/10% (PDR
   rule 17).

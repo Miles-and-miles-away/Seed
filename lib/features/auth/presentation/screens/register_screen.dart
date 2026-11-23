@@ -203,10 +203,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : Text(l10n.authCreateAccount),
                 ),
@@ -264,7 +261,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (!_acceptedTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(l10n.authAcceptTermsError),
+          content: Text(
+            l10n.authAcceptTermsError,
+            style: TextStyle(color: inkOnFill(AppColors.warning)),
+          ),
           backgroundColor: AppColors.warning,
         ),
       );

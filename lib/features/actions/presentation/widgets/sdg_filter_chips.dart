@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/presentation/widgets/filter_chip_row.dart';
 import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
+
 import '../providers/actions_providers.dart';
 
 /// SDG filter row: rounded-rect chips with a numbered circle, under
@@ -51,7 +52,7 @@ class SdgFilterChips extends ConsumerWidget {
           label: sdg.shortTitle(locale),
           isSelected: isSelected,
           accent: sdg.color,
-          onAccent: Colors.white,
+          onAccent: inkOnFill(sdg.color),
           shape: shape,
           // The checkmark takes the badge's place when selected.
           avatar: isSelected

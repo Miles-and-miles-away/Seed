@@ -43,19 +43,26 @@ class _SeedAppState extends ConsumerState<SeedApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     // Sync the collection toggle only on change. While settings load the
-    // provider reports its default, so hold the SDKs' persisted state
-    // rather than switching an opted-out user back on for a moment.
+    // value is null, so hold the SDKs' persisted state rather than switching
+    // an opted-out user back on for a moment. Each account switch passes
+    // through null, so the next account's own choice is always applied.
     // The custom keys are crash triage context; they ride the toggle and
     // never hold per-user values, which would trip Crashlytics throttling.
     ref
-      ..listenManual(analyticsEnabledProvider, (_, on) {
-        if (ref.read(userSettingsProvider).isLoading) return;
-        final collect = on && !kDebugMode;
-        AnalyticsService.instance.setEnabled(enabled: on);
-        FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
-        FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(collect);
-        FirebasePerformance.instance.setPerformanceCollectionEnabled(collect);
-      }, fireImmediately: true)
+      ..listenManual(
+        userSettingsProvider.select(
+          (s) => s.isLoading ? null : s.value?.analyticsEnabled,
+        ),
+        (_, on) {
+          if (on == null) return;
+          final collect = on && !kDebugMode;
+          AnalyticsService.instance.setEnabled(enabled: on);
+          FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(on);
+          FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(collect);
+          FirebasePerformance.instance.setPerformanceCollectionEnabled(collect);
+        },
+        fireImmediately: true,
+      )
       ..listenManual(appLocaleProvider, (_, locale) {
         FirebaseCrashlytics.instance.setCustomKey(
           'locale',
@@ -110,7 +117,7 @@ class _SeedAppState extends ConsumerState<SeedApp> with WidgetsBindingObserver {
 
       // Localization - the resolved app language, see currentLanguageProvider
       locale: appLocale,
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales: appSupportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
     );
   }

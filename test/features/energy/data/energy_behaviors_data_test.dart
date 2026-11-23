@@ -210,10 +210,11 @@ void main() {
     // RESEARCH_ENERGY.md states 2026-08-02 for every source in its
     // sections 1 and 3. 2026-08-29 is the oven citation, re-fetched to
     // settle its regulation number; 2026-08-30 is the fan's Panasonic
-    // spec, live-verified when the entry was added. Any other value
-    // means a citation was imported from another dataset or invented --
-    // which is how the two lighting entries went wrong.
-    const allowed = {'2026-08-02', '2026-08-29', '2026-08-30'};
+    // spec, live-verified when the entry was added. 2026-11-21 is the
+    // METI aircon page, re-read when it moved to the JIS C 9612 model.
+    // Any other value means a citation was imported from another dataset
+    // or invented -- which is how the two lighting entries went wrong.
+    const allowed = {'2026-08-02', '2026-08-29', '2026-08-30', '2026-11-21'};
     for (final b in behaviors) {
       for (final s in b.sources) {
         expect(allowed, contains(s.accessed), reason: '${b.id}: ${s.name}');
@@ -234,7 +235,7 @@ void main() {
   test('metadata carries both carrier factors and the scope statement', () {
     final metadata = root['metadata'] as Map<String, dynamic>;
     expect(metadata['grid_factor_g_per_kwh'], 458);
-    expect(metadata['gas_factor_g_per_kwh'], 182);
+    expect(metadata['gas_factor_g_per_kwh'], 212);
     expect(metadata['verdict_min_percent'], 20);
     expect(metadata['scope'], isNotEmpty);
     // The cross-calculator warning is binding copy, not decoration.

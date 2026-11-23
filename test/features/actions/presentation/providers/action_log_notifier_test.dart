@@ -12,6 +12,8 @@ import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/data/repositories/action_log_repository.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
 import 'package:seed_app/features/progress/domain/entities/calendar_day_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
@@ -66,19 +68,21 @@ const _cycle = ActionModel(
 
 const _user = AppUserModel(uid: 'u1', email: 'e');
 
-ActionLogResult _result({int? milestoneWeek}) => ActionLogResult(
-  actionLog: ActionLogModel(
-    id: 'log-1',
-    actionId: 'walk',
-    actionName: 'Walk',
-    category: 'transport',
-    points: 20,
-    co2Grams: 500,
-    loggedAt: DateTime(2026, 6),
-  ),
-  newStreakDays: 7,
-  crossedMilestoneWeek: milestoneWeek,
-);
+ActionLogResult _result({int? milestoneWeek, bool eggStreakReset = false}) =>
+    ActionLogResult(
+      actionLog: ActionLogModel(
+        id: 'log-1',
+        actionId: 'walk',
+        actionName: 'Walk',
+        category: 'transport',
+        points: 20,
+        co2Grams: 500,
+        loggedAt: DateTime(2026, 6),
+      ),
+      newStreakDays: 7,
+      crossedMilestoneWeek: milestoneWeek,
+      eggStreakReset: eggStreakReset,
+    );
 
 void main() {
   late _MockRepository repo;
@@ -156,6 +160,10 @@ void main() {
               period: period,
             );
           }),
+          trendWindowSummariesProvider.overrideWith((ref, period) async {
+            built('summaries');
+            return const <DailySummaryModel>[];
+          }),
           co2TrendDataProvider.overrideWith((ref, period) async {
             built('trend');
             return Co2TrendData(
@@ -177,6 +185,7 @@ void main() {
       );
       c
         ..listen(co2StatsProvider(TimePeriod.today), (_, _) {})
+        ..listen(trendWindowSummariesProvider(TimePeriod.today), (_, _) {})
         ..listen(co2TrendDataProvider(TimePeriod.today), (_, _) {})
         ..listen(co2CategoryDataProvider(TimePeriod.today), (_, _) {})
         ..listen(monthCalendarDataProvider, (_, _) {});
@@ -186,7 +195,13 @@ void main() {
       await c.read(actionLogProvider.notifier).logAction(_action);
       await Future<void>.delayed(Duration.zero);
 
-      expect(builds, {'stats': 2, 'trend': 2, 'category': 2, 'calendar': 2});
+      expect(builds, {
+        'stats': 2,
+        'summaries': 2,
+        'trend': 2,
+        'category': 2,
+        'calendar': 2,
+      });
     });
 
     test('reports the action and a crossed milestone to analytics', () async {
@@ -303,6 +318,27 @@ void main() {
 
       expect(c.read(actionLogProvider).hasValue, isTrue);
       verifyInOrder([() => logged(_action), () => logged(_cycle)]);
+    });
+
+    test('an egg count restart is signalled, even with a log queued', () async {
+      final gate = Completer<ActionLogResult>();
+      whenLog().thenAnswer((_) => gate.future);
+      final c = await container();
+      final notifier = c.read(actionLogProvider.notifier);
+      final signals = <int>[];
+      c.listen(eggStreakResetSignalProvider, (_, next) => signals.add(next));
+
+      final first = notifier.logAction(_action);
+      final second = notifier.logAction(_cycle);
+      await Future<void>.delayed(Duration.zero);
+      whenLog().thenAnswer((_) async => _result());
+      gate.complete(_result(eggStreakReset: true));
+      await first;
+
+      expect(signals, [1]);
+      resetActionLogClock();
+      await second;
+      expect(signals, [1]);
     });
 
     test('a failure ahead in the queue does not stop the next log', () async {

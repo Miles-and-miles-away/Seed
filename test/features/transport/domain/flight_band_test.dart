@@ -14,10 +14,21 @@ void main() {
       );
     });
 
-    test('same country under the boundary is domestic', () {
+    test('a UK leg under the boundary is domestic', () {
       expect(
-        flightBandModeId(straightLineKm: 400, fromCc: 'JP', toCc: 'JP'),
+        flightBandModeId(straightLineKm: 400, fromCc: 'GB', toCc: 'GB'),
         flightModeDomestic,
+      );
+      expect(
+        flightBandModeId(straightLineKm: 300, fromCc: 'GB', toCc: 'JE'),
+        flightModeDomestic,
+      );
+    });
+
+    test('a same-country leg outside the UK is short-haul', () {
+      expect(
+        flightBandModeId(straightLineKm: 832, fromCc: 'JP', toCc: 'JP'),
+        flightModeShortHaul,
       );
     });
 

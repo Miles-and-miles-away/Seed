@@ -278,4 +278,48 @@ void main() {
       expect(result.currentStreak, 1);
     });
   });
+
+  group('streak across a zone change', () {
+    // 01:00 on 21 Nov in Tokyo (UTC+9).
+    final tokyoLog = DateTime.utc(2026, 11, 20, 16);
+    const tokyoOffset = 540;
+
+    test('a westward next-day log increments the streak', () {
+      final result = calculateStreakUpdate(
+        lastActionDate: tokyoLog,
+        lastActionUtcOffsetMinutes: tokyoOffset,
+        currentStreak: 40,
+        longestStreak: 40,
+        now: DateTime(2026, 11, 22, 10),
+      );
+
+      expect(result.currentStreak, 41);
+      expect(result.streakWasBroken, isFalse);
+    });
+
+    test('a westward move keeps the displayed streak', () {
+      expect(
+        displayedStreak(
+          storedStreak: 40,
+          lastActionDate: tokyoLog,
+          lastActionUtcOffsetMinutes: tokyoOffset,
+          now: DateTime(2026, 11, 22, 10),
+        ),
+        40,
+      );
+    });
+
+    test('an eastward next-day log increments the streak', () {
+      // 23:00 on 20 Nov in London (UTC+0).
+      final result = calculateStreakUpdate(
+        lastActionDate: DateTime.utc(2026, 11, 20, 23),
+        lastActionUtcOffsetMinutes: 0,
+        currentStreak: 6,
+        longestStreak: 6,
+        now: DateTime(2026, 11, 21, 20),
+      );
+
+      expect(result.currentStreak, 7);
+    });
+  });
 }

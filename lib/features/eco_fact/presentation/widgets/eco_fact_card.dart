@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/utils/external_link.dart';
 import 'package:seed_app/features/eco_fact/data/models/eco_fact_model.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
@@ -149,7 +150,7 @@ class EcoFactCard extends ConsumerWidget {
             child: Text(
               '$sdgNum',
               style: theme.textTheme.labelSmall?.copyWith(
-                color: Colors.white,
+                color: inkOnFill(goal.color),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -214,7 +215,7 @@ class _SourceLineState extends State<_SourceLine> {
             TextSpan(
               style: baseStyle,
               children: [
-                TextSpan(text: '${l10n.ecoFactSource}: '),
+                TextSpan(text: l10n.labelPrefix(l10n.ecoFactSource)),
                 if (_hasUrl)
                   TextSpan(
                     text: '${widget.sourceName} $externalLinkChar',

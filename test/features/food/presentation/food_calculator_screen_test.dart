@@ -25,6 +25,16 @@ const _beans = FoodItem(
   kgCo2ePerKg: 1.79,
 );
 
+const _tierTwoBeef = FoodItem(
+  id: 'tier_two_beef',
+  group: 'meat',
+  nameEn: 'Farm beef',
+  nameJa: '',
+  nameEs: '',
+  kgCo2ePerKg: 60,
+  sourceTier: 2,
+);
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -32,7 +42,9 @@ void main() {
     locale: locale,
     theme: theme,
     overrides: [
-      foodItemsProvider.overrideWith((_) async => const [_beef, _beans]),
+      foodItemsProvider.overrideWith(
+        (_) async => const [_beef, _beans, _tierTwoBeef],
+      ),
     ],
     child: const FoodCalculatorScreen(),
   );
@@ -97,6 +109,16 @@ void main() {
       expect(find.textContaining('less than Beef'), findsNothing);
     });
 
+    testWidgets('a meal of only 0 g ingredients is not built', (tester) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addIngredient(tester, itemName: 'Beans', grams: '0');
+      await addIngredient(tester, itemName: 'Beef', grams: '200', column: 1);
+
+      expect(find.text('Build both options to compare them'), findsOneWidget);
+      expect(find.textContaining('as a choice I took today'), findsNothing);
+    });
+
     testWidgets('a sub-20% gap gets no verdict and no bank action', (
       tester,
     ) async {
@@ -112,6 +134,31 @@ void main() {
       expect(find.textContaining('too close to call'), findsOneWidget);
       expect(find.textContaining('less than'), findsNothing);
       expect(find.text('Log Option A as a choice I took today'), findsNothing);
+    });
+
+    testWidgets('identical meals say too close, not build both', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addIngredient(tester, itemName: 'Beans', grams: '200');
+      await addIngredient(tester, itemName: 'Beans', grams: '200', column: 1);
+
+      expect(find.text('Build both options to compare them'), findsNothing);
+      expect(find.textContaining('too close to call'), findsOneWidget);
+    });
+
+    testWidgets('a cross-source block does not cite the 20% bar', (
+      tester,
+    ) async {
+      // 6 g against 10 g: a 40% gap under the 50% cross-source floor.
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addIngredient(tester, itemName: 'Farm beef', grams: '0.1');
+      await addIngredient(tester, itemName: 'Beef', grams: '0.1', column: 1);
+
+      expect(find.textContaining('20%'), findsNothing);
+      expect(find.text('Not a big enough difference to log'), findsOneWidget);
     });
 
     testWidgets('removing an ingredient empties the column again', (

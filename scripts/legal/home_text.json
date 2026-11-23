@@ -1,0 +1,167 @@
+{
+  "nav_how": {
+    "en": "How it works",
+    "ja": "しくみ",
+    "es": "Cómo funciona"
+  },
+  "nav_features": {
+    "en": "Features",
+    "ja": "機能",
+    "es": "Funciones"
+  },
+  "nav_mascots": {
+    "en": "Mascots",
+    "ja": "マスコット",
+    "es": "Mascotas"
+  },
+  "nav_beta": {
+    "en": "Join the beta",
+    "ja": "テストに参加",
+    "es": "Únete a la prueba"
+  },
+  "kicker": {
+    "en": "A free habit tracker for the planet",
+    "ja": "地球のための無料の習慣トラッカー",
+    "es": "Una aplicación gratuita de hábitos para el planeta"
+  },
+  "lead": {
+    "en": "Log the everyday things you already do. Earn points for the CO2 you save. Watch your mascot grow as you go.",
+    "ja": "ふだんすでにしていることを記録しましょう。減らしたCO2に応じてポイントがもらえます。続けるほど、マスコットが成長していきます。",
+    "es": "Registra lo que ya haces en tu día a día. Suma puntos por el CO2 que ahorras. Mira cómo tu mascota crece contigo."
+  },
+  "platforms": {
+    "en": "iOS and Android. English, 日本語, Español.",
+    "ja": "iOS・Android対応。English、日本語、Español。",
+    "es": "iOS y Android. English, 日本語, Español."
+  },
+  "tap": {
+    "en": "Tap me!",
+    "ja": "タップしてね！",
+    "es": "¡Tócame!"
+  },
+  "hero_alt": {
+    "en": "The Seed mascot, a sprout with two leaves",
+    "ja": "2枚の葉がついた芽の姿をしたSeedのマスコット",
+    "es": "La mascota de Seed, un brote con dos hojas"
+  },
+  "how_title": {
+    "en": "How Seed works",
+    "ja": "Seedのしくみ",
+    "es": "Cómo funciona Seed"
+  },
+  "step1_title": {
+    "en": "Log what you do",
+    "ja": "したことを記録する",
+    "es": "Registra lo que haces"
+  },
+  "step1_body": {
+    "en": "Taking the train instead of driving, a meat-free dinner, drying washing on the line.",
+    "ja": "車の代わりに電車を使う、肉を使わない夕食にする、洗濯物を外に干す。",
+    "es": "Ir en tren en vez de en coche, una cena sin carne, tender la ropa."
+  },
+  "step2_title": {
+    "en": "Earn points",
+    "ja": "ポイントをもらう",
+    "es": "Suma puntos"
+  },
+  "step2_body": {
+    "en": "Each action earns points based on roughly how much CO2 it saves.",
+    "ja": "アクションごとに、減らせるCO2のおおよその量に応じてポイントがもらえます。",
+    "es": "Cada acción suma puntos según una estimación del CO2 que ahorra."
+  },
+  "step3_title": {
+    "en": "Grow your mascot",
+    "ja": "マスコットを育てる",
+    "es": "Haz crecer a tu mascota"
+  },
+  "step3_body": {
+    "en": "Your mascot grows as you go, from a seed into a tree.",
+    "ja": "続けるほどマスコットが成長し、たねから木へと育っていきます。",
+    "es": "Tu mascota crece contigo, de semilla a árbol."
+  },
+  "f1_title": {
+    "en": "See what it all adds up to",
+    "ja": "積み重ねた成果が見える",
+    "es": "Descubre cuánto suma todo"
+  },
+  "f1_body1": {
+    "en": "Seed turns your savings into things you can picture: kilometres not driven, phone charges, tree-years.",
+    "ja": "Seedは、減らしたCO2をイメージしやすいものに置き換えます。運転しなかった距離、スマホの充電回数、木が1年間に吸収する量などです。",
+    "es": "Seed convierte tu ahorro en cosas que puedes imaginar: kilómetros no recorridos, cargas de móvil, árboles · año."
+  },
+  "f1_body2": {
+    "en": "The estimates come from published research and official data, with sources cited in the app.",
+    "ja": "推定値は公表された研究や公的なデータに基づいており、出典はアプリ内に記載しています。",
+    "es": "Las estimaciones se basan en investigaciones publicadas y datos oficiales, con las fuentes citadas en la aplicación."
+  },
+  "f1_alt": {
+    "en": "The Seed impact screen showing 2.0 kg of CO2 saved today and what that equals",
+    "ja": "今日のCO2削減量2.0 kgと、その換算を表示するSeedのインパクト画面",
+    "es": "La pantalla de impacto de Seed, con 2,0 kg de CO2 ahorrados hoy y sus equivalencias"
+  },
+  "chip_saved": {
+    "en": "2.0 kg CO2 saved",
+    "ja": "CO2を2.0 kg削減",
+    "es": "2,0 kg de CO2 ahorrados"
+  },
+  "chip_km": {
+    "en": "12 km not driven",
+    "ja": "12 km の運転回避",
+    "es": "12 km no recorridos"
+  },
+  "f2_title": {
+    "en": "Learn the bigger picture",
+    "ja": "世界の全体像を学ぶ",
+    "es": "Conoce el panorama completo"
+  },
+  "f2_body": {
+    "en": "Actions are linked to the UN Sustainable Development Goals. Follow how the world is doing on each one.",
+    "ja": "アクションは国連の持続可能な開発目標（SDGs）と結びついています。それぞれの目標について、世界の進み具合を確認できます。",
+    "es": "Las acciones están vinculadas a los Objetivos de Desarrollo Sostenible de la ONU. Sigue cómo avanza el mundo en cada uno."
+  },
+  "f2_alt": {
+    "en": "A Seed chart of global progress on access to electricity, part of Sustainable Development Goal 7",
+    "ja": "持続可能な開発目標7に含まれる、電力へのアクセスに関する世界の進み具合を示すSeedのグラフ",
+    "es": "Un gráfico de Seed sobre el progreso mundial en el acceso a la electricidad, parte del Objetivo de Desarrollo Sostenible 7"
+  },
+  "chip_goals": {
+    "en": "17 global goals",
+    "ja": "17の世界目標",
+    "es": "17 objetivos mundiales"
+  },
+  "f3_title": {
+    "en": "Something new every day",
+    "ja": "毎日、何か新しいことを",
+    "es": "Algo nuevo cada día"
+  },
+  "f3_body": {
+    "en": "Daily and longer challenges, an Eco-Dex of facts you unlock as you log, a couple of quiz games, and calculators for comparing journeys, meals and home appliances.",
+    "ja": "毎日のチャレンジや複数日チャレンジ、記録するたびに地球の豆知識が解放されるエコ図鑑、ちょっとしたクイズゲーム、移動・食事・家電を比べられる計算ツールがあります。",
+    "es": "Desafíos diarios y más largos, un Eco-Dex de datos que desbloqueas a medida que registras acciones, un par de juegos de preguntas y calculadoras para comparar trayectos, comidas y electrodomésticos."
+  },
+  "f3_alt": {
+    "en": "Logging an action in Seed",
+    "ja": "Seedでアクションを記録する様子",
+    "es": "Registro de una acción en Seed"
+  },
+  "chip_done": {
+    "en": "Daily challenge done",
+    "ja": "毎日のチャレンジ達成",
+    "es": "Desafío diario completado"
+  },
+  "unlock_title": {
+    "en": "Unlock new mascots as you go",
+    "ja": "続けるほど、新しいマスコットが解放されます",
+    "es": "Desbloquea nuevas mascotas a medida que avanzas"
+  },
+  "unlock_body": {
+    "en": "When your mascot reaches its third stage, a mysterious egg appears beside it. Log actions every day for 30 days and it hatches into a new companion, like Coral. Each mascot brings its own colours to the whole app.",
+    "ja": "マスコットが3番目の段階まで育つと、そばに不思議なタマゴが現れます。30日間毎日アクションを記録すると孵化して、コーラルのような新しい相棒が生まれます。マスコットごとに、アプリ全体がそれぞれの色に変わります。",
+    "es": "Cuando tu mascota llega a su tercera etapa, aparece un huevo misterioso a su lado. Registra acciones todos los días durante 30 días y eclosionará un nuevo compañero, como Coral. Cada mascota trae sus propios colores a toda la aplicación."
+  },
+  "coral_alt": {
+    "en": "The Coral mascot under the sea",
+    "ja": "海の中にいるコーラルのマスコット",
+    "es": "La mascota Coral bajo el mar"
+  }
+}

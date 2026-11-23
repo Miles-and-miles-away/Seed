@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +13,9 @@ import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 import 'package:seed_app/core/utils/validators.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
+import 'package:share_plus/share_plus.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
 
@@ -142,6 +146,18 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                     ),
                   ],
 
+                  SettingsSection(
+                    title: l10n.accountSettingsYourData,
+                    children: [
+                      SettingsTile(
+                        leading: const Icon(Icons.download_outlined),
+                        title: l10n.accountSettingsExportData,
+                        subtitle: l10n.accountSettingsExportDataSubtitle,
+                        onTap: _exportData,
+                      ),
+                    ],
+                  ),
+
                   // Danger zone
                   SettingsSection(
                     title: '',
@@ -223,6 +239,38 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     messenger.showSnackBar(SnackBar(content: Text(message)));
   }
 
+  Future<void> _exportData() async {
+    final uid = ref.read(userIdProvider);
+    if (uid == null) return;
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final box = context.findRenderObject() as RenderBox?;
+    setState(() => _isLoading = true);
+    try {
+      final json = await ref
+          .read(settingsRepositoryProvider)
+          .exportUserData(uid);
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [
+            XFile.fromData(utf8.encode(json), mimeType: 'application/json'),
+          ],
+          fileNameOverrides: const [_exportFileName],
+          sharePositionOrigin: box == null
+              ? null
+              : box.localToGlobal(Offset.zero) & box.size,
+        ),
+      );
+    } on Object catch (e) {
+      appLogger.error('Account: data export failed', error: e);
+      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  static const _exportFileName = 'seed-data-export.json';
+
   Future<void> _showChangeEmailDialog() async {
     var currentEmail = '';
     var newEmail = '';
@@ -250,10 +298,10 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     }
   }
 
-  /// Awaits a notifier call and rethrows the failure it keeps in its state.
+  /// Awaits a notifier call, rethrows its failure, and stops once unmounted.
   Future<void> _checked(Future<void> call) async {
     await call;
-    if (!mounted) return;
+    if (!mounted) throw AuthException(code: authCodeSignInCancelled);
     if (ref.read(authProvider) case AsyncError(
       :final error,
       :final stackTrace,
@@ -318,7 +366,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
         await _checked(auth.updateEmail(newEmail));
       },
       logLabel: 'Account: email update failed',
-      successMessage: l10n.accountSettingsEmailUpdated,
+      successMessage: l10n.accountSettingsEmailLinkSent,
     );
   }
 

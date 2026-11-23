@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Seed is a free daily habit tracker for sustainability. Log everyday actions, earn points for the CO2 you save, and watch your mascot grow.">
+<title>Seed</title>
+{{styles}}
+<link rel="stylesheet" href="/home.css">
+</head>
+<body>
+
+<header class="nav">
+{{brand}}
+  <nav>
+    <a href="#how">{{nav_how}}</a>
+    <a href="#features">{{nav_features}}</a>
+    <a href="#mascots">{{nav_mascots}}</a>
+    <select class="lang" aria-label="Language / 言語 / Idioma" hidden>
+      <option value="en" lang="en">English</option>
+      <option value="ja" lang="ja">日本語</option>
+      <option value="es" lang="es">Español</option>
+    </select>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="cloud c1" aria-hidden="true"></div>
+  <div class="cloud c2" aria-hidden="true"></div>
+  <div class="cloud c3" aria-hidden="true"></div>
+
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="kicker">{{kicker}}</p>
+      <h1>{{tagline}}</h1>
+      <p class="lead">{{lead}}</p>
+      <div class="cta-row">
+        <a class="btn" href="/beta">{{cta}}</a>
+        <span class="note">{{platforms}}</span>
+      </div>
+    </div>
+    <div class="hero-stage">
+      <canvas class="mascot" data-species="seed" data-stage="2"
+        aria-hidden="true"></canvas>
+      <p class="bubble" aria-hidden="true">{{tap}}</p>
+      <p class="sr">{{hero_alt}}</p>
+    </div>
+  </div>
+
+{{hill}}
+</section>
+
+<section class="land" id="how">
+  <div class="wrap">
+    <h2>{{how_title}}</h2>
+    <ol class="steps">
+      <li>
+        <span class="num">1</span>
+        <h3>{{step1_title}}</h3>
+        <p>{{step1_body}}</p>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <h3>{{step2_title}}</h3>
+        <p>{{step2_body}}</p>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <h3>{{step3_title}}</h3>
+        <p>{{step3_body}}</p>
+      </li>
+    </ol>
+
+    <div class="evolution">
+{{evolution}}
+    </div>
+  </div>
+</section>
+
+<section class="beach" id="features">
+  <div class="wrap">
+
+    <div class="feature">
+      <div class="shot">
+        <div class="blob b-sky" aria-hidden="true"></div>
+        <div class="phone tilt-l">
+          <img src="/images/impact.webp" width="698" height="1356"
+            loading="lazy" alt="">
+        </div>
+        <p class="sr">{{f1_alt}}</p>
+        <span class="chip chip-a" aria-hidden="true">{{chip_saved}}</span>
+        <span class="chip chip-b" aria-hidden="true">{{chip_km}}</span>
+      </div>
+      <div class="copy">
+        <h2>{{f1_title}}</h2>
+        <p>{{f1_body1}}</p>
+        <p>{{f1_body2}}</p>
+      </div>
+    </div>
+
+    <div class="feature flip">
+      <div class="shot">
+        <div class="blob b-sun" aria-hidden="true"></div>
+        <div class="phone tilt-r">
+          <img src="/images/sdg-chart.webp" width="698" height="1356"
+            loading="lazy" alt="">
+        </div>
+        <p class="sr">{{f2_alt}}</p>
+        <span class="chip chip-c" aria-hidden="true">{{chip_goals}}</span>
+      </div>
+      <div class="copy">
+        <h2>{{f2_title}}</h2>
+        <p>{{f2_body}}</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="shot">
+        <div class="blob b-leaf" aria-hidden="true"></div>
+        <div class="phone tilt-l">
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)"
+              srcset="/images/log-action.webp">
+            <img src="/images/log-action.gif" width="320" height="622"
+              loading="lazy" alt="">
+          </picture>
+        </div>
+        <p class="sr">{{f3_alt}}</p>
+        <span class="chip chip-d" aria-hidden="true">{{chip_done}}</span>
+      </div>
+      <div class="copy">
+        <h2>{{f3_title}}</h2>
+        <p>{{f3_body}}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="ocean" id="mascots">
+  <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none"
+    aria-hidden="true">
+    <path d="M0 60 C 180 0 360 120 540 60 S 900 0 1080 60 S 1320 110 1440
+      50 V0 H0z"/>
+  </svg>
+  <div class="bubbles" aria-hidden="true">
+    <i></i><i></i><i></i><i></i><i></i><i></i>
+  </div>
+  <div class="wrap ocean-grid">
+    <div class="ocean-stage">
+      <canvas class="mascot" data-species="coral" data-stage="2"
+        aria-hidden="true"></canvas>
+      <p class="sr">{{coral_alt}}</p>
+    </div>
+    <div class="copy">
+      <h2>{{unlock_title}}</h2>
+      <p>{{unlock_body}}</p>
+      <a class="btn btn-light" href="/beta">{{nav_beta}}</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+{{footer}}
+
+<script src="/lang.js"></script>
+<script type="module" src="/home.js"></script>
+</body>
+</html>

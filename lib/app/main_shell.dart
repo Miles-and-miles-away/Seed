@@ -3,7 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/actions/actions.dart';
+import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
+import 'package:seed_app/features/eco_dex/eco_dex.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
+import 'package:seed_app/features/settings/presentation/widgets/streak_milestone_dialog.dart';
 
 import '../core/constants/ui_constants.dart';
 import '../features/mascot/mascot.dart';
@@ -15,8 +20,8 @@ import 'router.dart';
 
 /// Main shell widget that provides bottom navigation.
 ///
-/// Handles showing celebrations in priority order:
-/// Evolution > Egg Discovery
+/// Queues celebrations in this order: Streak Milestone, Evolution,
+/// Egg Discovery, Egg Hatching. Eco-Dex discoveries follow once loaded.
 class MainShell extends ConsumerStatefulWidget {
   const MainShell({required this.navigationShell, super.key});
 
@@ -31,10 +36,13 @@ class _MainShellState extends ConsumerState<MainShell> {
   static const _mascotTabs = {0};
   static const _tabRouteNames = ['home', 'progress', 'explore', 'profile'];
 
-  bool _hasShownEvolutionCelebration = false;
   bool _hasShownEggDiscovery = false;
   bool _actionPushPending = false;
   late final _tappedRoute = ref.read(notificationServiceProvider).tappedRoute;
+  bool _celebrationsScheduled = false;
+  final _shownMilestoneWeeks = <int>{};
+  final _shownEvolutions = <String>{};
+  final _shownHatchIds = <String>{};
 
   @override
   void initState() {
@@ -51,28 +59,89 @@ class _MainShellState extends ConsumerState<MainShell> {
       // Warm the action library so the first Add-action tap does not
       // pay a cold server-first fetch inside the transition
       ..read(actionLibraryProvider)
-      // React to evolution changes only when value flips
-      ..listenManual(hasNewEvolutionProvider, (_, next) {
-        if (next && !_hasShownEvolutionCelebration) {
-          _hasShownEvolutionCelebration = true;
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              showEvolutionCelebration(context, ref);
-            }
-          });
-        }
-      })
-      // React to egg discovery flag
-      ..listenManual(shouldShowEggDiscoveryProvider, (_, next) {
-        if (next && !_hasShownEggDiscovery) {
-          _hasShownEggDiscovery = true;
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              showEggDiscoveryCelebration(context, ref);
-            }
-          });
-        }
+      ..listenManual(
+        pendingStreakMilestoneProvider,
+        (_, _) => _scheduleCelebrations(),
+        fireImmediately: true,
+      )
+      ..listenManual(
+        hasNewEvolutionProvider,
+        (_, _) => _scheduleCelebrations(),
+        fireImmediately: true,
+      )
+      ..listenManual(
+        shouldShowEggDiscoveryProvider,
+        (_, _) => _scheduleCelebrations(),
+        fireImmediately: true,
+      )
+      ..listenManual(
+        allMascotsProvider.select(
+          (a) => a.value?.where((m) => m.name.isEmpty).firstOrNull,
+        ),
+        (_, _) => _scheduleCelebrations(),
+        fireImmediately: true,
+      )
+      // Derived from the user doc, so unlocks from any log path show here.
+      ..listenManual(
+        ecoDexNewUnlocksProvider,
+        (_, _) => _scheduleCelebrations(),
+        fireImmediately: true,
+      )
+      // One listener covers every screen that logs an action
+      ..listenManual(eggStreakResetSignalProvider, (_, _) {
+        showEggResetMessage(
+          ScaffoldMessenger.of(context),
+          AppLocalizations.of(context),
+        );
       });
+  }
+
+  // One pass per frame, so changes that land together queue in a fixed order.
+  void _scheduleCelebrations() {
+    if (_celebrationsScheduled) return;
+    _celebrationsScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _celebrationsScheduled = false;
+      if (mounted) _queueCelebrations();
+    });
+  }
+
+  void _queueCelebrations() {
+    final milestone = ref.read(pendingStreakMilestoneProvider);
+    if (milestone != null && _shownMilestoneWeeks.add(milestone.week)) {
+      unawaited(
+        showStreakMilestoneCelebration(
+          context,
+          ref,
+          weekNumber: milestone.week,
+          totalDays: milestone.days,
+        ),
+      );
+    }
+    if (ref.read(hasNewEvolutionProvider)) {
+      final mascotId = ref.read(activeMascotProvider).value?.id;
+      final stage = ref.read(activeMascotStageProvider);
+      if (_shownEvolutions.add('$mascotId:$stage')) {
+        unawaited(showEvolutionCelebration(context, ref));
+      }
+    }
+    if (!ref.read(shouldShowEggDiscoveryProvider)) {
+      _hasShownEggDiscovery = false;
+    } else if (!_hasShownEggDiscovery) {
+      _hasShownEggDiscovery = true;
+      unawaited(showEggDiscoveryCelebration(context, ref));
+    }
+    final hatched = ref
+        .read(allMascotsProvider)
+        .value
+        ?.where((m) => m.name.isEmpty)
+        .firstOrNull;
+    if (hatched != null && _shownHatchIds.add(hatched.id)) {
+      unawaited(showEggHatchingCelebration(context, hatched));
+    }
+    if (ref.read(ecoDexNewUnlocksProvider).value?.isNotEmpty ?? false) {
+      unawaited(discoverAndCelebrateEcoDex(context, ref));
+    }
   }
 
   @override

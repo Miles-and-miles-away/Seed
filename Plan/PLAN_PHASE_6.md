@@ -196,8 +196,10 @@ Future<Co2Stats> co2Stats(Ref ref, TimePeriod period) async {
 ```
 
 - `today` -> sum of today's daily summary; previous = yesterday's.
-- `thisWeek` -> Mon-Sun in device timezone (week starts Monday); previous = last week.
-- `thisMonth` -> calendar month; previous = previous calendar month.
+- `thisWeek` -> Mon-Sun in device timezone (week starts Monday); previous = the
+  same days of last week (Monday to today's weekday).
+- `thisMonth` -> calendar month; previous = the same number of days at the
+  start of the previous month, cut at that month's end.
 - `allTime` -> `user.totalCo2Grams`; previous = 0 -> badge hidden.
 
 Date math lives in a pure helper (`time_period_range.dart`) for
@@ -350,7 +352,7 @@ Convert CO₂ savings into relatable real-world comparisons.
 
 | Equivalency | Formula | Source |
 |-------------|---------|--------|
-| Trees planted | CO₂ (kg) / 21 kg per tree/year | EPA |
+| Trees planted | CO₂ (kg) / 60 kg per tree/year | EPA |
 | Car km avoided | CO₂ (g) / 200 g per km | DEFRA |
 | Flights avoided | CO₂ (kg) / 255 kg per hour flight | DEFRA |
 | Phone charges | CO₂ (g) / 8 g per charge | EPA |

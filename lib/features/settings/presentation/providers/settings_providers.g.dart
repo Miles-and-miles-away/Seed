@@ -463,6 +463,59 @@ final class WalkthroughFoundProvider
 
 String _$walkthroughFoundHash() => r'0cf4a82b84cd39850988493f186736323a119232';
 
+/// The streak milestone the user reached and has not seen yet, or null.
+
+@ProviderFor(pendingStreakMilestone)
+final pendingStreakMilestoneProvider = PendingStreakMilestoneProvider._();
+
+/// The streak milestone the user reached and has not seen yet, or null.
+
+final class PendingStreakMilestoneProvider
+    extends
+        $FunctionalProvider<
+          ({int days, int week})?,
+          ({int days, int week})?,
+          ({int days, int week})?
+        >
+    with $Provider<({int days, int week})?> {
+  /// The streak milestone the user reached and has not seen yet, or null.
+  PendingStreakMilestoneProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'pendingStreakMilestoneProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$pendingStreakMilestoneHash();
+
+  @$internal
+  @override
+  $ProviderElement<({int days, int week})?> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ({int days, int week})? create(Ref ref) {
+    return pendingStreakMilestone(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(({int days, int week})? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<({int days, int week})?>(value),
+    );
+  }
+}
+
+String _$pendingStreakMilestoneHash() =>
+    r'da7a0d8a549462d9734e46fa1b1572bd4c3aee34';
+
 /// Returns the preferred theme mode, defaulting to the system setting.
 
 @ProviderFor(themeMode)
@@ -553,7 +606,7 @@ final class AppLocaleProvider
   }
 }
 
-String _$appLocaleHash() => r'039b0a604fd9f4a680ba4c0e1357a68e1a63f485';
+String _$appLocaleHash() => r'6f21b164f71589a3c61c74bfaa429c38db51f9e6';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

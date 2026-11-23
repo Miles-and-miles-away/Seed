@@ -504,7 +504,8 @@ void main() {
                 expect(tester.takeException(), isNull);
                 // Measured: 268dp at 1.0, as designed; at 2.0, 288dp, or
                 // 328dp when the result line wraps. A wrong answer adds the
-                // explore link above the answers.
+                // explore link above the answers, and 32dp more when a long
+                // ja option such as 1億3,800万 wraps.
                 final panel = find.ancestor(
                   of: _next,
                   matching: find.byType(SafeArea),
@@ -516,7 +517,7 @@ void main() {
                   (true, true) => 268,
                   (true, false) => 316,
                   (false, true) => anyOf(288, 328),
-                  (false, false) => anyOf(376, 408),
+                  (false, false) => anyOf(376, 408, 440),
                 });
 
                 await tester.drag(_body, const Offset(0, -400));

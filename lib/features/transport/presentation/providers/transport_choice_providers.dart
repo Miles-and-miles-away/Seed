@@ -10,17 +10,19 @@ part 'transport_choice_providers.g.dart';
 const kTransportChoiceSdgs = ['11', '13'];
 
 /// Banks a chosen transport option as a real action (Phase 8.6).
-@riverpod
+@Riverpod(keepAlive: true)
 class TransportChoiceLogger extends _$TransportChoiceLogger {
   @override
   AsyncValue<void> build() => const AsyncValue.data(null);
 
   /// Banks [co2Grams] of avoided emissions under [name]. Returns the
   /// outcome, or null when nothing was attempted (a log already in
-  /// flight, no user) or the notifier was disposed mid-flight.
+  /// flight, no user).
   Future<AsyncValue<void>?> logChoice({
     required String name,
     required int co2Grams,
+    required Iterable<String> chosenIds,
+    required Iterable<String> baselineIds,
   }) async {
     if (state.isLoading) return null;
     final userId = ref.read(userIdProvider);
@@ -34,6 +36,8 @@ class TransportChoiceLogger extends _$TransportChoiceLogger {
       co2Grams: co2Grams,
       category: 'transport',
       relatedSdgs: kTransportChoiceSdgs,
+      chosenIds: chosenIds,
+      baselineIds: baselineIds,
     );
     if (result == null) return null;
     state = result;

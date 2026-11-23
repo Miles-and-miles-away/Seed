@@ -205,6 +205,8 @@ class _IngredientEditorSheetState extends State<IngredientEditorSheet> {
                       ? null
                       : isAmbiguousDecimalInput(_gramsController.text, locale)
                       ? l10n.quantityAmbiguousSeparator
+                      : isTooLargeDecimalInput(_gramsController.text)
+                      ? l10n.quantityTooLarge
                       : l10n.foodQuantityInvalid,
                 ),
                 onChanged: (_) => setState(() {

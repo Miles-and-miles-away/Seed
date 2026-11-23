@@ -49,6 +49,27 @@ void main() {
       expect(_trend([_point(1, 100), _point(1, 300)]).trendFit, isNull);
       expect(_trend([]).trendFit, isNull);
     });
+
+    test('a spring DST change keeps each day one step apart', () {
+      // Spans the New York and London spring changes; fails at the old
+      // code under TZ=America/New_York or TZ=Europe/London.
+      Co2TrendPoint point(int day, int grams) =>
+          Co2TrendPoint(date: DateTime(2027, 3, day), grams: grams);
+      final fit = Co2TrendData(
+        points: [
+          point(14, 100),
+          point(15, 200),
+          point(28, 1500),
+          point(29, 1600),
+        ],
+        averageGrams: 0,
+        windowStart: DateTime(2027, 3, 8),
+        windowEnd: DateTime(2027, 4, 7),
+      ).trendFit!;
+
+      expect(fit.slope, closeTo(100, 0.001));
+      expect(fit.intercept, closeTo(-500, 0.001));
+    });
   });
 
   group('Co2CategoryData.isPlottable', () {

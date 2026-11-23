@@ -392,6 +392,7 @@ MockUser createMockUser({
   when(() => mockUser.email).thenReturn(email);
   when(() => mockUser.emailVerified).thenReturn(emailVerified);
   when(() => mockUser.displayName).thenReturn(displayName);
+  when(mockUser.reload).thenAnswer((_) async {});
 
   // Create default provider data if not specified
   var resolvedProviderData = providerData;

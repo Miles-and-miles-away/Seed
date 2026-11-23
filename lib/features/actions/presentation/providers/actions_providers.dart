@@ -77,7 +77,7 @@ const actionHistoryPageSize = 50;
 ///
 /// keepAlive + one-shot get: the library is read-only reference data,
 /// so a persistent snapshots() listener adds overhead for no benefit.
-/// Content changes ship with reseeds and are picked up on app start.
+/// Cache first: a reseed shows on the start after the one that fetches it.
 @Riverpod(keepAlive: true)
 Future<List<ActionModel>> actionLibrary(Ref ref) {
   return ref.watch(actionLibraryDataSourceProvider).getActions();
@@ -312,6 +312,9 @@ List<ActionModel> _sortActions(
   Map<String, int> shuffleRank,
 ) {
   final sorted = List<ActionModel>.from(actions);
+  int byName(ActionModel a, ActionModel b) => foldForSearch(
+    a.name(languageCode),
+  ).compareTo(foldForSearch(b.name(languageCode)));
 
   switch (sortOption) {
     case ActionSortOption.random:
@@ -319,13 +322,9 @@ List<ActionModel> _sortActions(
         (a, b) => (shuffleRank[a.id] ?? 0).compareTo(shuffleRank[b.id] ?? 0),
       );
     case ActionSortOption.alphabeticalAsc:
-      sorted.sort(
-        (a, b) => a.name(languageCode).compareTo(b.name(languageCode)),
-      );
+      sorted.sort(byName);
     case ActionSortOption.alphabeticalDesc:
-      sorted.sort(
-        (a, b) => b.name(languageCode).compareTo(a.name(languageCode)),
-      );
+      sorted.sort((a, b) => byName(b, a));
     case ActionSortOption.co2HighToLow:
       sorted.sort((a, b) => b.co2Grams.compareTo(a.co2Grams));
     case ActionSortOption.co2LowToHigh:
@@ -360,11 +359,19 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     ActionModel action, {
     String? note,
     String languageCode = 'en',
+    bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     // A repeat of an action still waiting or in flight would double-log.
     if (!_pending.add(action.id)) return null;
     try {
-      return await _logQueued(action, note: note, languageCode: languageCode);
+      return await _logQueued(
+        action,
+        note: note,
+        languageCode: languageCode,
+        countsAsUnique: countsAsUnique,
+        uniqueKey: uniqueKey,
+      );
     } finally {
       _pending.remove(action.id);
     }
@@ -383,6 +390,8 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     ActionModel action, {
     required String? note,
     required String languageCode,
+    required bool countsAsUnique,
+    required String? uniqueKey,
   }) async {
     appLogger.debug('ActionLog: logAction called for ${action.nameEn}');
 
@@ -419,6 +428,8 @@ class ActionLogNotifier extends _$ActionLogNotifier {
         action: action,
         languageCode: languageCode,
         note: note,
+        countsAsUnique: countsAsUnique,
+        uniqueKey: uniqueKey,
       );
     });
     written.complete();
@@ -442,9 +453,13 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       if (ref.mounted) {
         ref
           ..invalidate(co2StatsProvider)
+          ..invalidate(trendWindowSummariesProvider)
           ..invalidate(co2TrendDataProvider)
           ..invalidate(co2CategoryDataProvider)
           ..invalidate(monthCalendarDataProvider);
+        if (result.value?.eggStreakReset ?? false) {
+          ref.read(eggStreakResetSignalProvider.notifier).fire();
+        }
       }
 
       // Telemetry must never gate the points animation, which fires as

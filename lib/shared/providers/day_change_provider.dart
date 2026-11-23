@@ -75,10 +75,12 @@ class DayChangeNotifier extends _$DayChangeNotifier {
       ..invalidate(todaySummaryProvider)
       ..invalidate(monthCalendarDataProvider)
       ..invalidate(co2StatsProvider)
+      ..invalidate(trendWindowSummariesProvider)
       ..invalidate(co2TrendDataProvider)
       ..invalidate(co2CategoryDataProvider)
       ..invalidate(actionRemindersProvider)
-      ..invalidate(welcomeBackSmileDueProvider);
+      ..invalidate(welcomeBackSmileDueProvider)
+      ..invalidate(eggStreakDaysProvider);
 
     // Update state and reschedule
     state = formatDateKey(_now);

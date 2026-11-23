@@ -107,10 +107,14 @@ _METI_AC_U = (
 )
 METI_AC_COOL = S(
     _METI_AC_N, _METI_AC_U,
-    '冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ')
+    '冷房期間中にエアコン（2.5kW）の使用を1日1時間短縮した場合 年間で電気 '
+    '25.38 kWh の省エネ | 東京をモデルとした木造南向き住宅を想定'
+    '（JIS C 9612:2013）', accessed='2026-11-21')
 METI_AC_HEAT = S(
     _METI_AC_N, _METI_AC_U,
-    '暖房を1日1時間短縮した場合（設定温度：20℃）年間で電気40.73kWhの省エネ')
+    '暖房期間中にエアコン（2.5kW）を1日1時間短縮した場合 年間で電気 '
+    '35.68 kWh の省エネ | 東京をモデルとした木造南向き住宅を想定'
+    '（JIS C 9612:2013）', accessed='2026-11-21')
 PANA_FAN = S(
     'Panasonic F-CV339 仕様',
     'https://panasonic.jp/fan/products/F-CV339/spec.html',
@@ -230,7 +234,7 @@ BEHAVIORS = [
             'RESEARCH_ENERGY section 3.1.',
       notes_ja=('7.844784 L/分（現行のシャワーヘッド3機種の平均、決定E4）'
                 '× 0.03162756 kWh/L（1 Lを27.2 K加熱：'
-                '年平均12.8℃の水道水を40℃で出湯、SAP 10.1）'
+                '年平均12.8°Cの水道水を40°Cで出湯、SAP 10.1）'
                 '= 0.248111 kWh/分の熱量です。電気抵抗式の給湯は効率がほぼ100%なの'
                 'で、この値をそのまま採用しています。RESEARCH_ENERGY 3.1節に基づき'
                 'ます。'),
@@ -350,13 +354,13 @@ BEHAVIORS = [
       notes_sha='64b39bbc8802207c2cc0426663ddce0af7374f8b5f4b94de6020e3fe7e741a2e'),
  # ---- laundry_wash ----
  dict(id='wash_cold', group='laundry_wash', carrier='electricity', unit='use',
-      kwh=0.350, en='Washing machine, cold (20 C)', ja='洗濯機（20℃）',
+      kwh=0.350, en='Washing machine, cold (20 C)', ja='洗濯機（20°C）',
       es='Lavado en frío (20 °C)', conf='high', presets=ONE_LOAD,
       sources=[BOSCH_WM_20],
       notes='Bosch WNA14400GR Cottons 20 C at 9.0 kg, EN50229. Three temperatures from '
             'one machine, one standard and one document (decision E6). '
             'RESEARCH_ENERGY section 3.2.',
-      notes_ja=('Bosch WNA14400GRの綿コース20℃、9.0 kgでのEN50229の値です。'
+      notes_ja=('Bosch WNA14400GRの綿コース20°C、9.0 kgでのEN50229の値です。'
                 '3つの温度は、同じ1台の機種、同じ規格、'
                 '同じ文書から取っています（決定E6）。RESEARCH_ENERGY 3.2節に基づき'
                 'ます。'),
@@ -366,18 +370,18 @@ BEHAVIORS = [
                 'sección 3.2.'),
       notes_sha='4886cb830ce1bab62a2c7cfe398289280cddc872bfe366f315491d5f6c70fd06'),
  dict(id='wash_warm', group='laundry_wash', carrier='electricity', unit='use',
-      kwh=1.300, en='Washing machine, warm (40 C)', ja='洗濯機（40℃）',
-      es='Lavado en templado (40 °C)', conf='high', presets=ONE_LOAD,
+      kwh=1.300, en='Washing machine, warm (40 C)', ja='洗濯機（40°C）',
+      es='Lavado templado (40 °C)', conf='high', presets=ONE_LOAD,
       sources=[BOSCH_WM_40],
       notes='Bosch WNA14400GR Cottons 40 C at 9.0 kg, EN50229. '
             'RESEARCH_ENERGY section 3.2.',
-      notes_ja=('Bosch WNA14400GRの綿コース40℃、9.0 kgでのEN50229の値です。'
+      notes_ja=('Bosch WNA14400GRの綿コース40°C、9.0 kgでのEN50229の値です。'
                 'RESEARCH_ENERGY 3.2節に基づきます。'),
       notes_es=('Bosch WNA14400GR, programa Algodón a 40 °C con 9,0 kg, EN50229. '
                 'Según RESEARCH_ENERGY, sección 3.2.'),
       notes_sha='c9b2dd627f84f135d96eb7bb18510ec9c2887489331fa71f2961e83c4ced27d0'),
  dict(id='wash_hot', group='laundry_wash', carrier='electricity', unit='use',
-      kwh=1.700, en='Washing machine, hot (60 C)', ja='洗濯機（60℃）',
+      kwh=1.700, en='Washing machine, hot (60 C)', ja='洗濯機（60°C）',
       es='Lavado en caliente (60 °C)', conf='medium', presets=ONE_LOAD,
       sources=[BOSCH_WM_60],
       notes='Bosch WNA14400GR Cottons 60 C at 9.0 kg, EN50229. This is a user-selected '
@@ -388,11 +392,11 @@ BEHAVIORS = [
             'section 4 on purpose: that table says High, while section 3.2 splits it '
             'as High (provenance) / Medium (representativeness), and a user meets the '
             'representativeness half. RESEARCH_ENERGY section 3.2.',
-      notes_ja=('Bosch WNA14400GRの綿コース60℃、9.0 kgでのEN50229の値です。'
-                'これは利用者が自分で選ぶ60℃のコースです。EUラベルの「Cottons '
-                'colour 60 C」コースは0.900 kWhで、実際には60℃に達しません。'
+      notes_ja=('Bosch WNA14400GRの綿コース60°C、9.0 kgでのEN50229の値です。'
+                'これは利用者が自分で選ぶ60°Cのコースです。EUラベルの「Cottons '
+                'colour 60 C」コースは0.900 kWhで、実際には60°Cに達しません。'
                 'そのため、必須の補足表示にある「その約半分」とは0.9/1.7のことで'
-                'す。「60℃」の洗濯は、機械がどの60℃を指すかによって0.90〜1.70 kWhに'
+                'す。「60°C」の洗濯は、機械がどの60°Cを指すかによって0.90〜1.70 kWhに'
                 'なります。信頼度は意図的に4節と異なります。'
                 '4節の表では「高」ですが、3.2節では「高（出所）/ 中（代表性）'
                 '」に分けており、利用者が直面するのは代表性の側だからです。'
@@ -458,44 +462,42 @@ BEHAVIORS = [
       notes_sha='11166712f3268de4c48c9d1c72d3c6daada29ba1c93a5ffb51476a1c4184ec31'),
  # ---- space_heat / space_cool ----
  dict(id='aircon_heating', group='space_heat', carrier='electricity', unit='hour',
-      kwh=0.241006, en='Air conditioner, heating (20 C)', ja='エアコン暖房（20℃）',
-      es='Aire acondicionado, calefacción (20 °C)', conf='high',
-      presets=[P('hour_20c', '1 hour at 20 C', '20℃で1時間', '1 hora a 20 °C', 1.0),
-               P('hour_21c', '1 hour at 21 C', '21℃で1時間', '1 hora a 21 °C', 1.14480),
-               P('hour_22c', '1 hour at 22 C', '22℃で1時間', '1 hora a 22 °C', 1.28960)],
+      kwh=0.211124, en='Air conditioner, heating', ja='エアコン暖房',
+      es='Aire acondicionado, calefacción', conf='high',
+      presets=ONE_HOUR + EVENING_4H,
       sources=[METI_AC_HEAT],
-      notes='METI publishes 40.73 kWh/year saved by shortening heating one hour a day '
-            'at a 20 C setpoint, sourced to 省エネルギーセンター実測値; over the 169-day '
-            '暖房期間 that is 0.241006 kWh/h. MEASURED, not rated: the Panasonic '
-            'CS-227VB JIS rating is 455 W, about 1.9x higher, because it is '
-            'measured at full load. Do not "correct" this to the catalogue '
-            'figure. Setpoint presets use METI absolute deltas (+0.034898 '
-            'kWh/h per 1 C) and are capped at +2 C '
-            'because neither source supports extrapolating further. '
-            'RESEARCH_ENERGY section 3.3.',
-      notes_ja=('資源エネルギー庁は、設定温度20℃の暖房を1日1時間短縮すると年間40.73'
-                ' kWhの省エネになると公表しており、'
-                '出典は省エネルギーセンター実測値です。169日間の暖房期間で割ると'
-                '0.241006 kWh/hになります。定格値ではなく実測値です：'
-                'Panasonic CS-227VBのJIS定格は455 Wで約1.9倍高いですが、'
-                'これは全負荷で測定しているためです。'
-                'この値をカタログ値に「修正」しないでください。'
-                '設定温度のプリセットには資源エネルギー庁の絶対差分（1℃あたり'
-                '+0.034898 kWh/h）を使い、どちらの出典もそれ以上の外挿を裏付けてい'
-                'ないため、+2℃までに制限しています。RESEARCH_ENERGY 3.3節に基づきま'
-                'す。'),
-      notes_es=('METI publica que acortar una hora al día la calefacción con la '
-                'consigna a 20 °C ahorra 40,73 kWh/año, con '
-                '省エネルギーセンター実測値 como fuente; repartido entre los 169 '
-                'días del 暖房期間 (temporada de calefacción), son 0,241006 kWh/h. '
-                'MEDIDO, no nominal: la potencia nominal JIS del Panasonic '
-                'CS-227VB es de 455 W, unas 1,9 veces la cifra medida, porque se '
-                'mide a plena carga. No «corrijas» esta cifra con la del catálogo. '
-                'Los ajustes de temperatura usan los incrementos absolutos de METI '
-                '(+0,034898 kWh/h por cada 1 °C) y se limitan a +2 °C porque '
-                'ninguna de las dos fuentes justifica extrapolar más. Según '
+      notes=('METI publishes 35.68 kWh/year saved by shortening heating one hour a '
+             'day on a 2.5 kW unit, modelled on a wooden south-facing house in '
+             'Tokyo (JIS C9612:2013); over the 169-day 暖房期間 that is 0.211124 '
+             'kWh/h. An average hour of use, not the rating: the Panasonic CS-227VB '
+             'JIS rating is 455 W, about 2.2x higher, because it is measured at '
+             'full load. Do not "correct" this to the catalogue figure. The current '
+             'METI page states no setpoint for this figure and no hours per day for '
+             'its setpoint savings, so a per-hour setpoint step cannot be derived '
+             'and no setpoint presets ship. RESEARCH_ENERGY section 3.3.'),
+      notes_ja=('資源エネルギー庁は、2.5kWのエアコンの暖房を1日1時間短縮すると年間'
+                '35.68 kWhの省エネになると公表しています。東京をモデルとした木造'
+                '南向き住宅を想定した値です（JIS C9612:2013）。169日間'
+                'の暖房期間で割ると0.211124 kWh/hになります。定格値ではなく'
+                '、平均的な1時間の使用の値です：Panasonic CS-227VBのJ'
+                'IS定格は455 Wで約2.2倍高いですが、これは全負荷で測定しているた'
+                'めです。この値をカタログ値に「修正」しないでください。現在の資源エネルギ'
+                'ー庁のページは、この値の設定温度も、設定温度による省エネの1日あたりの使'
+                '用時間も示していません。そのため1時間あたりの設定温度の差分は導けず、'
+                '設定温度のプリセットは用意していません。RESEARCH_ENERGY 3.3節に'
+                '基づきます。'),
+      notes_es=('METI publica que acortar una hora al día la calefacción de un aparato '
+                'de 2,5 kW ahorra 35,68 kWh/año, con un modelo de casa de madera '
+                'orientada al sur en Tokio (JIS C9612:2013); repartido entre los 169 '
+                'días del 暖房期間 (temporada de calefacción), son 0,211124 kWh/h. Es una '
+                'hora de uso media, no la potencia nominal: la potencia nominal JIS '
+                'del Panasonic CS-227VB es de 455 W, unas 2,2 veces más, porque se '
+                'mide a plena carga. No «corrijas» esta cifra con la del catálogo. La '
+                'página actual de METI no indica la consigna de esta cifra ni las '
+                'horas al día de su ahorro por grado, así que no se puede derivar '
+                'el incremento por hora y no hay ajustes de temperatura. Según '
                 'RESEARCH_ENERGY, sección 3.3.'),
-      notes_sha='de0f67bcecd71d1ec78afe0293789f033b0abab0031eee5c9786ea2b5d7b4c08'),
+      notes_sha='15a0233bef9c8f127b16e42ffc6d4d7c619e2f1d87606106b3998309625040ae'),
  dict(id='portable_electric_heater', group='space_heat',
       carrier='electricity', unit='hour',
       kwh=1.2, en='Portable electric heater', ja='電気ストーブ／セラミックファンヒーター',
@@ -579,38 +581,38 @@ BEHAVIORS = [
                 'RESEARCH_ENERGY, sección 3.3.'),
       notes_sha='95fb589e197d0e196496b4167660424a0c7594e4dd4ee6ca5e8be74bfa669277'),
  dict(id='aircon_cooling', group='space_cool', carrier='electricity', unit='hour',
-      kwh=0.167679, en='Air conditioner, cooling (28 C)', ja='エアコン冷房（28℃）',
-      es='Aire acondicionado, refrigeración (28 °C)', conf='high',
-      presets=[P('hour_28c', '1 hour at 28 C', '28℃で1時間', '1 hora a 28 °C', 1.0),
-               P('hour_27c', '1 hour at 27 C', '27℃で1時間', '1 hora a 27 °C', 1.17891),
-               P('hour_26c', '1 hour at 26 C', '26℃で1時間', '1 hora a 26 °C', 1.35783),
-               P('evening_26c', 'An evening (4 h at 26 C)', '夜に26℃で4時間',
-                 'Una tarde (4 h a 26 °C)', 5.43132)],
+      kwh=0.226607, en='Air conditioner, cooling', ja='エアコン冷房',
+      es='Aire acondicionado, refrigeración', conf='high',
+      presets=ONE_HOUR + EVENING_4H,
       sources=[METI_AC_COOL],
-      notes='METI publishes 18.78 kWh/year saved by shortening cooling one hour a day '
-            'at a 28 C setpoint, sourced to 省エネルギーセンター実測値; over the 112-day '
-            '冷房期間 that is 0.167679 kWh/h. MEASURED, not rated: the Panasonic JIS '
-            'rating is 435 W, about 2.6x higher. Setpoint presets use METI absolute '
-            'deltas (+0.030 kWh/h per 1 C), capped at -2 C. '
-            'RESEARCH_ENERGY section 3.3.',
-      notes_ja=('資源エネルギー庁は、設定温度28℃の冷房を1日1時間短縮すると年間18.78'
-                ' kWhの省エネになると公表しており、'
-                '出典は省エネルギーセンター実測値です。112日間の冷房期間で割ると'
-                '0.167679 kWh/hになります。定格値ではなく実測値です：'
-                'PanasonicのJIS定格は435 Wで、約2.6倍高くなっています。'
-                '設定温度のプリセットには資源エネルギー庁の絶対差分（1℃あたり+0.030'
-                ' kWh/h）を使い、-2℃までに制限しています。'
-                'RESEARCH_ENERGY 3.3節に基づきます。'),
-      notes_es=('METI publica que acortar una hora al día el aire acondicionado '
-                'con la consigna a 28 °C ahorra 18,78 kWh/año, con '
-                '省エネルギーセンター実測値 como fuente; repartido entre los 112 '
-                'días del 冷房期間 (temporada de refrigeración), son 0,167679 '
-                'kWh/h. MEDIDO, no nominal: la potencia nominal JIS de Panasonic '
-                'es de 435 W, unas 2,6 veces la cifra medida. Los ajustes de '
-                'temperatura usan los incrementos absolutos de METI (+0,030 kWh/h '
-                'por cada 1 °C), con un límite de -2 °C. Según RESEARCH_ENERGY, '
-                'sección 3.3.'),
-      notes_sha='0fcf0dff212c664f5b05ea49a26aba95fda891a87648d07fd557d8ccdc1c2372'),
+      notes=('METI publishes 25.38 kWh/year saved by shortening cooling one hour a '
+             'day on a 2.5 kW unit, modelled on a wooden south-facing house in '
+             'Tokyo (JIS C9612:2013); over the 112-day 冷房期間 that is 0.226607 '
+             'kWh/h. An average hour of use, not the rating: the Panasonic JIS '
+             'rating is 435 W, about 1.9x higher. The current METI page states no '
+             'setpoint for this figure and no hours per day for its setpoint '
+             'savings, so a per-hour setpoint step cannot be derived and no '
+             'setpoint presets ship. RESEARCH_ENERGY section 3.3.'),
+      notes_ja=('資源エネルギー庁は、2.5kWのエアコンの冷房を1日1時間短縮すると年間'
+                '25.38 kWhの省エネになると公表しています。東京をモデルとした木造'
+                '南向き住宅を想定した値です（JIS C9612:2013）。112日間'
+                'の冷房期間で割ると0.226607 kWh/hになります。定格値ではなく'
+                '、平均的な1時間の使用の値です：PanasonicのJIS定格は435 '
+                'Wで、約1.9倍高くなっています。現在の資源エネルギー庁のページは、この'
+                '値の設定温度も、設定温度による省エネの1日あたりの使用時間も示していませ'
+                'ん。そのため1時間あたりの設定温度の差分は導けず、設定温度のプリセットは'
+                '用意していません。RESEARCH_ENERGY 3.3節に基づきます。'),
+      notes_es=('METI publica que acortar una hora al día el aire acondicionado de un '
+                'aparato de 2,5 kW ahorra 25,38 kWh/año, con un modelo de casa de '
+                'madera orientada al sur en Tokio (JIS C9612:2013); repartido entre '
+                'los 112 días del 冷房期間 (temporada de refrigeración), son 0,226607 '
+                'kWh/h. Es una hora de uso media, no la potencia nominal: la potencia '
+                'nominal JIS de Panasonic es de 435 W, unas 1,9 veces más. La página '
+                'actual de METI no indica la consigna de esta cifra ni las horas al '
+                'día de su ahorro por grado, así que no se puede derivar el '
+                'incremento por hora y no hay ajustes de temperatura. Según '
+                'RESEARCH_ENERGY, sección 3.3.'),
+      notes_sha='3ef5d74c76f6a3518d31ddc47c02d8e3f252bc4fdecd2ab1b736e21b9c0be0ff'),
  dict(id='fan', group='space_cool', carrier='electricity', unit='hour',
       kwh=0.022, en='Electric fan', ja='扇風機',
       es='Ventilador', conf='medium',
@@ -649,10 +651,10 @@ BEHAVIORS = [
             'kJ/kg-K x 85 K); divided by a kettle efficiency of 0.85. Metered '
             'cross-check in the same paper: 1.50 L from 18 C consumed 0.17 kWh = '
             '0.113 kWh/L. RESEARCH_ENERGY section 3.4.',
-      notes_ja=('15℃の水1 Lを沸かすのに物理的に最低限必要なエネルギーは0.09883611 '
+      notes_ja=('15°Cの水1 Lを沸かすのに物理的に最低限必要なエネルギーは0.09883611 '
                 'kWhです（1 kg × 4.186 kJ/kg-K × 85 K）。'
                 'これを電気ケトルの効率0.85で割っています。'
-                '同じ論文の実測による照合では、18℃の水1.50 Lで0.17 kWhを消費し、'
+                '同じ論文の実測による照合では、18°Cの水1.50 Lで0.17 kWhを消費し、'
                 '0.113 kWh/Lでした。RESEARCH_ENERGY 3.4節に基づきます。'),
       notes_es=('El mínimo físico para hervir 1 L desde 15 °C es 0,09883611 kWh (1 '
                 'kg × 4,186 kJ/kg-K × 85 K), dividido entre una eficiencia del '
@@ -800,10 +802,10 @@ BEHAVIORS = [
                 'すべて同じ実測基準です。保温は必ず炊飯のあとに行うものなので、'
                 '1つの値にまとめています（オーナー判断、2026-09-02）。'
                 '保温だけを単独で載せると炊飯より下位に並び、'
-                'ご飯を保温するほうが安い選択肢であるかのように読めてしまいますが、'
-                'そのような選択肢は誰にもありません。4時間は出典が示す目安です -- '
-                '約4時間を超えると電子レンジで温め直すほうが保温より少なく、'
-                '7〜8時間を超えると炊き直すほうが少なくなります。'
+                'ご飯を保温する方が安い選択肢であるかのように読めてしまいますが、'
+                'そのような選択肢は誰にもありません。4時間は出典が示す目安です。'
+                '約4時間を超えると電子レンジで温め直す方が保温より少なく、'
+                '7〜8時間を超えると炊き直す方が少なくなります。'
                 'RESEARCH_ENERGY 3.4節に基づきます。'),
       notes_es=('0,16 kWh del ciclo (la fila de «Arrocera, un ciclo»: 158 Wh '
                 'medidos, 163 Wh corroborados) más 4 × 16,5 Wh/h manteniendo '
@@ -812,7 +814,7 @@ BEHAVIORS = [
                 'previo (decisión del responsable, 2026-09-02): por separado '
                 'quedaba por debajo del ciclo y parecía que mantener el arroz '
                 'caliente fuera la opción más barata, una elección que nadie '
-                'tiene. Las 4 horas son la pauta que da la fuente -- pasadas unas '
+                'tiene. Las 4 horas son la pauta que da la fuente: pasadas unas '
                 '4 horas, recalentar en el microondas gasta menos que mantenerlo '
                 'caliente, y pasadas 7-8 horas, también gasta menos cocinar dos '
                 'veces. Según RESEARCH_ENERGY, sección 3.4.'),
@@ -979,20 +981,22 @@ def build():
         'metadata': {
             'version': 1,
             'scope': (
-                'Operational energy only: the kWh a behaviour consumes at the point of '
-                'use, multiplied by a carrier factor. Generation-basis electricity '
-                'with no well-to-tank term, and combustion-only gas, matching the '
-                'transport dataset scope. Excludes appliance manufacturing, '
-                'transmission and distribution losses, and water supply and treatment '
-                'energy. One global grid factor for every user; per-country factors '
-                'were considered and not shipped (decision E1). Whether a T&D '
-                'correction is warranted is an open question rather than a settled '
-                'exclusion (Plan/PDR_GRID_REGIONALISATION.md section 4.6). Nearly '
-                'every comparison here is within one carrier, where the grid factor '
-                'cancels out entirely. NEVER sum a figure from this calculator with '
-                'one from the food or transport calculators: food counts a lifecycle, '
-                'transport counts tailpipe energy, and this counts the electricity or '
-                'gas to run a home.'
+                'Lifecycle carrier factors: the kWh a behaviour consumes at the point '
+                'of use, multiplied by a carrier factor. Electricity uses Ember\'s '
+                'lifecycle CO2e grid factor and gas adds the well-to-tank term '
+                '(extracting, processing and transporting the gas) to combustion, '
+                'matching the transport dataset scope. Excludes appliance '
+                'manufacturing, transmission and distribution losses, and water '
+                'supply and treatment energy. One global grid factor for every user; '
+                'per-country factors were considered and not shipped (decision E1). '
+                'Whether a T&D correction is warranted is an open question rather '
+                'than a settled exclusion (Plan/PDR_GRID_REGIONALISATION.md section '
+                '4.6). Nearly every comparison here is within one carrier, where the '
+                'grid factor cancels out entirely. NEVER sum a figure from this '
+                'calculator with one from the food or transport calculators: food '
+                'counts a cradle-to-retail lifecycle, transport counts fuel and '
+                'energy per trip, and this counts the electricity or gas to run a '
+                'home.'
             ),
             'grid_factor_g_per_kwh': 458,
             'grid_factor_source': (
@@ -1000,11 +1004,13 @@ def build():
                 'Shared with data/app/transport_modes.json and pinned by a '
                 'cross-dataset test. Decision E1, 2026-08-02.'
             ),
-            'gas_factor_g_per_kwh': 182,
+            'gas_factor_g_per_kwh': 212,
             'gas_factor_source': (
-                'DEFRA/DESNZ 2026 natural gas, Scope 1 combustion, Gross CV (0.18231 '
-                'rounded down). Independently corroborated by 資源エネルギー庁 at 179.5 '
-                'g CO2/kWh, 1.4% apart. Decision E2.'
+                'DEFRA/DESNZ 2026 natural gas, Gross CV: Scope 1 combustion 0.18231 '
+                'plus Scope 3 well-to-tank 0.03021 = 0.21252 kg CO2e/kWh, rounded '
+                'down. The combustion part is cross-checked against 資源エネルギー庁 '
+                '(2.05 kg CO2/m3 over 45 MJ/m3 = 164.0 g CO2/kWh, 令和7年提出用代替値). '
+                'Decision E2.'
             ),
             'verdict_min_percent': 20,
             'unit_note': (

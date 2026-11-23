@@ -91,12 +91,26 @@ were superseded; do not "fix" data backwards from old text.
   regionalisation was explicitly spun out and is NOT part of E1
   ([PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)).
 - **Private jet ships 1,700** (1,000 derived base x 1.7 RF,
-  DESNZ 2025 para 8.43); airline factors include RF; helicopter
+  DESNZ 2026 para 8.42); airline factors include RF; helicopter
   is combustion-only. In-chart jet footnote is a UI requirement.
-- **Taxi ships per-vehicle 208.06**, per_vehicle true,
+- **One grid basis for electric rail (REF-12).** Metro, tram and
+  international rail use kWh per passenger-km x 458, where
+  kWh = the DESNZ direct factor / the DESNZ UK grid factor of the
+  same year. National rail uses ORR traction energy totals: the
+  electricity at 458, the diesel at DESNZ gas oil plus
+  well-to-tank. Do NOT restore the UK-grid DESNZ rail factors.
+  The Shinkansen keeps JR East's own figure (no kWh published).
+- **Lifecycle boundary (REF-02).** Every DESNZ fuel factor ships
+  with its well-to-tank term, to match the lifecycle grid factor
+  and gas. Radiative forcing applies to the fuel burned only,
+  never to well-to-tank. Private jet, helicopter and the
+  Shinkansen have no published supply-chain term, so they stay
+  direct-only and the methodology says so.
+- **Taxi ships per-vehicle 259.82** (DESNZ, including
+  well-to-tank), per_vehicle true,
   max_occupants 4. Do NOT ship the 148.61 per-passenger variant
   (dated 1.4-occupancy embedded invisibly). Deadheading is
-  excluded by DEFRA (para 5.42, quoted); note says so.
+  excluded by DEFRA (2026 para 5.41, quoted); note says so.
 - **Zero fiction beats convenience**: when a suggestion cannot
   be scoped to a real corridor, kill it (Malta-Sicily link
   removed; Gibraltar cap history in the archive).
@@ -236,9 +250,12 @@ Moved here 2026-08-30 from RESEARCH_TRANSPORT.md Appendix A.4.
 
 The comparison view picks the honest flight band from leg distance
 rather than letting a short leg be overstated at the long-haul
-rate: **> 3,700 km = long-haul**; otherwise **same country =
-domestic**, **different countries = short-haul** (the DEFRA
-<= 3,700 km boundary, RESEARCH_TRANSPORT.md section 4). No
+rate: **> 3,700 km = long-haul**; otherwise **both ends in the UK,
+Isle of Man or Channel Islands = domestic**, **any other pair =
+short-haul** (the DEFRA <= 3,700 km boundary, RESEARCH_TRANSPORT.md
+section 4). DESNZ defines domestic as a UK flight with no distance
+limit (methodology paper para 8.8), so a same-country flight elsewhere
+gets the short-haul factor, not the UK domestic one. No
 invented medium-haul cutoff -- DEFRA publishes no medium-haul
 factor, so the three bands stand (owner Q&A, 2026-07-22). The
 picker offers only the band a city pair resolves to.

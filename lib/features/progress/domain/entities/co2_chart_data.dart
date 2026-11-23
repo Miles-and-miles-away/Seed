@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 
 part 'co2_chart_data.freezed.dart';
@@ -28,6 +29,13 @@ abstract class Co2TrendData with _$Co2TrendData {
 
   const Co2TrendData._();
 
+  /// Calendar days from [windowStart] to [date], exact across DST.
+  int dayIndex(DateTime date) => calendarDaysBetween(windowStart, date);
+
+  /// The local date [index] calendar days after [windowStart].
+  DateTime dayAt(int index) =>
+      DateTime(windowStart.year, windowStart.month, windowStart.day + index);
+
   /// A 1-point chart isn't a trend. Hide the widget until the user
   /// has activity on at least two distinct days in the window.
   bool get isPlottable => points.length >= 2;
@@ -39,7 +47,7 @@ abstract class Co2TrendData with _$Co2TrendData {
     if (points.length < 2) return null;
 
     final xs = points
-        .map((p) => p.date.difference(windowStart).inDays.toDouble())
+        .map((p) => dayIndex(p.date).toDouble())
         .toList(growable: false);
     final meanX = xs.reduce((a, b) => a + b) / xs.length;
     final meanY =

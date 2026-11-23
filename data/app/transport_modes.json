@@ -1,10 +1,10 @@
 {
   "metadata": {
     "version": 1,
-    "scope": "Operational energy emissions only: direct combustion (CO2, CH4, N2O) for engine modes and electricity-generation emissions for the traction/charging energy of electric modes. Human-powered modes (walking, cycling) count as zero by convention: metabolic food energy is excluded for all of them. The often-quoted metabolic figures (walking ~56 g/km, cycling 16-50 g/km) are documented in the methodology sheet with OWID's caveat that those calories may not be additional to a normal diet. Vehicle manufacturing and infrastructure construction are excluded everywhere. Airline and private-jet factors include the radiative-forcing uplift (DESNZ 2025 methodology, 1.7x central estimate); helicopter is combustion-only (low-altitude flight), per entry. Primary vintage: UK DEFRA/DESNZ 2025 unless a mode notes otherwise.",
-    "primary_source": "UK DEFRA/DESNZ 2025 GHG Conversion Factors",
+    "scope": "Fuel and energy emissions on a lifecycle basis: direct combustion (CO2, CH4, N2O) plus the well-to-tank term (extracting, refining and transporting the fuel) for engine modes. Electric cars, e-bikes, e-scooters, international rail, metro and tram use the house lifecycle grid factor for their electricity. National rail uses it for its electric share, and DESNZ 2026 gas oil with its well-to-tank term for its diesel share (ORR 2024-25 energy totals). Human-powered modes (walking, cycling) count as zero by convention: metabolic food energy is excluded for all of them. The often-quoted metabolic figures (walking ~56 g/km, cycling 16-50 g/km) are documented in the methodology sheet with OWID's caveat that those calories may not be additional to a normal diet. Vehicle manufacturing and infrastructure construction are excluded everywhere. Airline and private-jet factors include the radiative-forcing uplift (DESNZ methodology, 1.7x central estimate) on the direct part only; helicopter is combustion-only (low-altitude flight), per entry. Private jet, helicopter and Shinkansen are derived from sources with no well-to-tank term, so they stay direct-only. Primary vintage: UK DESNZ 2026 unless a mode notes otherwise.",
+    "primary_source": "UK DESNZ/DEFRA 2026 GHG Conversion Factors",
     "grid_factor_g_per_kwh": 458,
-    "citation_note": "Table-row citations (SustainMetrics, SCIF, Greencalculus, EV Database) are transcribed as pipe-delimited row cells with ASCII substitutions ('>' for '›', '-' for em dash); they are row transcriptions, not page sentences."
+    "citation_note": "Table-row citations (DESNZ 2026 flat file, EV Database) are transcribed as pipe-delimited row cells with ASCII substitutions ('>' for '›', '-' for em dash); they are row transcriptions, not page sentences."
   },
   "modes": [
     {
@@ -109,19 +109,25 @@
       "name_en": "Small petrol car",
       "name_ja": "小型ガソリン車",
       "name_es": "Coche de gasolina pequeño",
-      "g_co2e_per_km": 143.08,
+      "g_co2e_per_km": 182.72,
       "per_vehicle": true,
       "max_occupants": 4,
-      "calculation_notes": "DEFRA 2025 vehicle-class table, petrol car <1.4L, vehicle-km. Stored per vehicle and divided by the selected occupant count (1-4).",
-      "calculation_notes_ja": "DEFRA 2025の車種区分表による、排気量1.4L未満のガソリン車の車両キロあたりの値です。車両1台あたりで保存し、選んだ乗車人数（1〜4人）で割ります。",
-      "calculation_notes_es": "Tabla por clase de vehículo de DEFRA 2025, coche de gasolina de menos de 1,4 L, por vehículo-km. Se guarda por vehículo y se divide entre el número de ocupantes elegido (1-4).",
-      "calculation_notes_src_sha": "44393e38a5b5d3663c01ec95e90c86523f99d8408113f488cba4df62eb353d7d",
+      "calculation_notes": "DESNZ 2026 vehicle-class table, petrol car <1.4L, vehicle-km, including fuel supply: direct factor 142.57 plus the well-to-tank (upstream fuel supply) factor 40.15 = 182.72. Stored per vehicle and divided by the selected occupant count (1-4).",
+      "calculation_notes_ja": "DESNZ 2026の車種区分表による、排気量1.4L未満のガソリン車の車両キロあたりの値で、燃料供給分を含みます。直接排出の係数142.57に、ウェル・トゥ・タンク（上流の燃料供給）の係数40.15を足して182.72です。車両1台あたりで保存し、選んだ乗車人数（1〜4人）で割ります。",
+      "calculation_notes_es": "Tabla por clase de vehículo de DESNZ 2026, coche de gasolina de menos de 1,4 L, por vehículo-km, con el suministro de combustible incluido: factor directo de 142,57 más el factor del pozo al depósito (suministro previo del combustible) de 40,15 = 182,72. Se guarda por vehículo y se divide entre el número de ocupantes elegido (1-4).",
+      "calculation_notes_src_sha": "dcd1126c655f90b7d93cc49e62dcc47938325666e5fe549ab427f343c65583d7",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Small car > Petrol | Scope 1 | 0.14308 | km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Small car | Petrol | km | kg CO2e | 0.14257",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Small car | Petrol | km | kg CO2e | 0.04015",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -131,19 +137,25 @@
       "name_en": "Medium petrol car",
       "name_ja": "中型ガソリン車",
       "name_es": "Coche de gasolina mediano",
-      "g_co2e_per_km": 174.74,
+      "g_co2e_per_km": 223.68,
       "per_vehicle": true,
       "max_occupants": 4,
-      "calculation_notes": "DEFRA 2025 vehicle-class table, petrol car 1.4-2.0L, vehicle-km.",
-      "calculation_notes_ja": "DEFRA 2025の車種区分表による、排気量1.4〜2.0Lのガソリン車の車両キロあたりの値です。",
-      "calculation_notes_es": "Tabla por clase de vehículo de DEFRA 2025, coche de gasolina de 1,4-2,0 L, por vehículo-km.",
-      "calculation_notes_src_sha": "8c5b95f1a3768451c8c2d0c1a9d31259ebd231abf8ae51343f1a3754b9a72465",
+      "calculation_notes": "DESNZ 2026 vehicle-class table, petrol car 1.4-2.0L, vehicle-km, including fuel supply: direct factor 174.11 plus the well-to-tank (upstream fuel supply) factor 49.57 = 223.68.",
+      "calculation_notes_ja": "DESNZ 2026の車種区分表による、排気量1.4〜2.0Lのガソリン車の車両キロあたりの値で、燃料供給分を含みます。直接排出の係数174.11に、ウェル・トゥ・タンク（上流の燃料供給）の係数49.57を足して223.68です。",
+      "calculation_notes_es": "Tabla por clase de vehículo de DESNZ 2026, coche de gasolina de 1,4-2,0 L, por vehículo-km, con el suministro de combustible incluido: factor directo de 174,11 más el factor del pozo al depósito (suministro previo del combustible) de 49,57 = 223,68.",
+      "calculation_notes_src_sha": "d64446e5a11e3d26f05db92f03cb09306b39d3ada3e233c71fb9124201e4895e",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Medium car > Petrol | Scope 1 | 0.17474 | km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Medium car | Petrol | km | kg CO2e | 0.17411",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Medium car | Petrol | km | kg CO2e | 0.04957",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -153,19 +165,25 @@
       "name_en": "Large petrol car / SUV",
       "name_ja": "大型ガソリン車・SUV",
       "name_es": "Coche grande de gasolina / SUV",
-      "g_co2e_per_km": 268.28,
+      "g_co2e_per_km": 341.34,
       "per_vehicle": true,
       "max_occupants": 4,
-      "calculation_notes": "DEFRA 2025 vehicle-class table, petrol car >2.0L, vehicle-km.",
-      "calculation_notes_ja": "DEFRA 2025の車種区分表による、排気量2.0L超のガソリン車の車両キロあたりの値です。",
-      "calculation_notes_es": "Tabla por clase de vehículo de DEFRA 2025, coche de gasolina de más de 2,0 L, por vehículo-km.",
-      "calculation_notes_src_sha": "6b9c2002a6c76fb2139b3d16fdb0507f020e56515ed68fb0dab89fc2c1d43db1",
+      "calculation_notes": "DESNZ 2026 vehicle-class table, petrol car >2.0L, vehicle-km, including fuel supply: direct factor 266.06 plus the well-to-tank (upstream fuel supply) factor 75.28 = 341.34.",
+      "calculation_notes_ja": "DESNZ 2026の車種区分表による、排気量2.0L超のガソリン車の車両キロあたりの値で、燃料供給分を含みます。直接排出の係数266.06に、ウェル・トゥ・タンク（上流の燃料供給）の係数75.28を足して341.34です。",
+      "calculation_notes_es": "Tabla por clase de vehículo de DESNZ 2026, coche de gasolina de más de 2,0 L, por vehículo-km, con el suministro de combustible incluido: factor directo de 266,06 más el factor del pozo al depósito (suministro previo del combustible) de 75,28 = 341,34.",
+      "calculation_notes_src_sha": "739d73b1339fed60077bf8163bf32cb770e9fa772a7c4689277eb604d9a336c9",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Large car > Petrol | Scope 1 | 0.26828 | km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Large car | Petrol | km | kg CO2e | 0.26606",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Large car | Petrol | km | kg CO2e | 0.07528",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -175,31 +193,25 @@
       "name_en": "Petrol car (average)",
       "name_ja": "ガソリン車（平均）",
       "name_es": "Coche de gasolina (media)",
-      "g_co2e_per_km": 162.72,
+      "g_co2e_per_km": 207.51,
       "per_vehicle": true,
       "max_occupants": 4,
-      "calculation_notes": "DEFRA 2025 average petrol car, vehicle-km. Cross-checked against OWID's 170 g/km (pre-2025 vintage) and US EPA's ~249 g/km CO2-only US-fleet figure -- magnitudes agree.",
-      "calculation_notes_ja": "DEFRA 2025のガソリン車平均、車両キロあたりの値です。OWIDの170 g/km（2025年より前のデータ）や、米国EPAによる米国の保有車両全体のCO2のみの値、約249 g/kmと照合しました。桁は一致しています。",
-      "calculation_notes_es": "Media de los coches de gasolina de DEFRA 2025, por vehículo-km. Contrastada con los 170 g/km de OWID (datos anteriores a 2025) y con la cifra de ~249 g/km de la US EPA para el parque de EE. UU., solo CO2; los órdenes de magnitud coinciden.",
-      "calculation_notes_src_sha": "262781a134a72710f92a8d3bbb33b5930c6e122ba2180c2462bb5d886d32a179",
+      "calculation_notes": "DESNZ 2026 average petrol car, vehicle-km, including fuel supply: direct factor 161.52 plus the well-to-tank (upstream fuel supply) factor 45.99 = 207.51. Cross-checked against OWID's 170 g/km (pre-2025 vintage) and US EPA's ~249 g/km CO2-only US-fleet figure -- magnitudes agree.",
+      "calculation_notes_ja": "DESNZ 2026のガソリン車平均、車両キロあたりの値で、燃料供給分を含みます。直接排出の係数161.52に、ウェル・トゥ・タンク（上流の燃料供給）の係数45.99を足して207.51です。OWIDの170 g/km（2025年より前のデータ）や、米国EPAによる米国の保有車両全体のCO2のみの値、約249 g/kmと照合しました。桁は一致しています。",
+      "calculation_notes_es": "Media de los coches de gasolina de DESNZ 2026, por vehículo-km, con el suministro de combustible incluido: factor directo de 161,52 más el factor del pozo al depósito (suministro previo del combustible) de 45,99 = 207,51. Contrastada con los 170 g/km de OWID (datos anteriores a 2025) y con la cifra de ~249 g/km de la US EPA para el parque de EE. UU., solo CO2; los órdenes de magnitud coinciden.",
+      "calculation_notes_src_sha": "a8a258e86d66ebd825cdf5c2008a835d4ad7dea505b1938ccedb093aaa442dea",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Average car > Petrol | Scope 1 | 0.16272 | km",
-          "accessed": "2026-07-19"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
         },
         {
-          "name": "Greencalculus",
-          "url": "https://greencalculus.com/data/business-travel-freight-logistics-emission-factors/",
-          "quote": "Car - average (unknown fuel) petrol / diesel / hybrid | 0.16272 / 0.17304 / 0.12825 | kg CO2e/km",
-          "accessed": "2026-07-19"
-        },
-        {
-          "name": "SCIF",
-          "url": "https://scif.org.uk/news/how-we-calculate-travel-emissions/",
-          "quote": "Petrol Car | 0.16272 | kgCO2e/km",
-          "accessed": "2026-07-19"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -209,19 +221,25 @@
       "name_en": "Diesel car (average)",
       "name_ja": "ディーゼル車（平均）",
       "name_es": "Coche diésel (media)",
-      "g_co2e_per_km": 173.04,
+      "g_co2e_per_km": 214.11,
       "per_vehicle": true,
       "max_occupants": 4,
-      "calculation_notes": "DEFRA 2025 average diesel car, vehicle-km.",
-      "calculation_notes_ja": "DEFRA 2025のディーゼル車平均、車両キロあたりの値です。",
-      "calculation_notes_es": "Media de los coches diésel de DEFRA 2025, por vehículo-km.",
-      "calculation_notes_src_sha": "42767b858b414ae84c296e2c7f72bfbd7df9ac856ea25ca7f3bec6222ef39ad6",
+      "calculation_notes": "DESNZ 2026 average diesel car, vehicle-km, including fuel supply: direct factor 172.65 plus the well-to-tank (upstream fuel supply) factor 41.46 = 214.11.",
+      "calculation_notes_ja": "DESNZ 2026のディーゼル車平均、車両キロあたりの値で、燃料供給分を含みます。直接排出の係数172.65に、ウェル・トゥ・タンク（上流の燃料供給）の係数41.46を足して214.11です。",
+      "calculation_notes_es": "Media de los coches diésel de DESNZ 2026, por vehículo-km, con el suministro de combustible incluido: factor directo de 172,65 más el factor del pozo al depósito (suministro previo del combustible) de 41,46 = 214,11.",
+      "calculation_notes_src_sha": "14ea9a41888652d665ae524d2820d8cd437898fbde8c9ea90b84cf2ebd4dd505",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Average car > Diesel | Scope 1 | 0.17304 | km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Diesel | km | kg CO2e | 0.17265",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Diesel | km | kg CO2e | 0.04146",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -231,19 +249,25 @@
       "name_en": "Hybrid car",
       "name_ja": "ハイブリッド車",
       "name_es": "Coche híbrido",
-      "g_co2e_per_km": 128.25,
+      "g_co2e_per_km": 162.76,
       "per_vehicle": true,
       "max_occupants": 4,
-      "calculation_notes": "DEFRA 2025 full (non-plug-in) hybrid car average, vehicle-km. Plug-in hybrid was researched and deliberately dropped from v1: DEFRA's official figure (91.67) assumes charging discipline, while T&E/EEA real-world testing finds ~135 g/km -- neither number satisfies the 'honest, not generous' rule cleanly.",
-      "calculation_notes_ja": "DEFRA 2025のフルハイブリッド車（プラグインではないもの）の平均、車両キロあたりの値です。プラグインハイブリッドも調査しましたが、v1では意図的に見送りました。DEFRAの公式値（91.67）はこまめな充電を前提としている一方、T&E/EEAの実走試験では約135 g/kmとなっています。どちらの数値も「甘くせず、正直に」というルールをすっきりとは満たしません。",
-      "calculation_notes_es": "Media de los coches híbridos convencionales (no enchufables) de DEFRA 2025, por vehículo-km. El híbrido enchufable se estudió y se descartó a propósito en la v1: la cifra oficial de DEFRA (91,67) da por hecho que se carga con disciplina, mientras que las pruebas en condiciones reales de T&E/EEA dan ~135 g/km; ninguna de las dos cumple limpiamente la regla de «honesto, no generoso».",
-      "calculation_notes_src_sha": "600e0e826b69c04deb8eefae0dfa4671fb92761d08c2e3798a6f56f949d50c2f",
+      "calculation_notes": "DESNZ 2026 full (non-plug-in) hybrid car average, vehicle-km, including fuel supply: direct factor 129.61 plus the well-to-tank (upstream fuel supply) factor 33.15 = 162.76. Plug-in hybrid was researched and deliberately dropped from v1: DEFRA's official 2026 direct figure (89.59) assumes charging discipline, while T&E/EEA real-world testing finds ~135 g/km -- neither number satisfies the 'honest, not generous' rule cleanly.",
+      "calculation_notes_ja": "DESNZ 2026のフルハイブリッド車（プラグインではないもの）の平均、車両キロあたりの値で、燃料供給分を含みます。直接排出の係数129.61に、ウェル・トゥ・タンク（上流の燃料供給）の係数33.15を足して162.76です。プラグインハイブリッドも調査しましたが、v1では意図的に見送りました。DEFRAの2026年の公式値（直接排出、89.59）はこまめな充電を前提としている一方、T&E/EEAの実走試験では約135 g/kmとなっています。どちらの数値も「甘くせず、正直に」というルールをすっきりとは満たしません。",
+      "calculation_notes_es": "Media de los coches híbridos convencionales (no enchufables) de DESNZ 2026, por vehículo-km, con el suministro de combustible incluido: factor directo de 129,61 más el factor del pozo al depósito (suministro previo del combustible) de 33,15 = 162,76. El híbrido enchufable se estudió y se descartó a propósito en la v1: la cifra oficial de DEFRA de 2026 (emisiones directas, 89,59) da por hecho que se carga con disciplina, mientras que las pruebas en condiciones reales de T&E/EEA dan ~135 g/km; ninguna de las dos cumple limpiamente la regla de «honesto, no generoso».",
+      "calculation_notes_src_sha": "aa3c83734054119757d7d3b16d7dec83fc56f578ff22049148cc5e86a54dea0e",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/passenger-vehicles",
-          "quote": "Average car > Hybrid | Scope 1 | 0.12825 | km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Hybrid | km | kg CO2e | 0.12961",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Hybrid | km | kg CO2e | 0.03315",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -275,19 +299,25 @@
       "name_en": "Motorbike (average)",
       "name_ja": "オートバイ（平均）",
       "name_es": "Motocicleta (media)",
-      "g_co2e_per_km": 113.67,
+      "g_co2e_per_km": 143.23,
       "per_vehicle": true,
       "max_occupants": 2,
-      "calculation_notes": "DEFRA 2025 average motorbike, vehicle-km. max_occupants is 2 (rider + pillion), not the standard 4 used for cars, since a motorbike cannot realistically carry more.",
-      "calculation_notes_ja": "DEFRA 2025のオートバイ平均、車両キロあたりの値です。max_occupantsは2（運転者＋同乗者）で、自動車に使う標準の4ではありません。オートバイでは現実的にそれ以上乗せられないためです。",
-      "calculation_notes_es": "Media de las motocicletas de DEFRA 2025, por vehículo-km. max_occupants es 2 (conductor + pasajero), no el 4 estándar de los coches, porque en una moto no cabe nadie más de forma realista.",
-      "calculation_notes_src_sha": "1ecdc6802c2d9ff3042c765c37912ba68159fcd5ef512157bb867176752de249",
+      "calculation_notes": "DESNZ 2026 average motorbike, vehicle-km, including fuel supply: direct factor 113.67 plus the well-to-tank (upstream fuel supply) factor 29.56 = 143.23. max_occupants is 2 (rider + pillion), not the standard 4 used for cars, since a motorbike cannot realistically carry more.",
+      "calculation_notes_ja": "DESNZ 2026のオートバイ平均、車両キロあたりの値で、燃料供給分を含みます。直接排出の係数113.67に、ウェル・トゥ・タンク（上流の燃料供給）の係数29.56を足して143.23です。max_occupantsは2（運転者＋同乗者）で、自動車に使う標準の4ではありません。オートバイでは現実的にそれ以上乗せられないためです。",
+      "calculation_notes_es": "Media de las motocicletas de DESNZ 2026, por vehículo-km, con el suministro de combustible incluido: factor directo de 113,67 más el factor del pozo al depósito (suministro previo del combustible) de 29,56 = 143,23. max_occupants es 2 (conductor + pasajero), no el 4 estándar de los coches, porque en una moto no cabe nadie más de forma realista.",
+      "calculation_notes_src_sha": "5ebcd92ff8175e9f4044e7fc6923e520a0fb03377d76d4a6f6587066c3c1bec5",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Motorbike > Average | Scope 3 | 0.11367 | km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Motorbike | Average | km | kg CO2e | 0.11367",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- motorbike | Average | km | kg CO2e | 0.02956",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -297,18 +327,24 @@
       "name_en": "City bus",
       "name_ja": "路線バス",
       "name_es": "Autobús urbano",
-      "g_co2e_per_km": 103.85,
+      "g_co2e_per_km": 128.0,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 local bus average, per passenger-km at average occupancy. An extra passenger on a scheduled bus is near-marginal-zero; this average is the honest planning figure (see methodology sheet).",
-      "calculation_notes_ja": "DEFRA 2025の路線バス平均で、平均乗車率での旅客キロあたりの値です。定期運行のバスに乗客が1人増えても、追加の排出はほぼゼロです。それでも計画に使う正直な数値はこの平均です（「算定方法と出典」を参照）。",
-      "calculation_notes_es": "Media de los autobuses urbanos de DEFRA 2025, por pasajero-km con una ocupación media. Un pasajero más en un autobús de línea apenas añade emisiones; esta media es la cifra honesta para planificar (consulta «Metodología y fuentes»).",
-      "calculation_notes_src_sha": "f6c44612179487acb474f380bdd39a65e517551f99387136c55580663de08eb0",
+      "calculation_notes": "DESNZ 2026 local bus average, per passenger-km at average occupancy, including fuel supply: direct factor 101.51 plus the well-to-tank (upstream fuel supply) factor 26.49 = 128.00. An extra passenger on a scheduled bus is near-marginal-zero; this average is the honest planning figure (see methodology sheet).",
+      "calculation_notes_ja": "DESNZ 2026の路線バス平均で、平均乗車率での旅客キロあたりの値です。燃料供給分を含みます。直接排出の係数101.51に、ウェル・トゥ・タンク（上流の燃料供給）の係数26.49を足して128.00です。定期運行のバスに乗客が1人増えても、追加の排出はほぼゼロです。それでも計画に使う正直な数値はこの平均です（「算定方法と出典」を参照）。",
+      "calculation_notes_es": "Media de los autobuses urbanos de DESNZ 2026, por pasajero-km con una ocupación media, con el suministro de combustible incluido: factor directo de 101,51 más el factor del pozo al depósito (suministro previo del combustible) de 26,49 = 128,00. Un pasajero más en un autobús de línea apenas añade emisiones; esta media es la cifra honesta para planificar (consulta «Metodología y fuentes»).",
+      "calculation_notes_src_sha": "ecf514d9a7bd6f322a32f94ea2acf365110d1021441b35b547711ee77aa19823",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Bus > Average local bus | Scope 3 | 0.10385 | passenger.km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Bus | Average local bus | passenger.km | kg CO2e | 0.10151",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- bus | Average local bus | passenger.km | kg CO2e | 0.02649",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -318,18 +354,24 @@
       "name_en": "Coach (long distance)",
       "name_ja": "長距離バス",
       "name_es": "Autocar (larga distancia)",
-      "g_co2e_per_km": 27.76,
+      "g_co2e_per_km": 46.04,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 average occupancy. The 2026 release raises this figure ~42-43% after correcting for unrealistically high occupancy assumptions; the 2026 number is not yet second-source verified, revisit at the next data pass.",
-      "calculation_notes_ja": "DEFRA 2025の平均乗車率に基づく値です。2026年版では、非現実的に高かった乗車率の想定を修正した結果、この値が約42〜43%引き上げられています。2026年の数値はまだ別の情報源で検証されていないため、次回のデータ更新で見直します。",
-      "calculation_notes_es": "Ocupación media de DEFRA 2025. La edición de 2026 sube esta cifra un ~42-43% tras corregir unas hipótesis de ocupación irrealmente altas; la cifra de 2026 aún no está verificada con una segunda fuente, así que se revisará en la próxima actualización de datos.",
-      "calculation_notes_src_sha": "0b403f2ec59dabaab732da10275152e5aab9ccb47a9acbe592543db1b062c7a2",
+      "calculation_notes": "DESNZ 2026 average occupancy, per passenger-km, including fuel supply: direct factor 39.48 plus the well-to-tank (upstream fuel supply) factor 6.56 = 46.04. The 2026 release raised the direct figure from the 2025 value of 27.76 after correcting unrealistically high occupancy assumptions.",
+      "calculation_notes_ja": "DESNZ 2026の平均乗車率に基づく、旅客キロあたりの値で、燃料供給分を含みます。直接排出の係数39.48に、ウェル・トゥ・タンク（上流の燃料供給）の係数6.56を足して46.04です。2026年版では、非現実的に高かった乗車率の想定を修正した結果、直接排出の値が2025年版の27.76から引き上げられました。",
+      "calculation_notes_es": "Ocupación media de DESNZ 2026, por pasajero-km, con el suministro de combustible incluido: factor directo de 39,48 más el factor del pozo al depósito (suministro previo del combustible) de 6,56 = 46,04. La edición de 2026 subió la cifra directa desde el valor de 2025, 27,76, tras corregir unas hipótesis de ocupación irrealmente altas.",
+      "calculation_notes_src_sha": "877754507d0641c22c705173fdc677267b1ae139fb98ef0b57d6a41e9e3b54e1",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Bus > Coach | Scope 3 | 0.02776 | passenger.km",
-          "accessed": "2026-07-17"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Bus | Coach | passenger.km | kg CO2e | 0.03948",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- bus | Coach | passenger.km | kg CO2e | 0.00656",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -339,25 +381,31 @@
       "name_en": "Taxi",
       "name_ja": "タクシー",
       "name_es": "Taxi",
-      "g_co2e_per_km": 208.06,
+      "g_co2e_per_km": 259.82,
       "per_vehicle": true,
       "max_occupants": 4,
-      "calculation_notes": "DEFRA 2025 regular taxi, per VEHICLE-km, divided by the passenger count (stepper counts passengers, default 1). Basis per the DESNZ 2025 methodology para 5.39: average medium/large-car type-approval CO2 uplifted 40% for the real-world taxi duty cycle (TfL data) -- which is why a taxi km exceeds an average petrol-car km. DEFRA's per-passenger-km variant (148.61 = 208.06 / 1.4 assumed passengers, L.E.K. 2002) is NOT shipped: the dated occupancy assumption would be embedded invisibly. Deadheading (empty running between fares) is explicitly EXCLUDED by DEFRA (para 5.42), so the true door-to-door footprint is higher than shown: CARB's SB 1014 base-year inventory puts 2018 ride-hail deadhead miles at ~38.5%, and UCS 2020 finds a non-pooled ride-hail trip ~47% more polluting than the same private-car trip (~239 g/km applied to our car figure). The shipped 208.06 is therefore conservative.",
-      "calculation_notes_ja": "DEFRA 2025の一般タクシーの値で、旅客ではなく車両キロあたりです。これを乗客数で割ります（人数は「乗車人数」で選び、初期値は1人）。根拠はDESNZ 2025の算定方法の第5.39項です。中型・大型車の型式認証CO2の平均に、実際のタクシーの走行パターン（TfLのデータ）を反映して40%を上乗せしています。タクシーの1 kmがガソリン車平均の1 kmより多く排出するのはこのためです。DEFRAの旅客キロあたりの版（148.61 = 208.06 / 想定乗客数1.4人、L.E.K. 2002）は採用していません。古い乗車人数の想定が見えない形で組み込まれてしまうためです。回送（客を乗せずに次の客まで走ること）はDEFRAが明示的に除外しているため（第5.42項）、実際のドアツードアのフットプリントは表示より大きくなります。CARBのSB 1014基準年インベントリでは、2018年の配車サービスの走行距離のうち回送が約38.5%を占めます。またUCS 2020によると、相乗りしない配車サービスの移動は、同じ移動を自家用車でする場合より排出が約47%多くなります（本アプリの自動車の値に当てはめると約239 g/km）。したがって、採用している208.06は控えめな値です。",
-      "calculation_notes_es": "Taxi convencional de DEFRA 2025, por VEHÍCULO-km, dividido entre el número de pasajeros (se elige en «Personas en el vehículo»; por defecto, 1). Base según el apartado 5.39 de la metodología de DESNZ 2025: el CO2 medio de homologación de los coches medianos y grandes, incrementado un 40% para reflejar el ciclo de uso real de un taxi (datos de TfL); por eso un km en taxi supera a un km en un coche de gasolina medio. La variante por pasajero-km de DEFRA (148,61 = 208,06 / 1,4 pasajeros supuestos, L.E.K. 2002) NO se usa: incorporaría de forma invisible una hipótesis de ocupación anticuada. DEFRA EXCLUYE explícitamente los recorridos en vacío, es decir, circular sin pasajero entre carreras (apartado 5.42), así que la huella real puerta a puerta es mayor que la mostrada: el inventario del año base de la ley SB 1014 de CARB cifra el recorrido en vacío de los VTC en 2018 en ~38,5%, y UCS 2020 concluye que un viaje en VTC no compartido contamina ~47% más que el mismo viaje en coche privado (~239 g/km aplicado a nuestra cifra de coche). Por tanto, los 208,06 que se usan son una cifra conservadora.",
-      "calculation_notes_src_sha": "dfdc227b2f22af752deded5a56c5ef5b8d97e49254783d33dc08272c172364ed",
+      "calculation_notes": "DESNZ 2026 regular taxi, per VEHICLE-km, including fuel supply: direct factor 208.06 plus the well-to-tank (upstream fuel supply) factor 51.76 = 259.82. This is divided by the passenger count (stepper counts passengers, default 1). Basis per the DESNZ 2026 methodology para 5.38: average medium/large-car type-approval CO2 uplifted 40% for the real-world taxi duty cycle (TfL data) -- which is why a taxi km exceeds an average petrol-car km. DEFRA's per-passenger-km variant (148.61 = 208.06 / 1.4 assumed passengers, L.E.K. 2002) is NOT shipped: the dated occupancy assumption would be embedded invisibly. Deadheading (empty running between fares) is explicitly EXCLUDED by DEFRA (para 5.41), so the true door-to-door footprint is higher than shown: CARB's SB 1014 base-year inventory puts 2018 ride-hail deadhead miles at ~38.5%, and UCS 2020 finds a non-pooled ride-hail trip ~47% more polluting than the same private-car trip (~305 g/km applied to our car figure). The shipped 259.82 is therefore conservative.",
+      "calculation_notes_ja": "DESNZ 2026の一般タクシーの値で、旅客ではなく車両キロあたりです。燃料供給分を含みます。直接排出の係数208.06に、ウェル・トゥ・タンク（上流の燃料供給）の係数51.76を足して259.82です。これを乗客数で割ります（人数は「乗車人数」で選び、初期値は1人）。根拠はDESNZ 2026の算定方法の第5.38項です。中型・大型車の型式認証CO2の平均に、実際のタクシーの走行パターン（TfLのデータ）を反映して40%を上乗せしています。タクシーの1 kmがガソリン車平均の1 kmより多く排出するのはこのためです。DEFRAの旅客キロあたりの版（148.61 = 208.06 / 想定乗客数1.4人、L.E.K. 2002）は採用していません。古い乗車人数の想定が見えない形で組み込まれてしまうためです。回送（客を乗せずに次の客まで走ること）はDEFRAが明示的に除外しているため（第5.41項）、実際のドアツードアのフットプリントは表示より大きくなります。CARBのSB 1014基準年インベントリでは、2018年の配車サービスの走行距離のうち回送が約38.5%を占めます。またUCS 2020によると、相乗りしない配車サービスの移動は、同じ移動を自家用車でする場合より排出が約47%多くなります（本アプリの自動車の値に当てはめると約305 g/km）。したがって、採用している259.82は控えめな値です。",
+      "calculation_notes_es": "Taxi convencional de DESNZ 2026, por VEHÍCULO-km, con el suministro de combustible incluido: factor directo de 208,06 más el factor del pozo al depósito (suministro previo del combustible) de 51,76 = 259,82. Se divide entre el número de pasajeros (se elige en «Personas en el vehículo»; por defecto, 1). Base según el apartado 5.38 de la metodología de DESNZ 2026: el CO2 medio de homologación de los coches medianos y grandes, incrementado un 40% para reflejar el ciclo de uso real de un taxi (datos de TfL); por eso un km en taxi supera a un km en un coche de gasolina medio. La variante por pasajero-km de DEFRA (148,61 = 208,06 / 1,4 pasajeros supuestos, L.E.K. 2002) NO se usa: incorporaría de forma invisible una hipótesis de ocupación anticuada. DEFRA EXCLUYE explícitamente los recorridos en vacío, es decir, circular sin pasajero entre carreras (apartado 5.41), así que la huella real puerta a puerta es mayor que la mostrada: el inventario del año base de la ley SB 1014 de CARB cifra el recorrido en vacío de los VTC en 2018 en ~38,5%, y UCS 2020 concluye que un viaje en VTC no compartido contamina ~47% más que el mismo viaje en coche privado (~305 g/km aplicado a nuestra cifra de coche). Por tanto, los 259,82 que se usan son una cifra conservadora.",
+      "calculation_notes_src_sha": "25f675c7fa235c07bb2aff0c6a031c5ec3eca8d80ceab1c1f7e6189323df9966",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Taxis > Regular taxi | Scope 3 | 0.20806 | km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Taxis | Regular taxi | km | kg CO2e | 0.20806",
+          "accessed": "2026-11-21"
         },
         {
-          "name": "DESNZ 2025 GHG Conversion Factors methodology paper",
-          "url": "https://assets.publishing.service.gov.uk/media/6846b0870392ed9b784c0187/2025-GHG-CF-methodology-paper.pdf",
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- taxis | Regular taxi | km | kg CO2e | 0.05176",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors methodology report (para 5.41)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a2940543b15d05a7ce3202e/2026-GHG-conversion-factors-methodology-report.pdf",
           "quote": "It should be noted that the current conversion factors for taxis do not take into account emissions spent from “cruising” for fares.",
-          "accessed": "2026-07-18"
+          "accessed": "2026-11-21"
         },
         {
           "name": "CARB SB 1014 2018 Base-year Emissions Inventory Report (Dec 2019)",
@@ -373,24 +421,30 @@
       "name_en": "Local / national rail",
       "name_ja": "在来線・国内鉄道",
       "name_es": "Tren nacional / de cercanías",
-      "g_co2e_per_km": 35.46,
+      "g_co2e_per_km": 50.86,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 national rail average, per passenger-km. The 2026 release cuts this figure ~13% following fleet and passenger-usage updates; not yet second-source verified, revisit at the next data pass.",
-      "calculation_notes_ja": "DEFRA 2025の国内鉄道平均、旅客キロあたりの値です。2026年版では車両と利用状況の更新を受けて、この値が約13%下がっています。まだ別の情報源で検証されていないため、次回のデータ更新で見直します。",
-      "calculation_notes_es": "Media del tren nacional de DEFRA 2025, por pasajero-km. La edición de 2026 rebaja esta cifra un ~13% tras actualizar los datos de flota y de uso por los pasajeros; aún no está verificada con una segunda fuente, así que se revisará en la próxima actualización de datos.",
-      "calculation_notes_src_sha": "af21f360b5485610249af86ecfaa46a80f7ae03117afcb5a6d0b254cb8c9dafc",
+      "calculation_notes": "Derived on the house grid basis from ORR passenger-train totals for April 2024 to March 2025: traction electricity 4,050 million kWh x the house grid factor 458 g CO2e/kWh = 1,854.9 kt, plus traction diesel 423 million litres x DESNZ 2026 gas oil 2.75541 kg CO2e/litre with its well-to-tank factor 0.62665 = 1,430.6 kt. Total 3,285.5 kt / 64.6 billion passenger-km = 50.86. Gas oil matches ORR's own diesel figure (1,166 kt for 423 million litres). ORR's energy totals include Eurostar's UK side, but the passenger-km total does not, so the figure may be slightly high. On the UK grid, DESNZ gives 39.89 including fuel supply.",
+      "calculation_notes_ja": "共通の電力係数で、ORRの2024年4月から2025年3月の旅客列車の合計から算出：牽引用電力40億5,000万kWhに共通の電力係数458 g CO2e/kWhを掛けて1,854.9 kt。これに牽引用軽油4億2,300万リットルにDESNZ 2026のガスオイルの係数2.75541 kg CO2e/リットルとウェル・トゥ・タンクの係数0.62665を掛けた1,430.6 ktを足します。合計3,285.5 ktを646億旅客キロで割って50.86です。ガスオイルはORR自身の軽油の値（4億2,300万リットルで1,166 kt）と一致します。ORRのエネルギーの合計には英国側のユーロスターが含まれますが、旅客キロの合計には含まれないため、この値はやや高めかもしれません。英国の電力では、DESNZは燃料供給分を含めて39.89としています。",
+      "calculation_notes_es": "Calculado con el factor de red común a partir de los totales de trenes de pasajeros de ORR de abril de 2024 a marzo de 2025: electricidad de tracción de 4.050 millones de kWh por el factor de red común de 458 g CO2e/kWh = 1.854,9 kt, más gasóleo de tracción de 423 millones de litros por el factor del gasóleo industrial (gas oil) de DESNZ 2026 de 2,75541 kg CO2e/litro con su factor del pozo al depósito de 0,62665 = 1.430,6 kt. Total de 3.285,5 kt / 64,6 mil millones de pasajeros-km = 50,86. El gas oil coincide con la cifra de gasóleo de la propia ORR (1.166 kt para 423 millones de litros). Los totales de energía de ORR incluyen el lado del Reino Unido de Eurostar, pero el total de pasajeros-km no, así que la cifra puede ser algo alta. Con la red del Reino Unido, DESNZ da 39,89 con el suministro de combustible incluido.",
+      "calculation_notes_src_sha": "5f330aa31ea3d7a81f79eaafe00b250b142ed05801aed19e239e7648cc6fd14e",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Rail > National rail | Scope 3 | 0.03546 | passenger.km",
-          "accessed": "2026-07-17"
+          "name": "ORR Rail environment, April 2024 to March 2025",
+          "url": "https://dataportal.orr.gov.uk/media/xw4f0ohl/rail-environment-2024-25.pdf",
+          "quote": "total traction electricity consumption for passenger trains was 4,050 million kilowatt hours | Total traction diesel consumption for passenger trains was 423 million litres | Emissions from diesel consumption were 1,166",
+          "accessed": "2026-11-22"
         },
         {
-          "name": "Our World in Data",
-          "url": "https://ourworldindata.org/travel-carbon-footprint",
-          "quote": "National rail emits around 35 grams per kilometer",
-          "accessed": "2026-07-17"
+          "name": "ORR Passenger rail usage, January to March 2025",
+          "url": "https://dataportal.orr.gov.uk/media/zzlpyvq4/passenger-rail-usage-jan-mar-2025.pdf",
+          "quote": "From April 2024 to March 2025 there were 64.6 billion passenger kilometres.",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Fuels | Liquid fuels | Gas oil | litres | kg CO2e | 2.75541 | WTT- fuels | Liquid fuels | Gas oil | litres | kg CO2e | 0.62665",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -400,24 +454,24 @@
       "name_en": "International rail (Eurostar)",
       "name_ja": "国際鉄道（ユーロスター）",
       "name_es": "Tren internacional (Eurostar)",
-      "g_co2e_per_km": 4.46,
+      "g_co2e_per_km": 39.69,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 international rail, per passenger-km. Eurostar-weighted and French-nuclear-specific -- NOT generic high-speed rail. Treat as order-of-magnitude only: the 2026 release raises this figure ~2.5x to ~11 g/pkm after significant changes in service patterns and rolling stock utilisation; revisit at the next data pass.",
-      "calculation_notes_ja": "DEFRA 2025の国際鉄道、旅客キロあたりの値です。ユーロスターの比重が大きく、フランスの原子力発電に特有の値で、高速鉄道一般の値ではありません。桁の目安としてのみ扱ってください。2026年版では運行形態と車両運用の大きな変化を受けて、この値が約2.5倍の約11 g/pkmに引き上げられています。次回のデータ更新で見直します。",
-      "calculation_notes_es": "Tren internacional de DEFRA 2025, por pasajero-km. Ponderado por Eurostar y propio de la energía nuclear francesa; NO es una cifra genérica de la alta velocidad. Tómala solo como orden de magnitud: la edición de 2026 eleva esta cifra ~2,5 veces, hasta ~11 g/pkm, tras cambios importantes en los patrones de servicio y en el uso del material rodante; se revisará en la próxima actualización de datos.",
-      "calculation_notes_src_sha": "6ca092a46e85128b7f28b6d6a7fc44cd6e075bc2aa6146dcad0a0d2c04a18f6d",
+      "calculation_notes": "Derived on the house grid basis: the DESNZ 2026 international rail (Eurostar) direct factor 11.35 g CO2e/pkm, divided by the DESNZ 2026 UK grid factor 130.96 g CO2e/kWh, gives 0.087 kWh per passenger-km. That x the house grid factor 458 g CO2e/kWh = 39.69. The 458 factor is lifecycle, so no separate well-to-tank term is added. DESNZ uses Eurostar electricity on the UK side only (methodology para 5.66). On the UK grid, DESNZ gives 12.52 including fuel supply.",
+      "calculation_notes_ja": "共通の電力係数で算出：DESNZ 2026の国際鉄道（ユーロスター）の直接排出係数11.35 g CO2e/旅客キロを、DESNZ 2026の英国電力係数130.96 g CO2e/kWhで割ると、旅客キロあたり0.087 kWhです。これに共通の電力係数458 g CO2e/kWhを掛けて39.69です。458はライフサイクルの係数なので、ウェル・トゥ・タンクの係数は別に足しません。DESNZは英国側で使われたユーロスターの電力だけを使っています（方法論の5.66項）。英国の電力では、DESNZは燃料供給分を含めて12.52としています。",
+      "calculation_notes_es": "Calculado con el factor de red común: el factor directo del tren internacional (Eurostar) de DESNZ 2026, 11,35 g CO2e/pasajero-km, dividido entre el factor de la red del Reino Unido de DESNZ 2026, 130,96 g CO2e/kWh, da 0,087 kWh por pasajero-km. Eso por el factor de red común de 458 g CO2e/kWh = 39,69. El factor 458 es de ciclo de vida, así que no se suma un factor aparte del pozo al depósito. DESNZ usa solo la electricidad de Eurostar en el lado del Reino Unido (párrafo 5.66 de la metodología). Con la red del Reino Unido, DESNZ da 12,52 con el suministro de combustible incluido.",
+      "calculation_notes_src_sha": "a09cb39ebbb6d881325f148d259c2cbea5786ab83271288f73890a6e52ab908b",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Rail > International rail | Scope 3 | 0.00446 | passenger.km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Rail | International rail | passenger.km | kg CO2e | 0.01135",
+          "accessed": "2026-11-21"
         },
         {
-          "name": "Our World in Data",
-          "url": "https://ourworldindata.org/travel-carbon-footprint",
-          "quote": "Taking the Eurostar emits around 4 grams of CO2 per passenger kilometer",
-          "accessed": "2026-07-17"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "UK electricity | Electricity generated | Electricity: UK | kWh | kg CO2e | 0.13096",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -460,18 +514,24 @@
       "name_en": "Metro / underground",
       "name_ja": "地下鉄",
       "name_es": "Metro",
-      "g_co2e_per_km": 27.8,
+      "g_co2e_per_km": 54.17,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 London Underground, per passenger-km. The 2026 release cuts this figure 44-45% after an electricity-grid update; not yet second-source verified, revisit at the next data pass.",
-      "calculation_notes_ja": "DEFRA 2025のロンドン地下鉄の値で、旅客キロあたりです。2026年版では電力網データの更新により、この値が44〜45%下がっています。まだ別の情報源で検証されていないため、次回のデータ更新で見直します。",
-      "calculation_notes_es": "Metro de Londres de DEFRA 2025, por pasajero-km. La edición de 2026 rebaja esta cifra un 44-45% tras una actualización de la red eléctrica; aún no está verificada con una segunda fuente, así que se revisará en la próxima actualización de datos.",
-      "calculation_notes_src_sha": "9a3adf02be10870e10118848abb9da76a8d9557a026449a1bb51f6297a0d75d5",
+      "calculation_notes": "Derived on the house grid basis: the DESNZ 2026 London Underground direct factor 15.49 g CO2e/pkm, divided by the DESNZ 2026 UK grid factor 130.96 g CO2e/kWh, gives 0.118 kWh per passenger-km. That x the house grid factor 458 g CO2e/kWh = 54.17. The 458 factor is lifecycle, so no separate well-to-tank term is added. On the UK grid, DESNZ gives 22.77 including fuel supply.",
+      "calculation_notes_ja": "共通の電力係数で算出：DESNZ 2026のロンドン地下鉄の直接排出係数15.49 g CO2e/旅客キロを、DESNZ 2026の英国電力係数130.96 g CO2e/kWhで割ると、旅客キロあたり0.118 kWhです。これに共通の電力係数458 g CO2e/kWhを掛けて54.17です。458はライフサイクルの係数なので、ウェル・トゥ・タンクの係数は別に足しません。英国の電力では、DESNZは燃料供給分を含めて22.77としています。",
+      "calculation_notes_es": "Calculado con el factor de red común: el factor directo del metro de Londres de DESNZ 2026, 15,49 g CO2e/pasajero-km, dividido entre el factor de la red del Reino Unido de DESNZ 2026, 130,96 g CO2e/kWh, da 0,118 kWh por pasajero-km. Eso por el factor de red común de 458 g CO2e/kWh = 54,17. El factor 458 es de ciclo de vida, así que no se suma un factor aparte del pozo al depósito. Con la red del Reino Unido, DESNZ da 22,77 con el suministro de combustible incluido.",
+      "calculation_notes_src_sha": "00b9b25188c17b901354f07b637f146b59a2c84ce0fc2f3298a9bf685b8a736a",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Rail > London Underground | Scope 3 | 0.0278 | passenger.km",
-          "accessed": "2026-07-17"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Rail | London Underground | passenger.km | kg CO2e | 0.01549",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "UK electricity | Electricity generated | Electricity: UK | kWh | kg CO2e | 0.13096",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -481,18 +541,24 @@
       "name_en": "Tram / light rail",
       "name_ja": "路面電車・LRT",
       "name_es": "Tranvía / tren ligero",
-      "g_co2e_per_km": 28.6,
+      "g_co2e_per_km": 74.18,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 light rail and tram average, per passenger-km.",
-      "calculation_notes_ja": "DEFRA 2025のライトレール・路面電車の平均、旅客キロあたりの値です。",
-      "calculation_notes_es": "Media del tren ligero y el tranvía de DEFRA 2025, por pasajero-km.",
-      "calculation_notes_src_sha": "ef84cbde6a5410953648d42303bbaa05464be93f9680c419222e196d4e3346ac",
+      "calculation_notes": "Derived on the house grid basis: the DESNZ 2026 light rail and tram direct factor 21.21 g CO2e/pkm, divided by the DESNZ 2026 UK grid factor 130.96 g CO2e/kWh, gives 0.162 kWh per passenger-km. That x the house grid factor 458 g CO2e/kWh = 74.18. The 458 factor is lifecycle, so no separate well-to-tank term is added. On the UK grid, DESNZ gives 28.70 including fuel supply.",
+      "calculation_notes_ja": "共通の電力係数で算出：DESNZ 2026のライトレール・路面電車の直接排出係数21.21 g CO2e/旅客キロを、DESNZ 2026の英国電力係数130.96 g CO2e/kWhで割ると、旅客キロあたり0.162 kWhです。これに共通の電力係数458 g CO2e/kWhを掛けて74.18です。458はライフサイクルの係数なので、ウェル・トゥ・タンクの係数は別に足しません。英国の電力では、DESNZは燃料供給分を含めて28.70としています。",
+      "calculation_notes_es": "Calculado con el factor de red común: el factor directo del tren ligero y el tranvía de DESNZ 2026, 21,21 g CO2e/pasajero-km, dividido entre el factor de la red del Reino Unido de DESNZ 2026, 130,96 g CO2e/kWh, da 0,162 kWh por pasajero-km. Eso por el factor de red común de 458 g CO2e/kWh = 74,18. El factor 458 es de ciclo de vida, así que no se suma un factor aparte del pozo al depósito. Con la red del Reino Unido, DESNZ da 28,70 con el suministro de combustible incluido.",
+      "calculation_notes_src_sha": "e90006cc04047113e38788cb8e439c9b23a3362260039245134ce7d889216bf9",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-land",
-          "quote": "Rail > Light rail and tram | Scope 3 | 0.0286 | passenger.km",
-          "accessed": "2026-07-17"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Rail | Light rail and tram | passenger.km | kg CO2e | 0.02121",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "UK electricity | Electricity generated | Electricity: UK | kWh | kg CO2e | 0.13096",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -502,18 +568,24 @@
       "name_en": "Ferry (foot passenger)",
       "name_ja": "フェリー（徒歩乗船）",
       "name_es": "Ferri (pasajero a pie)",
-      "g_co2e_per_km": 18.71,
+      "g_co2e_per_km": 22.95,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 ferry foot-passenger average, per passenger-km. Boarding with a car is a different factor -- see ferry_car (129.33 g/pkm), roughly 7x this figure.",
-      "calculation_notes_ja": "DEFRA 2025のフェリー徒歩乗船客の平均、旅客キロあたりの値です。車で乗船する場合は別の係数です。「フェリー（自動車同乗）」（129.33 g/pkm）を参照してください。この値のおよそ7倍です。",
-      "calculation_notes_es": "Media de los pasajeros a pie en ferri de DEFRA 2025, por pasajero-km. Embarcar con coche usa otro factor: consulta «Ferri (pasajero con coche)» (129,33 g/pkm), unas 7 veces esta cifra.",
-      "calculation_notes_src_sha": "e0912da52e4f6cfd235d650a2207bfddd3e2915c5bcf5fc195f15dfe2c5e4aa6",
+      "calculation_notes": "DESNZ 2026 ferry foot-passenger average, per passenger-km, including fuel supply: direct factor 18.71 plus the well-to-tank (upstream fuel supply) factor 4.24 = 22.95. Boarding with a car is a different factor -- see ferry_car (158.65 g/pkm), roughly 7x this figure.",
+      "calculation_notes_ja": "DESNZ 2026のフェリー徒歩乗船客の平均、旅客キロあたりの値で、燃料供給分を含みます。直接排出の係数18.71に、ウェル・トゥ・タンク（上流の燃料供給）の係数4.24を足して22.95です。車で乗船する場合は別の係数です。「フェリー（自動車同乗）」（158.65 g/pkm）を参照してください。この値のおよそ7倍です。",
+      "calculation_notes_es": "Media de los pasajeros a pie en ferri de DESNZ 2026, por pasajero-km, con el suministro de combustible incluido: factor directo de 18,71 más el factor del pozo al depósito (suministro previo del combustible) de 4,24 = 22,95. Embarcar con coche usa otro factor: consulta «Ferri (pasajero con coche)» (158,65 g/pkm), unas 7 veces esta cifra.",
+      "calculation_notes_src_sha": "4d5479f5222c7d4e7593fe0a786818c25875720f0ee63cf155b07a35ff9dc508",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-sea",
-          "quote": "Ferry > Foot passenger | Scope 3 | 0.01871 | passenger.km",
-          "accessed": "2026-07-19"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- sea | Ferry | Foot passenger | passenger.km | kg CO2e | 0.01871",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- business travel- sea | WTT- ferry | Foot passenger | passenger.km | kg CO2e | 0.00424",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -523,18 +595,24 @@
       "name_en": "Ferry (car passenger)",
       "name_ja": "フェリー（自動車同乗）",
       "name_es": "Ferri (pasajero con coche)",
-      "g_co2e_per_km": 129.33,
+      "g_co2e_per_km": 158.65,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 ferry car-passenger average, per passenger-km. One leg covers the vehicle-plus-passenger crossing: do not add a separate car leg for the same distance.",
-      "calculation_notes_ja": "DEFRA 2025のフェリー自動車同乗客の平均、旅客キロあたりの値です。1つの区間で車両と乗客をあわせた航行をカバーします。同じ距離について、自動車の区間を別に追加しないでください。",
-      "calculation_notes_es": "Media de los pasajeros con coche en ferri de DEFRA 2025, por pasajero-km. Un solo tramo cubre la travesía del vehículo y del pasajero: no añadas un tramo en coche aparte para la misma distancia.",
-      "calculation_notes_src_sha": "0ec0032a3ae1378d2d3f543b1a682127593706c29c8ebdd5f192ad4c0d175032",
+      "calculation_notes": "DESNZ 2026 ferry car-passenger average, per passenger-km, including fuel supply: direct factor 129.33 plus the well-to-tank (upstream fuel supply) factor 29.32 = 158.65. One leg covers the vehicle-plus-passenger crossing: do not add a separate car leg for the same distance.",
+      "calculation_notes_ja": "DESNZ 2026のフェリー自動車同乗客の平均、旅客キロあたりの値で、燃料供給分を含みます。直接排出の係数129.33に、ウェル・トゥ・タンク（上流の燃料供給）の係数29.32を足して158.65です。1つの区間で車両と乗客をあわせた航行をカバーします。同じ距離について、自動車の区間を別に追加しないでください。",
+      "calculation_notes_es": "Media de los pasajeros con coche en ferri de DESNZ 2026, por pasajero-km, con el suministro de combustible incluido: factor directo de 129,33 más el factor del pozo al depósito (suministro previo del combustible) de 29,32 = 158,65. Un solo tramo cubre la travesía del vehículo y del pasajero: no añadas un tramo en coche aparte para la misma distancia.",
+      "calculation_notes_src_sha": "d1c9b44a6ecd63924116ba7146b0cd835af1419447dcf8e675fd44a2e75efd67",
       "sources": [
         {
-          "name": "SustainMetrics DEFRA 2025",
-          "url": "https://www.sustainmetrics.net/factors/defra/2025/business-travel-sea",
-          "quote": "Ferry > Car passenger | Scope 3 | 0.12933 | passenger.km",
-          "accessed": "2026-07-18"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- sea | Ferry | Car passenger | passenger.km | kg CO2e | 0.12933",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- business travel- sea | WTT- ferry | Car passenger | passenger.km | kg CO2e | 0.02932",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -544,13 +622,25 @@
       "name_en": "Domestic flight",
       "name_ja": "国内線",
       "name_es": "Vuelo nacional",
-      "g_co2e_per_km": 229.28,
+      "g_co2e_per_km": 262.78,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 domestic average passenger, per passenger-km, includes the radiative-forcing uplift. Do not mix with pre-2025-vintage domestic figures (e.g. OWID's commonly cited 246 g/km). DEFRA's definitions are UK ones: a domestic flight is one within the UK, short-haul covers flights from the UK to Europe or North Africa, and flights to other regions count as long-haul. DEFRA has a further category for international flights between countries outside the UK, which is not offered here. UK domestic routes average 434 km on planes of 157 seats that are 75% full, against 1,484 km, 193 seats and 83% full for short-haul (DEFRA Table 35), which helps explain the higher per-km figure. Both options are UK averages. In a small country the two labels can describe the same kind of flight, and on an island a domestic flight may be the only option. If your domestic route is as long as a typical short international flight, the short-haul option, which is an economy figure, may be the closer match. The figure is per km, so even at the higher per-km value a short domestic flight emits far less in total than a long international one.",
-      "calculation_notes_ja": "DEFRA 2025の国内線の平均的な乗客、旅客キロあたりの値で、放射強制力の上乗せを含みます。2025年より前のデータによる国内線の値（例：よく引用されるOWIDの246 g/km）と混ぜないでください。 DEFRAの定義は英国基準です。国内線は英国内の便、短距離国際線は英国からヨーロッパまたは北アフリカへの便を指し、それ以外の地域への便は長距離国際線に数えられます。英国以外の国どうしを結ぶ国際線にはDEFRAの別の区分がありますが、本アプリでは選択肢にしていません。英国の国内線は平均434 kmの路線を157席・搭乗率75%の機体で飛ぶのに対し、短距離国際線は平均1,484 km、193席・搭乗率83%です（DEFRA表35）。これが、国内線のkmあたりの値が高いことを説明する一助となります。どちらも英国の平均値です。小さな国では2つの区分が同じような便を指すことがあり、島では国内線が唯一の手段かもしれません。利用する国内線の路線が一般的な短距離の国際便と同じくらい長い場合は、エコノミークラスの値である「短距離国際線」を選んだほうが実態に近いかもしれません。値はkmあたりなので、kmあたりの値が高くても、短い国内線の合計排出量は長い国際線よりはるかに少なくなります。",
-      "calculation_notes_es": "Pasajero medio de vuelo nacional de DEFRA 2025, por pasajero-km, con el incremento por forzamiento radiativo. No mezcles este valor con cifras nacionales anteriores a 2025 (p. ej., los 246 g/km de OWID, muy citados). Las definiciones de DEFRA son británicas: un vuelo nacional es el que se realiza dentro del Reino Unido, la categoría de corta distancia abarca los vuelos del Reino Unido a Europa o al norte de África, y los vuelos a otras regiones cuentan como de larga distancia. DEFRA tiene además una categoría para los vuelos internacionales entre países fuera del Reino Unido, que aquí no se ofrece. En el Reino Unido, las rutas nacionales miden 434 km de media y usan aviones de 157 plazas ocupados al 75%, frente a 1.484 km, 193 plazas y un 83% de ocupación en corta distancia (tabla 35 de DEFRA), lo que ayuda a explicar que la cifra por km del vuelo nacional sea más alta. Las dos opciones son medias británicas. En un país pequeño, las dos etiquetas pueden describir el mismo tipo de vuelo, y en una isla un vuelo nacional puede ser la única opción. Si tu ruta nacional es tan larga como un vuelo internacional corto típico, «Vuelo internacional de corta distancia», que es una cifra de clase turista, puede reflejarla mejor. La cifra es por km, así que, incluso con un valor por km más alto, un vuelo nacional corto emite mucho menos en total que un vuelo internacional largo.",
-      "calculation_notes_src_sha": "9cf32625ac06663e30499c17d0d8ee87a9f1d171197f1edf0182ff5b920ba6b0",
+      "calculation_notes": "DESNZ 2026 domestic average passenger, per passenger-km, includes the radiative-forcing uplift and fuel supply: direct factor 229.28 plus the well-to-tank (upstream fuel supply) factor 33.50 = 262.78. The radiative-forcing uplift applies to the direct part only. Do not mix with pre-2025-vintage domestic figures (e.g. OWID's commonly cited 246 g/km). DEFRA's definitions are UK ones: a domestic flight is one within the UK, short-haul covers flights from the UK to Europe or North Africa, and flights to other regions count as long-haul. DEFRA has a further category for international flights between countries outside the UK, which is not offered here. UK domestic routes average 434 km on planes of 157 seats that are 75% full, against 1,484 km, 193 seats and 83% full for short-haul (DEFRA Table 35), which helps explain the higher per-km figure. Both options are UK averages. In a small country the two labels can describe the same kind of flight, and on an island a domestic flight may be the only option. If your domestic route is as long as a typical short international flight, the short-haul option, which is an economy figure, may be the closer match. The figure is per km, so even at the higher per-km value a short domestic flight emits far less in total than a long international one.",
+      "calculation_notes_ja": "DESNZ 2026の国内線の平均的な乗客、旅客キロあたりの値で、放射強制力の上乗せと燃料供給分を含みます。直接排出の係数229.28に、ウェル・トゥ・タンク（上流の燃料供給）の係数33.50を足して262.78です。放射強制力の上乗せは直接排出の部分にだけ掛かります。2025年より前のデータによる国内線の値（例：よく引用されるOWIDの246 g/km）と混ぜないでください。DEFRAの定義は英国基準です。国内線は英国内の便、短距離国際線は英国からヨーロッパまたは北アフリカへの便を指し、それ以外の地域への便は長距離国際線に数えられます。英国以外の国どうしを結ぶ国際線にはDEFRAの別の区分がありますが、本アプリでは選択肢にしていません。英国の国内線は平均434 kmの路線を157席・搭乗率75%の機体で飛ぶのに対し、短距離国際線は平均1,484 km、193席・搭乗率83%です（DEFRA表35）。これが、国内線のkmあたりの値が高いことを説明する一助となります。どちらも英国の平均値です。小さな国では2つの区分が同じような便を指すことがあり、島では国内線が唯一の手段かもしれません。利用する国内線の路線が一般的な短距離の国際便と同じくらい長い場合は、エコノミークラスの値である「短距離国際線」を選んだ方が実態に近いかもしれません。値はkmあたりなので、kmあたりの値が高くても、短い国内線の合計排出量は長い国際線よりはるかに少なくなります。",
+      "calculation_notes_es": "Pasajero medio de vuelo nacional de DESNZ 2026, por pasajero-km, con el incremento por forzamiento radiativo y el suministro de combustible: factor directo de 229,28 más el factor del pozo al depósito (suministro previo del combustible) de 33,50 = 262,78. El incremento por forzamiento radiativo solo se aplica a la parte directa. No mezcles este valor con cifras nacionales anteriores a 2025 (p. ej., los 246 g/km de OWID, muy citados). Las definiciones de DEFRA son británicas: un vuelo nacional es el que se realiza dentro del Reino Unido, la categoría de corta distancia abarca los vuelos del Reino Unido a Europa o al norte de África, y los vuelos a otras regiones cuentan como de larga distancia. DEFRA tiene además una categoría para los vuelos internacionales entre países fuera del Reino Unido, que aquí no se ofrece. En el Reino Unido, las rutas nacionales miden 434 km de media y usan aviones de 157 plazas ocupados al 75%, frente a 1.484 km, 193 plazas y un 83% de ocupación en corta distancia (tabla 35 de DEFRA), lo que ayuda a explicar que la cifra por km del vuelo nacional sea más alta. Las dos opciones son medias británicas. En un país pequeño, las dos etiquetas pueden describir el mismo tipo de vuelo, y en una isla un vuelo nacional puede ser la única opción. Si tu ruta nacional es tan larga como un vuelo internacional corto típico, «Vuelo internacional de corta distancia», que es una cifra de clase turista, puede reflejarla mejor. La cifra es por km, así que, incluso con un valor por km más alto, un vuelo nacional corto emite mucho menos en total que un vuelo internacional largo.",
+      "calculation_notes_src_sha": "5be7742a9372715a382668ab584a4074057d1bea348e4c04528fe01033e6a918",
       "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- air | Flights | Domestic, to/from UK | Average passenger | With RF | passenger.km | kg CO2e | 0.22928",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- business travel- air | WTT- flights | Domestic, to/from UK | Average passenger | With RF | passenger.km | kg CO2e | 0.0335",
+          "accessed": "2026-11-21"
+        },
         {
           "name": "OpenCO2.net",
           "url": "https://www.openco2.net/en/emission-factor/2171/",
@@ -565,13 +655,25 @@
       "name_en": "Short-haul flight (economy)",
       "name_ja": "短距離国際線（エコノミー）",
       "name_es": "Vuelo internacional de corta distancia (turista)",
-      "g_co2e_per_km": 125.76,
+      "g_co2e_per_km": 148.25,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 short-haul international economy, per passenger-km, includes radiative forcing. Notably lower per-km than a solo average petrol car (162.72) -- the car only wins once it carries 2+ occupants. This is an intentional, non-hidden result the comparison view surfaces. Short-haul here follows DEFRA's UK definition: flights from the UK to Europe or North Africa, averaging 1,484 km on planes of 193 seats that are 83% full (DEFRA Table 35). Flights within the UK are the separate domestic option, an average-passenger figure that is higher per km; UK domestic routes average 434 km on planes of 157 seats that are 75% full, which helps explain the gap. In a small country the two labels can describe the same kind of flight, so choose the option by your route's distance rather than its label.",
-      "calculation_notes_ja": "DEFRA 2025の短距離国際線エコノミー、旅客キロあたりの値で、放射強制力を含みます。1人で乗る平均的なガソリン車（162.72）よりkmあたりで明らかに低くなります。車が勝つのは2人以上で乗ったときだけです。これは意図した結果で、比較画面で隠さずに示しています。 ここでの短距離国際線はDEFRAの英国基準の定義に従い、英国からヨーロッパまたは北アフリカへの便を指します。路線は平均1,484 kmで、193席・搭乗率83%の機体が使われます（DEFRA表35）。英国内の便は別の選択肢「国内線」です。こちらは平均的な乗客の値で、kmあたりでは高くなります。英国の国内線は平均434 kmの路線を157席・搭乗率75%の機体で飛び、これがこの差を説明する一助となります。小さな国では2つの区分が同じような便を指すことがあるので、区分の名前ではなく路線の長さで選んでください。",
-      "calculation_notes_es": "Clase turista internacional de corta distancia de DEFRA 2025, por pasajero-km, con forzamiento radiativo. Es notablemente más baja por km que un coche de gasolina medio con una sola persona (162,72); el coche solo gana cuando lleva 2 o más ocupantes. Es un resultado intencionado y no oculto que la vista de comparación pone de relieve. Aquí, «corta distancia» sigue la definición británica de DEFRA: vuelos del Reino Unido a Europa o al norte de África, de 1.484 km de media, en aviones de 193 plazas ocupados al 83% (tabla 35 de DEFRA). Los vuelos dentro del Reino Unido tienen su propia opción, «Vuelo nacional», con una cifra de pasajero medio que es más alta por km; en el Reino Unido, las rutas nacionales miden 434 km de media y usan aviones de 157 plazas ocupados al 75%, lo que ayuda a explicar la diferencia. En un país pequeño, las dos etiquetas pueden describir el mismo tipo de vuelo, así que elige la opción según la distancia de tu ruta y no según la etiqueta.",
-      "calculation_notes_src_sha": "5d86bc607cb3d468ca1a2703e9e7e6e39dd38fa2275ddff14f346575188830ad",
+      "calculation_notes": "DESNZ 2026 short-haul international economy, per passenger-km, includes radiative forcing and fuel supply: direct factor 125.76 plus the well-to-tank (upstream fuel supply) factor 22.49 = 148.25. The radiative-forcing uplift applies to the direct part only. Notably lower per-km than a solo average petrol car (207.51) -- the car only wins once it carries 2+ occupants. This is an intentional, non-hidden result the comparison view surfaces. Short-haul here follows DEFRA's UK definition: flights from the UK to Europe or North Africa, averaging 1,484 km on planes of 193 seats that are 83% full (DEFRA Table 35). Flights within the UK are the separate domestic option, an average-passenger figure that is higher per km; UK domestic routes average 434 km on planes of 157 seats that are 75% full, which helps explain the gap. In a small country the two labels can describe the same kind of flight, so choose the option by your route's distance rather than its label.",
+      "calculation_notes_ja": "DESNZ 2026の短距離国際線エコノミー、旅客キロあたりの値で、放射強制力と燃料供給分を含みます。直接排出の係数125.76に、ウェル・トゥ・タンク（上流の燃料供給）の係数22.49を足して148.25です。放射強制力の上乗せは直接排出の部分にだけ掛かります。1人で乗る平均的なガソリン車（207.51）よりkmあたりで明らかに低くなります。車が勝つのは2人以上で乗ったときだけです。これは意図した結果で、比較画面で隠さずに示しています。ここでの短距離国際線はDEFRAの英国基準の定義に従い、英国からヨーロッパまたは北アフリカへの便を指します。路線は平均1,484 kmで、193席・搭乗率83%の機体が使われます（DEFRA表35）。英国内の便は別の選択肢「国内線」です。こちらは平均的な乗客の値で、kmあたりでは高くなります。英国の国内線は平均434 kmの路線を157席・搭乗率75%の機体で飛び、これがこの差を説明する一助となります。小さな国では2つの区分が同じような便を指すことがあるので、区分の名前ではなく路線の長さで選んでください。",
+      "calculation_notes_es": "Clase turista internacional de corta distancia de DESNZ 2026, por pasajero-km, con forzamiento radiativo y el suministro de combustible: factor directo de 125,76 más el factor del pozo al depósito (suministro previo del combustible) de 22,49 = 148,25. El incremento por forzamiento radiativo solo se aplica a la parte directa. Es notablemente más baja por km que un coche de gasolina medio con una sola persona (207,51); el coche solo gana cuando lleva 2 o más ocupantes. Es un resultado intencionado y no oculto que la vista de comparación pone de relieve. Aquí, «corta distancia» sigue la definición británica de DEFRA: vuelos del Reino Unido a Europa o al norte de África, de 1.484 km de media, en aviones de 193 plazas ocupados al 83% (tabla 35 de DEFRA). Los vuelos dentro del Reino Unido tienen su propia opción, «Vuelo nacional», con una cifra de pasajero medio que es más alta por km; en el Reino Unido, las rutas nacionales miden 434 km de media y usan aviones de 157 plazas ocupados al 75%, lo que ayuda a explicar la diferencia. En un país pequeño, las dos etiquetas pueden describir el mismo tipo de vuelo, así que elige la opción según la distancia de tu ruta y no según la etiqueta.",
+      "calculation_notes_src_sha": "7ff08b9d94a15224d984d511c07f85a364cda118687362298a7ab62ec38fe3fc",
       "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- air | Flights | Short-haul, to/from UK | Economy class | With RF | passenger.km | kg CO2e | 0.12576",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- business travel- air | WTT- flights | Short-haul, to/from UK | Economy class | With RF | passenger.km | kg CO2e | 0.02249",
+          "accessed": "2026-11-21"
+        },
         {
           "name": "CarbonPass",
           "url": "https://carbonpass.co/guides/defra-emission-factors-2025-uk",
@@ -586,13 +688,25 @@
       "name_en": "Long-haul flight (economy)",
       "name_ja": "長距離国際線（エコノミー）",
       "name_es": "Vuelo internacional de larga distancia (turista)",
-      "g_co2e_per_km": 117.04,
+      "g_co2e_per_km": 141.65,
       "per_vehicle": false,
-      "calculation_notes": "DEFRA 2025 long-haul international economy, per passenger-km, includes radiative forcing. Lower per-km than short-haul economy only because of seat-class allocation: the whole-plane long-haul average (82.5 gCO2/pkm before uplifts, methodology paper Table 39) is above short-haul (69.1), but premium cabins take 1.6-4x the space of an economy seat, so economy is allocated 76.6% of the average (63.2 vs 68.0 for short-haul economy). Total trip impact is still far larger than rail because of distance, which is exactly the counterintuitive fact the comparison view is meant to surface.",
-      "calculation_notes_ja": "DEFRA 2025の長距離国際線エコノミー、旅客キロあたりの値で、放射強制力を含みます。kmあたりで短距離エコノミーより低いのは、座席クラスへの配分のためだけです。機体全体での長距離の平均（上乗せ前で82.5 gCO2/pkm、方法論文書の表39）は短距離（69.1）より高いものの、上位クラスの座席はエコノミー席の1.6〜4倍の空間を使うため、エコノミーには平均の76.6%が配分されます（短距離エコノミーの68.0に対し63.2）。それでも距離が長いため、移動全体の影響は鉄道よりはるかに大きくなります。これこそ、比較画面で伝えたい直感に反する事実です。",
-      "calculation_notes_es": "Clase turista internacional de larga distancia de DEFRA 2025, por pasajero-km, con forzamiento radiativo. Es más baja por km que la turista de corta distancia solo por el reparto entre clases de asiento: la media del avión completo en larga distancia (82,5 gCO2/pkm antes de incrementos, tabla 39 del documento metodológico) supera a la de corta distancia (69,1), pero las cabinas premium ocupan 1,6-4 veces el espacio de un asiento turista, así que a la turista se le asigna el 76,6% de la media (63,2 frente a 68,0 en la turista de corta distancia). Aun así, el impacto total del viaje sigue siendo mucho mayor que en tren por la distancia, que es justo el dato contraintuitivo que la vista de comparación quiere mostrar.",
-      "calculation_notes_src_sha": "c5b25587186f920f771a5bafed05bf5dceb81fff4486dd6c37bd4cf0263abe5c",
+      "calculation_notes": "DESNZ 2026 long-haul international economy, per passenger-km, includes radiative forcing and fuel supply: direct factor 117.04 plus the well-to-tank (upstream fuel supply) factor 24.61 = 141.65. The radiative-forcing uplift applies to the direct part only. Lower per-km than short-haul economy only because of seat-class allocation: the whole-plane long-haul average (82.5 gCO2/pkm before uplifts, methodology paper Table 39) is above short-haul (69.1), but premium cabins take 1.6-4x the space of an economy seat, so economy is allocated 76.6% of the average (63.2 vs 68.0 for short-haul economy). Total trip impact is still far larger than rail because of distance, which is exactly the counterintuitive fact the comparison view is meant to surface.",
+      "calculation_notes_ja": "DESNZ 2026の長距離国際線エコノミー、旅客キロあたりの値で、放射強制力と燃料供給分を含みます。直接排出の係数117.04に、ウェル・トゥ・タンク（上流の燃料供給）の係数24.61を足して141.65です。放射強制力の上乗せは直接排出の部分にだけ掛かります。kmあたりで短距離エコノミーより低いのは、座席クラスへの配分のためだけです。機体全体での長距離の平均（上乗せ前で82.5 gCO2/pkm、方法論文書の表39）は短距離（69.1）より高いものの、上位クラスの座席はエコノミー席の1.6〜4倍の空間を使うため、エコノミーには平均の76.6%が配分されます（短距離エコノミーの68.0に対し63.2）。それでも距離が長いため、移動全体の影響は鉄道よりはるかに大きくなります。これこそ、比較画面で伝えたい直感に反する事実です。",
+      "calculation_notes_es": "Clase turista internacional de larga distancia de DESNZ 2026, por pasajero-km, con forzamiento radiativo y el suministro de combustible: factor directo de 117,04 más el factor del pozo al depósito (suministro previo del combustible) de 24,61 = 141,65. El incremento por forzamiento radiativo solo se aplica a la parte directa. Es más baja por km que la turista de corta distancia solo por el reparto entre clases de asiento: la media del avión completo en larga distancia (82,5 gCO2/pkm antes de incrementos, tabla 39 del documento metodológico) supera a la de corta distancia (69,1), pero las cabinas premium ocupan 1,6-4 veces el espacio de un asiento turista, así que a la turista se le asigna el 76,6% de la media (63,2 frente a 68,0 en la turista de corta distancia). Aun así, el impacto total del viaje sigue siendo mucho mayor que en tren por la distancia, que es justo el dato contraintuitivo que la vista de comparación quiere mostrar.",
+      "calculation_notes_src_sha": "41220b4cffca144fd3ae0eea5c97ba145582367fad3306338958c9dc08589769",
       "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- air | Flights | Long-haul, to/from UK | Economy class | With RF | passenger.km | kg CO2e | 0.11704",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- business travel- air | WTT- flights | Long-haul, to/from UK | Economy class | With RF | passenger.km | kg CO2e | 0.02461",
+          "accessed": "2026-11-21"
+        },
         {
           "name": "myCarbon",
           "url": "https://www.mycarbon.co.uk/2025/06/17/2025-defra-emissions-factor-update-what-it-reveals-about-uk-carbon-reductions/",
@@ -606,10 +720,10 @@
           "accessed": "2026-07-18"
         },
         {
-          "name": "DESNZ 2025 GHG Conversion Factors methodology paper (para 8.45)",
-          "url": "https://assets.publishing.service.gov.uk/media/6846b0870392ed9b784c0187/2025-GHG-CF-methodology-paper.pdf",
-          "quote": "The multiplier is therefore recommended to be applied equally to all flights irrespective of distance or altitude and to equally to all phases of the flight, albeit accepting the approximations involved in this approach.",
-          "accessed": "2026-07-19"
+          "name": "DESNZ 2026 GHG Conversion Factors methodology report (para 8.44)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a2940543b15d05a7ce3202e/2026-GHG-conversion-factors-methodology-report.pdf",
+          "quote": "The multiplier is therefore recommended to be applied equally to all flights irrespective of distance or altitude and equally to all phases of the flight, albeit accepting the approximations involved in this approach.",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -621,16 +735,16 @@
       "name_es": "Jet privado",
       "g_co2e_per_km": 1700,
       "per_vehicle": false,
-      "calculation_notes": "Derived (no government per-passenger-km factor exists): light/midsize business jet cruise fuel burn implies 0.53-0.74 kg CO2e/pkm combustion-only at ~4 passengers; CE Delft's independently cited 5-14x commercial-flight multiplier implies a 0.6-3.2 kg/pkm real-world band. Combustion base 1,000 g/km chosen from the conservative lower band of that range, then the DESNZ radiative-forcing multiplier of 1.7 (2025 methodology paper, sec 8.43, verified 2026-07-18) is applied for consistency with the airline rows: 1,000 x 1.7 = 1,700 g/km. Still conservative for typical 2-3-passenger hops.",
-      "calculation_notes_ja": "算出値です（政府による旅客キロあたりの係数は存在しません）。小型・中型ビジネスジェットの巡航時の燃料消費からは、約4人乗りで燃焼分のみ0.53〜0.74 kg CO2e/pkmとなります。独立した情報源でも引用されている、CE Delftによる商用便の5〜14倍という倍率からは、実態として0.6〜3.2 kg/pkmの幅が導かれます。燃焼分の基準値には、この幅の控えめな下側から1,000 g/kmを選び、旅客便の項目と整合させるため、DESNZの放射強制力の倍率1.7（2025年の方法論文書、第8.43項、2026-07-18に確認）を掛けています：1,000 × 1.7 = 1,700 g/km。よくある2〜3人での短距離移動に対しても、まだ控えめな値です。",
-      "calculation_notes_es": "Calculado (no existe un factor oficial por pasajero-km): el consumo de combustible en crucero de un jet privado ligero o mediano supone 0,53-0,74 kg CO2e/pkm, solo combustión, con ~4 pasajeros; el multiplicador de 5-14 veces respecto a un vuelo comercial de CE Delft, citado de forma independiente, da una horquilla real de 0,6-3,2 kg/pkm. La base de combustión de 1.000 g/km se toma de la parte baja y conservadora de ese rango, y después se aplica el multiplicador de forzamiento radiativo de DESNZ, 1,7 (documento metodológico de 2025, apartado 8.43, verificado el 2026-07-18), por coherencia con las filas de las aerolíneas: 1.000 × 1,7 = 1.700 g/km. Sigue siendo conservador para los trayectos habituales de 2-3 pasajeros.",
-      "calculation_notes_src_sha": "e00589dfa98f852a278d55ac12a435182240b0be449c62180ef75660dd40aa5d",
+      "calculation_notes": "Derived (no government per-passenger-km factor exists): light/midsize business jet cruise fuel burn implies 0.53-0.74 kg CO2e/pkm combustion-only at ~4 passengers; CE Delft's independently cited 5-14x commercial-flight multiplier implies a 0.6-3.2 kg/pkm real-world band. Combustion base 1,000 g/km chosen from the conservative lower band of that range, then the DESNZ radiative-forcing multiplier of 1.7 (2026 methodology paper, sec 8.42, verified 2026-11-23) is applied for consistency with the airline rows: 1,000 x 1.7 = 1,700 g/km. Still conservative for typical 2-3-passenger hops.",
+      "calculation_notes_ja": "算出値です（政府による旅客キロあたりの係数は存在しません）。小型・中型ビジネスジェットの巡航時の燃料消費からは、約4人乗りで燃焼分のみ0.53〜0.74 kg CO2e/pkmとなります。独立した情報源でも引用されている、CE Delftによる商用便の5〜14倍という倍率からは、実態として0.6〜3.2 kg/pkmの幅が導かれます。燃焼分の基準値には、この幅の控えめな下側から1,000 g/kmを選び、旅客便の項目と整合させるため、DESNZの放射強制力の倍率1.7（2026年の方法論文書、第8.42項、2026-11-23に確認）を掛けています：1,000 × 1.7 = 1,700 g/km。よくある2〜3人での短距離移動に対しても、まだ控えめな値です。",
+      "calculation_notes_es": "Calculado (no existe un factor oficial por pasajero-km): el consumo de combustible en crucero de un jet privado ligero o mediano supone 0,53-0,74 kg CO2e/pkm, solo combustión, con ~4 pasajeros; el multiplicador de 5-14 veces respecto a un vuelo comercial de CE Delft, citado de forma independiente, da una horquilla real de 0,6-3,2 kg/pkm. La base de combustión de 1.000 g/km se toma de la parte baja y conservadora de ese rango, y después se aplica el multiplicador de forzamiento radiativo de DESNZ, 1,7 (documento metodológico de 2026, apartado 8.42, verificado el 2026-11-23), por coherencia con las filas de las aerolíneas: 1.000 × 1,7 = 1.700 g/km. Sigue siendo conservador para los trayectos habituales de 2-3 pasajeros.",
+      "calculation_notes_src_sha": "6d4c3566c8c7312ce3369f73f41c70c235a5aff0e3fabe9a829ed1f1f2457288",
       "sources": [
         {
-          "name": "DESNZ 2025 GHG Conversion Factors methodology paper",
-          "url": "https://assets.publishing.service.gov.uk/media/6846b0870392ed9b784c0187/2025-GHG-CF-methodology-paper.pdf",
+          "name": "DESNZ 2026 GHG Conversion Factors methodology report (para 8.42)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a2940543b15d05a7ce3202e/2026-GHG-conversion-factors-methodology-report.pdf",
           "quote": "A multiplier of 1.7 is recommended as a central estimate, based on the best available scientific evidence",
-          "accessed": "2026-07-18"
+          "accessed": "2026-11-21"
         },
         {
           "name": "PrivateJetCardComparisons",

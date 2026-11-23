@@ -155,11 +155,28 @@ nav stays visible and the tab it was opened from stays selected.
   Profile.
 - Links: none
 - Functionality: rename (edit/check/cancel), switch-mascot dialog,
-  mascot thumbnails, evolution timeline (stage names sit below each
+  mascot thumbnails (always shown, with the egg at the end when one
+  exists), a line under them that gives the days left to hatch the egg
+  and the reset rule (after a missed day it says the count started
+  again), or the level that earns an egg while a species is unowned,
+  evolution timeline (stage names sit below each
   stage card, up to two lines), next-evolution progress. While the
   mascot loads the screen shows a spinner under a "Mascot" app bar with
   a back arrow.
 - Tapping the mascot makes it smile.
+
+### Mascot Lab (`/home/mascot/lab`, debug builds only)
+Side-by-side comparison of the code-drawn (v3) mascots and the Rive
+mascots (PDR_MASCOT_REDESIGN). The route and its entry point do not
+exist in release builds.
+- Reached from: the flask icon in the Mascot app bar.
+- Links: none
+- Functionality: the selected code-drawn hero (breathes, blinks,
+  follows the pointer, waves when tapped) beside the matching Rive
+  artboard, a 48 dp static pair, a static cast of every code-drawn
+  stage (tap one to select it), and an app bar button that fires the
+  smile trigger. A species with no Rive file shows the code-drawn
+  mascot alone.
 
 ### Challenges (`/home/challenges`)
 List of six multi-day challenges with state (completed / active /
@@ -282,8 +299,10 @@ unambiguous exit. Browse and log actions.
   3 s; a smile under reduced motion). Then any Eco-Dex
   and streak celebrations. A log that completes the daily challenge
   opens the Eco Fact Inbox instead of cheering. Neither the cheer nor
-  the inbox plays while an evolution or egg celebration is pending,
-  and only one cheer shows at a time.
+  the inbox plays while an evolution or egg celebration is pending.
+  The cheer also stands aside for any other celebration, showing or
+  queued, and the inbox opens once those close. Only one cheer shows
+  at a time.
 
 ### Calculator colouring (all three)
 
@@ -893,7 +912,9 @@ Settings hub.
 - Links: `/login` (on account deletion)
 - Functionality: profile section (display name dialog, My Goal picker
   sheet with presets + free text), change email dialog, change password
-  dialog, delete account dialog with re-authentication.
+  dialog, "Download My Data" (shares a JSON export of the user doc and
+  its subcollections through the system share sheet), delete account
+  dialog with re-authentication.
 
 ### About (`.../settings/about`)
 - Links:
@@ -953,6 +974,7 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `explore`                 | `/explore`                        |
 | `profile`                 | `/profile`                        |
 | `mascot`                  | `/home/mascot`                    |
+| `mascotLab` (debug only)  | `/home/mascot/lab`                |
 | `dailyFact`               | `/home/daily-fact`                |
 | `challenges`              | `/home/challenges`                |
 | `sdgDetail(n)`            | `/home/sdg/{n}`                   |

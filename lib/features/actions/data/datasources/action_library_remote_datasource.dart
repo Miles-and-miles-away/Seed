@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
@@ -16,12 +18,13 @@ class ActionLibraryRemoteDataSource {
     final query = _collection
         .where(AppConstants.fieldIsActive, isEqualTo: true)
         .orderBy(AppConstants.fieldSortOrder);
-    var snapshot = await query.get();
-    // A cold start can answer from an empty cache before the first
-    // connection; the caller keeps the result, so insist on the server
-    // (an offline error shows Retry instead of "No actions found").
-    if (snapshot.docs.isEmpty && snapshot.metadata.isFromCache) {
-      snapshot = await query.get(const GetOptions(source: Source.server));
+    const server = GetOptions(source: Source.server);
+    var snapshot = await query.get(const GetOptions(source: Source.cache));
+    if (snapshot.docs.isEmpty) {
+      snapshot = await query.get(server);
+    } else {
+      // Refreshes the cache, so a reseed shows on the next start.
+      unawaited(query.get(server).then((_) {}, onError: (_) {}));
     }
     return snapshot.docs.map(ActionModel.fromFirestore).toList();
   }
