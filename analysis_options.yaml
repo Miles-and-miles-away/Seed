@@ -10,6 +10,7 @@ analyzer:
     - "lib/core/l10n/generated/**"  # Generated localizations
     - "build/**"           # Build artifacts (incl. iOS SourcePackages)
     - "node_modules/**"    # firebase-tools ships Dart templates
+    - "Plan/**"            # Docs and local scratch files, not app code
     - android/**
     - ios/**
   errors:

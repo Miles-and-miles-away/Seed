@@ -310,6 +310,20 @@ Style: Most expressive and character-driven of all asset types. Should
 have personality and charm. These are the user's companion -- they need
 to feel alive even as static images.
 
+#### Face placement minimum
+
+These rules apply to the code-drawn mascots. A geometry test checks
+them for every stage and every key pose.
+
+- **At rest.** The clear space between the outer line of each eye
+  and the body outline is at least 0.3 of the width of one eye.
+- **During gaze.** When the eyes follow the finger, the clear space
+  is at least 0.2 of the width of one eye.
+- Measure the clear space in all directions around the eye, not only
+  to the side.
+- If a body is too narrow for the rule, make the body wider or move
+  the eyes together.
+
 
 ## 7. Quality Checklist
 

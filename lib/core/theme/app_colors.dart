@@ -20,7 +20,7 @@ abstract class AppColors {
   static const speciesThemeSeeds = <String, Color>{
     'seed': primary,
     'coral': Color(0xFF4FC3F7), // light ocean blue
-    'fungi': Color(0xFFA1887F), // light chocolate brown
+    'fungi': Color(0xFFE57373), // light red
   };
 
   // Action category colors
