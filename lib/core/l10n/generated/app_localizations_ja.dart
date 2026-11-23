@@ -637,6 +637,28 @@ class AppLocalizationsJa extends AppLocalizations {
   String get streakBrokenStartNew => '新しい記録を始める';
 
   @override
+  String get mascotGreetingWelcome => 'おかえりなさい！';
+
+  @override
+  String mascotGreetingStreak(int count) {
+    return '$count日連続！アクションを記録して続けましょう。';
+  }
+
+  @override
+  String get mascotGreetingNoStreak => 'アクションを記録して、新しい連続記録を始めましょう。';
+
+  @override
+  String mascotCheerStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count日連続！',
+      one: '連続記録スタート！',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get sortLabel => '並べ替え';
 
   @override

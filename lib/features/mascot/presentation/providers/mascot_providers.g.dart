@@ -1085,61 +1085,69 @@ final class MascotCelebrationPendingProvider
 String _$mascotCelebrationPendingHash() =>
     r'd63a2048618d9a75f0f1274142f7933840763e06';
 
-/// The last log date whose gap the welcome-back smile has already
-/// greeted in this app process.
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
 
-@ProviderFor(WelcomeBackSmiled)
-final welcomeBackSmiledProvider = WelcomeBackSmiledProvider._();
+@ProviderFor(DailyGreeted)
+final dailyGreetedProvider = DailyGreetedProvider._();
 
-/// The last log date whose gap the welcome-back smile has already
-/// greeted in this app process.
-final class WelcomeBackSmiledProvider
-    extends $NotifierProvider<WelcomeBackSmiled, DateTime?> {
-  /// The last log date whose gap the welcome-back smile has already
-  /// greeted in this app process.
-  WelcomeBackSmiledProvider._()
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
+final class DailyGreetedProvider
+    extends $NotifierProvider<DailyGreeted, String?> {
+  /// The local day whose greeting Home's mascot has played in this session,
+  /// for the signed-in account. [store] writes it to the settings once the
+  /// greeting has played out, so a cold start later that day does not greet
+  /// again.
+  DailyGreetedProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'welcomeBackSmiledProvider',
+        name: r'dailyGreetedProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$welcomeBackSmiledHash();
+  String debugGetCreateSourceHash() => _$dailyGreetedHash();
 
   @$internal
   @override
-  WelcomeBackSmiled create() => WelcomeBackSmiled();
+  DailyGreeted create() => DailyGreeted();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(DateTime? value) {
+  Override overrideWithValue(String? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<DateTime?>(value),
+      providerOverride: $SyncValueProvider<String?>(value),
     );
   }
 }
 
-String _$welcomeBackSmiledHash() => r'ac46cb6bd66149f18d23cf4ad7367cf7e1478e6f';
+String _$dailyGreetedHash() => r'7eabfa781c94d99bb6443ae8248d5a1384b0009e';
 
-/// The last log date whose gap the welcome-back smile has already
-/// greeted in this app process.
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
 
-abstract class _$WelcomeBackSmiled extends $Notifier<DateTime?> {
-  DateTime? build();
+abstract class _$DailyGreeted extends $Notifier<String?> {
+  String? build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<DateTime?, DateTime?>;
+    final ref = this.ref as $Ref<String?, String?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<DateTime?, DateTime?>,
-              DateTime?,
+              AnyNotifier<String?, String?>,
+              String?,
               Object?,
               Object?
             >;
@@ -1147,30 +1155,33 @@ abstract class _$WelcomeBackSmiled extends $Notifier<DateTime?> {
   }
 }
 
-/// Whether Home's mascot should play the welcome-back smile now.
+/// Whether Home's mascot should greet the user now: once a day, for a
+/// user who has logged before but not yet today.
 
-@ProviderFor(welcomeBackSmileDue)
-final welcomeBackSmileDueProvider = WelcomeBackSmileDueProvider._();
+@ProviderFor(dailyGreetingDue)
+final dailyGreetingDueProvider = DailyGreetingDueProvider._();
 
-/// Whether Home's mascot should play the welcome-back smile now.
+/// Whether Home's mascot should greet the user now: once a day, for a
+/// user who has logged before but not yet today.
 
-final class WelcomeBackSmileDueProvider
+final class DailyGreetingDueProvider
     extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
-  /// Whether Home's mascot should play the welcome-back smile now.
-  WelcomeBackSmileDueProvider._()
+  /// Whether Home's mascot should greet the user now: once a day, for a
+  /// user who has logged before but not yet today.
+  DailyGreetingDueProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'welcomeBackSmileDueProvider',
+        name: r'dailyGreetingDueProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$welcomeBackSmileDueHash();
+  String debugGetCreateSourceHash() => _$dailyGreetingDueHash();
 
   @$internal
   @override
@@ -1179,7 +1190,7 @@ final class WelcomeBackSmileDueProvider
 
   @override
   bool create(Ref ref) {
-    return welcomeBackSmileDue(ref);
+    return dailyGreetingDue(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -1191,12 +1202,11 @@ final class WelcomeBackSmileDueProvider
   }
 }
 
-String _$welcomeBackSmileDueHash() =>
-    r'fbf6dbd659b0cb23fbab127fa33f5af17a04b5f2';
+String _$dailyGreetingDueHash() => r'773b7c441068f48ce5149e3858418a0e21a9b6fb';
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 
 @ProviderFor(MascotSmileTrigger)
@@ -1204,13 +1214,13 @@ final mascotSmileTriggerProvider = MascotSmileTriggerProvider._();
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 final class MascotSmileTriggerProvider
     extends $NotifierProvider<MascotSmileTrigger, bool> {
   /// Fires the mascot smile animation, e.g. before opening the action log.
   ///
-  /// Rive-animated mascots play their smile timeline; static SVG mascots
+  /// Code-drawn mascots hold a smile; static SVG mascots
   /// ignore it.
   MascotSmileTriggerProvider._()
     : super(
@@ -1244,7 +1254,7 @@ String _$mascotSmileTriggerHash() =>
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 
 abstract class _$MascotSmileTrigger extends $Notifier<bool> {

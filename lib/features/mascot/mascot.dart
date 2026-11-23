@@ -27,6 +27,7 @@ export 'presentation/widgets/mascot_display.dart';
 export 'presentation/widgets/mascot_header.dart';
 export 'presentation/widgets/mascot_housing.dart';
 export 'presentation/widgets/mascot_image.dart';
+export 'presentation/widgets/mascot_speech_bubble.dart';
 export 'presentation/widgets/mascot_stats_card.dart';
 export 'presentation/widgets/max_evolution_card.dart';
 export 'presentation/widgets/next_evolution_card.dart';

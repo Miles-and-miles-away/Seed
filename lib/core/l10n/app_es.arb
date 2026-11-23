@@ -279,6 +279,24 @@
   "streakBrokenTitle": "Racha interrumpida",
   "streakBrokenMessage": "¡No te preocupes! Empieza una nueva racha hoy.",
   "streakBrokenStartNew": "Empezar una nueva racha",
+  "mascotGreetingWelcome": "¡Hola de nuevo!",
+  "mascotGreetingStreak": "{count, plural, one{¡Racha de {count} día! Registra una acción para mantenerla.} other{¡Racha de {count} días! Registra una acción para mantenerla.}}",
+  "@mascotGreetingStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mascotGreetingNoStreak": "Registra una acción para empezar una nueva racha.",
+  "mascotCheerStreak": "{count, plural, =1{¡Racha iniciada!} other{¡Racha de {count} días!}}",
+  "@mascotCheerStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "sortLabel": "Ordenar",
   "sortButtonTooltip": "Ordenar: {option}",
   "@sortButtonTooltip": {

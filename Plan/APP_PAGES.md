@@ -120,11 +120,17 @@ Main hub with mascot summary, challenges, and SDG carousel.
   sheet), infinite SDG carousel under a "Discover the SDGs" header
   (official UN goal icons bundled per app language, EN/JA/ES),
   "Learn more at UN.org" external link.
-- Welcome back: when the last log was 2 or more calendar days ago,
-  Home's mascot smiles once, as soon as it is loaded and on screen
-  (not while covered or on another tab). The check runs again when the
-  day changes. Once per gap in an app process; never for a user who has
-  not logged yet.
+- Daily greeting: on the first Home visit of a day with no log yet,
+  the mascot waves (a smile under reduced motion), and a speech bubble
+  covers the name, stage and stats for 4 s. The bubble says "Welcome
+  back!" with "{n}-day streak! Log an action to keep it." while
+  the streak is live, else "Log an action to start a new streak." It
+  plays as soon as the mascot is loaded and on screen (not while
+  covered, on another tab, during the walkthrough intro or while an
+  evolution or egg celebration is pending). The check runs again when
+  the day changes. Once a day: the greeted day is stored in
+  `settings.greetedDate`, so a cold start the same day does not greet
+  again. Never for a user who has not logged yet.
 
 ### SDG Detail (`/home/sdg/:goalNumber`)
 Individual SDG goal with targets, resources, actions, impact cards, and a
@@ -163,20 +169,23 @@ nav stays visible and the tab it was opened from stays selected.
   stage card, up to two lines), next-evolution progress. While the
   mascot loads the screen shows a spinner under a "Mascot" app bar with
   a back arrow.
-- Tapping the mascot makes it smile.
+- Tapping the mascot makes it wave.
 
 ### Mascot Lab (`/home/mascot/lab`, debug builds only)
-Side-by-side comparison of the code-drawn (v3) mascots and the Rive
-mascots (PDR_MASCOT_REDESIGN). The route and its entry point do not
-exist in release builds.
+Preview of the code-drawn (v3) mascots and their celebration routines
+(PDR_MASCOT_REDESIGN). The route and its entry point do not exist in
+release builds.
 - Reached from: the flask icon in the Mascot app bar.
 - Links: none
 - Functionality: the selected code-drawn hero (breathes, blinks,
-  follows the pointer, waves when tapped) beside the matching Rive
-  artboard, a 48 dp static pair, a static cast of every code-drawn
-  stage (tap one to select it), and an app bar button that fires the
-  smile trigger. A species with no Rive file shows the code-drawn
-  mascot alone.
+  follows the pointer, waves when tapped) beside its 48 dp static
+  twin, chips that play a routine on the hero from its start (idle,
+  dance, cheer, evolve, hatch), a static cast of every code-drawn stage
+  (tap one to select it), and an app bar button that fires the smile
+  trigger. The hatch chip hatches stage 1 of the selected species from
+  an egg, as the real egg hatch does. The evolve chip plays the smoke
+  that hides the previous stage and clears on the selected stage (on
+  stage 2 when stage 1 is selected).
 
 ### Challenges (`/home/challenges`)
 List of six multi-day challenges with state (completed / active /
@@ -291,8 +300,11 @@ unambiguous exit. Browse and log actions.
   ignoring case, accents and surrounding spaces ("carton" finds
   "Reciclar cartón").
 - After a log (here or from SDG detail): the points animation and
-  snackbar(s). The log that brings today's count exactly to the daily
-  goal (the user's target, else 3) shows the jump cheer
+  snackbar(s). The day's first log shows the dance cheer: the jump
+  cheer's mascot dances in place of the jump, with a speech bubble
+  over its head ("Streak started!" or "{n}-day streak!"). The log
+  that brings today's count exactly to the daily goal (the user's
+  target, else 3) shows the jump cheer
   (`MascotCheer.show`: a mascot rising in the root overlay to the
   bottom third of the space above the bottom nav or keyboard, jumping
   to its middle once loaded with its eyes on the user, sinking after
@@ -302,7 +314,7 @@ unambiguous exit. Browse and log actions.
   the inbox plays while an evolution or egg celebration is pending.
   The cheer also stands aside for any other celebration, showing or
   queued, and the inbox opens once those close. Only one cheer shows
-  at a time.
+  at a time, so a first log that also reaches the goal dances.
 
 ### Calculator colouring (all three)
 

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/animation.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
@@ -39,6 +40,9 @@ class CoralPainter extends DrawnMascotPainter {
   static const double _fringeHeight = 0.55;
   static const double _grassWidth = 3.6;
   static const double _fishBob = 14;
+  static const double _swimLegSeconds = 6;
+  static const double _swimTurn = 0.1;
+  static const double _hideTurn = 0.25;
   static const Size _footSize = Size(13, 10);
 
   static const List<MascotRig> _rigs = [
@@ -239,9 +243,47 @@ class CoralPainter extends DrawnMascotPainter {
   @override
   FacePalette get facePalette => _facePalette;
 
+  // Swims to the mirrored spot and back, turning at each end.
+  _Fish _swimming(_Fish fish) {
+    final legs = pose.swim / _swimLegSeconds;
+    final leg = legs - legs.floor();
+    final outbound = legs.floor().isEven;
+    final far = Offset(
+      DrawnMascotPainter.designSize - fish.centre.dx,
+      fish.centre.dy,
+    );
+    final (from, to) = outbound ? (fish.centre, far) : (far, fish.centre);
+    final turn = ((leg - 1 + _swimTurn) / _swimTurn).clamp(0.0, 1.0);
+    return (
+      centre: Offset.lerp(from, to, Curves.easeInOut.transform(leg))!,
+      facing:
+          (outbound ? fish.facing : -fish.facing) * math.cos(math.pi * turn),
+    );
+  }
+
+  /// Where each fish is for [pose]: swimming, or hiding behind the body.
+  List<({Offset centre, double facing})> get shoal {
+    final den = Offset(DrawnMascotPainter.designSize / 2, body.mid);
+    return [
+      for (final home in _shoals[stage - 1])
+        _hiding(_swimming(home), den, pose.hide),
+    ];
+  }
+
+  // Head first to the den and back out, turning near each end of the trip.
+  static _Fish _hiding(_Fish fish, Offset den, double hide) {
+    final toward = fish.centre.dx > den.dx ? 1.0 : -1.0;
+    final heading = hide <= 1 ? toward : -toward;
+    final turn = (math.min(hide, 2 - hide) / _hideTurn).clamp(0.0, 1.0);
+    return (
+      centre: Offset.lerp(fish.centre, den, hide <= 1 ? hide : 2 - hide)!,
+      facing: fish.facing + (heading - fish.facing) * turn,
+    );
+  }
+
   @override
   void paintGround(Canvas canvas) {
-    for (final fish in _shoals[stage - 1]) {
+    for (final fish in shoal) {
       canvas
         ..save()
         ..translate(fish.centre.dx, fish.centre.dy + pose.topSway * _fishBob)
@@ -269,6 +311,7 @@ class CoralPainter extends DrawnMascotPainter {
         ),
         _limb,
       ),
+      kick: true,
     );
   }
 

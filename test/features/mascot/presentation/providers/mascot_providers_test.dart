@@ -434,7 +434,7 @@ void main() {
     });
   });
 
-  group('welcome back smile', () {
+  group('daily greeting', () {
     final now = DateTime(2026, 3, 10, 9);
 
     Future<ProviderContainer> container(DateTime? lastActionDate) =>
@@ -445,19 +445,22 @@ void main() {
           clockProvider.overrideWithValue(() => now),
         ]);
 
-    test('is due after two or more calendar days without a log', () async {
-      for (final last in [DateTime(2026, 3, 8, 23), DateTime(2026, 2)]) {
+    test('is due for a user who has not logged today', () async {
+      for (final last in [DateTime(2026, 3, 9, 23), DateTime(2026, 2)]) {
         final c = await container(last);
-        expect(c.read(welcomeBackSmileDueProvider), isTrue, reason: '$last');
+        expect(c.read(dailyGreetingDueProvider), isTrue, reason: '$last');
       }
     });
 
-    test('is not due after a log today or yesterday, or never', () async {
-      for (final last in [now, DateTime(2026, 3, 9), null]) {
-        final c = await container(last);
-        expect(c.read(welcomeBackSmileDueProvider), isFalse, reason: '$last');
-      }
-    });
+    test(
+      'is not due after a log today, or for a user who never logged',
+      () async {
+        for (final last in [DateTime(2026, 3, 10, 0, 5), null]) {
+          final c = await container(last);
+          expect(c.read(dailyGreetingDueProvider), isFalse, reason: '$last');
+        }
+      },
+    );
 
     test('reads the last log at the offset it was written in', () async {
       final c = await pumpedContainer([
@@ -465,34 +468,106 @@ void main() {
           AppUserModel(
             uid: 'u',
             email: 'e',
-            lastActionDate: DateTime.utc(2026, 3, 8, 10),
+            lastActionDate: DateTime.utc(2026, 3, 9, 10),
             lastActionUtcOffsetMinutes: 840,
           ),
         ),
         clockProvider.overrideWithValue(() => now),
       ]);
-      expect(c.read(welcomeBackSmileDueProvider), isFalse);
+      expect(c.read(dailyGreetingDueProvider), isFalse);
     });
 
-    test('plays once for each gap', () async {
+    test('plays once a day', () async {
+      var today = now;
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => today),
+      ]);
+      expect(c.read(dailyGreetingDueProvider), isTrue);
+
+      c.read(dailyGreetedProvider.notifier).markGreeted();
+      expect(c.read(dailyGreetingDueProvider), isFalse);
+
+      today = now.add(const Duration(days: 1));
+      c.invalidate(dailyGreetingDueProvider);
+      expect(c.read(dailyGreetingDueProvider), isTrue);
+    });
+
+    test('is not due on a day the settings record as greeted', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionDate: DateTime(2026, 3),
+            greetedDate: '2026-03-10',
+          ),
+        ),
+        clockProvider.overrideWithValue(() => now),
+      ]);
+      expect(c.read(dailyGreetingDueProvider), isFalse);
+    });
+
+    test('stores the greeted day in the settings', () async {
+      final firestore = FakeFirebaseFirestore();
+      final doc = firestore.collection(AppConstants.collectionUsers).doc('u');
+      await doc.set({'uid': 'u', 'email': 'e'});
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => now),
+        firestoreProvider.overrideWithValue(firestore),
+      ]);
+
+      final greeted = c.read(dailyGreetedProvider.notifier)..markGreeted();
+      await Future<void>.delayed(Duration.zero);
+      expect((await doc.get()).data(), isNot(contains('settings')));
+
+      greeted.store();
+      await Future<void>.delayed(Duration.zero);
+      final stored = AppUserModel.fromJson((await doc.get()).data()!);
+      expect(stored.greetedDate, '2026-03-10');
+    });
+
+    test('an interrupted greeting is due again and stores nothing', () async {
+      final firestore = FakeFirebaseFirestore();
+      final doc = firestore.collection(AppConstants.collectionUsers).doc('u');
+      await doc.set({'uid': 'u', 'email': 'e'});
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => now),
+        firestoreProvider.overrideWithValue(firestore),
+      ]);
+
+      c.read(dailyGreetedProvider.notifier)
+        ..markGreeted()
+        ..interrupt()
+        ..store();
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(dailyGreetingDueProvider), isTrue);
+      expect((await doc.get()).data(), isNot(contains('settings')));
+    });
+
+    test('forgets the greeting when the account changes', () async {
       final users = StreamController<AppUserModel?>();
       addTearDown(users.close);
-      AppUserModel lastLogged(DateTime day) =>
-          AppUserModel(uid: 'u', email: 'e', lastActionDate: day);
       final c = await pumpedContainer([
         currentUserProvider.overrideWith((_) => users.stream),
         clockProvider.overrideWithValue(() => now),
-      ]);
-      users.add(lastLogged(DateTime(2026, 3)));
+      ], warm: dailyGreetedProvider);
+      users.add(const AppUserModel(uid: 'u', email: 'e'));
       await Future<void>.delayed(Duration.zero);
-      expect(c.read(welcomeBackSmileDueProvider), isTrue);
+      c.read(dailyGreetedProvider.notifier).markGreeted();
+      expect(c.read(dailyGreetedProvider), isNotNull);
 
-      c.read(welcomeBackSmiledProvider.notifier).markSmiled();
-      expect(c.read(welcomeBackSmileDueProvider), isFalse);
-
-      users.add(lastLogged(DateTime(2026, 3, 5)));
+      users.add(const AppUserModel(uid: 'v', email: 'e'));
       await Future<void>.delayed(Duration.zero);
-      expect(c.read(welcomeBackSmileDueProvider), isTrue);
+      expect(c.read(dailyGreetedProvider), isNull);
     });
 
     test('waits while an evolution or egg celebration is pending', () async {
@@ -503,7 +578,7 @@ void main() {
         clockProvider.overrideWithValue(() => now),
         mascotCelebrationPendingProvider.overrideWithValue(true),
       ]);
-      expect(c.read(welcomeBackSmileDueProvider), isFalse);
+      expect(c.read(dailyGreetingDueProvider), isFalse);
     });
   });
 

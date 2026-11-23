@@ -1168,6 +1168,30 @@ abstract class AppLocalizations {
   /// **'Start New Streak'**
   String get streakBrokenStartNew;
 
+  /// No description provided for @mascotGreetingWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back!'**
+  String get mascotGreetingWelcome;
+
+  /// Home mascot's daily greeting when the streak is still live
+  ///
+  /// In en, this message translates to:
+  /// **'{count}-day streak! Log an action to keep it.'**
+  String mascotGreetingStreak(int count);
+
+  /// No description provided for @mascotGreetingNoStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Log an action to start a new streak.'**
+  String get mascotGreetingNoStreak;
+
+  /// Mascot's speech bubble after the first log of the day
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Streak started!} other{{count}-day streak!}}'**
+  String mascotCheerStreak(int count);
+
   /// No description provided for @sortLabel.
   ///
   /// In en, this message translates to:

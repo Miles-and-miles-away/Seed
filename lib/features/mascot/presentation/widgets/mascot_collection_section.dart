@@ -128,13 +128,7 @@ class MascotCollectionSection extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MascotImage(
-              assetPath: stage.assetPath,
-              artboardName: stage.artboardName,
-              width: 44,
-              height: 44,
-              onRiveInit: pauseRive,
-            ),
+            MascotImage(assetPath: stage.assetPath, width: 44, height: 44),
             const SizedBox(height: spacingXs),
             Text(
               mascot.name.isEmpty ? species.name(locale) : mascot.name,

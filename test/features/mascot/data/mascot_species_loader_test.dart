@@ -2,6 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -26,11 +28,18 @@ void main() {
       expect(ids.toSet().length, ids.length);
     });
 
-    test('every evolution stage asset is bundled', () async {
+    test('every evolution stage is code-drawn or a bundled asset', () async {
       final species = await loadMascotSpecies();
 
       for (final s in species) {
-        for (final stage in s.evolutionStages) {
+        for (final (index, stage) in s.evolutionStages.indexed) {
+          final drawn = drawnMascotStage(stage.assetPath);
+          if (drawn != null) {
+            expect(drawnSpeciesIds, contains(drawn.speciesId));
+            expect(drawn.speciesId, s.id);
+            expect(drawn.stage, index + 1);
+            continue;
+          }
           await expectLater(
             rootBundle.load(stage.assetPath),
             completes,

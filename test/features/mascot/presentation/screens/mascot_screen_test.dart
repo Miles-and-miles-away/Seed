@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/core/utils/helpers.dart';
@@ -7,6 +6,8 @@ import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/screens/mascot_screen.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
@@ -135,17 +136,23 @@ void main() {
       await disposeAndFlush(tester);
     });
 
-    testWidgets('tapping the mascot smiles', (tester) async {
+    testWidgets('tapping the code-drawn mascot waves', (tester) async {
       await pumpMascotScreen(tester);
-      final smiles = <bool>[];
-      ProviderScope.containerOf(
-        tester.element(find.byType(MascotScreen)),
-      ).listen(mascotSmileTriggerProvider, (_, next) => smiles.add(next));
 
-      await tester.tap(find.byType(MascotDisplay));
-      await tester.pump();
+      final hero = find.descendant(
+        of: find.byType(MascotDisplay),
+        matching: find.byType(DrawnMascot),
+      );
 
-      expect(smiles, [true]);
+      await tester.tap(hero);
+      for (var i = 0; i < 50; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+
+      final paint = tester.widget<CustomPaint>(
+        find.descendant(of: hero, matching: find.byType(CustomPaint)),
+      );
+      expect((paint.painter! as DrawnMascotPainter).pose.armR, greaterThan(1));
       await disposeAndFlush(tester);
     });
 
