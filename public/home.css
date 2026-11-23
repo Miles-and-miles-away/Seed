@@ -108,9 +108,6 @@ h2 {
 }
 .evolution figure { margin: 0; color: var(--ink); }
 .evolution .mascot { width: 100%; }
-.evolution figure:nth-child(1) .mascot { scale: .62; transform-origin: 50% 90%; }
-.evolution figure:nth-child(2) .mascot { scale: .75; transform-origin: 50% 90%; }
-.evolution figure:nth-child(3) .mascot { scale: .88; transform-origin: 50% 90%; }
 .evolution figcaption { font-size: .9rem; }
 .evolution b { display: block; font-size: 1.1rem; font-weight: 700; }
 

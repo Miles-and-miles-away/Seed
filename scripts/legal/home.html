@@ -43,8 +43,8 @@
       </div>
     </div>
     <div class="hero-stage">
-      <canvas class="mascot" data-riv="/riv/sprout_mascot.riv"
-        data-artboard="Sprout_stage2" aria-hidden="true"></canvas>
+      <canvas class="mascot" data-species="seed" data-stage="2"
+        aria-hidden="true"></canvas>
       <p class="bubble" aria-hidden="true">{{tap}}</p>
       <p class="sr">{{hero_alt}}</p>
     </div>
@@ -151,8 +151,8 @@
   </div>
   <div class="wrap ocean-grid">
     <div class="ocean-stage">
-      <canvas class="mascot" data-riv="/riv/coral_mascot.riv"
-        data-artboard="Coral_stage2" aria-hidden="true"></canvas>
+      <canvas class="mascot" data-species="coral" data-stage="2"
+        aria-hidden="true"></canvas>
       <p class="sr">{{coral_alt}}</p>
     </div>
     <div class="copy">
@@ -168,7 +168,6 @@
 {{footer}}
 
 <script src="/lang.js"></script>
-<script src="/vendor/rive.js"></script>
-<script src="/home.js"></script>
+<script type="module" src="/home.js"></script>
 </body>
 </html>

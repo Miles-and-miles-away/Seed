@@ -1,110 +1,118 @@
-const LOOK_RANGE = 100;
+import {
+  BLINK_SECONDS, WAVE_SECONDS, blinkEyeOpen, breathe, draw, restPose, wave,
+} from './mascots.js';
+
 // The eyes follow the pointer inside a circle: the body plus about 2 cm.
 const BODY_RADIUS = 0.3;
 const GAZE_MARGIN_PX = 76;
-const STATE_MACHINE = 'State Machine 1';
+const GAZE_JUMP = 1.1;
+const FOLLOW_RATE = 9;
+const MAX_FRAME_SECONDS = 0.1;
+const BLINK_MIN_GAP = 2.5;
+const BLINK_MAX_GAP = 7;
+const WINK_SECONDS = 0.6;
 const WINK_MIN_MS = 30_000;
 const WINK_MAX_MS = 180_000;
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
-// A decode slower than the last delay leaves the body missing until a resize.
-const REDRAW_MS = [100, 500, 2000, 5000];
 
-rive.RuntimeLoader.setWasmUrl('/vendor/rive.wasm');
-rive.RuntimeLoader.setWasmFallbackUrl('/vendor/rive_fallback.wasm');
-
-const files = new Map();
-const mascots = [];
+const mascots = new Map();
 const inView = new Set();
+let now = 0;
+let last = 0;
+let running = false;
 
-function loadFile(src) {
-  if (!files.has(src)) {
-    files.set(src, new Promise((resolve, reject) => {
-      const file = new rive.RiveFile({
-        src,
-        onLoad: () => resolve(file),
-        onLoadError: (e) => {
-          files.delete(src);
-          reject(e);
-        },
-      });
-      file.init().catch(() => {});
-    }));
+function paint(m, pose = restPose()) {
+  const ctx = m.canvas.getContext('2d');
+  ctx.clearRect(0, 0, m.canvas.width, m.canvas.height);
+  draw(ctx, m.canvas.dataset.species, +m.canvas.dataset.stage, pose,
+    m.canvas.width);
+}
+
+function resize(m) {
+  m.canvas.width = m.canvas.height =
+    Math.round(m.canvas.clientWidth * devicePixelRatio);
+  paint(m);
+}
+
+function frame(time) {
+  const dt = Math.min((time - last) / 1000, MAX_FRAME_SECONDS);
+  last = time;
+  now += dt;
+  const follow = 1 - Math.exp(-dt * FOLLOW_RATE);
+  for (const m of inView) {
+    m.gaze = m.gaze.map((g, k) => g + (m.target[k] - g) * follow);
+    if (now - m.blinkAt >= BLINK_SECONDS) {
+      m.blinkAt = now + BLINK_MIN_GAP
+        + Math.random() * (BLINK_MAX_GAP - BLINK_MIN_GAP);
+    }
+    const wink = (now - m.winkAt) / WINK_SECONDS;
+    let pose = breathe({
+      ...restPose(),
+      gaze: m.gaze,
+      eyeOpen: blinkEyeOpen(now - m.blinkAt),
+      wink: wink < 1 ? Math.sin(wink * Math.PI) : 0,
+    }, now);
+    const waved = (now - m.waveAt) / WAVE_SECONDS;
+    if (waved < 1) pose = wave(pose, waved);
+    paint(m, pose);
   }
-  return files.get(src);
+  running = inView.size > 0;
+  if (running) requestAnimationFrame(frame);
 }
 
 function scheduleWink(m) {
   setTimeout(() => {
-    if (inView.has(m.canvas)) m.face?.trigger('wink')?.trigger();
+    m.winkAt = now;
     scheduleWink(m);
   }, WINK_MIN_MS + Math.random() * (WINK_MAX_MS - WINK_MIN_MS));
 }
 
-async function mount(canvas) {
-  const riveFile = await loadFile(canvas.dataset.riv);
-  const r = new rive.Rive({
-    riveFile,
-    canvas,
-    artboard: canvas.dataset.artboard,
-    stateMachine: STATE_MACHINE,
-    autoplay: !REDUCED,
-    autoBind: true,
-    isTouchScrollEnabled: true,
-    useOffscreenRenderer: true,
-    onLoad: () => {
-      r.resizeDrawingSurfaceToCanvas();
-      const face = r.viewModelInstance?.viewModel('face');
-      const m = {canvas, r, face};
-      mascots.push(m);
-      if (!inView.has(canvas)) r.pause();
-      if (!REDUCED) scheduleWink(m);
-      // A paused rig never redraws, and the images decode after the first frame.
-      else REDRAW_MS.forEach((ms) => setTimeout(() => r.drawFrame(), ms));
-      canvas.classList.add('ready');
-    },
-  });
+// Only a mascot in view animates.
+const observer = new IntersectionObserver((entries) => {
+  if (REDUCED) return;
+  for (const e of entries) {
+    const m = mascots.get(e.target);
+    if (e.isIntersecting) inView.add(m);
+    else inView.delete(m);
+  }
+  if (inView.size > 0 && !running) {
+    running = true;
+    last = performance.now();
+    requestAnimationFrame(frame);
+  }
+});
+
+for (const canvas of document.querySelectorAll('canvas.mascot')) {
+  const m = {
+    canvas, gaze: [0, 0], target: [0, 0],
+    blinkAt: BLINK_MIN_GAP, waveAt: -Infinity, winkAt: -Infinity,
+  };
+  mascots.set(canvas, m);
+  resize(m);
+  canvas.classList.add('ready');
+  observer.observe(canvas);
+  if (REDUCED) continue;
+  scheduleWink(m);
   canvas.addEventListener('animationend', () => canvas.classList.remove('hop'));
   canvas.addEventListener('click', () => {
-    const m = mascots.find((x) => x.canvas === canvas);
-    m?.face?.trigger('smile')?.trigger();
+    if (now - m.waveAt >= WAVE_SECONDS) m.waveAt = now;
     canvas.classList.remove('hop');
     void canvas.offsetWidth;
     canvas.classList.add('hop');
   });
 }
 
-// Mount each mascot when it nears the viewport; pause it when it leaves.
-const observer = new IntersectionObserver((entries) => {
-  for (const e of entries) {
-    if (e.isIntersecting) inView.add(e.target);
-    else inView.delete(e.target);
-    const m = mascots.find((x) => x.canvas === e.target);
-    if (!m) {
-      if (e.isIntersecting && !e.target.dataset.mounted) {
-        e.target.dataset.mounted = '1';
-        mount(e.target).catch(() => delete e.target.dataset.mounted);
-      }
-      continue;
-    }
-    if (REDUCED) continue;
-    if (e.isIntersecting) m.r.play(STATE_MACHINE);
-    else m.r.pause();
-  }
-}, {rootMargin: '200px'});
-
-document.querySelectorAll('canvas.mascot').forEach((c) => observer.observe(c));
-
-// With the look at 0 the rig looks around, faces front and winks by itself.
 function steer(ev) {
-  for (const m of mascots) {
-    if (!inView.has(m.canvas) || !m.face) continue;
+  for (const m of inView) {
     const b = m.canvas.getBoundingClientRect();
     const reach = b.width * BODY_RADIUS + GAZE_MARGIN_PX;
     const x = ev ? (ev.clientX - (b.left + b.width / 2)) / reach : 0;
     const y = ev ? (ev.clientY - (b.top + b.height / 2)) / reach : 0;
-    const scale = Math.hypot(x, y) <= 1 ? LOOK_RANGE : 0;
-    m.face.number('lookX').value = x * scale;
-    m.face.number('lookY').value = y * scale;
+    const target = Math.hypot(x, y) <= 1 ? [x, y] : [0, 0];
+    // A blink covers a large jump of the eyes.
+    const jump = Math.hypot(target[0] - m.target[0], target[1] - m.target[1]);
+    if (jump > GAZE_JUMP && now - m.blinkAt >= BLINK_SECONDS) m.blinkAt = now;
+    m.target = target;
   }
 }
 
@@ -117,5 +125,5 @@ let sized = viewport();
 addEventListener('resize', () => {
   if (sized === viewport()) return;
   sized = viewport();
-  for (const m of mascots) m.r.resizeDrawingSurfaceToCanvas();
+  mascots.forEach(resize);
 });

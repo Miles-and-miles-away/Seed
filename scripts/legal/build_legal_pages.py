@@ -6,10 +6,9 @@ public/terms.html and public/delete-account.html, plus the tester page
 public/beta.html.
 
 Also renders the home page public/index.html from home.html and
-home_text.json beside this script, copies the mascot .riv files to
-public/riv and cuts the app font down to the glyphs the pages show.
-public/site.css, public/home.css, public/page.css and public/home.js are
-edited in place.
+home_text.json beside this script and cuts the app font down to the
+glyphs the pages show. public/site.css, public/home.css, public/page.css,
+public/home.js and public/mascots.js are edited in place.
 
 Run from the repo root, in the seed conda env (the font step needs
 fonttools and brotli):
@@ -22,7 +21,6 @@ from __future__ import annotations
 import html
 import json
 import re
-import shutil
 from pathlib import Path
 
 BETA_GROUP_URL = 'https://groups.google.com/g/seed-android-testers'
@@ -360,21 +358,19 @@ HOME_BETA_BUTTON = {
 }
 
 
-def species() -> list[dict]:
-    return json.loads(SPECIES.read_text(encoding='utf-8'))
-
-
 def evolution_strip() -> str:
-    stages = next(s for s in species() if s['id'] == HOME_SPECIES)['evolutionStages']
+    stages = next(
+        s for s in json.loads(SPECIES.read_text(encoding='utf-8'))
+        if s['id'] == HOME_SPECIES
+    )['evolutionStages']
     level = arb_text('levelLabel')
     return '\n'.join(
-        '<figure><canvas class="mascot" '
-        f'data-riv="/riv/{Path(st["assetPath"]).name}" '
-        f'data-artboard="{st["artboardName"]}" aria-hidden="true"></canvas>'
+        f'<figure><canvas class="mascot" data-species="{HOME_SPECIES}" '
+        f'data-stage="{number}" aria-hidden="true"></canvas>'
         f'<figcaption><b>{tr({g: st["name" + g.capitalize()] for g in LANGS})}</b>'
         f'{tr({g: level[g].replace("{level}", str(st["level"])) for g in LANGS})}'
         '</figcaption></figure>'
-        for st in stages
+        for number, st in enumerate(stages, 1)
     )
 
 
@@ -393,12 +389,6 @@ def index_page(email: str) -> str:
         lambda m: raw.get(m[1]) or tr(texts[m[1]]),
         (HERE / 'home.html').read_text(encoding='utf-8'),
     )
-
-
-def copy_mascots() -> None:
-    (OUT / 'riv').mkdir(exist_ok=True)
-    for path in {st['assetPath'] for s in species() for st in s['evolutionStages']}:
-        shutil.copyfile(ROOT / path, OUT / 'riv' / Path(path).name)
 
 
 def subset_fonts(text: str) -> None:
@@ -891,7 +881,6 @@ def main() -> None:
     }
     for name, text in pages.items():
         (OUT / f'{name}.html').write_text(text, encoding='utf-8')
-    copy_mascots()
     if FONT_DIR.exists():
         subset_fonts(''.join(pages.values()))
     else:
