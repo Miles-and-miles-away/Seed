@@ -95,8 +95,9 @@ function computePoints(action) {
 // notes, research sources and the effort/frequency/impact scores;
 // points are computed here at seed time by computePoints().
 //
-// Grid factor 458 g CO2e/kWh (Ember GER 2026), gas 182 g CO2e/kWh
-// (DEFRA 2026, Gross CV). See Plan/AUDIT_ACTION_DATA.md section 8.
+// Grid factor 458 g CO2e/kWh (Ember GER 2026), gas 212 g CO2e/kWh
+// (DESNZ 2026, Gross CV, including well-to-tank).
+// See Plan/AUDIT_ACTION_DATA.md section 8.
 // ===========================================================
 const ACTION_DATA_PATH = path.join(
   __dirname,

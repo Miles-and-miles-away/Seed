@@ -4,10 +4,10 @@ import 'package:seed_app/features/transport/transport.dart';
 /// Sanity invariants from Plan/RESEARCH_TRANSPORT.md section 6.
 ///
 /// These pin cross-mode orderings that must survive dataset
-/// updates (e.g. a new DEFRA vintage). The two deliberate
+/// updates (e.g. a new DEFRA vintage). The deliberate
 /// non-invariants documented there (coach vs national rail;
-/// short-haul flight vs solo petrol car) are intentionally NOT
-/// tested.
+/// short-haul flight vs solo petrol car; Shinkansen vs the UK rail
+/// band) are intentionally NOT tested.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -36,27 +36,11 @@ void main() {
     expect(factor('walk'), 0);
     for (final mode in byId.values) {
       if (const {'active', 'micro'}.contains(mode.group)) continue;
-      // Documented exception (RESEARCH_TRANSPORT.md sec 6):
-      // rail_international (4.46) sits below the e-scooter (6)
-      // until the ~2.5x 2026 DEFRA revision lands.
-      if (mode.id == 'rail_international') continue;
       final best = perPassenger(mode.id, occupants: mode.maxOccupants);
       expect(
         activeMax,
         lessThan(best),
         reason: '${mode.id} at full occupancy beats active modes',
-      );
-    }
-  });
-
-  test('2. shinkansen at or below tram and national rail', () {
-    // Metro deliberately excluded: the 2026 DEFRA revision cuts
-    // London Underground ~44% to ~15.4, below shinkansen's 20.
-    for (final id in ['tram', 'rail_national']) {
-      expect(
-        factor('rail_shinkansen'),
-        lessThanOrEqualTo(factor(id)),
-        reason: id,
       );
     }
   });
@@ -126,10 +110,6 @@ void main() {
         reason: mode.id,
       );
     }
-  });
-
-  test('11. international rail < shinkansen', () {
-    expect(factor('rail_international'), lessThan(factor('rail_shinkansen')));
   });
 
   test('12. taxi > city bus', () {

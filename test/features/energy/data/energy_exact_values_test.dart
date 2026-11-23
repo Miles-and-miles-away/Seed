@@ -42,11 +42,11 @@ void main() {
       'dryer_vented': 4.5, // not the model-specific 4.63
       'dryer_heatpump': 2.05,
       'line_dry': 0,
-      'aircon_heating': 0.241006, // METI measured, not the JIS rated 0.455
+      'aircon_heating': 0.211124, // METI model house, not the JIS rated 0.455
       'portable_electric_heater': 1.2, // not 1.5
       'kotatsu': 0.15, // not the 0.3-0.6 nameplate
       'electric_blanket': 0.025,
-      'aircon_cooling': 0.167679, // METI measured, not the JIS rated 0.435
+      'aircon_cooling': 0.226607, // METI model house, not the JIS rated 0.435
       'fan': 0.022, // Panasonic F-CV339 highest notch, the action's basis
       'kettle': 0.116278,
       'ih_hob': 0.116598,
@@ -163,9 +163,6 @@ void main() {
   });
 
   test('every preset quantity ships exactly', () {
-    // The aircon setpoint presets are the transposition risk the
-    // research flags: 1.17891 and 1.35783 swapped went undetected, as
-    // did the evening preset drifting off 4 x the hourly figure.
     const expected = <String, double>{
       'shower_electric/quick_5min': 5,
       'shower_electric/typical_10min': 10,
@@ -188,16 +185,13 @@ void main() {
       'dryer_vented/one_load': 1,
       'dryer_heatpump/one_load': 1,
       'line_dry/one_load': 1,
-      'aircon_heating/hour_20c': 1.0,
-      'aircon_heating/hour_21c': 1.1448,
-      'aircon_heating/hour_22c': 1.2896,
+      'aircon_heating/one_hour': 1,
+      'aircon_heating/evening_4h': 4,
       'portable_electric_heater/evening_4h': 4,
       'kotatsu/evening_4h': 4,
       'electric_blanket/evening_4h': 4,
-      'aircon_cooling/hour_28c': 1.0,
-      'aircon_cooling/hour_27c': 1.17891,
-      'aircon_cooling/hour_26c': 1.35783,
-      'aircon_cooling/evening_26c': 5.43132,
+      'aircon_cooling/one_hour': 1,
+      'aircon_cooling/evening_4h': 4,
       'fan/one_hour': 1.0,
       'fan/evening_4h': 4.0,
       'kettle/one_litre': 1,
@@ -229,16 +223,6 @@ void main() {
       }
     }
     expect(actual, expected);
-  });
-
-  test('the aircon evening preset stays four times its hourly figure', () {
-    // Not a copy of the data: a relationship the copy cannot express,
-    // and the one the research derives it from.
-    final presets = {
-      for (final p in datasetEntries(byId['aircon_cooling']!, 'presets'))
-        p['id'] as String: (p['units'] as num).toDouble(),
-    };
-    expect(presets['evening_26c'], closeTo(4 * presets['hour_26c']!, 1e-9));
   });
 
   test('every confidence string ships exactly', () {

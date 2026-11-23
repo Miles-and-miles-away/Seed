@@ -133,6 +133,9 @@ class AppRoutes {
   /// Push, never go: a go leaves `/home` and resets the SDG carousel.
   String get mascot => '/home/mascot';
 
+  /// Exists in debug builds only.
+  String get mascotLab => '/home/mascot/lab';
+
   // Nested under progress
   String get actionHistory => '/progress/history';
 
@@ -241,7 +244,18 @@ GoRouter router(Ref ref) {
                   ),
                   // Multi-day challenges screen
                   _route('challenges', const ChallengesScreen()),
-                  _route('mascot', const MascotScreen()),
+                  _route(
+                    'mascot',
+                    const MascotScreen(),
+                    routes: [
+                      if (kDebugMode)
+                        _route(
+                          'lab',
+                          const MascotLabScreen(),
+                          name: 'mascot-lab',
+                        ),
+                    ],
+                  ),
                 ],
               ),
             ],

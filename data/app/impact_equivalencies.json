@@ -1,20 +1,20 @@
 [
   {
     "type": "trees",
-    "gramsPerUnit": 21000,
+    "gramsPerUnit": 60000,
     "sourceName": "US EPA — Greenhouse Gas Equivalencies Calculator",
     "sourceUrl": "https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references"
   },
   {
     "type": "carKm",
-    "gramsPerUnit": 162.72,
-    "sourceName": "UK DEFRA — 2025 GHG Conversion Factors (average petrol car, matches transport_modes.json)",
-    "sourceUrl": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025"
+    "gramsPerUnit": 207.51,
+    "sourceName": "UK DESNZ - 2026 GHG Conversion Factors (average petrol car including well-to-tank, matches transport_modes.json)",
+    "sourceUrl": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026"
   },
   {
     "type": "phoneCharges",
-    "gramsPerUnit": 8,
-    "sourceName": "US EPA — Greenhouse Gas Equivalencies Calculator",
+    "gramsPerUnit": 9,
+    "sourceName": "US EPA Greenhouse Gas Equivalencies Calculator; Ember Global Electricity Review 2026",
     "sourceUrl": "https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references"
   },
   {

@@ -130,10 +130,12 @@ not open for re-litigation in this brief.
    pinned by a cross-dataset test. Whatever replaces it must
    preserve a single source of truth -- two datasets must never
    be able to disagree about the same user's grid.
-3. **Operational boundary.** Generation-basis, no well-to-tank,
-   consistent with the transport dataset and the gas factor
-   (182 g/kWh combustion-only). Do not mix in a lifecycle grid
-   factor.
+3. **Lifecycle boundary.** Every carrier factor counts the fuel
+   supply chain. The grid factor is Ember's lifecycle intensity,
+   gas is DESNZ combustion plus well-to-tank (212 g/kWh), and
+   transport fuels include well-to-tank. A regional grid factor
+   must also be lifecycle. Do not mix in a combustion-only or
+   direct-only grid factor.
 4. **D1 discipline.** Never average two figures computed on
    different statistics or boundaries. This killed the
    "average IEA and Ember" proposal in E1 and it will recur

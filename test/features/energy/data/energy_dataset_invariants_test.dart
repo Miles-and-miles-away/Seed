@@ -115,7 +115,7 @@ void main() {
 
   test('pin 16: aircon cooling is over 5x the fan', () {
     // The flagship cooling lesson, buildable in-app since the fan
-    // entry paired the space_cool singleton. Actual ratio 7.62x.
+    // entry paired the space_cool singleton. Actual ratio 10.3x.
     expect(kwh('aircon_cooling'), greaterThan(5 * kwh('fan')));
   });
 }

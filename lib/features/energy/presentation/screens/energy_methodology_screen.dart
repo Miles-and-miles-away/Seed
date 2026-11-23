@@ -13,8 +13,8 @@ import 'package:seed_app/shared/widgets/widgets.dart';
 /// Methodology & sources page (Phase 8.16): the credibility layer.
 ///
 /// Static localized prose (scope, the one-global-grid-figure
-/// disclosure, the 241 g/kWh crossover, the heating hierarchy, the
-/// measured-not-rated and standby honesty notes) around the ranked
+/// disclosure, the 280 g/kWh crossover, the heating hierarchy, the
+/// average-use-not-rated and standby honesty notes) around the ranked
 /// "Where your energy goes" table, then a source list derived from the
 /// dataset itself so it can never drift from the shipped factors. The
 /// JA and ES bodies are written natively rather than translated (PDR

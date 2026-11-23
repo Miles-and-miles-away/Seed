@@ -127,8 +127,7 @@ String _kwhText(double kwh, String locale) {
 }
 
 /// Whole units without a decimal, so "10 minutes" does not read "10.0
-/// minutes", but a real fraction keeps two (the setpoint presets are
-/// 1.35783).
+/// minutes", but a real fraction keeps two (a shallow bath is 0.83).
 String _unitsText(double units, String locale) {
   final digits = units == units.roundToDouble() ? 0 : 2;
   return formatDecimal(units, locale, minDigits: digits, maxDigits: digits);
