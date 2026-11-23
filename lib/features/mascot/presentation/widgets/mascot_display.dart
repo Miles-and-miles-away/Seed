@@ -62,6 +62,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   rive.ViewModelInstanceTrigger? _jump;
   Timer? _smileHoldTimer;
 
+  // A code-drawn mascot has no Rive handles; it smiles on the provider.
+  bool _drawn = false;
+  bool _drawnReady = false;
+
   @override
   void initState() {
     super.initState();
@@ -115,6 +119,19 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     _maybeWelcomeBack();
   }
 
+  // The code-drawn twin of the load-time part of [_onRiveInit].
+  void _onDrawnReady() {
+    if (!mounted) return;
+    if (widget.jumpOnLoad) {
+      if (_reduceMotion) {
+        _smileFor(durationCelebration);
+      } else {
+        widget.onJump?.call();
+      }
+    }
+    _maybeWelcomeBack();
+  }
+
   bool get _reduceMotion => reduceMotionOf(context);
 
   @override
@@ -128,7 +145,8 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
 
   // Post-frame or post-load only: marking the smile writes provider state.
   void _maybeWelcomeBack() {
-    if (!widget.welcomesBack || !mounted || _smile == null) return;
+    if (!widget.welcomesBack || !mounted) return;
+    if (_smile == null && !_drawn) return;
     if (!TickerMode.valuesOf(context).enabled) return;
     if (!ref.read(welcomeBackSmileDueProvider)) return;
     ref.read(welcomeBackSmiledProvider.notifier).markSmiled();
@@ -137,6 +155,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
 
   // Holds smileHold while the smile plays so FaceRig defers its blinks.
   void _smileFor(Duration hold) {
+    if (_drawn) {
+      ref.read(mascotSmileTriggerProvider.notifier).triggerSmile(hold: hold);
+      return;
+    }
     _smile?.trigger();
     _smileHold?.value = 1;
     _smileHoldTimer?.cancel();
@@ -222,6 +244,12 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       );
     }
 
+    _drawn = drawnMascotStage(assetPath) != null;
+    if (_drawn && !_drawnReady) {
+      _drawnReady = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _onDrawnReady());
+    }
+
     final reduceMotion = _reduceMotion;
     final glow = Container(
       width: widget.size * 0.9,
@@ -289,6 +317,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       onRiveInit: _onRiveInit,
       hero: true,
       wavesOnTap: widget.onTap != null,
+      hopOnLoad: widget.jumpOnLoad,
     );
 
     // Rive and code-drawn mascots have their own idle motion; floating

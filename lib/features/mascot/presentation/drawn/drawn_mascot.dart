@@ -30,7 +30,8 @@ DrawnMascotPainter drawnMascotPainter(
 ///
 /// With [animate] it is the hero: it breathes, blinks, follows the
 /// pointer and smiles on [mascotSmileTriggerProvider]. With [wavesOnTap]
-/// it also takes taps and waves. Without [animate] the widget paints one
+/// it also takes taps and waves. With [hopOnLoad] it hops once when it
+/// first appears. Without [animate] the widget paints one
 /// static frame and owns no ticker.
 class DrawnMascot extends ConsumerStatefulWidget {
   const DrawnMascot({
@@ -39,6 +40,7 @@ class DrawnMascot extends ConsumerStatefulWidget {
     required this.size,
     this.animate = true,
     this.wavesOnTap = false,
+    this.hopOnLoad = false,
     super.key,
   });
 
@@ -49,6 +51,7 @@ class DrawnMascot extends ConsumerStatefulWidget {
 
   /// Off by default so that a tap reaches an ancestor, such as a card.
   final bool wavesOnTap;
+  final bool hopOnLoad;
 
   @override
   ConsumerState<DrawnMascot> createState() => _DrawnMascotState();
@@ -73,6 +76,7 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
   bool _smileHeld = false;
   double _blinkAt = blinkMinGapSeconds;
   double? _waveAt;
+  late double? _hopAt = widget.hopOnLoad ? 0 : null;
   bool _reduceMotion = false;
 
   @override
@@ -157,6 +161,15 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
           pose = wave(pose, progress);
         } else {
           _waveAt = null;
+        }
+      }
+      final hopAt = _hopAt;
+      if (hopAt != null) {
+        final progress = (_seconds - hopAt) / hopSeconds;
+        if (progress < 1) {
+          pose = hop(pose, progress);
+        } else {
+          _hopAt = null;
         }
       }
     }

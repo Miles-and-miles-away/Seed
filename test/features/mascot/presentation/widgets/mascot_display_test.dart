@@ -8,6 +8,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
@@ -73,14 +74,14 @@ void main() {
       }
     }
 
-    double waveArm(WidgetTester tester) {
+    MascotPose drawnPose(WidgetTester tester) {
       final paint = tester.widget<CustomPaint>(
         find.descendant(
           of: find.byType(DrawnMascot),
           matching: find.byType(CustomPaint),
         ),
       );
-      return (paint.painter! as DrawnMascotPainter).pose.armR;
+      return (paint.painter! as DrawnMascotPainter).pose;
     }
 
     testWidgets('a code-drawn hero animates without the float and waves on '
@@ -102,7 +103,7 @@ void main() {
       for (var i = 0; i < 50; i++) {
         await tester.pump(const Duration(milliseconds: 16));
       }
-      expect(waveArm(tester), greaterThan(1));
+      expect(drawnPose(tester).armR, greaterThan(1));
       expect(taps, 0);
       await tearDownTree(tester);
     });
@@ -124,7 +125,59 @@ void main() {
         await tester.pump(const Duration(milliseconds: 16));
       }
       expect(taps, 1);
-      expect(waveArm(tester), lessThan(0.2));
+      expect(drawnPose(tester).armR, lessThan(0.2));
+      await tearDownTree(tester);
+    });
+
+    testWidgets('a code-drawn hero hops on load and reports the jump', (
+      tester,
+    ) async {
+      var jumps = 0;
+      await tester.pumpWidget(
+        _wrap(
+          MascotDisplay(
+            size: 100,
+            showGlow: false,
+            jumpOnLoad: true,
+            onJump: () => jumps++,
+          ),
+          assetPath: drawnMascotPath('seed', 2),
+        ),
+      );
+      await tester.pump();
+      expect(jumps, 1);
+      for (var i = 0; i < 14; i++) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+      expect(drawnPose(tester).squash, lessThan(-0.1));
+      expect(jumps, 1);
+      await tearDownTree(tester);
+    });
+
+    testWidgets('a code-drawn hero under reduced motion smiles in place of '
+        'the hop', (tester) async {
+      var jumped = false;
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(disableAnimations: true),
+          child: _wrap(
+            MascotDisplay(
+              size: 100,
+              showGlow: false,
+              jumpOnLoad: true,
+              onJump: () => jumped = true,
+            ),
+            assetPath: drawnMascotPath('seed', 2),
+          ),
+        ),
+      );
+      for (var i = 0; i < 30; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(jumped, isFalse);
+      expect(drawnPose(tester).squash, 0);
+      expect(drawnPose(tester).smile, greaterThan(0.8));
+      await tester.pump(durationCelebration);
       await tearDownTree(tester);
     });
 
@@ -214,6 +267,25 @@ void main() {
           await tester.pump();
           expect(_smileHold(tester), 0);
         });
+        await tearDownTree(tester);
+      });
+
+      testWidgets('a code-drawn hero smiles when due, and records it', (
+        tester,
+      ) async {
+        await tester.pumpWidget(
+          _wrap(
+            const MascotDisplay(size: 100, showGlow: false, welcomesBack: true),
+            assetPath: drawnMascotPath('seed', 2),
+            overrides: overrides,
+          ),
+        );
+        for (var i = 0; i < 30; i++) {
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+        expect(smiled(tester), isTrue);
+        expect(drawnPose(tester).smile, greaterThan(0.8));
+        await tester.pump(durationCelebration);
         await tearDownTree(tester);
       });
 

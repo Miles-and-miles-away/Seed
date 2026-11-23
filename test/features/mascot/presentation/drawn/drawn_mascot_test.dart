@@ -24,15 +24,20 @@ final _keyPoses = <String, MascotPose>{
   'smile': const MascotPose(smile: 1),
   'wave': wave(const MascotPose(), 0.5),
   'wink': const MascotPose(wink: 1, smile: 0.6),
+  'hop crouch': hop(const MascotPose(), _hopTakeoff - 0.01),
+  'hop air': hop(const MascotPose(), _hopPeak),
 };
 
+const _hopTakeoff = hopCrouchFrames / 60 / hopSeconds;
+const _hopPeak =
+    (hopCrouchFrames + (hopRiseFrames + hopFallFrames) / 4) / 60 / hopSeconds;
 const _stages = [1, 2, 3, 4];
 const _heroSize = 120.0;
 const _thumbSize = 48.0;
 const _portraitSize = 260.0;
 const _thumbPoses = ['rest', 'smile', 'wave'];
 const _portraitPoses = ['rest', 'smile', 'wave', 'wink'];
-const _sheetSize = Size(1320, 600);
+const _sheetSize = Size(1580, 600);
 const _portraitSheetSize = Size(1200, 1200);
 const _goldenScale = 2.0;
 final _lineUpSize = Size(drawnSpeciesIds.length * 520, 460);
@@ -340,23 +345,27 @@ void main() {
   }
 
   group('DrawnMascot', () {
-    Future<void> pumpMascot(WidgetTester tester, {required bool animate}) =>
-        tester.pumpWidget(
-          ProviderScope(
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: Center(
-                child: DrawnMascot(
-                  speciesId: drawnSpeciesIds.first,
-                  stage: 2,
-                  size: 100,
-                  animate: animate,
-                  wavesOnTap: true,
-                ),
-              ),
+    Future<void> pumpMascot(
+      WidgetTester tester, {
+      required bool animate,
+      bool hopOnLoad = false,
+    }) => tester.pumpWidget(
+      ProviderScope(
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Center(
+            child: DrawnMascot(
+              speciesId: drawnSpeciesIds.first,
+              stage: 2,
+              size: 100,
+              animate: animate,
+              wavesOnTap: true,
+              hopOnLoad: hopOnLoad,
             ),
           ),
-        );
+        ),
+      ),
+    );
 
     MascotPose pose(WidgetTester tester) {
       final paint = tester.widget<CustomPaint>(
@@ -402,6 +411,29 @@ void main() {
       expect(pose(tester).armR, lessThan(0.2));
     });
 
+    testWidgets('the hero crouches, springs up and settles on load', (
+      tester,
+    ) async {
+      await pumpMascot(tester, animate: true, hopOnLoad: true);
+      Future<void> run(int milliseconds) async {
+        for (var i = 0; i < milliseconds ~/ 50; i++) {
+          await tester.pump(const Duration(milliseconds: 50));
+        }
+      }
+
+      await tester.pump();
+      await run(700);
+      expect(pose(tester).squash, lessThan(-0.1));
+      expect(pose(tester).smile, lessThan(0.05));
+      await run(150);
+      expect(pose(tester).squash, greaterThan(-0.03));
+      expect(pose(tester).armR, greaterThan(0.8));
+      expect(pose(tester).smile, 1);
+      await run(1200);
+      expect(pose(tester).squash.abs(), lessThan(0.02));
+      expect(pose(tester).armR, lessThan(0.1));
+    });
+
     testWidgets('the eyes follow a pointer and recentre on release', (
       tester,
     ) async {
@@ -432,6 +464,19 @@ void main() {
       expect(pose(tester).eyeOpen, 0);
       await gesture.up();
     });
+  });
+
+  test('a hop starts and ends at rest with no jump in the squash', () {
+    const steps = 200;
+    var last = hop(const MascotPose(), 0).squash;
+    expect(last, 0);
+    for (var i = 1; i <= steps; i++) {
+      final squash = hop(const MascotPose(), i / steps).squash;
+      expect((squash - last).abs(), lessThan(0.05), reason: 'step $i');
+      last = squash;
+    }
+    expect(last, closeTo(0, 1e-9));
+    expect(hop(const MascotPose(), 1).smile, 0);
   });
 
   test('a blink opens more slowly than it closes', () {

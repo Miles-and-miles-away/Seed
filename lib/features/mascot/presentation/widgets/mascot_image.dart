@@ -80,6 +80,7 @@ class MascotImage extends StatefulWidget {
     this.onRiveInit,
     this.hero = false,
     this.wavesOnTap = false,
+    this.hopOnLoad = false,
     super.key,
   });
 
@@ -103,6 +104,9 @@ class MascotImage extends StatefulWidget {
 
   /// See [DrawnMascot.wavesOnTap]. Ignored for files.
   final bool wavesOnTap;
+
+  /// See [DrawnMascot.hopOnLoad]. Ignored for files.
+  final bool hopOnLoad;
 
   @override
   State<MascotImage> createState() => _MascotImageState();
@@ -169,6 +173,7 @@ class _MascotImageState extends State<MascotImage> {
               size: constraints.biggest.shortestSide,
               animate: widget.hero,
               wavesOnTap: widget.wavesOnTap,
+              hopOnLoad: widget.hopOnLoad,
             ),
           ),
         ),

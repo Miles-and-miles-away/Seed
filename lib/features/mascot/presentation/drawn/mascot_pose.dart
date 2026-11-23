@@ -77,6 +77,14 @@ typedef MascotJoints = ({
 
 const double breathePeriodSeconds = 3.6;
 const double waveSeconds = 1.6;
+
+// Frames at 60 fps; the first three match the hop of the cheer overlay.
+const double hopCrouchFrames = 46;
+const double hopRiseFrames = 12;
+const double hopFallFrames = 12;
+const double _hopSettleFrames = 14;
+const double hopSeconds =
+    (hopCrouchFrames + hopRiseFrames + hopFallFrames + _hopSettleFrames) / 60;
 const double blinkCloseSeconds = 0.083;
 const double blinkHoldSeconds = 0.05;
 const double blinkOpenSeconds = 0.133;
@@ -118,6 +126,40 @@ MascotPose wave(MascotPose pose, double progress) {
     lean: pose.lean + amount * _waveLean,
     topSway: pose.topSway - amount * 0.12 * swing,
     smile: math.max(pose.smile, amount),
+  );
+}
+
+const double _hopCrouch = -0.14;
+const double _hopLand = -0.08;
+const double _hopArms = 0.9;
+
+/// Crouch, spring up with a smile, land and settle; [progress] runs 0..1.
+///
+/// The pose stays in place: the owner moves the widget for the air time.
+MascotPose hop(MascotPose pose, double progress) {
+  final frame = progress.clamp(0.0, 1.0) * hopSeconds * 60;
+  final takeoff = hopCrouchFrames;
+  final landing = takeoff + hopRiseFrames + hopFallFrames;
+  final double squash;
+  final double air;
+  if (frame < takeoff) {
+    squash = _hopCrouch * Curves.easeOut.transform(frame / takeoff);
+    air = 0;
+  } else if (frame < landing) {
+    final t = (frame - takeoff) / (landing - takeoff);
+    // No stretch: the tallest stage has no headroom in the design box.
+    squash = _hopCrouch * (1 - math.min(t * 4, 1));
+    air = 1;
+  } else {
+    final t = (frame - landing) / _hopSettleFrames;
+    squash = _hopLand * math.sin(math.min(t, 1) * math.pi);
+    air = 1 - Curves.easeOut.transform(t.clamp(0.0, 1.0));
+  }
+  return pose.copyWith(
+    squash: pose.squash + squash,
+    armL: pose.armL + air * _hopArms,
+    armR: pose.armR + air * _hopArms,
+    smile: math.max(pose.smile, air),
   );
 }
 
