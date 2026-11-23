@@ -247,30 +247,38 @@ const descriptions = {
   repair_item: {
     en:
       'Repairing a broken item instead of replacing it saves about '
-      + '**2.1kg** of CO2. This figure uses a cotton T-shirt as the l'
-      + 'ow case: making a new one causes about 4.2kg of CO2, and not'
-      + ' every repair stops a purchase, so WRAP\'s 50% rate gives 2.1'
-      + 'kg ([WRAP](https://www.wrap.ngo/sites/default/files/2025-02/'
-      + 'WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf)). Shoe'
-      + 's, coats and electricals carry much more carbon, so repairin'
-      + 'g them saves more.',
+      + '**2.1kg** of CO2. This figure uses a cotton T-shirt as the low '
+      + 'case: making a new one causes about 4.2kg of CO2, and not every '
+      + 'repair stops a purchase. WRAP measured that 82.2% of UK clothing '
+      + 'repairs replace a new purchase. This figure uses the lower 50% '
+      + 'from WRAP\'s resale worked example, which gives 2.1kg '
+      + '([WRAP](https://www.wrap.ngo/sites/default/files/2025-02/'
+      + 'WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf)). '
+      + 'Shoes, coats and electricals carry much more carbon, so '
+      + 'repairing them saves more.',
     ja:
-      '壊れた物を買い替えずに修理すると、約**2.1kg**のCO2を削減できます。この数字は、いちばん少ない場合として綿のT'
-      + 'シャツを使っています。新しいTシャツを作ると約4.2kgのCO2が出ます。修理しても、いつも新品を買うのをやめるわけでは'
-      + 'ないので、WRAPの50%の割合を使うと2.1kgになります（[WRAP](https://www.wrap.ngo/s'
-      + 'ites/default/files/2025-02/WRAP-Textiles-2030-Displacement-r'
-      + 'ate-report-REV1.pdf)）。靴、コート、電気製品はもっと多くのCO2をふくむので、修理するともっと多く削'
-      + '減できます。',
+      '壊れた物を買い替えずに修理すると、約**2.1kg**のCO2を削減できます。'
+      + 'この数字は、いちばん少ない場合として綿のTシャツを使っています。'
+      + '新しいTシャツを作ると約4.2kgのCO2が出ます。修理しても、いつも新品を'
+      + '買うのをやめるわけではありません。WRAPの測定では、イギリスの服の修理の'
+      + '82.2%が新品の購入の代わりになっています。この数字はそれより低い、'
+      + 'WRAPの再販売の計算例の50%を使い、2.1kgになります'
+      + '（[WRAP](https://www.wrap.ngo/sites/default/files/2025-02/'
+      + 'WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf)）。'
+      + '靴、コート、電気製品はもっと多くのCO2をふくむので、修理すると'
+      + 'もっと多く削減できます。',
     es:
-      'Reparar un objeto roto en lugar de sustituirlo ahorra unos *'
-      + '*2,1kg** de CO2. Esta cifra usa una camiseta de algodón como'
-      + ' el caso más bajo: fabricar una nueva genera unos 4,2kg de C'
-      + 'O2, y no toda reparación evita una compra, así que la tasa d'
-      + 'el 50% de WRAP da 2,1kg ([WRAP](https://www.wrap.ngo/sites/d'
-      + 'efault/files/2025-02/WRAP-Textiles-2030-Displacement-rate-re'
-      + 'port-REV1.pdf)). El calzado, los abrigos y los aparatos eléc'
-      + 'tricos tienen mucho más carbono, así que repararlos ahorra m'
-      + 'ás.',
+      'Reparar un objeto roto en lugar de sustituirlo ahorra unos '
+      + '**2,1kg** de CO2. Esta cifra usa una camiseta de algodón como el '
+      + 'caso más bajo: fabricar una nueva genera unos 4,2kg de CO2, y no '
+      + 'toda reparación evita una compra. WRAP midió que el 82,2% de las '
+      + 'reparaciones de ropa en el Reino Unido sustituye una compra nueva. '
+      + 'Esta cifra usa el 50%, más bajo, del ejemplo de reventa de WRAP, '
+      + 'que da 2,1kg '
+      + '([WRAP](https://www.wrap.ngo/sites/default/files/2025-02/'
+      + 'WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf)). '
+      + 'El calzado, los abrigos y los aparatos eléctricos tienen mucho '
+      + 'más carbono, así que repararlos ahorra más.',
   },
 
   borrow_instead_buy: {

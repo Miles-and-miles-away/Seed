@@ -17,25 +17,19 @@ const descriptions = {
     en:
       'The app claims no CO2 saving for planting a tree. A young tree '
       + 'absorbs little CO2 in its first years, its survival is uncertain, and '
-      + 'it stores carbon only while it lives. Trees still filter air '
-      + 'pollutants, reduce urban heat islands, and provide critical habitat '
-      + 'for wildlife ([UN SDG 15](https://sdgs.un.org/goals/goal15)). '
+      + 'it stores carbon only while it lives. '
       + 'Planting even one tree is a lasting investment in your community, and '
       + 'the action still earns points for the effort.',
     ja:
       'アプリは植樹によるCO2削減量を計上していません。若い木が最初の数年で吸'
       + '収するCO2はわずかで、育つかどうかも不確かであり、炭素を蓄えるのは木が'
-      + '生きている間だけだからです。それでも樹木は大気汚染物質を濾過し、都市の'
-      + 'ヒートアイランドを緩和し、野生生物の重要な生息地を提供します（[UN SDG '
-      + '15](https://sdgs.un.org/goals/goal15)）。1本の植樹でも地域社会への長期'
+      + '生きている間だけだからです。'
+      + '1本の植樹でも地域社会への長期'
       + '的な投資になり、この行動にはポイントが付きます。',
     es:
       'La app no atribuye ningún ahorro de CO2 a plantar un árbol. Un árbol '
       + 'joven absorbe poco CO2 en sus primeros años, su supervivencia es '
-      + 'incierta y solo almacena carbono mientras vive. Aun así, los árboles '
-      + 'filtran contaminantes, reducen las islas de calor urbanas y '
-      + 'proporcionan hábitat para la vida silvestre ([UN SDG '
-      + '15](https://sdgs.un.org/goals/goal15)). Plantar un árbol es una '
+      + 'incierta y solo almacena carbono mientras vive. Plantar un árbol es una '
       + 'inversión duradera en tu comunidad, y la acción sigue sumando puntos '
       + 'por el esfuerzo.',
   },

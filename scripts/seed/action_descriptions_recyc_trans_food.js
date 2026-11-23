@@ -622,7 +622,7 @@ const descriptions = {
       + 'passenger and an average petrol car about 208g/km, both including '
       + 'fuel supply ([DESNZ 2026](https://www.gov.uk/government/publications/g'
       + 'reenhouse-gas-reporting-conversion-factors-2026)), the factors the '
-      + 'Transport Calculator uses. National rail emits less, about 40g/km. '
+      + 'Transport Calculator uses. National rail emits less, about 51g/km. '
       + 'Public transport also reduces traffic congestion and urban air '
       + 'pollution ([Our World in '
       + 'Data](https://ourworldindata.org/travel-carbon-footprint)). Ridership '
@@ -634,7 +634,7 @@ const descriptions = {
       + '208g/km排出します。どちらも燃料供給を含む値です（[DESNZ 2026](https://'
       + 'www.gov.uk/government/publications/greenhouse-gas-reporting-conversion'
       + '-factors-2026)）。これは「移動のCO2計算」と同じ係数です。国内の鉄道は'
-      + 'さらに少なく、約40g/kmです。公共交通は渋滞緩和や都市の大気汚染改善にも'
+      + 'さらに少なく、約51g/kmです。公共交通は渋滞緩和や都市の大気汚染改善にも'
       + '貢献します（[Our World in Data](https://ourworldindata.org/travel-carb'
       + 'on-footprint)）。利用者が増えるほど運行頻度も上がり好循環が生まれます'
       + '。',
@@ -646,7 +646,7 @@ const descriptions = {
       + '2026](https://www.gov.uk/government/publications/g'
       + 'reenhouse-gas-reporting-conversion-factors-2026)), los factores que '
       + 'usa la calculadora «Transporte». El tren nacional emite menos, unos '
-      + '40g/km. El transporte público también reduce la congestión y la '
+      + '51g/km. El transporte público también reduce la congestión y la '
       + 'contaminación urbana ([Our World in '
       + 'Data](https://ourworldindata.org/travel-carbon-footprint)). Más '
       + 'usuarios permiten un servicio más frecuente, creando un ciclo '
@@ -718,8 +718,10 @@ const descriptions = {
       + '/government/publications/greenhouse-gas-reporting-conversion-factor'
       + 's-2026)), and an electric car about 86g/km at the app\'s grid factor '
       + 'of 458g/kWh. The figure leaves out manufacturing. An EV has a higher '
-      + 'upfront carbon cost, but most studies show breakeven within 1-3 '
-      + 'years of driving ([Carbon Brief](https://www.carbonbrief.org/)). '
+      + 'upfront carbon cost, but Carbon Brief estimates that in the UK it '
+      + 'pays this back after less than two years of driving ([Carbon Brief]'
+      + '(https://www.carbonbrief.org/factcheck-how-electric-vehicles-help-to'
+      + '-tackle-climate-change/)). '
       + 'Pairing an EV with renewable-energy charging maximises the climate '
       + 'benefit.',
     ja:
@@ -731,8 +733,9 @@ const descriptions = {
       + '(https://www.gov.uk/government/publications/greenhouse-gas-reporting'
       + '-conversion-factors-2026)）、電気自動車は本アプリの電力係数458g/kWhで'
       + '約86g/kmです。この値に製造時の排出は含みません。EVは製造時の炭素コストが'
-      + '高いものの、多くの研究で1〜3年の走行で損益分岐点に達するとされています'
-      + '（[Carbon Brief](https://www.carbonbrief.org/)）。再生可能エネルギーでの'
+      + '高いものの、Carbon Briefの試算では、英国では2年未満の走行でその分を'
+      + '取り戻せます（[Carbon Brief](https://www.carbonbrief.org/factcheck-how'
+      + '-electric-vehicles-help-to-tackle-climate-change/)）。再生可能エネルギーでの'
       + '充電を組み合わせると気候面の効果を最大化できます。',
     es:
       'Elegir un coche eléctrico en vez de uno de gasolina evita unas '
@@ -744,9 +747,10 @@ const descriptions = {
       + '2026](https://www.gov.uk/government/publications/greenhouse-gas-repor'
       + 'ting-conversion-factors-2026)), y un coche eléctrico unos 86g/km con '
       + 'el factor de red de la app, 458g/kWh. La cifra no incluye la '
-      + 'fabricación. Un VE tiene un coste de carbono inicial mayor, pero la '
-      + 'mayoría de estudios muestran un punto de equilibrio en 1-3 años de uso '
-      + '([Carbon Brief](https://www.carbonbrief.org/)). Combinar un VE con '
+      + 'fabricación. Un VE tiene un coste de carbono inicial mayor, pero '
+      + 'según Carbon Brief, en el Reino Unido lo compensa en menos de dos años '
+      + 'de uso ([Carbon Brief](https://www.carbonbrief.org/factcheck-how'
+      + '-electric-vehicles-help-to-tackle-climate-change/)). Combinar un VE con '
       + 'carga de energía renovable maximiza el beneficio climático.',
   },
 

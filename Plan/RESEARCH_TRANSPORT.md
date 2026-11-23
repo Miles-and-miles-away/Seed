@@ -723,7 +723,7 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
 | motorbike | Motorbike (average) | 143.23 | vkm | DESNZ 2026 + WTT | High |
 | bus_city | City bus | 128.0 | pkm | DESNZ 2026 + WTT (avg local bus) | High |
 | coach | Coach (long distance) | 46.04 | pkm | DESNZ 2026 + WTT (direct 39.48) | High |
-| taxi | Taxi | 259.82 | vkm | DESNZ 2026 + WTT regular taxi (R2-D1): duty-cycle uplift, deadheading excluded per DESNZ 5.42 | Medium-high |
+| taxi | Taxi | 259.82 | vkm | DESNZ 2026 + WTT regular taxi (R2-D1): duty-cycle uplift, deadheading excluded per DESNZ 2026 para 5.41 | Medium-high |
 | rail_national | Local / national rail | 50.86 | pkm | derived: ORR 2024-25 traction energy, electricity x 458 house grid, diesel at DESNZ 2026 gas oil + WTT | Medium-high |
 | rail_international | International rail (Eurostar) | 39.69 | pkm | derived: DESNZ 2026 direct / UK grid 130.96 = kWh/pkm, x 458 house grid | Medium-high |
 | rail_shinkansen | Shinkansen (bullet train) | 20 | pkm | JR East 年度2023 Shinkansen-segment disclosure + MLIT-supervised Navitime | Medium-high |
@@ -738,7 +738,7 @@ the occupancy selector, 1-4). Full quotes/URLs live in sections
 | helicopter | Helicopter | 450 | pkm | derived (sec 8.2); turbine class, 4-5 pax | Medium |
 
 **Dropped from v1 (documented decisions):**
-- Plug-in hybrid: DEFRA 91.67 assumes charging discipline;
+- Plug-in hybrid: DEFRA 2026 direct 89.59 assumes charging discipline;
   real-world ~135 (T&E/EEA). Shipping the optimistic number
   violates "honest, not generous"; shipping the real-world one
   contradicts the cited factor set. Revisit with a
@@ -794,7 +794,7 @@ data pass rather than assume it survives.
 11. Retired: rail_international vs shinkansen. Eurostar is on the
     house grid, the Shinkansen on JR East's own figure.
 12. taxi > city bus (259.82 > 128.0; duty-cycle uplift,
-    deadheading excluded per DESNZ 5.42)
+    deadheading excluded per DESNZ 2026 para 5.41)
 13. ferry_car > ferry_foot (158.65 > 22.95)
 
 **Deliberate non-invariants** (do NOT pin; they are the honest

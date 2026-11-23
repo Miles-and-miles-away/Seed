@@ -129,8 +129,7 @@ The `impact` score should reflect this broader value.
 > the rule above. **58 of the 92 shipping actions carry both an
 > empty `sources[]` and a null `confidence`**, 37 of them with a
 > nonzero `co2_grams` -- a stated saving with no recorded
-> provenance. The largest are `fix_leak` 100000 and
-> `recycle_textiles` 40000. Energy is clear: all 11
+> provenance. Energy is clear: all 11
 > `category: "energy"` actions were backfilled on 2026-08-29 from
 > primaries already live-verified in
 > [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) sections 1 and 3.
@@ -148,8 +147,8 @@ The `impact` score should reflect this broader value.
 > Backfilling the rest needs each primary re-fetched and quoted
 > live per section 2, so it is its own pass per category. Update
 > this count when that happens. Current count: **92 shipping
-> actions, 45 with both an empty `sources[]` and a null
-> `confidence`, 22 of them nonzero**.
+> actions, 30 with both an empty `sources[]` and a null
+> `confidence`, none of them nonzero** (all 30 are 0 g).
 
 ```javascript
 {
@@ -315,9 +314,9 @@ fall in a believable range relative to existing actions.
 | Air dry laundry | 1500 | 2 | 3 | 2 | ~26 | instance |
 | Secondhand clothing | 15000 | 2 | 3 | 3 | ~78 | instance |
 | Install LED | 25000 | 1 | 1 | 3 | ~63 | one-time |
-| Train instead of flight | 110000 | 3 | 1 | 4 | ~165 | instance |
+| Train instead of flight | 100000 | 3 | 1 | 4 | ~159 | instance |
 | Fix water leak | 4100 | 3 | 1 | 4 | ~44 | one-time |
-| Donate textiles | 40000 | 2 | 2 | 3 | ~101 | instance |
+| Recycle textiles | 120 | 2 | 2 | 3 | ~8 | instance |
 | Install solar | 2500000 | 5 | 1 | 5 | ~735 | one-time |
 | Purchase EV | 1300000 | 5 | 1 | 4 | ~558 | one-time |
 | Eco meeting (0 CO2) | 0 | 2 | 2 | 4 | ~8 | instance |

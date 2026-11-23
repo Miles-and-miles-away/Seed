@@ -91,7 +91,7 @@ were superseded; do not "fix" data backwards from old text.
   regionalisation was explicitly spun out and is NOT part of E1
   ([PDR_GRID_REGIONALISATION.md](./PDR_GRID_REGIONALISATION.md)).
 - **Private jet ships 1,700** (1,000 derived base x 1.7 RF,
-  DESNZ 2025 para 8.43); airline factors include RF; helicopter
+  DESNZ 2026 para 8.42); airline factors include RF; helicopter
   is combustion-only. In-chart jet footnote is a UI requirement.
 - **One grid basis for electric rail (REF-12).** Metro, tram and
   international rail use kWh per passenger-km x 458, where
@@ -110,7 +110,7 @@ were superseded; do not "fix" data backwards from old text.
   well-to-tank), per_vehicle true,
   max_occupants 4. Do NOT ship the 148.61 per-passenger variant
   (dated 1.4-occupancy embedded invisibly). Deadheading is
-  excluded by DEFRA (para 5.42, quoted); note says so.
+  excluded by DEFRA (2026 para 5.41, quoted); note says so.
 - **Zero fiction beats convenience**: when a suggestion cannot
   be scoped to a real corridor, kill it (Malta-Sicily link
   removed; Gibraltar cap history in the archive).
