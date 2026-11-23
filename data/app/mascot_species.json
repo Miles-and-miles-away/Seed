@@ -11,32 +11,28 @@
     "evolutionStages": [
       {
         "level": 1,
-        "assetPath": "assets/animations/coral_mascot.riv",
-        "artboardName": "Coral_stage1",
+        "assetPath": "drawn/coral/1",
         "nameEn": "Polyp",
         "nameJa": "ポリプ",
         "nameEs": "Pólipo"
       },
       {
         "level": 10,
-        "assetPath": "assets/animations/coral_mascot.riv",
-        "artboardName": "Coral_stage2",
+        "assetPath": "drawn/coral/2",
         "nameEn": "Colony",
         "nameJa": "コロニー",
         "nameEs": "Colonia"
       },
       {
         "level": 25,
-        "assetPath": "assets/animations/coral_mascot.riv",
-        "artboardName": "Coral_stage3",
+        "assetPath": "drawn/coral/3",
         "nameEn": "Reef",
         "nameJa": "サンゴしょう",
         "nameEs": "Arrecife"
       },
       {
         "level": 50,
-        "assetPath": "assets/animations/coral_mascot.riv",
-        "artboardName": "Coral_stage4",
+        "assetPath": "drawn/coral/4",
         "nameEn": "Ecosystem",
         "nameJa": "せいたいけい",
         "nameEs": "Ecosistema"
@@ -80,6 +76,46 @@
         "nameEn": "Tree",
         "nameJa": "たいぼく",
         "nameEs": "Árbol"
+      }
+    ]
+  },
+  {
+    "id": "fungi",
+    "nameEn": "Funghi",
+    "nameJa": "ファンギ",
+    "nameEs": "Funghi",
+    "descriptionEn": "A tiny spore with a big job! Help it grow into a network that connects the forest.",
+    "descriptionJa": "大きな役目を持った小さな胞子！森をつなぐネットワークに育てよう。",
+    "descriptionEs": "¡Una pequeña espora con una gran misión! Ayúdala a convertirse en una red que conecta el bosque.",
+    "availability": "free",
+    "evolutionStages": [
+      {
+        "level": 1,
+        "assetPath": "drawn/fungi/1",
+        "nameEn": "Spore",
+        "nameJa": "ほうし",
+        "nameEs": "Espora"
+      },
+      {
+        "level": 10,
+        "assetPath": "drawn/fungi/2",
+        "nameEn": "Cap",
+        "nameJa": "かさ",
+        "nameEs": "Sombrero"
+      },
+      {
+        "level": 25,
+        "assetPath": "drawn/fungi/3",
+        "nameEn": "Colony",
+        "nameJa": "コロニー",
+        "nameEs": "Colonia"
+      },
+      {
+        "level": 50,
+        "assetPath": "drawn/fungi/4",
+        "nameEn": "Network",
+        "nameJa": "ネットワーク",
+        "nameEs": "Red"
       }
     ]
   }
