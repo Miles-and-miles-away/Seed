@@ -136,10 +136,6 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                                     .evolutionStages
                                     .first
                                     .assetPath,
-                                artboardName: speciesList[_selectedSpeciesIndex]
-                                    .evolutionStages
-                                    .first
-                                    .artboardName,
                                 size: 180,
                               ),
 
@@ -265,7 +261,6 @@ class _MascotSelectionScreenState extends ConsumerState<MascotSelectionScreen> {
                   children: [
                     MascotAvatar(
                       assetPath: species.evolutionStages.first.assetPath,
-                      artboardName: species.evolutionStages.first.artboardName,
                       size: 50,
                       animate: false,
                     ),

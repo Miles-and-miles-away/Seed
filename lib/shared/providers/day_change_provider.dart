@@ -79,7 +79,7 @@ class DayChangeNotifier extends _$DayChangeNotifier {
       ..invalidate(co2TrendDataProvider)
       ..invalidate(co2CategoryDataProvider)
       ..invalidate(actionRemindersProvider)
-      ..invalidate(welcomeBackSmileDueProvider)
+      ..invalidate(dailyGreetingDueProvider)
       ..invalidate(eggStreakDaysProvider);
 
     // Update state and reschedule

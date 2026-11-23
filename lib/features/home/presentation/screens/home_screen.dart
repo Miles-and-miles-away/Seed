@@ -156,6 +156,9 @@ class HomeScreen extends ConsumerWidget {
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
     // Rebuilds at midnight, so a streak broken overnight reads 0.
     ref.watch(dayChangeProvider);
+    final introPending = ref.watch(
+      walkthroughPendingProvider(WalkthroughItem.intro),
+    );
 
     return MascotHousing(
       child: Column(
@@ -166,62 +169,73 @@ class HomeScreen extends ConsumerWidget {
             label: l10n.mascotLinkTitle,
             child: GestureDetector(
               onTap: () => context.push(appRoutes.mascot),
-              // A celebration covers the hero, so its Rive stops ticking.
+              // A celebration covers the hero, so its ticker stops.
               child: ValueListenableBuilder<int>(
                 valueListenable: celebrationsPending(context),
                 builder: (context, pending, child) =>
                     TickerMode(enabled: pending == 0, child: child!),
-                child: const MascotDisplay(size: 160, welcomesBack: true),
+                child: MascotDisplay(size: 160, greets: !introPending),
               ),
             ),
           ),
 
           const SizedBox(height: spacingMd),
 
-          // Mascot name
-          Text(
-            mascot?.name ?? '',
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: colorScheme.onPrimaryContainer,
+          MascotGreetingBubble(
+            child: Column(
+              children: [
+                // Mascot name
+                Text(
+                  mascot?.name ?? '',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.onPrimaryContainer,
+                  ),
+                ),
+
+                const SizedBox(height: spacingXs),
+
+                // Evolution stage badge
+                StageBadge(
+                  label: stageName == null
+                      ? l10n.levelLabel(mascot?.mascotLevel ?? 1)
+                      : l10n.stageWithLevel(
+                          stageName,
+                          mascot?.mascotLevel ?? 1,
+                        ),
+                  background: colorScheme.primary.withValues(
+                    alpha: opacitySubtle,
+                  ),
+                  foreground: colorScheme.primary,
+                ),
+
+                const SizedBox(height: spacingLg),
+
+                // Quick stats row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildQuickStat(
+                      context,
+                      Icons.local_fire_department,
+                      // displayedStreak shows 0 once a missed day has
+                      // already broken the streak (the stored value is
+                      // only corrected at the next log).
+                      '${displayedStreak(storedStreak: streak, lastActionDate: lastActionDate, lastActionUtcOffsetMinutes: lastOffset, now: ref.watch(clockProvider)())}',
+                      l10n.profileCurrentStreak,
+                      Colors.orange,
+                    ),
+                    _buildQuickStat(
+                      context,
+                      Icons.star_outline,
+                      formatDecimal(points, locale, maxDigits: 0),
+                      l10n.homePoints,
+                      colorScheme.primary,
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-
-          const SizedBox(height: spacingXs),
-
-          // Evolution stage badge
-          StageBadge(
-            label: stageName == null
-                ? l10n.levelLabel(mascot?.mascotLevel ?? 1)
-                : l10n.stageWithLevel(stageName, mascot?.mascotLevel ?? 1),
-            background: colorScheme.primary.withValues(alpha: opacitySubtle),
-            foreground: colorScheme.primary,
-          ),
-
-          const SizedBox(height: spacingLg),
-
-          // Quick stats row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildQuickStat(
-                context,
-                Icons.local_fire_department,
-                // displayedStreak shows 0 once a missed day has
-                // already broken the streak (the stored value is
-                // only corrected at the next log).
-                '${displayedStreak(storedStreak: streak, lastActionDate: lastActionDate, lastActionUtcOffsetMinutes: lastOffset, now: ref.watch(clockProvider)())}',
-                l10n.profileCurrentStreak,
-                Colors.orange,
-              ),
-              _buildQuickStat(
-                context,
-                Icons.star_outline,
-                formatDecimal(points, locale, maxDigits: 0),
-                l10n.homePoints,
-                colorScheme.primary,
-              ),
-            ],
           ),
         ],
       ),
@@ -300,7 +314,6 @@ class HomeScreen extends ConsumerWidget {
           MascotAvatar(
             assetPath:
                 firstStage?.assetPath ?? 'assets/images/mascot/seed_stage1.svg',
-            artboardName: firstStage?.artboardName,
           ),
 
           const SizedBox(height: spacingLg),

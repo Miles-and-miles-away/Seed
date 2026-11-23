@@ -533,4 +533,7 @@ class ActionLogResult {
   final int newGoalCount;
 
   bool get shouldShowMilestone => crossedMilestoneWeek != null;
+
+  /// The new streak when this log is the day's first, else null.
+  int? get firstLogStreakDays => newGoalCount == 1 ? newStreakDays : null;
 }

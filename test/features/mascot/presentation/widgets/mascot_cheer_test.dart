@@ -104,6 +104,23 @@ void main() {
       await runOut(tester);
     });
 
+    testWidgets('with a streak it says the streak once it has risen', (
+      tester,
+    ) async {
+      final context = await pumpHost(tester);
+      MascotCheer.show(context, streakDays: 1);
+      await tester.pump();
+      final bubble = find.ancestor(
+        of: find.text('Streak started!'),
+        matching: find.byType(AnimatedOpacity),
+      );
+      expect(tester.widget<AnimatedOpacity>(bubble).opacity, 0);
+
+      await tester.pump(const Duration(seconds: 1));
+      expect(tester.widget<AnimatedOpacity>(bubble).opacity, 1);
+      await runOut(tester);
+    });
+
     testWidgets('shows nothing without a mascot asset', (tester) async {
       MascotCheer.show(await pumpHost(tester, asset: null));
       await tester.pump();

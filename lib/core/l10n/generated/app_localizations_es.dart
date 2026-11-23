@@ -677,6 +677,35 @@ class AppLocalizationsEs extends AppLocalizations {
   String get streakBrokenStartNew => 'Empezar una nueva racha';
 
   @override
+  String get mascotGreetingWelcome => '¡Hola de nuevo!';
+
+  @override
+  String mascotGreetingStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '¡Racha de $count días! Registra una acción para mantenerla.',
+      one: '¡Racha de $count día! Registra una acción para mantenerla.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mascotGreetingNoStreak =>
+      'Registra una acción para empezar una nueva racha.';
+
+  @override
+  String mascotCheerStreak(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '¡Racha de $count días!',
+      one: '¡Racha iniciada!',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get sortLabel => 'Ordenar';
 
   @override

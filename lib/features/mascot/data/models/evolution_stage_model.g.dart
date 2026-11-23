@@ -12,7 +12,6 @@ _EvolutionStageModel _$EvolutionStageModelFromJson(Map<String, dynamic> json) =>
       assetPath: json['assetPath'] as String,
       nameEn: json['nameEn'] as String,
       nameJa: json['nameJa'] as String,
-      artboardName: json['artboardName'] as String?,
       nameEs: json['nameEs'] as String? ?? '',
     );
 
@@ -23,6 +22,5 @@ Map<String, dynamic> _$EvolutionStageModelToJson(
   'assetPath': instance.assetPath,
   'nameEn': instance.nameEn,
   'nameJa': instance.nameJa,
-  'artboardName': instance.artboardName,
   'nameEs': instance.nameEs,
 };

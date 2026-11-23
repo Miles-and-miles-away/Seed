@@ -6,7 +6,7 @@ section 9 questions on 2026-11-21. The R1 prototype is in code. The
 owner chose the outlined variant (Q4). The code-drawn generation is
 named **v3**. It follows the Rive files `sprout_v2` and `coral_v2`,
 which are its design baseline. The rest look of all 12 v3 characters
-(4 stages each of Sprout, Coral and Funghi) is in code for owner
+(4 stages each of Sprout, Coral and Fungi) is in code for owner
 review.
 **Purpose:** Research brief (DOCUMENT_TYPES 4b). Decide whether
 Seed replaces its image-based Rive mascots with characters drawn
@@ -198,8 +198,12 @@ The behaviour users see today stays:
 - non-hero instances do not animate.
 
 `MascotImage` stays the single entry point for every render site.
-It chooses the code-drawn path by species id. The Rive path stays
-for any species that has not migrated yet. The existing
+Every species renders the code-drawn path. A stage selects the
+code-drawn mascot with an `assetPath` of the form
+`drawn/<speciesId>/<stage>` (`drawnMascotPath`), so no render site
+changes. A static site paints one frame. Only `MascotDisplay` asks
+for the hero, and the hero takes the tap for the wave only where
+`MascotDisplay` sets `wavesOnTap`. The existing
 `mascotSmileTriggerProvider` drives the smile.
 
 ### M8. One ticker, only for the hero
@@ -208,6 +212,11 @@ Only the hero mascot on Home and the Mascot tab owns a `Ticker`.
 Thumbnails, the evolution timeline and previews paint one static
 frame and never tick. The hero ticker stops when the screen is not
 visible.
+
+A celebration overlay (evolution, egg hatch, streak milestone) plays
+a routine on its mascot (5.2). That mascot ticks only while the
+overlay shows. The Home hero stops under any overlay, so one ticker
+still runs.
 
 ### M9. Golden contact sheets are the review artefact
 
@@ -230,13 +239,16 @@ Real 3D stays rejected.
 
 ### M11. Retire Rive per species, then remove it
 
+Done: no species uses Rive.
+
 A species switches to code after it passes the section 7 criteria.
 After the last species moves:
 
 - remove `coral_mascot.riv` and `sprout_mascot.riv`,
 - remove the `rive` dependency and the `rive_native` setup step in
   CI and in CLAUDE.md,
-- remove `assetPath` and `artboardName` from `mascot_species.json`.
+- remove `artboardName` from `EvolutionStageModel`. `assetPath`
+  stays, because it holds the `drawnMascotPath` (M7).
 
 ## 5. Character design brief
 
@@ -258,11 +270,19 @@ After the last species moves:
 | Blink | Random interval | Face rules in M5 |
 | Gaze | Finger position | Existing contract |
 | Smile | Action button | Existing contract |
-| Wave | Tap on mascot | Hand joint, or a body sway on armless stages |
-| Hop | Action logged | Squash and stretch on landing |
+| Wave | Tap on mascot, and the daily greeting on Home | Hand joint, or a body sway on armless stages |
+| Hop | Action logged | A crouch that hides at least half of each leg, with a wiggle of the bottom alone (the face stays still) before the takeoff. Squash on landing |
 | Nod | Challenge complete | Head joint |
 | Sleep | Night-time or idle | Eyes closed, slower breathing |
-| Celebrate | Evolution | Plays over the stage morph (M4) |
+| Dance | The day's first log, and inside Evolve and Hatch | A side step on every beat: the body dips, the arm away from the lean goes up, the free foot kicks |
+| Cheer | Streak milestone | Both arms up and pumping, stamping from foot to foot |
+| Evolve | Evolution | Smoke puffs up from the ground and hides the old stage, which trembles. The new stage swaps in behind the smoke, which billows out and fades. Then wide eyes and a look down at the new body, a crouch, and Dance. The stage morph (M4) is not built. |
+| Hatch | Egg hatch | A code-drawn egg wobbles and cracks in three steps. The top shell flies off, the bottom shell breaks in two and falls away, and the mascot hops out. Then eyes open slowly, a look left and right, wide eyes, and Dance |
+
+Wide eyes ("wow") grow the eyes and round the mouth into an "o". A
+kick lifts one foot up and out, and never both at once, so the
+mascot stays on the ground. Under reduce motion a routine becomes a
+held smile, and the egg and the smoke do not show.
 
 ### 5.3 Species
 
@@ -294,19 +314,19 @@ tall thin branches.
 |---|---|
 | Polyp | Soft round body with a short crown of tentacles. |
 | Colony | One chunky coral sprig on the head, round fin arms. |
-| Reef | Chunky branching coral crown, a small fish friend nearby. |
+| Reef | Chunky branching coral crown, a small fish friend nearby. The fish swims slowly back and forth behind the mascot and hides behind the body for the hop. |
 | Ecosystem | A reef garden as the crown: branching coral, tube sponges and a bubble coral. Sea grass at the feet and two fish. |
 
 Coral is redesigned in code like every other species (Q2).
 
-**Funghi (data id `fungi`).** Species 3 (Q3), from
+**Fungi (data id `fungi`).** Species 3 (Q3), from
 PLAN_FOR_DESIGNER. A cap reads as a head, and the theme (fungi as
 the planet's recyclers) fits Seed. It is the last species in the
 rollout (R4). Cream stem body with the face on it, and a red cap with
-pale spots, the colouring of the fly agaric. Funghi has no Rive file, so the
+pale spots, the colouring of the fly agaric. Fungi has no Rive file, so the
 drawings in the designer brief are its only baseline. The mouth is
 a little smaller than the mouth of the other species, and a blush
-shows at rest. From the Cap stage the eyes sit near the widest part
+shows at rest. From the Button stage the eyes sit near the widest part
 of the stem, at least two thirds of an eye height below the cap, so
 that the cap reads as a hat and not as a brow. The eyes are set close
 together, with a clear space between the eyes and the mouth. The
@@ -318,8 +338,8 @@ and the face on the stem, never on the cap.
 | Stage | Form |
 |---|---|
 | Spore | Round cream ball with a soft red lower rim and one curled soft red thread on top. No arms. |
-| Cap | Egg-shaped stem with a small red dome cap with pale spots, round arms and feet. |
-| Colony | Larger cap with pale gills under the rim. Nothing on the ground beside it. |
+| Button | Egg-shaped stem with a small red dome cap with pale spots, round arms and feet. |
+| Mushroom | Larger cap with pale gills under the rim. Nothing on the ground beside it. |
 | Network | Wide cap, two baby mushrooms with red caps at each side on a pale thread network. |
 
 ## 6. Rollout
@@ -329,8 +349,8 @@ and the face on the stem, never on the cap.
 | R1. Prototype | Sprout stage 2 in code with breathe, blink, gaze, smile and wave, on a debug-only route next to the current Rive Sprout. Contact sheet golden test with an outlined and an outline-free variant. | Owner approves the look and picks the outline variant (Q4) |
 | R2. Sprout | All 4 stages, the full gesture set, stage morph, anchors. `MascotImage` dispatch by species id. | Section 7 criteria |
 | R3. Coral | All 4 stages on the same rig | Section 7 criteria |
-| R4. Funghi | Designed for code from the start | Section 7 criteria |
-| R5. Remove Rive | M11 | `flutter analyze` and `flutter test` pass with no Rive code |
+| R4. Fungi | Designed for code from the start | Section 7 criteria |
+| R5. Remove Rive | M11 (done) | `flutter analyze` and `flutter test` pass with no Rive code |
 
 Production does not change until R2 ends.
 
@@ -373,7 +393,7 @@ Answered by the owner on 2026-11-21.
 |---|---|---|
 | Q1 | Move all mascots from the painted look to soft flat? | Yes. Every species moves eventually. |
 | Q2 | Redesign Coral too? | Yes, same as Q1. |
-| Q3 | Is Funghi species 3? | Yes, eventually. |
+| Q3 | Is Fungi species 3? | Yes, eventually. |
 | Q4 | Outlines or outline-free? | Outlines. R1 rendered both variants and the owner picked the outlined one. |
 | Q5 | Ground-contact shadow? | No. It adds complexity for jumps and for walking in the garden. |
 
@@ -382,7 +402,7 @@ Answered by the owner on 2026-11-21.
 - `PLAN_MASTER.md` "Art Assets Decision": record the change from
   Rive to code-drawn characters.
 - `PLAN_PHASE_7.md` 7.1 and 7.2: replace the AI art workflow and
-  the integration steps, and record Funghi as species 3.
+  the integration steps, and record Fungi as species 3.
 - `STYLE_GUIDE.md` 2.1 and 6.3: the soft flat rules (M2).
 - `APP_PAGES.md`: the R1 debug route.
-- `CLAUDE.md`: remove the Rive test setup note at R5.
+- `CLAUDE.md`: remove the Rive test setup note at R5 (done).

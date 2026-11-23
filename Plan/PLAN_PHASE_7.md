@@ -4,7 +4,7 @@
 **Created:** January 2026
 **Updated:** August 2026 (7.5 mascot storage migration recorded as
 deferred, from the security re-verification pass)
-**Status:** In Progress (7.1/7.2 underway -- Coral shipped as animated Rive)
+**Status:** In Progress (7.1/7.2 done: all 3 species are code-drawn)
 
 ---
 
@@ -49,7 +49,7 @@ unlock systems built in this phase.
 
 | Deliverable | Description |
 |-------------|-------------|
-| Final Mascot Art | 12 polished, animated mascot stages (Rive) |
+| Final Mascot Art | 12 animated, code-drawn mascot stages |
 | Cosmetic Shop | Browse/purchase/equip items with points |
 | Species Unlocking | 3 species, point-based unlocks |
 
@@ -61,8 +61,8 @@ unlock systems built in this phase.
 
 | Feature | Priority | Complexity | Status |
 |---------|----------|------------|--------|
-| 7.1 Mascot Art Creation | P0 | High (art) | In Progress (Coral done) |
-| 7.2 Mascot Art Integration | P0 | Low | In Progress (Coral done) |
+| 7.1 Mascot Art Creation | P0 | High (art) | Done (code-drawn) |
+| 7.2 Mascot Art Integration | P0 | Low | Done |
 | 7.3 Cosmetic Shop | P0 | Medium | Pending |
 | 7.4 Mascot Species Unlocking | P0 | Low | Pending |
 | 7.5 Mascot Storage Migration | Deferred | High | Accepted by design |
@@ -79,49 +79,36 @@ Create final artwork for all mascot species and evolution stages.
 
 #### Art Requirements
 
-Minimum 3 species × 4 stages = 12 assets. Sprout (currently
-`seed` in `data/app/mascot_species.json`) is locked in as the
-free starter. Coral is confirmed as species 2 and its 4 stages
-have shipped. Species 3 is selected by the designer from the
-candidate set in `PLAN_DESIGNER.md` §4.2 (Funghi, Breeze, Terra,
-Bloom, Dewdrop), or a designer proposal that fits the
-sustainability theme.
+3 species × 4 stages = 12 stages. All 12 are drawn in code with
+`CustomPainter`. `PDR_MASCOT_REDESIGN.md` holds the decision, the
+style rules and the rollout record. No species uses Rive.
 
-| Species | Stage 1 | Stage 2 | Stage 3 | Stage 4 | Status |
+| Species (data id) | Stage 1 | Stage 2 | Stage 3 | Stage 4 | Status |
 |---------|---------|---------|---------|---------|--------|
-| Seed/Sprout (Plant) — confirmed starter | Seed | Sprout | Sapling | Tree | Placeholder SVGs |
-| Coral (Ocean) — confirmed | Polyp | Colony | Reef | Ecosystem | **Done (animated Rive)** |
-| Species 3 — TBD | — | — | — | — | Pending |
+| Sprout (`seed`) | Seed | Sprout | Sapling | Tree | Done (code-drawn) |
+| Coral (`coral`) | Polyp | Colony | Reef | Ecosystem | Done (code-drawn) |
+| Fungi (`fungi`) | Spore | Button | Mushroom | Network | Done (code-drawn) |
 
 #### Art Style Guidelines
 
-- **Format:** Rive (`.riv`, one artboard per stage) for final
-  animated mascots; SVG acceptable for placeholders
+- **Format:** one `DrawnMascotPainter` subclass per species. A
+  stage is a parameter set, not a new drawing.
 - **Style:** Cute, friendly, approachable (kawaii-inspired) --
   see `Plan/STYLE_GUIDE.md`
 - **Colors:** Match SDG/sustainability themes
-- **Consistency:** Same style across all species and stages
-- **Interactivity:** Authored idle motion plus a data-bound face
-  rig (`lookX`/`lookY` gaze, `smile` trigger) per stage
-
-#### AI Art Workflow (used for Coral)
-
-1. Generate stage concepts (AI), split into layered body parts
-2. Vectorize parts (vectorizer.ai) and optimize (svgo)
-3. Author face SVG separately per the face design rules
-4. Assemble and rig in Rive: one artboard per stage, idle
-   animation, face view model (`lookX`/`lookY`/`smile`)
-5. Export a single `.riv` containing all stages
+- **Consistency:** one shared rig and one shared face for all
+  species (PDR M3, M5)
+- **Review:** the golden contact sheets in
+  `test/features/mascot/presentation/drawn/goldens/` (PDR M9)
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
 | Define art brief | Style guide, color palette, references | Done (`Plan/STYLE_GUIDE.md`) |
-| Generate Coral art | Stage 1-4, rigged and animated in Rive | Done |
-| Generate Sprout art | Stage 1-4 (confirmed starter) | Pending (placeholder SVGs in app) |
-| Generate Species 3 concepts | Stage 1-4 (designer-selected) | Pending |
-| Review and iterate | Get feedback, refine | Ongoing |
+| Draw Sprout | Stage 1-4 in `sprout_painter.dart` | Done |
+| Draw Coral | Stage 1-4 in `coral_painter.dart` | Done |
+| Draw Fungi | Stage 1-4 in `fungi_painter.dart` | Done |
 
 ---
 
@@ -131,51 +118,29 @@ sustainability theme.
 
 Replace placeholder images with final art in the app.
 
-#### Current State (July 2026)
+#### Current State
 
-- **Coral: done.** All 4 stages ship as animated Rive artboards
-  in `assets/animations/coral_mascot.riv`, declared per stage via
-  `assetPath` + `artboardName` in `data/app/mascot_species.json`.
-- `MascotImage` dispatches on extension: `.riv` renders through
-  the Rive runtime (shared file-loader cache), anything else
-  falls back to static SVG.
-- Interactive face wired through Rive data binding in
-  `MascotDisplay`: eyes follow the user's touch anywhere on
-  screen (`lookX`/`lookY`), and the mascot smiles when the
-  action button is pressed (`smile` trigger from `MainShell`).
-- Rive mascots use their authored idle motion; the Flutter-side
-  float/idle animation only applies to SVG mascots.
-- Seed/Sprout still uses placeholder SVGs
-  (`assets/images/mascot/seed_stage*.svg`).
-
-#### Remaining Integration Steps
-
-1. Add final Sprout art (and Species 3 later) following the
-   Coral pattern: one `.riv` per species, artboard per stage
-2. Update `data/app/mascot_species.json` + pubspec assets
-3. Test rendering at all sizes and evolution transitions
-
-#### File Structure
-
-```
-assets/animations/
-├── coral_mascot.riv       # Done: artboards Coral_stage1..4
-└── sprout_mascot.riv      # Pending
-assets/images/mascot/
-└── seed_stage1..4.svg     # Placeholder SVGs (to be replaced)
-```
+- Each stage in `data/app/mascot_species.json` has an `assetPath`
+  of the form `drawn/<species id>/<stage>`.
+- `MascotImage` renders a `drawnMascotPath` with the code-drawn
+  mascot. It renders every other path as a static SVG.
+- The hero mascot breathes, blinks and follows the pointer with
+  its eyes. It smiles on `mascotSmileTriggerProvider`.
+- Under reduce motion the hop, the wave and the routines become
+  a smile.
+- `assets/images/mascot/` holds `egg.svg` and the four
+  `seed_stage*.svg` files. The Home screen uses `seed_stage1.svg`
+  as its fallback when the species data has no first stage.
 
 #### Tasks
 
 | Task | Description | Status |
 |------|-------------|--------|
-| Rive rendering support | `MascotImage` .riv/.svg dispatch, loader cache | Done |
-| Interactive face bindings | Gaze follow + smile trigger via view model | Done |
-| Integrate Coral art | 4 animated stages wired to species data | Done |
-| Test Coral displays | Home, detail, selection, celebrations | Done |
-| Integrate Sprout final art | Replace placeholder SVGs | Pending |
-| Integrate Species 3 art | After designer selection | Pending |
-| Idle motion v2 | Sprout all stages, Coral stages 3-4; see `PLAN_MASCOT_MOTION.md` | Pending |
+| Code-drawn rendering | `MascotImage` dispatch on `drawnMascotPath` | Done |
+| Interactions | Gaze follow, smile trigger, wave, hop | Done |
+| Integrate Sprout, Coral, Fungi | 12 stages wired to species data | Done |
+| Remove Rive | No `.riv` asset and no `rive` dependency | Done |
+| Idle motion v2 | Superseded: `PLAN_MASCOT_MOTION.md` plans Rive idles, and the Rive files no longer ship. `breathe` in `mascot_pose.dart` is the idle motion. | Superseded |
 | Test on multiple devices | Different screen sizes | Pending |
 
 ---
@@ -335,8 +300,8 @@ Phase 9 (§9.9).
 
 #### Current State
 
-- 2 species in app data: Seed/Sprout (placeholder SVGs) and
-  Coral (animated Rive), both freely selectable
+- 3 species in app data (`seed`, `coral`, `fungi`), all code-drawn
+  and all with `availability: free`
 - No unlocking mechanism
 
 #### Target State
@@ -344,15 +309,14 @@ Phase 9 (§9.9).
 - 3 mascot species total
 - First species free (starter)
 - Additional species unlockable with points
-- Final art ships with 7.1/7.2; placeholders acceptable until then
 
 #### Species Data
 
 | Species | Unlock Cost | Description |
 |---------|-------------|-------------|
 | Sprout | Free | Plant-based mascot (existing, confirmed) |
-| Coral | 3,000 pts | Ocean mascot (art shipped) |
-| Species 3 | 5,000 pts | Designer-selected (see PLAN_DESIGNER.md §4.2) |
+| Coral | 3,000 pts | Ocean mascot |
+| Fungi | 5,000 pts | Forest mascot |
 
 *Point costs designed to require sustained engagement*
 
@@ -364,7 +328,6 @@ Phase 9 (§9.9).
 | Create species unlock provider | Check if user can unlock | Pending |
 | Create species selection screen | Show locked/unlocked species | Pending |
 | Implement unlock purchase | Deduct points, unlock species | Pending |
-| Create Species 3 placeholder SVGs | 4 images until final art lands | Pending |
 | Seed mascot species | Add to Firestore | Pending |
 | Update mascot selection flow | Show unlock option | Pending |
 | Add "Change Mascot" option | In mascot detail screen | Pending |
@@ -497,11 +460,9 @@ condition and both touch `logAction`.
 ```
 Stage 7.1: Mascot Art
 ├── Define art brief and style guide          [DONE]
-├── Generate/create Coral art (4 stages)      [DONE - animated Rive]
-├── Integrate Coral into app                  [DONE - incl. face rig]
-├── Generate/create Sprout art (4 stages)     [PENDING]
-├── Generate/create Species 3 art (4 stages)  [PENDING]
-└── Test all displays and animations          [Coral done]
+├── Draw Sprout, Coral and Fungi in code      [DONE]
+├── Integrate the 12 stages into the app      [DONE]
+└── Remove Rive                               [DONE]
 
 Stage 7.2: Cosmetic Shop (base)
 ├── Create CosmeticItemModel + UserCosmeticsModel
@@ -530,19 +491,17 @@ Stage 7.3: Mascot Species Unlocking (base)
 | Shop repository | `shop_repository_test.dart` | Purchase, insufficient points, equip |
 | Shop screen | `shop_screen_test.dart` | Browse, item detail, purchase flow |
 | Species unlock | `species_unlock_test.dart` | Unlock, point deduction, switching |
-| Mascot rendering | `mascot_image_test.dart` | .riv/.svg dispatch (exists) |
+| Mascot rendering | `mascot_image_test.dart` | drawn path/SVG dispatch (exists) |
 
 ---
 
 ## Acceptance Criteria
 
 ### 7.1-7.2 Mascot Art
-- [x] Coral: all 4 stages created, rigged, and animated (Rive)
-- [x] Coral: interactive face (gaze follows touch, smile on
-      action button)
-- [x] Coral renders correctly in app across all displays
-- [ ] Sprout: 4 final stages (placeholder SVGs in app today)
-- [ ] Species 3: 4 stages (designer-selected)
+- [x] Sprout, Coral and Fungi: all 4 stages drawn in code
+- [x] Interactive face (gaze follows touch, smile on
+      `mascotSmileTriggerProvider`)
+- [x] No species uses Rive
 - [ ] Art matches consistent style across species
 - [ ] Evolution animations work across all species
 
@@ -558,7 +517,6 @@ Stage 7.3: Mascot Species Unlocking (base)
 - [ ] Unlock shows confirmation with cost
 - [ ] Points deducted on unlock
 - [ ] Can switch between owned species
-- [ ] Placeholder images display correctly until final art lands
 
 ---
 
@@ -566,8 +524,7 @@ Stage 7.3: Mascot Species Unlocking (base)
 
 ### External Dependencies
 
-- Art creation tools (AI generation, vectorizer.ai, svgo, Rive editor)
-- Designer selection of Species 3
+- None for the mascot art: it is code in this repository
 
 ### Downstream
 
@@ -579,10 +536,8 @@ Stage 7.3: Mascot Species Unlocking (base)
 
 ## Notes
 
-- Coral shipped AI-generated + vectorized + Rive-rigged; reuse
-  the same pipeline for Sprout and Species 3
-- Keep placeholder art acceptable for unlock UI until final art
-  lands
+- A new species is a new `DrawnMascotPainter` subclass plus its
+  entry in `data/app/mascot_species.json`
 
 ---
 

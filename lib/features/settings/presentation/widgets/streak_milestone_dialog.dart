@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
@@ -70,9 +71,6 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
     final assetPath = ref.watch(activeMascotAssetPathProvider);
-    final artboardName = ref.watch(
-      activeStageDataProvider.select((stage) => stage?.artboardName),
-    );
 
     return CelebrationOverlay(
       children: [
@@ -139,12 +137,11 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                                 end: const Offset(1, 1),
                               ),
 
-                          // Mascot (bouncing)
                           MascotImage(
                                 assetPath: assetPath,
-                                artboardName: artboardName,
                                 width: 140,
                                 height: 140,
+                                routine: cheer,
                               )
                               .animate()
                               .fadeIn(delay: 400.ms, duration: durationFast)

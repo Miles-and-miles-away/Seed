@@ -112,9 +112,13 @@ abstract class AppUserModel with _$AppUserModel {
 
     /// Walkthrough checklist item ids found. Read-only projection of
     /// the nested settings map, which the settings repository writes.
-    @JsonKey(readValue: _readWalkthroughFound, includeToJson: false)
+    @JsonKey(readValue: _readSetting, includeToJson: false)
     @Default([])
     List<String> walkthroughFound,
+
+    /// Local day (yyyy-MM-dd) of the last daily greeting. Read-only
+    /// projection of the nested settings map, like [walkthroughFound].
+    @JsonKey(readValue: _readSetting, includeToJson: false) String? greetedDate,
   }) = _AppUserModel;
 
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>
@@ -123,6 +127,5 @@ abstract class AppUserModel with _$AppUserModel {
 
 // TimestampConverter is now in core/utils/firestore_converters.dart
 
-Object? _readWalkthroughFound(Map<dynamic, dynamic> json, String key) =>
-    (json[AppConstants.fieldSettings]
-        as Map<dynamic, dynamic>?)?[AppConstants.fieldWalkthroughFound];
+Object? _readSetting(Map<dynamic, dynamic> json, String key) =>
+    (json[AppConstants.fieldSettings] as Map<dynamic, dynamic>?)?[key];

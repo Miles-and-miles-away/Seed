@@ -127,8 +127,8 @@ void main() {
           built('actionReminders');
           return const <String, ActionReminder>{};
         }),
-        welcomeBackSmileDueProvider.overrideWith((_) {
-          built('welcomeBackSmileDue');
+        dailyGreetingDueProvider.overrideWith((_) {
+          built('dailyGreetingDue');
           return false;
         }),
       ],
@@ -153,7 +153,7 @@ void main() {
       ..listen(co2TrendDataProvider(period), (_, _) {})
       ..listen(co2CategoryDataProvider(period), (_, _) {})
       ..listen(actionRemindersProvider, (_, _) {})
-      ..listen(welcomeBackSmileDueProvider, (_, _) {});
+      ..listen(dailyGreetingDueProvider, (_, _) {});
     return (container, builds);
   }
 

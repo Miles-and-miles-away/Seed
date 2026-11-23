@@ -6,6 +6,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/domain/services/impact_equivalencies.dart';
@@ -407,7 +408,10 @@ class _TransportCalculatorScreenState
       formatCO2Compact(deltaGrams.round(), l10n.localeName),
     ),
     onSuccess: () {
-      MascotCheer.show(context);
+      MascotCheer.show(
+        context,
+        streakDays: ref.read(actionLogProvider).value?.firstLogStreakDays,
+      );
       ref.read(journeyOptionsProvider.notifier).clear();
       setState(() {
         for (final cities in _legCities) {

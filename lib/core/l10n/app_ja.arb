@@ -279,6 +279,24 @@
   "streakBrokenTitle": "連続記録が途切れました",
   "streakBrokenMessage": "大丈夫！今日から新しい記録を始めましょう。",
   "streakBrokenStartNew": "新しい記録を始める",
+  "mascotGreetingWelcome": "おかえりなさい！",
+  "mascotGreetingStreak": "{count}日連続！アクションを記録して続けましょう。",
+  "@mascotGreetingStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mascotGreetingNoStreak": "アクションを記録して、新しい連続記録を始めましょう。",
+  "mascotCheerStreak": "{count, plural, =1{連続記録スタート！} other{{count}日連続！}}",
+  "@mascotCheerStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "sortLabel": "並べ替え",
   "sortButtonTooltip": "並べ替え：{option}",
   "@sortButtonTooltip": {

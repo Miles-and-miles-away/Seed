@@ -37,6 +37,9 @@ class FacePainter {
     (_openingRy + _eyeLineWidth / 2) * 2,
   );
 
+  /// How much the eyes grow at full [MascotPose.wow].
+  static const double wowGrowth = 0.12;
+
   static const double _openingRx = 82;
   static const double _openingRy = 88;
   static const double _eyeLineWidth = 10;
@@ -71,7 +74,7 @@ class FacePainter {
       if (open < _shutBelow) {
         _paintShutEye(canvas, squeeze, line);
       } else {
-        _paintOpenEye(canvas, open, pose.gaze, side);
+        _paintOpenEye(canvas, open, 1 + wowGrowth * pose.wow, pose.gaze, side);
       }
       canvas.restore();
     }
@@ -80,7 +83,7 @@ class FacePainter {
       ..translate(0, mouthDrop)
       ..scale(mouthScale)
       ..translate(-130, -60);
-    _paintMouth(canvas, pose.smile, line);
+    _paintMouth(canvas, pose.smile, pose.wow, line);
     canvas.restore();
   }
 
@@ -97,14 +100,20 @@ class FacePainter {
       Rect.fromCenter(center: centre, width: rx * 2, height: ry * 2);
 
   // The beads rest turned slightly inward, towards the mouth.
-  void _paintOpenEye(Canvas canvas, double open, Offset gaze, double side) {
+  void _paintOpenEye(
+    Canvas canvas,
+    double open,
+    double grow,
+    Offset gaze,
+    double side,
+  ) {
     final opening = _oval(_eyeCentre, _openingRx, _openingRy);
     final reach = gaze.distance > 1 ? gaze / gaze.distance : gaze;
     canvas
       ..save()
-      ..translate(0, _eyeCentre.dy)
-      ..scale(1, open)
-      ..translate(0, -_eyeCentre.dy)
+      ..translate(_eyeCentre.dx, _eyeCentre.dy)
+      ..scale(grow, grow * open)
+      ..translate(-_eyeCentre.dx, -_eyeCentre.dy)
       ..drawOval(opening, _fill(_eyeWhite))
       ..save()
       ..clipPath(Path()..addOval(opening))
@@ -137,16 +146,20 @@ class FacePainter {
   }
 
   // At rest the floor lies on the lip, so the stroke reads as a crescent.
-  void _paintMouth(Canvas canvas, double smile, Paint line) {
-    final lip = lerpDouble(106, 90, smile)!;
-    final sideX = lerpDouble(180, 216, smile)!;
-    final sideY = lerpDouble(83, 158, smile)!;
-    final floor = lerpDouble(83, 166, smile)!;
+  // Wow pulls the corners in and the lip up into a small round "o".
+  void _paintMouth(Canvas canvas, double smile, double wow, Paint line) {
+    double mix(double rest, double smiling, double round) =>
+        lerpDouble(lerpDouble(rest, smiling, smile), round, wow)!;
+    final corner = mix(30, 30, 85);
+    final lip = mix(106, 90, -10);
+    final sideX = mix(180, 216, 185);
+    final sideY = mix(83, 158, 125);
+    final floor = mix(83, 166, 135);
     final cavity = Path()
-      ..moveTo(30, 60)
-      ..quadraticBezierTo(130, lip, 230, 60)
+      ..moveTo(corner, 60)
+      ..quadraticBezierTo(130, lip, 260 - corner, 60)
       ..quadraticBezierTo(sideX, sideY, 130, floor)
-      ..quadraticBezierTo(260 - sideX, sideY, 30, 60)
+      ..quadraticBezierTo(260 - sideX, sideY, corner, 60)
       ..close();
     canvas.drawPath(cavity, _fill(palette.mouthInside));
     if (smile > _tongueFrom) {

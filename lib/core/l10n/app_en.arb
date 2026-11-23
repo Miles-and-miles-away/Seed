@@ -311,6 +311,26 @@
   "streakBrokenTitle": "Streak Broken",
   "streakBrokenMessage": "Don't worry! Start a new streak today.",
   "streakBrokenStartNew": "Start New Streak",
+  "mascotGreetingWelcome": "Welcome back!",
+  "mascotGreetingStreak": "{count}-day streak! Log an action to keep it.",
+  "@mascotGreetingStreak": {
+    "description": "Home mascot's daily greeting when the streak is still live",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mascotGreetingNoStreak": "Log an action to start a new streak.",
+  "mascotCheerStreak": "{count, plural, =1{Streak started!} other{{count}-day streak!}}",
+  "@mascotCheerStreak": {
+    "description": "Mascot's speech bubble after the first log of the day",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "sortLabel": "Sort",
   "sortButtonTooltip": "Sort: {option}",
   "@sortButtonTooltip": {

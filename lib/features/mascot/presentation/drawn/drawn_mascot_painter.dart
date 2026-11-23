@@ -71,6 +71,8 @@ abstract class DrawnMascotPainter extends CustomPainter {
   static const double _restBlush = 0.9;
   static const double _mouthScale = 0.5;
   static const double _mouthDrop = 62;
+  static const Offset _kickReach = Offset(2.5, -5);
+  static const double _kickTurn = 0.5;
 
   MascotRig get rig;
   MascotBody get body;
@@ -91,13 +93,26 @@ abstract class DrawnMascotPainter extends CustomPainter {
 
   double get _widthScale => 1 - pose.squash * 0.6;
 
-  Offset _inBody(Offset point) {
-    final d = point - rig.pivot;
-    final x = d.dx * _widthScale;
-    final y = d.dy * (1 + pose.squash);
-    final c = math.cos(_lean);
-    final s = math.sin(_lean);
-    return rig.pivot + Offset(x * c - y * s, x * s + y * c);
+  /// Places the body and what grows from it for [pose]; the feet stay.
+  Matrix4 get bodyTransform {
+    final pivot = rig.pivot;
+    final sink = pose.sink * math.max(groundY - body.bottom, 0);
+    return Matrix4.translationValues(pivot.dx, pivot.dy + sink, 0)
+      ..rotateZ(_lean)
+      ..scaleByDouble(_widthScale, 1 + pose.squash, 1, 1)
+      ..translateByDouble(-pivot.dx, -pivot.dy, 0, 1);
+  }
+
+  // Halfway from the face to the bottom, so the face never wiggles.
+  double get _hipLine => (rig.face.dy + body.bottom) / 2;
+
+  /// Shears the body below the hip line by the pose's hips, inside
+  /// [bodyTransform]; the bottom moves the most.
+  Matrix4 get hipTransform {
+    final shear = pose.hips / (rig.pivot.dy - _hipLine);
+    return Matrix4.identity()
+      ..setEntry(0, 1, shear)
+      ..setEntry(0, 3, -shear * _hipLine);
   }
 
   Offset _shoulder(double side) =>
@@ -105,25 +120,34 @@ abstract class DrawnMascotPainter extends CustomPainter {
 
   /// Rig joints for [pose], for geometry checks and cosmetic anchors.
   MascotJoints get joints {
+    final transform = bodyTransform;
+    Offset inBody(Offset point) => MatrixUtils.transformPoint(transform, point);
     Offset hand(double side, double raise) {
       final angle = rig.armRest + raise;
       final direction = Offset(side * math.sin(angle), math.cos(angle));
-      return _inBody(_shoulder(side) + direction * rig.armLength);
+      return inBody(_shoulder(side) + direction * rig.armLength);
     }
 
     return (
-      faceAnchor: _inBody(rig.face),
-      topAnchor: _inBody(rig.top),
+      faceAnchor: inBody(rig.face),
+      topAnchor: inBody(rig.top),
       handL: hand(-1, pose.armL),
       handR: hand(1, pose.armR),
-      footL: Offset(designSize / 2 - rig.footX, groundY),
-      footR: Offset(designSize / 2 + rig.footX, groundY),
+      footL: _foot(-1, pose.kickL),
+      footR: _foot(1, pose.kickR),
     );
   }
 
+  Offset _foot(double side, double kick) =>
+      Offset(designSize / 2 + side * rig.footX, groundY) +
+      _kickReach.scale(side * kick, kick);
+
   /// The outer bounds of both eyes for [pose], before the body transform.
   List<Rect> get eyeBounds {
-    final scale = rig.eyeSize / FacePainter.eyeWidth;
+    final scale =
+        rig.eyeSize /
+        FacePainter.eyeWidth *
+        (1 + FacePainter.wowGrowth * pose.wow);
     final centre = rig.face + pose.gaze * _gazeTurn;
     return [
       for (final side in const [-1.0, 1.0])
@@ -177,12 +201,16 @@ abstract class DrawnMascotPainter extends CustomPainter {
   );
 
   /// Runs [draw] once per foot, mirrored, with the origin on the ground.
-  void paintFeet(Canvas canvas, VoidCallback draw) {
-    for (final side in const [-1.0, 1.0]) {
+  /// With [kick] the pose can lift each foot up and out.
+  void paintFeet(Canvas canvas, VoidCallback draw, {bool kick = false}) {
+    for (final (side, amount) in [(-1.0, pose.kickL), (1.0, pose.kickR)]) {
+      final k = kick ? amount : 0.0;
+      final foot = _foot(side, k);
       canvas
         ..save()
-        ..translate(designSize / 2 + side * rig.footX, groundY)
-        ..scale(side, 1);
+        ..translate(foot.dx, foot.dy)
+        ..scale(side, 1)
+        ..rotate(-_kickTurn * k);
       draw();
       canvas.restore();
     }
@@ -226,13 +254,35 @@ abstract class DrawnMascotPainter extends CustomPainter {
       )
       ..scale(scale);
     paintGround(canvas);
-    canvas
-      ..translate(rig.pivot.dx, rig.pivot.dy)
-      ..rotate(_lean)
-      ..scale(_widthScale, 1 + pose.squash)
-      ..translate(-rig.pivot.dx, -rig.pivot.dy);
-    paintBody(canvas);
+    canvas.transform(bodyTransform.storage);
+    if (pose.hips == 0) {
+      paintBody(canvas);
+    } else {
+      _paintWiggle(canvas);
+    }
     _paintFace(canvas);
+    canvas.restore();
+  }
+
+  // Two passes split at the hip line; hard clip edges share no pixel.
+  void _paintWiggle(Canvas canvas) {
+    const reach = designSize * 2;
+    canvas
+      ..save()
+      ..clipRect(
+        Rect.fromLTRB(-reach, _hipLine, reach, reach),
+        doAntiAlias: false,
+      )
+      ..transform(hipTransform.storage);
+    paintBody(canvas);
+    canvas
+      ..restore()
+      ..save()
+      ..clipRect(
+        Rect.fromLTRB(-reach, -reach, reach, _hipLine),
+        doAntiAlias: false,
+      );
+    paintBody(canvas);
     canvas.restore();
   }
 
