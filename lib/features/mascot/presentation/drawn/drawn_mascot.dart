@@ -31,9 +31,10 @@ DrawnMascotPainter drawnMascotPainter(
 ///
 /// With [animate] it is the hero: it breathes, blinks, follows the
 /// pointer and smiles on [mascotSmileTriggerProvider]. With [wavesOnTap]
-/// it also takes taps and waves. With [hopOnLoad] it hops once when it
-/// first appears, and with [routine] it moves to that routine in place of
-/// breathing. Under reduce motion both become a smile. Without [animate]
+/// it also takes taps and waves, and each rise of [waveCount] waves too.
+/// With [hopOnLoad] it hops once when it first appears, and with [routine]
+/// it moves to that routine in place of breathing. Under reduce motion the
+/// hop, the wave and the routine become a smile. Without [animate]
 /// the widget paints one static frame and owns no ticker.
 class DrawnMascot extends ConsumerStatefulWidget {
   const DrawnMascot({
@@ -43,6 +44,7 @@ class DrawnMascot extends ConsumerStatefulWidget {
     this.animate = true,
     this.wavesOnTap = false,
     this.hopOnLoad = false,
+    this.waveCount = 0,
     this.routine,
     super.key,
   });
@@ -55,6 +57,7 @@ class DrawnMascot extends ConsumerStatefulWidget {
   /// Off by default so that a tap reaches an ancestor, such as a card.
   final bool wavesOnTap;
   final bool hopOnLoad;
+  final int waveCount;
   final MascotRoutine? routine;
 
   @override
@@ -99,6 +102,17 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
     if (_reduceMotion && _hopAt != null) {
       _hopAt = null;
       _smileUntil = _seconds + _smileHoldSeconds;
+    }
+  }
+
+  @override
+  void didUpdateWidget(DrawnMascot oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.waveCount <= oldWidget.waveCount) return;
+    if (_reduceMotion) {
+      _smileUntil = _seconds + _smileHoldSeconds;
+    } else {
+      _waveAt ??= _seconds;
     }
   }
 
@@ -162,6 +176,7 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
       gaze: _gaze,
       smile: _smile,
       eyeOpen: blinkEyeOpen(_seconds - _blinkAt),
+      swim: _reduceMotion ? 0 : _seconds,
     );
     final waveAt = _waveAt;
     if (!_reduceMotion) {

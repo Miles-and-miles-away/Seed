@@ -140,6 +140,7 @@ abstract class AppConstants {
   static const fieldThemeMode = 'themeMode';
   static const fieldSeenStreakMilestones = 'seenStreakMilestones';
   static const fieldWalkthroughFound = 'walkthroughFound';
+  static const fieldGreetedDate = 'greetedDate';
 
   // Firestore action library fields
   static const fieldIsActive = 'isActive';

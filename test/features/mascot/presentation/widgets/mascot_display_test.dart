@@ -11,6 +11,7 @@ import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_speech_bubble.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
@@ -159,58 +160,91 @@ void main() {
       await tearDownTree(tester);
     });
 
-    group('welcome back', () {
+    group('daily greeting', () {
       final now = DateTime(2026, 3, 10, 9);
       final overrides = [
         userOverride(
-          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            currentStreak: 6,
+            lastActionDate: DateTime(2026, 3, 9),
+          ),
         ),
         clockProvider.overrideWithValue(() => now),
       ];
 
-      Widget display({bool tickerOn = true}) => TickerMode(
-        enabled: tickerOn,
-        child: _wrap(
-          const MascotDisplay(size: 100, showGlow: false, welcomesBack: true),
-          assetPath: drawnMascotPath('seed', 2),
-          overrides: overrides,
-        ),
-      );
-
-      bool smiled(WidgetTester tester) =>
-          ProviderScope.containerOf(
-            tester.element(find.byType(MascotDisplay)),
-          ).read(welcomeBackSmiledProvider) !=
-          null;
-
-      testWidgets('a code-drawn hero smiles when due, and records it', (
-        tester,
-      ) async {
-        await tester.pumpWidget(
-          _wrap(
-            const MascotDisplay(size: 100, showGlow: false, welcomesBack: true),
+      Widget display({bool tickerOn = true, bool reduce = false}) => MediaQuery(
+        data: MediaQueryData(disableAnimations: reduce),
+        child: TickerMode(
+          enabled: tickerOn,
+          child: _wrap(
+            const Column(
+              children: [
+                MascotDisplay(size: 100, showGlow: false, greets: true),
+                MascotGreetingBubble(child: Text('name')),
+              ],
+            ),
             assetPath: drawnMascotPath('seed', 2),
             overrides: overrides,
           ),
-        );
-        for (var i = 0; i < 30; i++) {
+        ),
+      );
+
+      bool greeted(WidgetTester tester) =>
+          ProviderScope.containerOf(
+            tester.element(find.byType(MascotDisplay)),
+          ).read(dailyGreetedProvider) !=
+          null;
+
+      Future<void> frames(WidgetTester tester, int count) async {
+        for (var i = 0; i < count; i++) {
           await tester.pump(const Duration(milliseconds: 16));
         }
-        expect(smiled(tester), isTrue);
+      }
+
+      testWidgets('the hero waves, says the streak, and records it', (
+        tester,
+      ) async {
+        await tester.pumpWidget(display());
+        await frames(tester, 30);
+        expect(greeted(tester), isTrue);
+        expect(drawnPose(tester).armR, greaterThan(1));
+        expect(find.text('Welcome back!'), findsOneWidget);
+        expect(
+          find.text('6-day streak! Log an action to keep it.'),
+          findsOneWidget,
+        );
+
+        await tester.pump(const Duration(seconds: 5));
+        await tester.pump(durationMedium);
+        await tester.pump(durationMedium);
+        expect(find.text('Welcome back!'), findsNothing);
+        await tearDownTree(tester);
+      });
+
+      testWidgets('under reduce motion it smiles in place of the wave', (
+        tester,
+      ) async {
+        await tester.pumpWidget(display(reduce: true));
+        await frames(tester, 30);
+        expect(greeted(tester), isTrue);
+        expect(drawnPose(tester).armR, lessThan(0.5));
         expect(drawnPose(tester).smile, greaterThan(0.8));
-        await tester.pump(durationCelebration);
+        expect(find.text('Welcome back!'), findsOneWidget);
+        await tester.pump(const Duration(seconds: 5));
         await tearDownTree(tester);
       });
 
       testWidgets('waits until its ticker is on', (tester) async {
         await tester.pumpWidget(display(tickerOn: false));
         await tester.pump();
-        expect(smiled(tester), isFalse);
+        expect(greeted(tester), isFalse);
 
         await tester.pumpWidget(display());
         await tester.pump();
-        expect(smiled(tester), isTrue);
-        await tester.pump(durationCelebration);
+        expect(greeted(tester), isTrue);
+        await tester.pump(const Duration(seconds: 5));
         await tearDownTree(tester);
       });
     });

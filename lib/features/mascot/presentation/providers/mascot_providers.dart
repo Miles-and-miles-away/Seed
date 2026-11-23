@@ -19,6 +19,7 @@ import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart'
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/data/repositories/mascot_repository.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'mascot_providers.g.dart';
@@ -284,38 +285,44 @@ bool mascotCelebrationPending(Ref ref) =>
     ref.watch(hasNewEvolutionProvider) ||
     ref.watch(shouldShowEggDiscoveryProvider);
 
-/// Calendar days without a log after which Home's mascot welcomes the
-/// user back with a smile.
-const welcomeBackMinDays = 2;
-
-/// The last log date whose gap the welcome-back smile has already
-/// greeted in this app process.
+/// The local day whose greeting Home's mascot has played in this session.
+/// [markGreeted] also stores it in the settings, so a cold start later the
+/// same day does not greet again.
 @Riverpod(keepAlive: true)
-class WelcomeBackSmiled extends _$WelcomeBackSmiled {
+class DailyGreeted extends _$DailyGreeted {
   @override
-  DateTime? build() => null;
+  String? build() => null;
 
-  void markSmiled() =>
-      state = ref.read(currentUserProvider).value?.lastActionDate;
+  void markGreeted() {
+    final day = formatDateKey(ref.read(clockProvider)());
+    state = day;
+    unawaited(ref.read(settingsProvider.notifier).markGreeted(day));
+  }
 }
 
-/// Whether Home's mascot should play the welcome-back smile now.
+/// Whether Home's mascot should greet the user now: once a day, for a
+/// user who has logged before but not yet today.
 @riverpod
-bool welcomeBackSmileDue(Ref ref) {
+bool dailyGreetingDue(Ref ref) {
   if (ref.watch(mascotCelebrationPendingProvider)) return false;
-  final (lastActionDate, offsetMinutes) = ref.watch(
-    currentUserProvider.select(
-      (user) =>
-          (user.value?.lastActionDate, user.value?.lastActionUtcOffsetMinutes),
-    ),
+  final (lastActionDate, offsetMinutes, greetedDate) = ref.watch(
+    currentUserProvider.select((async) {
+      final user = async.value;
+      return (
+        user?.lastActionDate,
+        user?.lastActionUtcOffsetMinutes,
+        user?.greetedDate,
+      );
+    }),
   );
-  if (lastActionDate == null ||
-      lastActionDate == ref.watch(welcomeBackSmiledProvider)) {
+  if (lastActionDate == null) return false;
+  final now = ref.watch(clockProvider)();
+  final today = formatDateKey(now);
+  if (greetedDate == today || ref.watch(dailyGreetedProvider) == today) {
     return false;
   }
-  final today = ref.watch(clockProvider)();
   final last = localDateAt(lastActionDate, offsetMinutes);
-  return calendarDaysBetween(last, today) >= welcomeBackMinDays;
+  return calendarDaysBetween(last, now) > 0;
 }
 
 /// Fires the mascot smile animation, e.g. before opening the action log.

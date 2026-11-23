@@ -22,6 +22,10 @@ class MascotPose {
     this.wow = 0,
     this.kickL = 0,
     this.kickR = 0,
+    this.sink = 0,
+    this.hips = 0,
+    this.swim = 0,
+    this.hide = 0,
   });
 
   /// Body height change as a fraction; the width compensates.
@@ -52,6 +56,18 @@ class MascotPose {
   final double kickL;
   final double kickR;
 
+  /// 1 lowers the body until its bottom meets the ground.
+  final double sink;
+
+  /// Sideways shift of the body bottom in design units; the face stays.
+  final double hips;
+
+  /// Seconds into the idle swim of companions, such as the coral fish.
+  final double swim;
+
+  /// Companions hide behind the body from 0 to 1 and come back by 2.
+  final double hide;
+
   MascotPose copyWith({
     double? squash,
     double? lean,
@@ -65,6 +81,10 @@ class MascotPose {
     double? wow,
     double? kickL,
     double? kickR,
+    double? sink,
+    double? hips,
+    double? swim,
+    double? hide,
   }) => MascotPose(
     squash: squash ?? this.squash,
     lean: lean ?? this.lean,
@@ -78,6 +98,10 @@ class MascotPose {
     wow: wow ?? this.wow,
     kickL: kickL ?? this.kickL,
     kickR: kickR ?? this.kickR,
+    sink: sink ?? this.sink,
+    hips: hips ?? this.hips,
+    swim: swim ?? this.swim,
+    hide: hide ?? this.hide,
   );
 }
 
@@ -102,8 +126,10 @@ const double hopCrouchFrames = 46;
 const double hopRiseFrames = 12;
 const double hopFallFrames = 12;
 const double _hopSettleFrames = 14;
+// Longer than the settle, so the hop ends when the companions are back.
+const double _hopReturnFrames = 30;
 const double hopSeconds =
-    (hopCrouchFrames + hopRiseFrames + hopFallFrames + _hopSettleFrames) / 60;
+    (hopCrouchFrames + hopRiseFrames + hopFallFrames + _hopReturnFrames) / 60;
 const double blinkCloseSeconds = 0.083;
 const double blinkHoldSeconds = 0.05;
 const double blinkOpenSeconds = 0.133;
@@ -151,31 +177,58 @@ MascotPose wave(MascotPose pose, double progress) {
 const double _hopCrouch = -0.14;
 const double _hopLand = -0.08;
 const double _hopArms = 0.9;
+const double _hopSinkFrames = 16;
+const double _hopSink = 0.8;
+const double _hopWiggle = 3;
+const double _hopWiggles = 2;
+const double _hopHideFrames = 24;
 
-/// Crouch, spring up with a smile, land and settle; [progress] runs 0..1.
+/// Crouch with a bottom wiggle, spring up with a smile, land and settle;
+/// [progress] runs 0..1. Companions hide behind the body for the air time.
 ///
 /// The pose stays in place: the owner moves the widget for the air time.
 MascotPose hop(MascotPose pose, double progress) {
   final frame = progress.clamp(0.0, 1.0) * hopSeconds * 60;
   final takeoff = hopCrouchFrames;
   final landing = takeoff + hopRiseFrames + hopFallFrames;
-  final double squash;
+  final double crouch;
+  var hips = 0.0;
+  var squash = 0.0;
   final double air;
+  final double hide;
   if (frame < takeoff) {
-    squash = _hopCrouch * Curves.easeOut.transform(frame / takeoff);
+    crouch = Curves.easeOut.transform(math.min(frame / _hopSinkFrames, 1));
+    hide = Curves.easeInOut.transform(
+      ((frame - _hopSinkFrames) / _hopHideFrames).clamp(0.0, 1.0),
+    );
+    final w = math.max(frame - _hopSinkFrames, 0) / (takeoff - _hopSinkFrames);
+    hips =
+        _hopWiggle *
+        math.sin(math.pi * w) *
+        math.sin(2 * math.pi * _hopWiggles * w);
     air = 0;
   } else if (frame < landing) {
     final t = (frame - takeoff) / (landing - takeoff);
     // No stretch: the tallest stage has no headroom in the design box.
-    squash = _hopCrouch * (1 - math.min(t * 4, 1));
+    crouch = 1 - math.min(t * 4, 1);
     air = 1;
+    hide = 1;
   } else {
     final t = (frame - landing) / _hopSettleFrames;
+    crouch = 0;
     squash = _hopLand * math.sin(math.min(t, 1) * math.pi);
     air = 1 - Curves.easeOut.transform(t.clamp(0.0, 1.0));
+    hide =
+        1 +
+        Curves.easeOut.transform(
+          ((frame - landing) / _hopReturnFrames).clamp(0.0, 1.0),
+        );
   }
   return pose.copyWith(
-    squash: pose.squash + squash,
+    squash: pose.squash + squash + _hopCrouch * crouch,
+    sink: pose.sink + _hopSink * crouch,
+    hips: pose.hips + hips,
+    hide: hide,
     armL: pose.armL + air * _hopArms,
     armR: pose.armR + air * _hopArms,
     smile: math.max(pose.smile, air),
@@ -224,12 +277,12 @@ MascotPose dance(MascotPose pose, double seconds) {
 }
 
 const double cheerHz = 2.4;
-const double _cheerRaise = 2;
-const double _cheerPump = 0.35;
+const double _cheerRaise = 1.45;
+const double _cheerPump = 0.25;
 const double _cheerDip = -0.06;
 const double _cheerWiggle = 0.06;
 const double _cheerStomp = 0.6;
-const double _cheerSway = 0.12;
+const double _cheerSway = 0.08;
 
 /// Both arms up and pumping, stamping from foot to foot.
 MascotPose cheer(MascotPose pose, double seconds) {

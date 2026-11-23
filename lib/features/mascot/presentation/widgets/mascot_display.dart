@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/utils/reduce_motion.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
 
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
@@ -16,7 +17,8 @@ class MascotDisplay extends ConsumerStatefulWidget {
     this.showGlow = true,
     this.jumpOnLoad = false,
     this.onJump,
-    this.welcomesBack = false,
+    this.greets = false,
+    this.routine,
     super.key,
   });
 
@@ -36,8 +38,12 @@ class MascotDisplay extends ConsumerStatefulWidget {
   /// Called when the load-time jump is triggered (not under reduce motion).
   final VoidCallback? onJump;
 
-  /// Whether this mascot plays the welcome-back smile when it is due.
-  final bool welcomesBack;
+  /// Whether this mascot waves the daily greeting when it is due (a smile
+  /// under reduce motion). [MascotGreetingBubble] shows the words.
+  final bool greets;
+
+  /// See [MascotImage.routine].
+  final MascotRoutine? routine;
 
   @override
   ConsumerState<MascotDisplay> createState() => _MascotDisplayState();
@@ -46,31 +52,38 @@ class MascotDisplay extends ConsumerStatefulWidget {
 class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   bool _drawn = false;
   bool _ready = false;
+  int _waves = 0;
 
   void _onReady() {
     if (!mounted) return;
     if (widget.jumpOnLoad && !reduceMotionOf(context)) widget.onJump?.call();
-    _maybeWelcomeBack();
+    _maybeGreet();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Also reruns when TickerMode flips, i.e. Home is uncovered again.
-    if (widget.welcomesBack && TickerMode.valuesOf(context).enabled) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _maybeWelcomeBack());
+    if (widget.greets && TickerMode.valuesOf(context).enabled) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _maybeGreet());
     }
   }
 
-  // Post-frame only: marking the smile writes provider state.
-  void _maybeWelcomeBack() {
-    if (!widget.welcomesBack || !mounted || !_drawn) return;
+  @override
+  void didUpdateWidget(MascotDisplay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.greets && !oldWidget.greets) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _maybeGreet());
+    }
+  }
+
+  // Post-frame only: marking the greeting writes provider state.
+  void _maybeGreet() {
+    if (!widget.greets || !mounted || !_ready) return;
     if (!TickerMode.valuesOf(context).enabled) return;
-    if (!ref.read(welcomeBackSmileDueProvider)) return;
-    ref.read(welcomeBackSmiledProvider.notifier).markSmiled();
-    ref
-        .read(mascotSmileTriggerProvider.notifier)
-        .triggerSmile(hold: durationCelebration);
+    if (!ref.read(dailyGreetingDueProvider)) return;
+    ref.read(dailyGreetedProvider.notifier).markGreeted();
+    setState(() => _waves++);
   }
 
   @override
@@ -78,12 +91,10 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     final assetPath = ref.watch(activeMascotAssetPathProvider);
 
     // The user document can arrive after the mascot has loaded.
-    if (widget.welcomesBack) {
-      ref.listen(welcomeBackSmileDueProvider, (_, due) {
+    if (widget.greets) {
+      ref.listen(dailyGreetingDueProvider, (_, due) {
         if (!due) return;
-        WidgetsBinding.instance.addPostFrameCallback(
-          (_) => _maybeWelcomeBack(),
-        );
+        WidgetsBinding.instance.addPostFrameCallback((_) => _maybeGreet());
       });
     }
 
@@ -156,6 +167,8 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       hero: true,
       wavesOnTap: widget.wavesOnTap,
       hopOnLoad: widget.jumpOnLoad,
+      waveCount: _waves,
+      routine: widget.routine,
     );
 
     // Code-drawn mascots have their own idle motion; floating the widget

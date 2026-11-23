@@ -92,10 +92,11 @@ _AppUserModel _$AppUserModelFromJson(Map<String, dynamic> json) =>
           ) ??
           const {},
       walkthroughFound:
-          (_readWalkthroughFound(json, 'walkthroughFound') as List<dynamic>?)
+          (_readSetting(json, 'walkthroughFound') as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      greetedDate: _readSetting(json, 'greetedDate') as String?,
     );
 
 Map<String, dynamic> _$AppUserModelToJson(

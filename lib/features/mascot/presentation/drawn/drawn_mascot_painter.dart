@@ -73,6 +73,7 @@ abstract class DrawnMascotPainter extends CustomPainter {
   static const double _mouthDrop = 62;
   static const Offset _kickReach = Offset(2.5, -5);
   static const double _kickTurn = 0.5;
+  static const double _hipSeam = 0.5;
 
   MascotRig get rig;
   MascotBody get body;
@@ -93,13 +94,26 @@ abstract class DrawnMascotPainter extends CustomPainter {
 
   double get _widthScale => 1 - pose.squash * 0.6;
 
-  Offset _inBody(Offset point) {
-    final d = point - rig.pivot;
-    final x = d.dx * _widthScale;
-    final y = d.dy * (1 + pose.squash);
-    final c = math.cos(_lean);
-    final s = math.sin(_lean);
-    return rig.pivot + Offset(x * c - y * s, x * s + y * c);
+  /// Places the body and what grows from it for [pose]; the feet stay.
+  Matrix4 get bodyTransform {
+    final pivot = rig.pivot;
+    final sink = pose.sink * math.max(groundY - body.bottom, 0);
+    return Matrix4.translationValues(pivot.dx, pivot.dy + sink, 0)
+      ..rotateZ(_lean)
+      ..scaleByDouble(_widthScale, 1 + pose.squash, 1, 1)
+      ..translateByDouble(-pivot.dx, -pivot.dy, 0, 1);
+  }
+
+  // Halfway from the face to the bottom, so the face never wiggles.
+  double get _hipLine => (rig.face.dy + body.bottom) / 2;
+
+  /// Shears the body below the hip line by the pose's hips, inside
+  /// [bodyTransform]; the bottom moves the most.
+  Matrix4 get hipTransform {
+    final shear = pose.hips / (rig.pivot.dy - _hipLine);
+    return Matrix4.identity()
+      ..setEntry(0, 1, shear)
+      ..setEntry(0, 3, -shear * _hipLine);
   }
 
   Offset _shoulder(double side) =>
@@ -107,15 +121,17 @@ abstract class DrawnMascotPainter extends CustomPainter {
 
   /// Rig joints for [pose], for geometry checks and cosmetic anchors.
   MascotJoints get joints {
+    final transform = bodyTransform;
+    Offset inBody(Offset point) => MatrixUtils.transformPoint(transform, point);
     Offset hand(double side, double raise) {
       final angle = rig.armRest + raise;
       final direction = Offset(side * math.sin(angle), math.cos(angle));
-      return _inBody(_shoulder(side) + direction * rig.armLength);
+      return inBody(_shoulder(side) + direction * rig.armLength);
     }
 
     return (
-      faceAnchor: _inBody(rig.face),
-      topAnchor: _inBody(rig.top),
+      faceAnchor: inBody(rig.face),
+      topAnchor: inBody(rig.top),
       handL: hand(-1, pose.armL),
       handR: hand(1, pose.armR),
       footL: _foot(-1, pose.kickL),
@@ -239,13 +255,29 @@ abstract class DrawnMascotPainter extends CustomPainter {
       )
       ..scale(scale);
     paintGround(canvas);
-    canvas
-      ..translate(rig.pivot.dx, rig.pivot.dy)
-      ..rotate(_lean)
-      ..scale(_widthScale, 1 + pose.squash)
-      ..translate(-rig.pivot.dx, -rig.pivot.dy);
-    paintBody(canvas);
+    canvas.transform(bodyTransform.storage);
+    if (pose.hips == 0) {
+      paintBody(canvas);
+    } else {
+      _paintWiggle(canvas);
+    }
     _paintFace(canvas);
+    canvas.restore();
+  }
+
+  // Two passes split at the hip line; the top pass overlaps the seam.
+  void _paintWiggle(Canvas canvas) {
+    const reach = designSize * 2;
+    canvas
+      ..save()
+      ..clipRect(Rect.fromLTRB(-reach, _hipLine, reach, reach))
+      ..transform(hipTransform.storage);
+    paintBody(canvas);
+    canvas
+      ..restore()
+      ..save()
+      ..clipRect(Rect.fromLTRB(-reach, -reach, reach, _hipLine + _hipSeam));
+    paintBody(canvas);
     canvas.restore();
   }
 

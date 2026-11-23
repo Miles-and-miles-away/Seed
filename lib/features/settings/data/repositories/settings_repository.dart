@@ -193,6 +193,13 @@ class SettingsRepository {
     });
   }
 
+  /// Records [day] (a date key) as the day of the last daily greeting.
+  Future<void> markGreeted(String uid, String day) async {
+    await _userDoc(uid).update({
+      '${AppConstants.fieldSettings}.${AppConstants.fieldGreetedDate}': day,
+    });
+  }
+
   /// Forgets every found walkthrough item so the tour replays.
   Future<void> resetWalkthrough(String uid) async {
     await _userDoc(uid).update({

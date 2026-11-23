@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/core/theme/app_theme.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/coral_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
@@ -35,13 +36,15 @@ final _celebrationPoses = <String, MascotPose>{
       const MascotPose(),
       danceBeatSeconds * (2 + beat / 2),
     ),
-  'cheer up': cheer(const MascotPose(), 1 + 0.25 / cheerHz),
-  'cheer down': cheer(const MascotPose(), 1 + 0.75 / cheerHz),
+  'cheer up': cheer(const MascotPose(), 1.25 / cheerHz),
+  'cheer down': cheer(const MascotPose(), 1.75 / cheerHz),
   'evolve gasp': evolve(const MascotPose(), evolveGaspSeconds / 2),
   'evolve crouch': evolve(const MascotPose(), evolveGaspSeconds + 0.17),
   'hatch asleep': hatch(const MascotPose(), 0.3),
   'hatch look': hatch(const MascotPose(), 1.5),
   'hatch gasp': hatch(const MascotPose(), hatchGaspSeconds - 0.3),
+  for (final frame in _hopWiggleFrames)
+    'hop wiggle $frame': hop(const MascotPose(), frame / 60 / hopSeconds),
 };
 
 final _geometryPoses = {..._keyPoses, ..._celebrationPoses};
@@ -49,6 +52,7 @@ final _geometryPoses = {..._keyPoses, ..._celebrationPoses};
 const _hopTakeoff = hopCrouchFrames / 60 / hopSeconds;
 const _hopPeak =
     (hopCrouchFrames + (hopRiseFrames + hopFallFrames) / 4) / 60 / hopSeconds;
+const _hopWiggleFrames = [20, 24, 28, 32, 36, 40];
 const _stages = [1, 2, 3, 4];
 const _heroSize = 120.0;
 const _thumbSize = 48.0;
@@ -65,6 +69,13 @@ const _eyeSamples = 32;
 const _clearanceStep = 0.05;
 const _minEyeClearance = 0.3;
 const _minGazeClearance = 0.2;
+const _minHandClearance = 0.35;
+const _fishReach = [
+  Offset(-8.5, -3.4),
+  Offset(-8.5, 3.4),
+  Offset(8.5, -3.4),
+  Offset(8.5, 3.4),
+];
 
 class _Raster {
   _Raster(this.side, this.rgba);
@@ -105,6 +116,23 @@ Future<_Raster> _rasterise(
   return _Raster(side.toInt(), rgba!);
 }
 
+// The clear space between a hand and the body, which paints over the
+// arms, in arm lengths. The body transform moves the arms too, so the
+// check leaves it out.
+double _handClearance(DrawnMascotPainter painter, Offset hand) {
+  bool clear(double gap) => Iterable<int>.generate(_eyeSamples).every((i) {
+    final angle = i * 2 * math.pi / _eyeSamples;
+    final reach = Offset(math.cos(angle), math.sin(angle)) * gap;
+    return !painter.bodyOutline.contains(hand + reach);
+  });
+
+  var gap = 0.0;
+  while (clear(gap + _clearanceStep)) {
+    gap += _clearanceStep;
+  }
+  return gap / painter.rig.armLength;
+}
+
 // The clear space between the eyes and the body outline, in eye widths.
 double _eyeClearance(DrawnMascotPainter painter) {
   bool clear(double gap) => painter.eyeBounds.every((eye) {
@@ -124,6 +152,23 @@ double _eyeClearance(DrawnMascotPainter painter) {
     gap += _clearanceStep;
   }
   return gap / painter.rig.eyeSize;
+}
+
+// The longer of the two legs between the ground and the posed bottom.
+double _visibleLeg(DrawnMascotPainter painter) {
+  final outline = painter.bodyOutline.transform(
+    (painter.bodyTransform..multiply(painter.hipTransform)).storage,
+  );
+  double leg(double side) {
+    final x = DrawnMascotPainter.designSize / 2 + side * painter.rig.footX;
+    var y = DrawnMascotPainter.groundY;
+    while (y > 0 && !outline.contains(Offset(x, y))) {
+      y -= _clearanceStep;
+    }
+    return DrawnMascotPainter.groundY - y;
+  }
+
+  return math.max(leg(-1), leg(1));
 }
 
 Widget _cell(DrawnMascotPainter painter, double size, String label) => Column(
@@ -279,6 +324,41 @@ void main() {
               _eyeClearance(drawnMascotPainter(speciesId, stage, entry.value)),
               greaterThanOrEqualTo(minimum),
               reason: entry.key,
+            );
+          }
+        });
+
+        test('keeps the hands clear of the body in every pose', () {
+          if (drawnMascotPainter(speciesId, stage).rig.armLength == 0) return;
+          for (final entry in _geometryPoses.entries) {
+            final upright = entry.value.copyWith(
+              lean: 0,
+              squash: 0,
+              sink: 0,
+              hips: 0,
+            );
+            final painter = drawnMascotPainter(speciesId, stage, upright);
+            final joints = painter.joints;
+            for (final hand in [joints.handL, joints.handR]) {
+              expect(
+                _handClearance(painter, hand),
+                greaterThanOrEqualTo(_minHandClearance),
+                reason: entry.key,
+              );
+            }
+          }
+        });
+
+        test('covers at least half of each leg in the hop crouch', () {
+          final painter = drawnMascotPainter(speciesId, stage);
+          if (painter.body.bottom >= DrawnMascotPainter.groundY) return;
+          final rest = _visibleLeg(painter);
+          for (final frame in _hopWiggleFrames) {
+            final pose = hop(const MascotPose(), frame / 60 / hopSeconds);
+            expect(
+              _visibleLeg(drawnMascotPainter(speciesId, stage, pose)),
+              lessThanOrEqualTo(rest / 2),
+              reason: 'frame $frame',
             );
           }
         });
@@ -520,17 +600,46 @@ void main() {
     });
   });
 
-  test('a hop starts and ends at rest with no jump in the squash', () {
+  test('a hop starts and ends at rest with no jump in the body', () {
     const steps = 200;
-    var last = hop(const MascotPose(), 0).squash;
-    expect(last, 0);
+    var last = hop(const MascotPose(), 0);
+    expect((last.squash, last.sink, last.hips), (0, 0, 0));
     for (var i = 1; i <= steps; i++) {
-      final squash = hop(const MascotPose(), i / steps).squash;
-      expect((squash - last).abs(), lessThan(0.05), reason: 'step $i');
-      last = squash;
+      final pose = hop(const MascotPose(), i / steps);
+      expect((pose.squash - last.squash).abs(), lessThan(0.05), reason: '$i');
+      expect((pose.sink - last.sink).abs(), lessThan(0.3), reason: '$i');
+      expect((pose.hips - last.hips).abs(), lessThan(0.8), reason: '$i');
+      last = pose;
     }
-    expect(last, closeTo(0, 1e-9));
+    expect(last.squash, closeTo(0, 1e-9));
+    expect((last.sink, last.hips), (0, 0));
     expect(hop(const MascotPose(), 1).smile, 0);
+  });
+
+  test('the coral fish hide behind the body for the whole air time', () {
+    const landing = hopCrouchFrames + hopRiseFrames + hopFallFrames;
+    for (final stage in _stages) {
+      for (var frame = hopCrouchFrames; frame <= landing; frame++) {
+        final pose = hop(const MascotPose(swim: 5), frame / 60 / hopSeconds);
+        final painter = CoralPainter(stage: stage, pose: pose);
+        final body = painter.bodyOutline.transform(
+          painter.bodyTransform.storage,
+        );
+        for (final fish in painter.shoal) {
+          for (final reach in _fishReach) {
+            expect(
+              body.contains(fish.centre + reach),
+              isTrue,
+              reason: 'stage $stage frame $frame',
+            );
+          }
+        }
+      }
+      expect(
+        CoralPainter(stage: stage, pose: hop(const MascotPose(), 1)).shoal,
+        CoralPainter(stage: stage).shoal,
+      );
+    }
   });
 
   test('a routine never kicks both feet at once', () {

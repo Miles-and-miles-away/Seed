@@ -43,6 +43,10 @@ const String _drawnPrefix = 'drawn';
   );
 }
 
+/// The highest head top of any species at each stage, as a fraction of
+/// the box from its top edge.
+const List<double> drawnMascotHeadTops = [0.44, 0.15, 0.07, 0.02];
+
 /// Renders a mascot, dispatching on the asset path.
 ///
 /// A [drawnMascotPath] renders the code-drawn mascot. Everything else
@@ -55,6 +59,7 @@ class MascotImage extends StatelessWidget {
     this.hero = false,
     this.wavesOnTap = false,
     this.hopOnLoad = false,
+    this.waveCount = 0,
     this.routine,
     super.key,
   });
@@ -74,6 +79,9 @@ class MascotImage extends StatelessWidget {
 
   /// See [DrawnMascot.hopOnLoad]. Ignored for SVGs.
   final bool hopOnLoad;
+
+  /// See [DrawnMascot.waveCount]. Ignored for SVGs.
+  final int waveCount;
 
   /// See [DrawnMascot.routine]; it animates a mascot that is not the hero.
   /// Ignored for SVGs.
@@ -97,6 +105,7 @@ class MascotImage extends StatelessWidget {
             animate: hero || routine != null,
             wavesOnTap: wavesOnTap,
             hopOnLoad: hopOnLoad,
+            waveCount: waveCount,
             routine: routine,
           ),
         ),

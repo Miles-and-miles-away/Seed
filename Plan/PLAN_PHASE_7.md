@@ -83,7 +83,7 @@ Minimum 3 species × 4 stages = 12 assets. Sprout (currently
 `seed` in `data/app/mascot_species.json`) is locked in as the
 free starter. Coral is confirmed as species 2 and its 4 stages
 have shipped. Species 3 is selected by the designer from the
-candidate set in `PLAN_DESIGNER.md` §4.2 (Funghi, Breeze, Terra,
+candidate set in `PLAN_DESIGNER.md` §4.2 (Fungi, Breeze, Terra,
 Bloom, Dewdrop), or a designer proposal that fits the
 sustainability theme.
 

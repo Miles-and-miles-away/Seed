@@ -386,7 +386,21 @@ void main() {
       expect(find.byType(MascotCheer), findsNothing);
     });
 
-    testWidgets('logs before or past the goal do not cheer', (tester) async {
+    testWidgets("the day's first log dances and says the streak", (
+      tester,
+    ) async {
+      await logWith(tester, _result());
+
+      expect(find.byType(MascotCheer), findsOneWidget);
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text('7-day streak!'), findsOneWidget);
+      await drain(tester);
+      expect(find.byType(MascotCheer), findsNothing);
+    });
+
+    testWidgets('logs between the first and the goal do not cheer', (
+      tester,
+    ) async {
       for (final count in [
         defaultDailyGoalTarget - 1,
         defaultDailyGoalTarget + 1,
