@@ -55,32 +55,28 @@
     "evolutionStages": [
       {
         "level": 1,
-        "assetPath": "assets/animations/sprout_mascot.riv",
-        "artboardName": "Sprout_stage1",
+        "assetPath": "drawn/seed/1",
         "nameEn": "Seed",
         "nameJa": "たね",
         "nameEs": "Semilla"
       },
       {
         "level": 10,
-        "assetPath": "assets/animations/sprout_mascot.riv",
-        "artboardName": "Sprout_stage2",
+        "assetPath": "drawn/seed/2",
         "nameEn": "Sprout",
         "nameJa": "めばえ",
         "nameEs": "Brote"
       },
       {
         "level": 25,
-        "assetPath": "assets/animations/sprout_mascot.riv",
-        "artboardName": "Sprout_stage3",
+        "assetPath": "drawn/seed/3",
         "nameEn": "Sapling",
         "nameJa": "なえぎ",
         "nameEs": "Plantón"
       },
       {
         "level": 50,
-        "assetPath": "assets/animations/sprout_mascot.riv",
-        "artboardName": "Sprout_stage4",
+        "assetPath": "drawn/seed/4",
         "nameEn": "Tree",
         "nameJa": "たいぼく",
         "nameEs": "Árbol"
