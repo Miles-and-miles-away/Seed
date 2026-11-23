@@ -287,11 +287,13 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       width: widget.size * 0.96,
       height: widget.size * 0.96,
       onRiveInit: _onRiveInit,
+      hero: true,
+      wavesOnTap: widget.onTap != null,
     );
 
-    // Rive mascots author their own idle motion; floating the widget too
-    // would double the movement.
-    if (!reduceMotion && !assetPath.endsWith('.riv')) {
+    // Rive and code-drawn mascots have their own idle motion; floating
+    // the widget too would double the movement.
+    if (!reduceMotion && assetPath.endsWith('.svg')) {
       mascot = Animate(
         onPlay: (controller) => controller.repeat(reverse: true),
         effects: [
@@ -338,8 +340,8 @@ class MascotAvatar extends StatelessWidget {
       onRiveInit: animate ? null : pauseRive,
     );
 
-    // Rive mascots author their own idle motion (see MascotDisplay).
-    if (animate && !assetPath.endsWith('.riv')) {
+    // Only SVG mascots need the float (see MascotDisplay).
+    if (animate && assetPath.endsWith('.svg')) {
       mascot = Animate(
         onPlay: (controller) => controller.repeat(reverse: true),
         effects: [

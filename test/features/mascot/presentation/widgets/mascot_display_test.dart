@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rive/rive.dart' as rive;
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
@@ -70,6 +72,61 @@ void main() {
         await tester.pump(const Duration(milliseconds: 100));
       }
     }
+
+    double waveArm(WidgetTester tester) {
+      final paint = tester.widget<CustomPaint>(
+        find.descendant(
+          of: find.byType(DrawnMascot),
+          matching: find.byType(CustomPaint),
+        ),
+      );
+      return (paint.painter! as DrawnMascotPainter).pose.armR;
+    }
+
+    testWidgets('a code-drawn hero animates without the float and waves on '
+        'its own tap', (tester) async {
+      var taps = 0;
+      await tester.pumpWidget(
+        _wrap(
+          MascotDisplay(size: 100, showGlow: false, onTap: () => taps++),
+          assetPath: drawnMascotPath('seed', 2),
+        ),
+      );
+      expect(
+        tester.widget<DrawnMascot>(find.byType(DrawnMascot)).animate,
+        isTrue,
+      );
+      expect(find.byType(Animate), findsNothing);
+
+      await tester.tap(find.byType(DrawnMascot));
+      for (var i = 0; i < 50; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(waveArm(tester), greaterThan(1));
+      expect(taps, 0);
+      await tearDownTree(tester);
+    });
+
+    testWidgets('a code-drawn hero with no tap handler leaves the tap to '
+        'an ancestor', (tester) async {
+      var taps = 0;
+      await tester.pumpWidget(
+        _wrap(
+          GestureDetector(
+            onTap: () => taps++,
+            child: const MascotDisplay(size: 100, showGlow: false),
+          ),
+          assetPath: drawnMascotPath('seed', 2),
+        ),
+      );
+      await tester.tap(find.byType(DrawnMascot));
+      for (var i = 0; i < 50; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      expect(taps, 1);
+      expect(waveArm(tester), lessThan(0.2));
+      await tearDownTree(tester);
+    });
 
     testWidgets('reduced motion freezes the mascot with no jump or smile', (
       tester,

@@ -351,6 +351,7 @@ void main() {
                   stage: 2,
                   size: 100,
                   animate: animate,
+                  wavesOnTap: true,
                 ),
               ),
             ),

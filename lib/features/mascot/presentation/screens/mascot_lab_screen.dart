@@ -32,6 +32,7 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
   @override
   Widget build(BuildContext context) {
     final rive = _rive[_speciesId];
+    final drawn = drawnMascotPath(_speciesId, _stage);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -50,10 +51,12 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                DrawnMascot(
-                  speciesId: _speciesId,
-                  stage: _stage,
-                  size: _heroSize,
+                MascotImage(
+                  assetPath: drawn,
+                  width: _heroSize,
+                  height: _heroSize,
+                  hero: true,
+                  wavesOnTap: true,
                 ),
                 if (rive != null)
                   MascotImage(
@@ -69,12 +72,7 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DrawnMascot(
-                speciesId: _speciesId,
-                stage: _stage,
-                size: _thumbSize,
-                animate: false,
-              ),
+              MascotAvatar(assetPath: drawn, size: _thumbSize, animate: false),
               if (rive != null)
                 MascotAvatar(
                   assetPath: rive.asset,
@@ -99,11 +97,10 @@ class _MascotLabScreenState extends ConsumerState<MascotLabScreen> {
                       _speciesId = speciesId;
                       _stage = stage;
                     }),
-                    child: DrawnMascot(
-                      speciesId: speciesId,
-                      stage: stage,
-                      size: _castSize,
-                      animate: false,
+                    child: MascotImage(
+                      assetPath: drawnMascotPath(speciesId, stage),
+                      width: _castSize,
+                      height: _castSize,
                     ),
                   ),
             ],

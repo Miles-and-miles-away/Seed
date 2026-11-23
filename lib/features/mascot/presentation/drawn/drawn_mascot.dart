@@ -29,14 +29,16 @@ DrawnMascotPainter drawnMascotPainter(
 /// One code-drawn mascot.
 ///
 /// With [animate] it is the hero: it breathes, blinks, follows the
-/// pointer, smiles on [mascotSmileTriggerProvider] and waves when tapped.
-/// Without it the widget paints one static frame and owns no ticker.
+/// pointer and smiles on [mascotSmileTriggerProvider]. With [wavesOnTap]
+/// it also takes taps and waves. Without [animate] the widget paints one
+/// static frame and owns no ticker.
 class DrawnMascot extends ConsumerStatefulWidget {
   const DrawnMascot({
     required this.speciesId,
     required this.stage,
     required this.size,
     this.animate = true,
+    this.wavesOnTap = false,
     super.key,
   });
 
@@ -44,6 +46,9 @@ class DrawnMascot extends ConsumerStatefulWidget {
   final int stage;
   final double size;
   final bool animate;
+
+  /// Off by default so that a tap reaches an ancestor, such as a card.
+  final bool wavesOnTap;
 
   @override
   ConsumerState<DrawnMascot> createState() => _DrawnMascotState();
@@ -177,7 +182,7 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
         ),
       ),
     );
-    if (!widget.animate) return mascot;
+    if (!widget.animate || !widget.wavesOnTap) return mascot;
     return GestureDetector(onTap: () => _waveAt ??= _seconds, child: mascot);
   }
 }

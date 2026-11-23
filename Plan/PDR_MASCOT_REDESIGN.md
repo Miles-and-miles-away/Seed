@@ -199,7 +199,12 @@ The behaviour users see today stays:
 
 `MascotImage` stays the single entry point for every render site.
 It chooses the code-drawn path by species id. The Rive path stays
-for any species that has not migrated yet. The existing
+for any species that has not migrated yet. A stage selects the
+code-drawn mascot with an `assetPath` of the form
+`drawn/<speciesId>/<stage>` (`drawnMascotPath`), so no render site
+changes. A static site paints one frame. Only `MascotDisplay` asks
+for the hero, and the hero takes the tap for the wave only where
+`MascotDisplay` has a tap handler. The existing
 `mascotSmileTriggerProvider` drives the smile.
 
 ### M8. One ticker, only for the hero

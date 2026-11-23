@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart' as rive;
 
 import 'package:seed_app/core/utils/reduce_motion.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
 
 /// View model property names authored in the mascot Rive files.
 ///
@@ -46,11 +48,29 @@ Offset mascotGazeTarget(Offset pointer, Offset center, Size reach) {
 void pauseRive(rive.RiveWidgetController controller) =>
     controller.active = false;
 
-/// Renders a mascot asset, dispatching on file extension.
+/// Asset path of the code-drawn mascot for one species and stage.
+String drawnMascotPath(String speciesId, int stage) =>
+    '$_drawnPrefix/$speciesId/$stage';
+
+const String _drawnPrefix = 'drawn';
+
+/// The species and stage of a [drawnMascotPath], or null for a file path.
+({String speciesId, int stage})? drawnMascotStage(String assetPath) {
+  final parts = assetPath.split('/');
+  if (parts.length != 3 || parts.first != _drawnPrefix) return null;
+  final stage = int.tryParse(parts.last);
+  if (stage == null) return null;
+  return (
+    speciesId: parts[1],
+    stage: stage.clamp(1, DrawnMascotPainter.stageCount),
+  );
+}
+
+/// Renders a mascot, dispatching on the asset path.
 ///
-/// Animated Rive mascots (`.riv`) play their default state machine,
-/// frozen on the first frame under reduce motion; everything else
-/// renders as a static SVG.
+/// A [drawnMascotPath] renders the code-drawn mascot. Animated Rive
+/// mascots (`.riv`) play their default state machine, frozen on the first
+/// frame under reduce motion; everything else renders as a static SVG.
 class MascotImage extends StatefulWidget {
   const MascotImage({
     required this.assetPath,
@@ -58,10 +78,12 @@ class MascotImage extends StatefulWidget {
     this.width,
     this.height,
     this.onRiveInit,
+    this.hero = false,
+    this.wavesOnTap = false,
     super.key,
   });
 
-  /// Bundled asset path, either `.riv` or `.svg`.
+  /// A [drawnMascotPath], or a bundled `.riv` or `.svg` asset path.
   final String assetPath;
 
   /// Artboard to render for multi-artboard `.riv` files (case-sensitive
@@ -74,6 +96,13 @@ class MascotImage extends StatefulWidget {
 
   /// Called when a `.riv` asset finishes loading. Never called for SVGs.
   final void Function(rive.RiveWidgetController controller)? onRiveInit;
+
+  /// Whether a code-drawn mascot is the hero; see [DrawnMascot.animate].
+  /// Ignored for files.
+  final bool hero;
+
+  /// See [DrawnMascot.wavesOnTap]. Ignored for files.
+  final bool wavesOnTap;
 
   @override
   State<MascotImage> createState() => _MascotImageState();
@@ -127,6 +156,24 @@ class _MascotImageState extends State<MascotImage> {
 
   @override
   Widget build(BuildContext context) {
+    final drawn = drawnMascotStage(widget.assetPath);
+    if (drawn != null) {
+      return SizedBox(
+        width: widget.width,
+        height: widget.height,
+        child: LayoutBuilder(
+          builder: (_, constraints) => Center(
+            child: DrawnMascot(
+              speciesId: drawn.speciesId,
+              stage: drawn.stage,
+              size: constraints.biggest.shortestSide,
+              animate: widget.hero,
+              wavesOnTap: widget.wavesOnTap,
+            ),
+          ),
+        ),
+      );
+    }
     final fileLoader = _fileLoader;
     if (fileLoader == null) {
       return SvgPicture.asset(
