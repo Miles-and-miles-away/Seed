@@ -11,10 +11,11 @@ import '../../../helpers/dataset_helpers.dart';
 /// together on means can swap places on medians, so a verdict would be
 /// an artefact of the statistic rather than a finding.
 ///
-/// This asserts the property the in-app methodology page claims:
-/// above a 20% gap the ordering is the same under either statistic,
-/// once the three items whose OWN mean and median differ by 2x or more
-/// are excluded -- for those, no gap is safe. Cheese and dark chocolate
+/// This asserts that, for the products listed below, a gap above 20%
+/// keeps the same ordering under either statistic once the four items
+/// whose OWN mean and median differ by 2x or more are excluded. The
+/// oils and soy milk are not listed, and pairs among them are reported
+/// to reverse, so the in-app copy calls 20% a guide, not a guarantee. Cheese and dark chocolate
 /// are 48.8% apart on means and still swap.
 ///
 /// Means: live per-kg grapher, verified 2026-08-08. Medians: the
@@ -54,6 +55,7 @@ void main() {
     'Potatoes': (0.46, 0.3),
     'Poultry Meat': (9.87, 6.1),
     'Rice': (4.45, 4.0),
+    'Shrimps (farmed)': (26.87, 11.8),
     'Root Vegetables': (0.43, 0.3),
     'Tofu': (3.16, 3.0),
     'Tomatoes': (2.09, 1.4),
@@ -62,7 +64,12 @@ void main() {
   };
 
   /// Own-ratio >= 2x: the statistic choice dominates the value.
-  const sensitive = {'Dark Chocolate', 'Fish (farmed)', 'Nuts'};
+  const sensitive = {
+    'Dark Chocolate',
+    'Fish (farmed)',
+    'Nuts',
+    'Shrimps (farmed)',
+  };
   const threshold = 20.0;
 
   test('no pair above the threshold reverses between mean and median', () {
@@ -87,7 +94,7 @@ void main() {
     expect(offenders, isEmpty, reason: 'reverses above threshold: $offenders');
   });
 
-  test('the sensitive three are exactly those with a ratio >= 2x', () {
+  test('the sensitive four are exactly those with a ratio >= 2x', () {
     for (final entry in stats.entries) {
       final (mean, median) = entry.value;
       expect(
@@ -107,6 +114,7 @@ void main() {
       'Dark Chocolate': 'dark_chocolate',
       'Fish (farmed)': 'fish_farmed',
       'Nuts': 'tree_nuts',
+      'Shrimps (farmed)': 'prawns_farmed',
     };
     final byId = rawDatasetById('data/app/food_items.json', 'items');
     for (final product in sensitive) {

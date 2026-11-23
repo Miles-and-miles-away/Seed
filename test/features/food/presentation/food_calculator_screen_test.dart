@@ -109,6 +109,16 @@ void main() {
       expect(find.textContaining('less than Beef'), findsNothing);
     });
 
+    testWidgets('a meal of only 0 g ingredients is not built', (tester) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addIngredient(tester, itemName: 'Beans', grams: '0');
+      await addIngredient(tester, itemName: 'Beef', grams: '200', column: 1);
+
+      expect(find.text('Build both options to compare them'), findsOneWidget);
+      expect(find.textContaining('as a choice I took today'), findsNothing);
+    });
+
     testWidgets('a sub-20% gap gets no verdict and no bank action', (
       tester,
     ) async {

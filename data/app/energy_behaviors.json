@@ -1,11 +1,11 @@
 {
   "metadata": {
     "version": 1,
-    "scope": "Operational energy only: the kWh a behaviour consumes at the point of use, multiplied by a carrier factor. Generation-basis electricity with no well-to-tank term, and combustion-only gas, matching the transport dataset scope. Excludes appliance manufacturing, transmission and distribution losses, and water supply and treatment energy. One global grid factor for every user; per-country factors were considered and not shipped (decision E1). Whether a T&D correction is warranted is an open question rather than a settled exclusion (Plan/PDR_GRID_REGIONALISATION.md section 4.6). Nearly every comparison here is within one carrier, where the grid factor cancels out entirely. NEVER sum a figure from this calculator with one from the food or transport calculators: food counts a lifecycle, transport counts tailpipe energy, and this counts the electricity or gas to run a home.",
+    "scope": "Lifecycle carrier factors: the kWh a behaviour consumes at the point of use, multiplied by a carrier factor. Electricity uses Ember's lifecycle CO2e grid factor and gas adds the well-to-tank term (extracting, processing and transporting the gas) to combustion, matching the transport dataset scope. Excludes appliance manufacturing, transmission and distribution losses, and water supply and treatment energy. One global grid factor for every user; per-country factors were considered and not shipped (decision E1). Whether a T&D correction is warranted is an open question rather than a settled exclusion (Plan/PDR_GRID_REGIONALISATION.md section 4.6). Nearly every comparison here is within one carrier, where the grid factor cancels out entirely. NEVER sum a figure from this calculator with one from the food or transport calculators: food counts a cradle-to-retail lifecycle, transport counts fuel and energy per trip, and this counts the electricity or gas to run a home.",
     "grid_factor_g_per_kwh": 458,
     "grid_factor_source": "Ember, Global Electricity Review 2026 (2025 world average, CO2e). Shared with data/app/transport_modes.json and pinned by a cross-dataset test. Decision E1, 2026-08-02.",
-    "gas_factor_g_per_kwh": 182,
-    "gas_factor_source": "DEFRA/DESNZ 2026 natural gas, Scope 1 combustion, Gross CV (0.18231 rounded down). Independently corroborated by 資源エネルギー庁 at 179.5 g CO2/kWh, 1.4% apart. Decision E2.",
+    "gas_factor_g_per_kwh": 212,
+    "gas_factor_source": "DEFRA/DESNZ 2026 natural gas, Gross CV: Scope 1 combustion 0.18231 plus Scope 3 well-to-tank 0.03021 = 0.21252 kg CO2e/kWh, rounded down. The combustion part is cross-checked against 資源エネルギー庁 (2.05 kg CO2/m3 over 45 MJ/m3 = 164.0 g CO2/kWh, 令和7年提出用代替値). Decision E2.",
     "verdict_min_percent": 20,
     "unit_note": "kwh_per_unit is per stated unit: minute, hour, use or day. Values are stored unrounded and rounded only for display.",
     "awards_note": "This calculator awards no points and logs no CO2 savings. Energy is a teaching tool, not a decision tool that generates actions: a shorter shower has no verifiable counterfactual, and the action library already covers the same behaviours. Decision 8.18, permanent, not deferred.",
@@ -216,8 +216,8 @@
         {
           "id": "full_180l",
           "name_en": "A full bath (~180 L)",
-          "name_ja": "ふつうの湯量（約180L）",
-          "name_es": "Baño normal (~180 L)",
+          "name_ja": "たっぷりの湯量（約180L）",
+          "name_es": "Baño lleno (~180 L)",
           "units": 1.0
         },
         {
@@ -262,8 +262,8 @@
         {
           "id": "full_180l",
           "name_en": "A full bath (~180 L)",
-          "name_ja": "ふつうの湯量（約180L）",
-          "name_es": "Baño normal (~180 L)",
+          "name_ja": "たっぷりの湯量（約180L）",
+          "name_es": "Baño lleno (~180 L)",
           "units": 1.0
         },
         {
@@ -562,45 +562,38 @@
       "comparable_group": "space_heat",
       "carrier": "electricity",
       "unit": "hour",
-      "kwh_per_unit": 0.241006,
-      "name_en": "Air conditioner, heating (20 C)",
-      "name_ja": "エアコン暖房（20°C）",
-      "name_es": "Aire acondicionado, calefacción (20 °C)",
+      "kwh_per_unit": 0.211124,
+      "name_en": "Air conditioner, heating",
+      "name_ja": "エアコン暖房",
+      "name_es": "Aire acondicionado, calefacción",
       "confidence": "high",
       "presets": [
         {
-          "id": "hour_20c",
-          "name_en": "1 hour at 20 C",
-          "name_ja": "20°Cで1時間",
-          "name_es": "1 hora a 20 °C",
-          "units": 1.0
+          "id": "one_hour",
+          "name_en": "1 hour",
+          "name_ja": "1時間",
+          "name_es": "1 hora",
+          "units": 1
         },
         {
-          "id": "hour_21c",
-          "name_en": "1 hour at 21 C",
-          "name_ja": "21°Cで1時間",
-          "name_es": "1 hora a 21 °C",
-          "units": 1.1448
-        },
-        {
-          "id": "hour_22c",
-          "name_en": "1 hour at 22 C",
-          "name_ja": "22°Cで1時間",
-          "name_es": "1 hora a 22 °C",
-          "units": 1.2896
+          "id": "evening_4h",
+          "name_en": "An evening (4 h)",
+          "name_ja": "夜に4時間",
+          "name_es": "Una tarde (4 h)",
+          "units": 4
         }
       ],
-      "default_preset_id": "hour_20c",
-      "calculation_notes": "METI publishes 40.73 kWh/year saved by shortening heating one hour a day at a 20 C setpoint, sourced to 省エネルギーセンター実測値; over the 169-day 暖房期間 that is 0.241006 kWh/h. MEASURED, not rated: the Panasonic CS-227VB JIS rating is 455 W, about 1.9x higher, because it is measured at full load. Do not \"correct\" this to the catalogue figure. Setpoint presets use METI absolute deltas (+0.034898 kWh/h per 1 C) and are capped at +2 C because neither source supports extrapolating further. RESEARCH_ENERGY section 3.3.",
-      "calculation_notes_ja": "資源エネルギー庁は、設定温度20°Cの暖房を1日1時間短縮すると年間40.73 kWhの省エネになると公表しており、出典は省エネルギーセンター実測値です。169日間の暖房期間で割ると0.241006 kWh/hになります。定格値ではなく実測値です：Panasonic CS-227VBのJIS定格は455 Wで約1.9倍高いですが、これは全負荷で測定しているためです。この値をカタログ値に「修正」しないでください。設定温度のプリセットには資源エネルギー庁の絶対差分（1°Cあたり+0.034898 kWh/h）を使い、どちらの出典もそれ以上の外挿を裏付けていないため、+2°Cまでに制限しています。RESEARCH_ENERGY 3.3節に基づきます。",
-      "calculation_notes_es": "METI publica que acortar una hora al día la calefacción con la consigna a 20 °C ahorra 40,73 kWh/año, con 省エネルギーセンター実測値 como fuente; repartido entre los 169 días del 暖房期間 (temporada de calefacción), son 0,241006 kWh/h. MEDIDO, no nominal: la potencia nominal JIS del Panasonic CS-227VB es de 455 W, unas 1,9 veces la cifra medida, porque se mide a plena carga. No «corrijas» esta cifra con la del catálogo. Los ajustes de temperatura usan los incrementos absolutos de METI (+0,034898 kWh/h por cada 1 °C) y se limitan a +2 °C porque ninguna de las dos fuentes justifica extrapolar más. Según RESEARCH_ENERGY, sección 3.3.",
-      "calculation_notes_src_sha": "de0f67bcecd71d1ec78afe0293789f033b0abab0031eee5c9786ea2b5d7b4c08",
+      "default_preset_id": "one_hour",
+      "calculation_notes": "METI publishes 35.68 kWh/year saved by shortening heating one hour a day on a 2.5 kW unit, modelled on a wooden south-facing house in Tokyo (JIS C9612:2013); over the 169-day 暖房期間 that is 0.211124 kWh/h. An average hour of use, not the rating: the Panasonic CS-227VB JIS rating is 455 W, about 2.2x higher, because it is measured at full load. Do not \"correct\" this to the catalogue figure. The current METI page states no setpoint for this figure and no hours per day for its setpoint savings, so a per-hour setpoint step cannot be derived and no setpoint presets ship. RESEARCH_ENERGY section 3.3.",
+      "calculation_notes_ja": "資源エネルギー庁は、2.5kWのエアコンの暖房を1日1時間短縮すると年間35.68 kWhの省エネになると公表しています。東京をモデルとした木造南向き住宅を想定した値です（JIS C9612:2013）。169日間の暖房期間で割ると0.211124 kWh/hになります。定格値ではなく、平均的な1時間の使用の値です：Panasonic CS-227VBのJIS定格は455 Wで約2.2倍高いですが、これは全負荷で測定しているためです。この値をカタログ値に「修正」しないでください。現在の資源エネルギー庁のページは、この値の設定温度も、設定温度による省エネの1日あたりの使用時間も示していません。そのため1時間あたりの設定温度の差分は導けず、設定温度のプリセットは用意していません。RESEARCH_ENERGY 3.3節に基づきます。",
+      "calculation_notes_es": "METI publica que acortar una hora al día la calefacción de un aparato de 2,5 kW ahorra 35,68 kWh/año, con un modelo de casa de madera orientada al sur en Tokio (JIS C9612:2013); repartido entre los 169 días del 暖房期間 (temporada de calefacción), son 0,211124 kWh/h. Es una hora de uso media, no la potencia nominal: la potencia nominal JIS del Panasonic CS-227VB es de 455 W, unas 2,2 veces más, porque se mide a plena carga. No «corrijas» esta cifra con la del catálogo. La página actual de METI no indica la consigna de esta cifra ni las horas al día de su ahorro por grado, así que no se puede derivar el incremento por hora y no hay ajustes de temperatura. Según RESEARCH_ENERGY, sección 3.3.",
+      "calculation_notes_src_sha": "15a0233bef9c8f127b16e42ffc6d4d7c619e2f1d87606106b3998309625040ae",
       "sources": [
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
-          "quote": "暖房を1日1時間短縮した場合（設定温度：20℃）年間で電気40.73kWhの省エネ",
-          "accessed": "2026-08-02"
+          "quote": "暖房期間中にエアコン（2.5kW）を1日1時間短縮した場合 年間で電気 35.68 kWh の省エネ | 東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -708,52 +701,38 @@
       "comparable_group": "space_cool",
       "carrier": "electricity",
       "unit": "hour",
-      "kwh_per_unit": 0.167679,
-      "name_en": "Air conditioner, cooling (28 C)",
-      "name_ja": "エアコン冷房（28°C）",
-      "name_es": "Aire acondicionado, refrigeración (28 °C)",
+      "kwh_per_unit": 0.226607,
+      "name_en": "Air conditioner, cooling",
+      "name_ja": "エアコン冷房",
+      "name_es": "Aire acondicionado, refrigeración",
       "confidence": "high",
       "presets": [
         {
-          "id": "hour_28c",
-          "name_en": "1 hour at 28 C",
-          "name_ja": "28°Cで1時間",
-          "name_es": "1 hora a 28 °C",
-          "units": 1.0
+          "id": "one_hour",
+          "name_en": "1 hour",
+          "name_ja": "1時間",
+          "name_es": "1 hora",
+          "units": 1
         },
         {
-          "id": "hour_27c",
-          "name_en": "1 hour at 27 C",
-          "name_ja": "27°Cで1時間",
-          "name_es": "1 hora a 27 °C",
-          "units": 1.17891
-        },
-        {
-          "id": "hour_26c",
-          "name_en": "1 hour at 26 C",
-          "name_ja": "26°Cで1時間",
-          "name_es": "1 hora a 26 °C",
-          "units": 1.35783
-        },
-        {
-          "id": "evening_26c",
-          "name_en": "An evening (4 h at 26 C)",
-          "name_ja": "夜に26°Cで4時間",
-          "name_es": "Una tarde (4 h a 26 °C)",
-          "units": 5.43132
+          "id": "evening_4h",
+          "name_en": "An evening (4 h)",
+          "name_ja": "夜に4時間",
+          "name_es": "Una tarde (4 h)",
+          "units": 4
         }
       ],
-      "default_preset_id": "hour_28c",
-      "calculation_notes": "METI publishes 18.78 kWh/year saved by shortening cooling one hour a day at a 28 C setpoint, sourced to 省エネルギーセンター実測値; over the 112-day 冷房期間 that is 0.167679 kWh/h. MEASURED, not rated: the Panasonic JIS rating is 435 W, about 2.6x higher. Setpoint presets use METI absolute deltas (+0.030 kWh/h per 1 C), capped at -2 C. RESEARCH_ENERGY section 3.3.",
-      "calculation_notes_ja": "資源エネルギー庁は、設定温度28°Cの冷房を1日1時間短縮すると年間18.78 kWhの省エネになると公表しており、出典は省エネルギーセンター実測値です。112日間の冷房期間で割ると0.167679 kWh/hになります。定格値ではなく実測値です：PanasonicのJIS定格は435 Wで、約2.6倍高くなっています。設定温度のプリセットには資源エネルギー庁の絶対差分（1°Cあたり+0.030 kWh/h）を使い、-2°Cまでに制限しています。RESEARCH_ENERGY 3.3節に基づきます。",
-      "calculation_notes_es": "METI publica que acortar una hora al día el aire acondicionado con la consigna a 28 °C ahorra 18,78 kWh/año, con 省エネルギーセンター実測値 como fuente; repartido entre los 112 días del 冷房期間 (temporada de refrigeración), son 0,167679 kWh/h. MEDIDO, no nominal: la potencia nominal JIS de Panasonic es de 435 W, unas 2,6 veces la cifra medida. Los ajustes de temperatura usan los incrementos absolutos de METI (+0,030 kWh/h por cada 1 °C), con un límite de -2 °C. Según RESEARCH_ENERGY, sección 3.3.",
-      "calculation_notes_src_sha": "0fcf0dff212c664f5b05ea49a26aba95fda891a87648d07fd557d8ccdc1c2372",
+      "default_preset_id": "one_hour",
+      "calculation_notes": "METI publishes 25.38 kWh/year saved by shortening cooling one hour a day on a 2.5 kW unit, modelled on a wooden south-facing house in Tokyo (JIS C9612:2013); over the 112-day 冷房期間 that is 0.226607 kWh/h. An average hour of use, not the rating: the Panasonic JIS rating is 435 W, about 1.9x higher. The current METI page states no setpoint for this figure and no hours per day for its setpoint savings, so a per-hour setpoint step cannot be derived and no setpoint presets ship. RESEARCH_ENERGY section 3.3.",
+      "calculation_notes_ja": "資源エネルギー庁は、2.5kWのエアコンの冷房を1日1時間短縮すると年間25.38 kWhの省エネになると公表しています。東京をモデルとした木造南向き住宅を想定した値です（JIS C9612:2013）。112日間の冷房期間で割ると0.226607 kWh/hになります。定格値ではなく、平均的な1時間の使用の値です：PanasonicのJIS定格は435 Wで、約1.9倍高くなっています。現在の資源エネルギー庁のページは、この値の設定温度も、設定温度による省エネの1日あたりの使用時間も示していません。そのため1時間あたりの設定温度の差分は導けず、設定温度のプリセットは用意していません。RESEARCH_ENERGY 3.3節に基づきます。",
+      "calculation_notes_es": "METI publica que acortar una hora al día el aire acondicionado de un aparato de 2,5 kW ahorra 25,38 kWh/año, con un modelo de casa de madera orientada al sur en Tokio (JIS C9612:2013); repartido entre los 112 días del 冷房期間 (temporada de refrigeración), son 0,226607 kWh/h. Es una hora de uso media, no la potencia nominal: la potencia nominal JIS de Panasonic es de 435 W, unas 1,9 veces más. La página actual de METI no indica la consigna de esta cifra ni las horas al día de su ahorro por grado, así que no se puede derivar el incremento por hora y no hay ajustes de temperatura. Según RESEARCH_ENERGY, sección 3.3.",
+      "calculation_notes_src_sha": "3ef5d74c76f6a3518d31ddc47c02d8e3f252bc4fdecd2ab1b736e21b9c0be0ff",
       "sources": [
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
-          "quote": "冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ",
-          "accessed": "2026-08-02"
+          "quote": "冷房期間中にエアコン（2.5kW）の使用を1日1時間短縮した場合 年間で電気 25.38 kWh の省エネ | 東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）",
+          "accessed": "2026-11-21"
         }
       ]
     },

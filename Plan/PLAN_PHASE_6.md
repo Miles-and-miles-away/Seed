@@ -352,7 +352,7 @@ Convert CO₂ savings into relatable real-world comparisons.
 
 | Equivalency | Formula | Source |
 |-------------|---------|--------|
-| Trees planted | CO₂ (kg) / 21 kg per tree/year | EPA |
+| Trees planted | CO₂ (kg) / 60 kg per tree/year | EPA |
 | Car km avoided | CO₂ (g) / 200 g per km | DEFRA |
 | Flights avoided | CO₂ (kg) / 255 kg per hour flight | DEFRA |
 | Phone charges | CO₂ (g) / 8 g per charge | EPA |

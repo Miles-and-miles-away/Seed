@@ -103,8 +103,8 @@ Use the left form. Fixed expressions in the notes column keep their own form.
 |---|---|---|
 | 一つ | ひとつ | Keep ひとつかみ, ひとつまみ |
 | まかなう | 賄う | |
-| 方が / 方を (comparison) | ほうが / ほうを | |
-| 他の / 他は | ほかの / ほかは | Keep ほかでもない |
+| 方が / 方を (comparison) | ほうが / ほうを | Food calculation notes keep ほう |
+| 他の / 他は | ほかの / ほかは | Keep ほかでもない. Food calculation notes keep ほか |
 | にすぎない | に過ぎない | 過ぎる for time passing keeps the kanji |
 | 作る | つくる | SDG goal titles keep the official つくる |
 | たんぱく質 | タンパク質 | |
@@ -113,7 +113,7 @@ Use the left form. Fixed expressions in the notes column keep their own form.
 | ノートパソコン | ノートPC | |
 | 早期死亡 | 早死 | |
 | ろ過する | 濾す | |
-| コンブ | ケルプ | |
+| コンブ | ケルプ | Keep the species name ジャイアントケルプ |
 | ハチ | 蜂 | Keep compounds such as 養蜂 |
 | ヘンプ | 麻 | |
 
