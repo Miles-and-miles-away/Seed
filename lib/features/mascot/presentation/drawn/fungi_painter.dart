@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/rendering.dart';
 
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
@@ -113,15 +115,15 @@ class FungiPainter extends DrawnMascotPainter {
   // Cap spots: x and radius as shares of the cap half width, y as a share
   // of the cap height.
   static const List<(double, double, double)> _spots = [
-    (-0.7, 0.72, 0.1),
+    (-0.76, 0.62, 0.09),
     (-0.38, 0.38, 0.13),
-    (0.05, 0.62, 0.12),
+    (0.02, 0.6, 0.12),
     (0.12, 0.16, 0.1),
-    (0.5, 0.42, 0.13),
-    (0.8, 0.8, 0.09),
-    (-0.2, 0.95, 0.08),
-    (0.42, 0.98, 0.08),
+    (0.44, 0.38, 0.13),
+    (0.76, 0.6, 0.08),
   ];
+
+  static const double _spotFlatten = 0.4;
 
   static const List<double> _gillLines = [0.55, 0.8, 1.05];
   static const List<double> _armWidths = [0, 7, 7.5, 8];
@@ -294,26 +296,30 @@ class FungiPainter extends DrawnMascotPainter {
   void _paintCap(Canvas canvas, _Cap cap) {
     final index = stage - 1;
     final path = _capPaths[index]!;
-    canvas
-      ..drawPath(path, fill(_cap))
-      ..save()
-      ..clipPath(path);
+    canvas.drawPath(path, fill(_cap));
+    // A spot flattens towards the edge of the dome, which gives the cap depth.
+    final height = cap.rim - cap.top;
     for (final (x, y, r) in _spots) {
-      canvas.drawCircle(
-        Offset(_x + cap.halfWidth * x, cap.top + (cap.rim - cap.top) * y),
-        cap.halfWidth * r,
-        fill(_pale),
-      );
+      final out = Offset(cap.halfWidth * x, height * (y - 1));
+      final edge = math.min(1, x * x + (1 - y) * (1 - y));
+      final size = cap.halfWidth * r * 2;
+      canvas
+        ..save()
+        ..translate(_x + out.dx, cap.rim + out.dy)
+        ..rotate(out.direction)
+        ..drawOval(
+          Rect.fromCenter(
+            center: Offset.zero,
+            width: size * (1 - _spotFlatten * edge),
+            height: size,
+          ),
+          fill(_pale),
+        )
+        ..restore();
     }
     canvas
-      ..restore()
-      ..drawPath(_capShades[index]!, fill(_capShade));
-    paintHighlight(
-      canvas,
-      Offset(_x - cap.halfWidth * 0.5, cap.top + (cap.rim - cap.top) * 0.4),
-      _capLight,
-    );
-    canvas.drawPath(path, outlinePaint);
+      ..drawPath(_capShades[index]!, fill(_capShade))
+      ..drawPath(path, outlinePaint);
   }
 
   void _paintBaby(Canvas canvas, _Baby baby) {
