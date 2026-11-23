@@ -7,7 +7,8 @@ import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_she
 import '../../../../helpers/test_helpers.dart';
 
 void main() {
-  testWidgets('the source link is a full-size tap target', (tester) async {
+  testWidgets('the source link is a full-size, announced link', (tester) async {
+    final semantics = tester.ensureSemantics();
     const entry = EcoDexEntry(
       id: 'e1',
       category: 'forests',
@@ -28,9 +29,14 @@ void main() {
     );
     await tester.pump();
 
+    final button = find.byType(TextButton);
     expect(
-      tester.getSize(find.byType(TextButton)).height,
+      tester.getSize(button).height,
       greaterThanOrEqualTo(kMinInteractiveDimension),
     );
+    final flags = tester.getSemantics(button).flagsCollection;
+    expect(flags.isButton, isTrue);
+    expect(flags.isLink, isTrue);
+    semantics.dispose();
   });
 }

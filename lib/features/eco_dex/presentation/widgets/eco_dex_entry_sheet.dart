@@ -97,10 +97,11 @@ class EcoDexEntrySheet extends StatelessWidget {
 
           // Source
           if (entry.sourceUrl.isNotEmpty)
-            Semantics(
-              link: true,
-              child: TextButton(
-                onPressed: () => _openSource(context),
+            TextButton(
+              onPressed: () => _openSource(context),
+              // Inside the button, so the flag merges into its node.
+              child: Semantics(
+                link: true,
                 child: Text(
                   '${l10n.ecoDexViewSource} $externalLinkChar',
                   style: theme.textTheme.bodySmall?.copyWith(
