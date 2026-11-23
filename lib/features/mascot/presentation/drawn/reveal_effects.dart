@@ -252,13 +252,11 @@ class _EggPainter extends CustomPainter {
       case _Shell.top:
         if (u >= 1) return;
         canvas
-          ..saveLayer(null, Paint()..color = Color.fromRGBO(0, 0, 0, 1 - u))
           ..translate(14 * u, -50 * u)
           ..translate(50, 40)
           ..rotate(0.9 * u)
           ..translate(-50, -40);
-        _paintShell(canvas, _topShell);
-        canvas.restore();
+        _paintFading(canvas, _topShell, 1 - u);
       case _Shell.bottom:
         final fall = ((u - 0.15) / 0.85).clamp(0.0, 1.0);
         final fade = ((u - 0.5) / 0.4).clamp(0.0, 1.0);
@@ -268,22 +266,29 @@ class _EggPainter extends CustomPainter {
           for (final (i, side) in const [-1.0, 1.0].indexed) {
             final pivot = Offset(50 + side * 17, 80);
             canvas
-              ..saveLayer(
-                null,
-                Paint()..color = Color.fromRGBO(0, 0, 0, 1 - fade),
-              )
+              ..save()
               ..translate(
                 pivot.dx + side * 22 * fall,
                 pivot.dy + 20 * fall * fall,
               )
               ..rotate(side * 0.7 * fall)
               ..translate(-pivot.dx, -pivot.dy);
-            _paintShell(canvas, _bottomHalves[i]);
+            _paintFading(canvas, _bottomHalves[i], 1 - fade);
             canvas.restore();
           }
         }
         _paintShards(canvas, u);
     }
+  }
+
+  // The layer covers the piece alone, not the whole canvas.
+  void _paintFading(Canvas canvas, Path piece, double alpha) {
+    canvas.saveLayer(
+      piece.getBounds().inflate(_outlineWidth),
+      Paint()..color = Color.fromRGBO(0, 0, 0, alpha),
+    );
+    _paintShell(canvas, piece);
+    canvas.restore();
   }
 
   void _paintShell(Canvas canvas, Path piece) {
@@ -401,10 +406,15 @@ class _SmokePainter extends CustomPainter {
         radius * Curves.easeOutBack.transform(grow) * boil * (1 + 0.35 * clear),
       ));
     }
-    canvas
-      ..scale(size.width / _design)
-      ..saveLayer(
-        null,
+    if (puffs.isEmpty) return;
+    canvas.scale(size.width / _design);
+    // The cloud needs a layer only while it fades, and only over its puffs.
+    if (clear > 0) {
+      canvas.saveLayer(
+        puffs
+            .map((p) => Rect.fromCircle(center: p.$1, radius: p.$2))
+            .reduce((a, b) => a.expandToInclude(b))
+            .inflate(_outlineWidth * 2),
         Paint()
           ..color = Color.fromRGBO(
             0,
@@ -413,6 +423,7 @@ class _SmokePainter extends CustomPainter {
             1 - Curves.easeOut.transform(clear),
           ),
       );
+    }
     for (final (centre, radius) in puffs) {
       canvas.drawCircle(
         centre,
@@ -430,7 +441,7 @@ class _SmokePainter extends CustomPainter {
         Paint()..color = _light,
       );
     }
-    canvas.restore();
+    if (clear > 0) canvas.restore();
   }
 
   @override

@@ -1085,21 +1085,24 @@ final class MascotCelebrationPendingProvider
 String _$mascotCelebrationPendingHash() =>
     r'd63a2048618d9a75f0f1274142f7933840763e06';
 
-/// The local day whose greeting Home's mascot has played in this session.
-/// [markGreeted] also stores it in the settings, so a cold start later the
-/// same day does not greet again.
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
 
 @ProviderFor(DailyGreeted)
 final dailyGreetedProvider = DailyGreetedProvider._();
 
-/// The local day whose greeting Home's mascot has played in this session.
-/// [markGreeted] also stores it in the settings, so a cold start later the
-/// same day does not greet again.
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
 final class DailyGreetedProvider
     extends $NotifierProvider<DailyGreeted, String?> {
-  /// The local day whose greeting Home's mascot has played in this session.
-  /// [markGreeted] also stores it in the settings, so a cold start later the
-  /// same day does not greet again.
+  /// The local day whose greeting Home's mascot has played in this session,
+  /// for the signed-in account. [store] writes it to the settings once the
+  /// greeting has played out, so a cold start later that day does not greet
+  /// again.
   DailyGreetedProvider._()
     : super(
         from: null,
@@ -1127,11 +1130,12 @@ final class DailyGreetedProvider
   }
 }
 
-String _$dailyGreetedHash() => r'6b46d33a762264fd02ab246c1fb7135c6a418835';
+String _$dailyGreetedHash() => r'7eabfa781c94d99bb6443ae8248d5a1384b0009e';
 
-/// The local day whose greeting Home's mascot has played in this session.
-/// [markGreeted] also stores it in the settings, so a cold start later the
-/// same day does not greet again.
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
 
 abstract class _$DailyGreeted extends $Notifier<String?> {
   String? build();

@@ -83,7 +83,8 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
   bool _smileHeld = false;
   double _blinkAt = blinkMinGapSeconds;
   double? _waveAt;
-  late double? _hopAt = widget.hopOnLoad ? 0 : null;
+  double _routineAt = 0;
+  late bool _hopping = widget.hopOnLoad;
   bool _reduceMotion = false;
 
   @override
@@ -99,8 +100,8 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
     super.didChangeDependencies();
     _reduceMotion = reduceMotionOf(context);
     // Local, so that other visible mascots do not smile too.
-    if (_reduceMotion && _hopAt != null) {
-      _hopAt = null;
+    if (_reduceMotion && _hopping) {
+      _hopping = false;
       _smileUntil = _seconds + _smileHoldSeconds;
     }
   }
@@ -108,6 +109,8 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
   @override
   void didUpdateWidget(DrawnMascot oldWidget) {
     super.didUpdateWidget(oldWidget);
+    assert(widget.animate == oldWidget.animate, 'animate is fixed at mount');
+    if (widget.routine != oldWidget.routine) _routineAt = _seconds;
     if (widget.waveCount <= oldWidget.waveCount) return;
     if (_reduceMotion) {
       _smileUntil = _seconds + _smileHoldSeconds;
@@ -182,7 +185,7 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
     if (!_reduceMotion) {
       pose = routine == null
           ? breathe(pose, _seconds)
-          : routine(pose, _seconds);
+          : routine(pose, _seconds - _routineAt);
       if (waveAt != null) {
         final progress = (_seconds - waveAt) / waveSeconds;
         if (progress < 1) {
@@ -191,13 +194,13 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
           _waveAt = null;
         }
       }
-      final hopAt = _hopAt;
-      if (hopAt != null) {
-        final progress = (_seconds - hopAt) / hopSeconds;
+      if (_hopping) {
+        // Wall time, so a long frame keeps the hop in step with its lift.
+        final progress = elapsed.inMicroseconds / 1e6 / hopSeconds;
         if (progress < 1) {
           pose = hop(pose, progress);
         } else {
-          _hopAt = null;
+          _hopping = false;
         }
       }
     }

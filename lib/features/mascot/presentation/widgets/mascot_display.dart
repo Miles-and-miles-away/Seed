@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
@@ -81,6 +82,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   void _maybeGreet() {
     if (!widget.greets || !mounted || !_ready) return;
     if (!TickerMode.valuesOf(context).enabled) return;
+    if (celebrationsPending(context).value > 0) return;
     if (!ref.read(dailyGreetingDueProvider)) return;
     ref.read(dailyGreetedProvider.notifier).markGreeted();
     setState(() => _waves++);

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +11,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 
 const _tailSize = Size(18, 9);
 const _maxBubbleWidth = 280.0;
@@ -135,9 +137,18 @@ class MascotGreetingBubble extends ConsumerStatefulWidget {
 class _MascotGreetingBubbleState extends ConsumerState<MascotGreetingBubble> {
   bool _showing = false;
   Timer? _timer;
+  ValueListenable<int>? _celebrations;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _celebrations?.removeListener(_standAside);
+    _celebrations = celebrationsPending(context)..addListener(_standAside);
+  }
 
   @override
   void dispose() {
+    _celebrations?.removeListener(_standAside);
     _timer?.cancel();
     super.dispose();
   }
@@ -146,8 +157,18 @@ class _MascotGreetingBubbleState extends ConsumerState<MascotGreetingBubble> {
     _timer?.cancel();
     setState(() => _showing = true);
     _timer = Timer(_greetingStay, () {
-      if (mounted) setState(() => _showing = false);
+      if (!mounted) return;
+      setState(() => _showing = false);
+      ref.read(dailyGreetedProvider.notifier).store();
     });
+  }
+
+  // A celebration covers the greeting, so the greeting plays again after it.
+  void _standAside() {
+    if (!_showing || _celebrations!.value == 0) return;
+    _timer?.cancel();
+    setState(() => _showing = false);
+    ref.read(dailyGreetedProvider.notifier).interrupt();
   }
 
   @override
@@ -162,10 +183,13 @@ class _MascotGreetingBubbleState extends ConsumerState<MascotGreetingBubble> {
       children: [
         SizedBox(
           width: double.infinity,
-          child: AnimatedOpacity(
-            opacity: _showing ? 0 : 1,
-            duration: duration,
-            child: widget.child,
+          child: IgnorePointer(
+            ignoring: _showing,
+            child: AnimatedOpacity(
+              opacity: _showing ? 0 : 1,
+              duration: duration,
+              child: widget.child,
+            ),
           ),
         ),
         AnimatedSwitcher(

@@ -259,7 +259,11 @@ double _ramp(double seconds) =>
 
 /// A side-to-side groove, one step per beat: the body dips through the
 /// middle, the arm away from the lean goes up and the free foot kicks.
-MascotPose dance(MascotPose pose, double seconds) {
+MascotPose dance(MascotPose pose, double seconds) =>
+    _dance(pose, seconds, smile: _ramp(seconds));
+
+// [smile] is 1 after a move that already ends on the full smile.
+MascotPose _dance(MascotPose pose, double seconds, {required double smile}) {
   final amount = _ramp(seconds);
   final phase = seconds / danceBeatSeconds * math.pi;
   final side = math.sin(phase);
@@ -272,7 +276,7 @@ MascotPose dance(MascotPose pose, double seconds) {
     kickL: math.max(pose.kickL, amount * math.pow(math.max(side, 0), 2)),
     kickR: math.max(pose.kickR, amount * math.pow(math.max(-side, 0), 2)),
     topSway: pose.topSway - amount * _danceSway * side,
-    smile: 1,
+    smile: math.max(pose.smile, smile),
   );
 }
 
@@ -297,7 +301,7 @@ MascotPose cheer(MascotPose pose, double seconds) {
     kickL: math.max(pose.kickL, amount * _cheerStomp * math.max(pump, 0)),
     kickR: math.max(pose.kickR, amount * _cheerStomp * math.max(-pump, 0)),
     topSway: pose.topSway + amount * _cheerSway * pump,
-    smile: 1,
+    smile: math.max(pose.smile, amount),
   );
 }
 
@@ -348,7 +352,7 @@ MascotPose evolve(MascotPose pose, double seconds) {
       smile: 1,
     );
   }
-  return dance(pose, after - _evolveCrouchSeconds);
+  return _dance(pose, after - _evolveCrouchSeconds, smile: 1);
 }
 
 const double _hatchWakeSeconds = 0.7;
@@ -387,5 +391,5 @@ MascotPose hatch(MascotPose pose, double seconds) {
       hatchGaspSeconds - _hatchLookSeconds,
     );
   }
-  return dance(pose, seconds - hatchGaspSeconds);
+  return _dance(pose, seconds - hatchGaspSeconds, smile: 1);
 }

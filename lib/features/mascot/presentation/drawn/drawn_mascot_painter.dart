@@ -73,7 +73,6 @@ abstract class DrawnMascotPainter extends CustomPainter {
   static const double _mouthDrop = 62;
   static const Offset _kickReach = Offset(2.5, -5);
   static const double _kickTurn = 0.5;
-  static const double _hipSeam = 0.5;
 
   MascotRig get rig;
   MascotBody get body;
@@ -265,18 +264,24 @@ abstract class DrawnMascotPainter extends CustomPainter {
     canvas.restore();
   }
 
-  // Two passes split at the hip line; the top pass overlaps the seam.
+  // Two passes split at the hip line; hard clip edges share no pixel.
   void _paintWiggle(Canvas canvas) {
     const reach = designSize * 2;
     canvas
       ..save()
-      ..clipRect(Rect.fromLTRB(-reach, _hipLine, reach, reach))
+      ..clipRect(
+        Rect.fromLTRB(-reach, _hipLine, reach, reach),
+        doAntiAlias: false,
+      )
       ..transform(hipTransform.storage);
     paintBody(canvas);
     canvas
       ..restore()
       ..save()
-      ..clipRect(Rect.fromLTRB(-reach, -reach, reach, _hipLine + _hipSeam));
+      ..clipRect(
+        Rect.fromLTRB(-reach, -reach, reach, _hipLine),
+        doAntiAlias: false,
+      );
     paintBody(canvas);
     canvas.restore();
   }

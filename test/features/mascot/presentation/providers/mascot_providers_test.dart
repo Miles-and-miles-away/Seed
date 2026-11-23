@@ -522,11 +522,52 @@ void main() {
         firestoreProvider.overrideWithValue(firestore),
       ]);
 
-      c.read(dailyGreetedProvider.notifier).markGreeted();
+      final greeted = c.read(dailyGreetedProvider.notifier)..markGreeted();
       await Future<void>.delayed(Duration.zero);
+      expect((await doc.get()).data(), isNot(contains('settings')));
 
+      greeted.store();
+      await Future<void>.delayed(Duration.zero);
       final stored = AppUserModel.fromJson((await doc.get()).data()!);
       expect(stored.greetedDate, '2026-03-10');
+    });
+
+    test('an interrupted greeting is due again and stores nothing', () async {
+      final firestore = FakeFirebaseFirestore();
+      final doc = firestore.collection(AppConstants.collectionUsers).doc('u');
+      await doc.set({'uid': 'u', 'email': 'e'});
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => now),
+        firestoreProvider.overrideWithValue(firestore),
+      ]);
+
+      c.read(dailyGreetedProvider.notifier)
+        ..markGreeted()
+        ..interrupt()
+        ..store();
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(dailyGreetingDueProvider), isTrue);
+      expect((await doc.get()).data(), isNot(contains('settings')));
+    });
+
+    test('forgets the greeting when the account changes', () async {
+      final users = StreamController<AppUserModel?>();
+      addTearDown(users.close);
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith((_) => users.stream),
+        clockProvider.overrideWithValue(() => now),
+      ], warm: dailyGreetedProvider);
+      users.add(const AppUserModel(uid: 'u', email: 'e'));
+      await Future<void>.delayed(Duration.zero);
+      c.read(dailyGreetedProvider.notifier).markGreeted();
+      expect(c.read(dailyGreetedProvider), isNotNull);
+
+      users.add(const AppUserModel(uid: 'v', email: 'e'));
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(dailyGreetedProvider), isNull);
     });
 
     test('waits while an evolution or egg celebration is pending', () async {

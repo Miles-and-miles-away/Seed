@@ -1,10 +1,16 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
+import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
@@ -13,10 +19,25 @@ import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dar
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_speech_bubble.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
 const _svg = 'assets/images/mascot/seed_stage1.svg';
+const _greeter = MascotDisplay(size: 100, showGlow: false, greets: true);
+
+// Home mutes its hero while a celebration is showing or queued.
+class _HomeHero extends StatelessWidget {
+  const _HomeHero();
+
+  @override
+  Widget build(BuildContext context) => ValueListenableBuilder<int>(
+    valueListenable: celebrationsPending(context),
+    builder: (context, pending, child) =>
+        TickerMode(enabled: pending == 0, child: child!),
+    child: _greeter,
+  );
+}
 
 Widget _wrap(
   Widget child, {
@@ -30,6 +51,9 @@ Widget _wrap(
   scaffold: true,
   child: Center(child: child),
 );
+
+DocumentReference<Map<String, dynamic>> _userDoc(FirebaseFirestore firestore) =>
+    firestore.collection(AppConstants.collectionUsers).doc('u');
 
 void main() {
   group('MascotDisplay', () {
@@ -162,7 +186,13 @@ void main() {
 
     group('daily greeting', () {
       final now = DateTime(2026, 3, 10, 9);
+      late FakeFirebaseFirestore firestore;
+      setUp(() async {
+        firestore = FakeFirebaseFirestore();
+        await _userDoc(firestore).set({'uid': 'u', 'email': 'e'});
+      });
       final overrides = [
+        firestoreProvider.overrideWith((_) => firestore),
         userOverride(
           AppUserModel(
             uid: 'u',
@@ -174,15 +204,19 @@ void main() {
         clockProvider.overrideWithValue(() => now),
       ];
 
-      Widget display({bool tickerOn = true, bool reduce = false}) => MediaQuery(
+      Widget display({
+        bool tickerOn = true,
+        bool reduce = false,
+        Widget hero = _greeter,
+      }) => MediaQuery(
         data: MediaQueryData(disableAnimations: reduce),
         child: TickerMode(
           enabled: tickerOn,
           child: _wrap(
-            const Column(
+            Column(
               children: [
-                MascotDisplay(size: 100, showGlow: false, greets: true),
-                MascotGreetingBubble(child: Text('name')),
+                hero,
+                const MascotGreetingBubble(child: Text('name')),
               ],
             ),
             assetPath: drawnMascotPath('seed', 2),
@@ -203,6 +237,10 @@ void main() {
         }
       }
 
+      Future<String?> storedDay() async => AppUserModel.fromJson(
+        (await _userDoc(firestore).get()).data()!,
+      ).greetedDate;
+
       testWidgets('the hero waves, says the streak, and records it', (
         tester,
       ) async {
@@ -215,11 +253,83 @@ void main() {
           find.text('6-day streak! Log an action to keep it.'),
           findsOneWidget,
         );
+        expect(await tester.runAsync(storedDay), isNull);
 
         await tester.pump(const Duration(seconds: 5));
         await tester.pump(durationMedium);
         await tester.pump(durationMedium);
         expect(find.text('Welcome back!'), findsNothing);
+        expect(await tester.runAsync(storedDay), '2026-03-10');
+        await tearDownTree(tester);
+      });
+
+      testWidgets('waits while a celebration is showing or queued', (
+        tester,
+      ) async {
+        await tester.pumpWidget(display(tickerOn: false));
+        await tester.pump();
+        unawaited(
+          showCelebrationOverlay(
+            tester.element(find.byType(MascotDisplay)),
+            (_) => const SizedBox.shrink(),
+          ),
+        );
+        await tester.pumpWidget(display());
+        await frames(tester, 5);
+        expect(greeted(tester), isFalse);
+        await tearDownTree(tester);
+      });
+
+      testWidgets('a celebration that covers it plays it again afterwards', (
+        tester,
+      ) async {
+        await tester.pumpWidget(display(hero: const _HomeHero()));
+        await frames(tester, 30);
+        expect(find.text('Welcome back!'), findsOneWidget);
+
+        late VoidCallback dismiss;
+        unawaited(
+          showCelebrationOverlay(tester.element(find.byType(MascotDisplay)), (
+            onDismiss,
+          ) {
+            dismiss = onDismiss;
+            return const SizedBox.shrink();
+          }),
+        );
+        await frames(tester, 5);
+        expect(greeted(tester), isFalse);
+        await tester.pump(const Duration(seconds: 5));
+        expect(find.text('Welcome back!'), findsNothing);
+        expect(await tester.runAsync(storedDay), isNull);
+
+        dismiss();
+        await frames(tester, 30);
+        expect(greeted(tester), isTrue);
+        expect(find.text('Welcome back!'), findsOneWidget);
+        await tester.pump(const Duration(seconds: 5));
+        expect(await tester.runAsync(storedDay), '2026-03-10');
+        await tearDownTree(tester);
+      });
+
+      testWidgets('the hidden content takes no tap while it plays', (
+        tester,
+      ) async {
+        await tester.pumpWidget(display());
+        await frames(tester, 30);
+        expect(
+          tester
+              .widget<IgnorePointer>(
+                find
+                    .ancestor(
+                      of: find.text('name'),
+                      matching: find.byType(IgnorePointer),
+                    )
+                    .first,
+              )
+              .ignoring,
+          isTrue,
+        );
+        await tester.pump(const Duration(seconds: 5));
         await tearDownTree(tester);
       });
 

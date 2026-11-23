@@ -192,17 +192,17 @@ Future<void> _logAndReport(
 
     // The day's first log dances and the goal-crossing log jumps, but not
     // when a dialog or the inbox follows: the overlay would float over it.
-    final firstToday = logResult.newGoalCount == 1;
+    final firstLogStreakDays = logResult.firstLogStreakDays;
     final goalReached =
         logResult.newGoalCount == ref.read(effectiveDailyGoalTargetProvider);
-    if ((firstToday || goalReached) &&
+    if ((firstLogStreakDays != null || goalReached) &&
         newIds.isEmpty &&
         !logResult.shouldShowMilestone &&
         !logResult.challengeCompleted) {
       MascotCheer.show(
         context,
         bottomClearance: appBottomNavHeight(context),
-        streakDays: firstToday ? logResult.newStreakDays : null,
+        streakDays: firstLogStreakDays,
       );
     }
 

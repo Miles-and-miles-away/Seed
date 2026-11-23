@@ -11,7 +11,9 @@ import 'package:seed_app/features/mascot/presentation/drawn/coral_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
 import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/sprout_painter.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -77,6 +79,16 @@ const _fishReach = [
   Offset(8.5, 3.4),
 ];
 
+const _flatAlpha = 0x80;
+
+class _FlatPainter extends SproutPainter {
+  const _FlatPainter({required super.pose}) : super(stage: 1);
+
+  @override
+  void paintBody(Canvas canvas) =>
+      canvas.drawPaint(Paint()..color = const Color(_flatAlpha << 24));
+}
+
 class _Raster {
   _Raster(this.side, this.rgba);
 
@@ -88,6 +100,9 @@ class _Raster {
   Iterable<int> get _range => Iterable.generate(side);
 
   int get lowestRow => _range.lastWhere((y) => _range.any((x) => opaque(x, y)));
+
+  int get highestRow =>
+      _range.firstWhere((y) => _range.any((x) => opaque(x, y)));
 
   bool get touchesBorder => _range.any(
     (i) =>
@@ -298,6 +313,41 @@ void main() {
     }
   });
 
+  // A flat translucent fill shows a doubled or a missed strip at the split.
+  testWidgets('the two wiggle passes meet with no seam', (tester) async {
+    for (final lean in const [0.0, 0.1]) {
+      final raster = await _rasterise(
+        tester,
+        _FlatPainter(pose: MascotPose(lean: lean, hips: 1)),
+      );
+      for (final x in [10, raster.side - 10]) {
+        for (var y = 0; y < raster.side; y++) {
+          expect(
+            raster.rgba.getUint8((y * raster.side + x) * 4 + 3),
+            closeTo(_flatAlpha, 1),
+            reason: 'lean $lean, column $x, row $y',
+          );
+        }
+      }
+    }
+  });
+
+  testWidgets('the head tops are the highest head of each stage', (
+    tester,
+  ) async {
+    for (final stage in _stages) {
+      var top = 1.0;
+      for (final speciesId in drawnSpeciesIds) {
+        final raster = await _rasterise(
+          tester,
+          drawnMascotPainter(speciesId, stage),
+        );
+        top = math.min(top, raster.highestRow / raster.side);
+      }
+      expect(drawnMascotHeadTops[stage - 1], closeTo(top, 0.015));
+    }
+  });
+
   for (final speciesId in drawnSpeciesIds) {
     test('the $speciesId body grows wider and taller at every stage', () {
       final bodies = [
@@ -416,6 +466,15 @@ void main() {
               reason: '${entry.key} face anchor is on the body',
             );
           }
+        });
+
+        test('shears the hips by a finite amount', () {
+          final painter = drawnMascotPainter(
+            speciesId,
+            stage,
+            const MascotPose(hips: 1),
+          );
+          expect(painter.hipTransform.storage.every((v) => v.isFinite), isTrue);
         });
 
         // What grows from the top may be lopsided; the body may not.
@@ -538,6 +597,23 @@ void main() {
       expect(pose(tester).armR, lessThan(0.1));
     });
 
+    testWidgets('a long frame does not hold the hop back', (tester) async {
+      await pumpMascot(tester, animate: true, hopOnLoad: true);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 850));
+      expect(pose(tester).armR, greaterThan(0.8));
+    });
+
+    testWidgets('a routine set after mount starts from its first frame', (
+      tester,
+    ) async {
+      await pumpMascot(tester, animate: true);
+      await tester.pump(const Duration(seconds: 1));
+      await pumpMascot(tester, animate: true, routine: dance);
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(pose(tester).smile, lessThan(0.5));
+    });
+
     testWidgets('a routine replaces the breathing and moves the limbs', (
       tester,
     ) async {
@@ -654,7 +730,7 @@ void main() {
   test('a routine starts at rest with no jump in the pose', () {
     for (final routine in [dance, cheer]) {
       final start = routine(const MascotPose(), 0);
-      expect((start.armL, start.lean, start.kickL), (0, 0, 0));
+      expect((start.armL, start.lean, start.kickL, start.smile), (0, 0, 0, 0));
     }
     for (final routine in [dance, cheer, evolve, hatch]) {
       var last = routine(const MascotPose(), 0);
@@ -663,6 +739,7 @@ void main() {
         expect((pose.armL - last.armL).abs(), lessThan(0.2), reason: '$i');
         expect((pose.squash - last.squash).abs(), lessThan(0.05));
         expect((pose.wow - last.wow).abs(), lessThan(0.2), reason: '$i');
+        expect((pose.smile - last.smile).abs(), lessThan(0.2), reason: '$i');
         last = pose;
       }
     }

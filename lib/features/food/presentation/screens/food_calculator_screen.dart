@@ -6,6 +6,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
@@ -357,7 +358,10 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       formatCO2Compact(deltaGrams.round(), l10n.localeName),
     ),
     onSuccess: () {
-      MascotCheer.show(context);
+      MascotCheer.show(
+        context,
+        streakDays: ref.read(actionLogProvider).value?.firstLogStreakDays,
+      );
       ref.read(mealOptionsProvider.notifier).clear();
     },
   );

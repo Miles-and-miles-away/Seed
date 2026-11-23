@@ -301,10 +301,6 @@ class SettingsNotifier extends _$SettingsNotifier {
   Future<void> markWalkthroughFound(String itemId) =>
       _write((uid, repo) => repo.markWalkthroughFound(uid, itemId));
 
-  /// Records [day] (a date key) as the day of the last daily greeting.
-  Future<void> markGreeted(String day) =>
-      _write((uid, repo) => repo.markGreeted(uid, day));
-
   /// Replays the walkthrough from the start.
   Future<void> resetWalkthrough() => _write((uid, repo) async {
     await repo.resetWalkthrough(uid);

@@ -285,18 +285,37 @@ bool mascotCelebrationPending(Ref ref) =>
     ref.watch(hasNewEvolutionProvider) ||
     ref.watch(shouldShowEggDiscoveryProvider);
 
-/// The local day whose greeting Home's mascot has played in this session.
-/// [markGreeted] also stores it in the settings, so a cold start later the
-/// same day does not greet again.
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
 @Riverpod(keepAlive: true)
 class DailyGreeted extends _$DailyGreeted {
   @override
-  String? build() => null;
+  String? build() {
+    ref.watch(_uid);
+    return null;
+  }
 
-  void markGreeted() {
-    final day = formatDateKey(ref.read(clockProvider)());
-    state = day;
-    unawaited(ref.read(settingsProvider.notifier).markGreeted(day));
+  static final _uid = currentUserProvider.select((user) => user.value?.uid);
+
+  void markGreeted() => state = formatDateKey(ref.read(clockProvider)());
+
+  /// Forgets a greeting that a celebration covered, so it plays again.
+  void interrupt() => state = null;
+
+  void store() {
+    final (day, uid) = (state, ref.read(_uid));
+    if (day == null || uid == null) return;
+    // Not awaited: offline the write completes only on server ack.
+    unawaited(
+      ref
+          .read(settingsRepositoryProvider)
+          .markGreeted(uid, day)
+          .catchError(
+            (Object e) => appLogger.warning('Greeted day not stored: $e'),
+          ),
+    );
   }
 }
 
