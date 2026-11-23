@@ -31,10 +31,12 @@ const _useEmulator = bool.fromEnvironment('USE_EMULATOR');
 const _appCheckDebugToken = String.fromEnvironment('APP_CHECK_DEBUG_TOKEN');
 
 var _started = false;
+late final Zone _bindingZone;
 
 void main() async {
   await runZonedGuarded(
     () async {
+      _bindingZone = Zone.current;
       WidgetsFlutterBinding.ensureInitialized();
       registerBundledLicences();
       await SystemChrome.setPreferredOrientations([
@@ -133,7 +135,8 @@ void main() async {
       } on Object {
         // No Firebase app exists when the init itself failed.
       }
-      if (!_started) runApp(const StartupErrorApp());
+      // This handler runs in the parent zone, so return to the binding's.
+      if (!_started) _bindingZone.run(() => runApp(const StartupErrorApp()));
     },
   );
 }

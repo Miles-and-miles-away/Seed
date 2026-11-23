@@ -52,12 +52,15 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
 
         final name = fact.name(locale);
         final card = EcoFactCard(fact: fact, isLocked: isLocked);
-        final inBar = name.isNotEmpty && _fitsAppBar(context, name);
+        final inBar = name.isEmpty || _fitsAppBar(context, name);
         return Scaffold(
-          appBar: AppBar(title: Text(inBar ? name : l10n.ecoFactTitle)),
+          // "Today's" would be wrong for an inbox fact, so the bar stays blank.
+          appBar: AppBar(
+            title: inBar ? Text(name.isEmpty ? l10n.ecoFactTitle : name) : null,
+          ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(spacingLg),
-            child: inBar || name.isEmpty
+            child: inBar
                 ? card
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

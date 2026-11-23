@@ -114,7 +114,12 @@ String keepUnitsTogether(String text) =>
 /// the Latin-script food and city names carry, English and Spanish
 /// alike. Japanese text folds katakana to hiragana and full-width
 /// ASCII to half-width, so "とまと" finds "トマト" and "ＣＯ２" finds "CO2".
-String foldForSearch(String value) {
+String foldForSearch(String value) => _folded[value] ??= _fold(value);
+
+// Holds every name plus each typed query; a few thousand short strings.
+final _folded = <String, String>{};
+
+String _fold(String value) {
   final buffer = StringBuffer();
   final narrow = String.fromCharCodes(value.runes.map(_foldJapanese));
   for (final rune in narrow.toLowerCase().runes) {

@@ -72,7 +72,7 @@ void main() {
     await _viewedAfterOpening(tester, '2026-01-01', name: name);
 
     final bar = find.byType(AppBar);
-    expect(find.descendant(of: bar, matching: find.text(name)), findsNothing);
+    expect(find.descendant(of: bar, matching: find.byType(Text)), findsNothing);
     expect(find.text(name), findsOneWidget);
   });
 
