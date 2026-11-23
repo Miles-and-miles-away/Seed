@@ -24,7 +24,7 @@ import 'package:seed_app/features/fact_games/presentation/calculator_facts.dart'
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_answer_button.dart';
 import 'package:seed_app/features/fact_games/presentation/widgets/recall_question_card.dart';
 import 'package:seed_app/features/food/data/food_items_data.dart';
-import 'package:seed_app/features/mascot/presentation/widgets/game_win_celebration.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_cheer.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/transport/data/transport_modes_data.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
@@ -341,7 +341,7 @@ void main() {
       }
 
       expect(find.text('4 of 5 correct'), findsOneWidget);
-      expect(find.byType(GameWinCelebration), findsNothing);
+      expect(find.byType(MascotCheer), findsNothing);
       expect(find.byType(RecallAnswerButton), findsNothing);
       expect(find.byType(FilledButton), findsOneWidget);
       expect(analytics.events, ['opened', 'finished:5:4']);
@@ -367,7 +367,7 @@ void main() {
         await _tapNext(tester);
       }
       expect(find.text('5 of 5 correct'), findsOneWidget);
-      expect(find.byType(GameWinCelebration), findsOneWidget);
+      expect(find.byType(MascotCheer), findsOneWidget);
     });
 
     testWidgets('Next is disabled until the question is answered', (

@@ -86,9 +86,11 @@ Future<ProviderContainer> pumpedContainer(
   List<Override> overrides, {
   ProviderListenable<Object?>? warm,
   LanguageStore? languageStore,
+  Duration? Function(int retryCount, Object error)? retry,
 }) async {
   final container = ProviderContainer(
     overrides: [languageStoreOverride(languageStore), ...overrides],
+    retry: retry,
   );
   addTearDown(container.dispose);
   container.listen(warm ?? currentUserProvider, (_, _) {});
@@ -388,6 +390,7 @@ MockUser createMockUser({
   when(() => mockUser.email).thenReturn(email);
   when(() => mockUser.emailVerified).thenReturn(emailVerified);
   when(() => mockUser.displayName).thenReturn(displayName);
+  when(mockUser.reload).thenAnswer((_) async {});
 
   // Create default provider data if not specified
   var resolvedProviderData = providerData;

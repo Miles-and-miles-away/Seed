@@ -238,6 +238,12 @@ void main() {
       expect(field.controller?.text, '7');
     });
 
+    testWidgets('an existing entry saves rather than adds', (tester) async {
+      await open(tester, initialUnits: 7);
+      expect(find.widgetWithText(FilledButton, 'Save'), findsOneWidget);
+      expect(find.widgetWithText(FilledButton, 'Add'), findsNothing);
+    });
+
     testWidgets('tapping a preset chip fills the amount field', (tester) async {
       await open(tester);
       await tester.tap(find.text('A quick shower (5${unitSpace}min)'));

@@ -1,24 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart' as rive;
-
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
+
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
 
-/// Displays the user's mascot with idle animation.
-///
-/// Features:
-/// - Loads the correct SVG based on evolution stage
-/// - Idle float animation (subtle up/down movement)
-/// - Happy bounce animation (triggered via [mascotAnimationTriggerProvider])
+/// Displays the user's mascot with idle animation, pointer gaze and the
+/// smile from [mascotSmileTriggerProvider].
 class MascotDisplay extends ConsumerStatefulWidget {
   const MascotDisplay({
     this.size = 200,
     this.onTap,
     this.showGlow = true,
+    this.jumpOnLoad = false,
+    this.onJump,
+    this.welcomesBack = false,
     super.key,
   });
 
@@ -31,15 +33,23 @@ class MascotDisplay extends ConsumerStatefulWidget {
   /// Whether to show a glow effect behind the mascot.
   final bool showGlow;
 
+  /// Whether this mascot jumps once as soon as it has loaded (a smile
+  /// under reduce motion).
+  final bool jumpOnLoad;
+
+  /// Called when the load-time jump is triggered (not under reduce motion).
+  final VoidCallback? onJump;
+
+  /// Whether this mascot plays the welcome-back smile when it is due.
+  final bool welcomesBack;
+
   @override
   ConsumerState<MascotDisplay> createState() => _MascotDisplayState();
 }
 
 class _MascotDisplayState extends ConsumerState<MascotDisplay> {
-  bool _isBouncing = false;
-
-  // Keeps the Rive widget mounted while the float and bounce wrappers
-  // swap around it; a remount resets gaze and cuts any clip in flight.
+  // Keeps the Rive widget mounted while the float wrapper swaps around
+  // it; a remount resets gaze and cuts any clip in flight.
   final _mascotKey = GlobalKey();
 
   // Rive face bindings; all stay null for SVG mascots or Rive files
@@ -49,6 +59,8 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   rive.ViewModelInstanceNumber? _lookY;
   rive.ViewModelInstanceTrigger? _smile;
   rive.ViewModelInstanceNumber? _smileHold;
+  rive.ViewModelInstanceTrigger? _jump;
+  Timer? _smileHoldTimer;
 
   @override
   void initState() {
@@ -61,6 +73,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   @override
   void dispose() {
     GestureBinding.instance.pointerRouter.removeGlobalRoute(_onGlobalPointer);
+    _smileHoldTimer?.cancel();
     _faceVm?.dispose();
     super.dispose();
   }
@@ -72,6 +85,9 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     _lookY = null;
     _smile = null;
     _smileHold = null;
+    _jump = null;
+    // MascotImage freezes the mascot; input would step it one frame at a time.
+    if (_reduceMotion) return;
     try {
       _faceVm = controller.dataBind(rive.DataBind.auto());
     } on rive.RiveDataBindException {
@@ -86,6 +102,50 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     _smile = vm.trigger(mascotVmSmile) ?? vm.trigger('face/$mascotVmSmile');
     _smileHold =
         vm.number(mascotVmSmileHold) ?? vm.number('face/$mascotVmSmileHold');
+    _jump = vm.trigger(mascotVmJump);
+    if (widget.jumpOnLoad) {
+      final jump = _jump;
+      if (jump == null || _reduceMotion) {
+        _smileFor(durationCelebration);
+      } else {
+        jump.trigger();
+        widget.onJump?.call();
+      }
+    }
+    _maybeWelcomeBack();
+  }
+
+  bool get _reduceMotion => reduceMotionOf(context);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Also reruns when TickerMode flips, i.e. Home is uncovered again.
+    if (widget.welcomesBack && TickerMode.valuesOf(context).enabled) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _maybeWelcomeBack());
+    }
+  }
+
+  // Post-frame or post-load only: marking the smile writes provider state.
+  void _maybeWelcomeBack() {
+    if (!widget.welcomesBack || !mounted || _smile == null) return;
+    if (!TickerMode.valuesOf(context).enabled) return;
+    if (!ref.read(welcomeBackSmileDueProvider)) return;
+    ref.read(welcomeBackSmiledProvider.notifier).markSmiled();
+    _smileFor(durationCelebration);
+  }
+
+  // Holds smileHold while the smile plays so FaceRig defers its blinks.
+  void _smileFor(Duration hold) {
+    _smile?.trigger();
+    _smileHold?.value = 1;
+    _smileHoldTimer?.cancel();
+    _smileHoldTimer = Timer(hold, () {
+      // A trigger smile that started later still holds; it drops the hold.
+      if (mounted && !ref.read(mascotSmileTriggerProvider)) {
+        _smileHold?.value = 0;
+      }
+    });
   }
 
   bool get _hasGaze => _lookX != null || _lookY != null;
@@ -93,7 +153,9 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
   // Raw targets only: smoothing, idle wander, and blinks live in the
   // FaceRig script inside the Rive file, where the designer tunes them.
   void _onGlobalPointer(PointerEvent event) {
-    if (!_hasGaze || !mounted) return;
+    if (!_hasGaze || !mounted || !TickerMode.valuesOf(context).enabled) {
+      return;
+    }
     if (event is PointerUpEvent || event is PointerCancelEvent) {
       // Touch lifted: recentre. Mouse re-aims on its next hover event.
       _lookX?.value = 0;
@@ -117,15 +179,6 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
     _lookY?.value = gaze.dy;
   }
 
-  void _triggerBounce() {
-    setState(() => _isBouncing = true);
-    Future.delayed(const Duration(milliseconds: 450), () {
-      if (mounted) {
-        setState(() => _isBouncing = false);
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final assetPath = ref.watch(activeMascotAssetPathProvider);
@@ -143,19 +196,21 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       if (shouldSmile && TickerMode.valuesOf(context).enabled) {
         _smile?.trigger();
         // Raise the hold so FaceRig pushes the next blink past the smile;
-        // the provider flips back to false ~100ms later, dropping it to 0.
+        // the provider flips back to false after its hold.
         _smileHold?.value = 1;
-      } else if (!shouldSmile) {
+      } else if (!shouldSmile && _smileHoldTimer?.isActive != true) {
+        // A longer smile still holds; its timer drops the hold.
         _smileHold?.value = 0;
       }
     });
 
-    // Watch for external bounce triggers (e.g., after logging an action)
-    final shouldBounceFromProvider = ref.watch(mascotAnimationTriggerProvider);
-    if (shouldBounceFromProvider && !_isBouncing) {
-      // Trigger bounce on next frame to avoid setState during build
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _triggerBounce();
+    // The user document can arrive after Rive has loaded.
+    if (widget.welcomesBack) {
+      ref.listen(welcomeBackSmileDueProvider, (_, due) {
+        if (!due) return;
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _maybeWelcomeBack(),
+        );
       });
     }
 
@@ -167,9 +222,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       );
     }
 
-    final reduceMotion =
-        MediaQuery.disableAnimationsOf(context) ||
-        MediaQuery.reduceMotionOf(context);
+    final reduceMotion = _reduceMotion;
     final glow = Container(
       width: widget.size * 0.9,
       height: widget.size * 0.9,
@@ -206,7 +259,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
                           ScaleEffect(
                             begin: const Offset(0.95, 0.95),
                             end: const Offset(1.05, 1.05),
-                            duration: 2.seconds,
+                            duration: durationGlowLoop,
                             curve: Curves.easeInOut,
                           ),
                         ],
@@ -236,31 +289,9 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
       onRiveInit: _onRiveInit,
     );
 
-    // Apply bounce animation
-    if (_isBouncing) {
-      mascot = mascot
-          .animate()
-          .scaleXY(begin: 1, end: 0.9, duration: 100.ms)
-          .then()
-          .scaleXY(
-            begin: 0.9,
-            end: 1.15,
-            duration: 150.ms,
-            curve: Curves.easeOut,
-          )
-          .then()
-          .scaleXY(
-            begin: 1.15,
-            end: 1,
-            duration: 200.ms,
-            curve: Curves.bounceOut,
-          );
-    }
-
-    // Apply idle float animation (only when not bouncing).
     // Rive mascots author their own idle motion; floating the widget too
     // would double the movement.
-    if (!_isBouncing && !reduceMotion && !assetPath.endsWith('.riv')) {
+    if (!reduceMotion && !assetPath.endsWith('.riv')) {
       mascot = Animate(
         onPlay: (controller) => controller.repeat(reverse: true),
         effects: [

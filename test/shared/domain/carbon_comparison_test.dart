@@ -18,6 +18,11 @@ void main() {
       expect(s.deltaPercent, closeTo(91.8, 0.1));
     });
 
+    test('an exact 20% gap is exactly 20% despite float drift', () {
+      expect(compareTotals([1, 0.8])!.deltaPercent, 20);
+      expect(compareTotals([0.3, 0.24])!.deltaPercent, 20);
+    });
+
     test('all-zero comparison has no percentage', () {
       final s = compareTotals([0, 0])!;
       expect(s.deltaGrams, 0);

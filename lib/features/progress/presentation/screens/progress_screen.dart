@@ -146,7 +146,7 @@ class _CalendarView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todaySummaryAsync = ref.watch(todaySummaryProvider);
-    final goalTarget = ref.watch(dailyGoalTargetProvider) ?? 3;
+    final goalTarget = ref.watch(effectiveDailyGoalTargetProvider);
     final sdgColors = ref
         .watch(sdgGoalsDataProvider)
         .value

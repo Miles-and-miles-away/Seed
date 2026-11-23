@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/app.dart';
+import 'app/startup_error_app.dart';
 import 'core/constants/app_constants.dart';
 import 'core/utils/app_logger.dart';
 import 'firebase_options.dart';
@@ -29,9 +30,13 @@ const _useEmulator = bool.fromEnvironment('USE_EMULATOR');
 // ignore: do_not_use_environment
 const _appCheckDebugToken = String.fromEnvironment('APP_CHECK_DEBUG_TOKEN');
 
+var _started = false;
+late final Zone _bindingZone;
+
 void main() async {
   await runZonedGuarded(
     () async {
+      _bindingZone = Zone.current;
       WidgetsFlutterBinding.ensureInitialized();
       registerBundledLicences();
       await SystemChrome.setPreferredOrientations([
@@ -63,11 +68,12 @@ void main() async {
             : AppleDebugProvider(debugToken: debugToken),
       );
 
-      // Configure Crashlytics
-      // Disable in debug mode to avoid noise during development
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
-        !kDebugMode,
-      );
+      // Release keeps the persisted value, so an analytics opt-out holds.
+      if (kDebugMode) {
+        await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+          false,
+        );
+      }
 
       // Pass all uncaught Flutter errors to Crashlytics
       FlutterError.onError = (errorDetails) {
@@ -80,10 +86,11 @@ void main() async {
         return true;
       };
 
-      // Disable performance monitoring in debug mode
-      await FirebasePerformance.instance.setPerformanceCollectionEnabled(
-        !kDebugMode,
-      );
+      if (kDebugMode) {
+        await FirebasePerformance.instance.setPerformanceCollectionEnabled(
+          false,
+        );
+      }
 
       // Connect to Firebase Emulator Suite in debug mode
       if (_useEmulator) {
@@ -107,6 +114,7 @@ void main() async {
       // Register background message handler for FCM
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
+      _started = true;
       runApp(
         ProviderScope(
           overrides: [languageStoreProvider.overrideWithValue(languageStore)],
@@ -114,16 +122,21 @@ void main() async {
         ),
       );
 
-      // Notification setup parses the full timezone database and makes
-      // network calls (FCM token); defer it past the first frame so it
-      // can never block startup.
+      // Notification setup makes platform and network calls (FCM token);
+      // defer it past the first frame so it can never block startup.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         unawaited(_initializeNotificationServices());
       });
     },
     (error, stack) {
       // Catch any errors that weren't caught by the Flutter framework
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      try {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      } on Object {
+        // No Firebase app exists when the init itself failed.
+      }
+      // This handler runs in the parent zone, so return to the binding's.
+      if (!_started) _bindingZone.run(() => runApp(const StartupErrorApp()));
     },
   );
 }
@@ -143,9 +156,7 @@ Future<T> _timed<T>(String label, Future<T> future) async {
 /// startup or be reported as fatal to Crashlytics.
 Future<void> _initializeNotificationServices() async {
   try {
-    await NotificationService.instance.initialize(
-      onTap: _handleNotificationTap,
-    );
+    await NotificationService.instance.initialize();
   } on Object catch (e, stack) {
     appLogger.error(
       'NotificationService initialization failed',
@@ -166,12 +177,6 @@ Future<void> _initializeNotificationServices() async {
       stackTrace: stack,
     );
   }
-}
-
-/// Handle local notification tap.
-void _handleNotificationTap(String? payload) {
-  appLogger.debug('Local notification tapped: $payload');
-  // Navigation will be handled via router based on payload
 }
 
 /// Handle FCM foreground message.

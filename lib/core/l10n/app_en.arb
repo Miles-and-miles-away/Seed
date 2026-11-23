@@ -35,14 +35,16 @@
   "homeNoActions": "No actions logged yet. Start your journey!",
   "actionLogTitle": "Log an Action",
   "actionSearchHint": "Search actions...",
-  "actionLogged": "Action logged! {points} points earned",
+  "actionLogged": "{points, plural, one{Action logged! 1 point earned} other{Action logged! {points} points earned}}",
   "@actionLogged": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
+  "actionLogging": "Logging your action...",
   "noActionsFound": "No actions found",
   "actionHistoryTitle": "Action History",
   "today": "Today",
@@ -53,7 +55,8 @@
   "@pointsLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -61,7 +64,8 @@
   "@levelLabel": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -72,15 +76,8 @@
         "type": "String"
       },
       "level": {
-        "type": "int"
-      }
-    }
-  },
-  "streakLabel": "{days} day streak",
-  "@streakLabel": {
-    "placeholders": {
-      "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -105,7 +102,8 @@
   "@mascotEvolution": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -138,7 +136,8 @@
   "@profileNextLevel": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -146,7 +145,8 @@
   "@profileDaysActive": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -154,13 +154,13 @@
   "@profileEvolutionStage": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
   "settingsTitle": "Settings",
   "settingsNotifications": "Notifications",
-  "settingsReminderTime": "Daily Reminder",
   "settingsLanguage": "Language",
   "settingsTheme": "Theme",
   "settingsThemeSystem": "System",
@@ -184,11 +184,20 @@
   "categoryAdvocacy": "Advocacy",
   "categoryLearning": "Learning",
   "errorGeneric": "Something went wrong. Please try again.",
+  "startupFailed": "Seed could not start. Close the app and open it again.",
   "errorNetwork": "No internet connection.",
   "errorAuth": "Authentication failed. Please try again.",
   "errorOpenLink": "Could not open link.",
   "errorActionTooSoon": "Please wait a few seconds between actions.",
-  "errorActionRejected": "This action could not be logged. Check that your device's date and time are set automatically, then try again.",
+  "errorActionRejected": "This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device's date and time are set automatically.",
+  "errorSavingTooLarge": "A saving above {limit} is too large to log as one action. Check the distances and amounts.",
+  "@errorSavingTooLarge": {
+    "placeholders": {
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
   "errorLogActionOffline": "Cannot log an action while offline. Check your connection and try again.",
   "errorAuthEmailInUse": "An account already exists with this email address.",
   "errorAuthInvalidEmail": "Please enter a valid email address.",
@@ -236,15 +245,6 @@
       }
     }
   },
-  "settingsNotificationsSubtitle": "{count} reminders enabled",
-  "@settingsNotificationsSubtitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsNotificationsOff": "Notifications are off",
   "settingsLanguageSubtitle": "{language}",
   "@settingsLanguageSubtitle": {
     "placeholders": {
@@ -259,6 +259,9 @@
   "accountSettingsEmail": "Email Address",
   "accountSettingsChangeEmail": "Change Email",
   "accountSettingsChangePassword": "Change Password",
+  "accountSettingsYourData": "Your Data",
+  "accountSettingsExportData": "Download My Data",
+  "accountSettingsExportDataSubtitle": "A copy of everything Seed stores for your account",
   "accountSettingsDeleteAccount": "Delete Account",
   "accountSettingsDeleteAccountWarning": "This action cannot be undone. All your data will be permanently deleted.",
   "accountSettingsDeleteConfirmTitle": "Delete Account?",
@@ -271,6 +274,7 @@
   "accountSettingsConfirmNewPassword": "Confirm new password",
   "accountSettingsPasswordMismatch": "Passwords do not match",
   "accountSettingsEmailUpdated": "Email updated successfully",
+  "accountSettingsEmailLinkSent": "We sent a link to your new email address. Open it to finish the change.",
   "accountSettingsPasswordUpdated": "Password updated successfully",
   "accountSettingsReauthRequired": "Please re-enter your password to continue",
   "accountSettingsProfile": "Profile",
@@ -288,7 +292,8 @@
   "@streakMilestoneWeeks": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -296,7 +301,8 @@
   "@streakMilestoneDays": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -304,14 +310,6 @@
   "streakMilestoneContinue": "Continue",
   "streakBrokenTitle": "Streak Broken",
   "streakBrokenMessage": "Don't worry! Start a new streak today.",
-  "streakBrokenPrevious": "Previous streak: {count} days",
-  "@streakBrokenPrevious": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "streakBrokenStartNew": "Start New Streak",
   "sortLabel": "Sort",
   "sortButtonTooltip": "Sort: {option}",
@@ -335,13 +333,13 @@
   "sortPointsLowToHigh": "Points (Low to High)",
   "filterBySDG": "Filter by SDG",
   "allCategories": "All",
-  "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "Your Impact",
   "sdgActionsLogged": "{count, plural, one{{count} action logged} other{{count} actions logged}}",
   "@sdgActionsLogged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -386,6 +384,23 @@
     }
   },
   "eggDiscoverySubtitle": "Log actions every day for 30 days to hatch it.",
+  "eggDaysLeftHint": "{count, plural, one{Log actions on {count} more day to hatch your egg.} other{Log actions on {count} more days to hatch your egg.}} Miss a day and the count starts again.",
+  "@eggDaysLeftHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eggStreakResetMessage": "You missed a day, so your egg's count started again.",
+  "speciesUnlockHint": "When a companion reaches Level {level}, you find an egg. A new companion hatches from it.",
+  "@speciesUnlockHint": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "eggDiscoveryDismiss": "How exciting!",
   "eggHatchingTitle": "It's Hatching!",
   "eggHatchingNamePrompt": "Give your new companion a name",
@@ -394,10 +409,12 @@
   "@eggProgressLabel": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -419,63 +436,114 @@
   "sdgAboutGoal": "About this Goal",
   "sdgViewTargets": "View targets",
   "sdgTargetsTitle": "UN Targets",
-  "notifSettingsTitle": "Notification Settings",
-  "notifSectionNotifications": "Notifications",
-  "notifEnableTitle": "Enable Notifications",
-  "notifEnableSubtitle": "Receive daily reminders to log actions",
-  "notifSmartTitle": "Smart Reminders",
-  "notifSmartOnlyTitle": "Only remind if no action today",
-  "notifSmartOnlySubtitle": "Skip reminders on days you've already logged",
-  "notifSmartDescription": "When enabled, reminders will only appear if you haven't logged any sustainable actions that day.",
-  "notifReminderTimesTitle": "Reminder Times",
-  "notifNoReminders": "No reminders set",
-  "notifAddReminder": "Add a reminder to get notified",
-  "notifAddReminderTime": "Add Reminder Time",
-  "notifMaxReminders": "Maximum 5 reminders allowed",
-  "notifEditTime": "Edit reminder time",
-  "notifSelectTime": "Select reminder time",
-  "notifLabelTitle": "Reminder Label",
-  "notifLabelHint": "e.g., Morning, After work...",
-  "notifLabelOptional": "Label (optional)",
-  "notifDeleteTitle": "Delete Reminder?",
-  "notifDeleteMessage": "Remove the {time} reminder?",
-  "@notifDeleteMessage": {
+  "notifDailyReminder": "Daily challenge reminder",
+  "notifDailyReminderSubtitle": "A nudge when today's eco-fact is still locked",
+  "notifReminderTime": "Reminder time",
+  "notifReminderTitle": "Today's eco-fact is waiting",
+  "notifReminderBody": "Complete today's challenge to unlock it.",
+  "notifActionReminders": "Action reminders",
+  "notifActionRemindersSubtitle": "Reminders you set on actions",
+  "notifActionReminderBody": "Your reminder for today. Tap to log it once it's done.",
+  "notifStyle": "Notification style",
+  "notifStyleSubtitle": "Sound, vibration and banners, in your phone's settings",
+  "notifBlocked": "Notifications are off for Seed. Turn them on in your phone's settings.",
+  "notifBlockedTitle": "Notifications are blocked",
+  "notifBlockedSubtitle": "Tap to allow them in your phone's settings",
+  "notifOpenSettings": "Open settings",
+  "reminderSheetTitle": "Remind me",
+  "reminderSetTooltip": "Set a reminder",
+  "reminderEditTooltip": "Edit reminder",
+  "reminderPausedTooltip": "Edit reminder (action reminders are off)",
+  "reminderDays": "Days",
+  "reminderForever": "Forever",
+  "reminderRepeat": "Number of times",
+  "reminderRepeatCount": "{count, plural, =1{1 time} other{{count} times}}",
+  "@reminderRepeatCount": {
     "placeholders": {
-      "time": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "reminderFewer": "Fewer times",
+  "reminderMore": "More times",
+  "reminderLastDay": "Last reminder: {date}",
+  "@reminderLastDay": {
+    "placeholders": {
+      "date": {
         "type": "String"
       }
     }
   },
-  "notifAdd": "Add",
+  "reminderSaved": "Reminder saved",
+  "reminderLimit": "You can have up to {max} action reminders.",
+  "@reminderLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "reminderSummary": "{days} at {time}",
+  "@reminderSummary": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "reminderSummaryUntil": "{days} at {time}, until {date}",
+  "@reminderSummaryUntil": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderDaySeparator": ", ",
+  "@reminderDaySeparator": {
+    "description": "Joins weekday names in a reminder summary."
+  },
+  "reminderManage": "Manage",
+  "remindersTitle": "Reminders",
+  "reminderManageTitle": "Manage reminders",
+  "reminderManageSubtitle": "Daily challenge and action reminders",
+  "reminderListIntro": "Set a reminder with the bell on any action, up to {max}. Tap one to change or delete it.",
+  "@reminderListIntro": {
+    "placeholders": {
+      "max": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "reminderListEmpty": "No action reminders yet.",
+  "reminderEveryDay": "Every day",
   "settingsPreferences": "Preferences",
   "settingsVersionFormat": "Version {version}",
   "@settingsVersionFormat": {
     "placeholders": {
       "version": {
         "type": "String"
-      }
-    }
-  },
-  "settingsNoReminders": "No reminders set",
-  "settingsRemindersCount": "{count} reminders configured",
-  "@settingsRemindersCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsOneReminder": "1 reminder configured",
-  "settingsTapToAddReminders": "Tap to add reminders",
-  "settingsAllRemindersDisabled": "All reminders disabled",
-  "settingsRemindersPlusMore": "{time} + {count} more",
-  "@settingsRemindersPlusMore": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
       }
     }
   },
@@ -517,7 +585,8 @@
   "@mascotLevelShort": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -525,7 +594,8 @@
   "@mascotLevelsToGo": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -533,10 +603,12 @@
   "@mascotLevelProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -562,7 +634,8 @@
   "@sdgGoalNumber": {
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -570,7 +643,8 @@
   "@sdgGoalNumberTitle": {
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "title": {
         "type": "String"
@@ -618,7 +692,8 @@
   "@pointsAbbreviated": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -626,7 +701,8 @@
   "@stageFallback": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -636,6 +712,25 @@
   "ecoFactTitle": "Today's Eco-Fact",
   "ecoFactDidYouKnow": "Did you know?",
   "ecoFactSource": "Source",
+  "labelPrefix": "{label}: ",
+  "@labelPrefix": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "sentencePair": "{first} {second}",
+  "@sentencePair": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
   "ecoFactLocked": "Complete today's challenge to unlock this fact!",
   "ecoFactInboxTitle": "Inbox",
   "ecoFactInboxEmpty": "No mail yet. Complete today's challenge to receive your first eco-fact.",
@@ -684,7 +779,8 @@
   "@challengeStreakDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -692,10 +788,12 @@
   "@challengeMultiDayProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "target": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -712,7 +810,8 @@
   "@challengeDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -757,6 +856,14 @@
   "trendChartTitle": "Daily trend",
   "trendChartAverageLabel": "average",
   "trendChartTrendLabel": "trend",
+  "trendChartSemantics": "{days, plural, =1{CO2 saved over 1 day} other{CO2 saved per day over {days} days}}. Average {average} a day, highest {peak}.",
+  "@trendChartSemantics": {
+    "placeholders": {
+      "days": {"type": "int"},
+      "average": {"type": "String"},
+      "peak": {"type": "String"}
+    }
+  },
   "categoryChartTitle": "By category",
   "categoryOther": "Other",
   "equivalentToHeader": "Equivalent to",
@@ -770,7 +877,7 @@
   "impactInfoFormulaLabel": "Formula",
   "impactInfoSourceLabel": "Source",
   "equivTreesExplainer": "Approximate CO2 absorbed by a single mature urban tree in one year. Newly planted saplings absorb far less -- this is the steady-state mature figure.",
-  "equivCarKmExplainer": "Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.",
+  "equivCarKmExplainer": "Average passenger car emissions per kilometre driven, fleet-weighted across petrol and diesel vehicles.",
   "equivPhoneChargesExplainer": "Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.",
   "equivBurgersExplainer": "Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 10x less; a bean burger roughly 50x less.",
   "equivFormulaTemplate": "g of CO2 / {factor}",
@@ -786,10 +893,12 @@
   "@ecoDexProgress": {
     "placeholders": {
       "discovered": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -819,7 +928,8 @@
   "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -866,7 +976,8 @@
   "@transportOccupantsSemantic": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -895,7 +1006,8 @@
   "@transportOccupantsValue": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -903,7 +1015,8 @@
   "@transportModeFactorPerPassenger": {
     "placeholders": {
       "grams": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -911,7 +1024,8 @@
   "@transportModeFactorPerVehicle": {
     "placeholders": {
       "grams": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -991,6 +1105,10 @@
   "@calculatorNeedBothOptions": {
     "description": "Shown in place of the result when one column is empty"
   },
+  "calculatorSameEmissions": "Both options have the same emissions, so there is no saving to log",
+  "@calculatorSameEmissions": {
+    "description": "Shown in place of the result when both journeys round to the same emissions"
+  },
   "calculatorRemoveEntry": "Remove",
   "@calculatorRemoveEntry": {
     "description": "Tooltip on the remove button of a card inside a comparison column"
@@ -1015,15 +1133,8 @@
   "@transportComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int"
-      }
-    }
-  },
-  "transportCompareOptions": "Compare {count} options",
-  "@transportCompareOptions": {
-    "placeholders": {
-      "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1031,7 +1142,8 @@
   "@transportOptionStaged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1048,7 +1160,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1065,7 +1178,8 @@
   "@transportMethodologyBody": {
     "placeholders": {
       "grid": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1122,6 +1236,7 @@
   "foodChangeItem": "Change",
   "foodQuantityLabel": "Quantity (g)",
   "foodQuantityInvalid": "Enter a quantity of 0 g or more",
+  "quantityTooLarge": "That number is too large",
   "quantityAmbiguousSeparator": "Type thousands without a separator (1500). For decimals, 1.5 and 1,5 both work.",
   "foodGramsValue": "{grams}\u00A0g",
   "@foodGramsValue": {
@@ -1186,15 +1301,8 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int"
-      }
-    }
-  },
-  "foodCompareOptions": "Compare {count} options",
-  "@foodCompareOptions": {
-    "placeholders": {
-      "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1202,7 +1310,8 @@
   "@foodOptionStaged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1251,12 +1360,13 @@
   "@foodVerdictBlockedTitle": {
     "description": "Title of the dialog explaining the logging minimum"
   },
-  "foodVerdictTooClose": "These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won't declare one the winner.",
+  "foodVerdictTooClose": "These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is below what the underlying research can reliably tell apart. Both totals are shown above -- we just won't declare one the winner.",
   "@foodVerdictTooClose": {
     "description": "Body: the two meals are inside the data resolution",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1265,7 +1375,8 @@
     "description": "Body: the meals come from different studies",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1274,7 +1385,8 @@
     "description": "Body: the delta rests on items sharing one derivation basis",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1293,11 +1405,12 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
-  "foodComparisonTooClose": "These two are too close to call. Below a 20% difference the gap sits inside what the underlying research can actually resolve, so we show both totals without naming a winner.",
+  "foodComparisonTooClose": "These two are too close to call. Below a 20% difference the gap is smaller than the underlying research can reliably resolve, so we show both totals without naming a winner.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"
   },
@@ -1314,7 +1427,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1322,7 +1436,8 @@
   "@foodComparisonCarKmEquiv": {
     "placeholders": {
       "km": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1467,7 +1582,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1492,7 +1608,8 @@
         "type": "String"
       },
       "charges": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1508,7 +1625,8 @@
   "@energyPhoneChargesEquiv": {
     "placeholders": {
       "charges": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1516,7 +1634,8 @@
   "@energyGridBasisNote": {
     "placeholders": {
       "grid": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1524,7 +1643,8 @@
   "@energyGridBasisNoteRatio": {
     "placeholders": {
       "grid": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1533,7 +1653,8 @@
   "@energyMethodologyBody": {
     "placeholders": {
       "grid": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1555,7 +1676,8 @@
   "@energyVerdictTooClose": {
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1607,7 +1729,8 @@
   "@quizAnnounceRight": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1669,7 +1792,8 @@
   "@quizStreakLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1677,7 +1801,8 @@
   "@quizBestLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1692,10 +1817,12 @@
   "@factPairsFound": {
     "placeholders": {
       "found": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1703,7 +1830,8 @@
   "@factPairsMoves": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1713,7 +1841,8 @@
   "@factPairsFinished": {
     "placeholders": {
       "moves": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1721,10 +1850,12 @@
   "@factPairsCardHidden": {
     "placeholders": {
       "index": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1742,7 +1873,8 @@
   "@factGamesLockedBody": {
     "placeholders": {
       "needed": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1750,10 +1882,12 @@
   "@factGamesLockedProgress": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "needed": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1765,10 +1899,12 @@
   "@factRecallProgress": {
     "placeholders": {
       "index": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1776,7 +1912,8 @@
   "@factRecallScore": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1806,10 +1943,12 @@
   "@factRecallFinished": {
     "placeholders": {
       "correct": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },

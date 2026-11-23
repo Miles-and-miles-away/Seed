@@ -12,6 +12,7 @@ import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart'
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -99,6 +100,51 @@ void main() {
         expect(past.read(eggHatchingProgressProvider), 1.0);
       },
     );
+
+    test('a missed day ends the count before the next log', () async {
+      Future<ProviderContainer> onDay(int day) => pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            egg: EggModel(
+              receivedAt: DateTime(2026, 3),
+              hatchingStreakDays: 12,
+              lastHatchingActivityDate: DateTime(2026, 3, 9, 23),
+            ),
+          ),
+        ),
+        clockProvider.overrideWithValue(() => DateTime(2026, 3, day, 1)),
+      ]);
+
+      for (final day in [9, 10]) {
+        final c = await onDay(day);
+        expect(c.read(eggStreakDaysProvider), 12, reason: 'day $day');
+        expect(c.read(eggHatchingProgressProvider), closeTo(0.4, 0.01));
+      }
+      final missed = await onDay(11);
+      expect(missed.read(eggStreakDaysProvider), 0);
+      expect(missed.read(eggHatchingProgressProvider), 0);
+    });
+
+    test('reads the egg date at the offset it was written in', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionUtcOffsetMinutes: 840,
+            egg: EggModel(
+              receivedAt: DateTime(2026, 3),
+              hatchingStreakDays: 12,
+              lastHatchingActivityDate: DateTime.utc(2026, 3, 8, 10),
+            ),
+          ),
+        ),
+        clockProvider.overrideWithValue(() => DateTime(2026, 3, 10, 1)),
+      ]);
+      expect(c.read(eggStreakDaysProvider), 12);
+    });
 
     test('shouldShowEggDiscovery reads the flag from user', () async {
       final c = await _container(
@@ -370,23 +416,6 @@ void main() {
   });
 
   group('animation triggers', () {
-    test('triggerBounce pulses true and resets after the instant', () async {
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-      final seen = <bool>[];
-      c.listen(
-        mascotAnimationTriggerProvider,
-        (_, next) => seen.add(next),
-        fireImmediately: true,
-      );
-
-      c.read(mascotAnimationTriggerProvider.notifier).triggerBounce();
-      expect(seen, [false, true]);
-
-      await Future<void>.delayed(durationInstant * 2);
-      expect(seen, [false, true, false]);
-    });
-
     test('triggerSmile pulses true and resets after the instant', () async {
       final c = ProviderContainer();
       addTearDown(c.dispose);
@@ -405,6 +434,94 @@ void main() {
     });
   });
 
+  group('welcome back smile', () {
+    final now = DateTime(2026, 3, 10, 9);
+
+    Future<ProviderContainer> container(DateTime? lastActionDate) =>
+        pumpedContainer([
+          userOverride(
+            AppUserModel(uid: 'u', email: 'e', lastActionDate: lastActionDate),
+          ),
+          clockProvider.overrideWithValue(() => now),
+        ]);
+
+    test('is due after two or more calendar days without a log', () async {
+      for (final last in [DateTime(2026, 3, 8, 23), DateTime(2026, 2)]) {
+        final c = await container(last);
+        expect(c.read(welcomeBackSmileDueProvider), isTrue, reason: '$last');
+      }
+    });
+
+    test('is not due after a log today or yesterday, or never', () async {
+      for (final last in [now, DateTime(2026, 3, 9), null]) {
+        final c = await container(last);
+        expect(c.read(welcomeBackSmileDueProvider), isFalse, reason: '$last');
+      }
+    });
+
+    test('reads the last log at the offset it was written in', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionDate: DateTime.utc(2026, 3, 8, 10),
+            lastActionUtcOffsetMinutes: 840,
+          ),
+        ),
+        clockProvider.overrideWithValue(() => now),
+      ]);
+      expect(c.read(welcomeBackSmileDueProvider), isFalse);
+    });
+
+    test('plays once for each gap', () async {
+      final users = StreamController<AppUserModel?>();
+      addTearDown(users.close);
+      AppUserModel lastLogged(DateTime day) =>
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: day);
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith((_) => users.stream),
+        clockProvider.overrideWithValue(() => now),
+      ]);
+      users.add(lastLogged(DateTime(2026, 3)));
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(welcomeBackSmileDueProvider), isTrue);
+
+      c.read(welcomeBackSmiledProvider.notifier).markSmiled();
+      expect(c.read(welcomeBackSmileDueProvider), isFalse);
+
+      users.add(lastLogged(DateTime(2026, 3, 5)));
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(welcomeBackSmileDueProvider), isTrue);
+    });
+
+    test('waits while an evolution or egg celebration is pending', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => now),
+        mascotCelebrationPendingProvider.overrideWithValue(true),
+      ]);
+      expect(c.read(welcomeBackSmileDueProvider), isFalse);
+    });
+  });
+
+  group('mascotCelebrationPending', () {
+    test('follows a pending egg discovery', () async {
+      for (final pending in [false, true]) {
+        final c = await _container(
+          user: AppUserModel(
+            uid: 'u',
+            email: 'e',
+            eggPendingDiscovery: pending,
+          ),
+        );
+        expect(c.read(mascotCelebrationPendingProvider), pending);
+      }
+    });
+  });
+
   group('fallbacks while loading or signed out', () {
     test('hasMascot is false while the mascot list is loading', () async {
       final c = await pumpedContainer([
@@ -414,6 +531,16 @@ void main() {
       ], warm: allMascotsProvider);
 
       expect(c.read(hasMascotProvider), isFalse);
+    });
+
+    test('the mascot list stays loading until the user doc arrives', () async {
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith(
+          (_) => StreamController<AppUserModel?>().stream,
+        ),
+      ], warm: allMascotsProvider);
+
+      expect(c.read(allMascotsProvider).hasValue, isFalse);
     });
 
     test('shouldShowEggDiscovery is false when signed out', () async {

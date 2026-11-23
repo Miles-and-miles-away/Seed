@@ -130,6 +130,22 @@ void main() {
       expect(gate('rice', 'eggs'), VerdictBlock.tooClose);
     });
 
+    test('a gap that rounds to 0 g is too close to bank', () {
+      final byId = FoodCalculator.byId([item('a', 0.002), item('b', 0.004)]);
+      final options = meals('a', 'b');
+      final totals = options
+          .map((o) => FoodCalculator.mealCo2eGrams(byId, o))
+          .toList();
+      expect(
+        FoodCalculator.checkVerdict(
+          compareTotals(totals)!,
+          byId,
+          options,
+        ).block,
+        VerdictBlock.tooClose,
+      );
+    });
+
     test('20% exactly is enough', () {
       final byId = FoodCalculator.byId([item('a', 10), item('b', 12.5)]);
       final options = meals('a', 'b');

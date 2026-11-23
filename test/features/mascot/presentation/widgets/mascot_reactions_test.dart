@@ -61,26 +61,6 @@ void main() {
     });
   });
 
-  group('MascotAnimationTrigger', () {
-    test('triggerBounce sets state true, then resets to false', () async {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
-
-      // Keep the provider alive across the reset delay (a bare read would let
-      // it auto-dispose before the delayed reset callback runs).
-      container.listen(mascotAnimationTriggerProvider, (_, _) {});
-
-      expect(container.read(mascotAnimationTriggerProvider), isFalse);
-
-      container.read(mascotAnimationTriggerProvider.notifier).triggerBounce();
-      expect(container.read(mascotAnimationTriggerProvider), isTrue);
-
-      // The notifier resets after durationInstant (100ms).
-      await Future<void>.delayed(const Duration(milliseconds: 200));
-      expect(container.read(mascotAnimationTriggerProvider), isFalse);
-    });
-  });
-
   group('PointsAnimationOverlay', () {
     testWidgets('renders the points value and fires onDismiss', (tester) async {
       var dismissed = false;

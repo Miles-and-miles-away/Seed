@@ -3,10 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/actions/presentation/screens/action_log_screen.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
+import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
-/// A tile in exactly the box the grid gives it, at the width of one
+/// Spare height the cell must keep: device fonts set lines taller than
+/// the test font.
+const _slack = 4.0;
+
+/// A tile in the box the grid gives it less [_slack], at the width of one
 /// cell on a 402pt phone.
 Widget _cell(double scale, {bool highlighted = false}) {
   final scaler = TextScaler.linear(scale);
@@ -17,7 +22,7 @@ Widget _cell(double scale, {bool highlighted = false}) {
         body: Center(
           child: SizedBox(
             width: 179,
-            height: ActionLogScreen.tileHeightFor(scaler),
+            height: ActionLogScreen.tileHeightFor(scaler) - _slack,
             child: ActionTile(
               accentColor: Colors.amber,
               contentColor: Colors.amber,
@@ -26,7 +31,7 @@ Widget _cell(double scale, {bool highlighted = false}) {
               // two-line cap, plus the SDG badge row.
               title: 'Attend Eco Group Meeting About Something',
               badgeLabel: '21 points',
-              footer: const SizedBox(height: 18, width: 60),
+              footer: const SdgNumberBadge('13', Colors.green),
               onTap: () {},
               highlighted: highlighted,
             ),

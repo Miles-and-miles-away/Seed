@@ -157,17 +157,17 @@ final class EcoDexDiscoveredProvider
 
 String _$ecoDexDiscoveredHash() => r'a48613669be2aab8d257538840b81af8b1b38a74';
 
-/// Total discovered count for progress display.
+/// Total discovered count for progress display, ignoring retired ids.
 
 @ProviderFor(ecoDexDiscoveredCount)
 final ecoDexDiscoveredCountProvider = EcoDexDiscoveredCountProvider._();
 
-/// Total discovered count for progress display.
+/// Total discovered count for progress display, ignoring retired ids.
 
 final class EcoDexDiscoveredCountProvider
     extends $FunctionalProvider<int, int, int>
     with $Provider<int> {
-  /// Total discovered count for progress display.
+  /// Total discovered count for progress display, ignoring retired ids.
   EcoDexDiscoveredCountProvider._()
     : super(
         from: null,
@@ -202,7 +202,7 @@ final class EcoDexDiscoveredCountProvider
 }
 
 String _$ecoDexDiscoveredCountHash() =>
-    r'c0d1c295887e2df439d3e0baff3d3539629bad35';
+    r'500a1dac62057c4772be9ffc3a94ba62aa01dffa';
 
 /// All entries with their discovered state.
 
@@ -430,7 +430,7 @@ final class EcoDexNewUnlocksProvider
   }
 }
 
-String _$ecoDexNewUnlocksHash() => r'2f1d4624b3e6020a2df7f680e62218152d381661';
+String _$ecoDexNewUnlocksHash() => r'2b2741f37a6d8e4de718685f800eb09f06167d14';
 
 /// Notifier for discovering new Eco-Dex entries.
 ///
@@ -481,7 +481,7 @@ final class EcoDexDiscoveryNotifierProvider
 }
 
 String _$ecoDexDiscoveryNotifierHash() =>
-    r'd274bd62df2231b03664485462b7775252c48ff4';
+    r'1b9ee4a833da6a4c6e90e9288e4238ce20b7a48c';
 
 /// Notifier for discovering new Eco-Dex entries.
 ///

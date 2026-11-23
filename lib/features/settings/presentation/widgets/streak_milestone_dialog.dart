@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
@@ -91,7 +90,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
         if (_showContent)
           SafeArea(
             child: Center(
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(spacingXxxl),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -148,23 +147,12 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                                 height: 140,
                               )
                               .animate()
-                              .fadeIn(delay: 400.ms, duration: 400.ms)
+                              .fadeIn(delay: 400.ms, duration: durationFast)
                               .scale(
                                 begin: const Offset(0.3, 0.3),
                                 end: const Offset(1, 1),
                                 curve: Curves.elasticOut,
                                 duration: 800.ms,
-                              )
-                              .then() // Chain animation
-                              .animate(
-                                onPlay: (controller) =>
-                                    controller.repeat(reverse: true),
-                              )
-                              .moveY(
-                                begin: 0,
-                                end: -8,
-                                duration: 600.ms,
-                                curve: Curves.easeInOut,
                               ),
                         ],
                       ),
@@ -218,7 +206,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                           ),
                         )
                         .animate()
-                        .fadeIn(delay: 700.ms, duration: 400.ms)
+                        .fadeIn(delay: 700.ms, duration: durationFast)
                         .scale(
                           begin: const Offset(0.5, 0.5),
                           end: const Offset(1, 1),

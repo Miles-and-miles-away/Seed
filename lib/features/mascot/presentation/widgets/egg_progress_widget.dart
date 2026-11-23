@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
+
 import '../providers/mascot_providers.dart';
 
 /// Displays the egg with a circular progress ring showing
@@ -22,7 +23,7 @@ class EggProgressWidget extends ConsumerWidget {
     if (egg == null) return const SizedBox.shrink();
 
     final progress = ref.watch(eggHatchingProgressProvider);
-    final streakDays = egg.hatchingStreakDays;
+    final streakDays = ref.watch(eggStreakDaysProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
 
@@ -37,7 +38,10 @@ class EggProgressWidget extends ConsumerWidget {
     // Wobble when close to hatching
     if (isCloseToHatching) {
       eggIcon = eggIcon
-          .animate(onPlay: (c) => c.repeat(reverse: true))
+          .animate(
+            autoPlay: !reduceMotionOf(context),
+            onPlay: (c) => c.repeat(reverse: true),
+          )
           .rotate(
             begin: -0.05,
             end: 0.05,
@@ -76,13 +80,16 @@ class EggProgressWidget extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: spacingXs),
-          Text(
-            l10n.eggProgressLabel(
-              streakDays,
-              AppConstants.eggHatchingStreakRequired,
-            ),
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              l10n.eggProgressLabel(
+                streakDays,
+                AppConstants.eggHatchingStreakRequired,
+              ),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
         ],

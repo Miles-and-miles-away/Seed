@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
+
 import '../providers/walkthrough_providers.dart';
 import '../walkthrough_items.dart';
 
@@ -41,8 +42,7 @@ class WalkthroughShimmer extends ConsumerWidget {
         (other != null && ref.watch(walkthroughPendingProvider(other)));
     if (!pending) return child;
 
-    if (MediaQuery.disableAnimationsOf(context) ||
-        MediaQuery.reduceMotionOf(context)) {
+    if (reduceMotionOf(context)) {
       return DecoratedBox(
         position: DecorationPosition.foreground,
         decoration: BoxDecoration(

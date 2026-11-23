@@ -261,5 +261,10 @@ void main() {
       expect(foldForSearch('Az̧ Z̧a‘āyin'), 'az zaayin');
       expect(foldForSearch('Namp’o'), 'nampo');
     });
+
+    test('folds katakana to hiragana and full-width to half-width', () {
+      expect(foldForSearch('ギリシャヨーグルト'), 'ぎりしゃよーぐると');
+      expect(foldForSearch('ＣＯ２削減'), 'co2削減');
+    });
   });
 }

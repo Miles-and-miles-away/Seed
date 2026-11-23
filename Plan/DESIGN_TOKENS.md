@@ -306,9 +306,12 @@ do not invent intermediate values.
 matching `borderRadiusXx` `BorderRadius.circular` constant. Cards use
 `borderRadiusLg` via the theme; **charts use `borderRadiusMd`**.
 
-**Durations:** `instant 100ms`, `fast 200`, `normal 300`, `emphasis 400`,
-`slow 500`, `slower 600`, `reveal 800`, `celebration 1200`,
-`showcase 1500`, `particleLoop 3s`, `glowLoop 2s`.
+**Durations:** `instant 100ms`, `fast 200`, `normal 300`, `medium 400`,
+`emphasis 400`, `slow 500`, `slower 600`, `reveal 800`,
+`celebration 1200`, `showcase 1500`, `particleLoop 12s`, `glowLoop 2s`.
+
+**Loops:** `decorativeLoopPasses 6`. A decorative loop stops after this
+many passes. A reversing loop counts each direction as one pass.
 
 **Opacity:** `veryFaint .08`, `faint .1`, `subtle .15`, `light .2`,
 `muted .3`, `disabled .38`, `medium .4`, `half .5`, `moderate .6`,
@@ -449,7 +452,7 @@ Rules:
   `text:`, tooltips, labels, hints, semantics and input decoration text),
   including ternaries, adjacent literals and `+`. Its allowlist is keyed
   by file and literal and holds brand names, notation that reads the
-  same in every language, and the postponed reminder text. It ignores
+  same in every language. It ignores
   literals with no letters, so assembly with `' - '` or `'?'` still needs
   review against the first rule.
 - **Single-line labels never wrap.** Segmented controls use

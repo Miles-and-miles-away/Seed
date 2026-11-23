@@ -1,24 +1,47 @@
+import 'dart:async';
+
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/data/repositories/auth_repository.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/settings/data/repositories/settings_repository.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/features/settings/presentation/screens/account_settings_screen.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_section.dart';
 import 'package:seed_app/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
+import 'package:share_plus_platform_interface/share_plus_platform_interface.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
 class _MockAuthRepository extends Mock implements AuthRepository {}
 
+class _MockSettingsRepository extends Mock implements SettingsRepository {}
+
+class _FakeSharePlatform extends SharePlatform {
+  final shared = <ShareParams>[];
+
+  @override
+  Future<ShareResult> share(ShareParams params) async {
+    shared.add(params);
+    return const ShareResult('', ShareResultStatus.success);
+  }
+}
+
 void main() {
   late MockFirebaseAuth mockFirebaseAuth;
   late MockUser mockUser;
   late MockUserInfo mockUserInfo;
+
+  final sharePlatform = _FakeSharePlatform();
+  setUpAll(() => SharePlatform.instance = sharePlatform);
 
   setUp(() {
     mockFirebaseAuth = MockFirebaseAuth();
@@ -31,7 +54,9 @@ void main() {
     AppUserModel? currentUser,
     bool isEmailPasswordUser = true,
     AuthRepository? repository,
+    List<Override> extraOverrides = const [],
   }) async {
+    sizeViewport(tester);
     when(
       () => mockUserInfo.providerId,
     ).thenReturn(isEmailPasswordUser ? 'password' : 'google.com');
@@ -47,6 +72,7 @@ void main() {
           userOverride(currentUser),
           if (repository != null)
             authRepositoryProvider.overrideWithValue(repository),
+          ...extraOverrides,
         ],
         locale: const Locale('en'),
       ),
@@ -181,15 +207,16 @@ void main() {
     testWidgets('renders multiple SettingsSections', (tester) async {
       await pumpScreen(tester, currentUser: testUser);
 
-      // Profile, Email, Account, Danger zone sections
-      expect(find.byType(SettingsSection), findsNWidgets(4));
+      // Profile, Email, Account, Your Data, Danger zone sections
+      expect(find.byType(SettingsSection), findsNWidgets(5));
     });
 
     testWidgets('renders SettingsTile widgets', (tester) async {
       await pumpScreen(tester, currentUser: testUser);
 
-      // Display Name, My Goal, Change Email, Change Password, Delete Account
-      expect(find.byType(SettingsTile), findsNWidgets(5));
+      // Display Name, My Goal, Change Email, Change Password, Download My
+      // Data, Delete Account
+      expect(find.byType(SettingsTile), findsNWidgets(6));
     });
 
     testWidgets('tapping change email shows dialog', (tester) async {
@@ -390,5 +417,117 @@ void main() {
       );
       expect(find.byType(SnackBar), findsOneWidget);
     });
+
+    testWidgets('leaving during a failing re-auth never deletes the account', (
+      tester,
+    ) async {
+      final reauth = Completer<void>();
+      when(
+        () => repository.reauthenticateWithEmailPassword(any(), any()),
+      ).thenAnswer((_) => reauth.future);
+      await pumpScreen(tester, currentUser: testUser, repository: repository);
+
+      await tester.tap(find.text('Delete Account'));
+      await tester.pumpAndSettle();
+      final fields = find.byType(TextFormField);
+      await tester.enterText(fields.first, 'user@example.com');
+      await tester.enterText(fields.last, 'wrong');
+      await tester.tap(find.text('Delete My Account'));
+      await tester.pump();
+
+      unawaited(
+        tester
+            .state<NavigatorState>(find.byType(Navigator))
+            .pushReplacement(
+              MaterialPageRoute<void>(builder: (_) => const SizedBox()),
+            ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(AccountSettingsScreen), findsNothing);
+
+      reauth.completeError(FirebaseAuthException(code: 'wrong-password'));
+      await tester.pumpAndSettle();
+
+      verifyNever(() => repository.deleteAccount());
+    });
+    group('data export', () {
+      List<Override> exportOverrides(SettingsRepository repository) => [
+        userIdProvider.overrideWith((_) => 'test-uid'),
+        settingsRepositoryProvider.overrideWithValue(repository),
+      ];
+
+      testWidgets('shares the export as a JSON file', (tester) async {
+        final firestore = FakeFirebaseFirestore();
+        await firestore
+            .collection(AppConstants.collectionUsers)
+            .doc('test-uid')
+            .set({'displayName': 'Test User'});
+        await pumpScreen(
+          tester,
+          currentUser: testUser,
+          extraOverrides: exportOverrides(
+            SettingsRepository(firestore: firestore),
+          ),
+        );
+        sharePlatform.shared.clear();
+
+        await tester.tap(find.text('Download My Data'));
+        await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+        await tester.pumpAndSettle();
+
+        final params = sharePlatform.shared.single;
+        expect(params.fileNameOverrides, ['seed-data-export.json']);
+        final json = await tester.runAsync(
+          () => params.files!.single.readAsString(),
+        );
+        expect(json, contains('"displayName": "Test User"'));
+      });
+
+      testWidgets('shows an error when the export fails', (tester) async {
+        final repository = _MockSettingsRepository();
+        when(
+          () => repository.exportUserData(any()),
+        ).thenThrow(Exception('offline'));
+        await pumpScreen(
+          tester,
+          currentUser: testUser,
+          extraOverrides: exportOverrides(repository),
+        );
+        sharePlatform.shared.clear();
+
+        await tester.tap(find.text('Download My Data'));
+        await tester.pumpAndSettle();
+
+        expect(sharePlatform.shared, isEmpty);
+        expect(
+          find.text('Something went wrong. Please try again.'),
+          findsOneWidget,
+        );
+      });
+    });
+  });
+
+  testWidgets('an email change says a link was sent, not that it changed', (
+    tester,
+  ) async {
+    final repository = _MockAuthRepository();
+    when(
+      () => repository.reauthenticateWithEmailPassword(any(), any()),
+    ).thenAnswer((_) async {});
+    when(() => repository.updateEmail(any())).thenAnswer((_) async {});
+    await pumpScreen(tester, currentUser: testUser, repository: repository);
+
+    await tester.tap(find.text('Change Email'));
+    await tester.pumpAndSettle();
+    final fields = find.byType(TextFormField);
+    await tester.enterText(fields.at(0), 'user@example.com');
+    await tester.enterText(fields.at(1), 'secret-pass');
+    await tester.enterText(fields.at(2), 'new@example.com');
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+
+    verify(() => repository.updateEmail('new@example.com')).called(1);
+    expect(find.text('Email updated successfully'), findsNothing);
+    expect(find.textContaining('sent a link'), findsOneWidget);
   });
 }

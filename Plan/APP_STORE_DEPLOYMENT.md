@@ -130,7 +130,7 @@ must keep working; losing it is a rejection, not a warning.
 and must agree with `ios/Runner/PrivacyInfo.xcprivacy`, which is
 already populated and is the better source of truth because it ships
 in the binary. It currently declares `NSPrivacyTracking` false, no
-tracking domains, and nine collected types:
+tracking domains, and ten collected types:
 
 | Type | Linked to user | Purpose |
 |---|---|---|
@@ -142,6 +142,7 @@ tracking domains, and nine collected types:
 | Coarse location (IP-derived, Analytics) | no | Analytics |
 | Crash data | no | App functionality |
 | Performance data | no | App functionality |
+| Product interaction (screen views, events) | no | Analytics |
 | Other usage data | no | Analytics |
 
 Answer the Console questionnaire from that table. It must also stay

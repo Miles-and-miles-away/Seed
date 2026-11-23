@@ -115,51 +115,6 @@ final class UserSettingsProvider
 
 String _$userSettingsHash() => r'9c03e600402f8aec294bba1abebdae1764a6a56d';
 
-/// Returns whether the user can add more reminders.
-
-@ProviderFor(canAddReminder)
-final canAddReminderProvider = CanAddReminderProvider._();
-
-/// Returns whether the user can add more reminders.
-
-final class CanAddReminderProvider extends $FunctionalProvider<bool, bool, bool>
-    with $Provider<bool> {
-  /// Returns whether the user can add more reminders.
-  CanAddReminderProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'canAddReminderProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$canAddReminderHash();
-
-  @$internal
-  @override
-  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  bool create(Ref ref) {
-    return canAddReminder(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(bool value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<bool>(value),
-    );
-  }
-}
-
-String _$canAddReminderHash() => r'db58b759b124fe64354cd95fb054ab493fe793d1';
-
 /// The app language: the account's choice, else this device's pick,
 /// else the OS language. Computed, never stored. On Android 13+ the app
 /// owns its per-app locale, so an OS-side change made after the last
@@ -218,17 +173,17 @@ final class CurrentLanguageProvider
 
 String _$currentLanguageHash() => r'e8e0d2163b8e08a05a63b7783e37da0a3f46ae4a';
 
-/// Returns whether notifications are enabled.
+/// Returns whether the daily reminder is enabled.
 
 @ProviderFor(notificationsEnabled)
 final notificationsEnabledProvider = NotificationsEnabledProvider._();
 
-/// Returns whether notifications are enabled.
+/// Returns whether the daily reminder is enabled.
 
 final class NotificationsEnabledProvider
     extends $FunctionalProvider<bool, bool, bool>
     with $Provider<bool> {
-  /// Returns whether notifications are enabled.
+  /// Returns whether the daily reminder is enabled.
   NotificationsEnabledProvider._()
     : super(
         from: null,
@@ -265,30 +220,76 @@ final class NotificationsEnabledProvider
 String _$notificationsEnabledHash() =>
     r'773fb279d76a064c1f17b95b37d828ef4aaf9808';
 
-/// Returns whether smart reminders are enabled.
+/// The daily reminder time.
 
-@ProviderFor(smartRemindersEnabled)
-final smartRemindersEnabledProvider = SmartRemindersEnabledProvider._();
+@ProviderFor(reminderTime)
+final reminderTimeProvider = ReminderTimeProvider._();
 
-/// Returns whether smart reminders are enabled.
+/// The daily reminder time.
 
-final class SmartRemindersEnabledProvider
-    extends $FunctionalProvider<bool, bool, bool>
-    with $Provider<bool> {
-  /// Returns whether smart reminders are enabled.
-  SmartRemindersEnabledProvider._()
+final class ReminderTimeProvider
+    extends $FunctionalProvider<TimeOfDay, TimeOfDay, TimeOfDay>
+    with $Provider<TimeOfDay> {
+  /// The daily reminder time.
+  ReminderTimeProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'smartRemindersEnabledProvider',
+        name: r'reminderTimeProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$smartRemindersEnabledHash();
+  String debugGetCreateSourceHash() => _$reminderTimeHash();
+
+  @$internal
+  @override
+  $ProviderElement<TimeOfDay> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  TimeOfDay create(Ref ref) {
+    return reminderTime(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TimeOfDay value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TimeOfDay>(value),
+    );
+  }
+}
+
+String _$reminderTimeHash() => r'1204364f02e926fc02a56ecd1922126d1571fdaa';
+
+/// Whether action reminders are switched on.
+
+@ProviderFor(actionRemindersEnabled)
+final actionRemindersEnabledProvider = ActionRemindersEnabledProvider._();
+
+/// Whether action reminders are switched on.
+
+final class ActionRemindersEnabledProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether action reminders are switched on.
+  ActionRemindersEnabledProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionRemindersEnabledProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$actionRemindersEnabledHash();
 
   @$internal
   @override
@@ -297,7 +298,7 @@ final class SmartRemindersEnabledProvider
 
   @override
   bool create(Ref ref) {
-    return smartRemindersEnabled(ref);
+    return actionRemindersEnabled(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -309,8 +310,63 @@ final class SmartRemindersEnabledProvider
   }
 }
 
-String _$smartRemindersEnabledHash() =>
-    r'1d3a7d79780f928df47d54e764e19e563253c8c5';
+String _$actionRemindersEnabledHash() =>
+    r'c017dda568326b00e56e7ee40cf6d5b228647186';
+
+/// Action reminders with a reminder still to come, by action id; once
+/// the library loads, only those for actions it still has.
+
+@ProviderFor(actionReminders)
+final actionRemindersProvider = ActionRemindersProvider._();
+
+/// Action reminders with a reminder still to come, by action id; once
+/// the library loads, only those for actions it still has.
+
+final class ActionRemindersProvider
+    extends
+        $FunctionalProvider<
+          Map<String, ActionReminder>,
+          Map<String, ActionReminder>,
+          Map<String, ActionReminder>
+        >
+    with $Provider<Map<String, ActionReminder>> {
+  /// Action reminders with a reminder still to come, by action id; once
+  /// the library loads, only those for actions it still has.
+  ActionRemindersProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'actionRemindersProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$actionRemindersHash();
+
+  @$internal
+  @override
+  $ProviderElement<Map<String, ActionReminder>> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  Map<String, ActionReminder> create(Ref ref) {
+    return actionReminders(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<String, ActionReminder> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<String, ActionReminder>>(value),
+    );
+  }
+}
+
+String _$actionRemindersHash() => r'a3d112c51d8aae97880f847f2b45ee2ffc0488a5';
 
 /// Returns whether analytics collection is enabled.
 
@@ -407,6 +463,59 @@ final class WalkthroughFoundProvider
 
 String _$walkthroughFoundHash() => r'0cf4a82b84cd39850988493f186736323a119232';
 
+/// The streak milestone the user reached and has not seen yet, or null.
+
+@ProviderFor(pendingStreakMilestone)
+final pendingStreakMilestoneProvider = PendingStreakMilestoneProvider._();
+
+/// The streak milestone the user reached and has not seen yet, or null.
+
+final class PendingStreakMilestoneProvider
+    extends
+        $FunctionalProvider<
+          ({int days, int week})?,
+          ({int days, int week})?,
+          ({int days, int week})?
+        >
+    with $Provider<({int days, int week})?> {
+  /// The streak milestone the user reached and has not seen yet, or null.
+  PendingStreakMilestoneProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'pendingStreakMilestoneProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$pendingStreakMilestoneHash();
+
+  @$internal
+  @override
+  $ProviderElement<({int days, int week})?> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ({int days, int week})? create(Ref ref) {
+    return pendingStreakMilestone(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(({int days, int week})? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<({int days, int week})?>(value),
+    );
+  }
+}
+
+String _$pendingStreakMilestoneHash() =>
+    r'da7a0d8a549462d9734e46fa1b1572bd4c3aee34';
+
 /// Returns the preferred theme mode, defaulting to the system setting.
 
 @ProviderFor(themeMode)
@@ -497,7 +606,7 @@ final class AppLocaleProvider
   }
 }
 
-String _$appLocaleHash() => r'039b0a604fd9f4a680ba4c0e1357a68e1a63f485';
+String _$appLocaleHash() => r'6f21b164f71589a3c61c74bfaa429c38db51f9e6';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.
@@ -538,7 +647,7 @@ final class SettingsNotifierProvider
   }
 }
 
-String _$settingsNotifierHash() => r'1d35b60600a60172d9128f7c2063edc739f14ed1';
+String _$settingsNotifierHash() => r'b25f9794048850ba2c943bf6e1ecec1f2ea534b6';
 
 /// Notifier that handles settings mutations.
 /// Uses AsyncValue to track loading and error states.

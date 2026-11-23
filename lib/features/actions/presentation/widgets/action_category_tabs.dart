@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
 import 'package:seed_app/features/actions/presentation/widgets/filter_chip_row.dart';
 
@@ -50,12 +50,12 @@ class ActionCategoryTabs extends StatelessWidget {
           label: category.displayName(l10n),
           isSelected: isSelected,
           accent: category.color,
-          onAccent: Colors.white,
+          onAccent: inkOnFill(category.color),
           showCheckmark: false,
           avatar: Icon(
             category.icon,
             size: 18,
-            color: isSelected ? Colors.white : category.color,
+            color: isSelected ? inkOnFill(category.color) : category.color,
           ),
           // Clears back to All on a second tap, like the SDG chips.
           onTap: () => onCategorySelected(isSelected ? null : category),
