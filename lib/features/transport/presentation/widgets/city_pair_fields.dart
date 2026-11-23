@@ -114,7 +114,10 @@ class _CityField extends StatelessWidget {
         // empty query that every city contains.
         final query = foldForSearch(textEditingValue.text.trim());
         if (query.length < 2) return const Iterable<City>.empty();
-        return cities.where((c) => _matches(c, query)).take(_maxOptions);
+        return cities
+            .where((c) => _matches(c, query))
+            .take(_maxOptions)
+            .toList();
       },
       onSelected: onSelected,
       fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {

@@ -62,10 +62,10 @@ class AuthRepository {
       password,
     );
 
-    // Send verification email
+    // Before the send: a failed send must not leave the account docless.
+    final user = await _createNewUser(credential.user!, language);
     await _authDataSource.sendEmailVerification();
-
-    return _createNewUser(credential.user!, language);
+    return user;
   }
 
   /// Sends email verification to the current user.

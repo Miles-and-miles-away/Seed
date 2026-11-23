@@ -70,15 +70,6 @@
     }
   },
   "stageWithLevel": "{stage}（レベル{level}）",
-  "streakLabel": "{days}日連続",
-  "@streakLabel": {
-    "placeholders": {
-      "days": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "co2Saved": "{amount} CO₂削減",
   "@co2Saved": {
     "placeholders": {
@@ -175,6 +166,7 @@
   "categoryAdvocacy": "働きかけ",
   "categoryLearning": "学習",
   "errorGeneric": "エラーが発生しました。もう一度お試しください。",
+  "startupFailed": "Seedを起動できませんでした。アプリを閉じて、もう一度開いてください。",
   "errorNetwork": "インターネット接続がありません。",
   "errorAuth": "認証に失敗しました。もう一度お試しください。",
   "errorOpenLink": "リンクを開けませんでした。",
@@ -286,15 +278,6 @@
   "streakMilestoneContinue": "続ける",
   "streakBrokenTitle": "連続記録が途切れました",
   "streakBrokenMessage": "大丈夫！今日から新しい記録を始めましょう。",
-  "streakBrokenPrevious": "前回の記録：{count}日",
-  "@streakBrokenPrevious": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "streakBrokenStartNew": "新しい記録を始める",
   "sortLabel": "並べ替え",
   "sortButtonTooltip": "並べ替え：{option}",
@@ -314,7 +297,6 @@
   "sortPointsLowToHigh": "ポイント（少ない順）",
   "filterBySDG": "SDGsで絞り込む",
   "allCategories": "すべて",
-  "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "あなたの貢献",
   "sdgActionsLogged": "{count, plural, other{{count}件のアクションを記録}}",
   "@sdgActionsLogged": {
@@ -366,6 +348,23 @@
     }
   },
   "eggDiscoverySubtitle": "30日間毎日アクションを記録して孵化させよう。",
+  "eggDaysLeftHint": "{count, plural, other{あと{count}日アクションを記録するとタマゴが孵化します。}}1日でも空くと、カウントは最初からやり直しです。",
+  "@eggDaysLeftHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eggStreakResetMessage": "1日空いたため、タマゴのカウントは最初からやり直しです。",
+  "speciesUnlockHint": "相棒がレベル{level}になると、タマゴが見つかります。タマゴからは新しい相棒が孵化します。",
+  "@speciesUnlockHint": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "eggDiscoveryDismiss": "楽しみ！",
   "eggHatchingTitle": "孵化中！",
   "eggHatchingNamePrompt": "新しい相棒に名前をつけよう",
@@ -641,6 +640,25 @@
   "ecoFactTitle": "今日のエコファクト",
   "ecoFactDidYouKnow": "知っていましたか？",
   "ecoFactSource": "出典",
+  "labelPrefix": "{label}：",
+  "@labelPrefix": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "sentencePair": "{first}{second}",
+  "@sentencePair": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
   "ecoFactLocked": "今日のチャレンジを完了してファクトを解除しよう！",
   "ecoFactInboxTitle": "受信トレイ",
   "ecoFactInboxEmpty": "まだメールはありません。今日のチャレンジを完了して最初のエコファクトを受け取ろう。",
@@ -755,9 +773,9 @@
   "impactInfoIntro": "削減した CO2 を身近な例に換算しています。世界平均を使い、CO2 と CO2 換算（メタン、電力、食料ライフサイクル）を併用しているため、あくまで目安です。実際の効果は地域の電源構成や供給網によって変わります。",
   "impactInfoFormulaLabel": "計算式",
   "impactInfoSourceLabel": "出典",
-  "equivTreesExplainer": "成木一本が一年間に吸収する CO2 量の目安です。植えたばかりの苗木が吸収する量はこれよりずっと少なくなります。",
+  "equivTreesExplainer": "都市部の成木一本が一年間に吸収する CO2 量の目安です。植えたばかりの苗木が吸収する量はこれよりずっと少なく、この値は十分に育った木のものです。",
   "equivCarKmExplainer": "ガソリン・ディーゼル車を含めた平均的な乗用車が 1 km 走行するときの CO2 排出量です。",
-  "equivPhoneChargesExplainer": "平均的なスマートフォンを一度満充電するのに必要な電力量を、米国の電源構成で換算した値です。再エネ比率の高い地域ではより少なく、石炭依存の高い地域では多くなります。",
+  "equivPhoneChargesExplainer": "平均的なスマートフォンを一度満充電するのに必要な電力量を、米国の電源構成で換算した値です。再エネ比率の高い地域（ノルウェーなど）ではより少なく、石炭依存の高い地域では多くなります。",
   "equivBurgersExplainer": "牛肉バーガー1個（パティ113g）の生産から小売までのライフサイクル排出量です。鶏肉バーガーは約10分の1、豆のバーガーは約50分の1です。",
   "equivFormulaTemplate": "CO2 のグラム数 ÷ {factor}",
   "@equivFormulaTemplate": {
@@ -872,7 +890,6 @@
   "scienceSourcesHeading": "出典",
   "scienceAccessed": "{date}に取得",
   "transportComparisonFull": "比較枠がいっぱいです（最大{max}件）",
-  "transportCompareOptions": "{count}件を比較",
   "transportOptionStaged": "選択肢{count}を追加しました",
   "transportComparisonDelta": "{label}は{worse}よりCO2eが{amount}少なくなります（{percent}%減）",
   "transportComparisonTreesEquiv": "これは約{count}本の木が1年間CO2を吸収する量に相当します",
@@ -953,15 +970,6 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "foodCompareOptions": "{count}件を比較",
-  "@foodCompareOptions": {
-    "placeholders": {
-      "count": {
         "type": "int",
         "format": "decimalPattern"
       }

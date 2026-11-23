@@ -126,7 +126,7 @@ class _EggHatchingCelebrationState
                           height: 160,
                         )
                         .animate()
-                        .fadeIn(duration: 500.ms)
+                        .fadeIn(duration: durationFast)
                         .scale(
                           begin: const Offset(0.3, 0.3),
                           end: const Offset(1, 1),

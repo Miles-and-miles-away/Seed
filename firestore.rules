@@ -160,7 +160,11 @@ service cloud.firestore {
         && (!('lastCustomActionId' in keys)
             || (d.lastCustomActionId is string
                 && d.lastCustomActionId.size() <= 200))
-        && (!('sdgStats' in keys) || d.sdgStats is map)
+        && (!('sdgStats' in keys)
+            || (d.sdgStats is map
+                && d.sdgStats.keys().hasOnly([
+                     '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                     '11', '12', '13', '14', '15', '16', '17'])))
         && (!('viewedFactDates' in keys)
             || (d.viewedFactDates is list
                 && d.viewedFactDates.size() <= 40000))

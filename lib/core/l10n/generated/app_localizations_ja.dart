@@ -154,16 +154,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String streakLabel(int days) {
-    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
-      localeName,
-    );
-    final String daysString = daysNumberFormat.format(days);
-
-    return '$daysString日連続';
-  }
-
-  @override
   String co2Saved(String amount) {
     return '$amount CO₂削減';
   }
@@ -348,6 +338,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get errorGeneric => 'エラーが発生しました。もう一度お試しください。';
+
+  @override
+  String get startupFailed => 'Seedを起動できませんでした。アプリを閉じて、もう一度開いてください。';
 
   @override
   String get errorNetwork => 'インターネット接続がありません。';
@@ -641,15 +634,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get streakBrokenMessage => '大丈夫！今日から新しい記録を始めましょう。';
 
   @override
-  String streakBrokenPrevious(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return '前回の記録：$countString日';
-  }
-
-  @override
   String get streakBrokenStartNew => '新しい記録を始める';
 
   @override
@@ -686,11 +670,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get allCategories => 'すべて';
-
-  @override
-  String co2PerAction(Object amount) {
-    return '${amount}g CO₂';
-  }
 
   @override
   String get sdgYourImpact => 'あなたの貢献';
@@ -776,6 +755,24 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get eggDiscoverySubtitle => '30日間毎日アクションを記録して孵化させよう。';
+
+  @override
+  String eggDaysLeftHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'あと$count日アクションを記録するとタマゴが孵化します。',
+    );
+    return '${_temp0}1日でも空くと、カウントは最初からやり直しです。';
+  }
+
+  @override
+  String get eggStreakResetMessage => '1日空いたため、タマゴのカウントは最初からやり直しです。';
+
+  @override
+  String speciesUnlockHint(int level) {
+    return '相棒がレベル$levelになると、タマゴが見つかります。タマゴからは新しい相棒が孵化します。';
+  }
 
   @override
   String get eggDiscoveryDismiss => '楽しみ！';
@@ -1344,6 +1341,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get ecoFactSource => '出典';
 
   @override
+  String labelPrefix(String label) {
+    return '$label：';
+  }
+
+  @override
+  String sentencePair(String first, String second) {
+    return '$first$second';
+  }
+
+  @override
   String get ecoFactLocked => '今日のチャレンジを完了してファクトを解除しよう！';
 
   @override
@@ -1605,7 +1612,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get equivTreesExplainer =>
-      '成木一本が一年間に吸収する CO2 量の目安です。植えたばかりの苗木が吸収する量はこれよりずっと少なくなります。';
+      '都市部の成木一本が一年間に吸収する CO2 量の目安です。植えたばかりの苗木が吸収する量はこれよりずっと少なく、この値は十分に育った木のものです。';
 
   @override
   String get equivCarKmExplainer =>
@@ -1613,7 +1620,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get equivPhoneChargesExplainer =>
-      '平均的なスマートフォンを一度満充電するのに必要な電力量を、米国の電源構成で換算した値です。再エネ比率の高い地域ではより少なく、石炭依存の高い地域では多くなります。';
+      '平均的なスマートフォンを一度満充電するのに必要な電力量を、米国の電源構成で換算した値です。再エネ比率の高い地域（ノルウェーなど）ではより少なく、石炭依存の高い地域では多くなります。';
 
   @override
   String get equivBurgersExplainer =>
@@ -1948,15 +1955,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String transportCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return '$countString件を比較';
-  }
-
-  @override
   String transportOptionStaged(int count) {
     final intl.NumberFormat countNumberFormat =
         intl.NumberFormat.decimalPattern(localeName);
@@ -2153,15 +2151,6 @@ class AppLocalizationsJa extends AppLocalizations {
     final String maxString = maxNumberFormat.format(max);
 
     return '比較枠がいっぱいです（最大$maxString件）';
-  }
-
-  @override
-  String foodCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return '$countString件を比較';
   }
 
   @override

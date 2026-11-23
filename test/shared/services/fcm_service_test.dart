@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -45,7 +44,6 @@ void main() {
     final user = MockUser();
     when(() => user.uid).thenReturn(userId);
     when(() => auth.currentUser).thenReturn(user);
-    // _storeToken uses update(), which requires an existing doc.
     await firestore
         .collection(AppConstants.collectionUsers)
         .doc(userId)
@@ -67,49 +65,14 @@ void main() {
       verifyNever(messaging.requestPermission);
     });
 
-    test('registers token listener and message handlers', () async {
-      await service.initialize();
-
-      verify(() => messaging.onTokenRefresh).called(1);
-      verify(messaging.getToken).called(1);
-      verify(messaging.getInitialMessage).called(1);
-    });
-
-    test('survives getToken failure (APNS token not set)', () async {
-      when(messaging.getToken).thenThrow(
-        FirebaseException(
-          plugin: 'firebase_messaging',
-          code: 'apns-token-not-set',
-        ),
-      );
-
-      await service.initialize();
-
-      // Handler registration must not depend on token retrieval.
-      verify(() => messaging.onTokenRefresh).called(1);
-      verify(messaging.getInitialMessage).called(1);
-    });
-
-    test('stores token for signed-in user', () async {
+    test('stores no token for a signed-in user', () async {
       await signIn();
       when(messaging.getToken).thenAnswer((_) async => fakeToken);
 
       await service.initialize();
 
-      expect(await storedToken(), fakeToken);
-    });
-
-    test('stores refreshed tokens', () async {
-      await signIn();
-      final controller = StreamController<String>();
-      addTearDown(controller.close);
-      when(() => messaging.onTokenRefresh).thenAnswer((_) => controller.stream);
-
-      await service.initialize();
-      controller.add(fakeToken);
-      await pumpEventQueue();
-
-      expect(await storedToken(), fakeToken);
+      verifyNever(messaging.getToken);
+      expect(await storedToken(), isNull);
     });
 
     test('delivers initial message to onTap callback', () async {
@@ -126,7 +89,7 @@ void main() {
       await service.initialize();
       await service.initialize();
 
-      verify(messaging.getToken).called(1);
+      verify(messaging.getInitialMessage).called(1);
     });
   });
 }

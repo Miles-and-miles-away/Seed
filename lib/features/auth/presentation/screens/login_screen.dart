@@ -157,10 +157,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : Text(l10n.authSignIn),
                 ),

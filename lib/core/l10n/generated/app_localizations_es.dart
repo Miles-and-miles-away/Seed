@@ -162,16 +162,6 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String streakLabel(int days) {
-    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
-      localeName,
-    );
-    final String daysString = daysNumberFormat.format(days);
-
-    return 'Racha de $daysString días';
-  }
-
-  @override
   String co2Saved(String amount) {
     return '$amount CO₂ ahorrado';
   }
@@ -359,6 +349,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Algo ha ido mal. Inténtalo de nuevo.';
+
+  @override
+  String get startupFailed =>
+      'Seed no ha podido iniciarse. Cierra la aplicación y vuelve a abrirla.';
 
   @override
   String get errorNetwork => 'Sin conexión a internet.';
@@ -680,15 +674,6 @@ class AppLocalizationsEs extends AppLocalizations {
       '¡No te preocupes! Empieza una nueva racha hoy.';
 
   @override
-  String streakBrokenPrevious(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Racha anterior: $countString días';
-  }
-
-  @override
   String get streakBrokenStartNew => 'Empezar una nueva racha';
 
   @override
@@ -725,11 +710,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get allCategories => 'Todos';
-
-  @override
-  String co2PerAction(Object amount) {
-    return '${amount}g CO₂';
-  }
 
   @override
   String get sdgYourImpact => 'Tu impacto';
@@ -819,6 +799,26 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get eggDiscoverySubtitle =>
       'Registra acciones todos los días durante 30 días para que eclosione.';
+
+  @override
+  String eggDaysLeftHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Registra acciones $count días más para que tu huevo eclosione.',
+      one: 'Registra acciones $count día más para que tu huevo eclosione.',
+    );
+    return '$_temp0 Si te saltas un día, la cuenta empieza de nuevo.';
+  }
+
+  @override
+  String get eggStreakResetMessage =>
+      'Te has saltado un día, así que la cuenta de tu huevo ha vuelto a empezar.';
+
+  @override
+  String speciesUnlockHint(int level) {
+    return 'Cuando un compañero llega al nivel $level, encuentras un huevo. De él eclosiona un nuevo compañero.';
+  }
 
   @override
   String get eggDiscoveryDismiss => '¡Qué emocionante!';
@@ -1084,7 +1084,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Seed ayuda a registrar acciones sostenibles alineadas con los Objetivos de Desarrollo Sostenible de la ONU.';
 
   @override
-  String get aboutFooterMade => 'Hecho con cariño por nuestro planeta.';
+  String get aboutFooterMade => 'Hecho con cariño para nuestro planeta.';
 
   @override
   String get aboutSdgIconsCredit => 'Iconos de los ODS: Naciones Unidas';
@@ -1424,6 +1424,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ecoFactSource => 'Fuente';
+
+  @override
+  String labelPrefix(String label) {
+    return '$label: ';
+  }
+
+  @override
+  String sentencePair(String first, String second) {
+    return '$first $second';
+  }
 
   @override
   String get ecoFactLocked =>
@@ -2068,15 +2078,6 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String transportCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Comparar $countString opciones';
-  }
-
-  @override
   String transportOptionStaged(int count) {
     final intl.NumberFormat countNumberFormat =
         intl.NumberFormat.decimalPattern(localeName);
@@ -2276,15 +2277,6 @@ class AppLocalizationsEs extends AppLocalizations {
     final String maxString = maxNumberFormat.format(max);
 
     return 'Comparación completa ($maxString opciones)';
-  }
-
-  @override
-  String foodCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Comparar $countString opciones';
   }
 
   @override
@@ -2667,7 +2659,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get energyVerdictDifferentGroup =>
-      'Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.';
+      'Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría, no un resultado ajustado. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.';
 
   @override
   String get energyVerdictDifferentCarrier =>
@@ -3108,7 +3100,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String factRecallDryers(String figure) {
-    return 'Por colada, una secadora con resistencia emite aproximadamente $figure más CO2e que una con bomba de calor.';
+    return 'Por carga, una secadora con resistencia emite aproximadamente $figure más CO2e que una con bomba de calor.';
   }
 
   @override

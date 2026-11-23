@@ -83,11 +83,16 @@ class BalancedText extends StatelessWidget {
     final words = text.split(' ');
     if (words.length < 2) return text;
 
-    double measure(String s) => (TextPainter(
-      text: TextSpan(text: s, style: style),
-      textDirection: TextDirection.ltr,
-      textScaler: scaler,
-    )..layout()).width;
+    double measure(String s) {
+      final painter = TextPainter(
+        text: TextSpan(text: s, style: style),
+        textDirection: TextDirection.ltr,
+        textScaler: scaler,
+      )..layout();
+      final width = painter.width;
+      painter.dispose();
+      return width;
+    }
 
     final wordWidths = words.map(measure).toList();
     final breakAt = balancedBreakIndex(wordWidths, measure(' '), maxWidth);

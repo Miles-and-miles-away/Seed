@@ -81,15 +81,6 @@
       }
     }
   },
-  "streakLabel": "{days} day streak",
-  "@streakLabel": {
-    "placeholders": {
-      "days": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "co2Saved": "{amount} CO₂ saved",
   "@co2Saved": {
     "placeholders": {
@@ -193,6 +184,7 @@
   "categoryAdvocacy": "Advocacy",
   "categoryLearning": "Learning",
   "errorGeneric": "Something went wrong. Please try again.",
+  "startupFailed": "Seed could not start. Close the app and open it again.",
   "errorNetwork": "No internet connection.",
   "errorAuth": "Authentication failed. Please try again.",
   "errorOpenLink": "Could not open link.",
@@ -318,15 +310,6 @@
   "streakMilestoneContinue": "Continue",
   "streakBrokenTitle": "Streak Broken",
   "streakBrokenMessage": "Don't worry! Start a new streak today.",
-  "streakBrokenPrevious": "Previous streak: {count} days",
-  "@streakBrokenPrevious": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "streakBrokenStartNew": "Start New Streak",
   "sortLabel": "Sort",
   "sortButtonTooltip": "Sort: {option}",
@@ -350,7 +333,6 @@
   "sortPointsLowToHigh": "Points (Low to High)",
   "filterBySDG": "Filter by SDG",
   "allCategories": "All",
-  "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "Your Impact",
   "sdgActionsLogged": "{count, plural, one{{count} action logged} other{{count} actions logged}}",
   "@sdgActionsLogged": {
@@ -402,6 +384,23 @@
     }
   },
   "eggDiscoverySubtitle": "Log actions every day for 30 days to hatch it.",
+  "eggDaysLeftHint": "{count, plural, one{Log actions on {count} more day to hatch your egg.} other{Log actions on {count} more days to hatch your egg.}} Miss a day and the count starts again.",
+  "@eggDaysLeftHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eggStreakResetMessage": "You missed a day, so your egg's count started again.",
+  "speciesUnlockHint": "When a companion reaches Level {level}, you find an egg. A new companion hatches from it.",
+  "@speciesUnlockHint": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "eggDiscoveryDismiss": "How exciting!",
   "eggHatchingTitle": "It's Hatching!",
   "eggHatchingNamePrompt": "Give your new companion a name",
@@ -713,6 +712,25 @@
   "ecoFactTitle": "Today's Eco-Fact",
   "ecoFactDidYouKnow": "Did you know?",
   "ecoFactSource": "Source",
+  "labelPrefix": "{label}: ",
+  "@labelPrefix": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "sentencePair": "{first} {second}",
+  "@sentencePair": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
   "ecoFactLocked": "Complete today's challenge to unlock this fact!",
   "ecoFactInboxTitle": "Inbox",
   "ecoFactInboxEmpty": "No mail yet. Complete today's challenge to receive your first eco-fact.",
@@ -1120,15 +1138,6 @@
       }
     }
   },
-  "transportCompareOptions": "Compare {count} options",
-  "@transportCompareOptions": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "transportOptionStaged": "Added option {count}",
   "@transportOptionStaged": {
     "placeholders": {
@@ -1292,15 +1301,6 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "foodCompareOptions": "Compare {count} options",
-  "@foodCompareOptions": {
-    "placeholders": {
-      "count": {
         "type": "int",
         "format": "decimalPattern"
       }

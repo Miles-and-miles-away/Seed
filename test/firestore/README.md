@@ -40,7 +40,7 @@ app binary.
 
 - `firestore.rules.test.js` — the cases (reads/writes, ownership, the
   mascots cap, `egg` shape, language enum,
-  `displayName`/`personalGoal` bounds,
+  `displayName`/`personalGoal` bounds, the `sdgStats` key set,
   `actionLog` create/immutability — including the points cap, `note`
   and `relatedSdgs` size limits, and the 5s rate limit — and read-only
   collections).

@@ -161,16 +161,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String streakLabel(int days) {
-    final intl.NumberFormat daysNumberFormat = intl.NumberFormat.decimalPattern(
-      localeName,
-    );
-    final String daysString = daysNumberFormat.format(days);
-
-    return '$daysString day streak';
-  }
-
-  @override
   String co2Saved(String amount) {
     return '$amount CO₂ saved';
   }
@@ -357,6 +347,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get startupFailed =>
+      'Seed could not start. Close the app and open it again.';
 
   @override
   String get errorNetwork => 'No internet connection.';
@@ -668,15 +662,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get streakBrokenMessage => 'Don\'t worry! Start a new streak today.';
 
   @override
-  String streakBrokenPrevious(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Previous streak: $countString days';
-  }
-
-  @override
   String get streakBrokenStartNew => 'Start New Streak';
 
   @override
@@ -713,11 +698,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allCategories => 'All';
-
-  @override
-  String co2PerAction(Object amount) {
-    return '${amount}g CO₂';
-  }
 
   @override
   String get sdgYourImpact => 'Your Impact';
@@ -806,6 +786,26 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get eggDiscoverySubtitle =>
       'Log actions every day for 30 days to hatch it.';
+
+  @override
+  String eggDaysLeftHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Log actions on $count more days to hatch your egg.',
+      one: 'Log actions on $count more day to hatch your egg.',
+    );
+    return '$_temp0 Miss a day and the count starts again.';
+  }
+
+  @override
+  String get eggStreakResetMessage =>
+      'You missed a day, so your egg\'s count started again.';
+
+  @override
+  String speciesUnlockHint(int level) {
+    return 'When a companion reaches Level $level, you find an egg. A new companion hatches from it.';
+  }
 
   @override
   String get eggDiscoveryDismiss => 'How exciting!';
@@ -1390,6 +1390,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ecoFactSource => 'Source';
+
+  @override
+  String labelPrefix(String label) {
+    return '$label: ';
+  }
+
+  @override
+  String sentencePair(String first, String second) {
+    return '$first $second';
+  }
 
   @override
   String get ecoFactLocked =>
@@ -2015,15 +2025,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String transportCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Compare $countString options';
-  }
-
-  @override
   String transportOptionStaged(int count) {
     final intl.NumberFormat countNumberFormat =
         intl.NumberFormat.decimalPattern(localeName);
@@ -2222,15 +2223,6 @@ class AppLocalizationsEn extends AppLocalizations {
     final String maxString = maxNumberFormat.format(max);
 
     return 'Comparison full ($maxString options)';
-  }
-
-  @override
-  String foodCompareOptions(int count) {
-    final intl.NumberFormat countNumberFormat =
-        intl.NumberFormat.decimalPattern(localeName);
-    final String countString = countNumberFormat.format(count);
-
-    return 'Compare $countString options';
   }
 
   @override

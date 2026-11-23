@@ -141,6 +141,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
                               artboardName: previousArtboardName,
                               width: 100,
                               height: 100,
+                              onRiveInit: pauseRive,
                             ),
                           ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
                           const SizedBox(width: spacingLg),
@@ -192,7 +193,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
                                     height: 160,
                                   )
                                   .animate()
-                                  .fadeIn(delay: 700.ms, duration: 500.ms)
+                                  .fadeIn(delay: 700.ms, duration: durationFast)
                                   .scale(
                                     begin: const Offset(0.3, 0.3),
                                     end: const Offset(1, 1),
@@ -254,7 +255,7 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
                           ),
                         )
                         .animate()
-                        .fadeIn(delay: 1000.ms, duration: 400.ms)
+                        .fadeIn(delay: 1000.ms, duration: durationFast)
                         .scale(
                           begin: const Offset(0.5, 0.5),
                           end: const Offset(1, 1),

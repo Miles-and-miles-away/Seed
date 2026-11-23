@@ -182,7 +182,7 @@ void main() {
     });
 
     test('level increments when threshold crossed', () async {
-      // pointsPerLevel=100, scale=1.5 → level 2 requires exactly 100 points.
+      // Level 2 requires exactly 100 points.
       await seedUser({AppConstants.fieldPoints: 95});
 
       await repository.logAction(
@@ -642,6 +642,32 @@ void main() {
               as Map<String, dynamic>;
       expect(egg[AppConstants.fieldHatchingStreakDays], 6);
       expect(result.hatchedMascotId, isNull);
+      expect(result.eggStreakReset, isFalse);
+    });
+
+    test('a missed day restarts the egg count and reports it', () async {
+      final twoDaysAgo = _now.subtract(const Duration(days: 2));
+      await seedUser({
+        AppConstants.fieldEgg: {
+          'receivedAt': Timestamp.fromDate(twoDaysAgo),
+          AppConstants.fieldHatchingStreakDays: 5,
+          AppConstants.fieldLastHatchingActivityDate: Timestamp.fromDate(
+            twoDaysAgo,
+          ),
+        },
+      });
+
+      final result = await repository.logAction(
+        userId: _uid,
+        action: _action,
+        languageCode: 'en',
+      );
+
+      final egg =
+          (await getUser()).data()![AppConstants.fieldEgg]
+              as Map<String, dynamic>;
+      expect(egg[AppConstants.fieldHatchingStreakDays], 1);
+      expect(result.eggStreakReset, isTrue);
     });
 
     test('egg hatches at 30-day streak and adds mascot', () async {

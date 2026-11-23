@@ -259,7 +259,7 @@ class _MascotDisplayState extends ConsumerState<MascotDisplay> {
                           ScaleEffect(
                             begin: const Offset(0.95, 0.95),
                             end: const Offset(1.05, 1.05),
-                            duration: 2.seconds,
+                            duration: durationGlowLoop,
                             curve: Curves.easeInOut,
                           ),
                         ],

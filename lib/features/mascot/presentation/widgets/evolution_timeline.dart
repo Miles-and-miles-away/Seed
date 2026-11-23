@@ -177,12 +177,12 @@ class EvolutionTimeline extends StatelessWidget {
       card = card
           .animate(
             autoPlay: !reduceMotionOf(context),
-            onPlay: (c) => c.repeat(reverse: true),
+            onPlay: (c) => c.repeat(reverse: true, count: decorativeLoopPasses),
           )
           .scale(
             begin: const Offset(1, 1),
             end: const Offset(1.02, 1.02),
-            duration: 1500.ms,
+            duration: durationShowcase,
             curve: Curves.easeInOut,
           );
     }

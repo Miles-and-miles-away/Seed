@@ -125,7 +125,7 @@ class _EggDiscoveryCelebrationState
                             color: AppColors.eggBeige,
                           )
                           .animate()
-                          .fadeIn(delay: 500.ms, duration: 600.ms)
+                          .fadeIn(delay: 500.ms, duration: durationFast)
                           .scale(
                             begin: const Offset(0.3, 0.3),
                             end: const Offset(1, 1),
@@ -214,7 +214,7 @@ class _Sparkle {
     x: _rng.nextDouble(),
     y: _rng.nextDouble(),
     size: _rng.nextDouble() * 4 + 2,
-    speed: _rng.nextDouble() * 0.5 + 0.5,
+    speed: 4.0 + _rng.nextInt(5),
     phase: _rng.nextDouble() * pi * 2,
   );
 
