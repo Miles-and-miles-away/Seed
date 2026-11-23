@@ -79,7 +79,7 @@ void main() {
         expect(result, isEmpty);
       });
 
-      test('asks the server when the cache answers empty', () async {
+      test('reads the cache first, then the server when it is empty', () async {
         final firestore = _MockFirestore();
         final collection = _MockCollection();
         final query = _MockQuery();
@@ -103,7 +103,7 @@ void main() {
 
         await ActionLibraryRemoteDataSource(firestore: firestore).getActions();
 
-        expect(sources, [Source.serverAndCache, Source.server]);
+        expect(sources, [Source.cache, Source.server]);
       });
     });
   });

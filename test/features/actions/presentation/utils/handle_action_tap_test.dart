@@ -83,12 +83,14 @@ class _FakeActionLog extends ActionLogNotifier {
 class _FakeDiscovery extends EcoDexDiscoveryNotifier {
   List<String> newIds = const [];
   int? receivedMinCount;
+  bool fails = false;
 
   @override
   Future<({List<String> unlocked, List<String> claimed})> discoverNewEntries({
     int? minActionsCount,
   }) async {
     receivedMinCount = minActionsCount;
+    if (fails) throw Exception('eco-dex evaluation failed');
     return (unlocked: newIds, claimed: newIds);
   }
 }
@@ -404,6 +406,15 @@ void main() {
       await drain(tester);
 
       await logWith(tester, _result(newGoalCount: 5), user: user);
+      expect(find.byType(MascotCheer), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('a failed Eco-Dex discovery still cheers', (tester) async {
+      discovery.fails = true;
+      await logWith(tester, _result(newGoalCount: defaultDailyGoalTarget));
+
+      expect(tester.takeException(), isNull);
       expect(find.byType(MascotCheer), findsOneWidget);
       await drain(tester);
     });

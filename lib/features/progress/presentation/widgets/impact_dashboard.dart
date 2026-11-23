@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/text_styles.dart';
+import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
+import 'package:seed_app/features/progress/domain/entities/co2_stats.dart';
 import 'package:seed_app/features/progress/domain/entities/time_period.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
@@ -28,12 +30,19 @@ class ImpactDashboard extends ConsumerStatefulWidget {
 
 class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
   TimePeriod _period = TimePeriod.today;
+  Co2Stats? _lastStats;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final statsAsync = ref.watch(co2StatsProvider(_period));
+    final fresh = ref.watch(co2StatsProvider(_period));
+    // A period switch is a fresh load; the last totals hold the layout.
+    final last = _lastStats;
+    final statsAsync = fresh.isLoading && last != null
+        ? AsyncData(last)
+        : fresh;
+    if (fresh.hasValue) _lastStats = fresh.value;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
@@ -97,18 +106,31 @@ class _ImpactDashboardState extends ConsumerState<ImpactDashboard> {
 /// data in the window for the donut). When both hide there's no
 /// "Charts" heading or visual chrome left -- the dashboard simply
 /// ends at the equivalencies.
-class _ChartsSection extends ConsumerWidget {
+class _ChartsSection extends ConsumerStatefulWidget {
   const _ChartsSection({required this.period});
 
   final TimePeriod period;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final trendAsync = ref.watch(co2TrendDataProvider(period));
-    final categoryAsync = ref.watch(co2CategoryDataProvider(period));
+  ConsumerState<_ChartsSection> createState() => _ChartsSectionState();
+}
 
-    final trendData = trendAsync.value;
-    final categoryData = categoryAsync.value;
+class _ChartsSectionState extends ConsumerState<_ChartsSection> {
+  Co2TrendData? _trend;
+  Co2CategoryData? _category;
+
+  @override
+  Widget build(BuildContext context) {
+    final trendAsync = ref.watch(co2TrendDataProvider(widget.period));
+    final categoryAsync = ref.watch(co2CategoryDataProvider(widget.period));
+
+    // The last charts stay up while a new period loads.
+    final trendData = _trend = trendAsync.isLoading
+        ? trendAsync.value ?? _trend
+        : trendAsync.value;
+    final categoryData = _category = categoryAsync.isLoading
+        ? categoryAsync.value ?? _category
+        : categoryAsync.value;
     final hasTrend = trendData?.isPlottable ?? false;
     final hasCategory = categoryData?.isPlottable ?? false;
 
