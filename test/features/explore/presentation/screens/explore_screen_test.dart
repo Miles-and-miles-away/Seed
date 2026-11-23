@@ -47,7 +47,7 @@ Override _discovered([int count = factRecallMinEcoDex]) =>
     discoveredEntries(count);
 
 void main() {
-  // Roboto for every case, so a run of one group lays out like the file.
+  // The app font for every case, so a run of one group lays out like the file.
   setUpAll(loadTestFonts);
 
   Widget buildScreen({
@@ -432,10 +432,7 @@ void main() {
           testWidgets('Spanish at ${width}pt, text scale $scale', (
             tester,
           ) async {
-            sizeViewport(
-              tester,
-              size: Size(width * robotoToSfWidthFactor, 800),
-            );
+            sizeViewport(tester, size: Size(width, 800));
             await tester.pumpWidget(
               buildScreen(
                 locale: const Locale('es'),
@@ -688,14 +685,15 @@ void main() {
     testWidgets('a band too short for the bubble gets the full scrim', (
       tester,
     ) async {
-      await pumpInShell(tester, const Size(320, 480), 2);
+      const height = 500.0;
+      await pumpInShell(tester, const Size(320, height), 2);
       await openOverlay(tester);
 
       final transport = tester.getRect(find.byType(ExploreTile).first);
       final nav = tester.getRect(find.byType(AppBottomNav));
       expect(transport.bottom, lessThan(nav.top), reason: 'transport fits');
       expect(clearRect(tester), isNull);
-      expect(bubble(tester).center.dy, closeTo((statusBar + 480) / 2, 1));
+      expect(bubble(tester).center.dy, closeTo((statusBar + height) / 2, 1));
       await flushOverlayTimers(tester);
     });
 

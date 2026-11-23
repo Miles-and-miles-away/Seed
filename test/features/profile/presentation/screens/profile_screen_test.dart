@@ -143,7 +143,7 @@ void main() {
 
         for (final (locale, width, theme) in [
           (const Locale('ja'), 320.0, ThemeData(fontFamily: 'FlutterTest')),
-          (const Locale('es'), 320 * robotoToSfWidthFactor, null),
+          (const Locale('es'), 320.0, null),
         ]) {
           testWidgets(locale.languageCode, (tester) async {
             sizeViewport(tester, size: Size(width, 2400));

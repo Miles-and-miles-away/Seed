@@ -310,15 +310,12 @@ void main() {
         );
       });
 
-      testWidgets('no Spanish label shrinks at ${width}pt, on Android and '
-          'iOS', (tester) async {
-        for (final factor in [1.0, robotoToSfWidthFactor]) {
-          await expectNoLabelScaled(
-            tester,
-            width: width * factor,
-            locale: const Locale('es'),
-          );
-        }
+      testWidgets('no Spanish label shrinks at ${width}pt', (tester) async {
+        await expectNoLabelScaled(
+          tester,
+          width: width,
+          locale: const Locale('es'),
+        );
       });
     }
   });

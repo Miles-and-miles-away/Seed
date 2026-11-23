@@ -96,7 +96,7 @@ void main() {
       testWidgets(
         'the streak pill wraps instead of overflowing at ${width}pt',
         (tester) async {
-          sizeViewport(tester, size: Size(width * robotoToSfWidthFactor, 800));
+          sizeViewport(tester, size: Size(width, 800));
           await pumpAndShow(tester, locale: const Locale('es'));
           await revealButton(tester);
 

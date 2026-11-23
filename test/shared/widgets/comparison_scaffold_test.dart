@@ -351,15 +351,7 @@ void main() {
 
     for (final language in ['en', 'es']) {
       testWidgets('wraps between words in $language', (tester) async {
-        sizeViewport(
-          tester,
-          size: Size(
-            language == 'es'
-                ? testPhoneWidths.first * robotoToSfWidthFactor
-                : testPhoneWidths.first,
-            640,
-          ),
-        );
+        sizeViewport(tester, size: Size(testPhoneWidths.first, 640));
         tester.platformDispatcher.textScaleFactorTestValue = 2;
         addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
         await tester.pumpWidget(

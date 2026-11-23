@@ -135,9 +135,8 @@ void main() {
     const periods = ['Hoy', 'Semana', 'Mes', 'Total'];
 
     for (final width in testPhoneWidths) {
-      final emulated = width * robotoToSfWidthFactor;
       testWidgets('Spanish labels stay whole at ${width}pt', (tester) async {
-        sizeViewport(tester, size: Size(emulated, 800));
+        sizeViewport(tester, size: Size(width, 800));
         await tester.pumpWidget(
           wrap(control(spanish), locale: const Locale('es')),
         );

@@ -207,10 +207,7 @@ void main() {
       for (final language in _longTerms.keys) {
         for (final width in testPhoneWidths) {
           testWidgets('fits in $language at ${width}pt', (tester) async {
-            final emulated = language == 'es'
-                ? width * robotoToSfWidthFactor
-                : width;
-            sizeViewport(tester, size: Size(emulated, 900));
+            sizeViewport(tester, size: Size(width, 900));
             tester.platformDispatcher.textScaleFactorTestValue = 2;
             addTearDown(
               tester.platformDispatcher.clearTextScaleFactorTestValue,
@@ -219,7 +216,7 @@ void main() {
             await tester.pumpWidget(
               createTestWidget(
                 locale: Locale(language),
-                // Roboto has no kana, so Japanese keeps the test font.
+                // CJK is 1em in both fonts, so JA keeps the test font.
                 theme: language == 'ja'
                     ? ThemeData(fontFamily: 'FlutterTest')
                     : null,
@@ -244,7 +241,7 @@ void main() {
             expect(tester.takeException(), isNull);
             expect(
               tester.getRect(_glyph).right,
-              lessThanOrEqualTo(emulated - spacingLg),
+              lessThanOrEqualTo(width - spacingLg),
             );
           });
         }

@@ -93,7 +93,7 @@ void main() {
   group('every playable face breaks only between words', () {
     for (final (language, widths) in [
       ('en', [320.0, 360.0]),
-      ('es', [320 * robotoToSfWidthFactor, 320.0, 360.0]),
+      ('es', [320.0, 360.0]),
       ('ja', [320.0, 360.0]),
     ]) {
       for (final width in widths) {

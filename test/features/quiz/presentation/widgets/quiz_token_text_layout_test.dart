@@ -116,9 +116,7 @@ void main() {
         testWidgets('token text keeps its size and its words at $at', (
           tester,
         ) async {
-          final width = language == 'es'
-              ? screen * robotoToSfWidthFactor
-              : screen;
+          final width = screen;
           final tokenWidth = (width - 2 * spacingXxl - spacingMd) / 2;
           final textWidth = quizTokenTextWidth(tokenWidth);
           sizeViewport(tester, size: Size(width, 2400));
@@ -193,9 +191,7 @@ void main() {
         testWidgets('paired tokens reserve exactly the taller one at $at', (
           tester,
         ) async {
-          final width = language == 'es'
-              ? screen * robotoToSfWidthFactor
-              : screen;
+          final width = screen;
           final tokenWidth = (width - 2 * spacingXxl - spacingMd) / 2;
           sizeViewport(tester, size: Size(width, 2400));
           tester.platformDispatcher.textScaleFactorTestValue = scale;

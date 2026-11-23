@@ -40,7 +40,7 @@ void main() {
           createTestWidget(
             scaffold: true,
             locale: Locale(locale),
-            // Roboto has no kana, so pin JA to the default test font.
+            // CJK is 1em in both fonts, so JA keeps the test font.
             theme: locale == 'ja' ? ThemeData(fontFamily: 'FlutterTest') : null,
             child: Padding(
               padding: const EdgeInsets.all(spacingXxl),

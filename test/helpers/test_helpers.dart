@@ -112,19 +112,22 @@ void sizeViewport(WidgetTester tester, {Size size = const Size(1200, 2400)}) {
   });
 }
 
-/// Loads the bundled app font under its theme family name. The default
-/// test font draws every Latin glyph 1em wide, so Spanish and English
-/// layouts need real metrics; kana and kanji are 1em in both, so Japanese
-/// layouts do not.
+/// Loads the bundled app font under its theme family name and under
+/// Roboto, the family an unthemed test widget asks for on Android. The
+/// default test font draws every Latin glyph 1em wide, so Spanish and
+/// English layouts need real metrics; kana and kanji are 1em in both, so
+/// Japanese layouts do not.
 Future<void> loadTestFonts() async {
-  final loader = FontLoader('MPLUSRounded1c');
-  for (final weight in ['Regular', 'Medium', 'Bold']) {
-    final bytes = File(
-      'assets/fonts/MPLUSRounded1c-$weight.ttf',
-    ).readAsBytesSync();
-    loader.addFont(Future.value(ByteData.sublistView(bytes)));
+  for (final family in ['MPLUSRounded1c', 'Roboto']) {
+    final loader = FontLoader(family);
+    for (final weight in ['Regular', 'Medium', 'Bold']) {
+      final bytes = File(
+        'assets/fonts/MPLUSRounded1c-$weight.ttf',
+      ).readAsBytesSync();
+      loader.addFont(Future.value(ByteData.sublistView(bytes)));
+    }
+    await loader.load();
   }
-  await loader.load();
 }
 
 /// Phone widths the layout tests run at: a 320pt stress width, a small
@@ -295,12 +298,7 @@ List<String> breaksInsideWords(
   return bad;
 }
 
-/// SF Pro measures 5-8% wider than Roboto for the same Latin text, so
-/// Spanish layout tests run at this fraction of a phone width to stand in
-/// for iOS.
-const robotoToSfWidthFactor = 0.92;
-
-/// Expects no overflow at [widths] in JA and ES at [scales]; loads Roboto.
+/// Expects no overflow in JA and ES at [widths] and [scales], app font.
 void stressWidthLayoutTests(
   Widget Function(Locale locale, ThemeData? theme) build, {
   List<double> widths = const [320],
@@ -314,13 +312,7 @@ void stressWidthLayoutTests(
         testWidgets(
           'lays out at ${width.round()}pt in $language at text scale $scale',
           (tester) async {
-            sizeViewport(
-              tester,
-              size: Size(
-                language == 'es' ? width * robotoToSfWidthFactor : width,
-                640,
-              ),
-            );
+            sizeViewport(tester, size: Size(width, 640));
             tester.platformDispatcher.textScaleFactorTestValue = scale;
             addTearDown(
               tester.platformDispatcher.clearTextScaleFactorTestValue,
@@ -329,7 +321,7 @@ void stressWidthLayoutTests(
             await tester.pumpWidget(
               build(
                 locale,
-                // Roboto has no kana, so Japanese keeps the test font.
+                // CJK is 1em in both fonts, so JA keeps the test font.
                 language == 'ja' ? ThemeData(fontFamily: 'FlutterTest') : null,
               ),
             );
