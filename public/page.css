@@ -1,0 +1,73 @@
+.top {
+  position: relative; overflow: hidden; text-align: center;
+  padding: 6.5rem 0 9.5rem;
+  background: linear-gradient(var(--sky-top), var(--sky-bottom));
+}
+h1 {
+  position: relative; z-index: 2;
+  font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15;
+  font-weight: 700; letter-spacing: -.01em; color: var(--green-deep);
+}
+h1 :lang(ja) { font-size: .85em; line-height: 1.3; letter-spacing: 0; }
+.hill { height: 7rem; }
+
+.ground {
+  display: flow-root; padding: 0 1.25rem 4rem; background: var(--green);
+}
+.sheet {
+  position: relative; z-index: 2; max-width: 46rem;
+  margin: -3.5rem auto 0; padding: 2.25rem 2.5rem 2.5rem;
+  border-radius: 1.75rem; background: var(--card);
+  box-shadow: 0 .4rem 0 var(--green-deep);
+}
+.sheet h2 {
+  margin: 2.25rem 0 .5rem; font-size: 1.4rem; line-height: 1.25;
+  font-weight: 700; color: var(--green-deep);
+}
+.sheet h3 { margin: 1.5rem 0 .25rem; font-size: 1.1rem; font-weight: 700; }
+.sheet p, .sheet ul { margin: .75rem 0; }
+.sheet ul { padding-left: 1.25rem; }
+.sheet li::marker { color: var(--grass); }
+.sheet a:not(.btn) {
+  color: var(--green); font-weight: 700; overflow-wrap: anywhere;
+}
+section[lang] > :first-child { margin-top: 0; }
+section[lang] > :last-child { margin-bottom: 0; }
+section[lang]:not([hidden]) + section[lang] {
+  margin-top: 2.5rem; padding-top: 2.5rem; border-top: 3px dotted var(--leaf);
+}
+code {
+  padding: .1rem .45rem; border-radius: .5rem; background: var(--sky-bottom);
+  font: inherit; font-weight: 700;
+}
+
+/* Tester page */
+.preview { margin-bottom: 1.75rem; border-radius: 1.25rem; }
+.lead { font-size: 1.15rem; }
+.agree {
+  margin: 1.75rem 0; padding: 1.5rem 1.75rem; border-radius: 1.5rem;
+  background: var(--sky-bottom);
+}
+.agree h2 { margin-top: 0; }
+.agree ul { margin-bottom: 0; }
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+.steps > li {
+  counter-increment: step; position: relative;
+  margin: 1.75rem 0; padding-left: 3.4rem;
+}
+.steps > li::before {
+  content: counter(step); position: absolute; left: 0; top: 0;
+  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--sun); font-weight: 700; font-size: 1.15rem;
+  box-shadow: 0 .2rem 0 #c79100;
+}
+.steps h3 { margin-top: 0; padding-top: .35rem; }
+.steps .btn { display: block; margin-top: 1rem; text-align: center; }
+
+@media (max-width: 820px) {
+  .top { padding: 5.5rem 0 8rem; }
+  .hill { height: 5rem; }
+  .ground { padding-inline: .75rem; }
+  .sheet { padding: 1.5rem 1.25rem 1.75rem; }
+}

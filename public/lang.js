@@ -1,5 +1,5 @@
 (()=>{const s=document.querySelector('select.lang'),
-secs=document.querySelectorAll('main [lang]:not(option)'),
+secs=document.querySelectorAll('body [lang]:not(option)'),
 has=l=>[...s.options].some(o=>o.value===l),
 pick=l=>{for(const x of secs)x.hidden=x.lang!==l;s.value=l;
 document.documentElement.lang=l;

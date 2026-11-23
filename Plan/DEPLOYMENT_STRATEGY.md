@@ -76,10 +76,26 @@ copy, `seed-preview.jpg`, for link previews.
 The legal HTML in `public/` is generated from the in-app text in
 `legal_content.dart`, so the app and the hosted legal pages never
 diverge.
-After editing that file, rebuild and redeploy:
+
+The home page comes from the same generator. Its layout is
+`scripts/legal/home.html` and its text in three languages is
+`scripts/legal/home_text.json`. The generator also cuts the app font
+in `assets/fonts` to the glyphs the pages use, into `public/fonts`.
+Edit the stylesheets and the scripts in place: `public/site.css` is the
+theme that every page shares, `public/home.css` styles the home page,
+and `public/page.css` styles the legal pages and `/beta`.
+
+`public/mascots.js` draws the mascots on a canvas. It is a port of the
+Dart painters in `lib/features/mascot/presentation/drawn`, so a change
+to a painter needs the same change in this file. `public/home.js`
+animates the mascots.
+
+After editing any of these sources, rebuild in the `seed` conda env
+(the font step needs `fonttools` and `brotli`) and redeploy:
 
 ```bash
-python3 scripts/legal/build_legal_pages.py
+conda activate seed
+python scripts/legal/build_legal_pages.py
 npm run firebase -- deploy --only hosting --project prod
 ```
 
