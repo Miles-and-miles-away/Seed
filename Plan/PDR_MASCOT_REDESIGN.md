@@ -311,7 +311,7 @@ rollout (R4). Cream stem body with the face on it, and a red cap with
 pale spots, the colouring of the fly agaric. Funghi has no Rive file, so the
 drawings in the designer brief are its only baseline. The mouth is
 a little smaller than the mouth of the other species, and a blush
-shows at rest. From the Cap stage the eyes sit near the widest part
+shows at rest. From the Button stage the eyes sit near the widest part
 of the stem, at least two thirds of an eye height below the cap, so
 that the cap reads as a hat and not as a brow. The eyes are set close
 together, with a clear space between the eyes and the mouth. The
@@ -323,8 +323,8 @@ and the face on the stem, never on the cap.
 | Stage | Form |
 |---|---|
 | Spore | Round cream ball with a soft red lower rim and one curled soft red thread on top. No arms. |
-| Cap | Egg-shaped stem with a small red dome cap with pale spots, round arms and feet. |
-| Colony | Larger cap with pale gills under the rim. Nothing on the ground beside it. |
+| Button | Egg-shaped stem with a small red dome cap with pale spots, round arms and feet. |
+| Mushroom | Larger cap with pale gills under the rim. Nothing on the ground beside it. |
 | Network | Wide cap, two baby mushrooms with red caps at each side on a pale thread network. |
 
 ## 6. Rollout

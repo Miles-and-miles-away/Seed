@@ -82,7 +82,7 @@
   {
     "id": "fungi",
     "nameEn": "Funghi",
-    "nameJa": "ファンギ",
+    "nameJa": "きのこ",
     "nameEs": "Funghi",
     "descriptionEn": "A tiny spore with a big job! Help it grow into a network that connects the forest.",
     "descriptionJa": "大きな役目を持った小さな胞子！森をつなぐネットワークに育てよう。",
@@ -99,16 +99,16 @@
       {
         "level": 10,
         "assetPath": "drawn/fungi/2",
-        "nameEn": "Cap",
-        "nameJa": "かさ",
-        "nameEs": "Sombrero"
+        "nameEn": "Button",
+        "nameJa": "つぼみ",
+        "nameEs": "Botón"
       },
       {
         "level": 25,
         "assetPath": "drawn/fungi/3",
-        "nameEn": "Colony",
-        "nameJa": "コロニー",
-        "nameEs": "Colonia"
+        "nameEn": "Mushroom",
+        "nameJa": "きのこ",
+        "nameEs": "Seta"
       },
       {
         "level": 50,
