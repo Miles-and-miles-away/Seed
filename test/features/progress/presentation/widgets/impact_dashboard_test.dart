@@ -134,6 +134,9 @@ void main() {
       await _pumpDashboard(tester);
 
       await tester.tap(find.text('This Week'));
+      await tester.pump();
+      // The last total holds the layout while the new period loads.
+      expect(find.text('1.5${unitSpace}kg'), findsOneWidget);
       await tester.pumpAndSettle();
 
       // 7200g -> 7.2 kg

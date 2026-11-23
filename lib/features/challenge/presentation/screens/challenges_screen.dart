@@ -191,7 +191,10 @@ class _ChallengeTemplateCard extends ConsumerWidget {
         l10n.challengeCompletedBadge,
         colorScheme.primary,
       ),
-      _ChallengeState.active => (l10n.challengeActive, AppColors.streak),
+      _ChallengeState.active => (
+        l10n.challengeActive,
+        readableTextColor(AppColors.streak, colorScheme.brightness),
+      ),
       _ChallengeState.available => (
         l10n.challengeAvailable,
         colorScheme.onSurfaceVariant,

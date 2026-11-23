@@ -1,7 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
-
+import 'package:seed_app/core/utils/json_asset_loader.dart';
 import 'package:seed_app/features/transport/data/models/city_model.dart';
 
 // ignore_for_file: constant_identifier_names
@@ -53,10 +50,8 @@ Future<Map<String, dynamic>>? _rootFuture;
 
 // The asset is static, so decode the 136 KB JSON once and share it
 // across loadCities/loadCityLinks and repeated screen opens.
-Future<Map<String, dynamic>> _loadRoot() => _rootFuture ??= rootBundle
-    .loadString(_ASSET_PATH)
-    .then((s) => json.decode(s) as Map<String, dynamic>)
-    .onError((error, stackTrace) {
+Future<Map<String, dynamic>> _loadRoot() =>
+    _rootFuture ??= loadJsonRoot(_ASSET_PATH).onError((error, stackTrace) {
       // Never memoize a rejected future: a transient first-load
       // failure would otherwise rethrow until app restart.
       _rootFuture = null;

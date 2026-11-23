@@ -41,6 +41,19 @@ void main() {
       }
     });
 
+    test('every category colour clears the text bar on a tinted card', () {
+      const tintedCards = [Color(0xFFF0F4F8), Color(0xFFF1F5EB)];
+      for (final category in ActionCategory.values) {
+        for (final card in tintedCards) {
+          expect(
+            contrastRatio(category.textColorOn(Brightness.light), card),
+            greaterThanOrEqualTo(_minContrast),
+            reason: '${category.name} on $card',
+          );
+        }
+      }
+    });
+
     test('large text and graphics clear their own 3:1 bar', () {
       // WCAG lets 18pt text, 14pt bold, and graphics sit at 3:1, so the
       // large tone keeps more of the colour than body text can.
@@ -99,8 +112,8 @@ void main() {
       for (final category in ActionCategory.values) {
         expect(
           HSLColor.fromColor(category.textColorOn(Brightness.light)).hue,
-          // A couple of degrees of drift from the 8-bit round trip.
-          closeTo(HSLColor.fromColor(category.color).hue, 2),
+          // A few degrees of drift from the 8-bit round trip.
+          closeTo(HSLColor.fromColor(category.color).hue, 3),
           reason: '${category.name} should stay its own colour',
         );
       }

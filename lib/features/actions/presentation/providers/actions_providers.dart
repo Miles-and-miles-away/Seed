@@ -77,7 +77,7 @@ const actionHistoryPageSize = 50;
 ///
 /// keepAlive + one-shot get: the library is read-only reference data,
 /// so a persistent snapshots() listener adds overhead for no benefit.
-/// Content changes ship with reseeds and are picked up on app start.
+/// Cache first: a reseed shows on the start after the one that fetches it.
 @Riverpod(keepAlive: true)
 Future<List<ActionModel>> actionLibrary(Ref ref) {
   return ref.watch(actionLibraryDataSourceProvider).getActions();
