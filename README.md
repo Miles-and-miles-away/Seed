@@ -89,10 +89,10 @@ Sources and terms for all third-party content are recorded in
   exercise them against the Firestore emulator.
 - `flutter analyze --fatal-infos` over `flutter_lints` with `strict-casts`,
   `strict-inference` and `strict-raw-types`.
-- GitHub Actions. `ci.yml` runs the Flutter static checks, the Flutter tests
-  in four shards, Cloud Functions (Node 22, ESLint, tsc, Jest), and the rules
-  suite on a Temurin 21 JDK. `build.yml` builds a release Android bundle on
-  every pull request, and an iOS simulator app when a native input changes.
+- GitHub Actions. `ci.yml` runs Flutter analyze and test, Cloud Functions
+  (Node 22, ESLint, tsc, Jest), and the rules suite on a Temurin 21 JDK.
+  `build.yml` builds a release Android bundle on every pull request, and an
+  iOS simulator app when a native input changes.
 - Release builds are obfuscated with split debug info.
 
 ## Running it
