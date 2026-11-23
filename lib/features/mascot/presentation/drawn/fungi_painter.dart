@@ -29,10 +29,8 @@ class FungiPainter extends DrawnMascotPainter {
 
   static const FacePalette _facePalette = FacePalette(
     line: Color(0xFF3C240C),
-    iris: Color(0xFF7A4A22),
-    lidShadow: Color(0xFF5A3414),
+    bead: Color(0xFF4A2A11),
     glow: Color(0xFF8DE5CB),
-    pupil: Color(0xFF2A1506),
     mouthInside: Color(0xFF2A1506),
     tongue: Color(0xFFF2A08C),
   );
@@ -48,47 +46,51 @@ class FungiPainter extends DrawnMascotPainter {
   static const List<MascotRig> _rigs = [
     (
       pivot: Offset(50, 96),
-      face: Offset(50, 77.7),
+      face: Offset(50, 79.2),
       top: Offset(50, 63.5),
       shoulder: Offset(16, 82),
       armLength: 0,
       armRest: 0.62,
       footX: 7,
-      eyeSize: 10.5,
-      eyeGap: 14.5,
+      faceSize: 7.875,
+      eyeSize: 6.09,
+      eyeGap: 13.1,
     ),
     (
       pivot: Offset(50, 90),
-      face: Offset(50, 69.7),
+      face: Offset(50, 71.2),
       top: Offset(50, 54),
       shoulder: Offset(19, 75),
       armLength: 11,
       armRest: 0.62,
       footX: 9,
-      eyeSize: 11,
-      eyeGap: 15,
+      faceSize: 8.25,
+      eyeSize: 6.05,
+      eyeGap: 13.4,
     ),
     (
       pivot: Offset(50, 90),
-      face: Offset(50, 66.7),
+      face: Offset(50, 68.2),
       top: Offset(50, 49),
       shoulder: Offset(20.5, 72.5),
       armLength: 12.5,
       armRest: 0.7,
       footX: 10,
-      eyeSize: 11.5,
-      eyeGap: 16,
+      faceSize: 8.625,
+      eyeSize: 5.98,
+      eyeGap: 13.9,
     ),
     (
       pivot: Offset(50, 90),
-      face: Offset(50, 62.7),
+      face: Offset(50, 64.2),
       top: Offset(50, 44),
       shoulder: Offset(22.5, 72),
       armLength: 14,
       armRest: 0.95,
       footX: 11,
-      eyeSize: 12,
-      eyeGap: 17,
+      faceSize: 9,
+      eyeSize: 6,
+      eyeGap: 14.6,
     ),
   ];
 
@@ -243,15 +245,6 @@ class FungiPainter extends DrawnMascotPainter {
 
   @override
   FacePalette get facePalette => _facePalette;
-
-  @override
-  double get mouthScale => 0.65;
-
-  @override
-  double get mouthDrop => 140;
-
-  @override
-  double get restBlush => 0.8;
 
   @override
   void paintGround(Canvas canvas) {

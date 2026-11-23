@@ -8,7 +8,8 @@ import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
 /// Rest positions of the shared rig for one stage, in design units.
 ///
 /// [shoulder] is the screen-right one; the left one mirrors it. A stage
-/// with [armLength] 0 has no visible arms.
+/// with [armLength] 0 has no visible arms. [faceSize] sets the mouth and
+/// the line weight, [eyeSize] the eyes alone.
 typedef MascotRig = ({
   Offset pivot,
   Offset face,
@@ -17,6 +18,7 @@ typedef MascotRig = ({
   double armLength,
   double armRest,
   double footX,
+  double faceSize,
   double eyeSize,
   double eyeGap,
 });
@@ -67,22 +69,16 @@ abstract class DrawnMascotPainter extends CustomPainter {
 
   static const Color _blush = Color(0x59FC9078);
   static const double _armlessLean = -0.06;
-  static const double _gazeTurn = 1.4;
+  static const double _gazeTurn = 1.8;
+  static const double _restBlush = 0.9;
+  static const double _mouthScale = 0.5;
+  static const double _mouthDrop = 62;
 
   MascotRig get rig;
   MascotBody get body;
   Path get bodyOutline;
   Color get outline;
   FacePalette get facePalette;
-
-  /// Mouth size as a share of the face kit's mouth.
-  double get mouthScale => 0.7;
-
-  /// The drop from the eye centres to the mouth, in face units.
-  double get mouthDrop => 112;
-
-  /// The share of the smile blush that shows without a smile.
-  double get restBlush => 0;
 
   /// Paints what stands on the ground and does not move with the body.
   void paintGround(Canvas canvas);
@@ -243,24 +239,26 @@ abstract class DrawnMascotPainter extends CustomPainter {
   }
 
   void _paintFace(Canvas canvas) {
-    final faceScale = rig.eyeSize / FacePainter.eyeWidth;
     final turn = pose.gaze * _gazeTurn;
-    canvas
-      ..translate(rig.face.dx + turn.dx, rig.face.dy + turn.dy)
-      ..scale(faceScale);
-    final blushShare = [pose.smile, pose.wink, restBlush].reduce(math.max);
-    if (blushShare > 0) {
-      final blush = fill(_blush.withValues(alpha: _blush.a * blushShare));
-      for (final side in const [-1.0, 1.0]) {
-        canvas.drawOval(oval(Offset(side * 215, 118), 84, 50), blush);
-      }
+    canvas.translate(rig.face.dx + turn.dx, rig.face.dy + turn.dy);
+    final blushShare = [pose.smile, pose.wink, _restBlush].reduce(math.max);
+    final blush = fill(_blush.withValues(alpha: _blush.a * blushShare));
+    for (final side in const [-1.0, 1.0]) {
+      canvas.drawOval(
+        oval(Offset(side * (rig.eyeGap / 2 + 1.5), 5.5), 6.5, 4),
+        blush,
+      );
     }
+    final faceScale = rig.eyeSize / FacePainter.eyeWidth;
+    final faceShare = rig.faceSize / rig.eyeSize;
+    canvas.scale(faceScale);
     FacePainter(facePalette).paint(
       canvas,
       pose,
       eyeGap: rig.eyeGap / faceScale,
-      mouthDrop: mouthDrop,
-      mouthScale: mouthScale,
+      mouthDrop: _mouthDrop * faceShare,
+      mouthScale: _mouthScale * faceShare,
+      lineScale: faceShare,
     );
   }
 

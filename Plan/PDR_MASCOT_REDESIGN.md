@@ -160,14 +160,18 @@ count, colour accents. It is not a separate drawing. Benefits:
 ### M5. One shared face for all species
 
 A shared `FacePainter` draws the eyes and mouth for every species.
-It ports the face rules already decided for the Rive face (eye
-design "G, ButtonPupil"):
+The eye is a solid bead: one dark colour with no separate pupil. The
+face keeps the rules already decided for the Rive face where they
+apply to a bead:
 
-- vertical oval eyes with a visible pupil, never cut at the top and
-  bottom (no sanpaku),
-- one large and one or two small highlights, on the same side in
-  both eyes,
-- dark navy for eyes, never black,
+- slightly vertical oval eyes, never cut at the top and bottom (no
+  sanpaku),
+- one large and one small highlight, on the same side in both eyes,
+- a dark tint of the species colour for eyes, never black,
+- a small mouth between the eyes, and a soft blush at rest,
+- the eyes are small, and largest for the body on the first stage,
+- the eyes sit wider apart on the first stage and move closer, as a
+  share of the body width, at each later stage,
 - the eyes keep a minimum clear space from the body outline
   (`STYLE_GUIDE.md`, "Face placement minimum"),
 - a soft, round-capped crescent for the smile, not a pointed arc,

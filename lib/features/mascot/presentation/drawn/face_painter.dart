@@ -7,24 +7,20 @@ import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
 class FacePalette {
   const FacePalette({
     required this.line,
-    required this.iris,
-    required this.lidShadow,
+    required this.bead,
     required this.glow,
-    required this.pupil,
     required this.mouthInside,
     required this.tongue,
   });
 
   final Color line;
-  final Color iris;
-  final Color lidShadow;
+  final Color bead;
   final Color glow;
-  final Color pupil;
   final Color mouthInside;
   final Color tongue;
 }
 
-/// The shared face: eye design "G, ButtonPupil" and the crescent mouth.
+/// The shared face: solid bead eyes and the crescent mouth.
 ///
 /// Geometry is in face units. One eye is [eyeWidth] units wide, and the
 /// caller scales the canvas so that the face fits its species.
@@ -41,14 +37,16 @@ class FacePainter {
     (_openingRy + _eyeLineWidth / 2) * 2,
   );
 
-  static const double _openingRx = 84;
-  static const double _openingRy = 98;
+  static const double _openingRx = 82;
+  static const double _openingRy = 88;
   static const double _eyeLineWidth = 10;
 
   static const Color _eyeWhite = Color(0xFFFFFBF5);
   static const Offset _eyeCentre = Offset(100, 122);
   static const double _gazeReach = 20;
-  static const double _lineWidth = 16;
+  static const double _converge = 5;
+  static const double _glowAlpha = 0.55;
+  static const double _lineWidth = 22.4;
   static const double _shutBelow = 0.14;
   static const double _tongueFrom = 0.45;
 
@@ -59,7 +57,9 @@ class FacePainter {
     required double eyeGap,
     required double mouthDrop,
     required double mouthScale,
+    required double lineScale,
   }) {
+    final line = _stroke(palette.line, _lineWidth * lineScale);
     for (final side in const [-1.0, 1.0]) {
       final squeeze = side > 0
           ? math.max(pose.smile, pose.wink)
@@ -69,9 +69,9 @@ class FacePainter {
         ..save()
         ..translate(side * eyeGap / 2 - _eyeCentre.dx, -_eyeCentre.dy);
       if (open < _shutBelow) {
-        _paintShutEye(canvas, squeeze);
+        _paintShutEye(canvas, squeeze, line);
       } else {
-        _paintOpenEye(canvas, open, pose.gaze);
+        _paintOpenEye(canvas, open, pose.gaze, side);
       }
       canvas.restore();
     }
@@ -80,7 +80,7 @@ class FacePainter {
       ..translate(0, mouthDrop)
       ..scale(mouthScale)
       ..translate(-130, -60);
-    _paintMouth(canvas, pose.smile);
+    _paintMouth(canvas, pose.smile, line);
     canvas.restore();
   }
 
@@ -96,7 +96,8 @@ class FacePainter {
   Rect _oval(Offset centre, double rx, double ry) =>
       Rect.fromCenter(center: centre, width: rx * 2, height: ry * 2);
 
-  void _paintOpenEye(Canvas canvas, double open, Offset gaze) {
+  // The beads rest turned slightly inward, towards the mouth.
+  void _paintOpenEye(Canvas canvas, double open, Offset gaze, double side) {
     final opening = _oval(_eyeCentre, _openingRx, _openingRy);
     final reach = gaze.distance > 1 ? gaze / gaze.distance : gaze;
     canvas
@@ -107,44 +108,36 @@ class FacePainter {
       ..drawOval(opening, _fill(_eyeWhite))
       ..save()
       ..clipPath(Path()..addOval(opening))
-      ..translate(reach.dx * _gazeReach, reach.dy * _gazeReach)
-      ..drawOval(_oval(_eyeCentre, 66, 96), _fill(palette.line))
-      ..drawOval(_oval(_eyeCentre, 59, 88), _fill(palette.iris))
-      ..drawPath(
-        Path()
-          ..moveTo(44, 96)
-          ..arcToPoint(
-            const Offset(156, 96),
-            radius: const Radius.elliptical(59, 88),
-          )
-          ..quadraticBezierTo(100, 122, 44, 96)
-          ..close(),
-        _fill(palette.lidShadow),
+      ..translate(
+        reach.dx * _gazeReach - side * _converge,
+        reach.dy * _gazeReach,
       )
-      ..drawOval(_oval(const Offset(100, 182), 32, 14), _fill(palette.glow))
-      ..drawOval(_oval(_eyeCentre, 26, 38), _fill(palette.pupil))
-      ..drawCircle(const Offset(76, 96), 18, _fill(_eyeWhite))
-      ..drawCircle(const Offset(126, 152), 8, _fill(_eyeWhite))
-      ..drawCircle(const Offset(118, 98), 5, _fill(_eyeWhite))
+      ..drawOval(_oval(_eyeCentre, 76, 86), _fill(palette.bead))
+      ..drawOval(
+        _oval(const Offset(100, 180.5), 41, 14),
+        _fill(palette.glow.withValues(alpha: _glowAlpha)),
+      )
+      ..drawCircle(const Offset(72, 92), 28, _fill(_eyeWhite))
+      ..drawCircle(const Offset(126, 154), 14, _fill(_eyeWhite))
       ..restore()
       ..drawOval(opening, _stroke(palette.line, _eyeLineWidth))
       ..restore();
   }
 
   // A blink rests as a soft downward curve; a smile lifts it into an arch.
-  void _paintShutEye(Canvas canvas, double smile) {
+  void _paintShutEye(Canvas canvas, double smile, Paint line) {
     final ends = lerpDouble(126, 138, smile)!;
     final bend = lerpDouble(150, 52, smile)!;
     canvas.drawPath(
       Path()
         ..moveTo(26, ends)
         ..quadraticBezierTo(100, bend, 174, ends),
-      _stroke(palette.line, _lineWidth),
+      line,
     );
   }
 
   // At rest the floor lies on the lip, so the stroke reads as a crescent.
-  void _paintMouth(Canvas canvas, double smile) {
+  void _paintMouth(Canvas canvas, double smile, Paint line) {
     final lip = lerpDouble(106, 90, smile)!;
     final sideX = lerpDouble(180, 216, smile)!;
     final sideY = lerpDouble(83, 158, smile)!;
@@ -172,6 +165,6 @@ class FacePainter {
         )
         ..restore();
     }
-    canvas.drawPath(cavity, _stroke(palette.line, _lineWidth));
+    canvas.drawPath(cavity, line);
   }
 }
