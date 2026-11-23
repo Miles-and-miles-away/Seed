@@ -165,6 +165,19 @@ nav stays visible and the tab it was opened from stays selected.
   a back arrow.
 - Tapping the mascot makes it smile.
 
+### Mascot Lab (`/home/mascot/lab`, debug builds only)
+Side-by-side comparison of the code-drawn (v3) mascots and the Rive
+mascots (PDR_MASCOT_REDESIGN). The route and its entry point do not
+exist in release builds.
+- Reached from: the flask icon in the Mascot app bar.
+- Links: none
+- Functionality: the selected code-drawn hero (breathes, blinks,
+  follows the pointer, waves when tapped) beside the matching Rive
+  artboard, a 48 dp static pair, a static cast of every code-drawn
+  stage (tap one to select it), and an app bar button that fires the
+  smile trigger. A species with no Rive file shows the code-drawn
+  mascot alone.
+
 ### Challenges (`/home/challenges`)
 List of six multi-day challenges with state (completed / active /
 available / blocked).
@@ -961,6 +974,7 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `explore`                 | `/explore`                        |
 | `profile`                 | `/profile`                        |
 | `mascot`                  | `/home/mascot`                    |
+| `mascotLab` (debug only)  | `/home/mascot/lab`                |
 | `dailyFact`               | `/home/daily-fact`                |
 | `challenges`              | `/home/challenges`                |
 | `sdgDetail(n)`            | `/home/sdg/{n}`                   |
