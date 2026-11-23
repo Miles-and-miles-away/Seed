@@ -96,7 +96,7 @@ class _DrawnMascotState extends ConsumerState<DrawnMascot>
     super.dispose();
   }
 
-  bool get _blinking => _seconds - _blinkAt < blinkSeconds;
+  bool get _blinking => _seconds >= _blinkAt;
 
   void _onGlobalPointer(PointerEvent event) {
     if (!mounted) return;

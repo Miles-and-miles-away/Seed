@@ -417,6 +417,20 @@ void main() {
       }
       expect(pose(tester).gaze.distance, lessThan(0.05));
     });
+
+    testWidgets('a blink covers a large jump of the eyes', (tester) async {
+      await pumpMascot(tester, animate: true);
+      await tester.pump(const Duration(milliseconds: 500));
+      final gesture = await tester.startGesture(Offset.zero);
+      await tester.pump(
+        Duration(
+          microseconds: ((blinkCloseSeconds + blinkHoldSeconds / 2) * 1e6)
+              .round(),
+        ),
+      );
+      expect(pose(tester).eyeOpen, 0);
+      await gesture.up();
+    });
   });
 
   test('a blink opens more slowly than it closes', () {
