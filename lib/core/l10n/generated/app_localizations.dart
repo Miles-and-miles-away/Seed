@@ -328,12 +328,6 @@ abstract class AppLocalizations {
   /// **'{stage} (Level {level})'**
   String stageWithLevel(String stage, int level);
 
-  /// No description provided for @streakLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'{days} day streak'**
-  String streakLabel(int days);
-
   /// No description provided for @co2Saved.
   ///
   /// In en, this message translates to:
@@ -633,6 +627,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
+
+  /// No description provided for @startupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Seed could not start. Close the app and open it again.'**
+  String get startupFailed;
 
   /// No description provided for @errorNetwork.
   ///
@@ -1162,12 +1162,6 @@ abstract class AppLocalizations {
   /// **'Don\'t worry! Start a new streak today.'**
   String get streakBrokenMessage;
 
-  /// No description provided for @streakBrokenPrevious.
-  ///
-  /// In en, this message translates to:
-  /// **'Previous streak: {count} days'**
-  String streakBrokenPrevious(int count);
-
   /// No description provided for @streakBrokenStartNew.
   ///
   /// In en, this message translates to:
@@ -1239,12 +1233,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get allCategories;
-
-  /// No description provided for @co2PerAction.
-  ///
-  /// In en, this message translates to:
-  /// **'{amount}g CO₂'**
-  String co2PerAction(Object amount);
 
   /// No description provided for @sdgYourImpact.
   ///
@@ -2296,6 +2284,18 @@ abstract class AppLocalizations {
   /// **'Source'**
   String get ecoFactSource;
 
+  /// No description provided for @labelPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: '**
+  String labelPrefix(String label);
+
+  /// No description provided for @sentencePair.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} {second}'**
+  String sentencePair(String first, String second);
+
   /// No description provided for @ecoFactLocked.
   ///
   /// In en, this message translates to:
@@ -3226,12 +3226,6 @@ abstract class AppLocalizations {
   /// **'Comparison full ({max} options)'**
   String transportComparisonFull(int max);
 
-  /// No description provided for @transportCompareOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Compare {count} options'**
-  String transportCompareOptions(int count);
-
   /// No description provided for @transportOptionStaged.
   ///
   /// In en, this message translates to:
@@ -3534,12 +3528,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comparison full ({max} options)'**
   String foodComparisonFull(int max);
-
-  /// No description provided for @foodCompareOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Compare {count} options'**
-  String foodCompareOptions(int count);
 
   /// No description provided for @foodOptionStaged.
   ///

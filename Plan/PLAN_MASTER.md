@@ -742,7 +742,7 @@ void main() async {
 - User can log actions offline → queued in local cache
 - When online, Firestore auto-syncs
 - Points update optimistically in UI
-- Action library cached locally after first fetch
+- Action library cached locally after first fetch. Each start reads the cache first and refreshes it from the server in the background, so a reseed shows one start later
 
 ---
 

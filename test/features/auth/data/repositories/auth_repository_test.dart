@@ -316,6 +316,23 @@ void main() {
       verify(() => userDs.createUser(any())).called(1);
     });
 
+    test('creates the Firestore doc even when the send fails', () async {
+      final user = fakeFirebaseUser(emailVerified: false);
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.createUserWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
+      when(() => authDs.sendEmailVerification()).thenThrow(Exception('send'));
+      when(() => userDs.createUser(any())).thenAnswer((_) async {});
+
+      await expectLater(
+        repository.createUserWithEmailAndPassword(email, 'pw', language: 'es'),
+        throwsException,
+      );
+      verify(() => userDs.createUser(any())).called(1);
+    });
+
     test('clamps overly long provider display names', () async {
       final user = fakeFirebaseUser(emailVerified: false);
       when(

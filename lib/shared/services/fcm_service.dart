@@ -10,7 +10,7 @@ import 'package:seed_app/core/utils/app_logger.dart';
 
 /// Service for managing Firebase Cloud Messaging (push notifications).
 ///
-/// Handles FCM token management and message handling.
+/// Handles message taps. The token is not stored while no server sends pushes.
 class FCMService {
   FCMService._()
     : _messagingOverride = null,
@@ -68,24 +68,8 @@ class FCMService {
     onForegroundMessage = onForeground;
     onMessageTap = onTap;
 
-    // Register listeners before any awaits so a token failure can
-    // never leave message handling unwired.
-    _messaging.onTokenRefresh.listen(_storeToken);
     FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageTap);
-
-    // Best-effort token fetch: on iOS getToken throws until the user
-    // grants notification permission (APNS token not set), and on
-    // simulators APNS is unavailable entirely.
-    try {
-      final token = await _messaging.getToken();
-      if (token != null) {
-        await _storeToken(token);
-        appLogger.debug('FCM token: ${token.substring(0, 20)}...');
-      }
-    } on Exception catch (e) {
-      appLogger.info('FCM token unavailable: $e');
-    }
 
     // Check for initial message (app opened from terminated state)
     final initialMessage = await _messaging.getInitialMessage();
@@ -124,24 +108,6 @@ class FCMService {
   void _handleMessageTap(RemoteMessage message) {
     appLogger.debug('Message tapped: ${message.notification?.title}');
     onMessageTap?.call(message);
-  }
-
-  Future<void> _storeToken(String token) async {
-    final userId = _auth.currentUser?.uid;
-    if (userId == null) {
-      appLogger.warning('Cannot store FCM token: no user logged in');
-      return;
-    }
-
-    try {
-      await _firestore
-          .collection(AppConstants.collectionUsers)
-          .doc(userId)
-          .update({'fcmToken': token});
-      appLogger.debug('FCM token stored for user $userId');
-    } on Exception catch (e) {
-      appLogger.warning('Failed to store FCM token: $e');
-    }
   }
 
   /// Remove the stored FCM token for the current user.

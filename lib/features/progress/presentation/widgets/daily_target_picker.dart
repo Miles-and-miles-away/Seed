@@ -163,10 +163,7 @@ class _DailyTargetPickerState extends ConsumerState<DailyTargetPicker> {
                 ? const SizedBox(
                     width: spacingXxl,
                     height: spacingXxl,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
+                    child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : Text(l10n.progressStartJourney),
           ),

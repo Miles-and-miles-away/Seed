@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
@@ -110,6 +111,32 @@ void main() {
       );
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('a rebuild with equal data does not replay the tween', (
+      tester,
+    ) async {
+      final rebuild = ValueNotifier(0);
+      addTearDown(rebuild.dispose);
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          child: ValueListenableBuilder<int>(
+            valueListenable: rebuild,
+            builder: (_, _, _) => Co2TrendChart(
+              data: _fixture(points: const [(0, 500), (3, 1200), (6, 900)]),
+            ),
+          ),
+        ),
+      );
+      // fl_chart's first update always tweens: it adds its touch callback.
+      rebuild.value++;
+      await tester.pumpAndSettle();
+
+      rebuild.value++;
+      await tester.pump();
+
+      expect(tester.hasRunningAnimations, isFalse);
     });
 
     testWidgets('the end label survives an autumn DST change', (tester) async {

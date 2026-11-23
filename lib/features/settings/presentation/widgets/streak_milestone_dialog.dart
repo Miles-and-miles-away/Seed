@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
-import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
 import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
@@ -148,24 +147,12 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                                 height: 140,
                               )
                               .animate()
-                              .fadeIn(delay: 400.ms, duration: 400.ms)
+                              .fadeIn(delay: 400.ms, duration: durationFast)
                               .scale(
                                 begin: const Offset(0.3, 0.3),
                                 end: const Offset(1, 1),
                                 curve: Curves.elasticOut,
                                 duration: 800.ms,
-                              )
-                              .then() // Chain animation
-                              .animate(
-                                autoPlay: !reduceMotionOf(context),
-                                onPlay: (controller) =>
-                                    controller.repeat(reverse: true),
-                              )
-                              .moveY(
-                                begin: 0,
-                                end: -8,
-                                duration: 600.ms,
-                                curve: Curves.easeInOut,
                               ),
                         ],
                       ),
@@ -219,7 +206,7 @@ class _StreakMilestoneDialogState extends ConsumerState<StreakMilestoneDialog> {
                           ),
                         )
                         .animate()
-                        .fadeIn(delay: 700.ms, duration: 400.ms)
+                        .fadeIn(delay: 700.ms, duration: durationFast)
                         .scale(
                           begin: const Offset(0.5, 0.5),
                           end: const Offset(1, 1),

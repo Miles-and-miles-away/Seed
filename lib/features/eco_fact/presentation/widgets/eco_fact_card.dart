@@ -215,7 +215,7 @@ class _SourceLineState extends State<_SourceLine> {
             TextSpan(
               style: baseStyle,
               children: [
-                TextSpan(text: '${l10n.ecoFactSource}: '),
+                TextSpan(text: l10n.labelPrefix(l10n.ecoFactSource)),
                 if (_hasUrl)
                   TextSpan(
                     text: '${widget.sourceName} $externalLinkChar',

@@ -97,13 +97,17 @@ class EcoDexEntrySheet extends StatelessWidget {
 
           // Source
           if (entry.sourceUrl.isNotEmpty)
-            GestureDetector(
-              onTap: () => _openSource(context),
-              child: Text(
-                '${l10n.ecoDexViewSource} $externalLinkChar',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.primary,
-                  decoration: TextDecoration.underline,
+            TextButton(
+              onPressed: () => _openSource(context),
+              // Inside the button, so the flag merges into its node.
+              child: Semantics(
+                link: true,
+                child: Text(
+                  '${l10n.ecoDexViewSource} $externalLinkChar',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.primary,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ),

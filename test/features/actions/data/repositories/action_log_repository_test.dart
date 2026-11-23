@@ -182,7 +182,7 @@ void main() {
     });
 
     test('level increments when threshold crossed', () async {
-      // pointsPerLevel=100, scale=1.5 → level 2 requires exactly 100 points.
+      // Level 2 requires exactly 100 points.
       await seedUser({AppConstants.fieldPoints: 95});
 
       await repository.logAction(
