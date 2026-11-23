@@ -47,11 +47,8 @@ Path bodyPath(MascotBody body, {double point = 0.35}) {
 }
 
 /// The single shade shape of a part: a crescent on its lower right.
-Path shadeOf(Path part) => Path.combine(
-  PathOperation.difference,
-  part,
-  part.shift(const Offset(-3.5, -5)),
-);
+Path shadeOf(Path part, [Offset lit = const Offset(-3.5, -5)]) =>
+    Path.combine(PathOperation.difference, part, part.shift(lit));
 
 /// One species of the code-drawn generation ("v3"), in a 100 x 100 design
 /// box that scales to fit. A stage is a parameter set, not a new drawing.
@@ -66,6 +63,7 @@ abstract class DrawnMascotPainter extends CustomPainter {
   static const double designSize = 100;
   static const double groundY = 96;
   static const double outlineWidth = 1.5;
+  static const double seedShadeAlpha = 0.3;
 
   static const Color _blush = Color(0x59FC9078);
   static const double _armlessLean = -0.06;

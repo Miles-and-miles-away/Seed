@@ -235,7 +235,14 @@ class SproutPainter extends DrawnMascotPainter {
     paintTop(canvas, () => _paintStem(canvas));
     canvas
       ..drawPath(path, fill(_body))
-      ..drawPath(_bodyShades[stage - 1], fill(_bodyShade));
+      ..drawPath(
+        _bodyShades[stage - 1],
+        fill(
+          stage == 1
+              ? _bodyShade.withValues(alpha: DrawnMascotPainter.seedShadeAlpha)
+              : _bodyShade,
+        ),
+      );
     paintBodyHighlight(canvas, _bodyLight);
     canvas.drawPath(path, outlinePaint);
     if (stage == 4) paintTop(canvas, () => _paintCanopy(canvas));

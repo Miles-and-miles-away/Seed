@@ -104,7 +104,11 @@ class CoralPainter extends DrawnMascotPainter {
     for (final body in _bodies) bodyPath(body, point: 0.6),
   ];
 
-  static final List<Path> _bodyShades = _bodyPaths.map(shadeOf).toList();
+  // The polyp is small, so its shade is a thinner crescent.
+  static final List<Path> _bodyShades = [
+    shadeOf(_bodyPaths.first, const Offset(-2, -3)),
+    ..._bodyPaths.skip(1).map(shadeOf),
+  ];
 
   // A scalloped fringe of the second colour along the base of the body.
   static final List<Path> _fringes = [
@@ -150,8 +154,8 @@ class CoralPainter extends DrawnMascotPainter {
   static const List<List<_Fish>> _shoals = [
     [],
     [],
-    [(centre: Offset(88, 24), facing: 1)],
-    [(centre: Offset(90, 16), facing: 1), (centre: Offset(10, 15), facing: -1)],
+    [(centre: Offset(18, 30), facing: -1)],
+    [(centre: Offset(90, 11), facing: 1), (centre: Offset(10, 23), facing: -1)],
   ];
 
   static final Path _fishBody = Path()
@@ -297,7 +301,14 @@ class CoralPainter extends DrawnMascotPainter {
     });
     canvas
       ..drawPath(path, fill(_body))
-      ..drawPath(_bodyShades[stage - 1], fill(_bodyShade))
+      ..drawPath(
+        _bodyShades[stage - 1],
+        fill(
+          stage == 1
+              ? _bodyShade.withValues(alpha: DrawnMascotPainter.seedShadeAlpha)
+              : _bodyShade,
+        ),
+      )
       ..drawPath(_fringes[stage - 1], fill(_fringe));
     paintBodyHighlight(canvas, _bodyLight);
     canvas.drawPath(path, outlinePaint);

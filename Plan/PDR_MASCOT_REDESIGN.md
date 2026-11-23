@@ -302,26 +302,25 @@ Coral is redesigned in code like every other species (Q2).
 **Funghi (data id `fungi`).** Species 3 (Q3), from
 PLAN_FOR_DESIGNER. A cap reads as a head, and the theme (fungi as
 the planet's recyclers) fits Seed. It is the last species in the
-rollout (R4). Cream stem body with the face on it, a tan cap, and a
-mint glow that grows at every stage. Funghi has no Rive file, so the
+rollout (R4). Cream stem body with the face on it, and a red cap with
+pale spots, the colouring of the fly agaric. Funghi has no Rive file, so the
 drawings in the designer brief are its only baseline. The mouth is
 a little smaller than the mouth of the other species, and a blush
 shows at rest. From the Cap stage the eyes sit near the widest part
 of the stem, at least two thirds of an eye height below the cap, so
 that the cap reads as a hat and not as a brow. The eyes are set close
 together, with a clear space between the eyes and the mouth. The
-lower glow of the iris is the mint of the gills. Draw no pale
-scalloped shape near the mouth, because it reads as teeth. The look
-must stay clear of existing commercial mushroom characters: no red
-cap, no round spots on the cap, always visible gills, always arms and
-feet from stage 2.
+lower glow of the eye is a soft red, to match the cap. Draw no pale
+scalloped shape near the mouth, because it reads as teeth. The owner chose the red spotted cap, which is the best known
+mushroom colouring. Always draw the arms and the feet from stage 2,
+and the face on the stem, never on the cap.
 
 | Stage | Form |
 |---|---|
-| Spore | Round cream ball with a glowing lower rim and one curled glowing thread on top. No arms. |
-| Cap | Egg-shaped stem with a small tan dome cap, glowing gills under the cap, round arms and feet. |
-| Colony | Larger cap with a glowing patch on top. One baby mushroom at each side, on short glowing threads. |
-| Network | Wide cap with a glowing patch that drips, two baby mushrooms at each side on a longer thread network. |
+| Spore | Round cream ball with a soft red lower rim and one curled soft red thread on top. No arms. |
+| Cap | Egg-shaped stem with a small red dome cap with pale spots, round arms and feet. |
+| Colony | Larger cap with pale gills under the rim. Nothing on the ground beside it. |
+| Network | Wide cap, two baby mushrooms with red caps at each side on a pale thread network. |
 
 ## 6. Rollout
 
