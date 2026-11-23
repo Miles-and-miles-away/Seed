@@ -52,6 +52,9 @@ abstract class AppUserModel with _$AppUserModel {
     /// Date of the user's last logged action.
     @TimestampConverter() DateTime? lastActionDate,
 
+    /// Device UTC offset when [lastActionDate] was written.
+    int? lastActionUtcOffsetMinutes,
+
     /// FCM token for push notifications.
     String? fcmToken,
 

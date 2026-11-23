@@ -101,6 +101,51 @@ void main() {
       },
     );
 
+    test('a missed day ends the count before the next log', () async {
+      Future<ProviderContainer> onDay(int day) => pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            egg: EggModel(
+              receivedAt: DateTime(2026, 3),
+              hatchingStreakDays: 12,
+              lastHatchingActivityDate: DateTime(2026, 3, 9, 23),
+            ),
+          ),
+        ),
+        clockProvider.overrideWithValue(() => DateTime(2026, 3, day, 1)),
+      ]);
+
+      for (final day in [9, 10]) {
+        final c = await onDay(day);
+        expect(c.read(eggStreakDaysProvider), 12, reason: 'day $day');
+        expect(c.read(eggHatchingProgressProvider), closeTo(0.4, 0.01));
+      }
+      final missed = await onDay(11);
+      expect(missed.read(eggStreakDaysProvider), 0);
+      expect(missed.read(eggHatchingProgressProvider), 0);
+    });
+
+    test('reads the egg date at the offset it was written in', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionUtcOffsetMinutes: 840,
+            egg: EggModel(
+              receivedAt: DateTime(2026, 3),
+              hatchingStreakDays: 12,
+              lastHatchingActivityDate: DateTime.utc(2026, 3, 8, 10),
+            ),
+          ),
+        ),
+        clockProvider.overrideWithValue(() => DateTime(2026, 3, 10, 1)),
+      ]);
+      expect(c.read(eggStreakDaysProvider), 12);
+    });
+
     test('shouldShowEggDiscovery reads the flag from user', () async {
       final c = await _container(
         user: const AppUserModel(
@@ -414,6 +459,21 @@ void main() {
       }
     });
 
+    test('reads the last log at the offset it was written in', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionDate: DateTime.utc(2026, 3, 8, 10),
+            lastActionUtcOffsetMinutes: 840,
+          ),
+        ),
+        clockProvider.overrideWithValue(() => now),
+      ]);
+      expect(c.read(welcomeBackSmileDueProvider), isFalse);
+    });
+
     test('plays once for each gap', () async {
       final users = StreamController<AppUserModel?>();
       addTearDown(users.close);
@@ -471,6 +531,16 @@ void main() {
       ], warm: allMascotsProvider);
 
       expect(c.read(hasMascotProvider), isFalse);
+    });
+
+    test('the mascot list stays loading until the user doc arrives', () async {
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith(
+          (_) => StreamController<AppUserModel?>().stream,
+        ),
+      ], warm: allMascotsProvider);
+
+      expect(c.read(allMascotsProvider).hasValue, isFalse);
     });
 
     test('shouldShowEggDiscovery is false when signed out', () async {

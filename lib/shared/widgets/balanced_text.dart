@@ -49,6 +49,8 @@ int balancedBreakIndex(
   return best;
 }
 
+final _cjk = RegExp(r'[\u3040-\u30FF\u4E00-\u9FFF]');
+
 /// [Text] that rebalances a two-line wrap so both lines are as even as
 /// possible instead of orphaning a single word. Flutter has no
 /// `text-wrap: balance` equivalent. One-line and three-plus-line text wraps
@@ -76,14 +78,21 @@ class BalancedText extends StatelessWidget {
   }
 
   String _balanced(double maxWidth, TextStyle style, TextScaler scaler) {
+    // Japanese wraps between any two characters, not only at spaces.
+    if (_cjk.hasMatch(text)) return text;
     final words = text.split(' ');
     if (words.length < 2) return text;
 
-    double measure(String s) => (TextPainter(
-      text: TextSpan(text: s, style: style),
-      textDirection: TextDirection.ltr,
-      textScaler: scaler,
-    )..layout()).width;
+    double measure(String s) {
+      final painter = TextPainter(
+        text: TextSpan(text: s, style: style),
+        textDirection: TextDirection.ltr,
+        textScaler: scaler,
+      )..layout();
+      final width = painter.width;
+      painter.dispose();
+      return width;
+    }
 
     final wordWidths = words.map(measure).toList();
     final breakAt = balancedBreakIndex(wordWidths, measure(' '), maxWidth);

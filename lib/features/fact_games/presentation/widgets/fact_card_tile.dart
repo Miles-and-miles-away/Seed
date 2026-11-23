@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/ja_phrase.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
 import 'package:seed_app/features/fact_games/domain/fact_pairs_board.dart';
 import 'package:seed_app/shared/widgets/no_word_break.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
@@ -45,9 +45,7 @@ class FactCardTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final animate =
-        !MediaQuery.disableAnimationsOf(context) &&
-        !MediaQuery.reduceMotionOf(context);
+    final animate = !reduceMotionOf(context);
     final face = KeyedSubtree(key: ValueKey(state), child: _face(context));
     return Semantics(
       button: true,

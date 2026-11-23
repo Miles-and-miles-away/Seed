@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart' show FirebaseException;
 import 'package:flutter/material.dart';
@@ -32,20 +34,39 @@ import '../../../../helpers/test_helpers.dart';
 import '../../../eco_dex/eco_dex_fixtures.dart';
 
 /// Stands in for the real notifier: returns [result], or fails with
-/// [error], or parks in loading (the in-flight guard case).
+/// [error], or parks in loading (the in-flight guard case). A [gate]
+/// holds the log open, as the wait for the rules' gap does.
 class _FakeActionLog extends ActionLogNotifier {
   ActionLogResult? result;
   Object? error;
   bool stayLoading = false;
+  Completer<void>? gate;
+  var _open = 0;
+  final pendingIds = <String>{};
   final calls = <({ActionModel action, String? note, String lang})>[];
+
+  @override
+  bool get isBusy => _open > 0;
+
+  @override
+  bool isPending(String actionId) => pendingIds.contains(actionId);
 
   @override
   Future<ActionLogResult?> logAction(
     ActionModel action, {
     String? note,
     String languageCode = 'en',
+    bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     calls.add((action: action, note: note, lang: languageCode));
+    final gate = this.gate;
+    if (gate != null) {
+      state = const AsyncValue.loading();
+      _open++;
+      await gate.future;
+      _open--;
+    }
     if (stayLoading) {
       state = const AsyncValue.loading();
       return null;
@@ -62,11 +83,15 @@ class _FakeActionLog extends ActionLogNotifier {
 class _FakeDiscovery extends EcoDexDiscoveryNotifier {
   List<String> newIds = const [];
   int? receivedMinCount;
+  bool fails = false;
 
   @override
-  Future<List<String>> discoverNewEntries({int? minActionsCount}) async {
+  Future<({List<String> unlocked, List<String> claimed})> discoverNewEntries({
+    int? minActionsCount,
+  }) async {
     receivedMinCount = minActionsCount;
-    return newIds;
+    if (fails) throw Exception('eco-dex evaluation failed');
+    return (unlocked: newIds, claimed: newIds);
   }
 }
 
@@ -129,6 +154,8 @@ void main() {
     log = _FakeActionLog();
     discovery = _FakeDiscovery();
   });
+
+  tearDown(resetActionLogClock);
 
   Future<void> pumpHost(
     WidgetTester tester, {
@@ -295,46 +322,9 @@ void main() {
     await drain(tester);
   });
 
-  testWidgets('a new milestone shows the celebration and marks it seen', (
-    tester,
-  ) async {
+  testWidgets('a crossed milestone is left to the shell', (tester) async {
     log.result = _result(milestoneWeek: 1);
     await pumpHost(tester);
-
-    await tapAndConfirm(tester, until: find.byType(StreakMilestoneDialog));
-    expect(find.byType(StreakMilestoneDialog), findsOneWidget);
-
-    await tester.pump(durationNormal);
-    expect(find.text('1 Week Streak!'), findsOneWidget);
-    await tester.pump(durationCelebration);
-    await tester.tap(find.text('Continue'));
-    for (
-      var i = 0;
-      i < 20 && find.byType(StreakMilestoneDialog).evaluate().isNotEmpty;
-      i++
-    ) {
-      await tester.pump();
-    }
-
-    expect(find.byType(StreakMilestoneDialog), findsNothing);
-    final doc = await firestore
-        .collection(AppConstants.collectionUsers)
-        .doc(_uid)
-        .get();
-    final settings = doc.data()![AppConstants.fieldSettings] as Map;
-    final seen = settings[AppConstants.fieldSeenStreakMilestones] as Map;
-    expect(seen['1'], isTrue);
-    await drain(tester);
-  });
-
-  testWidgets('an already-seen milestone is not celebrated again', (
-    tester,
-  ) async {
-    log.result = _result(milestoneWeek: 1);
-    await pumpHost(
-      tester,
-      settings: const UserSettingsModel(seenStreakMilestones: {'1': true}),
-    );
 
     await tapAndConfirm(
       tester,
@@ -342,7 +332,6 @@ void main() {
     );
 
     expect(find.byType(StreakMilestoneDialog), findsNothing);
-    expect(find.text('Action logged! 20 points earned'), findsOneWidget);
     await drain(tester);
   });
 
@@ -421,6 +410,15 @@ void main() {
       await drain(tester);
     });
 
+    testWidgets('a failed Eco-Dex discovery still cheers', (tester) async {
+      discovery.fails = true;
+      await logWith(tester, _result(newGoalCount: defaultDailyGoalTarget));
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(MascotCheer), findsOneWidget);
+      await drain(tester);
+    });
+
     testWidgets('a completed challenge opens the inbox instead of cheering', (
       tester,
     ) async {
@@ -487,9 +485,34 @@ void main() {
       );
     });
 
+    testWidgets('offline Retry logs the same action and note again', (
+      tester,
+    ) async {
+      log.error = FirebaseException(
+        plugin: 'cloud_firestore',
+        code: 'unavailable',
+      );
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text('Retry'));
+
+      await tester.pumpAndSettle();
+      log
+        ..error = null
+        ..result = _result();
+      await tester.tap(find.text('Retry'));
+      await tester.pump();
+
+      expect(log.calls, hasLength(2));
+      expect(log.calls.last.action, log.calls.first.action);
+      expect(log.calls.last.note, log.calls.first.note);
+      expect(find.byType(PointsAnimationOverlay), findsOneWidget);
+      await drain(tester);
+    });
+
     testWidgets('anything else reads as the generic error', (tester) async {
       log.error = Exception('boom');
       await expectMessage(tester, 'Something went wrong. Please try again.');
+      expect(find.text('Retry'), findsNothing);
     });
 
     testWidgets('a dropped in-flight duplicate shows nothing', (tester) async {
@@ -500,6 +523,179 @@ void main() {
 
       expect(find.byType(SnackBar), findsNothing);
       expect(find.byType(PointsAnimationOverlay), findsNothing);
+    });
+  });
+
+  group('a log that waits out the rules gap', () {
+    const logging = 'Logging your action...';
+    const logged = 'Action logged! 20 points earned';
+
+    /// Runs the hide of one snackbar and the entrance of the next.
+    Future<void> swapSnackBars(WidgetTester tester) async {
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+    }
+
+    testWidgets('says it is logging until the write lands', (tester) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..result = _result();
+      await pumpHost(tester);
+
+      await tapAndConfirm(tester, until: find.text(logging));
+      expect(find.text(logging), findsOneWidget);
+      expect(find.byType(PointsAnimationOverlay), findsNothing);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('takes the place of the snackbar of the log before it', (
+      tester,
+    ) async {
+      log.result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logged));
+      expect(find.text(logged), findsOneWidget);
+
+      markActionLogged();
+      log.gate = Completer<void>();
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      expect(find.text(logging), findsOneWidget);
+      expect(find.text(logged), findsNothing);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+    });
+
+    group('with the egg reset message', () {
+      const reset = "You missed a day, so your egg's count started again.";
+
+      Future<void> showReset(WidgetTester tester) async {
+        final context = tester.element(find.byType(ElevatedButton));
+        showEggResetMessage(
+          ScaffoldMessenger.of(context),
+          AppLocalizations.of(context),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text(reset), findsOneWidget);
+      }
+
+      Future<void> logInsideTheGap(WidgetTester tester) async {
+        markActionLogged();
+        log.gate = Completer<void>();
+        await tapAndConfirm(tester, until: find.text(logging));
+        expect(find.text(reset), findsNothing);
+        log.gate!.complete();
+        await swapSnackBars(tester);
+      }
+
+      testWidgets('shows it again when the wait cut it short', (tester) async {
+        log.result = _result();
+        await pumpHost(tester);
+        await showReset(tester);
+
+        await logInsideTheGap(tester);
+
+        expect(find.text(reset), findsOneWidget);
+        await drain(tester);
+      });
+
+      testWidgets('does not repeat it once it ran its time', (tester) async {
+        log.result = _result();
+        await pumpHost(tester);
+        await showReset(tester);
+        await tester.pump(const Duration(seconds: 4));
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text(reset), findsNothing);
+
+        await logInsideTheGap(tester);
+
+        expect(find.text(logged), findsOneWidget);
+        await drain(tester);
+        expect(find.text(reset), findsNothing);
+      });
+    });
+
+    testWidgets('a failed write swaps the message for the error', (
+      tester,
+    ) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..error = Exception('boom');
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+      expect(find.text(logging), findsOneWidget);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(
+        find.text('Something went wrong. Please try again.'),
+        findsOneWidget,
+      );
+      await drain(tester);
+    });
+
+    testWidgets('two waiting logs share one message', (tester) async {
+      markActionLogged();
+      final first = log.gate = Completer<void>();
+      log.result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      final second = log.gate = Completer<void>();
+      await tapAndConfirm(tester);
+      expect(log.calls, hasLength(2));
+      expect(find.text(logging), findsOneWidget);
+
+      first.complete();
+      await swapSnackBars(tester);
+      expect(find.byType(PointsAnimationOverlay), findsOneWidget);
+      expect(find.text(logging), findsOneWidget);
+
+      second.complete();
+      await swapSnackBars(tester);
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+      expect(find.text(logging), findsNothing);
+    });
+
+    testWidgets('a repeat of a log still waiting changes nothing', (
+      tester,
+    ) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      log.pendingIds.add(_walk.id);
+      await tapAndConfirm(tester);
+
+      expect(log.calls, hasLength(1));
+      expect(find.text(logging), findsOneWidget);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
     });
   });
 }

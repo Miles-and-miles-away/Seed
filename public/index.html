@@ -4,39 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Seed - Seed</title>
-<style>
-:root{color-scheme:light dark;--fg:#1f2a1f;--bg:#f7f4ec;--muted:#5b665b;
---accent:#3b7a4a;--card:#fffdf7;--line:#e3ded2}
-@media(prefers-color-scheme:dark){:root{--fg:#ece9df;--bg:#171b17;
---muted:#a8b0a8;--accent:#7cc48d;--card:#1f241f;--line:#2f362f}}
-*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,
-"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--fg);
-background:var(--bg)}main{max-width:44rem;margin:0 auto;padding:2rem 1.25rem 4rem}
-header{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:baseline;
-justify-content:space-between;border-bottom:1px solid var(--line);
-padding-bottom:1rem;margin-bottom:1.5rem}header a{color:var(--accent);
-text-decoration:none;font-weight:600}nav a{margin-right:1rem}
-h1{font-size:1.6rem;margin:.5rem 0 .25rem}h2{font-size:1.15rem;margin:1.75rem 0 .5rem}
-.meta{color:var(--muted);font-size:.9rem}.lang{display:flex;gap:.5rem;
-flex-wrap:wrap;margin:1rem 0 2rem}.lang a{padding:.25rem .75rem;border:1px solid
-var(--line);border-radius:999px;color:var(--fg);text-decoration:none;
-font-size:.9rem}section[lang]{padding-top:1rem}section[lang]+section[lang]{
-border-top:1px solid var(--line);margin-top:2.5rem}ul{padding-left:1.25rem}
-ol{padding-left:1.25rem}code{background:var(--card);border:1px solid var(--line);
-padding:.05rem .35rem;border-radius:4px}
-</style>
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/landing.css">
 </head>
 <body>
 <main>
 <header>
 <a href="/">Seed</a>
-<nav><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Service</a>
-<a href="/delete-account">Delete Account</a></nav>
+<nav><a href="/privacy"><span lang="en">Privacy Policy</span><span lang="ja" hidden>プライバシーポリシー</span><span lang="es" hidden>Política de privacidad</span></a><a href="/terms"><span lang="en">Terms of Service</span><span lang="ja" hidden>利用規約</span><span lang="es" hidden>Términos de servicio</span></a>
+<a href="/delete-account"><span lang="en">Delete Account</span><span lang="ja" hidden>アカウントを削除</span><span lang="es" hidden>Eliminar cuenta</span></a></nav>
 </header>
-<h1>Seed</h1>
-
-<div class="lang"></div>
-<section lang="en" id="en"><p>Seed is a sustainability habit tracker for iOS and Android.</p><p>Support: <a href="mailto:support@seedahabit.com">support@seedahabit.com</a></p><ul><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li><li><a href="/delete-account">Delete your account</a></li></ul></section>
+<h1><span lang="en">Seed</span><span lang="ja" hidden>Seed</span><span lang="es" hidden>Seed</span></h1>
+<div lang="en"><img class="hero" src="/images/seed-preview.webp" width="1400" height="744" alt="Four Seed screens: the home screen with the mascot, logging an action, the Climate Action goal, and the fact pairs game"></div><div lang="ja" hidden><img class="hero" src="/images/seed-preview.webp" width="1400" height="744" alt="Seedの4つの画面：マスコットのいるホーム画面、アクションの記録、目標「気候変動に具体的な対策を」、ファクトペアのゲーム"></div><div lang="es" hidden><img class="hero" src="/images/seed-preview.webp" width="1400" height="744" alt="Cuatro pantallas de Seed: la pantalla de inicio con la mascota, el registro de una acción, el objetivo «Acción por el clima» y el juego Parejas de datos"></div>
+<select class="lang" aria-label="Language / 言語 / Idioma" hidden><option value="en" lang="en">English</option><option value="ja" lang="ja">日本語</option><option value="es" lang="es">Español</option></select>
+<section lang="en" id="en"><p class="lead">Grow your sustainability habits</p><a class="btn" href="/beta">Help test Seed: join the beta</a><p>Seed is a free daily habit tracker for sustainability. Log the everyday things you already do, or want to do more of: taking the train instead of driving, a meat-free dinner, drying washing on the line. Each one earns points based on roughly how much CO2 it saves, and your mascot grows as you go.</p><p>The estimates come from published research and official data, with sources cited in the app, and actions are linked to the UN Sustainable Development Goals. There are daily and longer challenges, an Eco-Dex of facts you unlock as you log, a couple of quiz games, and calculators for comparing journeys, meals and home appliances. Seed is in English, Japanese and Spanish.</p><h2>Support</h2><p><a href="mailto:support@seedahabit.com">support@seedahabit.com</a></p><ul><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li><li><a href="/delete-account">Delete Account</a></li></ul></section><section lang="ja" id="ja"><p class="lead">サステナブルな習慣を育てよう</p><a class="btn" href="/beta">Seedのテストに参加する</a><p>Seedは、サステナブルな暮らしのための無料の習慣トラッカーです。車の代わりに電車を使う、肉を使わない夕食にする、洗濯物を外に干すなど、すでにしていることや、もっと増やしたいことを記録しましょう。アクションごとに減らせるCO2のおおよその量に応じてポイントがもらえ、マスコットも成長していきます。</p><p>推定値は公表された研究や公的なデータに基づいており、出典はアプリ内に記載しています。アクションは国連の持続可能な開発目標（SDGs）と結びついています。毎日のチャレンジや複数日チャレンジ、記録するたびに地球の豆知識が解放されるエコ図鑑、ちょっとしたクイズゲーム、移動・食事・家電を比べられる計算ツールもあります。Seedは英語、日本語、スペイン語に対応しています。</p><h2>サポート</h2><p><a href="mailto:support@seedahabit.com">support@seedahabit.com</a></p><ul><li><a href="/privacy">プライバシーポリシー</a></li><li><a href="/terms">利用規約</a></li><li><a href="/delete-account">アカウントを削除</a></li></ul></section><section lang="es" id="es"><p class="lead">Cultiva tus hábitos sostenibles</p><a class="btn" href="/beta">Ayuda a probar Seed: únete a la prueba</a><p>Seed es una aplicación gratuita para crear hábitos sostenibles en el día a día. Registra lo que ya haces, o lo que quieres hacer más: ir en tren en vez de en coche, una cena sin carne, tender la ropa. Cada acción suma puntos según una estimación del CO2 que ahorra, y tu mascota crece contigo.</p><p>Las estimaciones se basan en investigaciones publicadas y datos oficiales, con las fuentes citadas en la aplicación, y las acciones están vinculadas a los Objetivos de Desarrollo Sostenible de la ONU. Hay desafíos diarios y más largos, un Eco-Dex de datos que desbloqueas a medida que registras acciones, un par de juegos de preguntas y calculadoras para comparar trayectos, comidas y electrodomésticos. Seed está disponible en inglés, japonés y español.</p><h2>Soporte</h2><p><a href="mailto:support@seedahabit.com">support@seedahabit.com</a></p><ul><li><a href="/privacy">Política de privacidad</a></li><li><a href="/terms">Términos de servicio</a></li><li><a href="/delete-account">Eliminar cuenta</a></li></ul></section>
+<script src="/lang.js"></script>
 </main>
 </body>
 </html>

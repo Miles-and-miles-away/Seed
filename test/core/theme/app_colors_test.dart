@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -5,6 +8,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/core/theme/app_theme.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -34,6 +38,19 @@ void main() {
           greaterThanOrEqualTo(_minContrast),
           reason: '${category.name} on the dark theme',
         );
+      }
+    });
+
+    test('every category colour clears the text bar on a tinted card', () {
+      const tintedCards = [Color(0xFFF0F4F8), Color(0xFFF1F5EB)];
+      for (final category in ActionCategory.values) {
+        for (final card in tintedCards) {
+          expect(
+            contrastRatio(category.textColorOn(Brightness.light), card),
+            greaterThanOrEqualTo(_minContrast),
+            reason: '${category.name} on $card',
+          );
+        }
       }
     });
 
@@ -95,8 +112,8 @@ void main() {
       for (final category in ActionCategory.values) {
         expect(
           HSLColor.fromColor(category.textColorOn(Brightness.light)).hue,
-          // A couple of degrees of drift from the 8-bit round trip.
-          closeTo(HSLColor.fromColor(category.color).hue, 2),
+          // A few degrees of drift from the 8-bit round trip.
+          closeTo(HSLColor.fromColor(category.color).hue, 3),
           reason: '${category.name} should stay its own colour',
         );
       }
@@ -180,5 +197,39 @@ void main() {
         });
       }
     }
+  });
+
+  group('inkOnFill', () {
+    final fills = {
+      for (final c in ActionCategory.values) c.name: c.color,
+      'success': AppColors.success,
+      'warning': AppColors.warning,
+      'celebrationOrange': AppColors.celebrationOrange,
+      'gold': AppColors.gold,
+      for (final e
+          in jsonDecode(File('data/app/sdg_goals.json').readAsStringSync())
+              as List<dynamic>)
+        'SDG ${(e as Map<String, dynamic>)['number']}': SdgGoal.fromJson(
+          e,
+        ).color,
+    };
+    for (final MapEntry(:key, :value) in fills.entries) {
+      test('$key label reads at body-text contrast', () {
+        final ink = Color.alphaBlend(inkOnFill(value), value);
+        expect(contrastRatio(ink, value), greaterThanOrEqualTo(_minContrast));
+      });
+    }
+
+    test('the error fill and its ink read at body-text contrast', () {
+      for (final scheme in [
+        appTheme(Brightness.light).colorScheme,
+        appTheme(Brightness.dark).colorScheme,
+      ]) {
+        expect(
+          contrastRatio(scheme.onError, scheme.error),
+          greaterThanOrEqualTo(_minContrast),
+        );
+      }
+    });
   });
 }

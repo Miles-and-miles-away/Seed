@@ -161,7 +161,7 @@ String _$actionLogRepositoryHash() =>
 ///
 /// keepAlive + one-shot get: the library is read-only reference data,
 /// so a persistent snapshots() listener adds overhead for no benefit.
-/// Content changes ship with reseeds and are picked up on app start.
+/// Cache first: a reseed shows on the start after the one that fetches it.
 
 @ProviderFor(actionLibrary)
 final actionLibraryProvider = ActionLibraryProvider._();
@@ -170,7 +170,7 @@ final actionLibraryProvider = ActionLibraryProvider._();
 ///
 /// keepAlive + one-shot get: the library is read-only reference data,
 /// so a persistent snapshots() listener adds overhead for no benefit.
-/// Content changes ship with reseeds and are picked up on app start.
+/// Cache first: a reseed shows on the start after the one that fetches it.
 
 final class ActionLibraryProvider
     extends
@@ -186,7 +186,7 @@ final class ActionLibraryProvider
   ///
   /// keepAlive + one-shot get: the library is read-only reference data,
   /// so a persistent snapshots() listener adds overhead for no benefit.
-  /// Content changes ship with reseeds and are picked up on app start.
+  /// Cache first: a reseed shows on the start after the one that fetches it.
   ActionLibraryProvider._()
     : super(
         from: null,
@@ -1032,7 +1032,7 @@ final class ActionLogNotifierProvider
   }
 }
 
-String _$actionLogNotifierHash() => r'7bdb777fb4a842af2eace498ba07d3cfde7647a4';
+String _$actionLogNotifierHash() => r'f4ccdcb7dba0a27bb1a4c8f6901340cedeae26d1';
 
 /// Notifier that handles logging actions.
 ///

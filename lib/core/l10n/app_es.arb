@@ -35,14 +35,16 @@
   "homeNoActions": "Aún no hay acciones registradas. ¡Empieza tu aventura!",
   "actionLogTitle": "Registrar acción",
   "actionSearchHint": "Buscar acciones...",
-  "actionLogged": "¡Acción registrada! Has ganado {points} puntos",
+  "actionLogged": "{points, plural, one{¡Acción registrada! Has ganado 1 punto} other{¡Acción registrada! Has ganado {points} puntos}}",
   "@actionLogged": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
+  "actionLogging": "Registrando tu acción...",
   "noActionsFound": "No se han encontrado acciones",
   "actionHistoryTitle": "Historial de acciones",
   "today": "Hoy",
@@ -53,7 +55,8 @@
   "@pointsLabel": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -61,19 +64,12 @@
   "@levelLabel": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
   "stageWithLevel": "{stage} (Nivel {level})",
-  "streakLabel": "Racha de {days} días",
-  "@streakLabel": {
-    "placeholders": {
-      "days": {
-        "type": "int"
-      }
-    }
-  },
   "co2Saved": "{amount} CO₂ ahorrado",
   "@co2Saved": {
     "placeholders": {
@@ -95,7 +91,8 @@
   "@mascotEvolution": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -121,7 +118,8 @@
   "@profileNextLevel": {
     "placeholders": {
       "points": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -129,7 +127,8 @@
   "@profileDaysActive": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -137,13 +136,13 @@
   "@profileEvolutionStage": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
   "settingsTitle": "Ajustes",
   "settingsNotifications": "Notificaciones",
-  "settingsReminderTime": "Recordatorio diario",
   "settingsLanguage": "Idioma",
   "settingsTheme": "Tema",
   "settingsThemeSystem": "Sistema",
@@ -167,11 +166,13 @@
   "categoryAdvocacy": "Activismo",
   "categoryLearning": "Aprendizaje",
   "errorGeneric": "Algo ha ido mal. Inténtalo de nuevo.",
+  "startupFailed": "Seed no ha podido iniciarse. Cierra la aplicación y vuelve a abrirla.",
   "errorNetwork": "Sin conexión a internet.",
   "errorAuth": "Error de autenticación. Inténtalo de nuevo.",
   "errorOpenLink": "No se ha podido abrir el enlace.",
   "errorActionTooSoon": "Espera unos segundos entre acciones.",
-  "errorActionRejected": "No se ha podido registrar la acción. Comprueba que la fecha y la hora del dispositivo se ajustan automáticamente y vuelve a intentarlo.",
+  "errorActionRejected": "No se ha podido registrar la acción. Espera unos segundos y vuelve a intentarlo. Si vuelve a fallar, comprueba que la fecha y la hora del dispositivo se ajustan automáticamente.",
+  "errorSavingTooLarge": "Un ahorro de más de {limit} es demasiado grande para registrarlo como una sola acción. Comprueba las distancias y las cantidades.",
   "errorLogActionOffline": "No se puede registrar una acción sin conexión. Comprueba tu conexión e inténtalo de nuevo.",
   "errorAuthEmailInUse": "Ya existe una cuenta con este correo electrónico.",
   "errorAuthInvalidEmail": "Introduce un correo electrónico válido.",
@@ -212,15 +213,6 @@
   "languagePickerTitle": "Elige tu idioma",
   "languagePickerHint": "Puedes cambiarlo cuando quieras en Ajustes.",
   "languageCurrentLabel": "Idioma: {language}",
-  "settingsNotificationsSubtitle": "{count} recordatorios activados",
-  "@settingsNotificationsSubtitle": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsNotificationsOff": "Las notificaciones están desactivadas",
   "settingsLanguageSubtitle": "{language}",
   "@settingsLanguageSubtitle": {
     "placeholders": {
@@ -235,6 +227,9 @@
   "accountSettingsEmail": "Correo electrónico",
   "accountSettingsChangeEmail": "Cambiar correo",
   "accountSettingsChangePassword": "Cambiar contraseña",
+  "accountSettingsYourData": "Tus datos",
+  "accountSettingsExportData": "Descargar mis datos",
+  "accountSettingsExportDataSubtitle": "Una copia de todo lo que Seed guarda de tu cuenta",
   "accountSettingsDeleteAccount": "Eliminar cuenta",
   "accountSettingsDeleteAccountWarning": "Esta acción no se puede deshacer. Todos tus datos se eliminarán de forma permanente.",
   "accountSettingsDeleteConfirmTitle": "¿Eliminar cuenta?",
@@ -247,6 +242,7 @@
   "accountSettingsConfirmNewPassword": "Confirmar nueva contraseña",
   "accountSettingsPasswordMismatch": "Las contraseñas no coinciden",
   "accountSettingsEmailUpdated": "Correo actualizado correctamente",
+  "accountSettingsEmailLinkSent": "Hemos enviado un enlace a tu nueva dirección de correo. Ábrelo para completar el cambio.",
   "accountSettingsPasswordUpdated": "Contraseña actualizada correctamente",
   "accountSettingsReauthRequired": "Vuelve a introducir tu contraseña para continuar",
   "accountSettingsProfile": "Perfil",
@@ -260,11 +256,12 @@
   "aboutSettingsPrivacy": "Política de privacidad",
   "aboutSettingsTerms": "Términos de servicio",
   "streakMilestoneTitle": "¡Increíble!",
-  "streakMilestoneWeeks": "¡Racha de {count} semanas!",
+  "streakMilestoneWeeks": "{count, plural, one{¡Racha de {count} semana!} other{¡Racha de {count} semanas!}}",
   "@streakMilestoneWeeks": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -272,7 +269,8 @@
   "@streakMilestoneDays": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -280,14 +278,6 @@
   "streakMilestoneContinue": "Continuar",
   "streakBrokenTitle": "Racha interrumpida",
   "streakBrokenMessage": "¡No te preocupes! Empieza una nueva racha hoy.",
-  "streakBrokenPrevious": "Racha anterior: {count} días",
-  "@streakBrokenPrevious": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "streakBrokenStartNew": "Empezar una nueva racha",
   "sortLabel": "Ordenar",
   "sortButtonTooltip": "Ordenar: {option}",
@@ -307,13 +297,13 @@
   "sortPointsLowToHigh": "Puntos (de menor a mayor)",
   "filterBySDG": "Filtrar por ODS",
   "allCategories": "Todos",
-  "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "Tu impacto",
   "sdgActionsLogged": "{count, plural, one{{count} acción registrada} other{{count} acciones registradas}}",
   "@sdgActionsLogged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -358,6 +348,23 @@
     }
   },
   "eggDiscoverySubtitle": "Registra acciones todos los días durante 30 días para que eclosione.",
+  "eggDaysLeftHint": "{count, plural, one{Registra acciones {count} día más para que tu huevo eclosione.} other{Registra acciones {count} días más para que tu huevo eclosione.}} Si te saltas un día, la cuenta empieza de nuevo.",
+  "@eggDaysLeftHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eggStreakResetMessage": "Te has saltado un día, así que la cuenta de tu huevo ha vuelto a empezar.",
+  "speciesUnlockHint": "Cuando un compañero llega al nivel {level}, encuentras un huevo. De él eclosiona un nuevo compañero.",
+  "@speciesUnlockHint": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "eggDiscoveryDismiss": "¡Qué emocionante!",
   "eggHatchingTitle": "¡Está eclosionando!",
   "eggHatchingNamePrompt": "Dale un nombre a tu nuevo compañero",
@@ -366,10 +373,12 @@
   "@eggProgressLabel": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -384,34 +393,97 @@
   "sdgAboutGoal": "Acerca de este objetivo",
   "sdgViewTargets": "Ver metas",
   "sdgTargetsTitle": "Metas de la ONU",
-  "notifSettingsTitle": "Ajustes de notificaciones",
-  "notifSectionNotifications": "Notificaciones",
-  "notifEnableTitle": "Activar notificaciones",
-  "notifEnableSubtitle": "Recibe recordatorios diarios para registrar acciones",
-  "notifSmartTitle": "Recordatorios inteligentes",
-  "notifSmartOnlyTitle": "Recordar solo si hoy no hay acciones",
-  "notifSmartOnlySubtitle": "Omitir los recordatorios los días en que ya hayas registrado algo",
-  "notifSmartDescription": "Cuando está activado, los recordatorios solo aparecerán si no has registrado acciones sostenibles ese día.",
-  "notifReminderTimesTitle": "Horas de recordatorio",
-  "notifNoReminders": "Sin recordatorios configurados",
-  "notifAddReminder": "Añade un recordatorio para recibir avisos",
-  "notifAddReminderTime": "Añadir hora de recordatorio",
-  "notifMaxReminders": "Máximo 5 recordatorios",
-  "notifEditTime": "Editar hora del recordatorio",
-  "notifSelectTime": "Seleccionar hora del recordatorio",
-  "notifLabelTitle": "Etiqueta del recordatorio",
-  "notifLabelHint": "Ej.: Por la mañana, Al salir del trabajo...",
-  "notifLabelOptional": "Etiqueta (opcional)",
-  "notifDeleteTitle": "¿Eliminar recordatorio?",
-  "notifDeleteMessage": "¿Eliminar el recordatorio de las {time}?",
-  "@notifDeleteMessage": {
+  "notifDailyReminder": "Recordatorio del desafío diario",
+  "notifDailyReminderSubtitle": "Un aviso si el eco-dato de hoy sigue bloqueado",
+  "notifReminderTime": "Hora del recordatorio",
+  "notifReminderTitle": "El eco-dato de hoy te espera",
+  "notifReminderBody": "Completa el desafío de hoy para desbloquearlo.",
+  "notifActionReminders": "Recordatorios de acciones",
+  "notifActionRemindersSubtitle": "Los recordatorios que creas en las acciones",
+  "notifActionReminderBody": "Tu recordatorio de hoy. Toca para registrarlo cuando lo hayas hecho.",
+  "notifStyle": "Estilo de las notificaciones",
+  "notifStyleSubtitle": "Sonido, vibración y banners, en los ajustes del teléfono",
+  "notifBlocked": "Las notificaciones de Seed están desactivadas. Actívalas en los ajustes del teléfono.",
+  "notifBlockedTitle": "Las notificaciones están bloqueadas",
+  "notifBlockedSubtitle": "Toca para permitirlas en los ajustes del teléfono",
+  "notifOpenSettings": "Abrir ajustes",
+  "reminderSheetTitle": "Recuérdamelo",
+  "reminderSetTooltip": "Crear recordatorio",
+  "reminderEditTooltip": "Editar recordatorio",
+  "reminderPausedTooltip": "Editar recordatorio (los recordatorios de acciones están desactivados)",
+  "reminderDays": "Días",
+  "reminderForever": "Siempre",
+  "reminderRepeat": "Número de veces",
+  "reminderRepeatCount": "{count, plural, =1{1 vez} other{{count} veces}}",
+  "@reminderRepeatCount": {
     "placeholders": {
-      "time": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "reminderFewer": "Menos veces",
+  "reminderMore": "Más veces",
+  "reminderLastDay": "Último recordatorio: {date}",
+  "@reminderLastDay": {
+    "placeholders": {
+      "date": {
         "type": "String"
       }
     }
   },
-  "notifAdd": "Añadir",
+  "reminderSaved": "Recordatorio guardado",
+  "reminderLimit": "Puedes tener hasta {max} recordatorios de acciones.",
+  "@reminderLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "reminderSummary": "{days} {hour, plural, =1{a la} other{a las}} {time}",
+  "@reminderSummary": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "reminderSummaryUntil": "{days} {hour, plural, =1{a la} other{a las}} {time}, hasta el {date}",
+  "@reminderSummaryUntil": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "hour": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderDaySeparator": ", ",
+  "reminderManage": "Gestionar",
+  "remindersTitle": "Recordatorios",
+  "reminderManageTitle": "Gestionar recordatorios",
+  "reminderManageSubtitle": "Desafío diario y recordatorios de acciones",
+  "reminderListIntro": "Crea un recordatorio con la campana de cualquier acción, hasta {max}. Toca uno para cambiarlo o eliminarlo.",
+  "reminderListEmpty": "Aún no tienes recordatorios de acciones.",
+  "reminderEveryDay": "Todos los días",
   "settingsPreferences": "Preferencias",
   "settingsVersionFormat": "Versión {version}",
   "@settingsVersionFormat": {
@@ -421,36 +493,13 @@
       }
     }
   },
-  "settingsNoReminders": "Sin recordatorios configurados",
-  "settingsRemindersCount": "{count} recordatorios configurados",
-  "@settingsRemindersCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "settingsOneReminder": "1 recordatorio configurado",
-  "settingsTapToAddReminders": "Toca para añadir recordatorios",
-  "settingsAllRemindersDisabled": "Todos los recordatorios desactivados",
-  "settingsRemindersPlusMore": "{time} + {count} más",
-  "@settingsRemindersPlusMore": {
-    "placeholders": {
-      "time": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "settingsErrorLoading": "Error al cargar los ajustes",
   "settingsSupport": "Soporte",
   "settingsFeedback": "Enviar comentarios",
   "settingsFeedbackSubtitle": "Informa de un error o cuéntanos tu opinión",
   "aboutLegal": "Legal",
   "aboutFooterSdg": "Seed ayuda a registrar acciones sostenibles alineadas con los Objetivos de Desarrollo Sostenible de la ONU.",
-  "aboutFooterMade": "Hecho con cariño por nuestro planeta.",
+  "aboutFooterMade": "Hecho con cariño para nuestro planeta.",
   "aboutSdgIconsCredit": "Iconos de los ODS: Naciones Unidas",
   "aboutSubtitleTracker": "Seed - Seguimiento de hábitos sostenibles",
   "feedbackTitle": "Enviar comentarios",
@@ -475,7 +524,8 @@
   "@mascotLevelShort": {
     "placeholders": {
       "level": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -483,7 +533,8 @@
   "@mascotLevelsToGo": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -491,10 +542,12 @@
   "@mascotLevelProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "max": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -520,7 +573,8 @@
   "@sdgGoalNumber": {
     "placeholders": {
       "number": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -566,7 +620,8 @@
   "@pointsAbbreviated": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -574,7 +629,8 @@
   "@stageFallback": {
     "placeholders": {
       "stage": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -584,6 +640,25 @@
   "ecoFactTitle": "Eco-dato del día",
   "ecoFactDidYouKnow": "¿Sabías que...?",
   "ecoFactSource": "Fuente",
+  "labelPrefix": "{label}: ",
+  "@labelPrefix": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "sentencePair": "{first} {second}",
+  "@sentencePair": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
   "ecoFactLocked": "¡Completa el desafío de hoy para desbloquear este dato!",
   "ecoFactInboxTitle": "Bandeja de entrada",
   "ecoFactInboxEmpty": "Aún no hay correo. Completa el desafío de hoy para recibir tu primer eco-dato.",
@@ -625,11 +700,12 @@
       }
     }
   },
-  "challengeStreakDays": "Racha de desafíos: {days} días",
+  "challengeStreakDays": "{days, plural, one{Racha de desafíos: {days} día} other{Racha de desafíos: {days} días}}",
   "@challengeStreakDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -637,10 +713,12 @@
   "@challengeMultiDayProgress": {
     "placeholders": {
       "current": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "target": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -657,7 +735,8 @@
   "@challengeDays": {
     "placeholders": {
       "days": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -681,6 +760,7 @@
   "trendChartTitle": "Tendencia diaria",
   "trendChartAverageLabel": "media",
   "trendChartTrendLabel": "tendencia",
+  "trendChartSemantics": "{days, plural, =1{CO2 ahorrado en 1 día} other{CO2 ahorrado al día durante {days} días}}. Media de {average} al día; máximo, {peak}.",
   "categoryChartTitle": "Por categoría",
   "categoryOther": "Otros",
   "equivalentToHeader": "Equivale a",
@@ -710,10 +790,12 @@
   "@ecoDexProgress": {
     "placeholders": {
       "discovered": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       },
       "total": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -729,7 +811,8 @@
   "@ecoDexDiscoveryMoreQueued": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -801,17 +884,17 @@
   "calculatorBrowseAll": "Ver todo",
   "transportColumnEmptyHint": "Toca «Añadir tramo» para empezar este trayecto",
   "calculatorNeedBothOptions": "Crea ambas opciones para compararlas",
+  "calculatorSameEmissions": "Ambas opciones tienen las mismas emisiones, así que no hay ahorro que registrar",
   "calculatorRemoveEntry": "Quitar",
   "scienceNotesHeading": "Cómo se calcula",
   "scienceSourcesHeading": "Fuentes",
   "scienceAccessed": "Consultado el {date}",
   "transportComparisonFull": "Comparación completa ({max} opciones)",
-  "transportCompareOptions": "Comparar {count} opciones",
   "transportOptionStaged": "Opción {count} añadida",
   "transportComparisonDelta": "{label} emite {amount} CO2e menos que {worse} ({percent}% menos)",
   "transportComparisonTreesEquiv": "Equivale a unos {count} árboles absorbiendo CO2 durante un año",
   "transportMethodologyTitle": "Metodología y fuentes",
-  "transportMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los medios eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que no tienen por qué añadirse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya se miden por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Según DESNZ 2025, los factores de vuelos y jets privados incluyen un recargo de 1,7 (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo recargo, así que se comparan en igualdad de condiciones.\n\n### Medios eléctricos y la red\nLos coches eléctricos, las bicis y los patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de {grid} g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Medias, no tu trayecto exacto\nLos factores son medias por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos medios están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.",
+  "transportMethodologyBody": "Cada cifra de esta herramienta es una estimación con fines educativos, trazable a las fuentes indicadas abajo.\n\n### Qué se cuenta\nSolo la energía operativa: el combustible que queman los motores y la electricidad generada para los medios eléctricos. Se excluyen la fabricación de vehículos y las infraestructuras. Caminar e ir en bici cuentan como cero por convención: las calorías que gastas quedan fuera, ya que no tienen por qué añadirse a una dieta normal.\n\n### Ocupación\nLos coches y taxis se miden por vehículo, así que su huella se divide entre las personas a bordo. Autobuses, trenes y vuelos ya se miden por pasajero, con una ocupación típica.\n\n### Vuelos y forzamiento radiativo\nLos aviones calientan el clima más allá de su CO2 mediante estelas y efectos de gran altitud. Según DESNZ 2025, los factores de vuelos y jets privados incluyen un recargo de 1,7 (estimación central) sobre el componente de CO2. Los jets privados llevan el mismo recargo, así que se comparan en igualdad de condiciones.\n\n### Medios eléctricos y la red\nLos coches eléctricos, las bicis y los patinetes eléctricos no emiten nada por el tubo de escape; su huella proviene de generar la electricidad. Esta herramienta usa una red media mundial de {grid}\u00A0g CO2e por kWh, que varía mucho según el país y la hora, así que tu cifra real puede ser mayor o menor.\n\n### Medias, no tu trayecto exacto\nLos factores son medias por categoría, no tu vehículo, ruta o estilo de conducción concretos. Úsalos para comparar opciones, no para una contabilidad precisa del carbono.\n\n### Diferencias mínimas\nAlgunos medios están muy cerca: el autocar y el tren, por ejemplo, están a pocos gramos y su orden puede cambiar entre revisiones anuales de factores. Trata las diferencias pequeñas como un empate, no como un ganador claro.",
   "transportLogChoiceTitle": "¿Eliges la opción más ecológica?",
   "transportLogChoiceBody": "Registra esto como una acción de transporte y acumula los {amount} CO2e que evitas al elegir la opción de menor huella.",
   "transportLogChoiceCta": "Registrar {label} como mi elección de hoy",
@@ -834,6 +917,7 @@
   "foodChangeItem": "Cambiar",
   "foodQuantityLabel": "Cantidad (g)",
   "foodQuantityInvalid": "Introduce una cantidad de 0 g o más",
+  "quantityTooLarge": "Ese número es demasiado grande",
   "quantityAmbiguousSeparator": "Escribe los miles sin separador (1500). Para los decimales, sirven tanto 1,5 como 1.5.",
   "foodGramsValue": "{grams}\u00A0g",
   "@foodGramsValue": {
@@ -886,15 +970,8 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int"
-      }
-    }
-  },
-  "foodCompareOptions": "Comparar {count} opciones",
-  "@foodCompareOptions": {
-    "placeholders": {
-      "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -902,7 +979,8 @@
   "@foodOptionStaged": {
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -951,12 +1029,13 @@
   "@foodVerdictBlockedTitle": {
     "description": "Title of the dialog explaining the logging minimum"
   },
-  "foodVerdictTooClose": "Estas dos comidas están a menos del {percent}% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda dentro de lo que la investigación de origen puede distinguir. Arriba tienes ambos totales; simplemente no declaramos una ganadora.",
+  "foodVerdictTooClose": "Estas dos comidas están a menos del {percent}% una de otra. La mayoría de los alimentos de aquí comparten una media con toda una categoría, y muchos están empatados estadísticamente, así que una diferencia tan pequeña queda por debajo de lo que la investigación de origen puede distinguir con fiabilidad. Arriba tienes ambos totales; simplemente no declaramos una ganadora.",
   "@foodVerdictTooClose": {
     "description": "Body: the two meals are inside the data resolution",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -965,7 +1044,8 @@
     "description": "Body: the meals come from different studies",
     "placeholders": {
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -982,11 +1062,12 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
-  "foodComparisonTooClose": "Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda dentro de lo que la investigación de origen puede distinguir, así que mostramos ambos totales sin elegir una ganadora.",
+  "foodComparisonTooClose": "Estas dos opciones están demasiado igualadas. Por debajo de un 20% de diferencia, la distancia entre ambas queda por debajo de lo que la investigación de origen puede distinguir con fiabilidad, así que mostramos ambos totales sin elegir una ganadora.",
   "@foodComparisonTooClose": {
     "description": "Shown instead of a verdict when two meals are within the comparison gate"
   },
@@ -1003,7 +1084,8 @@
         "type": "String"
       },
       "percent": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1011,7 +1093,8 @@
   "@foodComparisonCarKmEquiv": {
     "placeholders": {
       "km": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -1095,13 +1178,13 @@
   "energyGridBasisNote": "Las cifras en gramos suponen la red eléctrica media mundial, {grid} g CO2e/kWh (Ember, datos de 2025)",
   "energyGridBasisNoteRatio": "Las cifras en gramos suponen la red eléctrica media mundial, {grid} g CO2e/kWh (Ember, datos de 2025); el múltiplo se mantiene en cualquier red",
   "energyMethodologyTitle": "Metodología y fuentes",
-  "energyMethodologyBody": "Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos {grid} g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el {grid} de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por alrededor de una octava parte del consumo por hora de un aire acondicionado. Una nevera consume alrededor de 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.",
+  "energyMethodologyBody": "Todas las cifras de esta herramienta son estimaciones para aprender, trazables hasta las fuentes del final.\n\n### Qué se cuenta\nSolo energía operativa: la electricidad o el gas que tu hogar usa mientras haces la actividad. Coincide con el criterio de la calculadora de transporte y difiere a propósito del de la de comida, que cuenta un ciclo de vida completo: nunca sumes resultados de las tres herramientas. El gas cuenta solo la combustión; el término del pozo al tanque (aproximadamente un +17%) se excluye por coherencia con transporte. Aquí no se dan puntos: los hábitos de energía suman puntos en el registro de acciones.\n\n### ¿Por qué un único número para todo el mundo?\nLa electricidad no es igual de limpia en todas partes. La misma carga de secadora cuesta unos 0,6 kg CO2e en la red británica, 1,9 kg en Japón y 3,1 kg en la India: una diferencia de cinco veces para una acción idéntica. De dónde viene tu electricidad (solar, eólica y nuclear, o carbón) puede importar tanto como lo que hagas con ella.\n\nNos planteamos publicar un factor por país y decidimos no hacerlo. La precisión real exigiría tu país, tu región o compañía eléctrica (una sola media de EE. UU. esconde 26 subregiones) e incluso la hora del día, porque una red que funciona con energía solar a mediodía es mucho más limpia que la misma red en el pico de la tarde. Y todos esos números se mueven: el factor oficial del Reino Unido cayó un 26% en una sola revisión anual. Mantener cien cifras que caducan cada una a su ritmo es la mejor manera de equivocarse con confianza en cien sitios en vez de aproximar con honestidad en uno.\n\nAsí que hicimos tres cosas.\n\n**Una cifra global con fecha clara.** Usamos {grid}\u00A0g CO2e por kWh, la media mundial de 2025 publicada por Ember. Es demasiado alta para el Reino Unido o Francia y demasiado baja para la India o Polonia, y lo decimos.\n\n**Comparaciones válidas para todos.** Casi todas las comparaciones aquí son entre dos cosas que usan el mismo tipo de energía: un baño contra una ducha, una secadora contra un tendedero, un lavado caliente contra uno frío. Ahí el factor de red se cancela por completo: un baño cuesta 2,3 veces lo que una ducha de diez minutos en Glasgow, en Tokio o en Delhi. Los valores absolutos cambian con tu red; la comparación no.\n\n**Sin veredicto cuando tu red decide la respuesta.** Gas contra electricidad es la única comparación que de verdad se invierte. Por debajo de unos 241 g CO2e por kWh gana calentar agua con electricidad; por encima, gana el gas. El Reino Unido ya está por debajo de esa línea; Japón, muy por encima. Mostramos ambos números y no declaramos ganador, porque la respuesta honesta depende de dónde vives, no de lo que hayas hecho.\n\nPara comprobar tu propia red, compara el factor que publican tu compañía eléctrica o las estadísticas oficiales de energía con el {grid} de arriba, y sabrás hacia dónde se inclinan estos números en tu caso.\n\n### Dónde está el calor\nTodo lo que genera o mueve calor (duchas, baños, secado, calefacción y aire acondicionado) cuesta entre 20 y 670 veces más que lo que solo produce luz o computación; la lista ordenada de abajo lo muestra. El ventilador es la excepción del grupo de refrigeración: mueve aire, no calor, por aproximadamente una octava parte del consumo por hora de un aire acondicionado. Una nevera consume aproximadamente 1 kWh al día, pero no puedes acortarla como acortas una ducha, así que no está en el selector; su etiqueta de eficiencia importa cuando la reemplazas.\n\nCuatro formas de calentar una habitación, sobre una misma base medida (METI), por hora:\n\n- Aire acondicionado (bomba de calor): 110 g CO2e\n- Estufa de gas: 181 g\n- Estufa de queroseno: 245 g\n- Calefactor eléctrico portátil (resistencia): 550 g\n\nUna bomba de calor emite unas 5 veces menos que un calefactor de resistencia, 1,6 veces menos que el gas y 2,2 veces menos que el queroseno. El queroseno gana a la resistencia eléctrica pero pierde con claridad frente a la bomba de calor: por eso las cuatro se muestran siempre juntas.\n\n### Medido, no nominal\nLas cifras del aire acondicionado son medias medidas de una hora de uso real (Energy Conservation Center vía METI); el valor de catálogo es unas 2,5 veces mayor porque se mide a plena carga. La del kotatsu es la medición media con termostato de los propios fabricantes: unas 8 veces menos que un calefactor portátil, y la cifra menos fiable de este conjunto de datos. Los ajustes de temperatura se limitan a ±2 °C: la regla práctica habitual dice un 13% (frío) / 10% (calor) por grado (Ministerio de Medio Ambiente de Japón), mientras que las mediciones de METI implican 15,2% / 12,6%; trata el ahorro por grado como aproximado, no lineal.\n\n### El standby, con honestidad\nEl consumo en espera por aparato cayó de 1-3 W a unos 0,5 W, pero el número de aparatos creció más deprisa: los hogares usan «aproximadamente la misma energía en espera, ahora repartida entre muchos más productos» (Lawrence Berkeley National Laboratory). El standby ni es trivial ni es el 10% de tu factura.\n\n### Iluminación\nLas cifras de apagar la luz parten de un LED de 8,5 W: unos 15 g por cuatro horas. Con una bombilla incandescente esas mismas cuatro horas son unos 110 g, y cambiar la bombilla ahorra mucho más que apagarla.\n\n### Emisiones evitadas\nLas acciones de segunda mano del registro de acciones (un coche usado, ropa de segunda mano, la biblioteca) premian la decisión de no comprar nuevo. Que dos personas se apunten la misma fabricación evitada es coherente; sumar esos créditos no lo es, porque la fabricación ocurrió una sola vez.",
   "energyRankedTitle": "A dónde va tu energía",
   "energyRankedIntro": "Un uso típico de cada hábito, de mayor a menor, como múltiplo de la energía de una hora de luz LED. Cada fila indica su base (un uso, una hora o un día) debajo del nombre. Esto ordena la energía consumida, que es la parte que deciden tus hábitos.",
   "energyRankedGasNote": "Los aparatos de gas están en la misma lista, porque aquí se ordena por energía. Ojo a un detalle: un calentador de gas usa más energía que uno eléctrico para el mismo baño y, aun así, con la red media mundial de hoy emite menos. Por debajo de unos 241 g CO2e por kWh de electricidad, el resultado se invierte y gana la electricidad. La energía que usas es lo que eliges tú; lo limpia que sea la red depende de tu país y mejora cada año.",
   "energyRankedMultiple": "{multiple}x",
   "energyComparisonNoVerdict": "Aquí no hay ganador",
-  "energyVerdictDifferentGroup": "Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.",
+  "energyVerdictDifferentGroup": "Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría, no un resultado ajustado. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.",
   "energyVerdictDifferentCarrier": "Una funciona con gas y la otra con electricidad, y cuál resulta más limpia depende de la red eléctrica de tu zona, no de lo que hayas hecho. Por debajo de unos 241 g CO2e por kWh gana la eléctrica; por encima, el gas. Por eso se muestran ambas cifras sin declarar un ganador.",
   "energyVerdictTooClose": "La diferencia entre ambas es de menos del {percent}%, dentro de la precisión de las mediciones de origen. Declarar un ganador sería atribuir una exactitud que las fuentes no tienen.",
   "energyUnitSuffixMinute": "min",
@@ -1180,23 +1263,23 @@
   "factRecallFinished": "{correct, plural, one{{correct} acierto de {total}} other{{correct} aciertos de {total}}}",
   "factRecallYourWrongAnswer": "tu respuesta, incorrecta",
   "factRecallTimes": "{count, plural, =1{{multiple} vez} other{{multiple} veces}}",
-  "factRecallBeefTofu": "Por cada 100 g, la carne de vacuno genera cerca de {figure} más CO2e que el tofu.",
-  "factRecallChickenBeans": "Por cada 100 g, el pollo genera cerca de {figure} más CO2e que las alubias y lentejas secas.",
-  "factRecallBeefChicken": "Por cada 100 g, la carne de vacuno genera cerca de {figure} más CO2e que el pollo.",
-  "factRecallMilkOat": "Por cada 100 ml, la leche de vaca genera cerca de {figure} más CO2e que la bebida de avena.",
-  "factRecallFlightShinkansen": "Por pasajero y kilómetro, un vuelo nacional emite cerca de {figure} más CO2e que el Shinkansen.",
-  "factRecallPrivateJet": "Por pasajero y kilómetro, un jet privado emite cerca de {figure} más CO2e que un vuelo de larga distancia en clase turista.",
-  "factRecallBulbs": "Por hora, una bombilla incandescente emite cerca de {figure} más CO2e que una bombilla LED.",
-  "factRecallShowers": "Por minuto, una ducha con agua caliente eléctrica emite cerca de {figure} más CO2e que una con bomba de calor.",
-  "factRecallWashes": "Por colada, un lavado a 60 °C emite cerca de {figure} más CO2e que uno a 20 °C.",
-  "factRecallCooling": "Por hora, un aire acondicionado en modo refrigeración emite cerca de {figure} más CO2e que un ventilador.",
-  "factRecallDishwasher": "Por ciclo, el programa normal del lavavajillas emite cerca de un {figure} más CO2e que el programa eco.",
-  "factRecallLambPork": "Por cada 100 g, el cordero genera cerca de {figure} más CO2e que el cerdo.",
-  "factRecallFerry": "Por pasajero y kilómetro, quien viaja en ferri con coche emite cerca de {figure} más CO2e que quien embarca a pie.",
-  "factRecallDryers": "Por colada, una secadora con resistencia emite cerca de {figure} más CO2e que una con bomba de calor.",
-  "factRecallCarCoach": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de {figure} más CO2e que un autocar de larga distancia.",
-  "factRecallCarBus": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de un {figure} más CO2e que un autobús urbano.",
-  "factRecallCarRail": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite cerca de {figure} más CO2e que el tren nacional o de cercanías.",
+  "factRecallBeefTofu": "Por cada 100 g, la carne de vacuno genera aproximadamente {figure} más CO2e que el tofu.",
+  "factRecallChickenBeans": "Por cada 100 g, el pollo genera aproximadamente {figure} más CO2e que las alubias y lentejas secas.",
+  "factRecallBeefChicken": "Por cada 100 g, la carne de vacuno genera aproximadamente {figure} más CO2e que el pollo.",
+  "factRecallMilkOat": "Por cada 100 ml, la leche de vaca genera aproximadamente {figure} más CO2e que la bebida de avena.",
+  "factRecallFlightShinkansen": "Por pasajero y kilómetro, un vuelo nacional emite aproximadamente {figure} más CO2e que el Shinkansen.",
+  "factRecallPrivateJet": "Por pasajero y kilómetro, un jet privado emite aproximadamente {figure} más CO2e que un vuelo de larga distancia en clase turista.",
+  "factRecallBulbs": "Por hora, una bombilla incandescente emite aproximadamente {figure} más CO2e que una bombilla LED.",
+  "factRecallShowers": "Por minuto, una ducha con agua caliente eléctrica emite aproximadamente {figure} más CO2e que una con bomba de calor.",
+  "factRecallWashes": "Por colada, un lavado a 60 °C emite aproximadamente {figure} más CO2e que uno a 20 °C.",
+  "factRecallCooling": "Por hora, un aire acondicionado en modo refrigeración emite aproximadamente {figure} más CO2e que un ventilador.",
+  "factRecallDishwasher": "Por ciclo, el programa normal del lavavajillas emite aproximadamente un {figure} más CO2e que el programa eco.",
+  "factRecallLambPork": "Por cada 100 g, el cordero genera aproximadamente {figure} más CO2e que el cerdo.",
+  "factRecallFerry": "Por pasajero y kilómetro, quien viaja en ferri con coche emite aproximadamente {figure} más CO2e que quien embarca a pie.",
+  "factRecallDryers": "Por carga, una secadora con resistencia emite aproximadamente {figure} más CO2e que una con bomba de calor.",
+  "factRecallCarCoach": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente {figure} más CO2e que un autocar de larga distancia.",
+  "factRecallCarBus": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente un {figure} más CO2e que un autobús urbano.",
+  "factRecallCarRail": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente {figure} más CO2e que el tren nacional o de cercanías.",
   "walkthroughIntro1": "Hola, soy {name}. Seed convierte las pequeñas decisiones de cada día en un hábito, y yo crezco contigo.",
   "walkthroughIntro2": "Aquí hay más de lo que parece. He hecho una lista de cosas por descubrir. Todo lo que brilla en dorado aún te espera.",
   "walkthroughItemLogAction": "Registra tu primera acción",

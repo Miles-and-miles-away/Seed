@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/app_colors.dart';
 import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 /// A horizontally scrolling carousel of SDG goal
@@ -191,7 +191,7 @@ class SdgCard extends StatelessWidget {
               child: Text(
                 goal.shortTitle(locale),
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: Colors.white,
+                  color: inkOnFill(goal.color),
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,

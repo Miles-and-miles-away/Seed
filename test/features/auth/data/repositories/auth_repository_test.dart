@@ -199,6 +199,7 @@ void main() {
     test('ensureUserDoc creates only via createUserIfAbsent', () async {
       final user = fakeFirebaseUser();
       when(() => authDs.currentUser).thenReturn(user);
+      when(user.reload).thenAnswer((_) async {});
       when(
         () => userDs.createUserIfAbsent(
           any(),
@@ -215,14 +216,66 @@ void main() {
         ),
       ).captured;
       final created = captured.first as AppUserModel;
-      final isCurrent = captured.last as bool Function();
+      final isCurrent = captured.last as Future<bool> Function();
       expect(created.uid, uid);
       expect(created.email, email);
       expect(created.language, 'es');
-      expect(isCurrent(), isTrue);
+      expect(await isCurrent(), isTrue);
       when(() => authDs.currentUser).thenReturn(null);
-      expect(isCurrent(), isFalse);
+      expect(await isCurrent(), isFalse);
       verifyNever(() => userDs.createUser(any()));
+    });
+
+    test('ensureUserDoc does not recreate a deleted account', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(
+        user.reload,
+      ).thenThrow(FirebaseAuthException(code: 'user-not-found'));
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final isCurrent =
+          verify(
+                () => userDs.createUserIfAbsent(
+                  any(),
+                  isCurrent: captureAny(named: 'isCurrent'),
+                ),
+              ).captured.single
+              as Future<bool> Function();
+      expect(await isCurrent(), isFalse);
+    });
+
+    test('ensureUserDoc rethrows a reload that failed offline', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(
+        user.reload,
+      ).thenThrow(FirebaseAuthException(code: 'network-request-failed'));
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final isCurrent =
+          verify(
+                () => userDs.createUserIfAbsent(
+                  any(),
+                  isCurrent: captureAny(named: 'isCurrent'),
+                ),
+              ).captured.single
+              as Future<bool> Function();
+      await expectLater(isCurrent(), throwsA(isA<FirebaseAuthException>()));
     });
 
     test('ensureUserDoc does nothing when signed out', () async {
@@ -260,6 +313,23 @@ void main() {
       expect(result.email, email);
       expect(result.emailVerified, isFalse);
       verify(() => authDs.sendEmailVerification()).called(1);
+      verify(() => userDs.createUser(any())).called(1);
+    });
+
+    test('creates the Firestore doc even when the send fails', () async {
+      final user = fakeFirebaseUser(emailVerified: false);
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.createUserWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
+      when(() => authDs.sendEmailVerification()).thenThrow(Exception('send'));
+      when(() => userDs.createUser(any())).thenAnswer((_) async {});
+
+      await expectLater(
+        repository.createUserWithEmailAndPassword(email, 'pw', language: 'es'),
+        throwsException,
+      );
       verify(() => userDs.createUser(any())).called(1);
     });
 

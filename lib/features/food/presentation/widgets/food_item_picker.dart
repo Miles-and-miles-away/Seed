@@ -197,10 +197,11 @@ class _ItemTile extends StatelessWidget {
     // rather than only in the science sheet -- the picker is where the
     // number is first read, and a narrower-boundary row shown bare next
     // to the anchors invites a comparison it cannot support.
-    final caveats = [
-      foodWeightBasisLabel(l10n, item),
-      foodBoundaryNoteLabel(l10n, item),
-    ].nonNulls.join(' ');
+    final basis = foodWeightBasisLabel(l10n, item);
+    final boundary = foodBoundaryNoteLabel(l10n, item);
+    final caveats = basis != null && boundary != null
+        ? l10n.sentencePair(basis, boundary)
+        : basis ?? boundary ?? '';
     final factor = foodItemFactorWithServingLabel(l10n, item, locale);
     return ListTile(
       isThreeLine: caveats.isNotEmpty,

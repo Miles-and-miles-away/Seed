@@ -6,9 +6,11 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/core/utils/helpers.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
+import 'package:seed_app/features/actions/presentation/utils/handle_action_tap.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_log_confirmation_dialog.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_log_item.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
@@ -138,7 +140,9 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: spacingLg),
                 child: Text(
-                  l10n.dayDetailNoActions,
+                  logsAsync.hasError
+                      ? l10n.errorGeneric
+                      : l10n.dayDetailNoActions,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -212,28 +216,36 @@ class _DayDetailBottomSheetState extends ConsumerState<DayDetailBottomSheet> {
       confirmLabel: l10n.actionReproduce,
     );
     if (!confirmed || !mounted) return;
+    // The notifier drops a repeat of a log still waiting or in flight.
+    if (ref.read(actionLogProvider.notifier).isPending(log.actionId)) return;
     // Rebuild an ActionModel from the log; the still-present custom
     // template makes the relaxed actionLog rule accept the re-log.
-    final result = await ref
-        .read(actionLogProvider.notifier)
-        .logAction(
-          ActionModel(
-            id: log.actionId,
-            nameEn: log.actionName,
-            nameJa: log.actionName,
-            nameEs: log.actionName,
-            category: log.category,
-            points: log.points,
-            co2Grams: log.co2Grams,
-            relatedSdgs: log.relatedSdgs,
-          ),
-          languageCode: Localizations.localeOf(context).languageCode,
-        );
+    final result = await logActionWithWaitMessage(
+      context,
+      ref,
+      ActionModel(
+        id: log.actionId,
+        nameEn: log.actionName,
+        nameJa: log.actionName,
+        nameEs: log.actionName,
+        category: log.category,
+        points: log.points,
+        co2Grams: log.co2Grams,
+        relatedSdgs: log.relatedSdgs,
+      ),
+      languageCode: Localizations.localeOf(context).languageCode,
+      countsAsUnique: false,
+    );
     if (!mounted) return;
+    final logState = ref.read(actionLogProvider);
+    // Null with no error: the same log is already in flight.
+    if (result == null && (logState.isLoading || !logState.hasError)) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          result != null ? l10n.actionReproducedMessage : l10n.errorGeneric,
+          result != null
+              ? l10n.actionReproducedMessage
+              : logErrorMessage(context, logState.error),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/shared/widgets/balanced_text.dart';
 
@@ -24,5 +25,17 @@ void main() {
     test('returns -1 when a single word already exceeds max width', () {
       expect(balancedBreakIndex([50, 10], 2, 40), -1);
     });
+  });
+
+  testWidgets('leaves Japanese text to wrap by character', (tester) async {
+    const ja = 'CO2を10 kg削減';
+    await tester.pumpWidget(
+      const Directionality(
+        textDirection: TextDirection.ltr,
+        child: Center(child: SizedBox(width: 120, child: BalancedText(ja))),
+      ),
+    );
+
+    expect(find.text(ja), findsOneWidget);
   });
 }

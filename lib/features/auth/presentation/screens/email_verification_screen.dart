@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:seed_app/app/router.dart';
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
@@ -22,6 +25,21 @@ class EmailVerificationScreen extends ConsumerStatefulWidget {
 class _EmailVerificationScreenState
     extends ConsumerState<EmailVerificationScreen> {
   bool _checkingVerification = false;
+  Timer? _resendCooldown;
+  late final AppLifecycleListener _lifecycle;
+
+  @override
+  void initState() {
+    super.initState();
+    _lifecycle = AppLifecycleListener(onResume: _recheckOnResume);
+  }
+
+  @override
+  void dispose() {
+    _lifecycle.dispose();
+    _resendCooldown?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,107 +62,114 @@ class _EmailVerificationScreenState
           onPressed: _handleSignOut,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(spacingXxl),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(spacingXxl),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer,
-                shape: BoxShape.circle,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(spacingXxl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(spacingXxl),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.mark_email_unread_outlined,
+                  size: 64,
+                  color: theme.colorScheme.primary,
+                ),
               ),
-              child: Icon(
-                Icons.mark_email_unread_outlined,
-                size: 64,
-                color: theme.colorScheme.primary,
+              const SizedBox(height: spacingXxxl),
+              Text(
+                l10n.authCheckEmail,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: spacingXxxl),
-            Text(
-              l10n.authCheckEmail,
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: spacingLg),
+              Text(
+                l10n.authVerificationSentTo,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: spacingLg),
-            Text(
-              l10n.authVerificationSentTo,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+              const SizedBox(height: spacingSm),
+              Text(
+                userEmail,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: spacingSm),
-            Text(
-              userEmail,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
+              const SizedBox(height: spacingLg),
+              Text(
+                l10n.authVerifyInstructions,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: spacingLg),
-            Text(
-              l10n.authVerifyInstructions,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+              const SizedBox(height: spacingXxxl),
+              FilledButton.icon(
+                onPressed: (isLoading || _checkingVerification)
+                    ? null
+                    : _checkEmailVerified,
+                icon: _checkingVerification
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.check_circle_outline),
+                label: Text(
+                  _checkingVerification
+                      ? l10n.authChecking
+                      : l10n.authVerifiedButton,
+                ),
+                style: FilledButton.styleFrom(
+                  minimumSize: const Size.fromHeight(spacingHuge),
+                ),
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: spacingXxxl),
-            FilledButton.icon(
-              onPressed: (isLoading || _checkingVerification)
-                  ? null
-                  : _checkEmailVerified,
-              icon: _checkingVerification
-                  ? const SizedBox(
-                      height: 18,
-                      width: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Icon(Icons.check_circle_outline),
-              label: Text(
-                _checkingVerification
-                    ? l10n.authChecking
-                    : l10n.authVerifiedButton,
+              const SizedBox(height: spacingLg),
+              OutlinedButton.icon(
+                onPressed: (isLoading || _resendCooldown != null)
+                    ? null
+                    : () async {
+                        await ref
+                            .read(authProvider.notifier)
+                            .resendVerificationEmail();
+                        // listenAuthResult already reported a failure.
+                        if (!context.mounted ||
+                            ref.read(authProvider).hasError) {
+                          return;
+                        }
+                        _startResendCooldown();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.authVerificationSent)),
+                        );
+                      },
+                icon: isLoading
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.refresh),
+                label: Text(l10n.authResendEmail),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(spacingHuge),
+                ),
               ),
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(spacingHuge),
+              const SizedBox(height: spacingXxxl),
+              TextButton(
+                onPressed: isLoading ? null : _handleSignOut,
+                child: Text(l10n.authDifferentEmail),
               ),
-            ),
-            const SizedBox(height: spacingLg),
-            OutlinedButton.icon(
-              onPressed: isLoading
-                  ? null
-                  : () {
-                      ref.read(authProvider.notifier).resendVerificationEmail();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.authVerificationSent)),
-                      );
-                    },
-              icon: isLoading
-                  ? const SizedBox(
-                      height: 18,
-                      width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.refresh),
-              label: Text(l10n.authResendEmail),
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size.fromHeight(spacingHuge),
-              ),
-            ),
-            const SizedBox(height: spacingXxxl),
-            TextButton(
-              onPressed: isLoading ? null : _handleSignOut,
-              child: Text(l10n.authDifferentEmail),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -156,18 +181,20 @@ class _EmailVerificationScreenState
 
     try {
       await ref.read(authProvider.notifier).reloadUser();
-      if (!mounted) return;
+      if (!mounted || ref.read(authProvider).hasError) return;
 
       // Read the freshly reloaded user directly; the auth stream may not have
       // propagated the updated emailVerified flag yet at this point.
       final verified =
           ref.read(authRepositoryProvider).currentUser?.emailVerified ?? false;
+      final fill = verified ? AppColors.success : AppColors.warning;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             verified ? l10n.authEmailVerified : l10n.authEmailNotVerified,
+            style: TextStyle(color: inkOnFill(fill)),
           ),
-          backgroundColor: verified ? AppColors.success : AppColors.warning,
+          backgroundColor: fill,
         ),
       );
       if (verified) context.go(appRoutes.home);
@@ -176,6 +203,30 @@ class _EmailVerificationScreenState
         setState(() => _checkingVerification = false);
       }
     }
+  }
+
+  void _startResendCooldown() {
+    setState(() {
+      _resendCooldown = Timer(
+        const Duration(seconds: AppConstants.verificationResendCooldownSeconds),
+        () {
+          if (mounted) setState(() => _resendCooldown = null);
+        },
+      );
+    });
+  }
+
+  /// Picks up a link opened in another app without a tap on the button.
+  Future<void> _recheckOnResume() async {
+    if (_checkingVerification) return;
+    final repository = ref.read(authRepositoryProvider);
+    try {
+      await repository.reloadCurrentUser();
+    } on Exception {
+      return;
+    }
+    if (!mounted || !(repository.currentUser?.emailVerified ?? false)) return;
+    await _checkEmailVerified();
   }
 
   void _handleSignOut() {

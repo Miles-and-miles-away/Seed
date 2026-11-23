@@ -59,8 +59,14 @@ describe('handleCleanupUnverifiedUsers', () => {
         pageToken: index + 1 < pages.length ? String(index + 1) : undefined,
       });
     });
+    const byUid = new Map(pages.flat().map((u) => [u.uid, u]));
+    const getUser = jest.fn((uid: string) => Promise.resolve(byUid.get(uid)!));
     const deleteUser = jest.fn().mockResolvedValue(undefined);
-    return { db, recursiveDelete, auth: { listUsers, deleteUser } };
+    return {
+      db,
+      recursiveDelete,
+      auth: { listUsers, getUser, deleteUser },
+    };
   }
 
   it('deletes only stale accounts across every page, data first', async () => {
@@ -88,5 +94,16 @@ describe('handleCleanupUnverifiedUsers', () => {
 
     expect(deleted).toBe(1);
     expect(auth.deleteUser.mock.calls).toEqual([['stale']]);
+  });
+
+  it('keeps an account verified after the listing', async () => {
+    const { db, recursiveDelete, auth } = makeMocks([[user('late')]]);
+    auth.getUser.mockResolvedValueOnce(user('late', { verified: true }));
+
+    const deleted = await handleCleanupUnverifiedUsers(db, auth, NOW);
+
+    expect(deleted).toBe(0);
+    expect(recursiveDelete).not.toHaveBeenCalled();
+    expect(auth.deleteUser).not.toHaveBeenCalled();
   });
 });

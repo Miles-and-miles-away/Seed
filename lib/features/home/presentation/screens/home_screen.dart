@@ -18,7 +18,9 @@ import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
 import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
+import 'package:seed_app/shared/providers/day_change_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 
@@ -31,6 +33,7 @@ class HomeScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final hasMascot = ref.watch(hasMascotProvider);
+    final mascotsLoaded = ref.watch(allMascotsProvider).hasValue;
 
     return WalkthroughTrigger(
       item: WalkthroughItem.intro,
@@ -61,7 +64,7 @@ class HomeScreen extends ConsumerWidget {
                     // Mascot section or selection prompt
                     if (hasMascot)
                       _buildMascotSection(context, ref)
-                    else
+                    else if (mascotsLoaded)
                       _buildMascotSelectionPrompt(context, ref, l10n),
                     const SizedBox(height: spacingMd),
 
@@ -139,8 +142,20 @@ class HomeScreen extends ConsumerWidget {
     final locale = Localizations.localeOf(context).languageCode;
 
     final mascot = ref.watch(activeMascotProvider).value;
-    final user = ref.watch(currentUserProvider).value;
+    final (streak, lastActionDate, lastOffset, points) = ref.watch(
+      currentUserProvider.select((async) {
+        final user = async.value;
+        return (
+          user?.currentStreak ?? 0,
+          user?.lastActionDate,
+          user?.lastActionUtcOffsetMinutes,
+          user?.points ?? 0,
+        );
+      }),
+    );
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
+    // Rebuilds at midnight, so a streak broken overnight reads 0.
+    ref.watch(dayChangeProvider);
 
     return MascotHousing(
       child: Column(
@@ -151,7 +166,13 @@ class HomeScreen extends ConsumerWidget {
             label: l10n.mascotLinkTitle,
             child: GestureDetector(
               onTap: () => context.push(appRoutes.mascot),
-              child: const MascotDisplay(size: 160, welcomesBack: true),
+              // A celebration covers the hero, so its Rive stops ticking.
+              child: ValueListenableBuilder<int>(
+                valueListenable: celebrationsPending(context),
+                builder: (context, pending, child) =>
+                    TickerMode(enabled: pending == 0, child: child!),
+                child: const MascotDisplay(size: 160, welcomesBack: true),
+              ),
             ),
           ),
 
@@ -189,14 +210,14 @@ class HomeScreen extends ConsumerWidget {
                 // displayedStreak shows 0 once a missed day has
                 // already broken the streak (the stored value is
                 // only corrected at the next log).
-                '${displayedStreak(storedStreak: user?.currentStreak ?? 0, lastActionDate: user?.lastActionDate, now: ref.watch(clockProvider)())}',
+                '${displayedStreak(storedStreak: streak, lastActionDate: lastActionDate, lastActionUtcOffsetMinutes: lastOffset, now: ref.watch(clockProvider)())}',
                 l10n.profileCurrentStreak,
                 Colors.orange,
               ),
               _buildQuickStat(
                 context,
                 Icons.star_outline,
-                formatDecimal(user?.points ?? 0, locale, maxDigits: 0),
+                formatDecimal(points, locale, maxDigits: 0),
                 l10n.homePoints,
                 colorScheme.primary,
               ),

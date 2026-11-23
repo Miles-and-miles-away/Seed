@@ -286,6 +286,20 @@ void main() {
       expect(stateChanges, 0);
     });
 
+    test('markDateViewed ignores a date after today', () async {
+      final container = await notifierContainer();
+      final tomorrow = formatDateKey(_now.add(const Duration(days: 1)));
+
+      await container
+          .read(factViewedProvider.notifier)
+          .markDateViewed(tomorrow);
+      await container
+          .read(factViewedProvider.notifier)
+          .markDateViewed(formatDateKey(_now));
+
+      expect(await storedViewed(), ['2026-01-01', formatDateKey(_now)]);
+    });
+
     test('markDateViewed does nothing when signed out', () async {
       final container = await notifierContainer(signedIn: false);
 

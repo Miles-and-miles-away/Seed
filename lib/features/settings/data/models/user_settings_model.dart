@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
-import 'notification_schedule_model.dart';
+import 'package:seed_app/features/settings/data/models/action_reminder_model.dart';
 
 part 'user_settings_model.freezed.dart';
 part 'user_settings_model.g.dart';
@@ -13,14 +13,18 @@ part 'user_settings_model.g.dart';
 @freezed
 abstract class UserSettingsModel with _$UserSettingsModel {
   const factory UserSettingsModel({
-    /// Master toggle for all notifications.
+    /// Daily reminder to complete the challenge that unlocks the fact.
     @Default(false) bool notificationsEnabled,
 
-    /// List of scheduled reminder times (max 5).
-    @Default([]) List<NotificationScheduleModel> reminderSchedules,
+    /// Local time of the daily reminder.
+    @Default(AppConstants.defaultReminderHour) int reminderHour,
+    @Default(AppConstants.defaultReminderMinute) int reminderMinute,
 
-    /// Whether to use smart reminders (only notify if no action logged today).
-    @Default(true) bool smartRemindersEnabled,
+    /// Master switch for the reminders in [actionReminders].
+    @Default(false) bool actionRemindersEnabled,
+
+    /// Reminders the user set on library actions, by action id.
+    @Default({}) Map<String, ActionReminder> actionReminders,
 
     /// Language the user chose ('en', 'es' or 'ja'); null if never chosen.
     String? language,
@@ -52,27 +56,11 @@ abstract class UserSettingsModel with _$UserSettingsModel {
       _$UserSettingsModelFromJson(json);
 
   /// Creates default settings for a new user.
-  factory UserSettingsModel.defaultSettings() {
-    return const UserSettingsModel(
-      reminderSchedules: [
-        // Default morning reminder at 9:00 AM
-        NotificationScheduleModel(
-          id: 'default_morning',
-          hour: 9,
-          minute: 0,
-          label: 'Morning',
-        ),
-      ],
-    );
-  }
+  factory UserSettingsModel.defaultSettings() => const UserSettingsModel();
 }
 
 /// Extension methods for UserSettingsModel.
 extension UserSettingsModelX on UserSettingsModel {
-  /// Returns whether the user can add more reminders.
-  bool get canAddReminder =>
-      reminderSchedules.length < AppConstants.maxRemindersPerUser;
-
   /// Checks if a streak milestone week has been seen.
   bool hasSeenMilestone(int weekNumber) =>
       seenStreakMilestones[weekNumber.toString()] ?? false;

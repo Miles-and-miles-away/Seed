@@ -265,8 +265,14 @@ abstract class AppLocalizations {
   /// No description provided for @actionLogged.
   ///
   /// In en, this message translates to:
-  /// **'Action logged! {points} points earned'**
+  /// **'{points, plural, one{Action logged! 1 point earned} other{Action logged! {points} points earned}}'**
   String actionLogged(int points);
+
+  /// No description provided for @actionLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging your action...'**
+  String get actionLogging;
 
   /// No description provided for @noActionsFound.
   ///
@@ -321,12 +327,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{stage} (Level {level})'**
   String stageWithLevel(String stage, int level);
-
-  /// No description provided for @streakLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'{days} day streak'**
-  String streakLabel(int days);
 
   /// No description provided for @co2Saved.
   ///
@@ -490,12 +490,6 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get settingsNotifications;
 
-  /// No description provided for @settingsReminderTime.
-  ///
-  /// In en, this message translates to:
-  /// **'Daily Reminder'**
-  String get settingsReminderTime;
-
   /// No description provided for @settingsLanguage.
   ///
   /// In en, this message translates to:
@@ -634,6 +628,12 @@ abstract class AppLocalizations {
   /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
 
+  /// No description provided for @startupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Seed could not start. Close the app and open it again.'**
+  String get startupFailed;
+
   /// No description provided for @errorNetwork.
   ///
   /// In en, this message translates to:
@@ -661,8 +661,14 @@ abstract class AppLocalizations {
   /// No description provided for @errorActionRejected.
   ///
   /// In en, this message translates to:
-  /// **'This action could not be logged. Check that your device\'s date and time are set automatically, then try again.'**
+  /// **'This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device\'s date and time are set automatically.'**
   String get errorActionRejected;
+
+  /// No description provided for @errorSavingTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'A saving above {limit} is too large to log as one action. Check the distances and amounts.'**
+  String errorSavingTooLarge(String limit);
 
   /// No description provided for @errorLogActionOffline.
   ///
@@ -904,18 +910,6 @@ abstract class AppLocalizations {
   /// **'Language: {language}'**
   String languageCurrentLabel(String language);
 
-  /// No description provided for @settingsNotificationsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} reminders enabled'**
-  String settingsNotificationsSubtitle(int count);
-
-  /// No description provided for @settingsNotificationsOff.
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications are off'**
-  String get settingsNotificationsOff;
-
   /// No description provided for @settingsLanguageSubtitle.
   ///
   /// In en, this message translates to:
@@ -957,6 +951,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change Password'**
   String get accountSettingsChangePassword;
+
+  /// No description provided for @accountSettingsYourData.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Data'**
+  String get accountSettingsYourData;
+
+  /// No description provided for @accountSettingsExportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Download My Data'**
+  String get accountSettingsExportData;
+
+  /// No description provided for @accountSettingsExportDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy of everything Seed stores for your account'**
+  String get accountSettingsExportDataSubtitle;
 
   /// No description provided for @accountSettingsDeleteAccount.
   ///
@@ -1029,6 +1041,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email updated successfully'**
   String get accountSettingsEmailUpdated;
+
+  /// No description provided for @accountSettingsEmailLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a link to your new email address. Open it to finish the change.'**
+  String get accountSettingsEmailLinkSent;
 
   /// No description provided for @accountSettingsPasswordUpdated.
   ///
@@ -1144,12 +1162,6 @@ abstract class AppLocalizations {
   /// **'Don\'t worry! Start a new streak today.'**
   String get streakBrokenMessage;
 
-  /// No description provided for @streakBrokenPrevious.
-  ///
-  /// In en, this message translates to:
-  /// **'Previous streak: {count} days'**
-  String streakBrokenPrevious(int count);
-
   /// No description provided for @streakBrokenStartNew.
   ///
   /// In en, this message translates to:
@@ -1221,12 +1233,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get allCategories;
-
-  /// No description provided for @co2PerAction.
-  ///
-  /// In en, this message translates to:
-  /// **'{amount}g CO₂'**
-  String co2PerAction(Object amount);
 
   /// No description provided for @sdgYourImpact.
   ///
@@ -1360,6 +1366,24 @@ abstract class AppLocalizations {
   /// **'Log actions every day for 30 days to hatch it.'**
   String get eggDiscoverySubtitle;
 
+  /// No description provided for @eggDaysLeftHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Log actions on {count} more day to hatch your egg.} other{Log actions on {count} more days to hatch your egg.}} Miss a day and the count starts again.'**
+  String eggDaysLeftHint(int count);
+
+  /// No description provided for @eggStreakResetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You missed a day, so your egg\'s count started again.'**
+  String get eggStreakResetMessage;
+
+  /// No description provided for @speciesUnlockHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When a companion reaches Level {level}, you find an egg. A new companion hatches from it.'**
+  String speciesUnlockHint(int level);
+
   /// No description provided for @eggDiscoveryDismiss.
   ///
   /// In en, this message translates to:
@@ -1456,131 +1480,227 @@ abstract class AppLocalizations {
   /// **'UN Targets'**
   String get sdgTargetsTitle;
 
-  /// No description provided for @notifSettingsTitle.
+  /// No description provided for @notifDailyReminder.
   ///
   /// In en, this message translates to:
-  /// **'Notification Settings'**
-  String get notifSettingsTitle;
+  /// **'Daily challenge reminder'**
+  String get notifDailyReminder;
 
-  /// No description provided for @notifSectionNotifications.
+  /// No description provided for @notifDailyReminderSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifSectionNotifications;
+  /// **'A nudge when today\'s eco-fact is still locked'**
+  String get notifDailyReminderSubtitle;
 
-  /// No description provided for @notifEnableTitle.
+  /// No description provided for @notifReminderTime.
   ///
   /// In en, this message translates to:
-  /// **'Enable Notifications'**
-  String get notifEnableTitle;
+  /// **'Reminder time'**
+  String get notifReminderTime;
 
-  /// No description provided for @notifEnableSubtitle.
+  /// No description provided for @notifReminderTitle.
   ///
   /// In en, this message translates to:
-  /// **'Receive daily reminders to log actions'**
-  String get notifEnableSubtitle;
+  /// **'Today\'s eco-fact is waiting'**
+  String get notifReminderTitle;
 
-  /// No description provided for @notifSmartTitle.
+  /// No description provided for @notifReminderBody.
   ///
   /// In en, this message translates to:
-  /// **'Smart Reminders'**
-  String get notifSmartTitle;
+  /// **'Complete today\'s challenge to unlock it.'**
+  String get notifReminderBody;
 
-  /// No description provided for @notifSmartOnlyTitle.
+  /// No description provided for @notifActionReminders.
   ///
   /// In en, this message translates to:
-  /// **'Only remind if no action today'**
-  String get notifSmartOnlyTitle;
+  /// **'Action reminders'**
+  String get notifActionReminders;
 
-  /// No description provided for @notifSmartOnlySubtitle.
+  /// No description provided for @notifActionRemindersSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Skip reminders on days you\'ve already logged'**
-  String get notifSmartOnlySubtitle;
+  /// **'Reminders you set on actions'**
+  String get notifActionRemindersSubtitle;
 
-  /// No description provided for @notifSmartDescription.
+  /// No description provided for @notifActionReminderBody.
   ///
   /// In en, this message translates to:
-  /// **'When enabled, reminders will only appear if you haven\'t logged any sustainable actions that day.'**
-  String get notifSmartDescription;
+  /// **'Your reminder for today. Tap to log it once it\'s done.'**
+  String get notifActionReminderBody;
 
-  /// No description provided for @notifReminderTimesTitle.
+  /// No description provided for @notifStyle.
   ///
   /// In en, this message translates to:
-  /// **'Reminder Times'**
-  String get notifReminderTimesTitle;
+  /// **'Notification style'**
+  String get notifStyle;
 
-  /// No description provided for @notifNoReminders.
+  /// No description provided for @notifStyleSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'No reminders set'**
-  String get notifNoReminders;
+  /// **'Sound, vibration and banners, in your phone\'s settings'**
+  String get notifStyleSubtitle;
 
-  /// No description provided for @notifAddReminder.
+  /// No description provided for @notifBlocked.
   ///
   /// In en, this message translates to:
-  /// **'Add a reminder to get notified'**
-  String get notifAddReminder;
+  /// **'Notifications are off for Seed. Turn them on in your phone\'s settings.'**
+  String get notifBlocked;
 
-  /// No description provided for @notifAddReminderTime.
+  /// No description provided for @notifBlockedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Add Reminder Time'**
-  String get notifAddReminderTime;
+  /// **'Notifications are blocked'**
+  String get notifBlockedTitle;
 
-  /// No description provided for @notifMaxReminders.
+  /// No description provided for @notifBlockedSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Maximum 5 reminders allowed'**
-  String get notifMaxReminders;
+  /// **'Tap to allow them in your phone\'s settings'**
+  String get notifBlockedSubtitle;
 
-  /// No description provided for @notifEditTime.
+  /// No description provided for @notifOpenSettings.
   ///
   /// In en, this message translates to:
-  /// **'Edit reminder time'**
-  String get notifEditTime;
+  /// **'Open settings'**
+  String get notifOpenSettings;
 
-  /// No description provided for @notifSelectTime.
+  /// No description provided for @reminderSheetTitle.
   ///
   /// In en, this message translates to:
-  /// **'Select reminder time'**
-  String get notifSelectTime;
+  /// **'Remind me'**
+  String get reminderSheetTitle;
 
-  /// No description provided for @notifLabelTitle.
+  /// No description provided for @reminderSetTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Reminder Label'**
-  String get notifLabelTitle;
+  /// **'Set a reminder'**
+  String get reminderSetTooltip;
 
-  /// No description provided for @notifLabelHint.
+  /// No description provided for @reminderEditTooltip.
   ///
   /// In en, this message translates to:
-  /// **'e.g., Morning, After work...'**
-  String get notifLabelHint;
+  /// **'Edit reminder'**
+  String get reminderEditTooltip;
 
-  /// No description provided for @notifLabelOptional.
+  /// No description provided for @reminderPausedTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Label (optional)'**
-  String get notifLabelOptional;
+  /// **'Edit reminder (action reminders are off)'**
+  String get reminderPausedTooltip;
 
-  /// No description provided for @notifDeleteTitle.
+  /// No description provided for @reminderDays.
   ///
   /// In en, this message translates to:
-  /// **'Delete Reminder?'**
-  String get notifDeleteTitle;
+  /// **'Days'**
+  String get reminderDays;
 
-  /// No description provided for @notifDeleteMessage.
+  /// No description provided for @reminderForever.
   ///
   /// In en, this message translates to:
-  /// **'Remove the {time} reminder?'**
-  String notifDeleteMessage(String time);
+  /// **'Forever'**
+  String get reminderForever;
 
-  /// No description provided for @notifAdd.
+  /// No description provided for @reminderRepeat.
   ///
   /// In en, this message translates to:
-  /// **'Add'**
-  String get notifAdd;
+  /// **'Number of times'**
+  String get reminderRepeat;
+
+  /// No description provided for @reminderRepeatCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 time} other{{count} times}}'**
+  String reminderRepeatCount(int count);
+
+  /// No description provided for @reminderFewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer times'**
+  String get reminderFewer;
+
+  /// No description provided for @reminderMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More times'**
+  String get reminderMore;
+
+  /// No description provided for @reminderLastDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Last reminder: {date}'**
+  String reminderLastDay(String date);
+
+  /// No description provided for @reminderSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder saved'**
+  String get reminderSaved;
+
+  /// No description provided for @reminderLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You can have up to {max} action reminders.'**
+  String reminderLimit(int max);
+
+  /// No description provided for @reminderSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} at {time}'**
+  String reminderSummary(String days, String time, int hour);
+
+  /// No description provided for @reminderSummaryUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} at {time}, until {date}'**
+  String reminderSummaryUntil(String days, String time, int hour, String date);
+
+  /// Joins weekday names in a reminder summary.
+  ///
+  /// In en, this message translates to:
+  /// **', '**
+  String get reminderDaySeparator;
+
+  /// No description provided for @reminderManage.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get reminderManage;
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get remindersTitle;
+
+  /// No description provided for @reminderManageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage reminders'**
+  String get reminderManageTitle;
+
+  /// No description provided for @reminderManageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily challenge and action reminders'**
+  String get reminderManageSubtitle;
+
+  /// No description provided for @reminderListIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a reminder with the bell on any action, up to {max}. Tap one to change or delete it.'**
+  String reminderListIntro(int max);
+
+  /// No description provided for @reminderListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No action reminders yet.'**
+  String get reminderListEmpty;
+
+  /// No description provided for @reminderEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get reminderEveryDay;
 
   /// No description provided for @settingsPreferences.
   ///
@@ -1593,42 +1713,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version {version}'**
   String settingsVersionFormat(String version);
-
-  /// No description provided for @settingsNoReminders.
-  ///
-  /// In en, this message translates to:
-  /// **'No reminders set'**
-  String get settingsNoReminders;
-
-  /// No description provided for @settingsRemindersCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} reminders configured'**
-  String settingsRemindersCount(int count);
-
-  /// No description provided for @settingsOneReminder.
-  ///
-  /// In en, this message translates to:
-  /// **'1 reminder configured'**
-  String get settingsOneReminder;
-
-  /// No description provided for @settingsTapToAddReminders.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to add reminders'**
-  String get settingsTapToAddReminders;
-
-  /// No description provided for @settingsAllRemindersDisabled.
-  ///
-  /// In en, this message translates to:
-  /// **'All reminders disabled'**
-  String get settingsAllRemindersDisabled;
-
-  /// No description provided for @settingsRemindersPlusMore.
-  ///
-  /// In en, this message translates to:
-  /// **'{time} + {count} more'**
-  String settingsRemindersPlusMore(String time, int count);
 
   /// No description provided for @settingsErrorLoading.
   ///
@@ -2200,6 +2284,18 @@ abstract class AppLocalizations {
   /// **'Source'**
   String get ecoFactSource;
 
+  /// No description provided for @labelPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: '**
+  String labelPrefix(String label);
+
+  /// No description provided for @sentencePair.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} {second}'**
+  String sentencePair(String first, String second);
+
   /// No description provided for @ecoFactLocked.
   ///
   /// In en, this message translates to:
@@ -2512,6 +2608,12 @@ abstract class AppLocalizations {
   /// **'trend'**
   String get trendChartTrendLabel;
 
+  /// No description provided for @trendChartSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{CO2 saved over 1 day} other{CO2 saved per day over {days} days}}. Average {average} a day, highest {peak}.'**
+  String trendChartSemantics(int days, String average, String peak);
+
   /// No description provided for @categoryChartTitle.
   ///
   /// In en, this message translates to:
@@ -2593,7 +2695,7 @@ abstract class AppLocalizations {
   /// No description provided for @equivCarKmExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.'**
+  /// **'Average passenger car emissions per kilometre driven, fleet-weighted across petrol and diesel vehicles.'**
   String get equivCarKmExplainer;
 
   /// No description provided for @equivPhoneChargesExplainer.
@@ -3088,6 +3190,12 @@ abstract class AppLocalizations {
   /// **'Build both options to compare them'**
   String get calculatorNeedBothOptions;
 
+  /// Shown in place of the result when both journeys round to the same emissions
+  ///
+  /// In en, this message translates to:
+  /// **'Both options have the same emissions, so there is no saving to log'**
+  String get calculatorSameEmissions;
+
   /// Tooltip on the remove button of a card inside a comparison column
   ///
   /// In en, this message translates to:
@@ -3117,12 +3225,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comparison full ({max} options)'**
   String transportComparisonFull(int max);
-
-  /// No description provided for @transportCompareOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Compare {count} options'**
-  String transportCompareOptions(int count);
 
   /// No description provided for @transportOptionStaged.
   ///
@@ -3291,6 +3393,12 @@ abstract class AppLocalizations {
   /// **'Enter a quantity of 0 g or more'**
   String get foodQuantityInvalid;
 
+  /// No description provided for @quantityTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'That number is too large'**
+  String get quantityTooLarge;
+
   /// No description provided for @quantityAmbiguousSeparator.
   ///
   /// In en, this message translates to:
@@ -3421,12 +3529,6 @@ abstract class AppLocalizations {
   /// **'Comparison full ({max} options)'**
   String foodComparisonFull(int max);
 
-  /// No description provided for @foodCompareOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Compare {count} options'**
-  String foodCompareOptions(int count);
-
   /// No description provided for @foodOptionStaged.
   ///
   /// In en, this message translates to:
@@ -3508,7 +3610,7 @@ abstract class AppLocalizations {
   /// Body: the two meals are inside the data resolution
   ///
   /// In en, this message translates to:
-  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
+  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is below what the underlying research can reliably tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
   String foodVerdictTooClose(int percent);
 
   /// Body: the meals come from different studies
@@ -3538,7 +3640,7 @@ abstract class AppLocalizations {
   /// Shown instead of a verdict when two meals are within the comparison gate
   ///
   /// In en, this message translates to:
-  /// **'These two are too close to call. Below a 20% difference the gap sits inside what the underlying research can actually resolve, so we show both totals without naming a winner.'**
+  /// **'These two are too close to call. Below a 20% difference the gap is smaller than the underlying research can reliably resolve, so we show both totals without naming a winner.'**
   String get foodComparisonTooClose;
 
   /// No description provided for @foodComparisonDelta.
