@@ -117,7 +117,7 @@ class FungiPainter extends DrawnMascotPainter {
   static const List<(double, double, double)> _spots = [
     (-0.76, 0.62, 0.09),
     (-0.38, 0.38, 0.13),
-    (0.02, 0.6, 0.12),
+    (0.02, 0.52, 0.12),
     (0.12, 0.16, 0.1),
     (0.44, 0.38, 0.13),
     (0.76, 0.6, 0.08),
