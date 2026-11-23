@@ -17,7 +17,13 @@ jobs:
       # head_ref is untrusted input, so it goes through env, never inline.
       - env:
           HEAD_REF: ${{ github.head_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.repository }}
         run: |
+          if [ "$HEAD_REPO" != "$BASE_REPO" ]; then
+            echo "::error::Only branches of $BASE_REPO may merge into main."
+            exit 1
+          fi
           case "$HEAD_REF" in
             development | hotfix/?*) ;;
             *)

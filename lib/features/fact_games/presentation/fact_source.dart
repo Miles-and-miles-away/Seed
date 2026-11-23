@@ -43,7 +43,8 @@ void showFactSheet(BuildContext context, GameFact fact) {
         title: fact.title,
         body:
             '${fact.text}\n\n'
-            '${l10n.ecoFactSource}: ${ecoFact.source(fact.locale)}',
+            '${l10n.labelPrefix(l10n.ecoFactSource)}'
+            '${ecoFact.source(fact.locale)}',
       );
     case final SdgGoal goal:
       InfoSheet.show(

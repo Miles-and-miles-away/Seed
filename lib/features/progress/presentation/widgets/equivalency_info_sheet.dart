@@ -211,6 +211,7 @@ class _SourceLinkTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final linkColor = theme.colorScheme.primary;
     return Material(
@@ -230,7 +231,7 @@ class _SourceLinkTile extends StatelessWidget {
               const SizedBox(width: spacingSm),
               Expanded(
                 child: Text(
-                  '$label: $sourceName $externalLinkChar',
+                  '${l10n.labelPrefix(label)}$sourceName $externalLinkChar',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: linkColor,
                     decoration: TextDecoration.underline,
@@ -263,7 +264,7 @@ class _LabeledLine extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text(
-          '$label: ',
+          AppLocalizations.of(context).labelPrefix(label),
           style: base?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
             fontWeight: FontWeight.w600,

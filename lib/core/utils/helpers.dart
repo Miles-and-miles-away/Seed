@@ -112,14 +112,38 @@ String keepUnitsTogether(String text) =>
 /// The same holds for place names: nobody types "São Paulo" or
 /// "Zürich" on a phone keyboard, so [_diacritics] covers every mark
 /// the Latin-script food and city names carry, English and Spanish
-/// alike. Japanese names carry no marks and are matched as typed.
-String foldForSearch(String value) {
+/// alike. Japanese text folds katakana to hiragana and full-width
+/// ASCII to half-width, so "とまと" finds "トマト" and "ＣＯ２" finds "CO2".
+String foldForSearch(String value) => _folded[value] ??= _fold(value);
+
+// Holds every name plus each typed query; a few thousand short strings.
+final _folded = <String, String>{};
+
+String _fold(String value) {
   final buffer = StringBuffer();
-  for (final rune in value.toLowerCase().runes) {
+  final narrow = String.fromCharCodes(value.runes.map(_foldJapanese));
+  for (final rune in narrow.toLowerCase().runes) {
     buffer.write(_diacritics[rune] ?? String.fromCharCode(rune));
   }
   return buffer.toString();
 }
+
+int _foldJapanese(int rune) {
+  if (rune >= _fullWidthFirst && rune <= _fullWidthLast) {
+    return rune - _fullWidthShift;
+  }
+  if (rune >= _katakanaFirst && rune <= _katakanaLast) {
+    return rune - _katakanaShift;
+  }
+  return rune;
+}
+
+const _fullWidthFirst = 0xFF01; // ！
+const _fullWidthLast = 0xFF5E; // ～
+const _fullWidthShift = 0xFEE0;
+const _katakanaFirst = 0x30A1; // ァ
+const _katakanaLast = 0x30F6; // ヶ
+const _katakanaShift = 0x60;
 
 const _diacritics = <int, String>{
   0xE1: 'a', 0xE0: 'a', 0xE2: 'a', 0xE4: 'a', 0xE3: 'a', // á à â ä ã

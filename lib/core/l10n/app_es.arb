@@ -70,15 +70,6 @@
     }
   },
   "stageWithLevel": "{stage} (Nivel {level})",
-  "streakLabel": "Racha de {days} días",
-  "@streakLabel": {
-    "placeholders": {
-      "days": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "co2Saved": "{amount} CO₂ ahorrado",
   "@co2Saved": {
     "placeholders": {
@@ -175,6 +166,7 @@
   "categoryAdvocacy": "Activismo",
   "categoryLearning": "Aprendizaje",
   "errorGeneric": "Algo ha ido mal. Inténtalo de nuevo.",
+  "startupFailed": "Seed no ha podido iniciarse. Cierra la aplicación y vuelve a abrirla.",
   "errorNetwork": "Sin conexión a internet.",
   "errorAuth": "Error de autenticación. Inténtalo de nuevo.",
   "errorOpenLink": "No se ha podido abrir el enlace.",
@@ -286,15 +278,6 @@
   "streakMilestoneContinue": "Continuar",
   "streakBrokenTitle": "Racha interrumpida",
   "streakBrokenMessage": "¡No te preocupes! Empieza una nueva racha hoy.",
-  "streakBrokenPrevious": "Racha anterior: {count} días",
-  "@streakBrokenPrevious": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "streakBrokenStartNew": "Empezar una nueva racha",
   "sortLabel": "Ordenar",
   "sortButtonTooltip": "Ordenar: {option}",
@@ -314,7 +297,6 @@
   "sortPointsLowToHigh": "Puntos (de menor a mayor)",
   "filterBySDG": "Filtrar por ODS",
   "allCategories": "Todos",
-  "co2PerAction": "{amount}g CO₂",
   "sdgYourImpact": "Tu impacto",
   "sdgActionsLogged": "{count, plural, one{{count} acción registrada} other{{count} acciones registradas}}",
   "@sdgActionsLogged": {
@@ -517,7 +499,7 @@
   "settingsFeedbackSubtitle": "Informa de un error o cuéntanos tu opinión",
   "aboutLegal": "Legal",
   "aboutFooterSdg": "Seed ayuda a registrar acciones sostenibles alineadas con los Objetivos de Desarrollo Sostenible de la ONU.",
-  "aboutFooterMade": "Hecho con cariño por nuestro planeta.",
+  "aboutFooterMade": "Hecho con cariño para nuestro planeta.",
   "aboutSdgIconsCredit": "Iconos de los ODS: Naciones Unidas",
   "aboutSubtitleTracker": "Seed - Seguimiento de hábitos sostenibles",
   "feedbackTitle": "Enviar comentarios",
@@ -658,6 +640,25 @@
   "ecoFactTitle": "Eco-dato del día",
   "ecoFactDidYouKnow": "¿Sabías que...?",
   "ecoFactSource": "Fuente",
+  "labelPrefix": "{label}: ",
+  "@labelPrefix": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "sentencePair": "{first} {second}",
+  "@sentencePair": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
   "ecoFactLocked": "¡Completa el desafío de hoy para desbloquear este dato!",
   "ecoFactInboxTitle": "Bandeja de entrada",
   "ecoFactInboxEmpty": "Aún no hay correo. Completa el desafío de hoy para recibir tu primer eco-dato.",
@@ -889,7 +890,6 @@
   "scienceSourcesHeading": "Fuentes",
   "scienceAccessed": "Consultado el {date}",
   "transportComparisonFull": "Comparación completa ({max} opciones)",
-  "transportCompareOptions": "Comparar {count} opciones",
   "transportOptionStaged": "Opción {count} añadida",
   "transportComparisonDelta": "{label} emite {amount} CO2e menos que {worse} ({percent}% menos)",
   "transportComparisonTreesEquiv": "Equivale a unos {count} árboles absorbiendo CO2 durante un año",
@@ -970,15 +970,6 @@
   "@foodComparisonFull": {
     "placeholders": {
       "max": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "foodCompareOptions": "Comparar {count} opciones",
-  "@foodCompareOptions": {
-    "placeholders": {
-      "count": {
         "type": "int",
         "format": "decimalPattern"
       }
@@ -1193,7 +1184,7 @@
   "energyRankedGasNote": "Los aparatos de gas están en la misma lista, porque aquí se ordena por energía. Ojo a un detalle: un calentador de gas usa más energía que uno eléctrico para el mismo baño y, aun así, con la red media mundial de hoy emite menos. Por debajo de unos 241 g CO2e por kWh de electricidad, el resultado se invierte y gana la electricidad. La energía que usas es lo que eliges tú; lo limpia que sea la red depende de tu país y mejora cada año.",
   "energyRankedMultiple": "{multiple}x",
   "energyComparisonNoVerdict": "Aquí no hay ganador",
-  "energyVerdictDifferentGroup": "Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.",
+  "energyVerdictDifferentGroup": "Son dos cosas de distinto tipo, así que decir que una es mejor sería un error de categoría, no un resultado ajustado. Compara lo comparable: un baño con una ducha, una secadora con un tendedero.",
   "energyVerdictDifferentCarrier": "Una funciona con gas y la otra con electricidad, y cuál resulta más limpia depende de la red eléctrica de tu zona, no de lo que hayas hecho. Por debajo de unos 241 g CO2e por kWh gana la eléctrica; por encima, el gas. Por eso se muestran ambas cifras sin declarar un ganador.",
   "energyVerdictTooClose": "La diferencia entre ambas es de menos del {percent}%, dentro de la precisión de las mediciones de origen. Declarar un ganador sería atribuir una exactitud que las fuentes no tienen.",
   "energyUnitSuffixMinute": "min",
@@ -1285,7 +1276,7 @@
   "factRecallDishwasher": "Por ciclo, el programa normal del lavavajillas emite aproximadamente un {figure} más CO2e que el programa eco.",
   "factRecallLambPork": "Por cada 100 g, el cordero genera aproximadamente {figure} más CO2e que el cerdo.",
   "factRecallFerry": "Por pasajero y kilómetro, quien viaja en ferri con coche emite aproximadamente {figure} más CO2e que quien embarca a pie.",
-  "factRecallDryers": "Por colada, una secadora con resistencia emite aproximadamente {figure} más CO2e que una con bomba de calor.",
+  "factRecallDryers": "Por carga, una secadora con resistencia emite aproximadamente {figure} más CO2e que una con bomba de calor.",
   "factRecallCarCoach": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente {figure} más CO2e que un autocar de larga distancia.",
   "factRecallCarBus": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente un {figure} más CO2e que un autobús urbano.",
   "factRecallCarRail": "Por pasajero y kilómetro, conducir sin acompañantes un coche de gasolina medio emite aproximadamente {figure} más CO2e que el tren nacional o de cercanías.",

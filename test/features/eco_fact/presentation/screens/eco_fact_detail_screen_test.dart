@@ -15,8 +15,9 @@ const _uid = 'u1';
 
 Future<List<String>> _viewedAfterOpening(
   WidgetTester tester,
-  String dateKey,
-) async {
+  String dateKey, {
+  String name = 'n',
+}) async {
   final firestore = FakeFirebaseFirestore();
   final userDoc = firestore.collection(AppConstants.collectionUsers).doc(_uid);
   await userDoc.set({'viewedFactDates': <String>[]});
@@ -32,14 +33,14 @@ Future<List<String>> _viewedAfterOpening(
       ),
       isEcoFactLockedProvider.overrideWithValue(false),
       ecoFactsProvider.overrideWith(
-        (_) async => const [
+        (_) async => [
           EcoFact(
             dayOfYear: 1,
             category: 'positiveNews',
-            nameEn: 'n',
+            nameEn: name,
             factEn: 'f',
             sourceEn: 's',
-            relatedSdgs: [13],
+            relatedSdgs: const [13],
           ),
         ],
       ),
@@ -64,6 +65,25 @@ Future<List<String>> _viewedAfterOpening(
 }
 
 void main() {
+  testWidgets('a name too long for the app bar moves to the page body', (
+    tester,
+  ) async {
+    final name = 'long name ' * 8;
+    await _viewedAfterOpening(tester, '2026-01-01', name: name);
+
+    final bar = find.byType(AppBar);
+    expect(find.descendant(of: bar, matching: find.byType(Text)), findsNothing);
+    expect(find.text(name), findsOneWidget);
+  });
+
+  testWidgets('a short name stays in the app bar only', (tester) async {
+    await _viewedAfterOpening(tester, '2026-01-01', name: 'Kelp');
+
+    final bar = find.byType(AppBar);
+    expect(find.descendant(of: bar, matching: find.text('Kelp')), findsOne);
+    expect(find.text('Kelp'), findsOneWidget);
+  });
+
   testWidgets('a date key marks the fact viewed', (tester) async {
     expect(await _viewedAfterOpening(tester, '2026-01-01'), ['2026-01-01']);
   });
