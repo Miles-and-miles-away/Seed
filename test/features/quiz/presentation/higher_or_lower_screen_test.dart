@@ -959,10 +959,7 @@ void main() {
       testWidgets('asks one question on one line at 320pt in $language', (
         tester,
       ) async {
-        sizeViewport(
-          tester,
-          size: Size(language == 'es' ? 320 * robotoToSfWidthFactor : 320, 900),
-        );
+        sizeViewport(tester, size: Size(320, 900));
         await tester.pumpWidget(
           buildApp(
             locale: Locale(language),
@@ -1137,10 +1134,7 @@ void main() {
       testWidgets('shows how to answer in round 1 in $language', (
         tester,
       ) async {
-        sizeViewport(
-          tester,
-          size: Size(language == 'es' ? 320 * robotoToSfWidthFactor : 320, 568),
-        );
+        sizeViewport(tester, size: Size(320, 568));
         await tester.pumpWidget(
           buildApp(
             locale: Locale(language),

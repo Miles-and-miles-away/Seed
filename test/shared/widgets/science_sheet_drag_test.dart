@@ -144,7 +144,7 @@ void main() {
       WidgetTester tester,
       void Function(BuildContext context) show,
     ) async {
-      sizeViewport(tester, size: const Size(320 * robotoToSfWidthFactor, 640));
+      sizeViewport(tester, size: const Size(320, 640));
       tester.platformDispatcher.textScaleFactorTestValue = 2;
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       await pumpOpen(tester, show, locale: const Locale('es'));

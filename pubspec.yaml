@@ -78,12 +78,14 @@ flutter:
   # ===================
   # Fonts (add custom fonts here)
   # ===================
-  # fonts:
-  #   - family: CustomFont
-  #     fonts:
-  #       - asset: assets/fonts/CustomFont-Regular.ttf
-  #       - asset: assets/fonts/CustomFont-Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: MPLUSRounded1c
+      fonts:
+        - asset: assets/fonts/MPLUSRounded1c-Regular.ttf
+        - asset: assets/fonts/MPLUSRounded1c-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/MPLUSRounded1c-Bold.ttf
+          weight: 700
 
   generate: true  # Enable code generation for localization
 

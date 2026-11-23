@@ -467,13 +467,7 @@ void main() {
             tester,
           ) async {
             expect(curated, hasLength(24));
-            sizeViewport(
-              tester,
-              size: Size(
-                language == 'es' ? 320 * robotoToSfWidthFactor : 320,
-                1200,
-              ),
-            );
+            sizeViewport(tester, size: Size(320, 1200));
             tester.platformDispatcher.textScaleFactorTestValue = scale;
             addTearDown(
               tester.platformDispatcher.clearTextScaleFactorTestValue,
@@ -534,13 +528,7 @@ void main() {
         testWidgets('is one line at 320pt in $language with a streak', (
           tester,
         ) async {
-          sizeViewport(
-            tester,
-            size: Size(
-              language == 'es' ? 320 * robotoToSfWidthFactor : 320,
-              640,
-            ),
-          );
+          sizeViewport(tester, size: Size(320, 640));
           await tester.pumpWidget(
             _buildCard(
               user: _user(streak: 12),

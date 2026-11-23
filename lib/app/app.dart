@@ -16,13 +16,16 @@ import '../shared/services/analytics_service.dart';
 import 'router.dart';
 
 const _budouxLicenceAsset = 'assets/licences/budoux.txt';
+const _fontLicenceAsset = 'assets/licences/mplus_rounded_1c.txt';
 
-/// Adds the bundled code that is not a pub package (the BudouX phrase
-/// model) to the licences page.
+/// Adds the bundled code and fonts that are not pub packages (the BudouX
+/// phrase model, M PLUS Rounded 1c) to the licences page.
 void registerBundledLicences() {
   LicenseRegistry.addLicense(() async* {
-    final text = await rootBundle.loadString(_budouxLicenceAsset);
-    yield LicenseEntryWithLineBreaks(const ['BudouX'], text);
+    final budoux = await rootBundle.loadString(_budouxLicenceAsset);
+    yield LicenseEntryWithLineBreaks(const ['BudouX'], budoux);
+    final font = await rootBundle.loadString(_fontLicenceAsset);
+    yield LicenseEntryWithLineBreaks(const ['M PLUS Rounded 1c'], font);
   });
 }
 

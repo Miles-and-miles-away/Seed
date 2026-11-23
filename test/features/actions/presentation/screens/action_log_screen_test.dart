@@ -870,12 +870,7 @@ void main() {
           320.0,
           ThemeData(fontFamily: 'FlutterTest'),
         ),
-        (
-          const Locale('es'),
-          'Registrar acción',
-          320 * robotoToSfWidthFactor,
-          null,
-        ),
+        (const Locale('es'), 'Registrar acción', 320.0, null),
       ]) {
         testWidgets(locale.languageCode, (tester) async {
           tester.view.physicalSize = Size(width, 800);

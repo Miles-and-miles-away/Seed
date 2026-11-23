@@ -573,7 +573,7 @@ void main() {
     }
 
     testWidgets('the status row wraps at text scale 2', (tester) async {
-      sizeViewport(tester, size: const Size(320 * robotoToSfWidthFactor, 640));
+      sizeViewport(tester, size: const Size(320, 640));
       tester.platformDispatcher.textScaleFactorTestValue = 2;
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       await tester.pumpWidget(buildScreen(locale: const Locale('es')));
@@ -606,7 +606,7 @@ void main() {
     testWidgets('the locked view lays out at 320pt, text scale 2', (
       tester,
     ) async {
-      sizeViewport(tester, size: const Size(320 * robotoToSfWidthFactor, 568));
+      sizeViewport(tester, size: const Size(320, 568));
       tester.platformDispatcher.textScaleFactorTestValue = 2;
       addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
       await tester.pumpWidget(

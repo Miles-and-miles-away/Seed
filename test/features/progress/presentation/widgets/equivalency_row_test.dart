@@ -118,8 +118,7 @@ void main() {
 
       for (final width in testPhoneWidths) {
         testWidgets('no label is cut at ${width}pt', (tester) async {
-          final emulated = width * robotoToSfWidthFactor;
-          await tester.binding.setSurfaceSize(Size(emulated, 600));
+          await tester.binding.setSurfaceSize(Size(width, 600));
           addTearDown(() => tester.binding.setSurfaceSize(null));
           await tester.pumpWidget(
             _wrap(

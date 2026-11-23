@@ -39,6 +39,7 @@ const _textTheme = TextTheme(
 /// character.
 ThemeData appTheme(Brightness brightness, {Color? seedColor}) => ThemeData(
   useMaterial3: true,
+  fontFamily: 'MPLUSRounded1c',
   colorScheme: ColorScheme.fromSeed(
     seedColor: seedColor ?? AppColors.primary,
     brightness: brightness,
