@@ -9,6 +9,7 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/settings/presentation/feedback_category.dart';
 import 'package:seed_app/features/settings/presentation/feedback_mailto.dart';
 import 'package:seed_app/shared/providers/package_info_provider.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Visible separator between metadata key/value pairs in the footer chip row.
@@ -194,7 +195,7 @@ class _MetadataFooter extends StatelessWidget {
     final platform = Platform.operatingSystem;
 
     final parts = <String>[
-      'App v${appVersionLabel(version, buildNumber)}',
+      l10n.feedbackMetaAppVersion(appVersionLabel(version, buildNumber)),
       platform,
       locale,
     ];
@@ -208,7 +209,7 @@ class _MetadataFooter extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          PhraseText(
             l10n.feedbackMetadataNote,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,

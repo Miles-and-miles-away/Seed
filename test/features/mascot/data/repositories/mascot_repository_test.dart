@@ -132,6 +132,23 @@ void main() {
         expect(first['id'], isNotNull);
         expect(data['activeMascotId'], first['id']);
       });
+
+      test('keeps a mascot that already exists', () async {
+        await createUserWithMascots('user1', [
+          {'id': 'm1', 'speciesId': 'coral', 'name': 'Old'},
+        ]);
+
+        await repository.selectMascot(
+          userId: 'user1',
+          speciesId: 'seed',
+          name: 'MyPlant',
+        );
+
+        final doc = await fakeFirestore.collection('users').doc('user1').get();
+        final mascots = doc.data()!['mascots'] as List<dynamic>;
+        expect(mascots, hasLength(2));
+        expect((mascots[0] as Map<String, dynamic>)['id'], 'm1');
+      });
     });
   });
 

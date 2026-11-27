@@ -17,16 +17,20 @@ void showEnergyScienceSheet(
   ScienceSheet.show(
     context,
     title: behavior.name(languageCode),
-    markdown: _body(l10n, behavior),
+    markdown: _body(l10n, behavior, languageCode),
   );
 }
 
 /// Entries shipping without a citation say so on purpose: silence
 /// would read as an oversight, and each explains why in its notes.
-String _body(AppLocalizations l10n, EnergyBehavior behavior) => scienceMarkdown(
+String _body(
+  AppLocalizations l10n,
+  EnergyBehavior behavior,
+  String languageCode,
+) => scienceMarkdown(
   l10n,
   factorLine: energyBehaviorFactorLabel(l10n, behavior),
-  notes: behavior.calculationNotes,
+  notes: behavior.notes(languageCode),
   sources: behavior.sources,
   noSourcesNote: l10n.energyScienceNoSources,
 );

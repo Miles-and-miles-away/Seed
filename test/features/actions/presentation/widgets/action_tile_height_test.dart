@@ -3,12 +3,17 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:seed_app/features/actions/presentation/screens/action_log_screen.dart';
 import 'package:seed_app/features/actions/presentation/widgets/action_card.dart';
+import 'package:seed_app/features/actions/presentation/widgets/sdg_badge.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
-/// A tile in exactly the box the grid gives it, at the width of one
+/// Spare height the cell must keep: device fonts set lines taller than
+/// the test font.
+const _slack = 4.0;
+
+/// A tile in the box the grid gives it less [_slack], at the width of one
 /// cell on a 402pt phone.
-Widget _cell(double scale) {
+Widget _cell(double scale, {bool highlighted = false}) {
   final scaler = TextScaler.linear(scale);
   return createTestWidget(
     child: MediaQuery(
@@ -17,7 +22,7 @@ Widget _cell(double scale) {
         body: Center(
           child: SizedBox(
             width: 179,
-            height: ActionLogScreen.tileHeightFor(scaler),
+            height: ActionLogScreen.tileHeightFor(scaler) - _slack,
             child: ActionTile(
               accentColor: Colors.amber,
               contentColor: Colors.amber,
@@ -26,8 +31,9 @@ Widget _cell(double scale) {
               // two-line cap, plus the SDG badge row.
               title: 'Attend Eco Group Meeting About Something',
               badgeLabel: '21 points',
-              footer: const SizedBox(height: 18, width: 60),
+              footer: const SdgNumberBadge('13', Colors.green),
               onTap: () {},
+              highlighted: highlighted,
             ),
           ),
         ),
@@ -39,13 +45,14 @@ Widget _cell(double scale) {
 void main() {
   group('action tile height', () {
     for (final scale in [1.0, 1.3, 2.0]) {
-      testWidgets('the tallest tile fits its cell at text scale $scale', (
-        tester,
-      ) async {
-        await tester.pumpWidget(_cell(scale));
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-      });
+      for (final highlighted in [false, true]) {
+        testWidgets('the tallest tile fits its cell at text scale $scale'
+            '${highlighted ? ', ringed' : ''}', (tester) async {
+          await tester.pumpWidget(_cell(scale, highlighted: highlighted));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        });
+      }
     }
 
     test('the cell grows only by the text it holds', () {

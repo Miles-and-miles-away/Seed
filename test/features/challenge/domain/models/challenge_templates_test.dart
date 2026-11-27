@@ -4,35 +4,15 @@ import 'package:seed_app/features/challenge/domain/models/challenge_templates.da
 
 void main() {
   group('DailyChallengeTemplate.fromJson', () {
-    test('parses all fields', () {
+    test('parses actionId and category, and uses the action id as id', () {
       final t = DailyChallengeTemplate.fromJson({
-        'id': 't1',
+        'actionId': 'walk_instead_drive',
         'category': 'transport',
-        'titleEn': 'Walk',
-        'titleEs': 'Camina',
-        'titleJa': '歩く',
       });
 
-      expect(t.id, 't1');
+      expect(t.actionId, 'walk_instead_drive');
       expect(t.category, 'transport');
-      expect(t.titleEn, 'Walk');
-      expect(t.titleEs, 'Camina');
-      expect(t.titleJa, '歩く');
-    });
-
-    test('title() returns locale-specific string', () {
-      const t = DailyChallengeTemplate(
-        id: 't1',
-        category: 'transport',
-        titleEn: 'EN',
-        titleEs: 'ES',
-        titleJa: 'JA',
-      );
-
-      expect(t.title('en'), 'EN');
-      expect(t.title('es'), 'ES');
-      expect(t.title('ja'), 'JA');
-      expect(t.title('fr'), 'EN');
+      expect(t.id, t.actionId);
     });
   });
 
@@ -140,13 +120,6 @@ void main() {
 
   group('localized fallbacks', () {
     test('an empty translation falls back to English', () {
-      const daily = DailyChallengeTemplate(
-        id: 'd',
-        category: 'water',
-        titleEn: 'Save water',
-        titleEs: '',
-        titleJa: '',
-      );
       const multi = MultiDayChallengeTemplate(
         id: 'm',
         category: null,
@@ -159,8 +132,6 @@ void main() {
         descriptionJa: '',
       );
 
-      expect(daily.title('ja'), 'Save water');
-      expect(daily.title('es'), 'Save water');
       expect(multi.title('ja'), 'Three days');
       expect(multi.description('es'), 'Keep going');
     });

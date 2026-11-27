@@ -7,8 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/reveal_effects.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import '../providers/mascot_providers.dart';
 import 'mascot_image.dart';
 
@@ -17,7 +20,7 @@ import 'mascot_image.dart';
 /// Features:
 /// - Dramatic entrance animation
 /// - Confetti/sparkle particle effects
-/// - Before/after mascot comparison
+/// - Smoke that hides the old stage and clears on the new one
 /// - Stage name reveal
 /// - Dismiss button
 class EvolutionCelebration extends ConsumerStatefulWidget {
@@ -32,6 +35,11 @@ class EvolutionCelebration extends ConsumerStatefulWidget {
 }
 
 class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
+  static const double _mascotSize = 160;
+  static final Duration _glowDelay = Duration(
+    milliseconds: (smokeSwapSeconds * 1000).round(),
+  );
+
   bool _showContent = false;
   bool _showButton = false;
 
@@ -62,9 +70,6 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
     final locale = Localizations.localeOf(context).languageCode;
 
     final assetPath = ref.watch(activeMascotAssetPathProvider);
-    final artboardName = ref.watch(
-      activeStageDataProvider.select((stage) => stage?.artboardName),
-    );
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
     final species = ref.watch(activeSpeciesProvider);
     final currentStage = ref.watch(activeMascotStageProvider);
@@ -74,16 +79,22 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
 
     // Get the previous stage asset path
     String? previousAssetPath;
-    String? previousArtboardName;
     if (species != null && currentStage > 1) {
       final previousStageIndex = currentStage - 2; // 0-indexed
       if (previousStageIndex < species.evolutionStages.length) {
         previousAssetPath =
             species.evolutionStages[previousStageIndex].assetPath;
-        previousArtboardName =
-            species.evolutionStages[previousStageIndex].artboardName;
       }
     }
+
+    final newStage = assetPath == null
+        ? null
+        : MascotImage(
+            assetPath: assetPath,
+            width: _mascotSize,
+            height: _mascotSize,
+            routine: evolve,
+          );
 
     return CelebrationOverlay(
       children: [
@@ -100,177 +111,160 @@ class _EvolutionCelebrationState extends ConsumerState<EvolutionCelebration> {
         // Main content
         if (_showContent)
           SafeArea(
-            child: Column(
+            child: CelebrationScrollBody(
               children: [
-                const Spacer(),
+                const SizedBox.shrink(),
 
-                CelebrationTitle(l10n.evolutionTitle, delay: 100.ms),
+                Column(
+                  children: [
+                    CelebrationTitle(l10n.evolutionTitle, delay: 100.ms),
 
-                const SizedBox(height: spacingSm),
+                    const SizedBox(height: spacingSm),
 
-                // Mascot name
-                Text(
-                  mascotName ?? '',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: colorScheme.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
-
-                const Spacer(),
-
-                // Evolution transition
-                SizedBox(
-                  height: 200,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Previous stage (faded)
-                      if (previousAssetPath != null) ...[
-                        Opacity(
-                          opacity: opacityHalf,
-                          child: MascotImage(
-                            assetPath: previousAssetPath,
-                            artboardName: previousArtboardName,
-                            width: 100,
-                            height: 100,
-                          ),
-                        ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                        const SizedBox(width: spacingLg),
-                        Icon(
-                              Icons.arrow_forward,
-                              color: colorScheme.primary,
-                              size: 32,
-                            )
-                            .animate()
-                            .fadeIn(delay: 500.ms, duration: 400.ms)
-                            .slideX(begin: -0.5, end: 0),
-                        const SizedBox(width: spacingLg),
-                      ],
-
-                      // New stage (prominent)
-                      if (assetPath != null)
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // Glow effect
-                            Container(
-                                  width: 180,
-                                  height: 180,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColors.gold.withValues(
-                                          alpha: opacityHalf,
-                                        ),
-                                        blurRadius: 60,
-                                        spreadRadius: 20,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                                .animate()
-                                .fadeIn(delay: 600.ms, duration: 600.ms)
-                                .scale(
-                                  begin: const Offset(0.5, 0.5),
-                                  end: const Offset(1, 1),
-                                ),
-
-                            // Mascot
-                            MascotImage(
-                                  assetPath: assetPath,
-                                  artboardName: artboardName,
-                                  width: 160,
-                                  height: 160,
-                                )
-                                .animate()
-                                .fadeIn(delay: 700.ms, duration: 500.ms)
-                                .scale(
-                                  begin: const Offset(0.3, 0.3),
-                                  end: const Offset(1, 1),
-                                  curve: Curves.elasticOut,
-                                  duration: 800.ms,
-                                ),
-                          ],
-                        ),
-                    ],
-                  ),
+                    // Mascot name
+                    Text(
+                      mascotName ?? '',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                  ],
                 ),
 
-                const Spacer(),
+                // Smoke hides the previous stage, then clears on the new one
+                if (newStage != null)
+                  SizedBox(
+                    height: 200,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                              width: 180,
+                              height: 180,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.gold.withValues(
+                                      alpha: opacityHalf,
+                                    ),
+                                    blurRadius: 60,
+                                    spreadRadius: 20,
+                                  ),
+                                ],
+                              ),
+                            )
+                            .animate()
+                            .fadeIn(delay: _glowDelay, duration: 600.ms)
+                            .scale(
+                              begin: const Offset(0.5, 0.5),
+                              end: const Offset(1, 1),
+                            ),
+                        if (previousAssetPath == null)
+                          newStage
+                        else
+                          EvolutionSmoke(
+                            size: _mascotSize,
+                            before: MascotImage(
+                              assetPath: previousAssetPath,
+                              width: _mascotSize,
+                              height: _mascotSize,
+                            ),
+                            after: newStage,
+                          ),
+                      ],
+                    ),
+                  ),
 
-                // Stage badge
-                Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: spacingXxl,
-                        vertical: spacingMd,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [AppColors.gold, AppColors.celebrationOrange],
+                Column(
+                  children: [
+                    // Stage badge
+                    Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: spacingXxl,
+                            vertical: spacingMd,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                AppColors.gold,
+                                AppColors.celebrationOrange,
+                              ],
+                            ),
+                            borderRadius: borderRadiusXxl,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.gold.withValues(
+                                  alpha: opacityMedium,
+                                ),
+                                blurRadius: 16,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                              const SizedBox(width: spacingSm),
+                              Flexible(
+                                child: Text(
+                                  stageName ?? l10n.stageFallback(currentStage),
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(delay: 1000.ms, duration: durationFast)
+                        .scale(
+                          begin: const Offset(0.5, 0.5),
+                          end: const Offset(1, 1),
+                          curve: Curves.elasticOut,
                         ),
-                        borderRadius: borderRadiusXxl,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.gold.withValues(
-                              alpha: opacityMedium,
-                            ),
-                            blurRadius: 16,
-                            spreadRadius: 2,
-                          ),
-                        ],
+
+                    const SizedBox(height: spacingLg),
+
+                    // Subtitle
+                    PhraseText(
+                      l10n.evolutionSubtitle,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: Colors.white70,
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.star, color: Colors.white, size: 24),
-                          const SizedBox(width: spacingSm),
-                          Text(
-                            stageName ?? l10n.stageFallback(currentStage),
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      textAlign: TextAlign.center,
+                    ).animate().fadeIn(delay: 1100.ms, duration: 400.ms),
+                  ],
+                ),
+
+                const SizedBox.shrink(),
+
+                Column(
+                  children: [
+                    // Continue button
+                    if (_showButton)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: spacingHuge,
+                        ),
+                        child: CelebrationButton(
+                          label: l10n.evolutionContinue,
+                          onPressed: widget.onDismiss,
+                        ),
                       ),
-                    )
-                    .animate()
-                    .fadeIn(delay: 1000.ms, duration: 400.ms)
-                    .scale(
-                      begin: const Offset(0.5, 0.5),
-                      end: const Offset(1, 1),
-                      curve: Curves.elasticOut,
-                    ),
 
-                const SizedBox(height: spacingLg),
-
-                // Subtitle
-                Text(
-                  l10n.evolutionSubtitle,
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: Colors.white70,
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 1100.ms, duration: 400.ms),
-
-                const Spacer(flex: 2),
-
-                // Continue button
-                if (_showButton)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: spacingHuge,
-                    ),
-                    child: CelebrationButton(
-                      label: l10n.evolutionContinue,
-                      onPressed: widget.onDismiss,
-                    ),
-                  ),
-
-                const SizedBox(height: spacingHuge),
+                    const SizedBox(height: spacingHuge),
+                  ],
+                ),
               ],
             ),
           ),

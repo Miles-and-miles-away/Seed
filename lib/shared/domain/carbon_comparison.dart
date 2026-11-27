@@ -46,9 +46,14 @@ ComparisonSummary? compareTotals(List<double> totals) {
     bestIndex: bestIndex,
     worstIndex: worstIndex,
     deltaGrams: delta,
-    deltaPercent: worst <= 0 ? 0 : delta / worst * 100,
+    deltaPercent: worst <= 0
+        ? 0
+        : (delta / worst * 100 * _percentScale).roundToDouble() / _percentScale,
   );
 }
+
+// Drops float drift, so an exact 20% gap meets a 20% bar.
+const _percentScale = 1e9;
 
 /// Points awarded for banking a calculator choice (Phase 8).
 ///

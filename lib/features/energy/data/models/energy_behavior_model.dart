@@ -66,6 +66,8 @@ abstract class EnergyBehavior with _$EnergyBehavior {
     @Default([]) List<UsagePreset> presets,
     @Default('') String defaultPresetId,
     @Default('') String calculationNotes,
+    @Default('') String calculationNotesJa,
+    @Default('') String calculationNotesEs,
     @Default([]) List<EmissionSource> sources,
 
     /// How well-sourced the factor is: `high`, `medium_high`, `medium`
@@ -90,6 +92,13 @@ abstract class EnergyBehavior with _$EnergyBehavior {
     'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
     _ => nameEn,
+  };
+
+  /// Localized calculation notes with English fallback.
+  String notes(String locale) => switch (locale) {
+    'ja' when calculationNotesJa.isNotEmpty => calculationNotesJa,
+    'es' when calculationNotesEs.isNotEmpty => calculationNotesEs,
+    _ => calculationNotes,
   };
 
   /// The preset the editor selects on open, or null when the dataset

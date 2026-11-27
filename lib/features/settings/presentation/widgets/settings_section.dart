@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/theme/text_styles.dart';
 
 /// A section header widget for grouping related settings.
 ///
@@ -37,14 +38,7 @@ class SettingsSection extends StatelessWidget {
             horizontal: spacingLg,
             vertical: spacingSm,
           ),
-          child: Text(
-            title.toUpperCase(),
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: colorScheme.primary,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.5,
-            ),
-          ),
+          child: Text(title.toUpperCase(), style: theme.overline),
         ),
         ...children,
       ],

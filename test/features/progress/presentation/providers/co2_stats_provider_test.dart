@@ -151,7 +151,24 @@ void main() {
       final stats = await c.read(co2StatsProvider(TimePeriod.thisWeek).future);
 
       expect(stats.totalGrams, 100);
+      // Wednesday: last week counts only Monday to Wednesday.
+      expect(stats.previousTotalGrams, 0);
+    });
+
+    test('a Wednesday compares with last Monday to Wednesday', () async {
+      final firestore = FakeFirebaseFirestore();
+      await _seedSummary(firestore, _now, 300);
+      await _seedSummary(firestore, DateTime(2026, 6, 10), 200);
+      await _seedSummary(firestore, DateTime(2026, 6, 11), 400);
+
+      final c = await pumpedContainer(
+        _overrides(firestore, const AppUserModel(uid: _userId, email: 'e')),
+      );
+
+      final stats = await c.read(co2StatsProvider(TimePeriod.thisWeek).future);
+
       expect(stats.previousTotalGrams, 200);
+      expect(stats.percentChange, closeTo(50.0, 0.001));
     });
 
     test('allTime reads user.totalCo2Grams and has zero previous', () async {

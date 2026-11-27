@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 /// App color palette
@@ -18,7 +20,7 @@ abstract class AppColors {
   static const speciesThemeSeeds = <String, Color>{
     'seed': primary,
     'coral': Color(0xFF4FC3F7), // light ocean blue
-    'fungi': Color(0xFFA1887F), // light chocolate brown
+    'fungi': Color(0xFFE57373), // light red
   };
 
   // Action category colors
@@ -37,6 +39,10 @@ abstract class AppColors {
   static const warning = Color(0xFFFFC107);
   static const error = Color(0xFFF44336);
   static const streak = Color(0xFFFF9800);
+
+  // Reserved for the info affordance; nothing else may use it.
+  static const infoLight = Color(0xFFA258D5);
+  static const infoDark = Color(0xFFB388FF);
 
   // Special effect / celebration colors
   static const gold = Color(0xFFFFD700);
@@ -72,9 +78,9 @@ abstract class AppColors {
 ///
 /// The category colours are fills, not ink: amber reads 1.6:1 on white
 /// and orange 2.2:1, well under the 4.5:1 body-text bar. At these two
-/// lightnesses every category clears it on both themes (worst case
-/// 4.7:1 light, 6.9:1 dark) while keeping its hue.
-const _textLightnessLight = 0.28;
+/// lightnesses every category clears it on both themes, on white and
+/// on the tinted card surfaces, while keeping its hue.
+const _textLightnessLight = 0.25;
 const _textLightnessDark = 0.70;
 
 /// Lightness for large text and graphics, which need only 3:1.
@@ -105,9 +111,18 @@ Color readableTextColor(
       .toColor();
 }
 
-/// Ink for a label on a solid [fill]: near-black on a light fill, white
-/// on a dark one. Theme-independent, because the fill is.
+/// Ink for a label on a solid [fill]: white or black, whichever
+/// contrasts more. Theme-independent, because the fill is.
 Color inkOnFill(Color fill) =>
-    ThemeData.estimateBrightnessForColor(fill) == Brightness.light
-    ? Colors.black87
-    : Colors.white;
+    _contrast(Colors.white, fill) >= _contrast(Colors.black, fill)
+    ? Colors.white
+    : Colors.black;
+
+double _contrast(Color a, Color b) {
+  final (la, lb) = (a.computeLuminance(), b.computeLuminance());
+  return (math.max(la, lb) + 0.05) / (math.min(la, lb) + 0.05);
+}
+
+/// The info affordance's reserved colour for a [brightness] surface.
+Color infoColor(Brightness brightness) =>
+    brightness == Brightness.dark ? AppColors.infoDark : AppColors.infoLight;

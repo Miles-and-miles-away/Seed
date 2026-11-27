@@ -9,6 +9,7 @@ import 'package:seed_app/features/eco_dex/domain/services/eco_dex_progress.dart'
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_locked_sheet.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_progress_bar.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// "Next Up" -- the undiscovered entries with the highest numeric
 /// progress, so the user can see what they are about to discover.
@@ -30,6 +31,7 @@ class EcoDexNextUpSection extends ConsumerWidget {
     final entries = entriesAsync.value;
 
     if (user == null || entries == null) return const SizedBox.shrink();
+    final discoveredCount = entries.where((e) => e.isDiscovered).length;
 
     final candidates =
         entries
@@ -37,7 +39,11 @@ class EcoDexNextUpSection extends ConsumerWidget {
             .map(
               (e) => (
                 entry: e.entry,
-                progress: ecoDexProgressOf(e.entry.condition, user),
+                progress: ecoDexProgressOf(
+                  e.entry.condition,
+                  user,
+                  discoveredCount: discoveredCount,
+                ),
               ),
             )
             // Exclude entries already at 100%: their condition is met but not
@@ -125,7 +131,7 @@ class _NextUpCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    PhraseText(
                       entry.hint(locale),
                       style: theme.textTheme.bodyMedium,
                       maxLines: 2,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +13,9 @@ import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/core/utils/utf16_length_limiting_text_input_formatter.dart';
 import 'package:seed_app/core/utils/validators.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/widgets/widgets.dart';
+import 'package:share_plus/share_plus.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_tile.dart';
 
@@ -142,6 +146,18 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
                     ),
                   ],
 
+                  SettingsSection(
+                    title: l10n.accountSettingsYourData,
+                    children: [
+                      SettingsTile(
+                        leading: const Icon(Icons.download_outlined),
+                        title: l10n.accountSettingsExportData,
+                        subtitle: l10n.accountSettingsExportDataSubtitle,
+                        onTap: _exportData,
+                      ),
+                    ],
+                  ),
+
                   // Danger zone
                   SettingsSection(
                     title: '',
@@ -223,6 +239,38 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     messenger.showSnackBar(SnackBar(content: Text(message)));
   }
 
+  Future<void> _exportData() async {
+    final uid = ref.read(userIdProvider);
+    if (uid == null) return;
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final box = context.findRenderObject() as RenderBox?;
+    setState(() => _isLoading = true);
+    try {
+      final json = await ref
+          .read(settingsRepositoryProvider)
+          .exportUserData(uid);
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [
+            XFile.fromData(utf8.encode(json), mimeType: 'application/json'),
+          ],
+          fileNameOverrides: const [_exportFileName],
+          sharePositionOrigin: box == null
+              ? null
+              : box.localToGlobal(Offset.zero) & box.size,
+        ),
+      );
+    } on Object catch (e) {
+      appLogger.error('Account: data export failed', error: e);
+      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  static const _exportFileName = 'seed-data-export.json';
+
   Future<void> _showChangeEmailDialog() async {
     var currentEmail = '';
     var newEmail = '';
@@ -250,10 +298,22 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     }
   }
 
+  /// Awaits a notifier call, rethrows its failure, and stops once unmounted.
+  Future<void> _checked(Future<void> call) async {
+    await call;
+    if (!mounted) throw AuthException(code: authCodeSignInCancelled);
+    if (ref.read(authProvider) case AsyncError(
+      :final error,
+      :final stackTrace,
+    )) {
+      Error.throwWithStackTrace(error, stackTrace);
+    }
+  }
+
   /// Shows the spinner while [op] runs, then reports [successMessage] and
   /// calls [onSuccess], or logs under [logLabel] and shows the mapped auth
-  /// error. Returns true on success so the caller can stop retrying; false
-  /// re-opens the dialog with input kept.
+  /// error. Returns false to re-open the dialog with input kept; true on
+  /// success or a cancelled sign-in prompt, which just ends the flow.
   Future<bool> _runReauthed({
     required Future<void> Function(AuthNotifier auth) op,
     required String logLabel,
@@ -276,6 +336,7 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
       }
       return true;
     } on Exception catch (e) {
+      if (e is AuthException && e.code == authCodeSignInCancelled) return true;
       appLogger.error(logLabel, error: e);
       if (mounted) {
         ScaffoldMessenger.of(
@@ -299,11 +360,13 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     final l10n = AppLocalizations.of(context);
     return _runReauthed(
       op: (auth) async {
-        await auth.reauthenticateWithEmailPassword(currentEmail, password);
-        await auth.updateEmail(newEmail);
+        await _checked(
+          auth.reauthenticateWithEmailPassword(currentEmail, password),
+        );
+        await _checked(auth.updateEmail(newEmail));
       },
       logLabel: 'Account: email update failed',
-      successMessage: l10n.accountSettingsEmailUpdated,
+      successMessage: l10n.accountSettingsEmailLinkSent,
     );
   }
 
@@ -344,8 +407,10 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     final l10n = AppLocalizations.of(context);
     return _runReauthed(
       op: (auth) async {
-        await auth.reauthenticateWithEmailPassword(email, currentPassword);
-        await auth.updatePassword(newPassword);
+        await _checked(
+          auth.reauthenticateWithEmailPassword(email, currentPassword),
+        );
+        await _checked(auth.updatePassword(newPassword));
       },
       logLabel: 'Account: password update failed',
       successMessage: l10n.accountSettingsPasswordUpdated,
@@ -388,9 +453,9 @@ class _AccountSettingsScreenState extends ConsumerState<AccountSettingsScreen> {
     return _runReauthed(
       op: (auth) async {
         if (requiresReauth && email.isNotEmpty && password.isNotEmpty) {
-          await auth.reauthenticateWithEmailPassword(email, password);
+          await _checked(auth.reauthenticateWithEmailPassword(email, password));
         }
-        await auth.deleteAccount();
+        await _checked(auth.deleteAccount());
       },
       logLabel: 'Account: account deletion failed',
       onSuccess: () => context.go(appRoutes.login),
@@ -655,7 +720,10 @@ class _DeleteAccountDialogState extends State<_DeleteAccountDialog> {
       dangerous: true,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.accountSettingsDeleteConfirmMessage),
+        PhraseText(
+          l10n.accountSettingsDeleteConfirmMessage,
+          minLineWidth: phraseDialogMinLineWidth,
+        ),
         if (widget.requiresReauth) ...[
           const SizedBox(height: spacingLg),
           Text(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
@@ -13,10 +15,17 @@ class ActionLibraryRemoteDataSource {
       firestore.collection(AppConstants.collectionActionLibrary);
 
   Future<List<ActionModel>> getActions() async {
-    final snapshot = await _collection
+    final query = _collection
         .where(AppConstants.fieldIsActive, isEqualTo: true)
-        .orderBy(AppConstants.fieldSortOrder)
-        .get();
+        .orderBy(AppConstants.fieldSortOrder);
+    const server = GetOptions(source: Source.server);
+    var snapshot = await query.get(const GetOptions(source: Source.cache));
+    if (snapshot.docs.isEmpty) {
+      snapshot = await query.get(server);
+    } else {
+      // Refreshes the cache, so a reseed shows on the next start.
+      unawaited(query.get(server).then((_) {}, onError: (_) {}));
+    }
     return snapshot.docs.map(ActionModel.fromFirestore).toList();
   }
 }

@@ -91,6 +91,17 @@ calculate each, and take a weighted average biased toward
 the most common case. Document all scenarios in the
 ACTION_LOGIC_CHECK or in longer comments.
 
+### Keep the long description in step
+
+Any `co2_grams` revision, in a research or update pass
+as much as for a new action, must update the long
+description in EN, JA and ES in the same change: the
+bold figure, yearly totals derived from it, and stated
+inputs (g/km, kg CO2e/kg, kWh, distance) that multiply
+to it. Then run
+`node scripts/seed/check_description_figures.js` (CI
+runs it too).
+
 ### Zero-CO2 actions are valid
 
 Actions like "attend eco group meeting" or "take on a
@@ -118,8 +129,7 @@ The `impact` score should reflect this broader value.
 > the rule above. **58 of the 92 shipping actions carry both an
 > empty `sources[]` and a null `confidence`**, 37 of them with a
 > nonzero `co2_grams` -- a stated saving with no recorded
-> provenance. The largest are `fix_leak` 100000 and
-> `recycle_textiles` 40000. Energy is clear: all 11
+> provenance. Energy is clear: all 11
 > `category: "energy"` actions were backfilled on 2026-08-29 from
 > primaries already live-verified in
 > [RESEARCH_ENERGY.md](./RESEARCH_ENERGY.md) sections 1 and 3.
@@ -136,7 +146,9 @@ The `impact` score should reflect this broader value.
 > docs until `npm run seed` prunes the demoted action.
 > Backfilling the rest needs each primary re-fetched and quoted
 > live per section 2, so it is its own pass per category. Update
-> this count when that happens.
+> this count when that happens. Current count: **92 shipping
+> actions, 30 with both an empty `sources[]` and a null
+> `confidence`, none of them nonzero** (all 30 are 0 g).
 
 ```javascript
 {
@@ -222,12 +234,12 @@ ZERO_CO2_SCALE   = 3
 ### Why the 0.4 exponent?
 
 Linear CO2-to-points would make "purchase an EV"
-(3,400,000g) worth 34,000x more than "recycle a can"
+(1,300,000g) worth 13,000x more than "recycle a can"
 (100g). The 0.4 power compresses this:
 - 100^0.4 = 6.3
-- 3,400,000^0.4 = 410
+- 1,300,000^0.4 = 279
 
-So the EV is ~65x the can in points, not 34,000x. This
+So the EV is ~44x the can in points, not 13,000x. This
 keeps daily habits competitive with rare big actions --
 logging recycling every day for a year accumulates far
 more than one EV purchase.
@@ -273,14 +285,14 @@ points = round(2 * 3 * 1.1 * 1.15)
        = round(7.59) = 8 pts
 ```
 
-**Purchase EV** (co2:3400000, eff:5, freq:1, imp:5)
+**Purchase EV** (co2:1300000, eff:5, freq:1, imp:4)
 ```
 effortMult = 0.7 + (5 * 0.15) = 1.45
 rarityMult = 1.3 - (1 * 0.1) = 1.20
-impactMult = 0.85 + (5 * 0.075) = 1.225
-points = round(3400000^0.4 * 1.45 * 1.2 * 1.225)
-       = round(410 * 2.13)
-       = round(873) = 873 pts
+impactMult = 0.85 + (4 * 0.075) = 1.15
+points = round(1300000^0.4 * 1.45 * 1.2 * 1.15)
+       = round(278.98 * 2.001)
+       = round(558.2) = 558 pts
 ```
 
 ### Point Sanity Check Table
@@ -298,14 +310,15 @@ fall in a believable range relative to existing actions.
 | Compost scraps | 200 | 2 | 5 | 3 | ~6 | daily |
 | Skip delivery | 600 | 3 | 4 | 2 | ~17 | instance |
 | Bike medium trip | 900 | 3 | 3 | 3 | ~25 | instance |
-| Skip high-impact food | 6000 | 2 | 3 | 4 | ~57 | instance |
+| Skip a beef meal | 6800 | 2 | 3 | 4 | ~39 | instance |
 | Air dry laundry | 1500 | 2 | 3 | 2 | ~26 | instance |
 | Secondhand clothing | 15000 | 2 | 3 | 3 | ~78 | instance |
 | Install LED | 25000 | 1 | 1 | 3 | ~63 | one-time |
-| Fix water leak | 100000 | 3 | 1 | 4 | ~153 | one-time |
-| Donate textiles | 40000 | 2 | 2 | 3 | ~101 | instance |
+| Train instead of flight | 100000 | 3 | 1 | 4 | ~159 | instance |
+| Fix water leak | 4100 | 3 | 1 | 4 | ~44 | one-time |
+| Recycle textiles | 120 | 2 | 2 | 3 | ~8 | instance |
 | Install solar | 2500000 | 5 | 1 | 5 | ~735 | one-time |
-| Purchase EV | 3400000 | 5 | 1 | 5 | ~873 | one-time |
+| Purchase EV | 1300000 | 5 | 1 | 4 | ~558 | one-time |
 | Eco meeting (0 CO2) | 0 | 2 | 2 | 4 | ~8 | instance |
 | Household task (0 CO2) | 0 | 2 | 4 | 4 | ~5 | instance |
 
@@ -374,8 +387,9 @@ need to change their behavior to log this?"
 If two actions are both <15g CO2 and occur in the same
 context, merge them. Individual actions like "refuse
 straw" (1g), "refuse cutlery" (5g), and "use cloth
-napkin" (5g) were merged into "refuse single-use
-disposables" (15g). The friction of finding and logging
+napkin" (5g) were merged into one disposables action,
+which now credits cutlery alone (51g) because a merged
+action binds to its smallest item. The friction of finding and logging
 three separate 1-5g actions is not worth the
 granularity.
 
@@ -384,11 +398,10 @@ granularity.
 If one action description could mean vastly different
 things, either:
 1. Define a standard unit (per bag, per smartphone)
-2. Split into tiers (high-impact food vs medium-impact)
+2. Split into tiers (beef vs medium-impact meat)
 
-The meat actions were split into high-impact (beef, lamb,
-shrimp: ~6000g) and medium-impact (chicken, pork, eggs:
-~1000g) because lumping them together would either
+The meat actions were split into a beef action (~6800g)
+and a medium-impact tier (chicken, pork: ~780g) because lumping them together would either
 overvalue chicken or undervalue beef.
 
 ### Do not double-count
@@ -399,22 +412,31 @@ Check for overlap with existing actions before adding.
 and "farmers market" described the same shopping trip.
 Merge or remove the weaker one.
 
+This check is about duplicate actions in the library. Overlap
+between two logged actions (a vegan day and a skipped beef meal
+on the same day) is accepted, and the methodology text says so.
+
 ### Beware of one-time vs ongoing framing
 
 If an action is logged once but produces ongoing savings,
 the CO2 value must reflect the **projected benefit over
-a stated period** (typically first year), not a single
+the first year only**, not a single
 day's savings. Conversely, do not give a daily action
 a lifetime CO2 value.
 
 Examples:
 - Install LED: 25,000g = first-year savings (51.5W diff
   x 3hrs/day x 365 x 458g/kWh = 25,820, rounded down)
-- Fix leak: 100,000g = conservative 1-year savings
-  (~300g/day x 365)
-- EV purchase: 3,400,000g = 2-year projected savings
+- Fix leak: 4,100g = first-year savings (EPA: a tap that
+  drips once a second wastes more than 3,000 US gallons a year,
+  11.356 m3 x DESNZ water supply plus treatment 0.36218 kg/m3)
+- EV purchase: 1,300,000g = first-year savings (DfT NTS0901
+  7,100 miles = 11,426 km x (DESNZ petrol 207.51 - BEV 86 g/km)
+  = 1,388,415, rounded down)
 
-Always state the projection window in the comment.
+Always state the projection window in the comment. Carbon
+stored by a living thing (a planted tree) is not claimed: the
+action ships at 0 g and earns points for effort only.
 
 ---
 
@@ -454,8 +476,13 @@ Always state the projection window in the comment.
    name and short description.
 
 9. **Write the long description.** 3-5 sentences with
-   markdown bold for CO2 figures and source links. Add
-   to the appropriate `action_descriptions_*.js` file.
+   source links, in the appropriate
+   `action_descriptions_*.js` file. Bold one figure, the
+   quantity only (`**99g** of CO2`), in the first
+   sentence, equal to `co2_grams` as the app displays it,
+   with no bracketed restatement. Any yearly total or
+   stated input must multiply to that figure. See
+   "Keep the long description in step" (section 2).
 
 10. **Assign relatedSdgs.** Every action should map to
     at least one SDG. SDG 13 (Climate Action) applies to
@@ -470,10 +497,10 @@ These are the tier-1 sources used for CO2 estimation.
 New actions should cite from this list where possible.
 
 - **DEFRA/DESNZ GHG Conversion Factors** - UK Government
-  (transport, energy, waste). Two releases are live: transport
-  ships the **2025** factors with the 2026 deltas flagged for the
-  next pass, energy ships the **2026** natural-gas row. Record the
-  release vintage on every figure -- aggregators mix them.
+  (transport, energy, waste). Transport and energy ship one
+  release, and both include the well-to-tank term (lifecycle
+  boundary, the same as the grid factor). Record the release
+  vintage on every figure -- aggregators mix them.
 - **Poore & Nemecek 2018** - Science meta-analysis of
   38,700 farms (food lifecycle emissions)
 - **US EPA** - Greenhouse Gas Equivalencies Calculator,
@@ -545,15 +572,12 @@ function computePoints(action) {
 }
 ```
 
-### Streak Bonus (applied at log time in Dart)
-
-Points earned per log are multiplied by a streak bonus:
-- Formula: `bonus = 1.0 + (streakDays * 0.033)`
-- Capped at 2.0x (reached at 30-day streak)
-- This means a 30-day streak doubles all points earned
+Streaks award no bonus points: points per log are the action's points only.
 
 ### Level Curve
 
+Source: `AppConstants.pointsPerLevel` and `AppConstants.levelScalingFactor`.
+
 - Base: 100 points per level
-- Scaling factor: 1.5x per level (geometric)
-- Level N requires: sum of 100 * 1.5^(i-1) for i=1..N-1
+- Scaling factor: 1.05x per level (geometric)
+- Level N requires: sum of 100 * 1.05^(i-1) for i=1..N-1

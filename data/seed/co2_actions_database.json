@@ -8,8 +8,8 @@
     "grid_factors": {
       "global_average_g_co2e_per_kwh": 458,
       "source": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
-      "natural_gas_g_co2e_per_kwh": 182,
-      "gas_source": "DEFRA/DESNZ 2026, Scope 1 combustion, Gross CV",
+      "natural_gas_g_co2e_per_kwh": 212,
+      "gas_source": "DEFRA/DESNZ 2026, Gross CV: Scope 1 combustion 0.18231 + Scope 3 well-to-tank 0.03021 = 0.21252, rounded down",
       "note": "Superseded the retired 386 g CO2/kWh on 2026-08-02 (decision E1). Regional factors are a separate open question -- see Plan/PDR_GRID_REGIONALISATION.md."
     },
     "primary_sources": [
@@ -70,10 +70,10 @@
       "category": "recycling",
       "name_en": "Recycle Plastic Bottle",
       "name_ja": "ペットボトルをリサイクル",
-      "name_es": "Reciclar botella de plastico",
+      "name_es": "Reciclar botella de plástico",
       "description_en": "Recycle a PET plastic bottle properly",
       "description_ja": "ペットボトルを正しくリサイクル",
-      "description_es": "Reciclar correctamente una botella de plastico PET",
+      "description_es": "Reciclar correctamente una botella de plástico PET",
       "co2_grams": 50,
       "calculation_notes": "~35-50g PET bottle (rPET LCA)",
       "effort": 1,
@@ -108,12 +108,12 @@
       "category": "recycling",
       "name_en": "Recycle Cardboard",
       "name_ja": "段ボールをリサイクル",
-      "name_es": "Reciclar carton",
+      "name_es": "Reciclar cartón",
       "description_en": "Flatten and recycle cardboard boxes",
       "description_ja": "段ボール箱を潰してリサイクル",
-      "description_es": "Aplanar y reciclar cajas de carton",
-      "co2_grams": 500,
-      "calculation_notes": "typical ~230g box; EPA WARM 2160g/kg = ~500g",
+      "description_es": "Aplanar y reciclar cajas de cartón",
+      "co2_grams": 840,
+      "calculation_notes": "One box of about 230 g per log. EPA WARM v16 corrugated containers: net recycling -3.14 and net landfilling 0.18 MTCO2e per short ton, so recycling saves 3.32 / 0.907185 = 3.660 kg CO2e per kg against landfill. 0.23 kg x 3.660 = 841.7 g, rounded down to 840 g. The 230 g box is an assumption. US data.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -124,8 +124,15 @@
       ],
       "is_active": true,
       "sort_order": 3,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WARM v16, Containers, Packaging and Non-Durable Goods Materials, Exhibit 3-7 (MTCO2E/Short Ton; columns: source reduction, recycling, composting, combustion, landfilling, anaerobic digestion)",
+          "url": "https://www.epa.gov/system/files/documents/2023-12/warm_containers_packaging_and_non-durable_goods_materials_v16_dec.pdf",
+          "quote": "Corrugated Containers (5.58) (3.14) NA (0.49) 0.18 NA",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "composting",
@@ -174,8 +181,8 @@
       "description_en": "Recycle glass jars and bottles instead of trashing",
       "description_ja": "ガラス瓶をゴミ箱ではなくリサイクルへ",
       "description_es": "Reciclar frascos y botellas de vidrio en vez de tirarlos",
-      "co2_grams": 167,
-      "calculation_notes": "avg 250g jar; EPA WARM 667g/kg (~300g per 450g bottle) = ~167g",
+      "co2_grams": 80,
+      "calculation_notes": "per ~250 g jar, recycled instead of landfilled: EPA WARM v16 glass recycling -0.28 and landfilling +0.02 MTCO2E per short ton (Exhibit 1-4), net 0.30 t per 907.185 kg = 0.3307 kg CO2e/kg. 0.25 kg x 330.7 g/kg = 82.7 g, rounded down to 80 g (savings always round DOWN). The 250 g jar mass is an assumption, so confidence is medium. WARM is a US model.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -185,8 +192,15 @@
       ],
       "is_active": true,
       "sort_order": 5,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WARM Version 16, Containers, Packaging and Non-Durable Goods Materials (Glass chapter), December 2023",
+          "url": "https://www.epa.gov/system/files/documents/2023-12/warm_containers_packaging_and_non-durable_goods_materials_v16_dec.pdf",
+          "quote": "Glass (0.53) (0.28) NA 0.03 0.02 NA",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "recycle_paper",
@@ -197,8 +211,8 @@
       "description_en": "Recycle paper instead of throwing it in the trash",
       "description_ja": "紙をゴミ箱ではなくリサイクルへ",
       "description_es": "Reciclar papel en vez de tirarlo a la basura",
-      "co2_grams": 50,
-      "calculation_notes": "~100g paper; 0.5kg CO2/kg saved",
+      "co2_grams": 390,
+      "calculation_notes": "About 100 g of paper per log. EPA WARM v16 mixed paper (primarily residential): net recycling -3.55 and net landfilling 0.02 MTCO2e per short ton, so recycling saves 3.57 / 0.907185 = 3.935 kg CO2e per kg against landfill. 0.1 kg x 3.935 = 393.5 g, rounded down to 390 g. The 100 g is an assumption. US data.",
       "effort": 1,
       "frequency": 5,
       "impact": 2,
@@ -209,20 +223,27 @@
       ],
       "is_active": true,
       "sort_order": 6,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WARM v16, Containers, Packaging and Non-Durable Goods Materials, Exhibit 3-7 (MTCO2E/Short Ton; columns: source reduction, recycling, composting, combustion, landfilling, anaerobic digestion)",
+          "url": "https://www.epa.gov/system/files/documents/2023-12/warm_containers_packaging_and_non-durable_goods_materials_v16_dec.pdf",
+          "quote": "Mixed Paper (primarily residential) (6.00) (3.55) NA (0.49) 0.02 NA",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "recycle_ewaste",
       "category": "recycling",
       "name_en": "Recycle E-Waste",
       "name_ja": "電子機器をリサイクル",
-      "name_es": "Reciclar residuos electronicos",
-      "description_en": "Take old electronics to an e-waste recycling centre",
-      "description_ja": "古い電子機器をリサイクルセンターへ持参",
-      "description_es": "Llevar electronica vieja a un centro de reciclaje",
-      "co2_grams": 2000,
-      "calculation_notes": "per-phone: one device",
+      "name_es": "Reciclar residuos electrónicos",
+      "description_en": "Take one old phone to an e-waste recycling point (per phone)",
+      "description_ja": "古い携帯電話1台を回収・リサイクル拠点へ持参（1台あたり）",
+      "description_es": "Llevar un móvil viejo a un punto limpio (por móvil)",
+      "co2_grams": 210,
+      "calculation_notes": "Per phone, one device per log. EPA WARM v16 portable electronic devices: net recycling -1.06 and net landfilling 0.02 MTCO2e per short ton, so recycling saves 1.08 / 0.907185 = 1.19 kg CO2e per kg against landfill. One phone of 177 g (iPhone 17) x 1.19 = 210.7 g, rounded down to 210 g. US data. A heavier device such as a laptop saves more per item.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -233,20 +254,33 @@
       ],
       "is_active": true,
       "sort_order": 7,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WARM v16, Electronics, Exhibit 1-5 (MTCO2E/Short Ton; columns: source reduction, recycling, composting, combustion, landfilling, anaerobic digestion)",
+          "url": "https://www.epa.gov/system/files/documents/2023-12/warm_electronics_v16_dec.pdf",
+          "quote": "Portable Electronic Devices (29.83) (1.06) NA 0.65 0.02 NA",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Apple, iPhone 17 Technical Specifications",
+          "url": "https://www.apple.com/iphone-17/specs/",
+          "quote": "Weight: 6.24 ounces (177 grams)",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "recycle_textiles",
       "category": "recycling",
-      "name_en": "Recycle Textiles",
-      "name_ja": "衣類をリサイクル",
-      "name_es": "Reciclar textiles",
-      "description_en": "Donate or recycle old clothing and textiles",
-      "description_ja": "古い衣類を寄付またはリサイクル",
-      "description_es": "Donar o reciclar ropa y textiles viejos",
-      "co2_grams": 40000,
-      "calculation_notes": "per-bag: ~3kg x 13kg/kg",
+      "name_en": "Recycle Worn-Out Clothes",
+      "name_ja": "着られない服をリサイクル",
+      "name_es": "Reciclar ropa gastada",
+      "description_en": "Put a worn-out garment in a textile bank instead of the bin",
+      "description_ja": "着られなくなった服を、ごみではなく回収ボックスへ",
+      "description_es": "Llevar una prenda gastada al contenedor textil en vez de a la basura",
+      "co2_grams": 120,
+      "calculation_notes": "per garment, cotton T-shirt basis. Weight: WRAP 2012, about 120 million T-shirts at about 30,000 tonnes = 0.25 kg each. DESNZ 2026 clothing waste disposal: landfill 496.80605 minus closed-loop 4.65358 = 492.15 kg CO2e per tonne. 0.25 kg x 0.49215 = 123 g, rounded down to 120 g. DESNZ waste factors give no credit for avoided virgin fibre, so this counts only the avoided landfill emissions. A wearable garment belongs in donate_clothes.",
       "effort": 2,
       "frequency": 2,
       "impact": 3,
@@ -257,8 +291,76 @@
       ],
       "is_active": true,
       "sort_order": 8,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Waste disposal | Other | Clothing |  | Landfill | tonnes | kg CO2e | 496.80605",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Waste disposal | Other | Clothing |  | Closed-loop | tonnes | kg CO2e | 4.65358",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2012, Valuing Our Clothes: the evidence base (technical report), p.42 (archived copy)",
+          "url": "https://web.archive.org/web/2020/https://www.truevaluemetrics.org/DBpdfs/Issues/SupplyChain/Textiles/WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf",
+          "quote": "around 120 million t-shirts are re-used (ca 30,000 tonnes) in some form each year",
+          "accessed": "2026-11-22"
+        }
+      ]
+    },
+    {
+      "action_id": "donate_clothes",
+      "category": "recycling",
+      "name_en": "Donate Clothes for Reuse",
+      "name_ja": "服を寄付して再利用",
+      "name_es": "Donar ropa para reutilizar",
+      "description_en": "Give wearable clothes to a charity shop or resale instead of throwing them away",
+      "description_ja": "まだ着られる服を、捨てずに寄付や再販売に回す",
+      "description_es": "Dar ropa que aún se puede usar a una tienda solidaria o de reventa en vez de tirarla",
+      "co2_grams": 1700,
+      "calculation_notes": "per garment, cotton T-shirt basis. WRAP 2025 worked example for an online resale platform, applied here to charity shops: net avoided N = E - (P x D) = 0.4 - (4.2 x 0.5) = -1.7 kg CO2e, where P = 4.2 kg to make a new T-shirt, E = 0.4 kg for resale transport and packaging, D = 50% displacement. WRAP measured 64.6% for UK peer-to-peer resale, so the example's 50% is the lower rate and no charity-shop rate is published. WRAP 2012 states 450,000 t CO2e avoided a year and about 120 million T-shirts re-used a year. The 3.75 kg each is derived here (450,000 t / 120 million), not stated by WRAP, so 1.7 kg is the lower figure. Heavier garments such as jeans save more (see secondhand_clothing).",
+      "effort": 2,
+      "frequency": 2,
+      "impact": 3,
+      "icon_name": "checkroom",
+      "related_sdgs": [
+        "12",
+        "13"
+      ],
+      "is_active": true,
+      "sort_order": 9,
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "WRAP 2025, Displacement Rates Untangled: A Standardised Methodology (Textiles 2030)",
+          "url": "https://www.wrap.ngo/sites/default/files/2025-02/WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf",
+          "quote": "0.4 – (4.2 x 0.5) = -1.7 kgCO2e",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2025, Displacement Rates Untangled: A Standardised Methodology (Textiles 2030)",
+          "url": "https://www.wrap.ngo/sites/default/files/2025-02/WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf",
+          "quote": "64.6% Over 3 in 5 second-hand clothing purchases displace new",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2012, Valuing Our Clothes: the evidence base (technical report), p.42 (archived copy)",
+          "url": "https://web.archive.org/web/2020/https://www.truevaluemetrics.org/DBpdfs/Issues/SupplyChain/Textiles/WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf",
+          "quote": "avoidance of 450,000 tonnes CO2e per year",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2012, Valuing Our Clothes: the evidence base (technical report), p.42 (archived copy)",
+          "url": "https://web.archive.org/web/2020/https://www.truevaluemetrics.org/DBpdfs/Issues/SupplyChain/Textiles/WRAP-REPORT-10.7.12%20VOC-%20FINAL.pdf",
+          "quote": "around 120 million t-shirts are re-used (ca 30,000 tonnes) in some form each year",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "recycle_batteries",
@@ -269,8 +371,8 @@
       "description_en": "Take used batteries to a proper recycling drop-off",
       "description_ja": "使用済み電池をリサイクル回収場所へ",
       "description_es": "Llevar pilas usadas a un punto de reciclaje adecuado",
-      "co2_grams": 95,
-      "calculation_notes": "batch ~4 AA; 1-2kg CO2/kg",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. DESNZ 2026 waste disposal: batteries to landfill 9.00687 - open-loop recycling 4.65358 = 4.35 kg CO2e per tonne, which is less than 1 g for a household batch. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 2,
       "impact": 2,
@@ -280,9 +382,22 @@
         "13"
       ],
       "is_active": true,
-      "sort_order": 9,
+      "sort_order": 10,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | Waste disposal | Electrical items | Batteries | Landfill | tonnes | kg CO2e | 9.00687",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | Waste disposal | Electrical items | Batteries | Open-loop | tonnes | kg CO2e | 4.65358",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "recycle_cooking_oil",
@@ -293,8 +408,8 @@
       "description_en": "Take used cooking oil to a recycling collection point",
       "description_ja": "使用済み食用油をリサイクル回収場所へ",
       "description_es": "Llevar aceite usado a un punto de recogida para reciclaje",
-      "co2_grams": 1500,
-      "calculation_notes": "per ~0.6L drop-off; waste-oil biodiesel saves ~2,460g/L vs fossil diesel (EPA 86% lifecycle reduction)",
+      "co2_grams": 620,
+      "calculation_notes": "About 250 mL of used oil per log. DESNZ 2026: diesel 2.66155 + well-to-tank 0.62409 = 3.28564 kg CO2e/L; biodiesel from used cooking oil 0.16751 + 0.3534 = 0.52091 kg CO2e/L. One litre of biodiesel (33 MJ) replaces 33/36 L of diesel (36 MJ/L): 3.28564 x 33/36 - 0.52091 = 2.4909 kg CO2e per litre. 0.25 L x 2,490.9 = 622.7 g, rounded down to 620 g. Assumptions: the 250 mL, and that 1 L of used oil makes 1 L of biodiesel that replaces fossil diesel.",
       "effort": 2,
       "frequency": 2,
       "impact": 3,
@@ -305,9 +420,46 @@
         "14"
       ],
       "is_active": true,
-      "sort_order": 10,
-      "confidence": null,
-      "sources": []
+      "sort_order": 11,
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 1 | Fuels | Liquid fuels | Diesel (100% mineral diesel) | litres | kg CO2e | 2.66155",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- fuels | Liquid fuels | Diesel (100% mineral diesel) | litres | kg CO2e | 0.62409",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 1 | Bioenergy | Biofuel | Biodiesel ME (from used cooking oil) | litres | kg CO2e | 0.16751",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- bioenergy | WTT- biofuel | Biodiesel ME (from used cooking oil) | litres | kg CO2e | 0.3534",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "Directive (EU) 2018/2001, Annex III",
+          "url": "https://www.legislation.gov.uk/eudr/2018/2001/annex/III",
+          "quote": "fatty acid methyl ester (methyl-ester produced from oil of biomass origin) 37 33",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Directive (EU) 2018/2001, Annex III",
+          "url": "https://www.legislation.gov.uk/eudr/2018/2001/annex/III",
+          "quote": "FOSSIL FUELS Petrol 43 32 Diesel 43 36",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "walk_instead_drive",
@@ -318,8 +470,8 @@
       "description_en": "Walk to your destination (~1.5 km) instead of driving",
       "description_ja": "車を使わずに目的地まで歩く",
       "description_es": "Caminar hasta tu destino en vez de conducir",
-      "co2_grams": 240,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 1.5 km x 162.72 = 244.08 g, rounded down to 240 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "co2_grams": 310,
+      "calculation_notes": "car_petrol_avg 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99, the value shipped in data/app/transport_modes.json). 1.5 km x 207.51 = 311.26 g, rounded down to 310 g.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -334,10 +486,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
-          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
-          "accessed": "2026-08-09"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -346,12 +504,12 @@
       "category": "transport",
       "name_en": "Short Bike Trip",
       "name_ja": "近距離を自転車で移動",
-      "name_es": "Bicicleta para viaje corto",
+      "name_es": "Trayecto corto en bici",
       "description_en": "Bike instead of drive for a short trip (under 3km)",
       "description_ja": "短距離（3km未満）の移動に車の代わりに自転車を使用",
-      "description_es": "Usar bicicleta en vez de auto para un viaje corto (menos de 3km)",
-      "co2_grams": 480,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 3 km x 162.72 = 488.16 g, rounded down to 480 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "description_es": "Ir en bici en vez de en coche en un trayecto corto (menos de 3 km)",
+      "co2_grams": 620,
+      "calculation_notes": "car_petrol_avg 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99, the value shipped in data/app/transport_modes.json). 3 km x 207.51 = 622.53 g, rounded down to 620 g.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -366,10 +524,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
-          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
-          "accessed": "2026-08-09"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -378,12 +542,12 @@
       "category": "transport",
       "name_en": "Medium Bike Trip",
       "name_ja": "中距離を自転車で移動",
-      "name_es": "Bicicleta para viaje medio",
-      "description_en": "Bike instead of drive for a medium trip (3-10km)",
-      "description_ja": "中距離（3-10km）の移動に車の代わりに自転車を使用",
-      "description_es": "Usar bicicleta en vez de auto para un viaje medio (3-10km)",
-      "co2_grams": 970,
-      "calculation_notes": "car_petrol_avg 162.72 g CO2e/vkm (DEFRA 2026 average petrol car, the value shipped in data/app/transport_modes.json). 6 km x 162.72 = 976.32 g, rounded down to 970 g. Replaces a stale '164 g/km (DEFRA 2024)' citation and, for two of these, a value that rounded UP.",
+      "name_es": "Trayecto medio en bici",
+      "description_en": "Bike instead of drive for a medium trip (~6 km)",
+      "description_ja": "中距離（約6km）の移動に車の代わりに自転車を使用",
+      "description_es": "Ir en bici en vez de en coche en un trayecto medio (unos 6 km)",
+      "co2_grams": 1200,
+      "calculation_notes": "car_petrol_avg 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99, the value shipped in data/app/transport_modes.json). 6 km x 207.51 = 1245.06 g, rounded down to 1200 g.",
       "effort": 3,
       "frequency": 3,
       "impact": 2,
@@ -398,10 +562,16 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "DEFRA/DESNZ 2026 GHG Conversion Factors, via data/app/transport_modes.json `car_petrol_avg`",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
-          "quote": "Natural gas and passenger-vehicle factors, 2026 flat-format release",
-          "accessed": "2026-08-09"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -410,12 +580,12 @@
       "category": "transport",
       "name_en": "Take Public Transport",
       "name_ja": "公共交通機関を利用",
-      "name_es": "Usar transporte publico",
+      "name_es": "Ir en transporte público",
       "description_en": "Take bus or train instead of driving (~10 km trip)",
       "description_ja": "車の代わりにバスや電車を利用",
-      "description_es": "Tomar autobus o tren en vez de conducir",
-      "co2_grams": 1000,
-      "calculation_notes": "10km; car-bus net ~1040g saved",
+      "description_es": "Ir en autobús o en tren en vez de en coche",
+      "co2_grams": 790,
+      "calculation_notes": "per 10 km trip, bus basis: DESNZ 2026 average petrol car 207.51 g CO2e/km minus DESNZ 2026 average local bus 128.00 g CO2e/pkm, both including fuel supply (well-to-tank) = 79.51 g/km x 10 km = 795.1 g, rounded down to 790 g (savings always round DOWN). The same factors as car_petrol_avg and bus_city in data/app/transport_modes.json.",
       "effort": 2,
       "frequency": 4,
       "impact": 3,
@@ -428,19 +598,44 @@
       "is_active": true,
       "sort_order": 4,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Bus | Average local bus | passenger.km | kg CO2e | 0.10151",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- bus | Average local bus | passenger.km | kg CO2e | 0.02649",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "carpool",
       "category": "transport",
       "name_en": "Carpool",
       "name_ja": "相乗りで移動",
-      "name_es": "Compartir auto",
+      "name_es": "Compartir coche",
       "description_en": "Share a ride instead of driving alone (~10 km trip)",
       "description_ja": "一人で運転する代わりに相乗りする",
       "description_es": "Compartir viaje en vez de conducir solo",
-      "co2_grams": 800,
-      "calculation_notes": "~10km; halve per-person emissions",
+      "co2_grams": 1000,
+      "calculation_notes": "Two people share one car for 10 km: 10 km x 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99) / 2 = 1,037 g, rounded down to 1,000 g. The 10 km trip is an assumption.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -451,20 +646,33 @@
       ],
       "is_active": true,
       "sort_order": 5,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "electric_car_purchase",
       "category": "transport",
       "name_en": "Purchase Electric Vehicle",
       "name_ja": "電気自動車を購入",
-      "name_es": "Comprar vehiculo electrico",
-      "description_en": "Purchase an electric vehicle instead of a gasoline car",
+      "name_es": "Comprar coche eléctrico",
+      "description_en": "Purchase an electric car instead of a petrol car",
       "description_ja": "ガソリン車の代わりに電気自動車を購入する",
-      "description_es": "Comprar un vehiculo electrico en vez de uno de gasolina",
-      "co2_grams": 3400000,
-      "calculation_notes": "one-time milestone",
+      "description_es": "Comprar un coche eléctrico en vez de uno de gasolina",
+      "co2_grams": 1300000,
+      "calculation_notes": "First-year saving. 7,100 miles/yr (DfT NTS0901a, all cars, England, 2025) x 1.609344 = 11,426 km. Per km: average petrol car 207.51 g CO2e/km (DESNZ 2026, direct 161.52 + well-to-tank 45.99) - electric car 86 g CO2e/km (0.188 kWh/km x 458 g CO2e/kWh, the transport calculator car_bev factor) = 121.51 g/km. 11,426 km x 121.51 = 1,388,415 g, rounded down to 1,300,000 g. Manufacturing is excluded for both cars.",
       "effort": 5,
       "frequency": 1,
       "impact": 4,
@@ -480,10 +688,34 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "UK DEFRA 2024",
-          "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024",
-          "quote": "Battery Electric Cars: Emissions for battery electric cars have decreased by 13.56%, driven by the penetration of newer, more efficient electric vehicles.",
-          "accessed": "2026-01-31"
+          "name": "DfT National Travel Survey NTS0901",
+          "url": "https://assets.publishing.service.gov.uk/media/6a9ed42af36e1f225ecb7eab/nts0901.ods",
+          "quote": "NTS0901a: Annual mileage of cars by fuel type (miles): England, 2002 onwards ... Year | Petrol | Diesel | Hybrid | Plug-in hybrid | Battery electric | All cars ... 2025 | 6,200 | 8,000 | 8,100 | [u] | 9,400 | 7,100",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "EV Database",
+          "url": "https://ev-database.org/cheatsheet/energy-consumption-electric-car",
+          "quote": "Average 188 Wh/km",
+          "accessed": "2026-07-19"
+        },
+        {
+          "name": "Carbon Brief, Factcheck: How electric vehicles help to tackle climate change",
+          "url": "https://www.carbonbrief.org/factcheck-how-electric-vehicles-help-to-tackle-climate-change/",
+          "quote": "this excess carbon debt would be paid back after less than two years of driving",
+          "accessed": "2026-11-23"
         }
       ]
     },
@@ -492,12 +724,12 @@
       "category": "transport",
       "name_en": "Train Instead of Flight",
       "name_ja": "飛行機の代わりに電車",
-      "name_es": "Tren en vez de avion",
-      "description_en": "Take a train instead of a short-haul flight",
-      "description_ja": "短距離フライトの代わりに電車を利用",
-      "description_es": "Tomar un tren en vez de un vuelo de corta distancia",
-      "co2_grams": 110000,
-      "calculation_notes": "500km; ~200g/km flight vs 40g rail",
+      "name_es": "Tren en vez de avión",
+      "description_en": "Take a train instead of a domestic flight",
+      "description_ja": "国内線の代わりに電車を利用",
+      "description_es": "Ir en tren en vez de coger un vuelo nacional",
+      "co2_grams": 100000,
+      "calculation_notes": "per 500 km trip: DESNZ 2026 domestic flight 262.78 g CO2e/pkm (average passenger, radiative forcing on the direct part, including fuel supply) minus national rail 50.86 g CO2e/pkm (ORR 2024-25 traction energy at the house grid factor 458 and DESNZ 2026 gas oil, including fuel supply) = 211.92 g/km x 500 km = 105,960 g, rounded down to 100,000 g (savings always round DOWN). The same factors as flight_domestic and rail_national in data/app/transport_modes.json.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -511,16 +743,34 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "Robeco/BEIS DEFRA",
-          "url": "https://www.robeco.com/en-uk/insights/2020/02/short-haul-flights-are-the-worst-offenders-for-co",
-          "quote": "Aircraft on routes of 700 kilometers or less emit more carbon dioxide per person for every kilometer traveled than long-haul flights: 251 grams per km for short haul compared to 195 g/km for long haul.",
-          "accessed": "2026-01-31"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- air | Flights | Domestic, to/from UK | Average passenger | With RF | passenger.km | kg CO2e | 0.22928",
+          "accessed": "2026-11-21"
         },
         {
-          "name": "DEFRA Methodology",
-          "url": "https://www.carbonkit.net/categories/DEFRA_journey_based_flight_methodology",
-          "quote": "Each scenario is represented by an illustrative distance which represents the typical flight distance for the associated distance categorization, as well as the following per passenger emissions factors (expressed in terms of kg CO2e per km).",
-          "accessed": "2026-01-31"
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- business travel- air | WTT- flights | Domestic, to/from UK | Average passenger | With RF | passenger.km | kg CO2e | 0.0335",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "ORR Rail environment, April 2024 to March 2025",
+          "url": "https://dataportal.orr.gov.uk/media/xw4f0ohl/rail-environment-2024-25.pdf",
+          "quote": "total traction electricity consumption for passenger trains was 4,050 million kilowatt hours | Total traction diesel consumption for passenger trains was 423 million litres",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "ORR Passenger rail usage, January to March 2025",
+          "url": "https://dataportal.orr.gov.uk/media/zzlpyvq4/passenger-rail-usage-jan-mar-2025.pdf",
+          "quote": "From April 2024 to March 2025 there were 64.6 billion passenger kilometres.",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Fuels | Liquid fuels | Gas oil | litres | kg CO2e | 2.75541 | WTT- fuels | Liquid fuels | Gas oil | litres | kg CO2e | 0.62665",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -529,12 +779,12 @@
       "category": "transport",
       "name_en": "Take the Bus",
       "name_ja": "バスを利用",
-      "name_es": "Tomar el autobus",
+      "name_es": "Ir en autobús",
       "description_en": "Take a bus instead of driving (~7 km trip)",
       "description_ja": "通勤に車の代わりにバスを利用",
-      "description_es": "Tomar el autobus en vez de conducir para ir al trabajo",
-      "co2_grams": 500,
-      "calculation_notes": "~7km; bus 89g/pkm vs car 164g/km",
+      "description_es": "Ir en autobús en vez de en coche para ir al trabajo",
+      "co2_grams": 550,
+      "calculation_notes": "per 7 km trip: DESNZ 2026 average petrol car 207.51 g CO2e/km minus DESNZ 2026 average local bus 128.00 g CO2e/pkm, both including fuel supply (well-to-tank) = 79.51 g/km x 7 km = 556.6 g, rounded down to 550 g (savings always round DOWN). The same factors as car_petrol_avg and bus_city in data/app/transport_modes.json.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -547,19 +797,44 @@
       "is_active": true,
       "sort_order": 8,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Business travel- land | Bus | Average local bus | passenger.km | kg CO2e | 0.10151",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- bus | Average local bus | passenger.km | kg CO2e | 0.02649",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "escooter_trip",
       "category": "transport",
       "name_en": "E-Scooter Instead of Driving",
       "name_ja": "電動キックボードで移動",
-      "name_es": "Patinete electrico en vez de auto",
-      "description_en": "Use an e-scooter instead of driving for a short trip",
-      "description_ja": "短距離移動に車の代わりに電動キックボードを使用",
-      "description_es": "Usar un patinete electrico en vez de conducir para un viaje corto",
-      "co2_grams": 375,
-      "calculation_notes": "~2.5km; car-scooter net ~322g",
+      "name_es": "Patinete eléctrico en vez de coche",
+      "description_en": "Ride your own e-scooter instead of driving for a short trip",
+      "description_ja": "短距離移動に車の代わりに自分の電動キックボードを使用",
+      "description_es": "Usar tu propio patinete eléctrico en vez de conducir en un trayecto corto",
+      "co2_grams": 500,
+      "calculation_notes": "per 2.5 km trip: car_petrol_avg 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99) minus escooter_private 7 g CO2e/km (Springer 2024, 14-15.8 Wh/km at the house grid factor 458 g CO2e/kWh, upper end), both the values shipped in data/app/transport_modes.json = 200.51 g/km x 2.5 km = 501.28 g, rounded down to 500 g (savings always round DOWN). Electricity only: scooter manufacture is excluded, as in escooter_private. Confidence medium because the 2.5 km trip length is an assumption.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -570,20 +845,45 @@
       ],
       "is_active": true,
       "sort_order": 9,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "Springer Environmental Sciences Europe 2024",
+          "url": "https://link.springer.com/article/10.1186/s12302-024-00920-x",
+          "quote": "1.4 kWh/100 km",
+          "accessed": "2026-07-17"
+        },
+        {
+          "name": "Springer Environmental Sciences Europe 2024",
+          "url": "https://link.springer.com/article/10.1186/s12302-024-00920-x",
+          "quote": "The Al e-scooter has an electricity consumption of 1.576 kWh/100 km, based on its 20.1 km range and a Li-Ion battery capacity of 316.8 Wh",
+          "accessed": "2026-07-18"
+        }
+      ]
     },
     {
       "action_id": "ev_charging_green",
       "category": "transport",
       "name_en": "Charge EV with Green Energy",
       "name_ja": "グリーン電力でEV充電",
-      "name_es": "Cargar auto electrico con energia verde",
+      "name_es": "Cargar el coche eléctrico con energía verde",
       "description_en": "Charge your EV using renewable energy sources",
       "description_ja": "再生可能エネルギーで電気自動車を充電",
-      "description_es": "Cargar tu auto electrico con fuentes de energia renovable",
-      "co2_grams": 4500,
-      "calculation_notes": "~10 kWh charge x 458 g/kWh = 4580, rounded down to 4500. The 458 g/kWh grid factor is sourced; the ~10 kWh session size is an assumption with no primary behind it (RESEARCH_ENERGY has no charging-session basis), which is why confidence is low.",
+      "description_es": "Cargar tu coche eléctrico con energía renovable",
+      "co2_grams": 4100,
+      "calculation_notes": "One charge of 9.1 kWh (DfT/OLEV mean domestic charge, 2017 data) x 458 g CO2e/kWh (Ember, world average grid) = 4,167.8 g, rounded down to 4,100 g. Market-based: the renewable electricity counts as 0 g. The session data is from 2017, older than the recency rule, and the 2017 fleet had many plug-in hybrids.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -602,6 +902,12 @@
           "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
           "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
           "accessed": "2026-08-02"
+        },
+        {
+          "name": "DfT/OLEV, Electric Chargepoint Analysis 2017: Domestics",
+          "url": "https://assets.publishing.service.gov.uk/media/5c114a0fe5274a0bad85ade0/electric-chargepoint-analysis-2017-domestics.pdf",
+          "accessed": "2026-11-23",
+          "quote": "The median average energy drawn from domestic chargepoints was 7.5 kWh per charge in 2017, whilst the mean average was 9.1 kWh."
         }
       ]
     },
@@ -610,12 +916,12 @@
       "category": "transport",
       "name_en": "Combine Errands",
       "name_ja": "用事をまとめる",
-      "name_es": "Combinar diligencias",
+      "name_es": "Agrupar recados",
       "description_en": "Combine multiple errands into one trip to reduce driving",
       "description_ja": "複数の用事を1回の外出にまとめて車の使用を減らす",
-      "description_es": "Combinar varias diligencias en un solo viaje para conducir menos",
-      "co2_grams": 600,
-      "calculation_notes": "save ~4km + cold-start penalty",
+      "description_es": "Agrupar varios recados en un solo viaje para conducir menos",
+      "co2_grams": 830,
+      "calculation_notes": "4 km of driving avoided x 207.51 g CO2e/vkm (DESNZ 2026 average petrol car including fuel supply: direct 161.52 + well-to-tank 45.99) = 830.04 g, rounded down to 830 g. The 4 km is an assumption. No cold-start penalty is counted.",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -626,20 +932,33 @@
       ],
       "is_active": true,
       "sort_order": 11,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Passenger vehicles | Cars (by size) | Average car | Petrol | km | kg CO2e | 0.16152",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "WTT- pass vehs & travel- land | WTT- cars (by size) | Average car | Petrol | km | kg CO2e | 0.04599",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "skip_high_impact_food",
       "category": "food",
-      "name_en": "Skip High-Impact Meal",
-      "name_ja": "高インパクトの食事をスキップ",
-      "name_es": "Evitar comida de alto impacto",
-      "description_en": "Choose a plant-based meal instead of beef or lamb today",
-      "description_ja": "今日は牛肉やラム肉の代わりに植物性の食事を選択する",
-      "description_es": "Elegir una comida vegetal en vez de carne de res o cordero hoy",
-      "co2_grams": 3700,
-      "calculation_notes": "Covers beef and lamb, so it binds to the SMALLER implied saving and the reward is honest whichever the user skipped. Lamb 39.72 kg CO2e/kg (OWID / Poore & Nemecek 2018 grapher, 'Lamb & Mutton,2010,39.72') per 100 g serving = 3972 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 3772 g. Rounded down to 3700 g (savings always round DOWN). Beef implies 6836 g on the same basis; crediting that for a lamb skip would overstate by 80%. Same minimum-of-covered-items rule as plant_milk.",
+      "name_en": "Skip a Beef Meal",
+      "name_ja": "牛肉料理をスキップ",
+      "name_es": "Evitar la carne de vacuno",
+      "description_en": "Choose a plant-based meal instead of beef today",
+      "description_ja": "今日は牛肉の代わりに植物性の食事を選択する",
+      "description_es": "Elegir un plato vegetal en vez de carne de vacuno hoy",
+      "co2_grams": 6800,
+      "calculation_notes": "per meal: a 100 g beef serving swapped for a plant alternative. Beef 70.3608 kg CO2e/kg, the production-weighted blend of the OWID / Poore & Nemecek 2018 means: 0.56 x 99.48 (beef herd) + 0.44 x 33.3 (dairy herd) = 70.36, with OWID's 56/44 beef-herd/dairy-herd production split; the same factor as the `beef` item in data/app/food_items.json. Per 100 g serving = 7036 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 6836 g. Rounded down to 6800 g (savings always round DOWN). These are means including supply-chain losses; the ~60 kg/kg beef figure quoted elsewhere is the beef-herd median without losses (OWID FAQ below).",
       "effort": 2,
       "frequency": 3,
       "impact": 4,
@@ -691,11 +1010,11 @@
       "action_id": "skip_medium_impact_food",
       "category": "food",
       "name_en": "Skip Medium-Impact Meal",
-      "name_ja": "中程度インパクトの食事をスキップ",
-      "name_es": "Evitar comida de impacto medio",
+      "name_ja": "鶏肉や豚肉をスキップ",
+      "name_es": "Evitar carne de impacto medio",
       "description_en": "Choose a plant-based meal instead of chicken or pork today",
-      "description_ja": "今日は鶏肉や豚肉の代わりに植物性の食事を選択する",
-      "description_es": "Elegir una comida vegetal en vez de pollo o cerdo hoy",
+      "description_ja": "今日は鶏肉や豚肉の代わりに植物性の食事を選ぶ",
+      "description_es": "Elegir un plato vegetal en vez de pollo o cerdo hoy",
       "co2_grams": 780,
       "calculation_notes": "Covers chicken and pork, so it binds to the SMALLER implied saving. Chicken 9.87 kg CO2e/kg (OWID / Poore & Nemecek 2018 grapher, 'Poultry Meat,2010,9.87') per 100 g serving = 987 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 787 g. Rounded down to 780 g (savings always round DOWN). Pork implies 1031 g on the same basis; the retired per-item pork action shipped 1000 g and is kept in research_only_records. Same minimum-of-covered-items rule as plant_milk.",
       "effort": 2,
@@ -725,12 +1044,12 @@
       "category": "food",
       "name_en": "Zero Food Waste",
       "name_ja": "食品ロスゼロ",
-      "name_es": "Cero desperdicio de comida",
+      "name_es": "No tirar comida",
       "description_en": "Finish all food today with no waste",
       "description_ja": "今日は食べ残しゼロを達成",
-      "description_es": "Terminar toda la comida hoy sin desperdiciar nada",
-      "co2_grams": 500,
-      "calculation_notes": "avoidable daily waste ~150g x 3/kg",
+      "description_es": "Terminar hoy toda la comida sin tirar nada",
+      "co2_grams": 450,
+      "calculation_notes": "per day: ~150 g of avoidable food waste x ~3 kg CO2e per kg of food = 450 g. Both inputs are working assumptions with no primary source found yet, so the long text does not state them; the sources below back only the text's other claims. The previous 500 g did not follow from these inputs.",
       "effort": 2,
       "frequency": 5,
       "impact": 3,
@@ -742,18 +1061,31 @@
       ],
       "is_active": true,
       "sort_order": 3,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "US EPA, Quantifying Methane Emissions from Landfilled Food Waste",
+          "url": "https://www.epa.gov/land-research/quantifying-methane-emissions-landfilled-food-waste",
+          "quote": "An estimated 58 percent of the fugitive methane emissions (i.e., those released to the atmosphere) from municipal solid waste landfills are from landfilled food waste.",
+          "accessed": "2026-10-27"
+        },
+        {
+          "name": "UN News, on the UNEP Food Waste Index Report 2024",
+          "url": "https://news.un.org/en/node/1148036",
+          "quote": "latest data from 2022 shows 1.05 billion tonnes of food went to waste.",
+          "accessed": "2026-10-31"
+        }
+      ]
     },
     {
       "action_id": "plant_milk",
       "category": "food",
       "name_en": "Choose Plant Milk",
-      "name_ja": "植物性ミルクを選択",
-      "name_es": "Elegir leche vegetal",
+      "name_ja": "植物性ミルクを選ぶ",
+      "name_es": "Elegir bebida vegetal",
       "description_en": "Choose plant-based milk instead of dairy",
       "description_ja": "乳製品の代わりに植物性ミルクを選択",
-      "description_es": "Elegir leche vegetal en vez de leche de vaca",
+      "description_es": "Tomar bebida vegetal en vez de leche de vaca",
       "co2_grams": 460,
       "calculation_notes": "Dairy milk 3.15 kg CO2e/kg (OWID / Poore & Nemecek 2018 grapher, 'Milk,2010,3.15') vs soy milk 0.98, per 250 ml serving = (3.15 - 0.98) x 0.25 = 543 g. The action names plant milks generically, so it binds to the SMALLEST implied saving across the shipped plant milks -- soy 543 g, not oat 562 g. Ships 460 g, deliberately below that bound and unchanged through the 2026-07 correction pass; a silent change here is a points-economy change.",
       "effort": 2,
@@ -792,9 +1124,9 @@
       "name_es": "Comprar productos de temporada",
       "description_en": "Buy fruits and vegetables that are in season locally",
       "description_ja": "地元で旬の野菜や果物を購入",
-      "description_es": "Comprar frutas y verduras de temporada local",
-      "co2_grams": 500,
-      "calculation_notes": "avoids heated greenhouse produce",
+      "description_es": "Comprar fruta y verdura local de temporada",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. The saving depends on the produce that is replaced and on the amount, and neither is defined. Seasonal local produce is not always lower: imports from unheated greenhouses can beat heated local greenhouses. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -806,19 +1138,32 @@
       "is_active": true,
       "sort_order": 5,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "Frankowska, Jeswani and Azapagic 2019, Environmental impacts of vegetables consumption in the UK (Science of the Total Environment)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31108271/",
+          "quote": "Importing vegetables grown in unheated greenhouses in Europe has a lower impact than UK vegetables cultivated in heated greenhouses, despite the transportation.",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Frankowska, Jeswani and Azapagic 2019, Environmental impacts of vegetables consumption in the UK (Science of the Total Environment)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31108271/",
+          "quote": "The impacts of air-freighted fresh vegetables are around five times higher than of those produced domestically.",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "vegan_day",
       "category": "food",
       "name_en": "Full Vegan Day",
-      "name_ja": "完全菜食の一日",
-      "name_es": "Dia completamente vegano",
+      "name_ja": "1日ヴィーガンで過ごす",
+      "name_es": "Día 100% vegano",
       "description_en": "Eat only plant-based foods for an entire day",
       "description_ja": "一日中植物性食品だけを食べる",
-      "description_es": "Comer solo alimentos vegetales durante todo el dia",
-      "co2_grams": 3000,
-      "calculation_notes": "omnivore ~5.6 vs vegan ~2.9kg/day",
+      "description_es": "Comer solo alimentos vegetales durante todo el día",
+      "co2_grams": 2700,
+      "calculation_notes": "per day: medium meat-eater 5.63 kg CO2e/day - vegan 2.89 kg CO2e/day = 2.74 kg = 2740 g, rounded down to 2700 g (savings always round down). Scarborough et al. 2014, EPIC-Oxford (55,504 UK adults), age-and-sex-adjusted means for a standard 2,000 kcal diet. The baseline is the medium meat-eater (50-99 g meat/day); against a high meat-eater (7.19) the gap is 4.30 kg, against a low meat-eater (4.67) 1.78 kg.",
       "effort": 3,
       "frequency": 3,
       "impact": 4,
@@ -831,20 +1176,27 @@
       ],
       "is_active": true,
       "sort_order": 7,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Scarborough et al., 'Dietary greenhouse gas emissions of meat-eaters, fish-eaters, vegetarians and vegans in the UK', Climatic Change 125:179-192 (2014)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4372775/",
+          "quote": "5.63 (5.61, 5.65) for medium meat-eaters (50-99 g/d) ... and 2.89 (2.83, 2.94) for vegans",
+          "accessed": "2026-10-26"
+        }
+      ]
     },
     {
       "action_id": "bring_lunch",
       "category": "food",
       "name_en": "Bring Lunch to Work",
       "name_ja": "お弁当を持参",
-      "name_es": "Llevar almuerzo al trabajo",
+      "name_es": "Llevar comida de casa al trabajo",
       "description_en": "Bring a homemade lunch instead of buying packaged food",
       "description_ja": "市販の弁当の代わりに手作り弁当を持参",
-      "description_es": "Llevar almuerzo casero en vez de comprar comida empaquetada",
-      "co2_grams": 300,
-      "calculation_notes": "saves packaging + transport CO2",
+      "description_es": "Llevar comida de casa en vez de comprarla envasada",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the meal that it replaces and its packaging are not defined. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -862,13 +1214,13 @@
       "action_id": "skip_fish",
       "category": "food",
       "name_en": "Skip a Fish Meal",
-      "name_ja": "魚の食事をスキップ",
-      "name_es": "Evitar una comida de pescado",
+      "name_ja": "魚料理をスキップ",
+      "name_es": "Evitar el pescado",
       "description_en": "Choose a plant-based meal instead of fish today",
       "description_ja": "今日は魚の代わりに植物性の食事を選択する",
-      "description_es": "Elegir una comida vegetal en vez de pescado hoy",
-      "co2_grams": 560,
-      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus the standardized plant-alternative baseline of 200 g CO2e per 100 g serving (beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg = 179 g, rounded up to 200 g; the same baseline every meatless action uses) = 569 g. Rounded down to 560 g (conservative; savings always round DOWN). Re-based 2026-08-08: the seafood source decision retired the assembled fish_wild 9.5 this action previously used, and the reward fell 1200 -> 560 g with it. Sources transcribed 2026-09-01 from the white_fish item and the shared pulses baseline, both live-verified in RESEARCH_FOOD.md section 3.1; confidence medium because the fish leg is Gephart's narrower farm-gate boundary against a P&N-boundary baseline (reads low, so the mismatch is conservative for a saving).",
+      "description_es": "Elegir un plato vegetal en vez de pescado hoy",
+      "co2_grams": 460,
+      "calculation_notes": "White fish 5.1250386 kg CO2e/kg: Gephart et al. 2021 Bayesian meta-analysis of seafood ('Environmental performance of blue foods') via Our World in Data, the `white_fish` item in data/app/food_items.json. Per 150 g fillet = 769 g. Minus a plant alternative of the same 150 g serving: beans/lentils, OWID 'Other Pulses' mean 1.79 kg/kg x 150 g = 268.5 g, rounded up to 300 g = 469 g. Rounded down to 460 g (savings always round DOWN). The 150 g baseline matches the fish serving, as the other meatless actions match 100 g to 100 g. Herring and sardines (wild) are 3.8779404 kg/kg in the same source, so the saving is smaller for them. Confidence medium because the fish leg is Gephart's narrower farm-gate boundary against a P&N-boundary baseline (reads low, so the mismatch is conservative for a saving).",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -908,7 +1260,7 @@
       "category": "energy",
       "name_en": "Air Dry Clothes",
       "name_ja": "洗濯物を自然乾燥",
-      "name_es": "Secar ropa al aire",
+      "name_es": "Secar la ropa al aire",
       "description_en": "Air dry clothes instead of using a tumble dryer",
       "description_ja": "乾燥機を使わずに洗濯物を自然乾燥",
       "description_es": "Secar la ropa al aire en vez de usar la secadora",
@@ -946,10 +1298,10 @@
       "category": "energy",
       "name_en": "Cold Water Laundry",
       "name_ja": "冷水で洗濯",
-      "name_es": "Lavar ropa con agua fria",
+      "name_es": "Lavar la ropa con agua fría",
       "description_en": "Wash clothes in cold water instead of hot",
       "description_ja": "お湯ではなく冷水で洗濯",
-      "description_es": "Lavar la ropa con agua fria en vez de caliente",
+      "description_es": "Lavar la ropa con agua fría en vez de caliente",
       "co2_grams": 430,
       "calculation_notes": "wash_warm 1.300 - wash_cold 0.350 = 0.950 kWh x 458 = 435, rounded down to 430. Bosch EN50229 same-machine 40 C vs 20 C.",
       "effort": 1,
@@ -979,11 +1331,11 @@
       "action_id": "install_led_bulb",
       "category": "energy",
       "name_en": "Install LED Bulb",
-      "name_ja": "LED電球を設置",
+      "name_ja": "LED電球に交換",
       "name_es": "Instalar bombilla LED",
       "description_en": "Replace an incandescent or halogen bulb with an LED",
       "description_ja": "白熱電球やハロゲン電球をLEDに交換",
-      "description_es": "Reemplazar una bombilla incandescente o halogena por LED",
+      "description_es": "Sustituir una bombilla incandescente o halógena por una LED",
       "co2_grams": 25000,
       "calculation_notes": "(60 W incandescent - 8.5 W LED) x 3 h/day x 365 = 56.4 kWh x 458 = 25820, rounded down to 25000 first-year. Philips 8.5 W / 800 lm.",
       "effort": 1,
@@ -1017,6 +1369,12 @@
           "url": "https://energyusecalculator.com/electricity_ledlightbulb.htm",
           "quote": "A typical cheap (60 watt equivalent to incandescent) LED light bulb is advertised as providing 800 lumens, lasting up to 10,000 hours at 10 watts.",
           "accessed": "2026-01-31"
+        },
+        {
+          "name": "1000Bulbs, Philips 455576 A19 LED listing",
+          "url": "https://www.1000bulbs.com/product/137759/PLT-10001.html",
+          "quote": "LED - 8.5 Watt - A19 - 60 Watt Equal ... 800 Lumens - 2700K Soft White - 120 Volt - 2 Pack - Philips 455576",
+          "accessed": "2026-10-27"
         }
       ]
     },
@@ -1024,11 +1382,11 @@
       "action_id": "unplug_devices",
       "category": "energy",
       "name_en": "Unplug Unused Devices",
-      "name_ja": "未使用機器のプラグを抜く",
-      "name_es": "Desenchufar dispositivos sin uso",
-      "description_en": "Unplug electronic devices when not in use",
-      "description_ja": "使用していない電子機器のコンセントを抜く",
-      "description_es": "Desenchufar dispositivos electronicos cuando no se usen",
+      "name_ja": "使わない家電のプラグを抜く",
+      "name_es": "Desenchufar aparatos en espera",
+      "description_en": "Unplug five devices left on standby for the day",
+      "description_ja": "待機状態の機器5台のプラグを1日抜いておく",
+      "description_es": "Desenchufar durante el día cinco aparatos que estaban en modo de espera",
       "co2_grams": 25,
       "calculation_notes": "5 devices x 0.5 W x 24 h = 0.06 kWh x 458 = 27.5, rounded down to 25. LBNL: modern standby is 'less than 0.5 watts' per device.",
       "effort": 1,
@@ -1048,8 +1406,14 @@
         {
           "name": "Lawrence Berkeley National Lab",
           "url": "https://standby.lbl.gov/",
-          "quote": "Modern regulations limit standby to ≤1W, down from 5-15W in older devices.",
-          "accessed": "2026-01-31"
+          "quote": "Most products draw relatively little standby power – less than 0.5 watts – but they still add up.",
+          "accessed": "2026-10-26"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
         }
       ]
     },
@@ -1059,9 +1423,9 @@
       "name_en": "Turn Off Lights",
       "name_ja": "電気を消す",
       "name_es": "Apagar las luces",
-      "description_en": "Turn off lights when leaving a room",
-      "description_ja": "部屋を出る時に電気を消す",
-      "description_es": "Apagar las luces al salir de una habitacion",
+      "description_en": "Switch off a bulb that would stay on for ~4 h in an empty room",
+      "description_ja": "誰もいない部屋で約4時間点いたままになる電球を1つ消す",
+      "description_es": "Apagar una bombilla que seguiría encendida unas 4 h en una habitación vacía",
       "co2_grams": 15,
       "calculation_notes": "4 h x 8.5 W LED = 0.034 kWh x 458 g CO2e/kWh = 15.6, rounded down to 15. Re-based 2026-08-29 from a 40 W bulb that no RESEARCH_ENERGY entry supports: the shipped lighting entries are the 8.5 W / 800 lm LED and the 60 W incandescent comparator (section 3.5), and the LED is the honest basis because LEDs are now the majority of installed household lamps -- crediting an incandescent would overstate the saving for most users, against the honest-not-generous rule. A user still on incandescents saves ~110 g for the same 4 h; the methodology sheet says so. The 4 h is the behaviour definition (lights left on in an unoccupied room), not a measurement. The 8.5 W primary is the Philips A19 spec quoted verbatim in RESEARCH_ENERGY section 3.5, whose URL that pass did not capture; the sources below corroborate the wattage class at 800 lm.",
       "effort": 1,
@@ -1093,6 +1457,12 @@
           "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
           "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
           "accessed": "2026-08-02"
+        },
+        {
+          "name": "1000Bulbs, Philips 455576 A19 LED listing",
+          "url": "https://www.1000bulbs.com/product/137759/PLT-10001.html",
+          "quote": "LED - 8.5 Watt - A19 - 60 Watt Equal ... 800 Lumens - 2700K Soft White - 120 Volt - 2 Pack - Philips 455576",
+          "accessed": "2026-10-27"
         }
       ]
     },
@@ -1102,11 +1472,11 @@
       "name_en": "Lower Thermostat 1 Degree",
       "name_ja": "暖房を1度下げる",
       "name_es": "Bajar el termostato 1 grado",
-      "description_en": "Lower your heating thermostat by 1 degree today",
-      "description_ja": "今日は暖房の設定温度を1度下げる",
-      "description_es": "Bajar el termostato de calefaccion 1 grado hoy",
-      "co2_grams": 140,
-      "calculation_notes": "METI measured: 53.08 kWh/yr saved per 1 C at 9 h/day over a 169-day heating season = 0.3141 kWh/day x 458 = 144, rounded down to 140. Room heat-pump aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
+      "description_en": "Lower your air conditioner's heating setting by 1 degree today",
+      "description_ja": "今日はエアコン暖房の設定温度を1度下げる",
+      "description_es": "Bajar hoy 1 grado la calefacción del aire acondicionado",
+      "co2_grams": 40,
+      "calculation_notes": "METI: 15.80 kWh/yr saved per 1 C lower on a 2.5 kW aircon, modelled on a wooden south-facing house in Tokyo (JIS C 9612:2013), over a 169-day heating season = 0.093491 kWh/day x 458 = 42.8, rounded down to 40. Room heat-pump aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1122,8 +1492,8 @@
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
-          "quote": "外気温度6℃の時、エアコン（2.2kW）の暖房設定温度を21℃から20℃にした場合（使用時間：9時間／日）年間で電気53.08kWhの省エネ",
-          "accessed": "2026-08-02"
+          "quote": "暖房期間中にエアコン（2.5kW）の設定温度を1℃下げた場合 年間で電気 15.80 kWh の省エネ ... 東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）",
+          "accessed": "2026-11-21"
         },
         {
           "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
@@ -1142,8 +1512,8 @@
       "description_en": "Raise your AC thermostat by 1 degree today",
       "description_ja": "今日は冷房の設定温度を1度上げる",
       "description_es": "Subir la temperatura del aire acondicionado 1 grado hoy",
-      "co2_grams": 120,
-      "calculation_notes": "METI measured: 30.24 kWh/yr saved per 1 C at 9 h/day over a 112-day cooling season = 0.2700 kWh/day x 458 = 124, rounded down to 120. Room aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
+      "co2_grams": 35,
+      "calculation_notes": "METI: 8.80 kWh/yr saved per 1 C higher on a 2.5 kW aircon, modelled on a wooden south-facing house in Tokyo (JIS C 9612:2013), over a 112-day cooling season = 0.078571 kWh/day x 458 = 35.98, rounded down to 35. Room aircon. NOTE: replaces a 'US DOE 3% per degree' figure DOE does not actually state.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1159,8 +1529,8 @@
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
-          "quote": "外気温度31℃の時、エアコン（2.2kW）の冷房設定温度を27℃から1℃上げた場合（使用時間：9時間／日）年間で電気30.24kWhの省エネ",
-          "accessed": "2026-08-02"
+          "quote": "冷房期間中にエアコン（2.5kW）の設定温度を1℃上げた場合 年間で電気 8.80 kWh の省エネ ... 東京をモデルとした木造南向き住宅を想定（JIS C 9612:2013）",
+          "accessed": "2026-11-21"
         },
         {
           "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
@@ -1175,10 +1545,10 @@
       "category": "energy",
       "name_en": "Use Eco Mode",
       "name_ja": "エコモードを使用",
-      "name_es": "Usar modo ecologico",
+      "name_es": "Usar el programa eco",
       "description_en": "Use eco mode on dishwasher or washing machine",
       "description_ja": "食洗機や洗濯機のエコモードを使用",
-      "description_es": "Usar modo ecologico en el lavavajillas o lavadora",
+      "description_es": "Usar el programa eco del lavavajillas o la lavadora",
       "co2_grams": 120,
       "calculation_notes": "dishwasher_normal 1.12 - dishwasher_eco 0.85 = 0.27 kWh x 458 = 124, rounded down to 120. Bosch SMS67MW00G / Which? 2026, 14 place settings.",
       "effort": 1,
@@ -1260,8 +1630,8 @@
       "description_en": "Use a fan instead of air conditioning today",
       "description_ja": "今日はエアコンの代わりに扇風機を使用する",
       "description_es": "Usar un ventilador en vez del aire acondicionado hoy",
-      "co2_grams": 600,
-      "calculation_notes": "(aircon_cooling 0.167679 kWh/h - Panasonic F-CV339 DC living fan 0.022 kWh/h) x 9 h = 1.311111 kWh x 458 g CO2e/kWh = 600.5 g, rounded down to 600 g. The aircon rate is METI's measured seasonal average (18.78 kWh/yr per daily hour over a 112-day cooling season), never the JIS nameplate; the 9 h/day basis is METI's own on the same page. Fan runs at its highest notch, the conservative direction for a saving.",
+      "co2_grams": 840,
+      "calculation_notes": "(aircon_cooling 0.226607 kWh/h - Panasonic F-CV339 DC living fan 0.022 kWh/h) x 9 h = 1.841463 kWh x 458 g CO2e/kWh = 843.4 g, rounded down to 840 g. The aircon rate is METI's average for a 2.5 kW unit in a model wooden house in Tokyo (JIS C 9612:2013): 25.38 kWh/yr per daily hour over a 112-day cooling season, never the JIS nameplate. The 9 h/day is an app assumption for a day of cooling: METI states no daily hours for air conditioners. Fan runs at its highest notch, the conservative direction for a saving.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1277,14 +1647,26 @@
         {
           "name": "資源エネルギー庁 省エネポータルサイト (空調)",
           "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/airconditioning/index.html",
-          "quote": "冷房を1日1時間短縮した場合（設定温度：28℃）年間で電気18.78kWhの省エネ",
-          "accessed": "2026-08-09"
+          "quote": "冷房期間中にエアコン（2.5kW）の使用を1日1時間短縮した場合 年間で電気 25.38 kWh の省エネ",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "資源エネルギー庁 省エネポータルサイト (計算根拠)",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saving/general/howto/index.html#konkyo",
+          "quote": "掲載データは、一般財団法人省エネルギーセンター及び資源エネルギー庁委託事業で実施した測定等の結果を使用しています。 ... 暖房期間 5.5か月（10月28日〜4月14日）169日 冷房期間 3.6か月（6月2日〜9月21日）112日 中間期84日",
+          "accessed": "2026-11-21"
         },
         {
           "name": "Panasonic F-CV339 仕様",
           "url": "https://panasonic.jp/fan/products/F-CV339/spec.html",
-          "quote": "ノッチ 8(強) 50/60Hz: 22W",
-          "accessed": "2026-08-09"
+          "quote": "消費電力 [ノッチ 8(強)] 50/60Hz:22W",
+          "accessed": "2026-10-27"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
         }
       ]
     },
@@ -1296,9 +1678,9 @@
       "name_es": "Usar bolsa reutilizable",
       "description_en": "Use a reusable shopping bag instead of plastic",
       "description_ja": "レジ袋の代わりにエコバッグを使用",
-      "description_es": "Usar una bolsa reutilizable en vez de plastica",
+      "description_es": "Usar una bolsa reutilizable en vez de una de plástico",
       "co2_grams": 10,
-      "calculation_notes": "one plastic bag ~10g CO2",
+      "calculation_notes": "per bag avoided: UK Environment Agency 2011 HDPE carrier bag, 0.830 kg CO2e per 82.14 bags (the reference flow) when every bag is reused as a bin liner = 10.1 g, rounded down to 10 g (1.578 kg = 19.2 g at the study's 40.28% bin-liner reuse). Break-even: at least 11 uses for non-woven PP and 131 for cotton (UK EA), 52 for cotton on climate change alone (Danish EPA 2018).",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -1312,16 +1694,22 @@
       "confidence": "high",
       "sources": [
         {
-          "name": "Danish EPA LCA 2018",
-          "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
-          "quote": "Cotton bags need 7,100-20,000 uses to break even on all environmental indicators. Polypropylene bags break even in 10-45 uses.",
-          "accessed": "2026-01-31"
+          "name": "UK Environment Agency 2011, Life cycle assessment of supermarket carrier bags",
+          "url": "https://assets.publishing.service.gov.uk/media/5a7bff74ed915d01ba1ca7c7/scho0711buan-e-e.pdf",
+          "quote": "No secondary use 2.082 40.28% secondary use 1.578 100% secondary use 0.830",
+          "accessed": "2026-11-22"
         },
         {
-          "name": "Danish EPA LCA 2018",
+          "name": "UK Environment Agency 2011, Life cycle assessment of supermarket carrier bags",
+          "url": "https://assets.publishing.service.gov.uk/media/5a7bff74ed915d01ba1ca7c7/scho0711buan-e-e.pdf",
+          "quote": "The paper, LDPE, non-woven PP and cotton bags should be reused at least 3, 4, 11 and 131 times respectively",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Danish EPA 2018, Life Cycle Assessment of grocery carrier bags",
           "url": "https://www2.mst.dk/udgiv/publications/2018/02/978-87-93614-73-4.pdf",
-          "quote": "HDPE carrier bags have the lowest environmental impact in all categories when used once.",
-          "accessed": "2026-01-31"
+          "quote": "Conventional cotton bags: Reuse for grocery shopping at least 52 times for climate change",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -1334,8 +1722,8 @@
       "description_en": "Bring your own reusable cup for drinks",
       "description_ja": "飲み物にマイカップを持参",
       "description_es": "Llevar tu propio vaso reutilizable para bebidas",
-      "co2_grams": 60,
-      "calculation_notes": "disposable cup ~60g CO2",
+      "co2_grams": 20,
+      "calculation_notes": "per cup avoided: Foteinis 2020 via Scottish Government 2024 Table 3, paper cup 29.9 g minus reusable PP cup 9.2 g per use over 500 uses = 20.7 g, rounded down to 20 g. The lowest pairing in Table 3 (Edge 2018, paper 36.8 g vs PP 17.2 g) is 19.6 g. Break-even about 6 uses (Eunomia 2023, commissioned by TOMRA).",
       "effort": 2,
       "frequency": 5,
       "impact": 2,
@@ -1346,20 +1734,39 @@
       ],
       "is_active": true,
       "sort_order": 2,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Scottish Government 2024, Single-use disposable beverage cups charge SEA, Environmental Report, Table 3",
+          "url": "https://www.gov.scot/publications/single-use-disposable-beverage-cups-charge-strategic-environmental-assessment-environmental-report/pages/5/",
+          "quote": "Foteinis (2020) [71] 500 29.9 (paper) 9.2 (Polypropylene with silicone band)",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Scottish Government 2024, Single-use disposable beverage cups charge SEA, Environmental Report",
+          "url": "https://www.gov.scot/publications/single-use-disposable-beverage-cups-charge-strategic-environmental-assessment-environmental-report/pages/5/",
+          "quote": "over a lifetime of 500 uses, a reusable cup is responsible for greenhouse gas emissions equivalent to 4.6kg CO2e",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Eunomia 2023, Assessing Climate Impact: Reusable Systems vs. Single-use Takeaway Packaging, Table E-1",
+          "url": "https://circulareconomy.europa.eu/platform/sites/default/files/2023-09/Assessing-the-Climate-Impact-Reusable-systems-vs.-Single-Use-Takeaway-Packaging-v-2.2.pdf",
+          "quote": "Cups for Cold Drinks 6 83% Cups for Warm Drinks 6 83%",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "reusable_water_bottle",
       "category": "consumption",
       "name_en": "Use Reusable Water Bottle",
       "name_ja": "マイボトルを使用",
-      "name_es": "Botella de agua reutilizable",
+      "name_es": "Usar botella de agua reutilizable",
       "description_en": "Use a reusable bottle instead of single-use plastic",
       "description_ja": "使い捨てペットボトルの代わりにマイボトルを使用",
-      "description_es": "Usar una botella reutilizable en vez de plastico desechable",
-      "co2_grams": 160,
-      "calculation_notes": "per-day: ~2 bottles avoided",
+      "description_es": "Usar una botella reutilizable en vez de botellas de plástico desechables",
+      "co2_grams": 35,
+      "calculation_notes": "per refill: 0.5128 kg CO2e per 10 single-use 0.5 L PET bottles = 51.3 g each, minus 0.1462 kg for a reusable PET bottle used 10 times = 14.6 g per use; 51.3 - 14.6 = 36.7 g, rounded down to 35 g. Johannesburg setting, 10 uses a year, hand washing. The study states no break-even.",
       "effort": 1,
       "frequency": 5,
       "impact": 3,
@@ -1373,10 +1780,16 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "Carbon Trust",
-          "url": "https://www.carbontrust.com/",
-          "quote": "Single-use plastic bottles have significant lifecycle emissions from production, filling, and transport.",
-          "accessed": "2026-01-31"
+          "name": "Olatayo, Mativenga and Marnewick 2021, South African Journal of Science 117(11/12), Table 3",
+          "url": "https://scielo.org.za/pdf/sajs/v117n11-12/19.pdf",
+          "quote": "Global warming kg CO2 eq. 0.5128 0.1462",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Olatayo, Mativenga and Marnewick 2021, South African Journal of Science 117(11/12)",
+          "url": "https://scielo.org.za/pdf/sajs/v117n11-12/19.pdf",
+          "quote": "the functional unit of 10 single-use 0.5L PET bottles was assumed",
+          "accessed": "2026-11-22"
         }
       ]
     },
@@ -1389,8 +1802,8 @@
       "description_en": "Use your own container for takeout food",
       "description_ja": "テイクアウト用にマイ容器を持参",
       "description_es": "Usar tu propio recipiente para comida para llevar",
-      "co2_grams": 100,
-      "calculation_notes": "takeout container ~100g CO2",
+      "co2_grams": 10,
+      "calculation_notes": "per use: Yadav et al. 2024, single-use container 20 g minus reusable 7 g per use at 100 uses = 13 g, rounded down to 10 g (5 g at 10 uses). Break-even about 6 uses (Yadav), 13 for bowls (Eunomia 2023).",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -1401,8 +1814,21 @@
       ],
       "is_active": true,
       "sort_order": 4,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "Yadav et al. 2024, Life cycle assessment of reusable plastic food packaging, Journal of Cleaner Production 448, 141529 (abstract)",
+          "url": "https://doi.org/10.1016/j.jclepro.2024.141529",
+          "quote": "the global warming potential (GWP) for a single-use container (0.020 kg CO2 eq./FU) per FU had higher GWP than 10 uses (0.015 kg CO2 eq./FU) and 100 uses (0.007 kg CO2 eq./FU) of the reusable container (EoL recycling)",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Eunomia 2023, Assessing Climate Impact: Reusable Systems vs. Single-use Takeaway Packaging, Table E-1",
+          "url": "https://circulareconomy.europa.eu/platform/sites/default/files/2023-09/Assessing-the-Climate-Impact-Reusable-systems-vs.-Single-Use-Takeaway-Packaging-v-2.2.pdf",
+          "quote": "Bowls 13 92%",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "refuse_disposables",
@@ -1428,7 +1854,7 @@
       "confidence": "medium",
       "sources": [
         {
-          "name": "Chaudhari et al., 'Life Cycle Assessment of Selected Single-Use Plastic Products', Sustainability 14(21):14170 (2022)",
+          "name": "Kamalakkannan et al., 'Life Cycle Assessment of Selected Single-Use Plastic Products towards Evidence-Based Policy Recommendations in Sri Lanka', Sustainability 14(21):14170 (2022)",
           "url": "https://www.iges.or.jp/system/files/publication_documents/pub/peer/12513/sustainability-14-14170.pdf",
           "quote": "the total GWP impact of PS cutlery is 0.0514 kg CO2 (eq) for 100% incineration",
           "accessed": "2026-08-09"
@@ -1439,7 +1865,7 @@
       "action_id": "secondhand_clothing",
       "category": "consumption",
       "name_en": "Buy Secondhand",
-      "name_ja": "中古の衣類を購入",
+      "name_ja": "古着を購入",
       "name_es": "Comprar ropa de segunda mano",
       "description_en": "Buy secondhand clothing instead of new",
       "description_ja": "新品ではなく中古の衣類を購入",
@@ -1471,12 +1897,12 @@
       "category": "consumption",
       "name_en": "Repair Instead of Replace",
       "name_ja": "買い替えずに修理",
-      "name_es": "Reparar en vez de reemplazar",
+      "name_es": "Reparar en vez de sustituir",
       "description_en": "Repair a broken item instead of buying a new one",
-      "description_ja": "壊れた物を新品を買う代わりに修理する",
+      "description_ja": "壊れた物を、新品を買わずに修理する",
       "description_es": "Reparar un objeto roto en vez de comprar uno nuevo",
-      "co2_grams": 7500,
-      "calculation_notes": "weighted avg across item types",
+      "co2_grams": 2100,
+      "calculation_notes": "per repair, cotton T-shirt basis as the low case. WRAP 2025: P = 4.2 kg CO2e to make a new T-shirt, D = 50%, the displacement rate in WRAP's online-resale worked example. WRAP measured 82.2% displacement for UK clothing repairs, so 50% is the lower rate. 4.2 x 0.5 = 2.1 kg. The repair itself is counted as zero. Most repaired items (shoes, coats, electricals) carry more embedded carbon, so this is a low figure.",
       "effort": 3,
       "frequency": 2,
       "impact": 4,
@@ -1487,8 +1913,21 @@
       ],
       "is_active": true,
       "sort_order": 7,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "WRAP 2025, Displacement Rates Untangled: A Standardised Methodology (Textiles 2030)",
+          "url": "https://www.wrap.ngo/sites/default/files/2025-02/WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf",
+          "quote": "0.4 – (4.2 x 0.5) = -1.7 kgCO2e",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "WRAP 2025, Displacement Rates Untangled: A Standardised Methodology (Textiles 2030)",
+          "url": "https://www.wrap.ngo/sites/default/files/2025-02/WRAP-Textiles-2030-Displacement-rate-report-REV1.pdf",
+          "quote": "82.2% Displacement rate of UK clothing repairs",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "borrow_instead_buy",
@@ -1500,7 +1939,7 @@
       "description_ja": "新品を買う代わりに道具を借りる",
       "description_es": "Pedir prestada una herramienta en vez de comprar una nueva",
       "co2_grams": 8000,
-      "calculation_notes": "excl. books",
+      "calculation_notes": "per borrow. Library of Things 2024 method: 28 kg CO2e average to make an item in its catalogue x 50% of borrows that prevent a purchase = 14 kg. The 28 kg is their own assumption with no cited source, so the app keeps the lower 8 kg.",
       "effort": 2,
       "frequency": 2,
       "impact": 3,
@@ -1511,20 +1950,33 @@
       ],
       "is_active": true,
       "sort_order": 8,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "Library of Things, How we calculate our impact (2024 update)",
+          "url": "https://www.libraryofthings.co.uk/blog/how-we-calculate-our-impact-2024-update",
+          "quote": "Each borrow therefore prevents 14kg of C02e on average",
+          "accessed": "2026-11-22"
+        },
+        {
+          "name": "Library of Things, How we calculate our impact (2024 update)",
+          "url": "https://www.libraryofthings.co.uk/blog/how-we-calculate-our-impact-2024-update",
+          "quote": "50% of borrows prevents a purchase",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "plastic_free_hygiene",
       "category": "consumption",
       "name_en": "Plastic-Free Hygiene",
-      "name_ja": "プラスチックフリーの衛生用品",
-      "name_es": "Higiene sin plastico",
+      "name_ja": "プラスチックフリーの衛生用品を使用",
+      "name_es": "Higiene sin plástico",
       "description_en": "Use bar soap, shampoo bars, or other plastic-free hygiene products today",
       "description_ja": "今日は固形石鹸やシャンプーバーなどプラスチックフリーの衛生用品を使用",
-      "description_es": "Usar jabon en barra, champu solido u otros productos de higiene sin plastico hoy",
-      "co2_grams": 15,
-      "calculation_notes": "per-trip: multiple items reframe",
+      "description_es": "Usar jabón en barra, champú sólido u otros productos de higiene sin plástico hoy",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: no source compares the daily CO2 of bar and bottled products. The action still earns points for the effort.",
       "effort": 1,
       "frequency": 5,
       "impact": 2,
@@ -1546,9 +1998,9 @@
       "name_es": "Comprar a granel",
       "description_en": "Buy items in bulk to reduce packaging waste",
       "description_ja": "包装ゴミを減らすためにまとめ買いする",
-      "description_es": "Comprar a granel para reducir residuos de embalaje",
-      "co2_grams": 200,
-      "calculation_notes": "per-trip: multiple items reframe",
+      "description_es": "Comprar a granel para reducir los residuos de envases",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the products and the packaging avoided per trip are not defined. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 3,
       "impact": 2,
@@ -1567,12 +2019,12 @@
       "category": "consumption",
       "name_en": "Donate Unused Items",
       "name_ja": "不要品を寄付",
-      "name_es": "Donar articulos sin uso",
-      "description_en": "Donate items you no longer need instead of trashing them",
-      "description_ja": "不要品をゴミに捨てずに寄付する",
-      "description_es": "Donar cosas que ya no necesitas en vez de tirarlas",
-      "co2_grams": 12000,
-      "calculation_notes": "per-donation-run: multiple items",
+      "name_es": "Donar artículos sin uso",
+      "description_en": "Donate about 1kg of items you no longer need instead of throwing them away",
+      "description_ja": "不要な物を約1kg、捨てずに寄付する",
+      "description_es": "Donar cerca de 1kg de cosas que ya no necesitas en vez de tirarlas",
+      "co2_grams": 1900,
+      "calculation_notes": "per kg donated. BHF: over 71,000 tonnes of donations reused a year and 135,000 tonnes of CO2 prevented = 1.90 kg CO2 per kg. BHF gives no year or method. Clothes have their own action (donate_clothes).",
       "effort": 2,
       "frequency": 2,
       "impact": 3,
@@ -1583,8 +2035,15 @@
       ],
       "is_active": true,
       "sort_order": 11,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "British Heart Foundation, Donating goods",
+          "url": "https://www.bhf.org.uk/shop/donating-goods",
+          "quote": "We reuse over 71,000 tonnes of donations a year and prevent 135,000 tonnes of CO2 being released into the atmosphere.",
+          "accessed": "2026-11-22"
+        }
+      ]
     },
     {
       "action_id": "no_impulse_buy",
@@ -1595,8 +2054,8 @@
       "description_en": "Avoid an unnecessary impulse purchase today",
       "description_ja": "今日は不要な衝動買いを避ける",
       "description_es": "Evitar una compra impulsiva innecesaria hoy",
-      "co2_grams": 200,
-      "calculation_notes": "avg product ~200g embedded CO2",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the product that was not bought is not defined. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 4,
       "impact": 2,
@@ -1614,13 +2073,13 @@
       "action_id": "choose_minimal_packaging",
       "category": "consumption",
       "name_en": "Choose Less Packaging",
-      "name_ja": "包装の少ない商品を選択",
+      "name_ja": "包装の少ない商品を選ぶ",
       "name_es": "Elegir menos embalaje",
       "description_en": "Choose products with minimal or no packaging",
       "description_ja": "包装が少ないまたは無い商品を選択",
-      "description_es": "Elegir productos con poco o ningun embalaje",
-      "co2_grams": 50,
-      "calculation_notes": "~50g packaging CO2 avoided",
+      "description_es": "Elegir productos con poco o ningún embalaje",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the material and mass of the packaging avoided are not defined. The action still earns points for the effort.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -1639,10 +2098,10 @@
       "category": "consumption",
       "name_en": "Purchase Used Car",
       "name_ja": "中古車を購入",
-      "name_es": "Comprar auto usado",
+      "name_es": "Comprar coche de segunda mano",
       "description_en": "Buy a used car instead of a new one to avoid manufacturing emissions",
       "description_ja": "製造時の排出を避けるため新車ではなく中古車を購入する",
-      "description_es": "Comprar un auto usado en vez de nuevo para evitar emisiones de fabricacion",
+      "description_es": "Comprar un coche de segunda mano en vez de uno nuevo para evitar emisiones de fabricación",
       "co2_grams": 7200000,
       "calculation_notes": "ICCT 2025 Table 1: gasoline ICEV vehicle production and recycling emissions are 7.2 t CO2e (EU/UK, excludes battery, already net of the end-of-life recycling credit). Ships the full 7.2 t. This is an AVOIDED-EMISSIONS claim on a one-for-one displacement assumption -- buying used means one fewer new car demanded -- not an inventory share of the car you now own. Same treatment as secondhand_clothing, which also credits the full avoided production. Corrected 2026-08-09 from an arbitrary 3.0 t (~40%) haircut that had no source and contradicted secondhand_clothing. Known weakness: real displacement in a roughly fixed used-car stock is below unity, and nobody publishes the rate. See notes.avoided_emissions_caveat -- these values are not additive across owners.",
       "effort": 3,
@@ -1670,12 +2129,12 @@
       "category": "water",
       "name_en": "Take Shorter Shower",
       "name_ja": "シャワーを短く",
-      "name_es": "Tomar ducha mas corta",
+      "name_es": "Ducha más corta",
       "description_en": "Reduce shower time by 2+ minutes",
       "description_ja": "シャワーの時間を2分以上短縮",
-      "description_es": "Reducir el tiempo de ducha en mas de 2 minutos",
-      "co2_grams": 110,
-      "calculation_notes": "2 min x 59 g/min = 118, rounded down to 110. 59 g/min is the gas carrier floor (7.844784 L/min, delta-T 27.2 K); electric resistance is 114 g/min and a heat pump 26 g/min.",
+      "description_es": "Acortar la ducha al menos 2 minutos",
+      "co2_grams": 130,
+      "calculation_notes": "2 min x 69 g/min = 138, rounded down to 130. 69 g/min is the gas carrier floor (shower_gas 0.328036 kWh/min x 212 g CO2e/kWh, gas including well-to-tank; 7.844784 L/min, delta-T 27.2 K); electric resistance is 114 g/min and a heat pump 26 g/min.",
       "effort": 2,
       "frequency": 5,
       "impact": 2,
@@ -1689,6 +2148,18 @@
       "sort_order": 1,
       "confidence": "medium",
       "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 1 | Fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.18231",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.03021",
+          "accessed": "2026-11-21"
+        },
         {
           "name": "co2data.org",
           "url": "https://www.co2data.org/c/shower",
@@ -1714,12 +2185,12 @@
       "category": "water",
       "name_en": "Turn Off Tap While Brushing",
       "name_ja": "歯磨き中に水を止める",
-      "name_es": "Cerrar el grifo al cepillarse",
+      "name_es": "Cerrar el grifo al lavarse los dientes",
       "description_en": "Turn off the tap while brushing teeth",
       "description_ja": "歯を磨いている間は水を止める",
       "description_es": "Cerrar el grifo mientras te cepillas los dientes",
-      "co2_grams": 20,
-      "calculation_notes": "mostly cold; pump/treat CO2 only",
+      "co2_grams": 5,
+      "calculation_notes": "EPA WaterSense: 8 US gallons a day. At two brushings a day (an assumption) that is 4 gal = 15.14 L per brushing x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 5.48 g, rounded down to 5 g. Cold water, so no heating is counted.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
@@ -1729,20 +2200,39 @@
       ],
       "is_active": true,
       "sort_order": 2,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Statistics and Facts",
+          "url": "https://www.epa.gov/watersense/statistics-and-facts",
+          "quote": "Turning off the tap while brushing your teeth can save 8 gallons of water per day",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "full_dishwasher",
       "category": "water",
       "name_en": "Run Full Dishwasher",
       "name_ja": "食洗機を満杯で回す",
-      "name_es": "Usar lavavajillas lleno",
+      "name_es": "Poner el lavavajillas lleno",
       "description_en": "Only run the dishwasher when full",
-      "description_ja": "食洗機は満杯になってから回す",
-      "description_es": "Usar el lavavajillas solo cuando este lleno",
-      "co2_grams": 80,
-      "calculation_notes": "avoids partial load waste",
+      "description_ja": "食洗機は満杯にしてから回す",
+      "description_es": "Poner el lavavajillas solo cuando esté lleno",
+      "co2_grams": 90,
+      "calculation_notes": "Per full run. One avoided wash = 1.12 kWh (Which?) x 458 g CO2e/kWh (Ember, world average) = 512.96 g, plus 12.96 L x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 4.69 g: 517.65 g. EPA WaterSense: full loads avoid one load a week, so 52 avoided washes spread over 280 washes a year (EU energy label convention) = 52 / 280 x 517.65 = 96.1 g, rounded down to 90 g. Mixed basis: a US habit figure with an EU label convention.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -1753,8 +2243,51 @@
       ],
       "is_active": true,
       "sort_order": 3,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Statistics and Facts",
+          "url": "https://www.epa.gov/watersense/statistics-and-facts",
+          "quote": "Running the dishwasher only when it's full can eliminate one load of dishes per week and save the average family nearly 320 gallons of water annually.",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Which?, How little water dishwashers use compared to hand-washing",
+          "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
+          "quote": "Dishwashers on average use around 1.12kWh of energy per wash",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Which?, How little water dishwashers use compared to hand-washing (table columns: avg water per place setting, avg water per 14 place settings)",
+          "url": "https://www.which.co.uk/news/article/which-research-reveals-how-little-water-dishwashers-use-compared-to-hand-washing-aUDng9Y2iK8E",
+          "quote": "Dishwasher (main wash) 926 millilitres 12.96 litres",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Commission Delegated Regulation (EU) No 1059/2010 (adopted text)",
+          "url": "https://www.legislation.gov.uk/eur/2010/1059/adopted/data.html",
+          "quote": "280 total number of standard cleaning cycles per year",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "Ember, Global Electricity Review 2026 (2025 world average, CO2e)",
+          "url": "https://ember-energy.org/latest-insights/global-electricity-review-2026/electricity-demand-and-supply-trends/",
+          "quote": "from 533 grams of CO2 equivalent per kWh (gCO2e/kWh) in 2015 to 458 gCO2e/kWh in 2025.",
+          "accessed": "2026-08-02"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "fix_leak",
@@ -1765,8 +2298,8 @@
       "description_en": "Fix a dripping tap or water leak",
       "description_ja": "水漏れや蛇口のポタポタを修理",
       "description_es": "Reparar un grifo que gotea o una fuga de agua",
-      "co2_grams": 100000,
-      "calculation_notes": "lifetime water + energy return",
+      "co2_grams": 4100,
+      "calculation_notes": "one year after the fix: a tap dripping once a second wastes more than 3,000 US gallons a year (EPA WaterSense) = 11.356 m3 x (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 4,113 g, rounded down to 4,100 g. One-off actions count a one-year window. Water heating is excluded because a drip is mostly cold water.",
       "effort": 3,
       "frequency": 1,
       "impact": 4,
@@ -1776,20 +2309,39 @@
       ],
       "is_active": true,
       "sort_order": 4,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Fix a Leak Week",
+          "url": "https://www.epa.gov/watersense/fix-leak-week",
+          "quote": "A leaky faucet that drips at the rate of one drip per second can waste more than 3,000 gallons per year.",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "cold_water_rinse",
       "category": "water",
       "name_en": "Rinse with Cold Water",
       "name_ja": "冷水ですすぐ",
-      "name_es": "Enjuagar con agua fria",
+      "name_es": "Enjuagar con agua fría",
       "description_en": "Rinse dishes with cold water instead of hot",
       "description_ja": "食器を温水ではなく冷水ですすぐ",
-      "description_es": "Enjuagar los platos con agua fria en vez de caliente",
-      "co2_grams": 30,
-      "calculation_notes": "avoids heating 6-18L rinse water",
+      "description_es": "Enjuagar los platos con agua fría en vez de caliente",
+      "co2_grams": 36,
+      "calculation_notes": "6 L of hot rinse water avoided. EPA WaterSense: 10 US gallons (37.85 L) from a running tap uses 60 W x 18 h = 1.08 kWh, so 0.0285 kWh/L. 6 L x 0.0285 = 0.171 kWh x 212.52 g CO2e/kWh (DESNZ 2026 natural gas 182.31 + well-to-tank 30.21) = 36.4 g, rounded down to 36 g. Assumptions: the 6 L, that the EPA energy figure is the heat in the hot water, and that gas heats the water.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
@@ -1800,20 +2352,39 @@
       ],
       "is_active": true,
       "sort_order": 5,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Statistics and Facts",
+          "url": "https://www.epa.gov/watersense/statistics-and-facts",
+          "quote": "Letting your faucet run for five minutes while washing dishes can waste 10 gallons of water and uses enough energy to power a 60-watt light bulb for 18 hours.",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 1 | Fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.18231",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.03021",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "install_rain_collector",
       "category": "water",
       "name_en": "Install Rain Collector",
       "name_ja": "雨水タンクを設置",
-      "name_es": "Instalar recolector de lluvia",
+      "name_es": "Instalar un depósito de agua de lluvia",
       "description_en": "Set up a rain barrel or collection system for garden watering",
       "description_ja": "庭の水やり用に雨水タンクや集水システムを設置する",
-      "description_es": "Instalar un barril de lluvia o sistema de recoleccion para regar el jardin",
-      "co2_grams": 750,
-      "calculation_notes": "one-time install",
+      "description_es": "Instalar un depósito o sistema de recogida de agua de lluvia para regar el jardín",
+      "co2_grams": 900,
+      "calculation_notes": "One year after the install: 2,500 L collected (RHS low end, small shed roof, dry south-east England) x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 905 g, rounded down to 900 g. One-off actions count a one-year window. Assumes that all collected water replaces mains water.",
       "effort": 3,
       "frequency": 1,
       "impact": 3,
@@ -1823,20 +2394,39 @@
       ],
       "is_active": true,
       "sort_order": 6,
-      "confidence": null,
-      "sources": []
+      "confidence": "medium",
+      "sources": [
+        {
+          "name": "RHS, Water: collecting, storing and using",
+          "url": "https://www.rhs.org.uk/garden-jobs/water-collecting-storing-and-using",
+          "quote": "2,500–3,500 litres of rainwater each year can be collected from the roof of a small shed",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "water_plants_morning",
       "category": "water",
       "name_en": "Water Plants in the Morning",
       "name_ja": "朝に植物に水やり",
-      "name_es": "Regar plantas por la manana",
+      "name_es": "Regar las plantas por la mañana",
       "description_en": "Water garden in the morning to reduce evaporation",
       "description_ja": "蒸発を減らすため朝に水やりをする",
-      "description_es": "Regar el jardin por la manana para reducir la evaporacion",
-      "co2_grams": 5,
-      "calculation_notes": "reduces evaporation loss ~25%",
+      "description_es": "Regar el jardín por la mañana para reducir la evaporación",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. The volume of one watering session is not defined, and no source measures the water saved by watering in the morning and not at midday. The action still earns points for the effort.",
       "effort": 1,
       "frequency": 4,
       "impact": 1,
@@ -1847,19 +2437,26 @@
       "is_active": true,
       "sort_order": 7,
       "confidence": null,
-      "sources": []
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Watering Tips",
+          "url": "https://www.epa.gov/watersense/watering-tips",
+          "quote": "Avoid watering in the middle of the day when the hot sun will evaporate much of the water before it can get to thirsty plants.",
+          "accessed": "2026-11-23"
+        }
+      ]
     },
     {
       "action_id": "reuse_cooking_water",
       "category": "water",
       "name_en": "Reuse Cooking Water",
-      "name_ja": "料理の水を再利用",
-      "name_es": "Reutilizar agua de cocina",
+      "name_ja": "茹で汁を再利用",
+      "name_es": "Reutilizar el agua de cocción",
       "description_en": "Reuse pasta or vegetable cooking water for plants",
       "description_ja": "パスタや野菜の茹で汁を植物に再利用",
-      "description_es": "Reutilizar agua de coccion de pasta o verduras para regar",
-      "co2_grams": 5,
-      "calculation_notes": "displaces ~3L mains for plants",
+      "description_es": "Reutilizar el agua de cocer pasta o verduras para regar",
+      "co2_grams": 1,
+      "calculation_notes": "3 L of mains water displaced x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 1.09 g, rounded down to 1 g. The 3 L is an assumption.",
       "effort": 1,
       "frequency": 4,
       "impact": 2,
@@ -1869,8 +2466,21 @@
       ],
       "is_active": true,
       "sort_order": 8,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "turn_off_tap_dishes",
@@ -1880,9 +2490,9 @@
       "name_es": "Cerrar el grifo al fregar",
       "description_en": "Turn off the tap while scrubbing dishes",
       "description_ja": "食器をこすっている間は水を止める",
-      "description_es": "Cerrar el grifo mientras frotas los platos",
-      "co2_grams": 25,
-      "calculation_notes": "~12L hot water, partial heating share; EPA WaterSense ~25g per wash",
+      "description_es": "Cerrar el grifo mientras friegas los platos",
+      "co2_grams": 4,
+      "calculation_notes": "12 L of running water avoided x 0.36218 g CO2e/L (DESNZ 2026 water supply 0.1913 + water treatment 0.17088 kg CO2e/m3) = 4.35 g, rounded down to 4 g. 12 L is about 95 seconds at the EPA WaterSense rate of 10 US gallons in five minutes, and is an assumption. Supply and treatment only: the hot share is unknown, so no heating is counted.",
       "effort": 1,
       "frequency": 5,
       "impact": 1,
@@ -1892,20 +2502,39 @@
       ],
       "is_active": true,
       "sort_order": 9,
-      "confidence": null,
-      "sources": []
+      "confidence": "low",
+      "sources": [
+        {
+          "name": "US EPA WaterSense, Statistics and Facts",
+          "url": "https://www.epa.gov/watersense/statistics-and-facts",
+          "quote": "Letting your faucet run for five minutes while washing dishes can waste 10 gallons of water and uses enough energy to power a 60-watt light bulb for 18 hours.",
+          "accessed": "2026-11-23"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water supply | Water supply | Water supply | cubic metres | kg CO2e | 0.1913",
+          "accessed": "2026-11-21"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Water treatment | Water treatment | Water treatment | cubic metres | kg CO2e | 0.17088",
+          "accessed": "2026-11-21"
+        }
+      ]
     },
     {
       "action_id": "shorter_bath",
       "category": "water",
       "name_en": "Shower Instead of Bath",
       "name_ja": "お風呂の代わりにシャワー",
-      "name_es": "Ducha en vez de bano",
+      "name_es": "Ducha en vez de baño",
       "description_en": "Take a short shower instead of a full bath",
-      "description_ja": "満杯のお風呂の代わりに短いシャワーを浴びる",
-      "description_es": "Tomar una ducha corta en vez de un bano completo",
-      "co2_grams": 770,
-      "calculation_notes": "bath_gas 7.526854 kWh - 10-min shower_gas 3.28036 kWh = 4.2465 kWh x 182 = 773, rounded down to 770. Gas floor across carriers; the shower happens either way in JP practice, so a shared bath skipped saves the whole fill.",
+      "description_ja": "湯船にお湯をためずに短いシャワーで済ませる",
+      "description_es": "Darse una ducha corta en vez de un baño completo",
+      "co2_grams": 900,
+      "calculation_notes": "bath_gas 7.526854 kWh - 10-min shower_gas 3.28036 kWh = 4.2465 kWh x 212 (gas including well-to-tank) = 900.3, rounded down to 900. Gas floor across carriers; the shower happens either way in JP practice, so a shared bath skipped saves the whole fill.",
       "effort": 2,
       "frequency": 5,
       "impact": 2,
@@ -1942,6 +2571,12 @@
           "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
           "quote": "ghg-conversion-factors-2026-flat-format-revised.xlsx, Version 1.2, natural gas Scope 1 Gross CV = 0.18231 kg CO2e/kWh. Extracted from the flat-format spreadsheet; the value is not rendered as page text on gov.uk.",
           "accessed": "2026-08-02"
+        },
+        {
+          "name": "DESNZ 2026 GHG Conversion Factors (flat file)",
+          "url": "https://assets.publishing.service.gov.uk/media/6a6c9748862aaf18d9c62ac9/ghg-conversion-factors-2026-flat-format-revised.xlsx",
+          "quote": "Scope 3 | WTT- fuels | Gaseous fuels | Natural gas | kWh (Gross CV) | kg CO2e | 0.03021",
+          "accessed": "2026-11-21"
         }
       ]
     },
@@ -1950,12 +2585,12 @@
       "category": "community",
       "name_en": "Plant a Tree",
       "name_ja": "木を植える",
-      "name_es": "Plantar un arbol",
-      "description_en": "Plant a tree to absorb CO2 for years to come",
-      "description_ja": "CO2を吸収する木を植える",
-      "description_es": "Plantar un arbol para absorber CO2 en los anos venideros",
-      "co2_grams": 15000,
-      "calculation_notes": "~15kg first-year absorption",
+      "name_es": "Plantar un árbol",
+      "description_en": "Plant a tree for shade and wildlife",
+      "description_ja": "木陰と生き物のために木を植える",
+      "description_es": "Plantar un árbol para dar sombra y hábitat a la fauna",
+      "co2_grams": 0,
+      "calculation_notes": "No sequestration claim: 0 g. A sapling absorbs little in its first years, survival is uncertain, and the carbon is stored only while the tree lives. The action still earns points for the effort.",
       "effort": 4,
       "frequency": 1,
       "impact": 5,
@@ -1966,15 +2601,8 @@
       ],
       "is_active": true,
       "sort_order": 1,
-      "confidence": "medium",
-      "sources": [
-        {
-          "name": "EPA",
-          "url": "https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator",
-          "quote": "Urban trees sequester 85-140 lbs CO2 over first 10 years.",
-          "accessed": "2026-01-31"
-        }
-      ]
+      "confidence": null,
+      "sources": []
     },
     {
       "action_id": "beach_cleanup",
@@ -2006,9 +2634,9 @@
       "name_en": "Buy Local Produce",
       "name_ja": "地元の農産物を購入",
       "name_es": "Comprar productos locales",
-      "description_en": "Buy locally grown food from a farmers market, farm stand, or local supplier",
-      "description_ja": "ファーマーズマーケット、直売所、地元の業者から地産食材を購入する",
-      "description_es": "Comprar alimentos cultivados localmente en un mercado de agricultores o proveedor local",
+      "description_en": "Buy about 1 kg of local produce instead of produce shipped from another continent",
+      "description_ja": "別の大陸から運ばれた農産物の代わりに地元産の農産物を約1kg購入する",
+      "description_es": "Comprar aproximadamente 1 kg de productos locales en vez de productos traídos de otro continente",
       "co2_grams": 200,
       "calculation_notes": "Buying local avoids only the transport leg, which is a small share of food's footprint. Our World in Data's worked example is 1 kg of avocados shipped Mexico -> UK = 0.21 kg CO2e of transport. Ships 200 g, rounded down from 210 and conservative because locally grown produce still has transport of its own. The honest framing this action must carry: what you eat matters far more than where it travelled from -- transport is under 10% of most foods' emissions and 0.5% for beef. Air-freighted produce is the exception and is a different action.",
       "effort": 2,
@@ -2036,11 +2664,11 @@
       "action_id": "share_sustainability_tip",
       "category": "community",
       "name_en": "Share a Sustainability Tip",
-      "name_ja": "サステナビリティの知識を共有",
+      "name_ja": "エコのコツを共有",
       "name_es": "Compartir consejo de sostenibilidad",
       "description_en": "Share an eco-friendly tip with a friend or family member",
       "description_ja": "エコのコツを友人や家族と共有",
-      "description_es": "Compartir un consejo ecologico con un amigo o familiar",
+      "description_es": "Compartir un consejo ecológico con un amigo o familiar",
       "co2_grams": 0,
       "calculation_notes": "indirect: knowledge cascades",
       "effort": 1,
@@ -2059,13 +2687,13 @@
       "action_id": "community_garden",
       "category": "community",
       "name_en": "Community Garden Session",
-      "name_ja": "コミュニティ農園に参加",
-      "name_es": "Sesion en huerto comunitario",
+      "name_ja": "コミュニティガーデンに参加",
+      "name_es": "Sesión en huerto comunitario",
       "description_en": "Participate in a community garden session",
-      "description_ja": "コミュニティ農園の活動に参加",
-      "description_es": "Participar en una sesion de huerto comunitario",
-      "co2_grams": 200,
-      "calculation_notes": "sequestration + local food miles",
+      "description_ja": "コミュニティガーデンの活動に参加",
+      "description_es": "Participar en una sesión de huerto comunitario",
+      "co2_grams": 0,
+      "calculation_notes": "social and food-security value; no CO2 claim (urban agriculture averages about 6x the footprint of conventional farming per unit of food, see Plan/RESEARCH_ACTIONS.md)",
       "effort": 3,
       "frequency": 3,
       "impact": 4,
@@ -2088,7 +2716,7 @@
       "name_es": "Voluntariado ambiental",
       "description_en": "Volunteer for an environmental organization or event",
       "description_ja": "環境団体やイベントでボランティア活動",
-      "description_es": "Hacer voluntariado para una organizacion o evento ambiental",
+      "description_es": "Hacer voluntariado para una organización o evento ambiental",
       "co2_grams": 0,
       "calculation_notes": "systemic; not CO2-measurable",
       "effort": 4,
@@ -2108,11 +2736,11 @@
       "action_id": "teach_child_eco",
       "category": "community",
       "name_en": "Teach a Child About Ecology",
-      "name_ja": "子供にエコロジーを教える",
-      "name_es": "Ensenar ecologia a un nino",
+      "name_ja": "子供に環境のことを教える",
+      "name_es": "Enseñar ecología a un niño",
       "description_en": "Spend time teaching a child about the environment",
       "description_ja": "子供に環境について教える時間を取る",
-      "description_es": "Dedicar tiempo a ensenar a un nino sobre el medio ambiente",
+      "description_es": "Dedicar tiempo a enseñar a un niño sobre el medio ambiente",
       "co2_grams": 0,
       "calculation_notes": "indirect: generational change",
       "effort": 2,
@@ -2133,12 +2761,12 @@
       "category": "community",
       "name_en": "Support Eco-Friendly Business",
       "name_ja": "エコ企業を支援",
-      "name_es": "Apoyar negocio ecologico",
+      "name_es": "Apoyar negocio ecológico",
       "description_en": "Buy from a business with strong sustainability practices",
       "description_ja": "持続可能な取り組みをする企業から購入",
-      "description_es": "Comprar en un negocio con buenas practicas de sostenibilidad",
-      "co2_grams": 200,
-      "calculation_notes": "eco biz ~20-50% lower footprint",
+      "description_es": "Comprar en un negocio con buenas prácticas de sostenibilidad",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the product and the business are not defined. The action still earns points for the effort.",
       "effort": 2,
       "frequency": 3,
       "impact": 3,
@@ -2159,10 +2787,10 @@
       "name_ja": "交換イベントを企画",
       "name_es": "Organizar evento de intercambio",
       "description_en": "Organize or join a clothing or item swap event",
-      "description_ja": "衣類や物品の交換イベントを企画・参加",
-      "description_es": "Organizar o asistir a un evento de intercambio de ropa o articulos",
-      "co2_grams": 1000,
-      "calculation_notes": "multiple items reused; conserv.",
+      "description_ja": "衣類や物品の交換イベントを企画するか参加する",
+      "description_es": "Organizar o asistir a un evento de intercambio de ropa o artículos",
+      "co2_grams": 0,
+      "calculation_notes": "No CO2 claim: 0 g. One log has no measurable quantity: the number of items swapped and what they replace are not defined. The action still earns points for the effort.",
       "effort": 4,
       "frequency": 1,
       "impact": 4,
@@ -2184,7 +2812,7 @@
       "name_es": "Recoger basura",
       "description_en": "Pick up litter in your neighbourhood or on a walk",
       "description_ja": "近所や散歩中にゴミを拾う",
-      "description_es": "Recoger basura en tu vecindario o durante un paseo",
+      "description_es": "Recoger basura en tu barrio o durante un paseo",
       "co2_grams": 0,
       "calculation_notes": "ecological; not CO2-measurable",
       "effort": 2,
@@ -2209,7 +2837,7 @@
       "name_es": "Asumir una tarea del hogar",
       "description_en": "Take on a household chore to support a fair division of domestic labour today",
       "description_ja": "今日は家事を一つ引き受けて家庭内の公平な分担を実践する",
-      "description_es": "Asumir una tarea del hogar para apoyar una division justa del trabajo domestico hoy",
+      "description_es": "Asumir una tarea del hogar para apoyar una división justa del trabajo doméstico hoy",
       "co2_grams": 0,
       "calculation_notes": "economic equity action",
       "effort": 3,
@@ -2235,7 +2863,7 @@
       "name_es": "Usar la biblioteca",
       "description_en": "Borrow books, media, or resources from the library instead of buying new",
       "description_ja": "新品を買う代わりに図書館で本やメディアを借りる",
-      "description_es": "Tomar prestados libros, medios o recursos de la biblioteca en vez de comprar nuevos",
+      "description_es": "Sacar libros, películas u otros recursos de la biblioteca en vez de comprarlos nuevos",
       "co2_grams": 1000,
       "calculation_notes": "Book Industry Study Group / Green Press Initiative 2008 US book-industry study: 4.01 kg (8.85 lb) per average book; the same report's industry total implies 2.99 kg on a produced-books denominator. Ships 1.0 kg, roughly a third of the lower figure, and DELIBERATELY unlike used_car_purchase and secondhand_clothing, which credit full avoided production. The difference is displacement, not caution: acquiring a used car or garment is necessarily an acquisition that would otherwise have been made new, whereas most library borrowings would never have been purchases at all, and a library copy amortizes its own production across many borrowers. VINTAGE CAVEAT: 2008 data, predating the e-book shift, and the report's two figures disagree. Re-source before raising.",
       "effort": 2,
@@ -2262,11 +2890,11 @@
       "action_id": "support_community_business",
       "category": "community",
       "name_en": "Support a Community Business",
-      "name_ja": "コミュニティのお店を利用",
+      "name_ja": "マイノリティ経営のお店を利用",
       "name_es": "Apoyar negocio comunitario",
       "description_en": "Buy from a local minority-owned or underrepresented community business",
       "description_ja": "地域のマイノリティ経営や地元密着のビジネスを利用する",
-      "description_es": "Comprar en un negocio local de minorias o comunidades subrepresentadas",
+      "description_es": "Comprar en un negocio local de minorías o comunidades subrepresentadas",
       "co2_grams": 0,
       "calculation_notes": "economic equity action",
       "effort": 2,
@@ -2288,11 +2916,11 @@
       "action_id": "sign_petition",
       "category": "advocacy",
       "name_en": "Sign an Environmental Petition",
-      "name_ja": "環境に関する署名をする",
-      "name_es": "Firmar una peticion ambiental",
+      "name_ja": "環境保護の署名に参加",
+      "name_es": "Firmar una petición ambiental",
       "description_en": "Sign a petition supporting environmental policy",
       "description_ja": "環境政策を支持する署名に参加",
-      "description_es": "Firmar una peticion que apoye politicas ambientales",
+      "description_es": "Firmar una petición que apoye políticas ambientales",
       "co2_grams": 0,
       "calculation_notes": "indirect: collective policy push",
       "effort": 1,
@@ -2313,10 +2941,10 @@
       "category": "advocacy",
       "name_en": "Contact Your Representative",
       "name_ja": "議員に連絡する",
-      "name_es": "Contactar a tu representante",
+      "name_es": "Contactar con tu representante",
       "description_en": "Contact your elected official about climate policy",
       "description_ja": "気候政策について議員に連絡する",
-      "description_es": "Contactar a tu representante electo sobre politica climatica",
+      "description_es": "Contactar con tu representante electo sobre política climática",
       "co2_grams": 0,
       "calculation_notes": "indirect: highest leverage action",
       "effort": 3,
@@ -2337,7 +2965,7 @@
       "category": "advocacy",
       "name_en": "Share Eco Content Online",
       "name_ja": "エコ情報をSNSでシェア",
-      "name_es": "Compartir contenido ecologico en linea",
+      "name_es": "Compartir contenido ecológico en internet",
       "description_en": "Share environmental content on social media",
       "description_ja": "環境に関する情報をSNSでシェア",
       "description_es": "Compartir contenido ambiental en redes sociales",
@@ -2361,10 +2989,10 @@
       "category": "advocacy",
       "name_en": "Attend a Climate Event",
       "name_ja": "気候変動イベントに参加",
-      "name_es": "Asistir a un evento climatico",
+      "name_es": "Asistir a un evento climático",
       "description_en": "Attend a climate rally, march, or awareness event",
       "description_ja": "気候変動に関する集会やイベントに参加",
-      "description_es": "Asistir a una marcha, evento o reunion sobre el clima",
+      "description_es": "Asistir a una marcha, evento o reunión sobre el clima",
       "co2_grams": 0,
       "calculation_notes": "indirect: media + policy pressure",
       "effort": 4,
@@ -2385,10 +3013,10 @@
       "category": "advocacy",
       "name_en": "Support Green Policy",
       "name_ja": "環境政策を支持",
-      "name_es": "Apoyar politica verde",
+      "name_es": "Apoyar política verde",
       "description_en": "Vote for or advocate for green energy and climate policies",
-      "description_ja": "グリーンエネルギーや気候政策を支持・投票",
-      "description_es": "Votar o abogar por politicas de energia verde y clima",
+      "description_ja": "グリーンエネルギーや気候政策を支持するか、投票で後押しする",
+      "description_es": "Votar o abogar por políticas de energía verde y clima",
       "co2_grams": 0,
       "calculation_notes": "indirect: systemic policy change",
       "effort": 3,
@@ -2410,10 +3038,10 @@
       "category": "advocacy",
       "name_en": "Write an Eco-Friendly Review",
       "name_ja": "エコ商品のレビューを書く",
-      "name_es": "Escribir resena ecologica",
+      "name_es": "Escribir reseña ecológica",
       "description_en": "Write a positive review for a sustainable product or business",
-      "description_ja": "サステナブルな商品や企業にレビューを書く",
-      "description_es": "Escribir una resena positiva para un producto o negocio sostenible",
+      "description_ja": "サステナブルな商品や企業に好意的なレビューを書く",
+      "description_es": "Escribir una reseña positiva sobre un producto o negocio sostenible",
       "co2_grams": 0,
       "calculation_notes": "indirect: influences purchases",
       "effort": 2,
@@ -2434,10 +3062,10 @@
       "category": "advocacy",
       "name_en": "Attend Eco Group Meeting",
       "name_ja": "環境グループの会合に参加",
-      "name_es": "Asistir a reunion de grupo ecologico",
+      "name_es": "Asistir a reunión de grupo ecológico",
       "description_en": "Attend a meeting or event with your environmental group",
       "description_ja": "環境グループの会合やイベントに参加",
-      "description_es": "Asistir a una reunion o evento con tu grupo ambiental",
+      "description_es": "Asistir a una reunión o evento con tu grupo ambiental",
       "co2_grams": 0,
       "calculation_notes": "indirect: demand signal",
       "effort": 2,
@@ -2458,10 +3086,10 @@
       "category": "advocacy",
       "name_en": "Request a Green Option",
       "name_ja": "エコな選択肢をリクエスト",
-      "name_es": "Solicitar una opcion verde",
+      "name_es": "Solicitar una opción verde",
       "description_en": "Ask a business or restaurant to offer a greener option",
       "description_ja": "店舗や飲食店にエコな選択肢を提案する",
-      "description_es": "Pedir a un negocio o restaurante que ofrezca una opcion mas verde",
+      "description_es": "Pedir a un negocio o restaurante que ofrezca una opción más verde",
       "co2_grams": 0,
       "calculation_notes": "indirect: demand signal",
       "effort": 2,
@@ -2482,10 +3110,10 @@
       "category": "advocacy",
       "name_en": "Donate to a Women-Led Climate Organization",
       "name_ja": "女性主導の気候団体に寄付",
-      "name_es": "Donar a organizacion climatica liderada por mujeres",
+      "name_es": "Donar a organización climática liderada por mujeres",
       "description_en": "Donate to an organization led by women working on climate justice",
       "description_ja": "気候正義に取り組む女性主導の団体に寄付する",
-      "description_es": "Donar a una organizacion liderada por mujeres que trabaja en justicia climatica",
+      "description_es": "Donar a una organización liderada por mujeres que trabaja en justicia climática",
       "co2_grams": 0,
       "calculation_notes": "social equity + env co-benefits",
       "effort": 2,
@@ -2535,10 +3163,10 @@
       "category": "community",
       "name_en": "Fund a Micro-Loan",
       "name_ja": "マイクロローンに出資",
-      "name_es": "Financiar un microprestamo",
+      "name_es": "Financiar un micropréstamo",
       "description_en": "Lend to an entrepreneur in a developing country through a micro-lending platform",
       "description_ja": "マイクロレンディングを通じて途上国の起業家に融資する",
-      "description_es": "Prestar a un emprendedor en un pais en desarrollo a traves de una plataforma de microprestamos",
+      "description_es": "Prestar a un emprendedor en un país en desarrollo a través de una plataforma de micropréstamos",
       "co2_grams": 0,
       "calculation_notes": "economic dev + env co-benefits",
       "effort": 3,
@@ -2612,10 +3240,10 @@
       "category": "community",
       "name_en": "Volunteer for a Nature Walk",
       "name_ja": "自然散策ボランティアに参加",
-      "name_es": "Voluntariado en caminata por la naturaleza",
+      "name_es": "Voluntariado en una ruta por la naturaleza",
       "description_en": "Volunteer to help with a guided nature walk for your community",
       "description_ja": "地域のガイド付き自然散策のボランティアに参加する",
-      "description_es": "Ser voluntario en una caminata guiada por la naturaleza para tu comunidad",
+      "description_es": "Colaborar como voluntario en una ruta guiada por la naturaleza para tu comunidad",
       "co2_grams": 0,
       "calculation_notes": "indirect: engagement; not CO2-measurable",
       "effort": 3,
@@ -2638,10 +3266,10 @@
       "category": "energy",
       "name_en": "Heat Yourself, Not the Room",
       "name_ja": "部屋ではなく自分を暖める",
-      "name_es": "Calienta tu cuerpo, no la habitacion",
+      "name_es": "Calentarte tú, no la habitación",
       "description_en": "Use a kotatsu, heated blanket or heated carpet for an evening instead of switching on a portable electric heater",
       "description_ja": "電気ストーブをつけず、こたつ・電気毛布・電気カーペットで一晩過ごす",
-      "description_es": "Usa un kotatsu, manta electrica o alfombra electrica una noche en lugar de encender un calefactor portatil",
+      "description_es": "Usar un kotatsu, una manta eléctrica o una alfombra eléctrica una noche en lugar de encender un calefactor portátil",
       "co2_grams": 1900,
       "calculation_notes": "(portable_electric_heater 1.2 kWh/h - kotatsu 0.15 kWh/h) x 4 h evening = 4.2 kWh x 458 g CO2e/kWh = 1924 g, rounded down to 1900 g. The kotatsu 0.15 is the makers' published 標準（平均）消費電力量 strong-setting average, never the 300-600 W nameplate. Heated carpets fall under the same action: a 3畳 carpet on 中 is ~0.33 kWh/h (Panasonic), which does not change this arithmetic.",
       "effort": 2,
@@ -2791,9 +3419,9 @@
   "notes": {
     "regional_variation": "Energy-related actions vary significantly by grid carbon intensity. US average 0.37 kg/kWh, UK 0.21 kg/kWh, France 0.05 kg/kWh. Consider allowing user input.",
     "food_caveat": "Transport accounts for only 5-6% of food emissions. 'Eat local' has limited impact compared to 'eat less beef'.",
-    "reusable_items_caveat": "Cotton bags require 7,100+ uses to break even. Recommend polypropylene bags (10-45 uses breakeven).",
+    "reusable_items_caveat": "Reusable bags break even only after many uses: at least 11 for non-woven PP and 131 for cotton (UK Environment Agency 2011), 52 for cotton on climate change alone (Danish EPA 2018). See reusable_bag.",
     "growing_vegetables_caveat": "University of Michigan 2024 found urban agriculture has 6× higher emissions than conventional farming due to infrastructure. Exception: tomatoes grown outdoors vs greenhouse.",
-    "flight_radiative_forcing": "DEFRA uses 1.9× multiplier for non-CO2 aviation effects. Some scientists argue 2.7-3× is more accurate.",
+    "flight_radiative_forcing": "DESNZ recommends a 1.7× multiplier for non-CO2 aviation effects, applied to the CO2 part of direct emissions only (2026 methodology, paras 8.42-8.43). Some scientists argue 2.7-3× is more accurate.",
     "avoided_emissions_caveat": "Actions that credit avoided manufacturing (used_car_purchase, secondhand_clothing, repair_item, borrow_instead_buy, donate_items) are COUNTERFACTUAL claims, not inventory accounting. Each scores one decision against what would otherwise have been produced; they are not a share of any physical object's embodied carbon. Two consequences. (1) They are not additive: if a car is built, sold, and resold, the manufacturing happened once, and crediting each buyer is only coherent because each buyer faced a separate buy-new decision -- never sum them and never present the total as a physical quantity of CO2 not emitted. (2) They assume one-for-one displacement, which is an upper bound: real markets displace less than one new unit per secondhand purchase, and no published rate exists to correct with. The methodology screen must say both."
   },
   "research_only_records": {

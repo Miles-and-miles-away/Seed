@@ -70,7 +70,7 @@ String? foodBoundaryNoteLabel(AppLocalizations l10n, FoodItem item) =>
 
 /// Emission-factor line for an item row: kg CO2e per kg as-purchased.
 String foodItemFactorLabel(AppLocalizations l10n, FoodItem item) =>
-    l10n.foodItemFactorPerKg(_factorText(item.kgCo2ePerKg));
+    l10n.foodItemFactorPerKg(_factorText(item.kgCo2ePerKg, l10n.localeName));
 
 /// The same factor with the item's realistic serving alongside it.
 ///
@@ -88,16 +88,27 @@ String foodItemFactorWithServingLabel(
   if (serving == null) return foodItemFactorLabel(l10n, item);
   final grams = item.kgCo2ePerKg * serving.grams;
   return l10n.foodItemFactorWithServing(
-    _factorText(item.kgCo2ePerKg),
-    formatCO2Compact(grams.round()),
-    serving.name(locale),
+    _factorText(item.kgCo2ePerKg, l10n.localeName),
+    formatCO2Compact(grams.round(), l10n.localeName),
+    keepUnitsTogether(serving.name(locale)),
   );
 }
 
 /// One decimal below 10 (e.g. "9.9"), whole numbers above (e.g. "99")
 /// -- enough precision for a row subtitle without false exactness.
-String _factorText(double kgPerKg) =>
-    kgPerKg >= 10 ? kgPerKg.round().toString() : kgPerKg.toStringAsFixed(1);
+String _factorText(double kgPerKg, String locale) => formatDecimal(
+  kgPerKg,
+  locale,
+  minDigits: kgPerKg >= 10 ? 0 : 1,
+  maxDigits: kgPerKg >= 10 ? 0 : 1,
+);
+
+final _servingDetail = RegExp(r'\s*- ');
+
+/// A serving name without the dataset's technical clause after " - "
+/// ("1 portion cooked (100 g) - 47 g dry" reads "1 portion cooked
+/// (100 g)"), for places with room for one short line.
+String servingHeadline(String name) => name.split(_servingDetail).first;
 
 /// Every ingredient in a meal, heaviest-emitting first, joined for the
 /// banked action name ("Beef + Rice").
@@ -159,6 +170,11 @@ String mealOptionLabel(
   return dominant?.name(locale) ?? '';
 }
 
+final _folded = <String, String>{};
+
+// Dataset strings are fixed, so fold each once, not on every keystroke.
+String _fold(String value) => _folded[value] ??= foldForSearch(value);
+
 /// Items matching [query], ranked: name-prefix hits first, then any
 /// other hit, each preserving dataset order.
 ///
@@ -174,11 +190,11 @@ List<FoodItem> searchFoodItems(List<FoodItem> items, String query) {
   final aliasPrefix = <FoodItem>[];
   final aliasContains = <FoodItem>[];
   for (final item in items) {
-    final names = [item.nameEn, item.nameJa, item.nameEs].map(foldForSearch);
+    final names = [item.nameEn, item.nameJa, item.nameEs].map(_fold);
     if (names.any((n) => n.startsWith(needle))) {
       prefix.add(item);
     } else if (names.any((n) => n.contains(needle)) ||
-        foldForSearch(item.id).contains(needle)) {
+        _fold(item.id).contains(needle)) {
       contains.add(item);
     } else {
       // Aliases rank last: "carrots" must find Root vegetables, but an
@@ -186,7 +202,7 @@ List<FoodItem> searchFoodItems(List<FoodItem> items, String query) {
       // merely lists the word as a member. Within aliases a whole-term
       // hit beats a substring, so "chips" finds Potatoes rather than
       // whatever item happens to list "fish and chips".
-      final terms = item.searchTerms.map(foldForSearch);
+      final terms = item.searchTerms.map(_fold);
       if (terms.any((t) => t.startsWith(needle))) {
         aliasPrefix.add(item);
       } else if (terms.any((t) => t.contains(needle))) {

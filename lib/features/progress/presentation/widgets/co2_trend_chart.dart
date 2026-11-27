@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 
 /// Scatter-plot trend chart for daily CO2 across the dashboard's
@@ -18,7 +19,7 @@ import 'package:seed_app/features/progress/domain/entities/co2_chart_data.dart';
 /// provider itself so the dashboard can decide whether to render
 /// (`data.isPlottable`) and so widget tests don't need provider
 /// overrides for charts.
-class Co2TrendChart extends StatelessWidget {
+class Co2TrendChart extends StatefulWidget {
   const Co2TrendChart({required this.data, super.key});
 
   static const double height = 220;
@@ -26,7 +27,28 @@ class Co2TrendChart extends StatelessWidget {
   final Co2TrendData data;
 
   @override
+  State<Co2TrendChart> createState() => _Co2TrendChartState();
+}
+
+class _Co2TrendChartState extends State<Co2TrendChart> {
+  // Fresh closures never compare equal, so fl_chart would replay its tween.
+  (Co2TrendData, ThemeData, String)? _chartInputs;
+  late LineChartData _chartData;
+
+  LineChartData _cachedChart(
+    (Co2TrendData, ThemeData, String) inputs,
+    LineChartData Function() build,
+  ) {
+    if (inputs != _chartInputs) {
+      _chartInputs = inputs;
+      _chartData = build();
+    }
+    return _chartData;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final data = widget.data;
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).toLanguageTag();
@@ -34,19 +56,11 @@ class Co2TrendChart extends StatelessWidget {
 
     // x-axis is in days since windowStart so calendar gaps render
     // as visual gaps.
-    final daysInWindow = data.windowEnd
-        .difference(data.windowStart)
-        .inDays
-        .toDouble();
+    final daysInWindow = data.dayIndex(data.windowEnd).toDouble();
     final maxX = math.max<double>(daysInWindow - 1, 1);
 
     final dotSpots = data.points
-        .map(
-          (p) => FlSpot(
-            p.date.difference(data.windowStart).inDays.toDouble(),
-            p.grams / 1000.0,
-          ),
-        )
+        .map((p) => FlSpot(data.dayIndex(p.date).toDouble(), p.grams / 1000.0))
         .toList(growable: false);
 
     final peakKg = dotSpots.fold<double>(0, (a, s) => math.max(a, s.y));
@@ -115,8 +129,8 @@ class Co2TrendChart extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.trendChartTitle,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -142,87 +156,111 @@ class Co2TrendChart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: spacingSm),
-          SizedBox(
-            height: height,
-            child: LineChart(
-              LineChartData(
-                minX: 0,
-                maxX: maxX,
-                minY: 0,
-                maxY: maxY,
-                lineBarsData: [dotsSeries, avgSeries, ?trendSeries],
-                gridData: FlGridData(
-                  drawVerticalLine: false,
-                  getDrawingHorizontalLine: (_) => FlLine(
-                    color: theme.dividerColor.withValues(alpha: opacityMedium),
-                    strokeWidth: 0.5,
-                  ),
-                ),
-                borderData: FlBorderData(show: false),
-                titlesData: FlTitlesData(
-                  topTitles: const AxisTitles(),
-                  rightTitles: const AxisTitles(),
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 32,
-                      interval: _yAxisInterval(maxY),
-                      getTitlesWidget: (value, meta) => Text(
-                        value.toStringAsFixed(1),
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
+          Semantics(
+            label: l10n.trendChartSemantics(
+              daysInWindow.toInt(),
+              formatCO2Compact(data.averageGrams.round(), locale),
+              formatCO2Compact(
+                data.points.fold(0, (a, p) => math.max(a, p.grams)),
+                locale,
+              ),
+            ),
+            child: ExcludeSemantics(
+              child: SizedBox(
+                height: Co2TrendChart.height,
+                child: LineChart(
+                  _cachedChart(
+                    (data, theme, locale),
+                    () => LineChartData(
+                      minX: 0,
+                      maxX: maxX,
+                      minY: 0,
+                      maxY: maxY,
+                      lineBarsData: [dotsSeries, avgSeries, ?trendSeries],
+                      gridData: FlGridData(
+                        drawVerticalLine: false,
+                        getDrawingHorizontalLine: (_) => FlLine(
+                          color: theme.dividerColor.withValues(
+                            alpha: opacityMedium,
+                          ),
+                          strokeWidth: 0.5,
+                        ),
+                      ),
+                      borderData: FlBorderData(show: false),
+                      titlesData: FlTitlesData(
+                        topTitles: const AxisTitles(),
+                        rightTitles: const AxisTitles(),
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 32,
+                            interval: _yAxisInterval(maxY),
+                            getTitlesWidget: (value, meta) => Text(
+                              formatDecimal(
+                                value,
+                                l10n.localeName,
+                                minDigits: 1,
+                                maxDigits: 1,
+                              ),
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                        ),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 24,
+                            interval: maxX,
+                            getTitlesWidget: (value, meta) {
+                              // Show only first, middle, last to keep
+                              // labels readable across 7/30/90-day windows.
+                              final mid = maxX / 2;
+                              final epsilon = maxX * 0.02;
+                              final atStart = value <= epsilon;
+                              final atEnd = value >= maxX - epsilon;
+                              final atMid = (value - mid).abs() <= epsilon;
+                              if (!atStart && !atEnd && !atMid) {
+                                return const SizedBox.shrink();
+                              }
+                              final date = data.dayAt(value.round());
+                              return Padding(
+                                padding: const EdgeInsets.only(top: spacingXs),
+                                child: Text(
+                                  dateFormat.format(date),
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      lineTouchData: LineTouchData(
+                        touchTooltipData: LineTouchTooltipData(
+                          getTooltipItems: (touched) => touched.map((spot) {
+                            // Avg line is barIndex 1; skip its tooltip so
+                            // users don't tap the dashed line and get a
+                            // confusing "average" duplicate at every x.
+                            if (spot.barIndex != 0) return null;
+                            final date = data.dayAt(spot.x.round());
+                            final kg = formatDecimal(
+                              spot.y,
+                              l10n.localeName,
+                              minDigits: 1,
+                              maxDigits: 1,
+                            );
+                            return LineTooltipItem(
+                              '${dateFormat.format(date)}\n'
+                              '$kg$unitSpace${l10n.kgUnit}',
+                              theme.textTheme.bodySmall ?? const TextStyle(),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ),
-                  ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 24,
-                      interval: maxX,
-                      getTitlesWidget: (value, meta) {
-                        // Show only first, middle, last to keep
-                        // labels readable across 7/30/90-day windows.
-                        final mid = maxX / 2;
-                        final epsilon = maxX * 0.02;
-                        final atStart = value <= epsilon;
-                        final atEnd = value >= maxX - epsilon;
-                        final atMid = (value - mid).abs() <= epsilon;
-                        if (!atStart && !atEnd && !atMid) {
-                          return const SizedBox.shrink();
-                        }
-                        final date = data.windowStart.add(
-                          Duration(days: value.round()),
-                        );
-                        return Padding(
-                          padding: const EdgeInsets.only(top: spacingXs),
-                          child: Text(
-                            dateFormat.format(date),
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                lineTouchData: LineTouchData(
-                  touchTooltipData: LineTouchTooltipData(
-                    getTooltipItems: (touched) => touched.map((spot) {
-                      // Avg line is barIndex 1; skip its tooltip so
-                      // users don't tap the dashed line and get a
-                      // confusing "average" duplicate at every x.
-                      if (spot.barIndex != 0) return null;
-                      final date = data.windowStart.add(
-                        Duration(days: spot.x.round()),
-                      );
-                      return LineTooltipItem(
-                        '${dateFormat.format(date)}\n'
-                        '${spot.y.toStringAsFixed(1)} ${l10n.kgUnit}',
-                        theme.textTheme.bodySmall ?? const TextStyle(),
-                      );
-                    }).toList(),
                   ),
                 ),
               ),

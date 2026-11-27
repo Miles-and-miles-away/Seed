@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// A plain-language explanation with a single Close action.
 Future<void> showExplainerDialog(
@@ -12,8 +13,8 @@ Future<void> showExplainerDialog(
   return showDialog<void>(
     context: context,
     builder: (dialogContext) => AlertDialog(
-      title: Text(title),
-      content: Text(body),
+      title: PhraseText(title, minLineWidth: phraseDialogMinLineWidth),
+      content: PhraseText(body, minLineWidth: phraseDialogMinLineWidth),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(dialogContext),

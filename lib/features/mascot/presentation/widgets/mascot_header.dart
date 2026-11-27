@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 
 /// Mascot name (with inline rename) and stage badge shown inside the
@@ -101,10 +102,12 @@ class _MascotHeaderState extends ConsumerState<MascotHeader>
           IconButton(
             onPressed: _submitRename,
             icon: Icon(Icons.check, color: colorScheme.primary),
+            tooltip: AppLocalizations.of(context).buttonSave,
           ),
           IconButton(
             onPressed: _cancelRename,
             icon: Icon(Icons.close, color: colorScheme.error),
+            tooltip: AppLocalizations.of(context).buttonCancel,
           ),
         ],
       );
@@ -113,11 +116,15 @@ class _MascotHeaderState extends ConsumerState<MascotHeader>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          name,
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+        Flexible(
+          child: Text(
+            name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          ),
         ),
         const SizedBox(width: spacingSm),
         IconButton(
@@ -147,7 +154,20 @@ class _MascotHeaderState extends ConsumerState<MascotHeader>
     final newName = _renameController.text.trim();
 
     await ref.read(mascotProvider.notifier).renameMascot(newName);
-    if (mounted) _setRenaming(false);
+    if (!mounted) return;
+    final error = ref.read(mascotProvider).error;
+    if (error == null) {
+      _setRenaming(false);
+      return;
+    }
+    final l10n = AppLocalizations.of(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          isOfflineError(error) ? l10n.errorNetwork : l10n.errorGeneric,
+        ),
+      ),
+    );
   }
 
   Widget _buildStageBadge(ColorScheme colorScheme) {
@@ -172,8 +192,7 @@ class _MascotHeaderState extends ConsumerState<MascotHeader>
           Icon(Icons.star, size: 18, color: colorScheme.primary),
           const SizedBox(width: 6),
           Text(
-            '${widget.stageName}'
-            ' - ${l10n.levelLabel(widget.mascotLevel)}',
+            l10n.stageWithLevel(widget.stageName, widget.mascotLevel),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: colorScheme.onPrimaryContainer,
               fontWeight: FontWeight.w600,

@@ -104,7 +104,8 @@ String _$mascotRepositoryHash() => r'16023de0e8a2ebc97e4ba784213f7b3181c4a0d6';
 ///
 /// Derived from the user document already streamed by
 /// [currentUserProvider]; opening a second Firestore listener on the
-/// same document would only duplicate decode work.
+/// same document would only duplicate decode work. Stays loading until
+/// the user document arrives, so callers can tell loading from none.
 
 @ProviderFor(allMascots)
 final allMascotsProvider = AllMascotsProvider._();
@@ -113,7 +114,8 @@ final allMascotsProvider = AllMascotsProvider._();
 ///
 /// Derived from the user document already streamed by
 /// [currentUserProvider]; opening a second Firestore listener on the
-/// same document would only duplicate decode work.
+/// same document would only duplicate decode work. Stays loading until
+/// the user document arrives, so callers can tell loading from none.
 
 final class AllMascotsProvider
     extends
@@ -129,7 +131,8 @@ final class AllMascotsProvider
   ///
   /// Derived from the user document already streamed by
   /// [currentUserProvider]; opening a second Firestore listener on the
-  /// same document would only duplicate decode work.
+  /// same document would only duplicate decode work. Stays loading until
+  /// the user document arrives, so callers can tell loading from none.
   AllMascotsProvider._()
     : super(
         from: null,
@@ -156,7 +159,7 @@ final class AllMascotsProvider
   }
 }
 
-String _$allMascotsHash() => r'cbef656f60a6cff78533a1b79d40205f8a238c7a';
+String _$allMascotsHash() => r'18aa4bcbc9f7fa94b834f55707ab263db465f667';
 
 /// The active mascot for the current user (derived, see [allMascots]).
 
@@ -689,6 +692,54 @@ final class HasEggProvider extends $FunctionalProvider<bool, bool, bool>
 
 String _$hasEggHash() => r'001d7c8b459b39dc8ed56e683a3fb21ae8804383';
 
+/// The egg's count as it stands today: a missed day has already ended it,
+/// before the next log writes the restart.
+
+@ProviderFor(eggStreakDays)
+final eggStreakDaysProvider = EggStreakDaysProvider._();
+
+/// The egg's count as it stands today: a missed day has already ended it,
+/// before the next log writes the restart.
+
+final class EggStreakDaysProvider extends $FunctionalProvider<int, int, int>
+    with $Provider<int> {
+  /// The egg's count as it stands today: a missed day has already ended it,
+  /// before the next log writes the restart.
+  EggStreakDaysProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'eggStreakDaysProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$eggStreakDaysHash();
+
+  @$internal
+  @override
+  $ProviderElement<int> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  int create(Ref ref) {
+    return eggStreakDays(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$eggStreakDaysHash() => r'4d2f4f25fff8b0161929f95fc76229aeb9e9a0dd';
+
 /// Egg hatching progress (0.0 to 1.0).
 
 @ProviderFor(eggHatchingProgress)
@@ -734,7 +785,66 @@ final class EggHatchingProgressProvider
 }
 
 String _$eggHatchingProgressHash() =>
-    r'1e21a80390cefe4ee20f0e6a3b17cfdc27588aac';
+    r'fc34ab61d7c206a735e53da750164d9e78d9fc89';
+
+/// Counts the logs that started the egg's count again after a missed day.
+
+@ProviderFor(EggStreakResetSignal)
+final eggStreakResetSignalProvider = EggStreakResetSignalProvider._();
+
+/// Counts the logs that started the egg's count again after a missed day.
+final class EggStreakResetSignalProvider
+    extends $NotifierProvider<EggStreakResetSignal, int> {
+  /// Counts the logs that started the egg's count again after a missed day.
+  EggStreakResetSignalProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'eggStreakResetSignalProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$eggStreakResetSignalHash();
+
+  @$internal
+  @override
+  EggStreakResetSignal create() => EggStreakResetSignal();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$eggStreakResetSignalHash() =>
+    r'11b6a15b54b17a888f53c6e00fa1a8178d43c90e';
+
+/// Counts the logs that started the egg's count again after a missed day.
+
+abstract class _$EggStreakResetSignal extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<int, int>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
 
 /// Whether to show the egg discovery celebration.
 /// True if eggPendingDiscovery flag is set.
@@ -905,7 +1015,7 @@ final class MascotNotifierProvider
   }
 }
 
-String _$mascotNotifierHash() => r'b314ebb4e7d6be3d99dab09106dd2be9299f77d5';
+String _$mascotNotifierHash() => r'636193891d29b0a58d52f7bed20bd6e02dbb5697';
 
 abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();
@@ -925,28 +1035,43 @@ abstract class _$MascotNotifier extends $Notifier<AsyncValue<void>> {
   }
 }
 
-@ProviderFor(MascotAnimationTrigger)
-final mascotAnimationTriggerProvider = MascotAnimationTriggerProvider._();
+/// Whether an evolution or egg celebration is waiting to play; other
+/// mascot reactions stand aside for it.
 
-final class MascotAnimationTriggerProvider
-    extends $NotifierProvider<MascotAnimationTrigger, bool> {
-  MascotAnimationTriggerProvider._()
+@ProviderFor(mascotCelebrationPending)
+final mascotCelebrationPendingProvider = MascotCelebrationPendingProvider._();
+
+/// Whether an evolution or egg celebration is waiting to play; other
+/// mascot reactions stand aside for it.
+
+final class MascotCelebrationPendingProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether an evolution or egg celebration is waiting to play; other
+  /// mascot reactions stand aside for it.
+  MascotCelebrationPendingProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'mascotAnimationTriggerProvider',
+        name: r'mascotCelebrationPendingProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$mascotAnimationTriggerHash();
+  String debugGetCreateSourceHash() => _$mascotCelebrationPendingHash();
 
   @$internal
   @override
-  MascotAnimationTrigger create() => MascotAnimationTrigger();
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return mascotCelebrationPending(ref);
+  }
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -957,20 +1082,72 @@ final class MascotAnimationTriggerProvider
   }
 }
 
-String _$mascotAnimationTriggerHash() =>
-    r'5a731cd1cd6cb04ba255ed8ef6f5d59e5a05b4fb';
+String _$mascotCelebrationPendingHash() =>
+    r'd63a2048618d9a75f0f1274142f7933840763e06';
 
-abstract class _$MascotAnimationTrigger extends $Notifier<bool> {
-  bool build();
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
+
+@ProviderFor(DailyGreeted)
+final dailyGreetedProvider = DailyGreetedProvider._();
+
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
+final class DailyGreetedProvider
+    extends $NotifierProvider<DailyGreeted, String?> {
+  /// The local day whose greeting Home's mascot has played in this session,
+  /// for the signed-in account. [store] writes it to the settings once the
+  /// greeting has played out, so a cold start later that day does not greet
+  /// again.
+  DailyGreetedProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dailyGreetedProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$dailyGreetedHash();
+
+  @$internal
+  @override
+  DailyGreeted create() => DailyGreeted();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String?>(value),
+    );
+  }
+}
+
+String _$dailyGreetedHash() => r'7eabfa781c94d99bb6443ae8248d5a1384b0009e';
+
+/// The local day whose greeting Home's mascot has played in this session,
+/// for the signed-in account. [store] writes it to the settings once the
+/// greeting has played out, so a cold start later that day does not greet
+/// again.
+
+abstract class _$DailyGreeted extends $Notifier<String?> {
+  String? build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref = this.ref as $Ref<bool, bool>;
+    final ref = this.ref as $Ref<String?, String?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
+              AnyNotifier<String?, String?>,
+              String?,
               Object?,
               Object?
             >;
@@ -978,9 +1155,58 @@ abstract class _$MascotAnimationTrigger extends $Notifier<bool> {
   }
 }
 
+/// Whether Home's mascot should greet the user now: once a day, for a
+/// user who has logged before but not yet today.
+
+@ProviderFor(dailyGreetingDue)
+final dailyGreetingDueProvider = DailyGreetingDueProvider._();
+
+/// Whether Home's mascot should greet the user now: once a day, for a
+/// user who has logged before but not yet today.
+
+final class DailyGreetingDueProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  /// Whether Home's mascot should greet the user now: once a day, for a
+  /// user who has logged before but not yet today.
+  DailyGreetingDueProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dailyGreetingDueProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$dailyGreetingDueHash();
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return dailyGreetingDue(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$dailyGreetingDueHash() => r'773b7c441068f48ce5149e3858418a0e21a9b6fb';
+
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 
 @ProviderFor(MascotSmileTrigger)
@@ -988,13 +1214,13 @@ final mascotSmileTriggerProvider = MascotSmileTriggerProvider._();
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 final class MascotSmileTriggerProvider
     extends $NotifierProvider<MascotSmileTrigger, bool> {
   /// Fires the mascot smile animation, e.g. before opening the action log.
   ///
-  /// Rive-animated mascots play their smile timeline; static SVG mascots
+  /// Code-drawn mascots hold a smile; static SVG mascots
   /// ignore it.
   MascotSmileTriggerProvider._()
     : super(
@@ -1028,7 +1254,7 @@ String _$mascotSmileTriggerHash() =>
 
 /// Fires the mascot smile animation, e.g. before opening the action log.
 ///
-/// Rive-animated mascots play their smile timeline; static SVG mascots
+/// Code-drawn mascots hold a smile; static SVG mascots
 /// ignore it.
 
 abstract class _$MascotSmileTrigger extends $Notifier<bool> {

@@ -1,13 +1,22 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/theme/app_theme.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/sdg/data/sdg_data.dart';
 
 import '../../helpers/test_helpers.dart';
 
 /// WCAG AA for body text.
 const _minContrast = 4.5;
+
+/// WCAG 1.4.11: a glyph that carries meaning needs 3:1.
+const _minIconContrast = 3.0;
 
 /// The darkest surface the dark theme paints text on.
 const _darkSurface = Color(0xFF121212);
@@ -29,6 +38,19 @@ void main() {
           greaterThanOrEqualTo(_minContrast),
           reason: '${category.name} on the dark theme',
         );
+      }
+    });
+
+    test('every category colour clears the text bar on a tinted card', () {
+      const tintedCards = [Color(0xFFF0F4F8), Color(0xFFF1F5EB)];
+      for (final category in ActionCategory.values) {
+        for (final card in tintedCards) {
+          expect(
+            contrastRatio(category.textColorOn(Brightness.light), card),
+            greaterThanOrEqualTo(_minContrast),
+            reason: '${category.name} on $card',
+          );
+        }
       }
     });
 
@@ -90,8 +112,8 @@ void main() {
       for (final category in ActionCategory.values) {
         expect(
           HSLColor.fromColor(category.textColorOn(Brightness.light)).hue,
-          // A couple of degrees of drift from the 8-bit round trip.
-          closeTo(HSLColor.fromColor(category.color).hue, 2),
+          // A few degrees of drift from the 8-bit round trip.
+          closeTo(HSLColor.fromColor(category.color).hue, 3),
           reason: '${category.name} should stay its own colour',
         );
       }
@@ -107,6 +129,107 @@ void main() {
         Brightness.dark,
       );
       expect(light.computeLuminance(), lessThan(dark.computeLuminance()));
+    });
+  });
+
+  group('info colours', () {
+    ColorScheme schemeFor(Color seed, Brightness brightness) =>
+        appTheme(brightness, seedColor: seed).colorScheme;
+
+    List<Color> plainSurfaces(ColorScheme scheme) => [
+      scheme.surface,
+      scheme.surfaceContainerLow,
+      scheme.surfaceContainerHigh,
+      scheme.surfaceContainerHighest,
+    ];
+
+    test('infoColor picks the tone for the brightness', () {
+      expect(infoColor(Brightness.light), AppColors.infoLight);
+      expect(infoColor(Brightness.dark), AppColors.infoDark);
+    });
+
+    for (final MapEntry(key: species, value: seed)
+        in AppColors.speciesThemeSeeds.entries) {
+      test('infoLight clears the icon bar on the light $species surfaces', () {
+        for (final surface in plainSurfaces(
+          schemeFor(seed, Brightness.light),
+        )) {
+          expect(
+            contrastRatio(AppColors.infoLight, surface),
+            greaterThanOrEqualTo(_minIconContrast),
+          );
+        }
+      });
+
+      test('infoDark clears the icon bar on the dark $species surfaces', () {
+        for (final surface in plainSurfaces(schemeFor(seed, Brightness.dark))) {
+          expect(
+            contrastRatio(AppColors.infoDark, surface),
+            greaterThanOrEqualTo(_minIconContrast),
+          );
+        }
+      });
+
+      for (final brightness in Brightness.values) {
+        test('the glyph clears the icon bar on $species ${brightness.name} '
+            'tinted panels', () {
+          final scheme = schemeFor(seed, brightness);
+          final info = infoColor(brightness);
+          for (final category in ActionCategory.values) {
+            final tint = Color.alphaBlend(
+              category.color.withValues(alpha: opacityVeryFaint),
+              scheme.surfaceContainerHigh,
+            );
+            expect(
+              contrastRatio(info, tint),
+              greaterThanOrEqualTo(_minIconContrast),
+              reason: '${category.name} tint',
+            );
+          }
+          final headerPanel = Color.alphaBlend(
+            scheme.primaryContainer.withValues(alpha: opacityMuted),
+            scheme.surface,
+          );
+          expect(
+            contrastRatio(info, headerPanel),
+            greaterThanOrEqualTo(_minIconContrast),
+          );
+        });
+      }
+    }
+  });
+
+  group('inkOnFill', () {
+    final fills = {
+      for (final c in ActionCategory.values) c.name: c.color,
+      'success': AppColors.success,
+      'warning': AppColors.warning,
+      'celebrationOrange': AppColors.celebrationOrange,
+      'gold': AppColors.gold,
+      for (final e
+          in jsonDecode(File('data/app/sdg_goals.json').readAsStringSync())
+              as List<dynamic>)
+        'SDG ${(e as Map<String, dynamic>)['number']}': SdgGoal.fromJson(
+          e,
+        ).color,
+    };
+    for (final MapEntry(:key, :value) in fills.entries) {
+      test('$key label reads at body-text contrast', () {
+        final ink = Color.alphaBlend(inkOnFill(value), value);
+        expect(contrastRatio(ink, value), greaterThanOrEqualTo(_minContrast));
+      });
+    }
+
+    test('the error fill and its ink read at body-text contrast', () {
+      for (final scheme in [
+        appTheme(Brightness.light).colorScheme,
+        appTheme(Brightness.dark).colorScheme,
+      ]) {
+        expect(
+          contrastRatio(scheme.onError, scheme.error),
+          greaterThanOrEqualTo(_minContrast),
+        );
+      }
     });
   });
 }

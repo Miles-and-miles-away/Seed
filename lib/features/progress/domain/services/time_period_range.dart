@@ -38,8 +38,10 @@ class TimePeriodRange {
   }
 
   /// Range covering the period immediately before [period], used to
-  /// compute period-over-period comparisons. Same duration semantics as
-  /// the current period (yesterday / last week / last month).
+  /// compute period-over-period comparisons. Week and month cover only
+  /// as many days as have started in the current period (Monday to
+  /// Wednesday against last Monday to Wednesday), so a partial period
+  /// is never compared with a full one.
   ///
   /// For [TimePeriod.allTime] there is no meaningful previous period;
   /// callers should hide comparison UI in that case. We still return a
@@ -54,11 +56,18 @@ class TimePeriodRange {
       case TimePeriod.thisWeek:
         final weekStart = _startOfWeek(today);
         final lastWeekStart = _addDays(weekStart, -7);
-        return DateRange(lastWeekStart, weekStart);
+        return DateRange(
+          lastWeekStart,
+          _addDays(lastWeekStart, _daysStarted(weekStart, today)),
+        );
       case TimePeriod.thisMonth:
         final monthStart = DateTime(today.year, today.month);
         final lastMonthStart = _addMonths(monthStart, -1);
-        return DateRange(lastMonthStart, monthStart);
+        final end = _addDays(lastMonthStart, today.day);
+        return DateRange(
+          lastMonthStart,
+          end.isAfter(monthStart) ? monthStart : end,
+        );
       case TimePeriod.allTime:
         return DateRange(today, today);
     }
@@ -83,6 +92,15 @@ class TimePeriodRange {
     final days = trendWindowDays(period);
     return DateRange(_addDays(today, -(days - 1)), _addDays(today, 1));
   }
+
+  /// Days from [start] to [today], both included.
+  static int _daysStarted(DateTime start, DateTime today) =>
+      DateTime.utc(
+        today.year,
+        today.month,
+        today.day,
+      ).difference(DateTime.utc(start.year, start.month, start.day)).inDays +
+      1;
 
   /// Local-midnight version of [d] (drops time-of-day).
   static DateTime _midnight(DateTime d) => DateTime(d.year, d.month, d.day);

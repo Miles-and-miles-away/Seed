@@ -2084,8 +2084,9 @@ the seafood decision D8 means D11.
   EU/UK beef is majority dairy-herd (~53); Japanese *consumed*
   beef is ~80% beef-herd via US/AU imports (~86). 70.36 is the
   least-wrong single global value and the science sheet says so.
-  The beef action moved 9700 -> 6800 g with it, and again to
-  3700 g when it merged into `skip_high_impact_food` (PDR section 4).
+  The beef action moved 9700 -> 6800 g with it.
+  `skip_high_impact_food` now covers beef only and ships that
+  6800 g (PDR section 4).
 - **D5 (beef item, owner call 2026-08-01):** the dairy-herd item is
   **dropped**; a single `Beef` ships at the beef-herd 99.48. No
   label, menu or receipt tells a shopper which herd their beef
@@ -2556,10 +2557,13 @@ chocolate 1.40 kg) it is 6x, an 83% reduction that no statistic choice
 reverses. Blocking that was wrong. Blocking cheese vs chocolate
 (48.8%, under the 59.9% bar) is right.
 
-**Verified claim, and it is the one the in-app methodology page
-makes:** with those three excluded, **every** pair separated by 20%
-or more on means keeps the same ordering under either statistic --
-zero reversals. Without the exclusion there are two (cheese vs dark
+**Verified claim, for the 36 products the test lists:** with the
+sensitive items excluded, **every** pair separated by 20% or more on
+means keeps the same ordering under either statistic -- zero
+reversals. The oils and soy milk are not listed, and a review
+reported reversals among them (palm oil vs pork, cassava vs soy
+milk), so the
+in-app page calls 20% a guide, not a guarantee. Without the exclusion there are two (cheese vs dark
 chocolate 48.8%, farmed fish vs chicken 27.6%). The 20% threshold is
 therefore sufficient *conditionally*, not absolutely, and the
 condition is the flag. Pinned by

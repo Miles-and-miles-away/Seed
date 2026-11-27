@@ -126,4 +126,23 @@ void main() {
     expect(find.byIcon(Icons.arrow_upward), findsOneWidget);
     expect(find.text('0% vs. yesterday'), findsOneWidget);
   });
+
+  testWidgets('puts the reference first in Japanese', (tester) async {
+    await tester.pumpWidget(
+      createTestWidget(
+        scaffold: true,
+        locale: const Locale('ja'),
+        child: const PeriodComparisonBadge(
+          stats: Co2Stats(
+            totalGrams: 1150,
+            previousTotalGrams: 1000,
+            percentChange: 15,
+            period: TimePeriod.today,
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('昨日比 15%'), findsOneWidget);
+  });
 }

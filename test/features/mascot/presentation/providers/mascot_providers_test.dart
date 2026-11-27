@@ -12,6 +12,7 @@ import 'package:seed_app/features/mascot/data/models/evolution_stage_model.dart'
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/shared/providers/clock_provider.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -99,6 +100,51 @@ void main() {
         expect(past.read(eggHatchingProgressProvider), 1.0);
       },
     );
+
+    test('a missed day ends the count before the next log', () async {
+      Future<ProviderContainer> onDay(int day) => pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            egg: EggModel(
+              receivedAt: DateTime(2026, 3),
+              hatchingStreakDays: 12,
+              lastHatchingActivityDate: DateTime(2026, 3, 9, 23),
+            ),
+          ),
+        ),
+        clockProvider.overrideWithValue(() => DateTime(2026, 3, day, 1)),
+      ]);
+
+      for (final day in [9, 10]) {
+        final c = await onDay(day);
+        expect(c.read(eggStreakDaysProvider), 12, reason: 'day $day');
+        expect(c.read(eggHatchingProgressProvider), closeTo(0.4, 0.01));
+      }
+      final missed = await onDay(11);
+      expect(missed.read(eggStreakDaysProvider), 0);
+      expect(missed.read(eggHatchingProgressProvider), 0);
+    });
+
+    test('reads the egg date at the offset it was written in', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionUtcOffsetMinutes: 840,
+            egg: EggModel(
+              receivedAt: DateTime(2026, 3),
+              hatchingStreakDays: 12,
+              lastHatchingActivityDate: DateTime.utc(2026, 3, 8, 10),
+            ),
+          ),
+        ),
+        clockProvider.overrideWithValue(() => DateTime(2026, 3, 10, 1)),
+      ]);
+      expect(c.read(eggStreakDaysProvider), 12);
+    });
 
     test('shouldShowEggDiscovery reads the flag from user', () async {
       final c = await _container(
@@ -370,23 +416,6 @@ void main() {
   });
 
   group('animation triggers', () {
-    test('triggerBounce pulses true and resets after the instant', () async {
-      final c = ProviderContainer();
-      addTearDown(c.dispose);
-      final seen = <bool>[];
-      c.listen(
-        mascotAnimationTriggerProvider,
-        (_, next) => seen.add(next),
-        fireImmediately: true,
-      );
-
-      c.read(mascotAnimationTriggerProvider.notifier).triggerBounce();
-      expect(seen, [false, true]);
-
-      await Future<void>.delayed(durationInstant * 2);
-      expect(seen, [false, true, false]);
-    });
-
     test('triggerSmile pulses true and resets after the instant', () async {
       final c = ProviderContainer();
       addTearDown(c.dispose);
@@ -405,6 +434,169 @@ void main() {
     });
   });
 
+  group('daily greeting', () {
+    final now = DateTime(2026, 3, 10, 9);
+
+    Future<ProviderContainer> container(DateTime? lastActionDate) =>
+        pumpedContainer([
+          userOverride(
+            AppUserModel(uid: 'u', email: 'e', lastActionDate: lastActionDate),
+          ),
+          clockProvider.overrideWithValue(() => now),
+        ]);
+
+    test('is due for a user who has not logged today', () async {
+      for (final last in [DateTime(2026, 3, 9, 23), DateTime(2026, 2)]) {
+        final c = await container(last);
+        expect(c.read(dailyGreetingDueProvider), isTrue, reason: '$last');
+      }
+    });
+
+    test(
+      'is not due after a log today, or for a user who never logged',
+      () async {
+        for (final last in [DateTime(2026, 3, 10, 0, 5), null]) {
+          final c = await container(last);
+          expect(c.read(dailyGreetingDueProvider), isFalse, reason: '$last');
+        }
+      },
+    );
+
+    test('reads the last log at the offset it was written in', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionDate: DateTime.utc(2026, 3, 9, 10),
+            lastActionUtcOffsetMinutes: 840,
+          ),
+        ),
+        clockProvider.overrideWithValue(() => now),
+      ]);
+      expect(c.read(dailyGreetingDueProvider), isFalse);
+    });
+
+    test('plays once a day', () async {
+      var today = now;
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => today),
+      ]);
+      expect(c.read(dailyGreetingDueProvider), isTrue);
+
+      c.read(dailyGreetedProvider.notifier).markGreeted();
+      expect(c.read(dailyGreetingDueProvider), isFalse);
+
+      today = now.add(const Duration(days: 1));
+      c.invalidate(dailyGreetingDueProvider);
+      expect(c.read(dailyGreetingDueProvider), isTrue);
+    });
+
+    test('is not due on a day the settings record as greeted', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(
+            uid: 'u',
+            email: 'e',
+            lastActionDate: DateTime(2026, 3),
+            greetedDate: '2026-03-10',
+          ),
+        ),
+        clockProvider.overrideWithValue(() => now),
+      ]);
+      expect(c.read(dailyGreetingDueProvider), isFalse);
+    });
+
+    test('stores the greeted day in the settings', () async {
+      final firestore = FakeFirebaseFirestore();
+      final doc = firestore.collection(AppConstants.collectionUsers).doc('u');
+      await doc.set({'uid': 'u', 'email': 'e'});
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => now),
+        firestoreProvider.overrideWithValue(firestore),
+      ]);
+
+      final greeted = c.read(dailyGreetedProvider.notifier)..markGreeted();
+      await Future<void>.delayed(Duration.zero);
+      expect((await doc.get()).data(), isNot(contains('settings')));
+
+      greeted.store();
+      await Future<void>.delayed(Duration.zero);
+      final stored = AppUserModel.fromJson((await doc.get()).data()!);
+      expect(stored.greetedDate, '2026-03-10');
+    });
+
+    test('an interrupted greeting is due again and stores nothing', () async {
+      final firestore = FakeFirebaseFirestore();
+      final doc = firestore.collection(AppConstants.collectionUsers).doc('u');
+      await doc.set({'uid': 'u', 'email': 'e'});
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => now),
+        firestoreProvider.overrideWithValue(firestore),
+      ]);
+
+      c.read(dailyGreetedProvider.notifier)
+        ..markGreeted()
+        ..interrupt()
+        ..store();
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(dailyGreetingDueProvider), isTrue);
+      expect((await doc.get()).data(), isNot(contains('settings')));
+    });
+
+    test('forgets the greeting when the account changes', () async {
+      final users = StreamController<AppUserModel?>();
+      addTearDown(users.close);
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith((_) => users.stream),
+        clockProvider.overrideWithValue(() => now),
+      ], warm: dailyGreetedProvider);
+      users.add(const AppUserModel(uid: 'u', email: 'e'));
+      await Future<void>.delayed(Duration.zero);
+      c.read(dailyGreetedProvider.notifier).markGreeted();
+      expect(c.read(dailyGreetedProvider), isNotNull);
+
+      users.add(const AppUserModel(uid: 'v', email: 'e'));
+      await Future<void>.delayed(Duration.zero);
+      expect(c.read(dailyGreetedProvider), isNull);
+    });
+
+    test('waits while an evolution or egg celebration is pending', () async {
+      final c = await pumpedContainer([
+        userOverride(
+          AppUserModel(uid: 'u', email: 'e', lastActionDate: DateTime(2026, 3)),
+        ),
+        clockProvider.overrideWithValue(() => now),
+        mascotCelebrationPendingProvider.overrideWithValue(true),
+      ]);
+      expect(c.read(dailyGreetingDueProvider), isFalse);
+    });
+  });
+
+  group('mascotCelebrationPending', () {
+    test('follows a pending egg discovery', () async {
+      for (final pending in [false, true]) {
+        final c = await _container(
+          user: AppUserModel(
+            uid: 'u',
+            email: 'e',
+            eggPendingDiscovery: pending,
+          ),
+        );
+        expect(c.read(mascotCelebrationPendingProvider), pending);
+      }
+    });
+  });
+
   group('fallbacks while loading or signed out', () {
     test('hasMascot is false while the mascot list is loading', () async {
       final c = await pumpedContainer([
@@ -414,6 +606,16 @@ void main() {
       ], warm: allMascotsProvider);
 
       expect(c.read(hasMascotProvider), isFalse);
+    });
+
+    test('the mascot list stays loading until the user doc arrives', () async {
+      final c = await pumpedContainer([
+        currentUserProvider.overrideWith(
+          (_) => StreamController<AppUserModel?>().stream,
+        ),
+      ], warm: allMascotsProvider);
+
+      expect(c.read(allMascotsProvider).hasValue, isFalse);
     });
 
     test('shouldShowEggDiscovery is false when signed out', () async {

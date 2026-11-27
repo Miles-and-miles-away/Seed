@@ -1,4 +1,7 @@
 import 'dart:math';
+
+import 'package:intl/intl.dart';
+
 import '../constants/app_constants.dart';
 
 /// Calculate level from total points
@@ -54,27 +57,53 @@ double calculateLevelProgress(int totalPoints) {
   return (progressPoints / levelRange).clamp(0.0, 1.0);
 }
 
-/// Format CO2 amount in compact form (e.g., "3.4t", "1.2kg", "500g")
-String formatCO2Compact(int grams) {
-  if (grams >= 1000000) {
-    return '${(grams / 1000000).toStringAsFixed(1)}t';
-  }
-  if (grams >= 1000) {
-    return '${(grams / 1000).toStringAsFixed(1)}kg';
-  }
-  return '${grams}g';
+/// Joins a value to its unit so a line never breaks between them.
+const unitSpace = '\u00A0';
+
+/// [value] in [locale]'s number style: grouping, decimal separator, and
+/// between [minDigits] and [maxDigits] fraction digits.
+String formatDecimal(
+  num value,
+  String locale, {
+  required int maxDigits,
+  int minDigits = 0,
+}) {
+  final format = _decimalFormats.putIfAbsent(
+    (locale, minDigits, maxDigits),
+    () => NumberFormat.decimalPattern(locale)
+      ..minimumFractionDigits = minDigits
+      ..maximumFractionDigits = maxDigits,
+  );
+  return format.format(value);
 }
 
-/// Format points with suffix
-String formatPoints(int points) {
-  if (points >= 1000000) {
-    return '${(points / 1000000).toStringAsFixed(1)}M';
-  }
-  if (points >= 1000) {
-    return '${(points / 1000).toStringAsFixed(1)}K';
-  }
-  return points.toString();
+final _decimalFormats = <(String, int, int), NumberFormat>{};
+
+/// CO2 in compact form: "3.4 t", "1.2 kg", "500 g" (separators per
+/// [locale], [unitSpace] before the unit).
+String formatCO2Compact(int grams, String locale) {
+  String oneDecimal(num v) =>
+      formatDecimal(v, locale, minDigits: 1, maxDigits: 1);
+  // Pick the unit after rounding, so 999950 g reads "1.0 t", not "1000.0 kg".
+  final tenthsOfKg = (grams / 100).round();
+  if (tenthsOfKg >= 10000) return '${oneDecimal(grams / 1000000)}${unitSpace}t';
+  if (grams >= 1000) return '${oneDecimal(grams / 1000)}${unitSpace}kg';
+  return '${formatDecimal(grams, locale, maxDigits: 0)}${unitSpace}g';
 }
+
+/// Points in [locale]'s compact notation ("1.2K", "1,2 mil", "1.2万").
+String formatPoints(int points, String locale) =>
+    NumberFormat.compact(locale: locale).format(points);
+
+final _unitAfterNumber = RegExp(
+  r'(\d) (g|kg|ml|L|km|h|min|kWh|W|lm|°C|C|%)(?![\p{L}\p{N}])',
+  unicode: true,
+);
+
+/// [text] with [unitSpace] between each number and the unit after it, so
+/// "15 ml" in data strings never splits across lines.
+String keepUnitsTogether(String text) =>
+    text.replaceAllMapped(_unitAfterNumber, (m) => '${m[1]}$unitSpace${m[2]}');
 
 /// Accent-insensitive, case-insensitive key for search matching.
 ///
@@ -83,14 +112,38 @@ String formatPoints(int points) {
 /// The same holds for place names: nobody types "São Paulo" or
 /// "Zürich" on a phone keyboard, so [_diacritics] covers every mark
 /// the Latin-script food and city names carry, English and Spanish
-/// alike. Japanese names carry no marks and are matched as typed.
-String foldForSearch(String value) {
+/// alike. Japanese text folds katakana to hiragana and full-width
+/// ASCII to half-width, so "とまと" finds "トマト" and "ＣＯ２" finds "CO2".
+String foldForSearch(String value) => _folded[value] ??= _fold(value);
+
+// Holds every name plus each typed query; a few thousand short strings.
+final _folded = <String, String>{};
+
+String _fold(String value) {
   final buffer = StringBuffer();
-  for (final rune in value.toLowerCase().runes) {
+  final narrow = String.fromCharCodes(value.runes.map(_foldJapanese));
+  for (final rune in narrow.toLowerCase().runes) {
     buffer.write(_diacritics[rune] ?? String.fromCharCode(rune));
   }
   return buffer.toString();
 }
+
+int _foldJapanese(int rune) {
+  if (rune >= _fullWidthFirst && rune <= _fullWidthLast) {
+    return rune - _fullWidthShift;
+  }
+  if (rune >= _katakanaFirst && rune <= _katakanaLast) {
+    return rune - _katakanaShift;
+  }
+  return rune;
+}
+
+const _fullWidthFirst = 0xFF01; // ！
+const _fullWidthLast = 0xFF5E; // ～
+const _fullWidthShift = 0xFEE0;
+const _katakanaFirst = 0x30A1; // ァ
+const _katakanaLast = 0x30F6; // ヶ
+const _katakanaShift = 0x60;
 
 const _diacritics = <int, String>{
   0xE1: 'a', 0xE0: 'a', 0xE2: 'a', 0xE4: 'a', 0xE3: 'a', // á à â ä ã

@@ -41,6 +41,8 @@ _AppUserModel _$AppUserModelFromJson(Map<String, dynamic> json) =>
       lastActionDate: const TimestampConverter().fromJson(
         json['lastActionDate'] as Timestamp?,
       ),
+      lastActionUtcOffsetMinutes: (json['lastActionUtcOffsetMinutes'] as num?)
+          ?.toInt(),
       fcmToken: json['fcmToken'] as String?,
       totalCo2Grams: (json['totalCo2Grams'] as num?)?.toInt() ?? 0,
       totalActionsCount: (json['totalActionsCount'] as num?)?.toInt() ?? 0,
@@ -90,10 +92,11 @@ _AppUserModel _$AppUserModelFromJson(Map<String, dynamic> json) =>
           ) ??
           const {},
       walkthroughFound:
-          (_readWalkthroughFound(json, 'walkthroughFound') as List<dynamic>?)
+          (_readSetting(json, 'walkthroughFound') as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      greetedDate: _readSetting(json, 'greetedDate') as String?,
     );
 
 Map<String, dynamic> _$AppUserModelToJson(
@@ -122,6 +125,7 @@ Map<String, dynamic> _$AppUserModelToJson(
   ),
   'notificationsEnabled': instance.notificationsEnabled,
   'lastActionDate': const TimestampConverter().toJson(instance.lastActionDate),
+  'lastActionUtcOffsetMinutes': instance.lastActionUtcOffsetMinutes,
   'fcmToken': instance.fcmToken,
   'totalCo2Grams': instance.totalCo2Grams,
   'totalActionsCount': instance.totalActionsCount,

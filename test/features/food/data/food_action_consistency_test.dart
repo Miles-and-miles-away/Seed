@@ -64,11 +64,11 @@ void main() {
     expect(shipped / implied, greaterThan(0.5), reason: actionId);
   }
 
-  test('skip_high_impact_food binds to lamb, not beef', () {
-    // Covers beef and lamb. Lamb 3972 - 200 = 3772 -> ships 3700.
-    // Beef implies 6836; crediting that for a lamb skip would
-    // overstate by 80%.
-    expectAtOrBelowTierMinimum('skip_high_impact_food', ['beef', 'lamb']);
+  test('skip_high_impact_food stays at or below the beef swap', () {
+    // Beef only. 7036 - 200 = 6836 -> ships 6800.
+    expectAtOrBelowTierMinimum('skip_high_impact_food', ['beef']);
+    final implied = impliedGrams('beef', plantAltBaselineG);
+    expect(shippedGrams('skip_high_impact_food') / implied, greaterThan(0.9));
   });
 
   test('skip_medium_impact_food binds to chicken, not pork', () {
@@ -119,16 +119,14 @@ void main() {
   });
 
   test('skip_fish derivation stays consistent with the dataset', () {
-    // skip_fish is a seeder-only library action (not in this DB), so
-    // this pins the arithmetic its co2Grams is derived from: a white
-    // fish fillet minus the 200 g beans baseline (2026-07-23 owner
-    // call). Re-based on white_fish 2026-08-08 -- the seafood source
-    // decision retired the assembled fish_wild 9.5 this used to read,
-    // and the reward fell from 1200 g to 560 g with it. If white_fish
-    // drifts out of the [560, 660) band the seeder value must move too.
-    final derived = 0.15 * factorById['white_fish']! * 1000 - plantAltBaselineG;
-    expect(derived, greaterThanOrEqualTo(560));
-    expect(derived, lessThan(660));
+    // skip_fish is a seeder-only library action (not in this DB), so this
+    // pins its arithmetic: a 150 g fillet minus a 150 g beans baseline
+    // (268.5 g, rounded up to 300 g). If white_fish drifts out of the
+    // [460, 560) band the seeder value must move too.
+    const fishBaselineG = 300.0;
+    final derived = 0.15 * factorById['white_fish']! * 1000 - fishBaselineG;
+    expect(derived, greaterThanOrEqualTo(460));
+    expect(derived, lessThan(560));
     // The retired value must not come back as a silent revert.
     expect(factorById.containsKey('fish_wild'), isFalse);
   });

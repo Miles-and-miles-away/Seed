@@ -20,7 +20,6 @@ void main() {
         'Take urgent action to combat climate '
         'change and its impacts.',
     color: Color(0xFF407F46),
-    iconUrl: 'https://example.com/icon13.jpg',
   );
 
   late Map<int, List<SdgTarget>> allTargets;
@@ -59,11 +58,14 @@ void main() {
       expect(find.text('About this Goal'), findsOneWidget);
     });
 
-    testWidgets('displays info_outline icon', (tester) async {
+    testWidgets('displays the article icon, not the info glyph', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildTestWidget());
       await tester.pump();
 
-      expect(find.byIcon(Icons.info_outline), findsOneWidget);
+      expect(find.byIcon(Icons.article_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.info_outline), findsNothing);
     });
 
     testWidgets('displays goal description', (tester) async {
@@ -97,7 +99,7 @@ void main() {
       await tester.tap(find.text('About this Goal'));
       await tester.pumpAndSettle();
 
-      expect(find.text('UN Targets'), findsOneWidget);
+      expect(find.text('UN TARGETS'), findsOneWidget);
     });
 
     testWidgets('shows correct target count for goal 13', (tester) async {
@@ -120,7 +122,6 @@ void main() {
         shortTitleEn: 'No Poverty',
         descriptionEn: 'End poverty in all its forms.',
         color: Color(0xFFE5233D),
-        iconUrl: 'https://example.com/icon1.jpg',
       );
       await tester.pumpWidget(buildTestWidget(goal: goal1));
       await tester.pump();
@@ -194,7 +195,6 @@ void main() {
         shortTitleEn: 'Partnerships',
         descriptionEn: 'Strengthen partnerships.',
         color: Color(0xFF13496B),
-        iconUrl: 'https://example.com/icon17.jpg',
       );
       await tester.pumpWidget(buildTestWidget(goal: goal17));
       await tester.pump();
@@ -202,7 +202,7 @@ void main() {
       await tester.tap(find.text('About this Goal'));
       await tester.pumpAndSettle();
 
-      expect(find.text('UN Targets'), findsOneWidget);
+      expect(find.text('UN TARGETS'), findsOneWidget);
       expect(find.text('17.1'), findsOneWidget);
     });
 

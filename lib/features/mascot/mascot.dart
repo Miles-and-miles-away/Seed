@@ -13,6 +13,7 @@ export 'data/services/egg_hatching_service.dart';
 
 // Presentation layer
 export 'presentation/providers/mascot_providers.dart';
+export 'presentation/screens/mascot_lab_screen.dart';
 export 'presentation/screens/mascot_screen.dart';
 export 'presentation/screens/mascot_selection_screen.dart';
 export 'presentation/widgets/egg_discovery_celebration.dart';
@@ -20,11 +21,13 @@ export 'presentation/widgets/egg_hatching_celebration.dart';
 export 'presentation/widgets/egg_progress_widget.dart';
 export 'presentation/widgets/evolution_celebration.dart';
 export 'presentation/widgets/evolution_timeline.dart';
+export 'presentation/widgets/mascot_cheer.dart';
 export 'presentation/widgets/mascot_collection_section.dart';
 export 'presentation/widgets/mascot_display.dart';
 export 'presentation/widgets/mascot_header.dart';
 export 'presentation/widgets/mascot_housing.dart';
 export 'presentation/widgets/mascot_image.dart';
+export 'presentation/widgets/mascot_speech_bubble.dart';
 export 'presentation/widgets/mascot_stats_card.dart';
 export 'presentation/widgets/max_evolution_card.dart';
 export 'presentation/widgets/next_evolution_card.dart';

@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import '../providers/mascot_providers.dart';
@@ -34,16 +37,8 @@ class MascotScreen extends ConsumerWidget {
 
     if (mascot == null || species == null) {
       return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircularProgressIndicator(),
-              const SizedBox(height: spacingLg),
-              Text(l10n.navMascot),
-            ],
-          ),
-        ),
+        appBar: AppBar(title: Text(l10n.navMascot)),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
@@ -55,6 +50,13 @@ class MascotScreen extends ConsumerWidget {
               floating: true,
               title: Text(l10n.navMascot),
               centerTitle: true,
+              actions: [
+                if (kDebugMode)
+                  IconButton(
+                    icon: const Icon(Icons.science_outlined),
+                    onPressed: () => context.push(appRoutes.mascotLab),
+                  ),
+              ],
             ),
             SliverPadding(
               padding: const EdgeInsets.all(spacingXxl),
@@ -65,7 +67,7 @@ class MascotScreen extends ConsumerWidget {
                   MascotHousing(
                     child: Column(
                       children: [
-                        const MascotDisplay(size: 220),
+                        const MascotDisplay(size: 220, wavesOnTap: true),
                         const SizedBox(height: spacingLg),
                         MascotHeader(
                           name: mascot.name,
@@ -85,14 +87,12 @@ class MascotScreen extends ConsumerWidget {
                   const SizedBox(height: spacingXxxl),
 
                   // My Mascots collection
-                  if (allMascots.length > 1 || hasEgg) ...[
-                    MascotCollectionSection(
-                      mascots: allMascots,
-                      activeMascotId: mascot.id,
-                      hasEgg: hasEgg,
-                    ),
-                    const SizedBox(height: spacingXxxl),
-                  ],
+                  MascotCollectionSection(
+                    mascots: allMascots,
+                    activeMascotId: mascot.id,
+                    hasEgg: hasEgg,
+                  ),
+                  const SizedBox(height: spacingXxxl),
 
                   // Evolution Timeline
                   Text(

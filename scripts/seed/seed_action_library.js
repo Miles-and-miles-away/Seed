@@ -9,45 +9,23 @@
  * See data/seed/co2_actions_database.json for sources.
  *
  * Usage:
- *   1. Set up Firebase Admin SDK credentials:
- *      - Go to Firebase Console > Project Settings
- *        > Service Accounts
- *      - Click "Generate New Private Key" and save as
- *        serviceAccountKey.json in the scripts folder
+ *   1. Authenticate with Application Default Credentials
+ *      (no key file):
+ *        gcloud auth application-default login
  *   2. Run: node scripts/seed/seed_action_library.js
  */
 
-const admin = require('firebase-admin');
+const { initializeApp } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
 const path = require('path');
 const longDescs =
   require('./action_long_descriptions.js');
 
-const serviceAccountPath = path.join(
-  __dirname,
-  '..',
-  'serviceAccountKey.json',
-);
+const PROJECT_ID = process.env.GCLOUD_PROJECT || 'seed-3d48d';
 
-try {
-  const serviceAccount = require(serviceAccountPath);
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-} catch (error) {
-  console.error(
-    'Error: Could not find serviceAccountKey.json',
-  );
-  console.error(
-    'Please download it from Firebase Console > '
-    + 'Project Settings > Service Accounts',
-  );
-  console.error(
-    `Expected location: ${serviceAccountPath}`,
-  );
-  process.exit(1);
-}
+initializeApp({projectId: PROJECT_ID});
 
-const db = admin.firestore();
+const db = getFirestore();
 
 // ===========================================================
 // Points formula
@@ -117,8 +95,9 @@ function computePoints(action) {
 // notes, research sources and the effort/frequency/impact scores;
 // points are computed here at seed time by computePoints().
 //
-// Grid factor 458 g CO2e/kWh (Ember GER 2026), gas 182 g CO2e/kWh
-// (DEFRA 2026, Gross CV). See Plan/AUDIT_ACTION_DATA.md section 8.
+// Grid factor 458 g CO2e/kWh (Ember GER 2026), gas 212 g CO2e/kWh
+// (DESNZ 2026, Gross CV, including well-to-tank).
+// See Plan/AUDIT_ACTION_DATA.md section 8.
 // ===========================================================
 const ACTION_DATA_PATH = path.join(
   __dirname,

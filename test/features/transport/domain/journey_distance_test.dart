@@ -90,7 +90,7 @@ void main() {
       final s = suggestedDistancesKm(_tokyo, _osaka, _links);
       expect(s.keys, unorderedEquals([kindGround, kindActive, kindAir]));
       expect(s[kindGround], closeTo(397 * groundCircuityFactor, 6));
-      expect(s[kindAir], closeTo(397 + flightDetourKm, 5));
+      expect(s[kindAir], closeTo(397, 5));
     });
 
     test('rail tunnel link enables ground across masses', () {
@@ -101,6 +101,7 @@ void main() {
       );
       expect(s[kindGround], closeTo(343 * groundCircuityFactor, 6));
       expect(s[kindFerry], closeTo(343, 4));
+      expect(s[kindAir], closeTo(343, 4));
     });
 
     test('ferry link alone does not enable ground', () {
@@ -112,7 +113,7 @@ void main() {
     test('unlinked long haul is air only', () {
       final s = suggestedDistancesKm(_tokyo, _london, _links);
       expect(s.keys, [kindAir]);
-      expect(s[kindAir], closeTo(9560 + flightDetourKm, 60));
+      expect(s[kindAir], closeTo(9560, 60));
     });
 
     test('short same-mass hop: ground and active, no air', () {

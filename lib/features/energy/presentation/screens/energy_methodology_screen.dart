@@ -13,8 +13,8 @@ import 'package:seed_app/shared/widgets/widgets.dart';
 /// Methodology & sources page (Phase 8.16): the credibility layer.
 ///
 /// Static localized prose (scope, the one-global-grid-figure
-/// disclosure, the 241 g/kWh crossover, the heating hierarchy, the
-/// measured-not-rated and standby honesty notes) around the ranked
+/// disclosure, the 280 g/kWh crossover, the heating hierarchy, the
+/// average-use-not-rated and standby honesty notes) around the ranked
 /// "Where your energy goes" table, then a source list derived from the
 /// dataset itself so it can never drift from the shipped factors. The
 /// JA and ES bodies are written natively rather than translated (PDR
@@ -49,6 +49,9 @@ class EnergyMethodologyScreen extends ConsumerWidget {
     final config = markdownConfigFor(
       context,
     ).copy(configs: [externalLinkConfig(context)]);
+    final generator = phraseMarkdownGenerator(
+      bodyWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
+    );
     return ListView(
       padding: const EdgeInsets.all(spacingXxl),
       children: [
@@ -57,6 +60,7 @@ class EnergyMethodologyScreen extends ConsumerWidget {
             l10n.energyMethodologyBody(factors.grid.round()),
           ),
           config: config,
+          generator: generator,
         ),
         const SizedBox(height: spacingXxl),
         EnergyRankedTable(behaviors: behaviors),
@@ -66,6 +70,7 @@ class EnergyMethodologyScreen extends ConsumerWidget {
             dedupedSourcesMarkdown(behaviors.expand((b) => b.sources), l10n),
           ),
           config: config,
+          generator: generator,
         ),
       ],
     );

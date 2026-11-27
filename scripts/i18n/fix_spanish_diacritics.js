@@ -1,8 +1,21 @@
 #!/usr/bin/env node
 // Fixes missing Spanish diacritics in action
 // description files. Only modifies es: string blocks.
+// --check only reports, skipping links and homographs; exits 1 on a hit.
 const fs = require('fs');
 const path = require('path');
+
+const CHECK = process.argv.includes('--check');
+
+// Rule sources that are valid words too (mas, ano): --check skips them.
+const HOMOGRAPHS = new Set([
+  'ano', 'anos', 'danos', 'campanas', 'mas', 'ademas', 'habito',
+  'practico', 'practica', 'practicas', 'arboles', 'maquina', 'maquinas',
+  'formulas', 'ultima', 'transito', 'petroleo', 'prestamos', 'genero',
+  'articulo', 'frio', 'kilometro', 'critica', 'domestico', 'paris',
+  'revelo', 'movilizo', 'duplico', 'publico', 'publica', 'numero',
+  'animo', 'aun',
+]);
 
 // NOTE: merge_translations_es.py keeps a sibling table tuned for the
 // eco-fact corpus. When adding a word here, consider whether it
@@ -153,7 +166,6 @@ const REPLACEMENTS = [
   [/\bmineria\b/g, 'minería'],
   [/\btuberia\b/g, 'tubería'],
   [/\bmayoria\b/g, 'mayoría'],
-  [/\bdiario\b/g, 'diario'],
   [/\bkilometro\b/g, 'kilómetro'],
   [/\bkilometros\b/g, 'kilómetros'],
   [/\boceanico\b/g, 'oceánico'],
@@ -245,12 +257,41 @@ const REPLACEMENTS = [
   [/([a-záéíóúüñ])ion\b/g, '$1ión'],
 ];
 
+const RULES = CHECK
+  ? REPLACEMENTS.filter(([pattern]) => {
+    const word = pattern.source.match(/^\\b(\w+)\\b$/);
+    return !(word && HOMOGRAPHS.has(word[1].toLowerCase()));
+  })
+  : REPLACEMENTS;
+
 function fixDiacritics(text) {
   let result = text;
-  for (const [pattern, replacement] of REPLACEMENTS) {
+  for (const [pattern, replacement] of RULES) {
     result = result.replace(pattern, replacement);
   }
   return result;
+}
+
+// Link text and targets are verbatim source names and URLs.
+const MARKDOWN_LINK = /\[[^\]]*\]\([^)]*\)/g;
+
+function checkFile(filePath) {
+  let hits = 0;
+  for (const [id, { es }] of Object.entries(require(filePath))) {
+    const prose = es.replace(MARKDOWN_LINK, ' ');
+    for (const [pattern, replacement] of RULES) {
+      for (const match of prose.matchAll(pattern)) {
+        const start = prose.slice(0, match.index).search(/\p{L}*$/u);
+        const end = match.index + match[0].length;
+        const word =
+          prose.slice(start, end) + prose.slice(end).match(/^\p{L}*/u)[0];
+        const fixed = word.replace(pattern, replacement);
+        console.log(`${path.basename(filePath)} ${id}: ${word} -> ${fixed}`);
+        hits++;
+      }
+    }
+  }
+  return hits;
 }
 
 function processFile(filePath) {
@@ -305,12 +346,22 @@ function processFile(filePath) {
 }
 
 const BASE = path.join(__dirname, '..', 'seed');
+// Short names and descriptions live in data/seed/co2_actions_database.json.
 const FILES = [
   'action_descriptions_energy_water.js',
   'action_descriptions_consumption.js',
   'action_descriptions_recyc_trans_food.js',
   'action_descriptions_comm_advo_learn.js',
 ];
+
+if (CHECK) {
+  let hits = 0;
+  for (const file of FILES) {
+    hits += checkFile(path.join(BASE, file));
+  }
+  console.log(hits ? `${hits} words need accents` : 'OK');
+  process.exit(hits ? 1 : 0);
+}
 
 for (const file of FILES) {
   processFile(path.join(BASE, file));

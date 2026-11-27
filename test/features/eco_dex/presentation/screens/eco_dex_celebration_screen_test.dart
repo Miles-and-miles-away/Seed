@@ -114,6 +114,30 @@ void main() {
       expect(dismissed, 0);
     });
 
+    testWidgets('long fact scrolls instead of overflowing at 320pt', (
+      tester,
+    ) async {
+      sizeViewport(tester, size: const Size(320, 640));
+      await tester.pumpWidget(
+        _wrap(
+          EcoDexCelebrationScreen(
+            entry: ecoDexEntry(
+              'e1',
+              factEn: List.filled(
+                12,
+                'one eco action tends to invite the next one',
+              ).join(', '),
+            ),
+            onDismiss: () {},
+          ),
+        ),
+      );
+      await tester.pump(const Duration(seconds: 2));
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SingleChildScrollView), findsOneWidget);
+    });
+
     testWidgets('confetti stops repainting after fade-out completes', (
       tester,
     ) async {

@@ -19,6 +19,18 @@ const _maxLabelScale = 1.3;
 const _navChromeHeight = 49.0;
 const _navLabelHeight = 16.0;
 
+/// Height of [AppBottomNav] above the bottom safe area.
+double appBottomNavHeight(BuildContext context) {
+  // Labels are clamped, so the bar only has to grow over the clamped
+  // range -- and it must grow: at the fixed 65 the icon and label
+  // column overflowed by 4.7pt once the user's text scale passed
+  // about 1.8, on every screen that shows this bar.
+  final scaler = MediaQuery.textScalerOf(
+    context,
+  ).clamp(maxScaleFactor: _maxLabelScale);
+  return _navChromeHeight + scaler.scale(_navLabelHeight);
+}
+
 /// Shared bottom navigation bar.
 ///
 /// Rendered by the [MainShell] for the four shell tabs and by full-screen
@@ -34,7 +46,7 @@ class AppBottomNav extends StatelessWidget {
     super.key,
   });
 
-  /// Selected shell tab index (0 Home, 1 Progress, 2 Mascot, 3 Profile), or
+  /// Selected shell tab index (0 Home, 1 Progress, 2 Explore, 3 Profile), or
   /// null when no tab is active (e.g. while the Action log is open).
   final int? currentIndex;
 
@@ -55,17 +67,9 @@ class AppBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    // Labels are clamped, so the bar only has to grow over the clamped
-    // range -- and it must grow: at the fixed 65 the icon and label
-    // column overflowed by 4.7pt once the user's text scale passed
-    // about 1.8, on every screen that shows this bar.
-    final scaler = MediaQuery.textScalerOf(
-      context,
-    ).clamp(maxScaleFactor: _maxLabelScale);
-
     return BottomAppBar(
       padding: EdgeInsets.zero,
-      height: _navChromeHeight + scaler.scale(_navLabelHeight),
+      height: appBottomNavHeight(context),
       child: Row(
         children: [
           Expanded(
@@ -103,12 +107,16 @@ class AppBottomNav extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _NavBarItem(
-              icon: Icons.pets_outlined,
-              selectedIcon: Icons.pets,
-              label: l10n.navMascot,
-              isSelected: currentIndex == 2,
-              onTap: () => onTabSelected(2),
+            child: WalkthroughShimmer(
+              item: WalkthroughItem.calculators,
+              orItem: WalkthroughItem.quiz,
+              child: _NavBarItem(
+                icon: Icons.explore_outlined,
+                selectedIcon: Icons.explore,
+                label: l10n.navExplore,
+                isSelected: currentIndex == 2,
+                onTap: () => onTabSelected(2),
+              ),
             ),
           ),
           Expanded(

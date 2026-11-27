@@ -159,7 +159,7 @@ Colour family: Greens, warm browns, leaf gold.
 
 Colour family: Ocean blues, teals, coral pink.
 
-#### Funghi (Mycelium Theme)
+#### Fungi (Mycelium Theme)
 
 | Stage | Name | Description |
 |-------|------|-------------|

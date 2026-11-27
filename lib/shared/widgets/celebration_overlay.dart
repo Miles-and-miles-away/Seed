@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -8,18 +9,14 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 /// animated layers. The backdrop sits in its own [RepaintBoundary] so the
 /// fade does not invalidate the animated content above it (Impeller).
 class CelebrationOverlay extends StatelessWidget {
-  const CelebrationOverlay({
-    required this.children,
-    this.backdropBottom,
-    super.key,
-  });
+  const CelebrationOverlay({required this.children, this.clearRect, super.key});
 
   /// Layers stacked above the backdrop, in paint order.
   final List<Widget> children;
 
-  /// Screen y below which the backdrop is not drawn, so a surface under
-  /// the overlay (a bottom sheet) stays visible. Null covers everything.
-  final double? backdropBottom;
+  /// Screen rect the backdrop leaves clear, full width, so the surface
+  /// being explained stays visible. Null covers everything.
+  final Rect? clearRect;
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +25,29 @@ class CelebrationOverlay extends StatelessWidget {
         color: Colors.black.withValues(alpha: opacityNearOpaque),
       ).animate().fadeIn(duration: durationNormal),
     );
+    final clear = clearRect;
     return Material(
       color: Colors.transparent,
       child: Stack(
         children: [
-          if (backdropBottom == null)
+          if (clear == null)
             backdrop
-          else
+          else ...[
             Positioned(
               top: 0,
               left: 0,
               right: 0,
-              height: backdropBottom,
+              height: clear.top,
               child: backdrop,
             ),
+            Positioned(
+              top: clear.bottom,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: backdrop,
+            ),
+          ],
           ...children,
         ],
       ),
@@ -102,23 +108,84 @@ class CelebrationButton extends StatelessWidget {
   }
 }
 
+/// Full-height column for a celebration body. Free space is split evenly
+/// between [children], as equal [Spacer]s would (a `SizedBox.shrink()`
+/// adds one more share), and the body scrolls instead of overflowing
+/// when large text does not fit.
+class CelebrationScrollBody extends StatelessWidget {
+  const CelebrationScrollBody({required this.children, super.key});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: children,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+final _celebrationQueues = Expando<Future<void>>();
+final _celebrationCounts = Expando<ValueNotifier<int>>();
+
+ValueNotifier<int> _countOn(NavigatorState navigator) =>
+    _celebrationCounts[navigator] ??= ValueNotifier(0);
+
 /// Presents [builder]'s widget as a full-screen celebration: transparent
 /// barrier, no transition, dismiss wired to pop. The shared launcher every
 /// `show*Celebration` helper delegates to. The dismiss callback pops once:
 /// a rapid double tap must not pop the dialog and then the route beneath.
+///
+/// Celebrations on one root navigator show one at a time, in call order.
+/// The future completes when this one closes, or at once when [context]
+/// is gone by its turn.
 Future<void> showCelebrationOverlay(
   BuildContext context,
   Widget Function(VoidCallback onDismiss) builder,
 ) {
-  var dismissed = false;
-  return showGeneralDialog<void>(
-    context: context,
-    barrierColor: Colors.transparent,
-    transitionDuration: Duration.zero,
-    pageBuilder: (context, _, _) => builder(() {
-      if (dismissed) return;
-      dismissed = true;
-      Navigator.of(context).pop();
-    }),
-  );
+  final navigator = Navigator.of(context, rootNavigator: true);
+  final previous = _celebrationQueues[navigator] ?? Future<void>.value();
+  final count = _countOn(navigator)..value += 1;
+  final shown = previous.then((_) {
+    if (!context.mounted) return null;
+    var dismissed = false;
+    return showGeneralDialog<void>(
+      context: context,
+      barrierColor: Colors.transparent,
+      transitionDuration: Duration.zero,
+      pageBuilder: (context, _, _) => builder(() {
+        if (dismissed) return;
+        dismissed = true;
+        Navigator.of(context).pop();
+      }),
+    );
+  });
+  _celebrationQueues[navigator] = shown
+      .catchError((Object _) {})
+      .whenComplete(() => count.value--);
+  return shown;
+}
+
+/// How many celebrations are showing or queued on [context]'s root
+/// navigator. Lesser reactions stand aside while it is above zero.
+ValueListenable<int> celebrationsPending(BuildContext context) =>
+    _countOn(Navigator.of(context, rootNavigator: true));
+
+/// Completes once no celebration is showing or queued on [context]'s root
+/// navigator, those queued during the wait included.
+Future<void> celebrationsDone(BuildContext context) async {
+  final navigator = Navigator.of(context, rootNavigator: true);
+  Future<void>? awaited;
+  while (awaited != _celebrationQueues[navigator]) {
+    awaited = _celebrationQueues[navigator];
+    await awaited;
+  }
 }

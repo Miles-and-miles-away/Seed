@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/utils/app_logger.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/datasources/action_library_remote_datasource.dart';
 import 'package:seed_app/features/actions/data/datasources/action_log_remote_datasource.dart';
@@ -18,6 +20,7 @@ import 'package:seed_app/features/mascot/presentation/providers/mascot_providers
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/providers/analytics_providers.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 
@@ -74,7 +77,7 @@ const actionHistoryPageSize = 50;
 ///
 /// keepAlive + one-shot get: the library is read-only reference data,
 /// so a persistent snapshots() listener adds overhead for no benefit.
-/// Content changes ship with reseeds and are picked up on app start.
+/// Cache first: a reseed shows on the start after the one that fetches it.
 @Riverpod(keepAlive: true)
 Future<List<ActionModel>> actionLibrary(Ref ref) {
   return ref.watch(actionLibraryDataSourceProvider).getActions();
@@ -137,16 +140,46 @@ class ActionSearchQuery extends _$ActionSearchQuery {
   }
 }
 
-/// Currently selected sort option for the action library.
+const _shuffleSeedRange = 1 << 32;
+
+/// One shuffle per Log Action visit, redrawn when Shuffle is picked.
 @riverpod
+int actionShuffleSeed(Ref ref) => Random().nextInt(_shuffleSeedRange);
+
+/// Ranks the whole library so relative order holds as filters change.
+@riverpod
+Map<String, int> actionShuffleRank(Ref ref) {
+  final library = ref.watch(actionLibraryProvider).value ?? const [];
+  final ids = [for (final a in library) a.id]
+    ..shuffle(Random(ref.watch(actionShuffleSeedProvider)));
+  return {for (final (i, id) in ids.indexed) id: i};
+}
+
+/// The Log Action sort for this app session, reset per signed-in user.
+@Riverpod(keepAlive: true)
 class SelectedSortOption extends _$SelectedSortOption {
   @override
-  ActionSortOption build() => ActionSortOption.alphabeticalAsc;
+  ActionSortOption build() {
+    ref.watch(userIdProvider);
+    return ActionSortOption.random;
+  }
 
-  // ignore: use_setters_to_change_properties
   void select(ActionSortOption option) {
+    if (option == ActionSortOption.random) {
+      ref.invalidate(actionShuffleSeedProvider);
+    }
     state = option;
   }
+}
+
+/// The daily challenge's action, shown first for this Log Action visit.
+@riverpod
+class PinnedActionId extends _$PinnedActionId {
+  @override
+  String? build() => null;
+
+  // ignore: use_setters_to_change_properties
+  void pin(String id) => state = id;
 }
 
 /// Selected SDG for filtering actions.
@@ -204,12 +237,10 @@ Stream<List<ActionLogModel>> todayActions(Ref ref) async* {
   yield* repo.watchActionLogsForRange(userId, start, end);
 }
 
-/// User's language code, selected from the user document
-/// to avoid recomputing filters on unrelated user changes.
-final userLanguageCodeProvider = Provider<String>((ref) {
-  final user = ref.watch(currentUserProvider).asData?.value;
-  return user?.language ?? 'en';
-});
+/// The app language, for action names and the A-Z sort.
+final userLanguageCodeProvider = Provider<String>(
+  (ref) => ref.watch(currentLanguageProvider),
+);
 
 /// Filtered actions (category, SDG, search) -- no sort.
 /// Separated so that changing sort doesn't re-filter.
@@ -217,7 +248,9 @@ final userLanguageCodeProvider = Provider<String>((ref) {
 AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
   final actionsAsync = ref.watch(actionLibraryProvider);
   final selectedCategory = ref.watch(selectedCategoryProvider);
-  final searchQuery = ref.watch(actionSearchQueryProvider).toLowerCase();
+  final searchQuery = foldForSearch(
+    ref.watch(actionSearchQueryProvider).trim(),
+  );
   final selectedSdg = ref.watch(selectedSdgFilterProvider);
 
   return actionsAsync.whenData((actions) {
@@ -237,12 +270,14 @@ AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
 
     if (searchQuery.isNotEmpty) {
       filtered = filtered.where((a) {
-        return a.nameEn.toLowerCase().contains(searchQuery) ||
-            a.nameJa.toLowerCase().contains(searchQuery) ||
-            a.nameEs.toLowerCase().contains(searchQuery) ||
-            a.descriptionEn.toLowerCase().contains(searchQuery) ||
-            a.descriptionJa.toLowerCase().contains(searchQuery) ||
-            a.descriptionEs.toLowerCase().contains(searchQuery);
+        return [
+          a.nameEn,
+          a.nameJa,
+          a.nameEs,
+          a.descriptionEn,
+          a.descriptionJa,
+          a.descriptionEs,
+        ].any((field) => foldForSearch(field).contains(searchQuery));
       }).toList();
     }
 
@@ -250,18 +285,22 @@ AsyncValue<List<ActionModel>> baseFilteredActions(Ref ref) {
   });
 }
 
-/// Filtered + sorted actions. Only re-sorts when sort
-/// option or language changes; filter changes propagate
-/// through baseFilteredActions.
+/// Sorts baseFilteredActions, kept separate so a sort change does not re-filter.
 @riverpod
 AsyncValue<List<ActionModel>> filteredActions(Ref ref) {
   final baseAsync = ref.watch(baseFilteredActionsProvider);
   final sortOption = ref.watch(selectedSortOptionProvider);
   final lang = ref.watch(userLanguageCodeProvider);
+  // Watched unconditionally so the seed lives for the whole visit.
+  final rank = ref.watch(actionShuffleRankProvider);
+  final pinned = ref.watch(pinnedActionIdProvider);
 
-  return baseAsync.whenData(
-    (actions) => _sortActions(actions, sortOption, lang),
-  );
+  return baseAsync.whenData((actions) {
+    final sorted = _sortActions(actions, sortOption, lang, rank);
+    final index = sorted.indexWhere((a) => a.id == pinned);
+    if (index > 0) sorted.insert(0, sorted.removeAt(index));
+    return sorted;
+  });
 }
 
 /// Sorts actions by the selected option, using locale-aware
@@ -270,18 +309,22 @@ List<ActionModel> _sortActions(
   List<ActionModel> actions,
   ActionSortOption sortOption,
   String languageCode,
+  Map<String, int> shuffleRank,
 ) {
   final sorted = List<ActionModel>.from(actions);
+  int byName(ActionModel a, ActionModel b) => foldForSearch(
+    a.name(languageCode),
+  ).compareTo(foldForSearch(b.name(languageCode)));
 
   switch (sortOption) {
+    case ActionSortOption.random:
+      sorted.sort(
+        (a, b) => (shuffleRank[a.id] ?? 0).compareTo(shuffleRank[b.id] ?? 0),
+      );
     case ActionSortOption.alphabeticalAsc:
-      sorted.sort(
-        (a, b) => a.name(languageCode).compareTo(b.name(languageCode)),
-      );
+      sorted.sort(byName);
     case ActionSortOption.alphabeticalDesc:
-      sorted.sort(
-        (a, b) => b.name(languageCode).compareTo(a.name(languageCode)),
-      );
+      sorted.sort((a, b) => byName(b, a));
     case ActionSortOption.co2HighToLow:
       sorted.sort((a, b) => b.co2Grams.compareTo(a.co2Grams));
     case ActionSortOption.co2LowToHigh:
@@ -316,10 +359,40 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     ActionModel action, {
     String? note,
     String languageCode = 'en',
+    bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
-    // In-flight guard: two concurrent callers would double-log.
-    if (state.isLoading) return null;
+    // A repeat of an action still waiting or in flight would double-log.
+    if (!_pending.add(action.id)) return null;
+    try {
+      return await _logQueued(
+        action,
+        note: note,
+        languageCode: languageCode,
+        countsAsUnique: countsAsUnique,
+        uniqueKey: uniqueKey,
+      );
+    } finally {
+      _pending.remove(action.id);
+    }
+  }
 
+  final _pending = <String>{};
+  Future<void> _lastWrite = Future.value();
+
+  /// Whether a log is waiting or in flight.
+  bool get isBusy => _pending.isNotEmpty;
+
+  /// Whether a log of [actionId] is waiting or in flight.
+  bool isPending(String actionId) => _pending.contains(actionId);
+
+  Future<ActionLogResult?> _logQueued(
+    ActionModel action, {
+    required String? note,
+    required String languageCode,
+    required bool countsAsUnique,
+    required String? uniqueKey,
+  }) async {
     appLogger.debug('ActionLog: logAction called for ${action.nameEn}');
 
     final userAsync = ref.read(currentUserProvider);
@@ -335,19 +408,31 @@ class ActionLogNotifier extends _$ActionLogNotifier {
 
     state = const AsyncValue.loading();
 
+    // One write at a time, so each can wait out the gap after the last.
+    final previous = _lastWrite;
+    final written = Completer<void>();
+    _lastWrite = written.future;
+    await previous;
+
     // The repository future loads bundled JSON and can reject, so it
     // stays inside the guard or state strands in loading forever.
     // The daily summary is written inside the logAction transaction,
     // so only analytics remain as follow-up work here.
     final result = await AsyncValue.guard(() async {
+      // A write inside the rules' gap is rejected, so wait it out instead.
+      final cooldown = actionLogCooldown();
+      if (cooldown > Duration.zero) await Future<void>.delayed(cooldown);
       final actionLogRepo = await ref.read(actionLogRepositoryProvider.future);
       return actionLogRepo.logAction(
         userId: user.uid,
         action: action,
         languageCode: languageCode,
         note: note,
+        countsAsUnique: countsAsUnique,
+        uniqueKey: uniqueKey,
       );
     });
+    written.complete();
 
     if (result.hasError) {
       if (isOfflineError(result.error)) {
@@ -368,9 +453,13 @@ class ActionLogNotifier extends _$ActionLogNotifier {
       if (ref.mounted) {
         ref
           ..invalidate(co2StatsProvider)
+          ..invalidate(trendWindowSummariesProvider)
           ..invalidate(co2TrendDataProvider)
           ..invalidate(co2CategoryDataProvider)
           ..invalidate(monthCalendarDataProvider);
+        if (result.value?.eggStreakReset ?? false) {
+          ref.read(eggStreakResetSignalProvider.notifier).fire();
+        }
       }
 
       // Telemetry must never gate the points animation, which fires as
@@ -379,7 +468,8 @@ class ActionLogNotifier extends _$ActionLogNotifier {
     }
 
     if (!ref.mounted) return result.asData?.value;
-    state = result;
+    // A failure always lands: its caller reads the error from the state.
+    if (result.hasError || _pending.length == 1) state = result;
     return result.asData?.value;
   }
 

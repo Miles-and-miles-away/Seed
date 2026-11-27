@@ -5,6 +5,7 @@ import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
 import 'package:seed_app/shared/widgets/group_heading.dart';
+import 'package:seed_app/shared/widgets/info_affordance.dart';
 
 /// Grouped, searchable food-item list for the ingredient editor.
 ///
@@ -117,6 +118,9 @@ class _FoodItemPickerState extends State<FoodItemPicker> {
                   ? null
                   : IconButton(
                       icon: const Icon(Icons.clear),
+                      tooltip: MaterialLocalizations.of(
+                        context,
+                      ).clearButtonTooltip,
                       onPressed: _controller.clear,
                     ),
               filled: true,
@@ -193,18 +197,18 @@ class _ItemTile extends StatelessWidget {
     // rather than only in the science sheet -- the picker is where the
     // number is first read, and a narrower-boundary row shown bare next
     // to the anchors invites a comparison it cannot support.
-    final caveats = [
-      foodWeightBasisLabel(l10n, item),
-      foodBoundaryNoteLabel(l10n, item),
-    ].nonNulls.join(' ');
+    final basis = foodWeightBasisLabel(l10n, item);
+    final boundary = foodBoundaryNoteLabel(l10n, item);
+    final caveats = basis != null && boundary != null
+        ? l10n.sentencePair(basis, boundary)
+        : basis ?? boundary ?? '';
     final factor = foodItemFactorWithServingLabel(l10n, item, locale);
     return ListTile(
       isThreeLine: caveats.isNotEmpty,
       leading: Icon(foodGroupIcon(item.group)),
       title: Text(item.name(locale)),
       subtitle: Text(caveats.isEmpty ? factor : '$factor\n$caveats'),
-      trailing: IconButton(
-        icon: const Icon(Icons.info_outline),
+      trailing: InfoIconButton(
         tooltip: l10n.foodItemScienceTooltip,
         onPressed: () => onInfo(item),
       ),

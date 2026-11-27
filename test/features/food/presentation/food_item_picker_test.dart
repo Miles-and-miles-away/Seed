@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/serving_preset_model.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
@@ -30,7 +31,7 @@ FoodItem _item(
 );
 
 final _items = <FoodItem>[
-  _item('beef', 'meat', 'Beef', ja: '牛肉', es: 'Carne de res'),
+  _item('beef', 'meat', 'Beef', ja: '牛肉', es: 'Carne de vacuno'),
   _item('chicken', 'meat', 'Chicken', ja: '鶏肉', es: 'Pollo'),
   _item('bananas', 'fruit', 'Bananas', ja: 'バナナ', es: 'Plátano'),
   _item('chilli', 'vegetables', 'Chilli', ja: '唐辛子', es: 'Jalapeño'),
@@ -146,14 +147,14 @@ void main() {
 
     testWidgets('shows group headers until the user searches', (tester) async {
       await tester.pumpWidget(harness(onSelected: (_) {}));
-      expect(find.text('Meat'), findsOneWidget);
+      expect(find.text('MEAT'), findsOneWidget);
 
       await tester.enterText(find.byType(TextField), 'tofu');
       await tester.pump();
 
       expect(find.text('Tofu'), findsOneWidget);
       expect(find.text('Beef'), findsNothing);
-      expect(find.text('Meat'), findsNothing);
+      expect(find.text('MEAT'), findsNothing);
     });
 
     testWidgets('a non-matching query says so instead of going blank', (
@@ -222,7 +223,7 @@ void main() {
       await tester.pumpWidget(buildPickerWith(_items, const ['tofu']));
       await tester.pumpAndSettle();
 
-      expect(find.text('Recent'), findsOneWidget);
+      expect(find.text('RECENT'), findsOneWidget);
       // Once under Recent, once under its own group heading.
       expect(find.text('Tofu'), findsNWidgets(2));
     });
@@ -232,7 +233,7 @@ void main() {
     ) async {
       await tester.pumpWidget(buildPickerWith(_items, const ['unicorn']));
       await tester.pumpAndSettle();
-      expect(find.text('Recent'), findsNothing);
+      expect(find.text('RECENT'), findsNothing);
     });
 
     testWidgets('a row shows per kg and per realistic serving', (tester) async {
@@ -261,8 +262,14 @@ void main() {
       await tester.pumpWidget(buildPickerWith(const [chocolate], const []));
       await tester.pumpAndSettle();
 
-      expect(find.textContaining('47 kg CO2e per kg'), findsOneWidget);
-      expect(find.textContaining('1 serving (30 g)'), findsOneWidget);
+      expect(
+        find.textContaining('47${unitSpace}kg CO2e per kg'),
+        findsOneWidget,
+      );
+      expect(
+        find.textContaining('1 serving (30${unitSpace}g)'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('a narrower-boundary row says so on its own tile', (

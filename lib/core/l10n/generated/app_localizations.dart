@@ -136,6 +136,12 @@ abstract class AppLocalizations {
   /// **'Mascot'**
   String get navMascot;
 
+  /// No description provided for @navExplore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get navExplore;
+
   /// No description provided for @navProfile.
   ///
   /// In en, this message translates to:
@@ -177,6 +183,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password'**
   String get authPassword;
+
+  /// No description provided for @authShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
+
+  /// No description provided for @authHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
 
   /// No description provided for @authConfirmPassword.
   ///
@@ -247,8 +265,14 @@ abstract class AppLocalizations {
   /// No description provided for @actionLogged.
   ///
   /// In en, this message translates to:
-  /// **'Action logged! {points} points earned'**
+  /// **'{points, plural, one{Action logged! 1 point earned} other{Action logged! {points} points earned}}'**
   String actionLogged(int points);
+
+  /// No description provided for @actionLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging your action...'**
+  String get actionLogging;
 
   /// No description provided for @noActionsFound.
   ///
@@ -298,11 +322,11 @@ abstract class AppLocalizations {
   /// **'Level {level}'**
   String levelLabel(int level);
 
-  /// No description provided for @streakLabel.
+  /// No description provided for @stageWithLevel.
   ///
   /// In en, this message translates to:
-  /// **'{days} day streak'**
-  String streakLabel(int days);
+  /// **'{stage} (Level {level})'**
+  String stageWithLevel(String stage, int level);
 
   /// No description provided for @co2Saved.
   ///
@@ -418,6 +442,12 @@ abstract class AppLocalizations {
   /// **'Member Since'**
   String get profileMemberSince;
 
+  /// No description provided for @profileMemberSinceDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Member since {date}'**
+  String profileMemberSinceDate(String date);
+
   /// No description provided for @profileCurrentStreak.
   ///
   /// In en, this message translates to:
@@ -459,12 +489,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications'**
   String get settingsNotifications;
-
-  /// No description provided for @settingsReminderTime.
-  ///
-  /// In en, this message translates to:
-  /// **'Daily Reminder'**
-  String get settingsReminderTime;
 
   /// No description provided for @settingsLanguage.
   ///
@@ -604,6 +628,12 @@ abstract class AppLocalizations {
   /// **'Something went wrong. Please try again.'**
   String get errorGeneric;
 
+  /// No description provided for @startupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Seed could not start. Close the app and open it again.'**
+  String get startupFailed;
+
   /// No description provided for @errorNetwork.
   ///
   /// In en, this message translates to:
@@ -627,6 +657,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please wait a few seconds between actions.'**
   String get errorActionTooSoon;
+
+  /// No description provided for @errorActionRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'This action could not be logged. Wait a few seconds and try again. If it fails again, check that your device\'s date and time are set automatically.'**
+  String get errorActionRejected;
+
+  /// No description provided for @errorSavingTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'A saving above {limit} is too large to log as one action. Check the distances and amounts.'**
+  String errorSavingTooLarge(String limit);
 
   /// No description provided for @errorLogActionOffline.
   ///
@@ -766,6 +808,12 @@ abstract class AppLocalizations {
   /// **'Daily goal reached!'**
   String get progressGoalReached;
 
+  /// No description provided for @progressSunEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete goals to grow your sun!'**
+  String get progressSunEmptyHint;
+
   /// No description provided for @progressSetDailyGoal.
   ///
   /// In en, this message translates to:
@@ -826,17 +874,41 @@ abstract class AppLocalizations {
   /// **'Some content from the action library may remain in its original language.'**
   String get languageSettingsNote;
 
-  /// No description provided for @settingsNotificationsSubtitle.
+  /// No description provided for @languageNameEnglish.
   ///
   /// In en, this message translates to:
-  /// **'{count} reminders enabled'**
-  String settingsNotificationsSubtitle(int count);
+  /// **'English'**
+  String get languageNameEnglish;
 
-  /// No description provided for @settingsNotificationsOff.
+  /// No description provided for @languageNameSpanish.
   ///
   /// In en, this message translates to:
-  /// **'Notifications are off'**
-  String get settingsNotificationsOff;
+  /// **'Spanish'**
+  String get languageNameSpanish;
+
+  /// No description provided for @languageNameJapanese.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get languageNameJapanese;
+
+  /// No description provided for @languagePickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get languagePickerTitle;
+
+  /// No description provided for @languagePickerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change this at any time in Settings.'**
+  String get languagePickerHint;
+
+  /// No description provided for @languageCurrentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language: {language}'**
+  String languageCurrentLabel(String language);
 
   /// No description provided for @settingsLanguageSubtitle.
   ///
@@ -879,6 +951,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change Password'**
   String get accountSettingsChangePassword;
+
+  /// No description provided for @accountSettingsYourData.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Data'**
+  String get accountSettingsYourData;
+
+  /// No description provided for @accountSettingsExportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Download My Data'**
+  String get accountSettingsExportData;
+
+  /// No description provided for @accountSettingsExportDataSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy of everything Seed stores for your account'**
+  String get accountSettingsExportDataSubtitle;
 
   /// No description provided for @accountSettingsDeleteAccount.
   ///
@@ -951,6 +1041,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email updated successfully'**
   String get accountSettingsEmailUpdated;
+
+  /// No description provided for @accountSettingsEmailLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a link to your new email address. Open it to finish the change.'**
+  String get accountSettingsEmailLinkSent;
 
   /// No description provided for @accountSettingsPasswordUpdated.
   ///
@@ -1066,23 +1162,53 @@ abstract class AppLocalizations {
   /// **'Don\'t worry! Start a new streak today.'**
   String get streakBrokenMessage;
 
-  /// No description provided for @streakBrokenPrevious.
-  ///
-  /// In en, this message translates to:
-  /// **'Previous streak: {count} days'**
-  String streakBrokenPrevious(int count);
-
   /// No description provided for @streakBrokenStartNew.
   ///
   /// In en, this message translates to:
   /// **'Start New Streak'**
   String get streakBrokenStartNew;
 
+  /// No description provided for @mascotGreetingWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back!'**
+  String get mascotGreetingWelcome;
+
+  /// Home mascot's daily greeting when the streak is still live
+  ///
+  /// In en, this message translates to:
+  /// **'{count}-day streak! Log an action to keep it.'**
+  String mascotGreetingStreak(int count);
+
+  /// No description provided for @mascotGreetingNoStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Log an action to start a new streak.'**
+  String get mascotGreetingNoStreak;
+
+  /// Mascot's speech bubble after the first log of the day
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Streak started!} other{{count}-day streak!}}'**
+  String mascotCheerStreak(int count);
+
   /// No description provided for @sortLabel.
   ///
   /// In en, this message translates to:
   /// **'Sort'**
   String get sortLabel;
+
+  /// Sort button tooltip and accessible name; option is the active sort
+  ///
+  /// In en, this message translates to:
+  /// **'Sort: {option}'**
+  String sortButtonTooltip(String option);
+
+  /// Sort option that shows actions in a random order, new on each visit
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle'**
+  String get sortShuffle;
 
   /// No description provided for @sortAlphabeticalAZ.
   ///
@@ -1131,12 +1257,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get allCategories;
-
-  /// No description provided for @co2PerAction.
-  ///
-  /// In en, this message translates to:
-  /// **'{amount}g CO₂'**
-  String co2PerAction(Object amount);
 
   /// No description provided for @sdgYourImpact.
   ///
@@ -1270,6 +1390,24 @@ abstract class AppLocalizations {
   /// **'Log actions every day for 30 days to hatch it.'**
   String get eggDiscoverySubtitle;
 
+  /// No description provided for @eggDaysLeftHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Log actions on {count} more day to hatch your egg.} other{Log actions on {count} more days to hatch your egg.}} Miss a day and the count starts again.'**
+  String eggDaysLeftHint(int count);
+
+  /// No description provided for @eggStreakResetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You missed a day, so your egg\'s count started again.'**
+  String get eggStreakResetMessage;
+
+  /// No description provided for @speciesUnlockHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When a companion reaches Level {level}, you find an egg. A new companion hatches from it.'**
+  String speciesUnlockHint(int level);
+
   /// No description provided for @eggDiscoveryDismiss.
   ///
   /// In en, this message translates to:
@@ -1312,11 +1450,11 @@ abstract class AppLocalizations {
   /// **'Switch Mascot?'**
   String get mascotSwitchConfirm;
 
-  /// No description provided for @switchToMascot.
+  /// No description provided for @mascotSwitchConfirmBody.
   ///
   /// In en, this message translates to:
-  /// **'Switch to'**
-  String get switchToMascot;
+  /// **'Switch to {name}?'**
+  String mascotSwitchConfirmBody(String name);
 
   /// No description provided for @switchMascotButton.
   ///
@@ -1324,11 +1462,11 @@ abstract class AppLocalizations {
   /// **'Switch'**
   String get switchMascotButton;
 
-  /// No description provided for @actionLearnMore.
+  /// No description provided for @actionScienceTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Tap to learn the science'**
-  String get actionLearnMore;
+  /// **'About this action'**
+  String get actionScienceTooltip;
 
   /// No description provided for @maxEvolutionTitle.
   ///
@@ -1366,131 +1504,227 @@ abstract class AppLocalizations {
   /// **'UN Targets'**
   String get sdgTargetsTitle;
 
-  /// No description provided for @notifSettingsTitle.
+  /// No description provided for @notifDailyReminder.
   ///
   /// In en, this message translates to:
-  /// **'Notification Settings'**
-  String get notifSettingsTitle;
+  /// **'Daily challenge reminder'**
+  String get notifDailyReminder;
 
-  /// No description provided for @notifSectionNotifications.
+  /// No description provided for @notifDailyReminderSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifSectionNotifications;
+  /// **'A nudge when today\'s eco-fact is still locked'**
+  String get notifDailyReminderSubtitle;
 
-  /// No description provided for @notifEnableTitle.
+  /// No description provided for @notifReminderTime.
   ///
   /// In en, this message translates to:
-  /// **'Enable Notifications'**
-  String get notifEnableTitle;
+  /// **'Reminder time'**
+  String get notifReminderTime;
 
-  /// No description provided for @notifEnableSubtitle.
+  /// No description provided for @notifReminderTitle.
   ///
   /// In en, this message translates to:
-  /// **'Receive daily reminders to log actions'**
-  String get notifEnableSubtitle;
+  /// **'Today\'s eco-fact is waiting'**
+  String get notifReminderTitle;
 
-  /// No description provided for @notifSmartTitle.
+  /// No description provided for @notifReminderBody.
   ///
   /// In en, this message translates to:
-  /// **'Smart Reminders'**
-  String get notifSmartTitle;
+  /// **'Complete today\'s challenge to unlock it.'**
+  String get notifReminderBody;
 
-  /// No description provided for @notifSmartOnlyTitle.
+  /// No description provided for @notifActionReminders.
   ///
   /// In en, this message translates to:
-  /// **'Only remind if no action today'**
-  String get notifSmartOnlyTitle;
+  /// **'Action reminders'**
+  String get notifActionReminders;
 
-  /// No description provided for @notifSmartOnlySubtitle.
+  /// No description provided for @notifActionRemindersSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Skip reminders on days you\'ve already logged'**
-  String get notifSmartOnlySubtitle;
+  /// **'Reminders you set on actions'**
+  String get notifActionRemindersSubtitle;
 
-  /// No description provided for @notifSmartDescription.
+  /// No description provided for @notifActionReminderBody.
   ///
   /// In en, this message translates to:
-  /// **'When enabled, reminders will only appear if you haven\'t logged any sustainable actions that day.'**
-  String get notifSmartDescription;
+  /// **'Your reminder for today. Tap to log it once it\'s done.'**
+  String get notifActionReminderBody;
 
-  /// No description provided for @notifReminderTimesTitle.
+  /// No description provided for @notifStyle.
   ///
   /// In en, this message translates to:
-  /// **'Reminder Times'**
-  String get notifReminderTimesTitle;
+  /// **'Notification style'**
+  String get notifStyle;
 
-  /// No description provided for @notifNoReminders.
+  /// No description provided for @notifStyleSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'No reminders set'**
-  String get notifNoReminders;
+  /// **'Sound, vibration and banners, in your phone\'s settings'**
+  String get notifStyleSubtitle;
 
-  /// No description provided for @notifAddReminder.
+  /// No description provided for @notifBlocked.
   ///
   /// In en, this message translates to:
-  /// **'Add a reminder to get notified'**
-  String get notifAddReminder;
+  /// **'Notifications are off for Seed. Turn them on in your phone\'s settings.'**
+  String get notifBlocked;
 
-  /// No description provided for @notifAddReminderTime.
+  /// No description provided for @notifBlockedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Add Reminder Time'**
-  String get notifAddReminderTime;
+  /// **'Notifications are blocked'**
+  String get notifBlockedTitle;
 
-  /// No description provided for @notifMaxReminders.
+  /// No description provided for @notifBlockedSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Maximum 5 reminders allowed'**
-  String get notifMaxReminders;
+  /// **'Tap to allow them in your phone\'s settings'**
+  String get notifBlockedSubtitle;
 
-  /// No description provided for @notifEditTime.
+  /// No description provided for @notifOpenSettings.
   ///
   /// In en, this message translates to:
-  /// **'Edit reminder time'**
-  String get notifEditTime;
+  /// **'Open settings'**
+  String get notifOpenSettings;
 
-  /// No description provided for @notifSelectTime.
+  /// No description provided for @reminderSheetTitle.
   ///
   /// In en, this message translates to:
-  /// **'Select reminder time'**
-  String get notifSelectTime;
+  /// **'Remind me'**
+  String get reminderSheetTitle;
 
-  /// No description provided for @notifLabelTitle.
+  /// No description provided for @reminderSetTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Reminder Label'**
-  String get notifLabelTitle;
+  /// **'Set a reminder'**
+  String get reminderSetTooltip;
 
-  /// No description provided for @notifLabelHint.
+  /// No description provided for @reminderEditTooltip.
   ///
   /// In en, this message translates to:
-  /// **'e.g., Morning, After work...'**
-  String get notifLabelHint;
+  /// **'Edit reminder'**
+  String get reminderEditTooltip;
 
-  /// No description provided for @notifLabelOptional.
+  /// No description provided for @reminderPausedTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Label (optional)'**
-  String get notifLabelOptional;
+  /// **'Edit reminder (action reminders are off)'**
+  String get reminderPausedTooltip;
 
-  /// No description provided for @notifDeleteTitle.
+  /// No description provided for @reminderDays.
   ///
   /// In en, this message translates to:
-  /// **'Delete Reminder?'**
-  String get notifDeleteTitle;
+  /// **'Days'**
+  String get reminderDays;
 
-  /// No description provided for @notifDeleteMessage.
+  /// No description provided for @reminderForever.
   ///
   /// In en, this message translates to:
-  /// **'Remove the {time} reminder?'**
-  String notifDeleteMessage(String time);
+  /// **'Forever'**
+  String get reminderForever;
 
-  /// No description provided for @notifAdd.
+  /// No description provided for @reminderRepeat.
   ///
   /// In en, this message translates to:
-  /// **'Add'**
-  String get notifAdd;
+  /// **'Number of times'**
+  String get reminderRepeat;
+
+  /// No description provided for @reminderRepeatCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 time} other{{count} times}}'**
+  String reminderRepeatCount(int count);
+
+  /// No description provided for @reminderFewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer times'**
+  String get reminderFewer;
+
+  /// No description provided for @reminderMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More times'**
+  String get reminderMore;
+
+  /// No description provided for @reminderLastDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Last reminder: {date}'**
+  String reminderLastDay(String date);
+
+  /// No description provided for @reminderSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder saved'**
+  String get reminderSaved;
+
+  /// No description provided for @reminderLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'You can have up to {max} action reminders.'**
+  String reminderLimit(int max);
+
+  /// No description provided for @reminderSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} at {time}'**
+  String reminderSummary(String days, String time, int hour);
+
+  /// No description provided for @reminderSummaryUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} at {time}, until {date}'**
+  String reminderSummaryUntil(String days, String time, int hour, String date);
+
+  /// Joins weekday names in a reminder summary.
+  ///
+  /// In en, this message translates to:
+  /// **', '**
+  String get reminderDaySeparator;
+
+  /// No description provided for @reminderManage.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get reminderManage;
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get remindersTitle;
+
+  /// No description provided for @reminderManageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage reminders'**
+  String get reminderManageTitle;
+
+  /// No description provided for @reminderManageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily challenge and action reminders'**
+  String get reminderManageSubtitle;
+
+  /// No description provided for @reminderListIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a reminder with the bell on any action, up to {max}. Tap one to change or delete it.'**
+  String reminderListIntro(int max);
+
+  /// No description provided for @reminderListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No action reminders yet.'**
+  String get reminderListEmpty;
+
+  /// No description provided for @reminderEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get reminderEveryDay;
 
   /// No description provided for @settingsPreferences.
   ///
@@ -1503,42 +1737,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version {version}'**
   String settingsVersionFormat(String version);
-
-  /// No description provided for @settingsNoReminders.
-  ///
-  /// In en, this message translates to:
-  /// **'No reminders set'**
-  String get settingsNoReminders;
-
-  /// No description provided for @settingsRemindersCount.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} reminders configured'**
-  String settingsRemindersCount(int count);
-
-  /// No description provided for @settingsOneReminder.
-  ///
-  /// In en, this message translates to:
-  /// **'1 reminder configured'**
-  String get settingsOneReminder;
-
-  /// No description provided for @settingsTapToAddReminders.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to add reminders'**
-  String get settingsTapToAddReminders;
-
-  /// No description provided for @settingsAllRemindersDisabled.
-  ///
-  /// In en, this message translates to:
-  /// **'All reminders disabled'**
-  String get settingsAllRemindersDisabled;
-
-  /// No description provided for @settingsRemindersPlusMore.
-  ///
-  /// In en, this message translates to:
-  /// **'{time} + {count} more'**
-  String settingsRemindersPlusMore(String time, int count);
 
   /// No description provided for @settingsErrorLoading.
   ///
@@ -1582,10 +1780,16 @@ abstract class AppLocalizations {
   /// **'Made with care for our planet.'**
   String get aboutFooterMade;
 
+  /// No description provided for @aboutSdgIconsCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'SDG icons: United Nations'**
+  String get aboutSdgIconsCredit;
+
   /// No description provided for @aboutSubtitleTracker.
   ///
   /// In en, this message translates to:
-  /// **'Sustainability Habit Tracker'**
+  /// **'Seed - Sustainability Habit Tracker'**
   String get aboutSubtitleTracker;
 
   /// No description provided for @feedbackTitle.
@@ -1635,6 +1839,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The following info is included to help us investigate: app version, device and OS, language, and your account ID.'**
   String get feedbackMetadataNote;
+
+  /// No description provided for @feedbackMetaAppVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App v{version}'**
+  String feedbackMetaAppVersion(String version);
 
   /// No description provided for @feedbackSubmit.
   ///
@@ -1711,7 +1921,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeExploreGoals.
   ///
   /// In en, this message translates to:
-  /// **'Explore the SDG Goals'**
+  /// **'Discover the SDGs'**
   String get homeExploreGoals;
 
   /// No description provided for @homeExploreGoalsSubtitle.
@@ -1821,6 +2031,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Goal {number}'**
   String sdgGoalNumber(int number);
+
+  /// No description provided for @sdgGoalNumberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal {number}: {title}'**
+  String sdgGoalNumberTitle(int number, String title);
 
   /// No description provided for @sdgProgressChart.
   ///
@@ -2047,7 +2263,7 @@ abstract class AppLocalizations {
   /// No description provided for @pointsAbbreviated.
   ///
   /// In en, this message translates to:
-  /// **'{count} pts'**
+  /// **'{count, plural, one{{count} pt} other{{count} pts}}'**
   String pointsAbbreviated(int count);
 
   /// No description provided for @stageFallback.
@@ -2091,6 +2307,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Source'**
   String get ecoFactSource;
+
+  /// No description provided for @labelPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: '**
+  String labelPrefix(String label);
+
+  /// No description provided for @sentencePair.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} {second}'**
+  String sentencePair(String first, String second);
 
   /// No description provided for @ecoFactLocked.
   ///
@@ -2164,12 +2392,6 @@ abstract class AppLocalizations {
   /// **'Log Action'**
   String get challengeDialogLogAction;
 
-  /// No description provided for @challengeDialogUnlock.
-  ///
-  /// In en, this message translates to:
-  /// **'Complete to unlock today\'s eco-fact!'**
-  String get challengeDialogUnlock;
-
   /// No description provided for @challengeTabLabel.
   ///
   /// In en, this message translates to:
@@ -2194,6 +2416,30 @@ abstract class AppLocalizations {
   /// **'See today\'s eco-fact'**
   String get challengeSeeFact;
 
+  /// No description provided for @challengeOverline.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily action challenge'**
+  String get challengeOverline;
+
+  /// Daily challenge card; action is the library action's name
+  ///
+  /// In en, this message translates to:
+  /// **'Log \'{action}\' to unlock today\'s eco-fact'**
+  String challengeLogAction(String action);
+
+  /// Daily challenge card hint; category is an ActionCategory name
+  ///
+  /// In en, this message translates to:
+  /// **'{category, select, recycling{Any recycling action counts} transport{Any transport action counts} food{Any food action counts} energy{Any energy action counts} consumption{Any consumption action counts} water{Any water action counts} community{Any community action counts} advocacy{Any advocacy action counts} other{Any action in this category counts}}'**
+  String challengeAnyActionCounts(String category);
+
+  /// Daily challenge card fallback; category is an ActionCategory name
+  ///
+  /// In en, this message translates to:
+  /// **'{category, select, recycling{Log any recycling action to unlock today\'s eco-fact} transport{Log any transport action to unlock today\'s eco-fact} food{Log any food action to unlock today\'s eco-fact} energy{Log any energy action to unlock today\'s eco-fact} consumption{Log any consumption action to unlock today\'s eco-fact} water{Log any water action to unlock today\'s eco-fact} community{Log any community action to unlock today\'s eco-fact} advocacy{Log any advocacy action to unlock today\'s eco-fact} other{Log any action to unlock today\'s eco-fact}}'**
+  String challengeLogAnyAction(String category);
+
   /// No description provided for @challengeStreakDays.
   ///
   /// In en, this message translates to:
@@ -2211,12 +2457,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Challenge completed! Eco-fact unlocked!'**
   String get challengeCompletedSnackbar;
-
-  /// No description provided for @challengeBrowse.
-  ///
-  /// In en, this message translates to:
-  /// **'Browse Challenges'**
-  String get challengeBrowse;
 
   /// No description provided for @challengesScreenTitle.
   ///
@@ -2356,23 +2596,23 @@ abstract class AppLocalizations {
   /// **'kg'**
   String get kgUnit;
 
-  /// No description provided for @vsYesterday.
+  /// No description provided for @comparisonVsYesterday.
   ///
   /// In en, this message translates to:
-  /// **'vs. yesterday'**
-  String get vsYesterday;
+  /// **'{percent}% vs. yesterday'**
+  String comparisonVsYesterday(String percent);
 
-  /// No description provided for @vsLastWeek.
+  /// No description provided for @comparisonVsLastWeek.
   ///
   /// In en, this message translates to:
-  /// **'vs. last week'**
-  String get vsLastWeek;
+  /// **'{percent}% vs. last week'**
+  String comparisonVsLastWeek(String percent);
 
-  /// No description provided for @vsLastMonth.
+  /// No description provided for @comparisonVsLastMonth.
   ///
   /// In en, this message translates to:
-  /// **'vs. last month'**
-  String get vsLastMonth;
+  /// **'{percent}% vs. last month'**
+  String comparisonVsLastMonth(String percent);
 
   /// No description provided for @trendChartTitle.
   ///
@@ -2391,6 +2631,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'trend'**
   String get trendChartTrendLabel;
+
+  /// No description provided for @trendChartSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{CO2 saved over 1 day} other{CO2 saved per day over {days} days}}. Average {average} a day, highest {peak}.'**
+  String trendChartSemantics(int days, String average, String peak);
 
   /// No description provided for @categoryChartTitle.
   ///
@@ -2449,7 +2695,7 @@ abstract class AppLocalizations {
   /// No description provided for @impactInfoIntro.
   ///
   /// In en, this message translates to:
-  /// **'We translate the CO2 you\'ve saved into everyday comparisons. The figures are illustrative -- we use global averages and mix CO2 with CO2-equivalent (methane, grid electricity, food lifecycle), so your real impact will vary with local grid mix and supply chain.'**
+  /// **'We translate the CO2 you\'ve saved into everyday comparisons. The figures are illustrative -- we use global averages and mix CO2 with CO2-equivalent (methane, grid electricity, food lifecycle), so your real impact will vary with local grid mix and supply chain. Some actions overlap: for example, a Full Vegan Day and a Skip a Beef Meal on the same day can count the same saving twice. We accept this to keep logging simple, so your total can be higher than your real saving.'**
   String get impactInfoIntro;
 
   /// No description provided for @impactInfoFormulaLabel.
@@ -2467,25 +2713,25 @@ abstract class AppLocalizations {
   /// No description provided for @equivTreesExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Approximate CO2 absorbed by a single mature urban tree in one year. Newly planted saplings absorb far less -- this is the steady-state mature figure.'**
+  /// **'CO2 absorbed in one year by an urban tree, averaged over its first 10 years of growth (US EPA).'**
   String get equivTreesExplainer;
 
   /// No description provided for @equivCarKmExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Average passenger car emissions per kilometer driven, fleet-weighted across petrol and diesel vehicles.'**
+  /// **'Emissions per kilometre of an average UK petrol car, including the emissions of producing and delivering its fuel (DESNZ 2026).'**
   String get equivCarKmExplainer;
 
   /// No description provided for @equivPhoneChargesExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Grid electricity used to fully charge an average smartphone, based on the US national grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.'**
+  /// **'Grid electricity used to fully charge an average smartphone, based on the world average grid mix. Cleaner grids (e.g. Norway) use less; coal-heavy grids use more.'**
   String get equivPhoneChargesExplainer;
 
   /// No description provided for @equivBurgersExplainer.
   ///
   /// In en, this message translates to:
-  /// **'Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 10x less; a bean burger roughly 50x less.'**
+  /// **'Full lifecycle emissions of one beef burger (113 g patty), from cattle farming to retail. A chicken burger emits roughly 7x less; a bean burger roughly 40x less.'**
   String get equivBurgersExplainer;
 
   /// No description provided for @equivFormulaTemplate.
@@ -2596,17 +2842,59 @@ abstract class AppLocalizations {
   /// **'Calculators'**
   String get calculatorsSheetTitle;
 
-  /// No description provided for @calculatorsButtonTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'Calculators'**
-  String get calculatorsButtonTooltip;
-
   /// No description provided for @calculatorHomeEnergy.
   ///
   /// In en, this message translates to:
   /// **'Home energy'**
   String get calculatorHomeEnergy;
+
+  /// No description provided for @exploreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get exploreTitle;
+
+  /// No description provided for @explorePlayHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn and play'**
+  String get explorePlayHeader;
+
+  /// No description provided for @exploreTransportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two routes, any mix of modes'**
+  String get exploreTransportSubtitle;
+
+  /// No description provided for @exploreFoodSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two meals, ingredient by ingredient'**
+  String get exploreFoodSubtitle;
+
+  /// No description provided for @exploreEnergySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two routines, from showers to tumble drying'**
+  String get exploreEnergySubtitle;
+
+  /// No description provided for @exploreEnergyRankedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyday habits ranked by energy'**
+  String get exploreEnergyRankedSubtitle;
+
+  /// No description provided for @exploreQuizSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which produces more carbon?'**
+  String get exploreQuizSubtitle;
+
+  /// No description provided for @mascotLinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your mascot'**
+  String get mascotLinkTitle;
 
   /// No description provided for @transportJourneyEmpty.
   ///
@@ -2725,13 +3013,13 @@ abstract class AppLocalizations {
   /// No description provided for @transportEstimatedKm.
   ///
   /// In en, this message translates to:
-  /// **'~{km} km'**
+  /// **'~{km} km'**
   String transportEstimatedKm(String km);
 
   /// No description provided for @transportKmValue.
   ///
   /// In en, this message translates to:
-  /// **'{km} km'**
+  /// **'{km} km'**
   String transportKmValue(String km);
 
   /// No description provided for @transportOccupantsValue.
@@ -2743,13 +3031,13 @@ abstract class AppLocalizations {
   /// No description provided for @transportModeFactorPerPassenger.
   ///
   /// In en, this message translates to:
-  /// **'{grams} g CO2e per km'**
+  /// **'{grams} g CO2e per km'**
   String transportModeFactorPerPassenger(int grams);
 
   /// No description provided for @transportModeFactorPerVehicle.
   ///
   /// In en, this message translates to:
-  /// **'{grams} g CO2e per vehicle km'**
+  /// **'{grams} g CO2e per vehicle km'**
   String transportModeFactorPerVehicle(int grams);
 
   /// No description provided for @transportGroupActive.
@@ -2926,6 +3214,12 @@ abstract class AppLocalizations {
   /// **'Build both options to compare them'**
   String get calculatorNeedBothOptions;
 
+  /// Shown in place of the result when both journeys round to the same emissions
+  ///
+  /// In en, this message translates to:
+  /// **'Both options have the same emissions, so there is no saving to log'**
+  String get calculatorSameEmissions;
+
   /// Tooltip on the remove button of a card inside a comparison column
   ///
   /// In en, this message translates to:
@@ -2955,12 +3249,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comparison full ({max} options)'**
   String transportComparisonFull(int max);
-
-  /// No description provided for @transportCompareOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Compare {count} options'**
-  String transportCompareOptions(int count);
 
   /// No description provided for @transportOptionStaged.
   ///
@@ -2994,7 +3282,7 @@ abstract class AppLocalizations {
   /// No description provided for @transportMethodologyBody.
   ///
   /// In en, this message translates to:
-  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOnly operational energy: fuel burned by engines and the electricity generated for electric modes. Vehicle manufacturing and infrastructure are excluded. Walking and cycling count as zero by convention -- the calories you burn are left out, as they may not add to a normal diet.\n\n### Occupancy\nCars and taxis are measured per vehicle, so their footprint is divided by the number of people aboard. Buses, trains and flights are already per passenger, at typical occupancy.\n\n### Flights and radiative forcing\nAircraft warm the climate beyond their CO2 through contrails and high-altitude effects. Following DESNZ 2025, flight and private-jet factors include a 1.7x central-estimate uplift on the CO2 component. Private jets carry the same uplift, so the comparison stays like for like.\n\n### Electric modes and the grid\nElectric cars, e-bikes and e-scooters emit nothing from the tailpipe; their footprint comes from generating the electricity. This tool uses a global-average grid of {grid} g CO2e per kWh, which varies widely by country and time of day, so your real figure may be higher or lower.\n\n### Averages, not your exact trip\nFactors are category averages, not your specific vehicle, route or driving style. Use them to compare options, not for precise carbon accounting.\n\n### Close calls\nSome modes sit very close -- coach and rail, for example, are within a few grams and their order can flip between yearly factor revisions. Treat small differences as a tie, not a clear winner.'**
+  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nFuel and energy on a lifecycle basis: fuel burned by engines plus the emissions of producing and delivering that fuel (well-to-tank). Electric cars, e-bikes, e-scooters, the metro, trams and international rail count their electricity at this tool\'s lifecycle grid factor. National rail does the same for its electric trains, and counts its diesel trains with their well-to-tank term. Private jets, helicopters and the Shinkansen have no fuel-supply figure in their sources, so they count direct emissions only. Vehicle manufacturing and infrastructure are excluded. Walking and cycling count as zero by convention -- the calories you burn are left out, as they may not add to a normal diet.\n\n### Occupancy\nCars and taxis are measured per vehicle, so their footprint is divided by the number of people aboard. Buses, trains and flights are already per passenger, at typical occupancy.\n\n### Flights and radiative forcing\nAircraft warm the climate beyond their CO2 through contrails and high-altitude effects. Following DESNZ 2026, flight and private-jet factors include a 1.7x central-estimate uplift on the CO2 from burning the fuel. The fuel-supply part carries no uplift. Private jets carry the same uplift, so the comparison stays like for like.\n\n### Electric modes and the grid\nElectric cars, e-bikes, e-scooters and electric trains emit nothing from the tailpipe; their footprint comes from generating the electricity. This tool uses a global-average grid of {grid} g CO2e per kWh, which varies widely by country and time of day, so your real figure may be higher or lower.\n\n### Averages, not your exact trip\nFactors are category averages, not your specific vehicle, route or driving style. Use them to compare options, not for precise carbon accounting.\n\n### Close calls\nSome modes sit very close -- national rail and the metro, for example, are about 3 grams apart and their order can flip between yearly factor revisions. Treat small differences as a tie, not a clear winner.'**
   String transportMethodologyBody(int grid);
 
   /// No description provided for @transportLogChoiceTitle.
@@ -3129,10 +3417,22 @@ abstract class AppLocalizations {
   /// **'Enter a quantity of 0 g or more'**
   String get foodQuantityInvalid;
 
+  /// No description provided for @quantityTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'That number is too large'**
+  String get quantityTooLarge;
+
+  /// No description provided for @quantityAmbiguousSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **'Type thousands without a separator (1500). For decimals, 1.5 and 1,5 both work.'**
+  String get quantityAmbiguousSeparator;
+
   /// No description provided for @foodGramsValue.
   ///
   /// In en, this message translates to:
-  /// **'{grams} g'**
+  /// **'{grams} g'**
   String foodGramsValue(String grams);
 
   /// No description provided for @foodRemoveIngredient.
@@ -3168,7 +3468,7 @@ abstract class AppLocalizations {
   /// Picker row: the per-kg factor and the same item per realistic serving, since per-kg alone misleads for foods eaten in very different quantities
   ///
   /// In en, this message translates to:
-  /// **'{perKg} kg CO2e per kg  ·  {perServing} per {serving}'**
+  /// **'{perKg} kg CO2e per kg  ·  {perServing} per {serving}'**
   String foodItemFactorWithServing(
     String perKg,
     String perServing,
@@ -3178,7 +3478,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodItemFactorPerKg.
   ///
   /// In en, this message translates to:
-  /// **'{value} kg CO2e per kg'**
+  /// **'{value} kg CO2e per kg'**
   String foodItemFactorPerKg(String value);
 
   /// No description provided for @foodGroupMeat.
@@ -3252,12 +3552,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comparison full ({max} options)'**
   String foodComparisonFull(int max);
-
-  /// No description provided for @foodCompareOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Compare {count} options'**
-  String foodCompareOptions(int count);
 
   /// No description provided for @foodOptionStaged.
   ///
@@ -3340,7 +3634,7 @@ abstract class AppLocalizations {
   /// Body: the two meals are inside the data resolution
   ///
   /// In en, this message translates to:
-  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is inside what the underlying research can actually tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
+  /// **'These two meals are within {percent}% of each other. Most foods here share an average with a whole category, and many are statistically tied, so a gap this small is below what the underlying research can reliably tell apart. Both totals are shown above -- we just won\'t declare one the winner.'**
   String foodVerdictTooClose(int percent);
 
   /// Body: the meals come from different studies
@@ -3370,7 +3664,7 @@ abstract class AppLocalizations {
   /// Shown instead of a verdict when two meals are within the comparison gate
   ///
   /// In en, this message translates to:
-  /// **'These two are too close to call. Below a 20% difference the gap sits inside what the underlying research can actually resolve, so we show both totals without naming a winner.'**
+  /// **'These two are too close to call. The gap is smaller than the underlying research can reliably resolve, so we show both totals without naming a winner.'**
   String get foodComparisonTooClose;
 
   /// No description provided for @foodComparisonDelta.
@@ -3387,7 +3681,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodComparisonCarKmEquiv.
   ///
   /// In en, this message translates to:
-  /// **'That\'s about {km} km not driven in a petrol car'**
+  /// **'That\'s about {km} km not driven in a petrol car'**
   String foodComparisonCarKmEquiv(int km);
 
   /// No description provided for @foodChoseLabel.
@@ -3441,7 +3735,7 @@ abstract class AppLocalizations {
   /// No description provided for @foodMethodologyBody.
   ///
   /// In en, this message translates to:
-  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s operational-only scope, so never add figures from the two tools together. Figures are the study\'s production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### Why we don\'t always name a winner\nEvery figure here is an average across thousands of farms, and those farms are not spread evenly around it. A minority of high-impact producers pulls the average above what a typical farm looks like, which is why the study also publishes a midpoint -- the value with half of world production either side of it. For most foods the two sit close together. For some they do not: dark chocolate averages 46.65 kg CO2e/kg against a midpoint of 18.7, and farmed fish 13.63 against 5.1.\n\nWe use the averages, because they represent total global impact rather than the typical farm. The consequence is that two foods close together can change places depending on which of the two figures you read. So this tool only calls one meal better than another when the gap reaches 20%; below that it shows both totals and leaves the comparison to you.\n\nThat 20% is tested rather than chosen for neatness. Across every pair of foods here for which the study publishes both figures, a gap of 20% or more points the same way under either one. Three foods are the exception, because their own average and midpoint differ by more than a factor of two: dark chocolate, farmed fish and tree nuts. For those, no gap is dependable, so they are never used to declare a winner at all. And where a comparison spans two different studies -- a few foods here are measured by a second source over a shorter supply chain -- we require one meal to emit less than half the other, because a smaller gap could be nothing more than the difference in what each study counted.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.'**
+  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nEach factor covers a food\'s full cradle-to-retail lifecycle -- land-use change, farming, animal feed, processing, transport and packaging -- from Poore & Nemecek\'s 2018 meta-analysis of ~38,000 farms, as published by Our World in Data. Home cooking energy and household food waste are excluded. This is a wider boundary than the transport calculator\'s fuel-and-energy scope, so never add figures from the two tools together. Figures are the study\'s production-weighted means including supply-chain losses, not its medians, because means better represent total global impact.\n\n### One number, huge spread\nThese are global category averages. The same food can vary 10-50x between producers: beef ranges from about 9 to 105 kg CO2e per 100 g of protein, and tomatoes from 0.45 kg CO2e/kg grown outdoors in season to 2.20 in a heated greenhouse. Use the figures to compare foods, not to judge a specific farm.\n\n### Why we don\'t always name a winner\nEvery figure here is an average across thousands of farms, and those farms are not spread evenly around it. A minority of high-impact producers pulls the average above what a typical farm looks like, which is why the study also publishes a midpoint -- the value with half of world production either side of it. For most foods the two sit close together. For some they do not: dark chocolate averages 46.65 kg CO2e/kg against a midpoint of 18.7, and farmed fish 13.63 against 5.1.\n\nWe use the averages, because they represent total global impact rather than the typical farm. The consequence is that two foods close together can change places depending on which of the two figures you read. So this tool only calls one meal better than another when the gap reaches 20%; below that it shows both totals and leaves the comparison to you.\n\nThat 20% is a guide, not a guarantee: for some pairs of foods, a gap above 20% can still reverse under the midpoint. The widest cases are four foods whose own average and midpoint differ by more than a factor of two: dark chocolate, farmed fish, farmed prawns and tree nuts. For those, a winner shows only when the gap is wide enough to hold under the midpoint as well. And where a comparison spans two different studies -- a few foods here are measured by a second source over a shorter supply chain -- we require one meal to emit less than half the other, because a smaller gap could be nothing more than the difference in what each study counted.\n\n### \'Organic\' and \'local\'\nThere is no organic or local discount here, and that is deliberate. Transport is usually under 10% of a food\'s footprint, so local beef still has a far bigger footprint than imported beans, and organic is often similar or higher per kg. What you eat matters far more than how far it travelled or how it was farmed.'**
   String get foodMethodologyBody;
 
   /// No description provided for @energyGroupHotWater.
@@ -3525,25 +3819,25 @@ abstract class AppLocalizations {
   /// No description provided for @energyFactorPerMinute.
   ///
   /// In en, this message translates to:
-  /// **'{kwh} kWh per minute'**
+  /// **'{kwh} kWh per minute'**
   String energyFactorPerMinute(String kwh);
 
   /// No description provided for @energyFactorPerHour.
   ///
   /// In en, this message translates to:
-  /// **'{kwh} kWh per hour'**
+  /// **'{kwh} kWh per hour'**
   String energyFactorPerHour(String kwh);
 
   /// No description provided for @energyFactorPerUse.
   ///
   /// In en, this message translates to:
-  /// **'{kwh} kWh per use'**
+  /// **'{kwh} kWh per use'**
   String energyFactorPerUse(String kwh);
 
   /// No description provided for @energyFactorPerDay.
   ///
   /// In en, this message translates to:
-  /// **'{kwh} kWh per day'**
+  /// **'{kwh} kWh per day'**
   String energyFactorPerDay(String kwh);
 
   /// No description provided for @energyQuantityOneMinute.
@@ -3674,13 +3968,13 @@ abstract class AppLocalizations {
   /// No description provided for @energyGridBasisNote.
   ///
   /// In en, this message translates to:
-  /// **'Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data)'**
+  /// **'Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data)'**
   String energyGridBasisNote(int grid);
 
   /// No description provided for @energyGridBasisNoteRatio.
   ///
   /// In en, this message translates to:
-  /// **'Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data); the multiple holds on any grid'**
+  /// **'Gram figures assume the world-average grid, {grid} g CO2e/kWh (Ember, 2025 data); the multiple holds on any grid'**
   String energyGridBasisNoteRatio(int grid);
 
   /// No description provided for @energyMethodologyTitle.
@@ -3692,7 +3986,7 @@ abstract class AppLocalizations {
   /// No description provided for @energyMethodologyBody.
   ///
   /// In en, this message translates to:
-  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nOperational energy only: the electricity or gas your home uses while you do the thing. That matches the transport calculator\'s convention and deliberately not the food calculator\'s, which counts a whole lifecycle -- never add results across the three tools. Gas figures count combustion only; the well-to-tank term (about +17%) is excluded for parity with transport. Nothing here awards points: energy habits earn in the Action Log.\n\n### Why one number for the whole world?\nElectricity is not equally clean everywhere. The same tumble-dryer load costs about 0.6 kg of CO2e on the UK grid, 1.9 kg in Japan and 3.1 kg in India -- a five-fold spread for an identical action. Where your electricity comes from -- solar, wind and nuclear, or coal -- can matter as much as what you do with it.\n\nWe considered shipping a separate factor for every country, and decided not to. Real accuracy would need your country, your region or utility within it (a single US average hides a 26-subregion spread), and ideally the time of day, because a grid running on midday solar is far cleaner than the same grid at evening peak. All of those numbers move: the UK\'s official factor fell 26% in one annual release. Maintaining a hundred figures that each go stale on their own schedule is a good way to be confidently wrong in a hundred places instead of honestly approximate in one.\n\nSo we did three things instead.\n\n**One clearly-dated global figure.** We use {grid} g CO2e per kWh, the 2025 world average published by Ember. It is too high for the UK or France and too low for India or Poland, and we say so.\n\n**Comparisons that are right for everyone.** Nearly every comparison here is between two things that run on the same kind of energy -- a bath against a shower, a tumble dryer against a washing line, a hot wash against a cold one. There the grid factor cancels out entirely: a bath costs 2.3 times a ten-minute shower whether you are in Glasgow, Tokyo or Delhi. The absolute numbers shift with your grid; the comparison does not.\n\n**No verdict where your grid decides the answer.** Gas against electricity is the one comparison that genuinely flips. Below about 241 g CO2e per kWh, electric water heating beats gas; above it, gas wins. The UK is already below that line; Japan is well above it. So both numbers are shown and no winner is declared, because the honest answer depends on where you live, not on what you did.\n\nTo check your own grid, compare the figure your electricity supplier or your government\'s energy statistics publish with the {grid} above, and you will know which way these numbers lean for you.\n\n### Where the heat is\nAnything that makes or moves heat -- showers, baths, drying, space heating and air conditioning -- costs 20 to 670 times anything that makes light or computation; the ranked list below shows it. A fan is the exception in the cooling group: it moves air rather than heat, for about an eighth of an air conditioner\'s hourly draw. A fridge runs about 1 kWh a day, but you cannot shower-length your fridge, so it is not in the picker; its efficiency class matters when you replace it.\n\nFour ways to heat a room, on one measured basis (METI), per hour:\n\n- Air conditioner (heat pump): 110 g CO2e\n- Gas fan heater: 181 g\n- Kerosene fan heater: 245 g\n- Portable electric resistance heater: 550 g\n\nA heat-pump air conditioner is about 5x lower carbon than a resistance heater, 1.6x lower than gas and 2.2x lower than kerosene. Kerosene beats resistance electric but loses badly to the heat pump -- which is why all four are always shown together.\n\n### Measured, not rated\nThe air-conditioner figures are measured averages of a real hour of use (Energy Conservation Center via METI); the catalogue rating is about 2.5x higher because it is measured at full load. The kotatsu figure is the makers\' own thermostat-averaged measurement -- roughly 8x less than a portable electric heater, and the least certain figure in this dataset. Setpoint presets are capped at +/-2 C: the common rule of thumb says about 13% (cooling) / 10% (heating) per degree (Ministry of the Environment, Japan), while METI\'s own measurements imply 15.2% / 12.6%, so treat per-degree savings as approximate rather than linear.\n\n### Standby, honestly\nPer-device standby draw collapsed from 1-3 W to about 0.5 W while device counts rose faster, leaving households with “approximately the same amount of standby energy but now dispersed over many more products” (Lawrence Berkeley National Laboratory). Standby is neither trivial nor 10% of your bill.\n\n### Lighting\nThe lights-off figures assume an 8.5 W LED: about 15 g for four hours. On an incandescent bulb the same four hours are about 110 g -- and swapping the bulb saves far more than switching it off.\n\n### Avoided emissions\nSecondhand actions in the Action Log (a used car, secondhand clothing, the library) credit a decision not to buy new. Two people crediting the same avoided manufacture is coherent; adding those credits together is not, because the manufacturing happened once.'**
+  /// **'Every figure in this tool is an estimate for learning, traceable to the sources listed below.\n\n### What\'s counted\nThe electricity or gas your home uses while you do the thing, on a lifecycle basis: electricity uses a lifecycle grid factor, and gas includes the well-to-tank term (extracting, processing and delivering the gas, about +17%). That matches the transport calculator\'s convention. The food calculator counts the whole lifecycle of the food itself -- never add results across the three tools. Nothing here awards points: energy habits earn in the Action Log.\n\n### Why one number for the whole world?\nElectricity is not equally clean everywhere. The same tumble-dryer load costs about 0.6 kg of CO2e on the UK grid, 1.9 kg in Japan and 3.1 kg in India -- a five-fold spread for an identical action. Where your electricity comes from -- solar, wind and nuclear, or coal -- can matter as much as what you do with it.\n\nWe considered shipping a separate factor for every country, and decided not to. Real accuracy would need your country, your region or utility within it (a single US average hides a 26-subregion spread), and ideally the time of day, because a grid running on midday solar is far cleaner than the same grid at evening peak. All of those numbers move: the UK\'s official factor fell 26% in one annual release. Maintaining a hundred figures that each go stale on their own schedule is a good way to be confidently wrong in a hundred places instead of honestly approximate in one.\n\nSo we did three things instead.\n\n**One clearly-dated global figure.** We use {grid} g CO2e per kWh, the 2025 world average published by Ember. It is too high for the UK or France and too low for India or Poland, and we say so.\n\n**Comparisons that are right for everyone.** Nearly every comparison here is between two things that run on the same kind of energy -- a bath against a shower, a tumble dryer against a washing line, a hot wash against a cold one. There the grid factor cancels out entirely: a bath costs 2.3 times a ten-minute shower whether you are in Glasgow, Tokyo or Delhi. The absolute numbers shift with your grid; the comparison does not.\n\n**No verdict where your grid decides the answer.** Gas against electricity is the one comparison that genuinely flips. Below about 280 g CO2e per kWh, electric water heating beats gas; above it, gas wins. The UK is already below that line; Japan is well above it. So both numbers are shown and no winner is declared, because the honest answer depends on where you live, not on what you did.\n\nTo check your own grid, compare the figure your electricity supplier or your government\'s energy statistics publish with the {grid} above, and you will know which way these numbers lean for you.\n\n### Where the heat is\nAnything that makes or moves heat -- showers, baths, drying, space heating and air conditioning -- costs up to about 670 times as much as anything that makes light or computation; the ranked list below shows it. A fan is the exception in the cooling group: it moves air rather than heat, for about a tenth of an air conditioner\'s hourly draw. A fridge runs all day, but you cannot shower-length your fridge, so it is not in the picker; its efficiency class matters when you replace it.\n\nFour ways to heat a room, per hour. The air conditioner, gas and kerosene figures are METI\'s averages for one hour a day. The electric heater figure is its 1.2 kW rating on high:\n\n- Air conditioner (heat pump): 97 g CO2e\n- Gas fan heater: 209 g\n- Kerosene fan heater: 300 g\n- Portable electric resistance heater: 550 g\n\nA heat-pump air conditioner is about 5.7x lower carbon than a resistance heater, 2.2x lower than gas and 3.1x lower than kerosene. The electric heater uses less once its thermostat cycles, so its ratios are upper bounds. Kerosene beats resistance electric but loses badly to the heat pump -- which is why all four are always shown together.\n\n### Average use, not rated\nThe air-conditioner figures are METI\'s averages for an hour of use in a model wooden house in Tokyo (JIS C9612); the catalogue rating is about 2x higher because it is measured at full load. The kotatsu figure is the makers\' own thermostat-averaged measurement -- roughly 8x less than a portable electric heater. The calculator has no setpoint presets, because METI gives no hours per day for its per-degree savings. The common rule of thumb says about 13% (cooling) / 10% (heating) per degree (Ministry of the Environment, Japan), so treat per-degree savings as approximate rather than linear.\n\n### Standby, honestly\nPer-device standby draw collapsed from 1-3 W to about 0.5 W while device counts rose faster, leaving households with “approximately the same amount of standby energy but now dispersed over many more products” (Lawrence Berkeley National Laboratory). Standby is neither trivial nor 10% of your bill.\n\n### Lighting\nThe lights-off figures assume an 8.5 W LED: about 16 g for four hours. On an incandescent bulb the same four hours are about 110 g -- and swapping the bulb saves far more than switching it off.\n\n### Avoided emissions\nSecondhand actions in the Action Log (a used car, secondhand clothing, the library) credit a decision not to buy new. Two people crediting the same avoided manufacture is coherent; adding those credits together is not, because the manufacturing happened once.'**
   String energyMethodologyBody(int grid);
 
   /// No description provided for @energyRankedTitle.
@@ -3710,7 +4004,7 @@ abstract class AppLocalizations {
   /// No description provided for @energyRankedGasNote.
   ///
   /// In en, this message translates to:
-  /// **'Gas appliances are in the same ranking, because this ranks energy. Watch for one thing: a gas water heater uses more energy than an electric one for the same bath, yet on today\'s world-average grid it emits less. Below about 241 g CO2e per kWh of electricity that flips and electric wins. Energy use is the part you choose; how clean the grid is depends on your country, and it improves every year.'**
+  /// **'Gas appliances are in the same ranking, because this ranks energy. Watch for one thing: a gas water heater uses more energy than an electric one for the same bath, yet on today\'s world-average grid it emits less. Below about 280 g CO2e per kWh of electricity that flips and electric wins. Energy use is the part you choose; how clean the grid is depends on your country, and it improves every year.'**
   String get energyRankedGasNote;
 
   /// No description provided for @energyRankedMultiple.
@@ -3734,7 +4028,7 @@ abstract class AppLocalizations {
   /// No description provided for @energyVerdictDifferentCarrier.
   ///
   /// In en, this message translates to:
-  /// **'One of these runs on gas and the other on electricity, and which comes out cleaner depends on your local grid rather than on what you did. Below about 241 g CO2e per kWh electric heating wins; above it gas does. So both numbers are shown and no winner is declared.'**
+  /// **'These two use gas and electricity in different mixes, and the emissions of electricity differ from grid to grid. So both numbers are shown and no winner is declared.'**
   String get energyVerdictDifferentCarrier;
 
   /// No description provided for @energyVerdictTooClose.
@@ -3848,8 +4142,68 @@ abstract class AppLocalizations {
   /// No description provided for @quizQuestion.
   ///
   /// In en, this message translates to:
-  /// **'Drag the one with the bigger footprint to the top'**
+  /// **'Tap or drag up the one that produces more'**
   String get quizQuestion;
+
+  /// No description provided for @quizSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which produces more carbon?'**
+  String get quizSubtitle;
+
+  /// No description provided for @quizChooseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose this one'**
+  String get quizChooseHint;
+
+  /// No description provided for @quizAnnounceRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Right! Streak: {count}'**
+  String quizAnnounceRight(int count);
+
+  /// No description provided for @quizAnnounceWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Not this time. Streak: 0'**
+  String get quizAnnounceWrong;
+
+  /// No description provided for @quizItemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, {subtitle}'**
+  String quizItemLabel(String title, String subtitle);
+
+  /// No description provided for @quizItemRevealedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}: {reveal}'**
+  String quizItemRevealedLabel(String title, String reveal);
+
+  /// No description provided for @quizItemInfoTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'About {item}'**
+  String quizItemInfoTooltip(String item);
+
+  /// No description provided for @quizItemInfoType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get quizItemInfoType;
+
+  /// No description provided for @quizItemInfoAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount compared'**
+  String get quizItemInfoAmount;
+
+  /// No description provided for @quizItemInfoScience.
+  ///
+  /// In en, this message translates to:
+  /// **'Where this number comes from'**
+  String get quizItemInfoScience;
 
   /// No description provided for @quizBasisEnergy.
   ///
@@ -3890,7 +4244,7 @@ abstract class AppLocalizations {
   /// No description provided for @quizFlightDomesticNote.
   ///
   /// In en, this message translates to:
-  /// **'Within one country, about 430 km on average'**
+  /// **'Within the UK, about 430 km on average'**
   String get quizFlightDomesticNote;
 
   /// No description provided for @quizFlightShortHaulNote.
@@ -3902,7 +4256,7 @@ abstract class AppLocalizations {
   /// No description provided for @quizFlightLongHaulNote.
   ///
   /// In en, this message translates to:
-  /// **'Intercontinental, 5,500 km and more'**
+  /// **'Intercontinental, about 6,800 km on average'**
   String get quizFlightLongHaulNote;
 
   /// No description provided for @quizHigher.
@@ -3965,6 +4319,282 @@ abstract class AppLocalizations {
   /// **'Just for fun. No points, and nothing is logged.'**
   String get quizNoPointsNote;
 
+  /// No description provided for @factPairsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fact pairs'**
+  String get factPairsTitle;
+
+  /// No description provided for @factPairsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Match each fact to its number'**
+  String get factPairsSubtitle;
+
+  /// No description provided for @factPairsRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn over two cards at a time. Find each fact\'s number.'**
+  String get factPairsRules;
+
+  /// No description provided for @factPairsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Pairs: {found} of {total}'**
+  String factPairsFound(int found, int total);
+
+  /// No description provided for @factPairsMoves.
+  ///
+  /// In en, this message translates to:
+  /// **'Moves: {count}'**
+  String factPairsMoves(int count);
+
+  /// No description provided for @factPairsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Pair found'**
+  String get factPairsMatch;
+
+  /// No description provided for @factPairsMiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a pair'**
+  String get factPairsMiss;
+
+  /// No description provided for @factPairsFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'{moves, plural, one{All pairs found in 1 move} other{All pairs found in {moves} moves}}'**
+  String factPairsFinished(int moves);
+
+  /// No description provided for @factPairsCardHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Card {index} of {total}, face down'**
+  String factPairsCardHidden(int index, int total);
+
+  /// No description provided for @factPairsCardMatched.
+  ///
+  /// In en, this message translates to:
+  /// **'{text}, matched'**
+  String factPairsCardMatched(String text);
+
+  /// No description provided for @factGamesPlayAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Play again'**
+  String get factGamesPlayAgain;
+
+  /// No description provided for @factGamesLockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover Eco-Dex entries to play'**
+  String get factGamesLockedTitle;
+
+  /// No description provided for @factGamesLockedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This game opens once you have discovered {needed} Eco-Dex entries. Log actions and complete challenges to discover them, and the ones you find can turn up here as questions.'**
+  String factGamesLockedBody(int needed);
+
+  /// No description provided for @factGamesLockedProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {needed} Eco-Dex entries discovered'**
+  String factGamesLockedProgress(int count, int needed);
+
+  /// No description provided for @factGamesGoToEcoDex.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the Eco-Dex'**
+  String get factGamesGoToEcoDex;
+
+  /// No description provided for @factRecallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fact recall'**
+  String get factRecallTitle;
+
+  /// No description provided for @factRecallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the number in each fact'**
+  String get factRecallSubtitle;
+
+  /// No description provided for @factRecallRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the number that completes each fact.'**
+  String get factRecallRules;
+
+  /// No description provided for @factRecallProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {index} of {total}'**
+  String factRecallProgress(int index, int total);
+
+  /// No description provided for @factRecallScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Score: {count}'**
+  String factRecallScore(int count);
+
+  /// Stands in the eco-fact text where the missing number goes.
+  ///
+  /// In en, this message translates to:
+  /// **'____'**
+  String get factRecallBlank;
+
+  /// Read by screen readers in place of the blank.
+  ///
+  /// In en, this message translates to:
+  /// **'blank'**
+  String get factRecallBlankSpoken;
+
+  /// No description provided for @factRecallWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Not this time. It\'s {figure}.'**
+  String factRecallWrong(String figure);
+
+  /// After a wrong answer: opens the screen the fact comes from.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore this fact'**
+  String get factRecallExploreFact;
+
+  /// No description provided for @factRecallNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next question'**
+  String get factRecallNext;
+
+  /// No description provided for @factRecallSeeScore.
+  ///
+  /// In en, this message translates to:
+  /// **'See score'**
+  String get factRecallSeeScore;
+
+  /// No description provided for @factRecallFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'{correct} of {total} correct'**
+  String factRecallFinished(int correct, int total);
+
+  /// No description provided for @factRecallYourWrongAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'your answer, wrong'**
+  String get factRecallYourWrongAnswer;
+
+  /// A multiple in a calculator comparison: the figure Fact recall blanks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{multiple} time} other{{multiple} times}}'**
+  String factRecallTimes(num count, String multiple);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g, beef produces about {figure} as much CO2e as tofu.'**
+  String factRecallBeefTofu(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g, chicken produces about {figure} as much CO2e as dried beans and lentils.'**
+  String factRecallChickenBeans(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g, beef produces about {figure} as much CO2e as chicken.'**
+  String factRecallBeefChicken(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 ml, cow\'s milk produces about {figure} as much CO2e as oat milk.'**
+  String factRecallMilkOat(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, a domestic flight emits about {figure} as much CO2e as the Shinkansen.'**
+  String factRecallFlightShinkansen(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, a private jet emits about {figure} as much CO2e as a long-haul economy flight.'**
+  String factRecallPrivateJet(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per hour, an incandescent bulb emits about {figure} as much CO2e as an LED bulb.'**
+  String factRecallBulbs(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per minute, a shower with electric hot water emits about {figure} as much CO2e as one with a heat pump.'**
+  String factRecallShowers(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per load, a 60 °C wash emits about {figure} as much CO2e as a 20 °C wash.'**
+  String factRecallWashes(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per hour, an air conditioner on cooling emits about {figure} as much CO2e as an electric fan.'**
+  String factRecallCooling(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per cycle, a dishwasher\'s normal programme emits about {figure} more CO2e than its eco programme.'**
+  String factRecallDishwasher(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per 100 g, lamb produces about {figure} as much CO2e as pork.'**
+  String factRecallLambPork(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, a ferry passenger with a car emits about {figure} as much CO2e as a foot passenger.'**
+  String factRecallFerry(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per load, a conventional tumble dryer emits about {figure} as much CO2e as a heat-pump dryer.'**
+  String factRecallDryers(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, driving alone in an average petrol car emits about {figure} as much CO2e as a long-distance coach.'**
+  String factRecallCarCoach(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, driving alone in an average petrol car emits about {figure} more CO2e than a city bus.'**
+  String factRecallCarBus(String figure);
+
+  /// A calculator comparison in Fact recall; the figure is a multiple or a percentage computed from the calculator data.
+  ///
+  /// In en, this message translates to:
+  /// **'Per passenger per kilometre, driving alone in an average petrol car emits about {figure} as much CO2e as local or national rail.'**
+  String factRecallCarRail(String figure);
+
   /// No description provided for @walkthroughIntro1.
   ///
   /// In en, this message translates to:
@@ -3992,7 +4622,7 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughItemSdg.
   ///
   /// In en, this message translates to:
-  /// **'Explore an SDG'**
+  /// **'Discover SDGs'**
   String get walkthroughItemSdg;
 
   /// No description provided for @walkthroughItemEcoFact.
@@ -4064,13 +4694,13 @@ abstract class AppLocalizations {
   /// No description provided for @walkthroughCalculators4.
   ///
   /// In en, this message translates to:
-  /// **'The lightning icon beside it opens Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.'**
+  /// **'Below them, Where your energy goes: everyday habits ranked, measured in LED hours, phone charges, kettle litres or fan hours.'**
   String get walkthroughCalculators4;
 
   /// No description provided for @walkthroughQuiz1.
   ///
   /// In en, this message translates to:
-  /// **'Two things, one question: which has the bigger footprint? Build a streak. No points, just bragging rights.'**
+  /// **'Two things, one question: which produces more carbon? Build a streak. No points, just bragging rights.'**
   String get walkthroughQuiz1;
 
   /// No description provided for @walkthroughProgress1.

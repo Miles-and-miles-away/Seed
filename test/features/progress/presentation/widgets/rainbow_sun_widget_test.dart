@@ -68,5 +68,19 @@ void main() {
 
       expect(find.text('Complete goals to grow your sun!'), findsOneWidget);
     });
+
+    testWidgets('renders the call-to-action in Japanese', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          scaffold: true,
+          locale: const Locale('ja'),
+          child: const Center(
+            child: SizedBox(width: 200, height: 200, child: EmptyRainbowSun()),
+          ),
+        ),
+      );
+
+      expect(find.text('目標を達成して太陽を育てよう！'), findsOneWidget);
+    });
   });
 }

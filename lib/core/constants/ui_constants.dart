@@ -11,6 +11,9 @@ const double spacingXxl = 24;
 const double spacingXxxl = 32;
 const double spacingHuge = 48;
 
+// Margin on every side of a Card (Material's default, set in the theme).
+const double cardMargin = 4;
+
 // Border radius values for cards, dialogs, and containers.
 const double radiusXs = 4;
 const double radiusSm = 8;
@@ -26,12 +29,24 @@ final BorderRadius borderRadiusLg = BorderRadius.circular(radiusLg);
 final BorderRadius borderRadiusXl = BorderRadius.circular(radiusXl);
 final BorderRadius borderRadiusXxl = BorderRadius.circular(radiusXxl);
 
+// Width of the ring that marks a highlighted card.
+const double ringWidth = 2;
+
 // Bottom-sheet chrome shared by every modal sheet in the app.
 const sheetShape = RoundedRectangleBorder(
   borderRadius: BorderRadius.vertical(top: Radius.circular(radiusXl)),
 );
 const double sheetMaxChildSize = 0.85;
 const double sheetMinChildSize = 0.3;
+const double _sheetDefaultChildSize = 0.5;
+const double _sheetLargeTextScale = 1.5;
+
+/// A science sheet's opening height: full at large text scales, where a
+/// long title alone would fill the default half.
+double sheetInitialChildSize(BuildContext context) =>
+    MediaQuery.textScalerOf(context).scale(1) >= _sheetLargeTextScale
+    ? sheetMaxChildSize
+    : _sheetDefaultChildSize;
 
 // Animation durations for transitions and celebrations.
 const durationInstant = Duration(milliseconds: 100);
@@ -49,6 +64,8 @@ const durationShowcase = Duration(milliseconds: 1500);
 // 3s gives 2 distinct fall speeds, 12s gives 7.
 const durationParticleLoop = Duration(seconds: 12);
 const durationGlowLoop = Duration(seconds: 2);
+// A reversing loop counts each direction as one pass.
+const decorativeLoopPasses = 6;
 
 // Opacity values for visual hierarchy.
 const double opacityVeryFaint = 0.08;

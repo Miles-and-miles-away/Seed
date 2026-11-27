@@ -45,7 +45,12 @@ class EcoDexProgress {
 /// Computes how close the user is to satisfying `condition`. Pure:
 /// used by the locked-entry sheet progress bar and by the "next up"
 /// picker that sorts undiscovered entries by `fraction`.
-EcoDexProgress ecoDexProgressOf(EcoDexCondition condition, AppUserModel user) {
+/// [discoveredCount] replaces the raw id count, which can hold retired ids.
+EcoDexProgress ecoDexProgressOf(
+  EcoDexCondition condition,
+  AppUserModel user, {
+  int? discoveredCount,
+}) {
   return switch (condition) {
     TotalActionsCondition(:final count) => _numeric(
       current: user.totalActionsCount,
@@ -96,7 +101,7 @@ EcoDexProgress ecoDexProgressOf(EcoDexCondition condition, AppUserModel user) {
       target: WalkthroughItem.checklist.length,
     ),
     EcodexCountCondition(:final count) => _numeric(
-      current: user.ecodexDiscovered.length,
+      current: discoveredCount ?? user.ecodexDiscovered.length,
       target: count,
     ),
     ChallengesCompletedCondition(:final count) => _numeric(

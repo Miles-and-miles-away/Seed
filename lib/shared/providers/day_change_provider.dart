@@ -7,9 +7,11 @@ import 'package:seed_app/core/utils/date_helpers.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/challenge/challenge.dart';
 import 'package:seed_app/features/eco_fact/presentation/providers/eco_fact_providers.dart';
+import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_chart_data_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/co2_stats_provider.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
+import 'package:seed_app/features/settings/presentation/providers/settings_providers.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
 
 part 'day_change_provider.g.dart';
@@ -73,8 +75,12 @@ class DayChangeNotifier extends _$DayChangeNotifier {
       ..invalidate(todaySummaryProvider)
       ..invalidate(monthCalendarDataProvider)
       ..invalidate(co2StatsProvider)
+      ..invalidate(trendWindowSummariesProvider)
       ..invalidate(co2TrendDataProvider)
-      ..invalidate(co2CategoryDataProvider);
+      ..invalidate(co2CategoryDataProvider)
+      ..invalidate(actionRemindersProvider)
+      ..invalidate(dailyGreetingDueProvider)
+      ..invalidate(eggStreakDaysProvider);
 
     // Update state and reschedule
     state = formatDateKey(_now);

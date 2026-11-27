@@ -19,6 +19,10 @@ class ActionHistoryScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final actionLogsAsync = ref.watch(userActionLogsProvider);
+    final names = actionNamesById(
+      ref.watch(actionLibraryProvider).value ?? const [],
+      Localizations.localeOf(context).languageCode,
+    );
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.actionHistoryTitle)),
@@ -75,6 +79,7 @@ class ActionHistoryScreen extends ConsumerWidget {
               return _DateGroup(
                 date: group.date,
                 logs: group.logs,
+                names: names,
                 now: ref.watch(clockProvider)(),
               );
             },
@@ -117,10 +122,16 @@ class _DateLogGroup {
 }
 
 class _DateGroup extends StatelessWidget {
-  const _DateGroup({required this.date, required this.logs, required this.now});
+  const _DateGroup({
+    required this.date,
+    required this.logs,
+    required this.names,
+    required this.now,
+  });
 
   final DateTime date;
   final List<ActionLogModel> logs;
+  final Map<String, String> names;
   final DateTime now;
 
   @override
@@ -145,12 +156,15 @@ class _DateGroup extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                dateLabel,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  dateLabel,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+              const SizedBox(width: spacingSm),
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: spacingMd,
@@ -172,7 +186,10 @@ class _DateGroup extends StatelessWidget {
           ),
         ),
         // Log items
-        ...logs.map((log) => ActionLogItem(actionLog: log)),
+        ...logs.map(
+          (log) =>
+              ActionLogItem(actionLog: log, displayName: names[log.actionId]),
+        ),
       ],
     );
   }

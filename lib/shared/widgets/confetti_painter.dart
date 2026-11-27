@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/theme/app_colors.dart';
+import 'package:seed_app/core/utils/reduce_motion.dart';
 
 /// Repaints [painter] every frame of a looping [durationParticleLoop]
 /// controller, passing the loop progress (0..1). Isolated in its own
@@ -29,6 +30,7 @@ class ConfettiLayer extends StatefulWidget {
 class _ConfettiLayerState extends State<ConfettiLayer>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
+  bool _still = false;
 
   @override
   void initState() {
@@ -37,15 +39,24 @@ class _ConfettiLayerState extends State<ConfettiLayer>
       vsync: this,
       duration: durationParticleLoop,
     );
-    if (widget.animating) _controller.repeat();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _still = reduceMotionOf(context);
+    _syncController();
   }
 
   @override
   void didUpdateWidget(ConfettiLayer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.animating == oldWidget.animating) return;
-    if (widget.animating) {
-      _controller.repeat();
+    if (widget.animating != oldWidget.animating) _syncController();
+  }
+
+  void _syncController() {
+    if (widget.animating && !_still) {
+      if (!_controller.isAnimating) unawaited(_controller.repeat());
     } else {
       _controller.stop();
     }
@@ -59,6 +70,7 @@ class _ConfettiLayerState extends State<ConfettiLayer>
 
   @override
   Widget build(BuildContext context) {
+    if (_still) return const SizedBox.shrink();
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _controller,
@@ -238,10 +250,14 @@ const celebrationConfettiColors = [
 class TimedConfettiLayer extends StatefulWidget {
   const TimedConfettiLayer({
     this.colors = celebrationConfettiColors,
+    this.runFor = _confettiRunDuration,
     super.key,
   });
 
   final List<Color> colors;
+
+  /// How long the particles fly before they fade out.
+  final Duration runFor;
 
   @override
   State<TimedConfettiLayer> createState() => _TimedConfettiLayerState();
@@ -260,7 +276,7 @@ class _TimedConfettiLayerState extends State<TimedConfettiLayer> {
       _particleCount,
       (_) => ConfettiParticle.random(colorCount: widget.colors.length),
     );
-    _fadeTimer = Timer(_confettiRunDuration, () {
+    _fadeTimer = Timer(widget.runFor, () {
       if (mounted) setState(() => _visible = false);
     });
   }
@@ -273,6 +289,7 @@ class _TimedConfettiLayerState extends State<TimedConfettiLayer> {
 
   @override
   Widget build(BuildContext context) {
+    if (reduceMotionOf(context)) return const SizedBox.shrink();
     return AnimatedOpacity(
       opacity: _visible ? 1 : 0,
       duration: _confettiFadeDuration,

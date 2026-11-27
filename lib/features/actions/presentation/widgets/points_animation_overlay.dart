@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' hide Durations;
-
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 
 /// An animated overlay that shows points earned and auto-dismisses.
 class PointsAnimationOverlay extends StatefulWidget {
@@ -46,7 +46,12 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(duration: durationShowcase, vsync: this);
+    _controller = AnimationController(
+      duration: durationShowcase,
+      vsync: this,
+      // The pill is the only readout of the points, so keep its full time.
+      animationBehavior: AnimationBehavior.preserve,
+    );
 
     // Scale up quickly, then hold
     _scaleAnimation = TweenSequence<double>([
@@ -132,11 +137,13 @@ class _PointsAnimationOverlayState extends State<PointsAnimationOverlay>
                       size: 32,
                     ),
                     const SizedBox(width: spacingSm),
-                    Text(
-                      '${widget.points} points',
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    Flexible(
+                      child: Text(
+                        AppLocalizations.of(context).pointsLabel(widget.points),
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],

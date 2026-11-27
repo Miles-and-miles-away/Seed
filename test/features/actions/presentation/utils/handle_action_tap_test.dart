@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart' show FirebaseException;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:seed_app/app/router.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/log_error_message.dart';
 import 'package:seed_app/features/actions/data/models/action_log_model.dart';
 import 'package:seed_app/features/actions/data/models/action_model.dart';
 import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
@@ -16,6 +22,8 @@ import 'package:seed_app/features/auth/presentation/providers/auth_providers.dar
 import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/screens/eco_dex_celebration_screen.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_cheer.dart';
+import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
 import 'package:seed_app/features/sdg/data/sdg_goals_loader.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/settings/data/models/user_settings_model.dart';
@@ -26,20 +34,39 @@ import '../../../../helpers/test_helpers.dart';
 import '../../../eco_dex/eco_dex_fixtures.dart';
 
 /// Stands in for the real notifier: returns [result], or fails with
-/// [error], or parks in loading (the in-flight guard case).
+/// [error], or parks in loading (the in-flight guard case). A [gate]
+/// holds the log open, as the wait for the rules' gap does.
 class _FakeActionLog extends ActionLogNotifier {
   ActionLogResult? result;
   Object? error;
   bool stayLoading = false;
+  Completer<void>? gate;
+  var _open = 0;
+  final pendingIds = <String>{};
   final calls = <({ActionModel action, String? note, String lang})>[];
+
+  @override
+  bool get isBusy => _open > 0;
+
+  @override
+  bool isPending(String actionId) => pendingIds.contains(actionId);
 
   @override
   Future<ActionLogResult?> logAction(
     ActionModel action, {
     String? note,
     String languageCode = 'en',
+    bool countsAsUnique = true,
+    String? uniqueKey,
   }) async {
     calls.add((action: action, note: note, lang: languageCode));
+    final gate = this.gate;
+    if (gate != null) {
+      state = const AsyncValue.loading();
+      _open++;
+      await gate.future;
+      _open--;
+    }
     if (stayLoading) {
       state = const AsyncValue.loading();
       return null;
@@ -56,15 +83,21 @@ class _FakeActionLog extends ActionLogNotifier {
 class _FakeDiscovery extends EcoDexDiscoveryNotifier {
   List<String> newIds = const [];
   int? receivedMinCount;
+  bool fails = false;
 
   @override
-  Future<List<String>> discoverNewEntries({int? minActionsCount}) async {
+  Future<({List<String> unlocked, List<String> claimed})> discoverNewEntries({
+    int? minActionsCount,
+  }) async {
     receivedMinCount = minActionsCount;
-    return newIds;
+    if (fails) throw Exception('eco-dex evaluation failed');
+    return (unlocked: newIds, claimed: newIds);
   }
 }
 
 const _uid = 'u';
+const _inbox = 'inbox';
+const _svg = 'assets/images/mascot/seed_stage1.svg';
 
 const _walk = ActionModel(
   id: 'walk',
@@ -89,6 +122,7 @@ ActionLogResult _result({
   int? milestoneWeek,
   bool challengeCompleted = false,
   int newTotalActionsCount = 1,
+  int newGoalCount = 1,
 }) => ActionLogResult(
   actionLog: ActionLogModel(
     id: 'log-1',
@@ -103,6 +137,7 @@ ActionLogResult _result({
   crossedMilestoneWeek: milestoneWeek,
   challengeCompleted: challengeCompleted,
   newTotalActionsCount: newTotalActionsCount,
+  newGoalCount: newGoalCount,
 );
 
 void main() {
@@ -120,17 +155,47 @@ void main() {
     discovery = _FakeDiscovery();
   });
 
+  tearDown(resetActionLogClock);
+
   Future<void> pumpHost(
     WidgetTester tester, {
     ActionModel action = _walk,
     UserSettingsModel settings = const UserSettingsModel(),
+    AppUserModel user = const AppUserModel(uid: _uid, email: 'e'),
+    String? mascotAsset,
+    bool celebrationPending = false,
   }) async {
+    final router = GoRouter(
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (_, _) => Scaffold(
+            body: Consumer(
+              builder: (context, ref, _) => ElevatedButton(
+                onPressed: () => handleActionTap(
+                  context,
+                  ref,
+                  action: action,
+                  languageCode: 'en',
+                ),
+                child: const Text('tap'),
+              ),
+            ),
+          ),
+        ),
+        GoRoute(
+          path: appRoutes.dailyFact,
+          builder: (_, _) => const Scaffold(body: Text(_inbox)),
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
     await tester.pumpWidget(
-      createTestWidget(
-        firestore: firestore,
-        scaffold: true,
+      ProviderScope(
         overrides: [
-          userOverride(const AppUserModel(uid: _uid, email: 'e')),
+          languageStoreOverride(),
+          firestoreProvider.overrideWithValue(firestore),
+          userOverride(user),
           actionLogProvider.overrideWith(() => log),
           ecoDexDiscoveryProvider.overrideWith(() => discovery),
           ecoDexDataProvider.overrideWith(
@@ -138,22 +203,19 @@ void main() {
           ),
           ecoDexAvailableIconsProvider.overrideWith((_) async => <String>{}),
           userSettingsProvider.overrideWith((_) => Stream.value(settings)),
-          activeMascotAssetPathProvider.overrideWith((_) => null),
+          activeMascotAssetPathProvider.overrideWith((_) => mascotAsset),
           activeStageDataProvider.overrideWith((_) => null),
+          mascotCelebrationPendingProvider.overrideWith(
+            (_) => celebrationPending,
+          ),
           sdgGoalsDataProvider.overrideWith(
             (_) async => const SdgGoalsData(goals: [], goalMap: {}),
           ),
         ],
-        child: Consumer(
-          builder: (context, ref, _) => ElevatedButton(
-            onPressed: () => handleActionTap(
-              context,
-              ref,
-              action: action,
-              languageCode: 'en',
-            ),
-            child: const Text('tap'),
-          ),
+        child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          routerConfig: router,
         ),
       ),
     );
@@ -162,9 +224,6 @@ void main() {
       ..listen(currentUserProvider, (_, _) {})
       ..listen(userSettingsProvider, (_, _) {});
   }
-
-  ProviderContainer containerOf(WidgetTester tester) =>
-      ProviderScope.containerOf(tester.element(find.byType(ElevatedButton)));
 
   /// Pumps frames on the fake clock until [finder] matches (bounded).
   Future<void> pumpUntil(WidgetTester tester, Finder finder) async {
@@ -188,7 +247,7 @@ void main() {
     }
   }
 
-  /// Runs out the points overlay, snackbars and bounce timer.
+  /// Runs out the points overlay, snackbars and cheer timers.
   Future<void> drain(WidgetTester tester) async {
     await tester.pump(durationShowcase);
     await tester.pump(const Duration(seconds: 10));
@@ -224,10 +283,6 @@ void main() {
   testWidgets('confirming logs with the note and celebrates', (tester) async {
     log.result = _result(newTotalActionsCount: 42);
     await pumpHost(tester);
-    var bounced = false;
-    containerOf(tester).listen(mascotAnimationTriggerProvider, (_, next) {
-      if (next) bounced = true;
-    });
 
     await tester.tap(find.text('tap'));
     await tester.pumpAndSettle();
@@ -240,7 +295,6 @@ void main() {
     expect(log.calls.single.lang, 'en');
     expect(find.text('Action logged! 20 points earned'), findsOneWidget);
     expect(find.byType(PointsAnimationOverlay), findsOneWidget);
-    expect(bounced, isTrue);
     expect(discovery.receivedMinCount, 42);
     expect(find.byType(StreakMilestoneDialog), findsNothing);
     expect(find.byType(EcoDexCelebrationScreen), findsNothing);
@@ -268,46 +322,9 @@ void main() {
     await drain(tester);
   });
 
-  testWidgets('a new milestone shows the celebration and marks it seen', (
-    tester,
-  ) async {
+  testWidgets('a crossed milestone is left to the shell', (tester) async {
     log.result = _result(milestoneWeek: 1);
     await pumpHost(tester);
-
-    await tapAndConfirm(tester, until: find.byType(StreakMilestoneDialog));
-    expect(find.byType(StreakMilestoneDialog), findsOneWidget);
-
-    await tester.pump(durationNormal);
-    expect(find.text('1 Week Streak!'), findsOneWidget);
-    await tester.pump(durationCelebration);
-    await tester.tap(find.text('Continue'));
-    for (
-      var i = 0;
-      i < 20 && find.byType(StreakMilestoneDialog).evaluate().isNotEmpty;
-      i++
-    ) {
-      await tester.pump();
-    }
-
-    expect(find.byType(StreakMilestoneDialog), findsNothing);
-    final doc = await firestore
-        .collection(AppConstants.collectionUsers)
-        .doc(_uid)
-        .get();
-    final settings = doc.data()![AppConstants.fieldSettings] as Map;
-    final seen = settings[AppConstants.fieldSeenStreakMilestones] as Map;
-    expect(seen['1'], isTrue);
-    await drain(tester);
-  });
-
-  testWidgets('an already-seen milestone is not celebrated again', (
-    tester,
-  ) async {
-    log.result = _result(milestoneWeek: 1);
-    await pumpHost(
-      tester,
-      settings: const UserSettingsModel(seenStreakMilestones: {'1': true}),
-    );
 
     await tapAndConfirm(
       tester,
@@ -315,7 +332,6 @@ void main() {
     );
 
     expect(find.byType(StreakMilestoneDialog), findsNothing);
-    expect(find.text('Action logged! 20 points earned'), findsOneWidget);
     await drain(tester);
   });
 
@@ -340,6 +356,119 @@ void main() {
     await drain(tester);
   });
 
+  group('daily goal and challenge', () {
+    Future<void> logWith(
+      WidgetTester tester,
+      ActionLogResult result, {
+      AppUserModel user = const AppUserModel(uid: _uid, email: 'e'),
+      bool celebrationPending = false,
+    }) async {
+      log.result = result;
+      await pumpHost(
+        tester,
+        user: user,
+        mascotAsset: _svg,
+        celebrationPending: celebrationPending,
+      );
+      await tapAndConfirm(
+        tester,
+        until: find.text('Action logged! 20 points earned'),
+      );
+      await tester.pump();
+    }
+
+    testWidgets('the log that reaches the default goal cheers', (tester) async {
+      await logWith(tester, _result(newGoalCount: defaultDailyGoalTarget));
+
+      expect(find.byType(MascotCheer), findsOneWidget);
+      expect(find.text(_inbox), findsNothing);
+      await drain(tester);
+      expect(find.byType(MascotCheer), findsNothing);
+    });
+
+    testWidgets("the day's first log dances and says the streak", (
+      tester,
+    ) async {
+      await logWith(tester, _result());
+
+      expect(find.byType(MascotCheer), findsOneWidget);
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text('7-day streak!'), findsOneWidget);
+      await drain(tester);
+      expect(find.byType(MascotCheer), findsNothing);
+    });
+
+    testWidgets('logs between the first and the goal do not cheer', (
+      tester,
+    ) async {
+      for (final count in [
+        defaultDailyGoalTarget - 1,
+        defaultDailyGoalTarget + 1,
+      ]) {
+        await logWith(tester, _result(newGoalCount: count));
+        expect(find.byType(MascotCheer), findsNothing, reason: '$count');
+        await drain(tester);
+      }
+    });
+
+    testWidgets("the user's own target decides the crossing log", (
+      tester,
+    ) async {
+      const user = AppUserModel(uid: _uid, email: 'e', dailyGoalTarget: 5);
+      await logWith(tester, _result(newGoalCount: 3), user: user);
+      expect(find.byType(MascotCheer), findsNothing);
+      await drain(tester);
+
+      await logWith(tester, _result(newGoalCount: 5), user: user);
+      expect(find.byType(MascotCheer), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('a failed Eco-Dex discovery still cheers', (tester) async {
+      discovery.fails = true;
+      await logWith(tester, _result(newGoalCount: defaultDailyGoalTarget));
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(MascotCheer), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('a completed challenge opens the inbox instead of cheering', (
+      tester,
+    ) async {
+      await logWith(
+        tester,
+        _result(newGoalCount: defaultDailyGoalTarget, challengeCompleted: true),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MascotCheer), findsNothing);
+      expect(find.text(_inbox), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('a pending celebration holds back the cheer and inbox', (
+      tester,
+    ) async {
+      await logWith(
+        tester,
+        _result(newGoalCount: defaultDailyGoalTarget),
+        celebrationPending: true,
+      );
+      expect(find.byType(MascotCheer), findsNothing);
+      await drain(tester);
+
+      await logWith(
+        tester,
+        _result(challengeCompleted: true),
+        celebrationPending: true,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text(_inbox), findsNothing);
+      await drain(tester);
+    });
+  });
+
   group('failure snackbars', () {
     Future<void> expectMessage(WidgetTester tester, String message) async {
       await pumpHost(tester);
@@ -351,6 +480,7 @@ void main() {
     }
 
     testWidgets('permission-denied reads as the rate limit', (tester) async {
+      markActionLogged();
       log.error = FirebaseException(
         plugin: 'cloud_firestore',
         code: 'permission-denied',
@@ -369,9 +499,34 @@ void main() {
       );
     });
 
+    testWidgets('offline Retry logs the same action and note again', (
+      tester,
+    ) async {
+      log.error = FirebaseException(
+        plugin: 'cloud_firestore',
+        code: 'unavailable',
+      );
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text('Retry'));
+
+      await tester.pumpAndSettle();
+      log
+        ..error = null
+        ..result = _result();
+      await tester.tap(find.text('Retry'));
+      await tester.pump();
+
+      expect(log.calls, hasLength(2));
+      expect(log.calls.last.action, log.calls.first.action);
+      expect(log.calls.last.note, log.calls.first.note);
+      expect(find.byType(PointsAnimationOverlay), findsOneWidget);
+      await drain(tester);
+    });
+
     testWidgets('anything else reads as the generic error', (tester) async {
       log.error = Exception('boom');
       await expectMessage(tester, 'Something went wrong. Please try again.');
+      expect(find.text('Retry'), findsNothing);
     });
 
     testWidgets('a dropped in-flight duplicate shows nothing', (tester) async {
@@ -382,6 +537,179 @@ void main() {
 
       expect(find.byType(SnackBar), findsNothing);
       expect(find.byType(PointsAnimationOverlay), findsNothing);
+    });
+  });
+
+  group('a log that waits out the rules gap', () {
+    const logging = 'Logging your action...';
+    const logged = 'Action logged! 20 points earned';
+
+    /// Runs the hide of one snackbar and the entrance of the next.
+    Future<void> swapSnackBars(WidgetTester tester) async {
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+    }
+
+    testWidgets('says it is logging until the write lands', (tester) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..result = _result();
+      await pumpHost(tester);
+
+      await tapAndConfirm(tester, until: find.text(logging));
+      expect(find.text(logging), findsOneWidget);
+      expect(find.byType(PointsAnimationOverlay), findsNothing);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+    });
+
+    testWidgets('takes the place of the snackbar of the log before it', (
+      tester,
+    ) async {
+      log.result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logged));
+      expect(find.text(logged), findsOneWidget);
+
+      markActionLogged();
+      log.gate = Completer<void>();
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      expect(find.text(logging), findsOneWidget);
+      expect(find.text(logged), findsNothing);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+    });
+
+    group('with the egg reset message', () {
+      const reset = "You missed a day, so your egg's count started again.";
+
+      Future<void> showReset(WidgetTester tester) async {
+        final context = tester.element(find.byType(ElevatedButton));
+        showEggResetMessage(
+          ScaffoldMessenger.of(context),
+          AppLocalizations.of(context),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text(reset), findsOneWidget);
+      }
+
+      Future<void> logInsideTheGap(WidgetTester tester) async {
+        markActionLogged();
+        log.gate = Completer<void>();
+        await tapAndConfirm(tester, until: find.text(logging));
+        expect(find.text(reset), findsNothing);
+        log.gate!.complete();
+        await swapSnackBars(tester);
+      }
+
+      testWidgets('shows it again when the wait cut it short', (tester) async {
+        log.result = _result();
+        await pumpHost(tester);
+        await showReset(tester);
+
+        await logInsideTheGap(tester);
+
+        expect(find.text(reset), findsOneWidget);
+        await drain(tester);
+      });
+
+      testWidgets('does not repeat it once it ran its time', (tester) async {
+        log.result = _result();
+        await pumpHost(tester);
+        await showReset(tester);
+        await tester.pump(const Duration(seconds: 4));
+        await tester.pump(const Duration(seconds: 1));
+        expect(find.text(reset), findsNothing);
+
+        await logInsideTheGap(tester);
+
+        expect(find.text(logged), findsOneWidget);
+        await drain(tester);
+        expect(find.text(reset), findsNothing);
+      });
+    });
+
+    testWidgets('a failed write swaps the message for the error', (
+      tester,
+    ) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..error = Exception('boom');
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+      expect(find.text(logging), findsOneWidget);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+
+      expect(find.text(logging), findsNothing);
+      expect(
+        find.text('Something went wrong. Please try again.'),
+        findsOneWidget,
+      );
+      await drain(tester);
+    });
+
+    testWidgets('two waiting logs share one message', (tester) async {
+      markActionLogged();
+      final first = log.gate = Completer<void>();
+      log.result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      final second = log.gate = Completer<void>();
+      await tapAndConfirm(tester);
+      expect(log.calls, hasLength(2));
+      expect(find.text(logging), findsOneWidget);
+
+      first.complete();
+      await swapSnackBars(tester);
+      expect(find.byType(PointsAnimationOverlay), findsOneWidget);
+      expect(find.text(logging), findsOneWidget);
+
+      second.complete();
+      await swapSnackBars(tester);
+      expect(find.text(logging), findsNothing);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
+      expect(find.text(logging), findsNothing);
+    });
+
+    testWidgets('a repeat of a log still waiting changes nothing', (
+      tester,
+    ) async {
+      markActionLogged();
+      log
+        ..gate = Completer<void>()
+        ..result = _result();
+      await pumpHost(tester);
+      await tapAndConfirm(tester, until: find.text(logging));
+
+      log.pendingIds.add(_walk.id);
+      await tapAndConfirm(tester);
+
+      expect(log.calls, hasLength(1));
+      expect(find.text(logging), findsOneWidget);
+
+      log.gate!.complete();
+      await swapSnackBars(tester);
+      expect(find.text(logged), findsOneWidget);
+      await drain(tester);
     });
   });
 }

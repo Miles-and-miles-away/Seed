@@ -51,12 +51,25 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
         _maybeMarkViewed(isLocked: isLocked);
 
         final name = fact.name(locale);
-        final title = name.isNotEmpty ? name : l10n.ecoFactTitle;
+        final card = EcoFactCard(fact: fact, isLocked: isLocked);
+        final inBar = name.isEmpty || _fitsAppBar(context, name);
         return Scaffold(
-          appBar: AppBar(title: Text(title)),
+          // "Today's" would be wrong for an inbox fact, so the bar stays blank.
+          appBar: AppBar(
+            title: inBar ? Text(name.isEmpty ? l10n.ecoFactTitle : name) : null,
+          ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(spacingLg),
-            child: EcoFactCard(fact: fact, isLocked: isLocked),
+            child: inBar
+                ? card
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(name, style: _titleStyle(context)),
+                      const SizedBox(height: spacingMd),
+                      card,
+                    ],
+                  ),
           ),
         );
       },
@@ -71,6 +84,24 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
     );
   }
 
+  TextStyle? _titleStyle(BuildContext context) {
+    final theme = Theme.of(context);
+    return theme.appBarTheme.titleTextStyle ?? theme.textTheme.titleLarge;
+  }
+
+  // Assumes a centred title with a back button on each side.
+  bool _fitsAppBar(BuildContext context, String name) {
+    final painter = TextPainter(
+      text: TextSpan(text: name, style: _titleStyle(context)),
+      maxLines: 1,
+      textDirection: Directionality.of(context),
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout(maxWidth: MediaQuery.sizeOf(context).width - 2 * kToolbarHeight);
+    final fits = !painter.didExceedMaxLines;
+    painter.dispose();
+    return fits;
+  }
+
   void _maybeMarkViewed({required bool isLocked}) {
     if (_marked || isLocked) return;
     _marked = true;
@@ -82,8 +113,10 @@ class _EcoFactDetailScreenState extends ConsumerState<EcoFactDetailScreen> {
 }
 
 EcoFact? _factForDateKey(List<EcoFact> facts, String dateKey) {
+  // The key comes from a deep link and is stored once viewed, so only a
+  // real calendar day in date-key form counts.
   final date = DateTime.tryParse(dateKey);
-  if (date == null) return null;
+  if (date == null || formatDateKey(date) != dateKey) return null;
   final doy = dayOfYear(date);
   return facts.firstWhereOrNull((f) => f.dayOfYear == doy);
 }

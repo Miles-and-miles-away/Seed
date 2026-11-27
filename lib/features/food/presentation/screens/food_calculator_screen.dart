@@ -6,6 +6,7 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/food/data/models/food_item_model.dart';
 import 'package:seed_app/features/food/data/models/meal_ingredient_model.dart';
 import 'package:seed_app/features/food/domain/services/food_calculator.dart';
@@ -16,6 +17,7 @@ import 'package:seed_app/features/food/presentation/widgets/food_display.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_item_picker.dart';
 import 'package:seed_app/features/food/presentation/widgets/food_science_sheet.dart';
 import 'package:seed_app/features/food/presentation/widgets/ingredient_editor_sheet.dart';
+import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/domain/services/impact_equivalencies.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
@@ -143,7 +145,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       for (final ingredients in options)
         FoodCalculator.mealCo2eGrams(itemsById, ingredients),
     ];
-    final summary = options.every((i) => i.isNotEmpty)
+    final summary = options.every((i) => i.any((x) => x.grams > 0))
         ? compareTotals(totals)
         : null;
     // Marking a column "best" is a verdict in its own right, so it
@@ -191,7 +193,9 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       accentColor: ActionCategory.food.color,
       icon: foodGroupIcon(item.group),
       name: item.name(locale),
-      detail: l10n.foodGramsValue(ingredient.grams.round().toString()),
+      detail: l10n.foodGramsValue(
+        formatDecimal(ingredient.grams, locale, maxDigits: 0),
+      ),
       grams: FoodCalculator.ingredientCo2eGrams(item, ingredient),
       removeTooltip: l10n.calculatorRemoveEntry,
       onTap: () =>
@@ -212,7 +216,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     ComparisonSummary? summary,
     VerdictCheck? check,
   ) {
-    if (summary == null || check == null || summary.deltaGrams <= 0) {
+    if (summary == null || check == null) {
       return CalculatorHint(l10n.calculatorNeedBothOptions);
     }
     // Below the bar there is no winner to name and nothing honest to
@@ -223,7 +227,11 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CalculatorHint(l10n.foodComparisonTooClose),
+          CalculatorHint(
+            check.block == VerdictBlock.tooClose
+                ? l10n.foodComparisonTooClose
+                : l10n.foodVerdictBlockedTitle,
+          ),
           TextButton(
             onPressed: () => _explainNoVerdict(l10n, locale, check),
             child: Text(l10n.foodVerdictWhyCta),
@@ -253,7 +261,7 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
           accentColor: ActionCategory.food.color,
           headline: l10n.foodComparisonDelta(
             bestLabel,
-            formatCO2Compact(summary.deltaGrams.round()),
+            formatCO2Compact(summary.deltaGrams.round(), l10n.localeName),
             worstLabel,
             summary.deltaPercent.round(),
           ),
@@ -278,6 +286,8 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
                     locale,
                   ),
                   summary.deltaGrams,
+                  [for (final e in options[summary.bestIndex]) e.itemId],
+                  [for (final e in options[summary.worstIndex]) e.itemId],
                 ),
           icon: const Icon(Icons.eco),
           label: Text(l10n.foodLogChoiceCta(bestLabel)),
@@ -305,7 +315,15 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
       VerdictBlock.tiedBasisFlips => l10n.foodVerdictTiedBasisFlips,
       VerdictBlock.uncertainItem => l10n.foodVerdictUncertainItem(
         check.item?.name(locale) ?? '',
-        check.item?.statisticRatio?.toStringAsFixed(1) ?? '',
+        switch (check.item?.statisticRatio) {
+          final ratio? => formatDecimal(
+            ratio,
+            l10n.localeName,
+            minDigits: 1,
+            maxDigits: 1,
+          ),
+          null => '',
+        },
         percent,
       ),
       _ => l10n.foodVerdictTooClose(percent),
@@ -324,6 +342,8 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
     String chosenLabel,
     String baselineLabel,
     double deltaGrams,
+    List<String> chosenIds,
+    List<String> baselineIds,
   ) => bankAndReport(
     context,
     log: () => ref
@@ -331,10 +351,18 @@ class _FoodCalculatorScreenState extends ConsumerState<FoodCalculatorScreen> {
         .logChoice(
           name: l10n.foodCustomActionName(chosenLabel, baselineLabel),
           co2Grams: deltaGrams.round(),
+          chosenIds: chosenIds,
+          baselineIds: baselineIds,
         ),
     successMessage: l10n.foodChoiceLoggedMessage(
-      formatCO2Compact(deltaGrams.round()),
+      formatCO2Compact(deltaGrams.round(), l10n.localeName),
     ),
-    onSuccess: () => ref.read(mealOptionsProvider.notifier).clear(),
+    onSuccess: () {
+      MascotCheer.show(
+        context,
+        streakDays: ref.read(actionLogProvider).value?.firstLogStreakDays,
+      );
+      ref.read(mealOptionsProvider.notifier).clear();
+    },
   );
 }

@@ -23,6 +23,8 @@ _EnergyBehavior _$EnergyBehaviorFromJson(Map<String, dynamic> json) =>
           const [],
       defaultPresetId: json['default_preset_id'] as String? ?? '',
       calculationNotes: json['calculation_notes'] as String? ?? '',
+      calculationNotesJa: json['calculation_notes_ja'] as String? ?? '',
+      calculationNotesEs: json['calculation_notes_es'] as String? ?? '',
       sources:
           (json['sources'] as List<dynamic>?)
               ?.map((e) => EmissionSource.fromJson(e as Map<String, dynamic>))
@@ -44,6 +46,8 @@ Map<String, dynamic> _$EnergyBehaviorToJson(_EnergyBehavior instance) =>
       'presets': instance.presets,
       'default_preset_id': instance.defaultPresetId,
       'calculation_notes': instance.calculationNotes,
+      'calculation_notes_ja': instance.calculationNotesJa,
+      'calculation_notes_es': instance.calculationNotesEs,
       'sources': instance.sources,
       'confidence': instance.confidence,
     };

@@ -29,6 +29,8 @@ abstract class FoodItem with _$FoodItem {
     @Default([]) List<String> searchTermsJa,
     @Default([]) List<String> searchTermsEs,
     @Default('') String calculationNotes,
+    @Default('') String calculationNotesJa,
+    @Default('') String calculationNotesEs,
     @Default([]) List<EmissionSource> sources,
     // The dataset carries more metadata than this (statistic, parent,
     // mass_ratio, spread bounds, category_anchor); those have no reader
@@ -73,6 +75,13 @@ abstract class FoodItem with _$FoodItem {
     'ja' when nameJa.isNotEmpty => nameJa,
     'es' when nameEs.isNotEmpty => nameEs,
     _ => nameEn,
+  };
+
+  /// Localized calculation notes with English fallback.
+  String notes(String locale) => switch (locale) {
+    'ja' when calculationNotesJa.isNotEmpty => calculationNotesJa,
+    'es' when calculationNotesEs.isNotEmpty => calculationNotesEs,
+    _ => calculationNotes,
   };
 
   /// True when a raw grams entry is a trap for this item.

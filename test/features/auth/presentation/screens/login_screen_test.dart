@@ -240,4 +240,43 @@ void main() {
       expect(find.byIcon(Icons.lock_outlined), findsOneWidget);
     });
   });
+  for (final width in testPhoneWidths) {
+    testWidgets('the Japanese account row fits at ${width}pt', (tester) async {
+      sizeViewport(tester, size: Size(width, 1600));
+      await tester.pumpWidget(
+        createTestWidget(
+          child: const LoginScreen(),
+          firebaseAuth: mockFirebaseAuth,
+          firestore: fakeFirestore,
+          locale: const Locale('ja'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('初めての方は'), findsOneWidget);
+    });
+  }
+
+  testWidgets('the Japanese account row wraps where a Row would overflow', (
+    tester,
+  ) async {
+    sizeViewport(tester, size: const Size(320, 1600));
+    tester.platformDispatcher.textScaleFactorTestValue = 2.0;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await tester.pumpWidget(
+      createTestWidget(
+        child: const LoginScreen(),
+        firebaseAuth: mockFirebaseAuth,
+        firestore: fakeFirestore,
+        locale: const Locale('ja'),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    final prompt = tester.getRect(find.text('初めての方は'));
+    final link = tester.getRect(find.widgetWithText(TextButton, '新規登録'));
+    expect(link.top, greaterThanOrEqualTo(prompt.bottom));
+  });
 }

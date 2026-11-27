@@ -11,6 +11,18 @@ import 'package:seed_app/features/challenge/domain/models/active_multi_day_chall
 import 'package:seed_app/features/challenge/domain/models/challenge_templates.dart';
 import 'package:seed_app/features/challenge/presentation/providers/challenge_providers.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
+
+/// Title width at 320pt: Home padding, card chrome, icon, gaps, chevron.
+const _titleMinLineWidth =
+    phraseNarrowestScreenWidth -
+    2 * (spacingXxl + cardMargin + spacingLg) -
+    _iconSize -
+    spacingMd -
+    spacingSm -
+    _chevronSize;
+const _iconSize = 28.0;
+const _chevronSize = 24.0;
 
 /// Compact card showing the active multi-day challenge on the
 /// home screen. Hidden when no challenge is active.
@@ -73,16 +85,17 @@ class MultiDayChallengeCard extends ConsumerWidget {
               Icon(
                 category?.icon ?? Icons.emoji_events,
                 color: category?.color ?? colorScheme.primary,
-                size: 28,
+                size: _iconSize,
               ),
               const SizedBox(width: spacingMd),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    PhraseText(
                       template.title(locale),
-                      style: theme.textTheme.titleSmall?.copyWith(
+                      minLineWidth: _titleMinLineWidth,
+                      style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -105,7 +118,11 @@ class MultiDayChallengeCard extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: spacingSm),
-              Icon(Icons.chevron_right, color: colorScheme.onSurfaceVariant),
+              Icon(
+                Icons.chevron_right,
+                size: _chevronSize,
+                color: colorScheme.onSurfaceVariant,
+              ),
             ],
           ),
         ),

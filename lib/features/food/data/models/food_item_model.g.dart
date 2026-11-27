@@ -34,6 +34,8 @@ _FoodItem _$FoodItemFromJson(Map<String, dynamic> json) => _FoodItem(
           .toList() ??
       const [],
   calculationNotes: json['calculation_notes'] as String? ?? '',
+  calculationNotesJa: json['calculation_notes_ja'] as String? ?? '',
+  calculationNotesEs: json['calculation_notes_es'] as String? ?? '',
   sources:
       (json['sources'] as List<dynamic>?)
           ?.map((e) => EmissionSource.fromJson(e as Map<String, dynamic>))
@@ -59,6 +61,8 @@ Map<String, dynamic> _$FoodItemToJson(_FoodItem instance) => <String, dynamic>{
   'search_terms_ja': instance.searchTermsJa,
   'search_terms_es': instance.searchTermsEs,
   'calculation_notes': instance.calculationNotes,
+  'calculation_notes_ja': instance.calculationNotesJa,
+  'calculation_notes_es': instance.calculationNotesEs,
   'sources': instance.sources,
   'weight_basis': instance.weightBasis,
   'entry_mode': instance.entryMode,

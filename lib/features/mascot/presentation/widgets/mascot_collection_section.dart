@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
@@ -9,6 +10,7 @@ import 'package:seed_app/features/mascot/data/models/mascot_species_model.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/egg_progress_widget.dart';
 import 'package:seed_app/features/mascot/presentation/widgets/mascot_image.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// "My Mascots" horizontal collection: one thumbnail per owned mascot,
 /// with the in-progress egg at the end. Tapping an inactive mascot asks
@@ -29,6 +31,7 @@ class MascotCollectionSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
+    final hint = _hint(ref, l10n);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -56,7 +59,40 @@ class MascotCollectionSection extends ConsumerWidget {
             },
           ),
         ),
+        if (hint != null) ...[
+          const SizedBox(height: spacingMd),
+          Text(
+            hint,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
       ],
+    );
+  }
+
+  /// Days left for the egg, else how to earn one while a species is unowned.
+  String? _hint(WidgetRef ref, AppLocalizations l10n) {
+    final egg = ref.watch(currentEggProvider);
+    if (egg != null) {
+      final days = ref.watch(eggStreakDaysProvider);
+      if (days == 0 && egg.hatchingStreakDays > 1) {
+        return l10n.eggStreakResetMessage;
+      }
+      return l10n.eggDaysLeftHint(
+        AppConstants.eggHatchingStreakRequired - days,
+      );
+    }
+    final species = ref.watch(mascotSpeciesDataProvider).value ?? [];
+    final owned = mascots.map((m) => m.speciesId).toSet();
+    final stages = ref.watch(activeSpeciesProvider)?.evolutionStages ?? [];
+    if (stages.length < AppConstants.speciesUnlockStage ||
+        selectableSpecies(species).every((s) => owned.contains(s.id))) {
+      return null;
+    }
+    return l10n.speciesUnlockHint(
+      stages[AppConstants.speciesUnlockStage - 1].level,
     );
   }
 
@@ -92,13 +128,7 @@ class MascotCollectionSection extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MascotImage(
-              assetPath: stage.assetPath,
-              artboardName: stage.artboardName,
-              width: 44,
-              height: 44,
-              onRiveInit: pauseRive,
-            ),
+            MascotImage(assetPath: stage.assetPath, width: 44, height: 44),
             const SizedBox(height: spacingXs),
             Text(
               mascot.name.isEmpty ? species.name(locale) : mascot.name,
@@ -112,7 +142,6 @@ class MascotCollectionSection extends ConsumerWidget {
             Text(
               AppLocalizations.of(context).mascotLevelShort(mascot.mascotLevel),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                fontSize: 10,
                 color: colorScheme.onSurfaceVariant,
               ),
             ),
@@ -134,12 +163,18 @@ class MascotCollectionSection extends ConsumerWidget {
     MascotModel target,
   ) {
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
+    final name = target.name.isNotEmpty
+        ? target.name
+        : _getSpeciesForMascot(ref, target.speciesId)?.name(locale) ??
+              target.speciesId;
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.mascotSwitchConfirm),
-        content: Text(
-          '${l10n.switchToMascot} ${target.name.isEmpty ? target.speciesId : target.name}?',
+        content: PhraseText(
+          l10n.mascotSwitchConfirmBody(name),
+          minLineWidth: phraseDialogMinLineWidth,
         ),
         actions: [
           TextButton(

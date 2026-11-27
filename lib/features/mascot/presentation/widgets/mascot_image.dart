@@ -1,21 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:rive/rive.dart' as rive;
 
-/// View model property names authored in the mascot Rive files.
-///
-/// The Face artboard binds its gaze and expressions to these; the app
-/// drives them via data binding (see MascotDisplay).
-const String mascotVmLookX = 'lookX';
-const String mascotVmLookY = 'lookY';
-const String mascotVmSmile = 'smile';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/mascot_pose.dart';
 
-/// Number the app raises (0->1) while holding the smile so the FaceRig
-/// script defers blinks; a blink during the held smile looks like a pause
-/// on shut eyes.
-const String mascotVmSmileHold = 'smileHold';
-
-/// Value sent to lookX/lookY at full gaze deflection.
+/// Gaze value at full deflection.
 const double mascotLookRange = 100;
 
 /// Multiple of the mascot's own size at which the gaze saturates, so a
@@ -35,121 +25,97 @@ Offset mascotGazeTarget(Offset pointer, Offset center, Size reach) {
   );
 }
 
-/// Freezes a Rive mascot on its first frame: the ticker stops, so the
-/// artboard costs nothing until a trigger or input wakes it.
-void pauseRive(rive.RiveWidgetController controller) =>
-    controller.active = false;
+/// Asset path of the code-drawn mascot for one species and stage.
+String drawnMascotPath(String speciesId, int stage) =>
+    '$_drawnPrefix/$speciesId/$stage';
 
-/// Renders a mascot asset, dispatching on file extension.
+const String _drawnPrefix = 'drawn';
+
+/// The species and stage of a [drawnMascotPath], or null for a file path.
+({String speciesId, int stage})? drawnMascotStage(String assetPath) {
+  final parts = assetPath.split('/');
+  if (parts.length != 3 || parts.first != _drawnPrefix) return null;
+  final stage = int.tryParse(parts.last);
+  if (stage == null) return null;
+  return (
+    speciesId: parts[1],
+    stage: stage.clamp(1, DrawnMascotPainter.stageCount),
+  );
+}
+
+/// The highest head top of any species at each stage, as a fraction of
+/// the box from its top edge.
+const List<double> drawnMascotHeadTops = [0.44, 0.15, 0.07, 0.02];
+
+/// The vertical centre of each species' figure at each stage, as a
+/// fraction of the box from its top edge.
+const Map<String, List<double>> drawnMascotCentres = {
+  'seed': [0.706, 0.560, 0.519, 0.494],
+  'coral': [0.749, 0.650, 0.579, 0.516],
+  'fungi': [0.750, 0.659, 0.594, 0.549],
+};
+
+/// Renders a mascot, dispatching on the asset path.
 ///
-/// Animated Rive mascots (`.riv`) play their default state machine;
-/// everything else renders as a static SVG.
-class MascotImage extends StatefulWidget {
+/// A [drawnMascotPath] renders the code-drawn mascot. Everything else
+/// renders as a static SVG.
+class MascotImage extends StatelessWidget {
   const MascotImage({
     required this.assetPath,
-    this.artboardName,
     this.width,
     this.height,
-    this.onRiveInit,
+    this.hero = false,
+    this.wavesOnTap = false,
+    this.hopOnLoad = false,
+    this.waveCount = 0,
+    this.routine,
     super.key,
   });
 
-  /// Bundled asset path, either `.riv` or `.svg`.
+  /// A [drawnMascotPath] or a bundled `.svg` asset path.
   final String assetPath;
-
-  /// Artboard to render for multi-artboard `.riv` files (case-sensitive
-  /// editor name). Null renders the file's default artboard. Ignored
-  /// for SVGs.
-  final String? artboardName;
 
   final double? width;
   final double? height;
 
-  /// Called when a `.riv` asset finishes loading. Never called for SVGs.
-  final void Function(rive.RiveWidgetController controller)? onRiveInit;
+  /// Whether a code-drawn mascot is the hero; see [DrawnMascot.animate].
+  /// Ignored for SVGs.
+  final bool hero;
 
-  @override
-  State<MascotImage> createState() => _MascotImageState();
-}
+  /// See [DrawnMascot.wavesOnTap]. Ignored for SVGs.
+  final bool wavesOnTap;
 
-/// Process-wide cache of Rive file loaders, keyed by asset path.
-///
-/// Loaders are shared and never disposed on widget teardown. Disposing a
-/// loader while its `File.asset` decode is still in flight crashes rive
-/// 0.14.7 (dispose() nulls the load completer that the resumed decode then
-/// force-unwraps) -- easily hit when a screen tears down mid-load (logout,
-/// navigation). Sharing also avoids re-decoding the multi-MB mascot file on
-/// every screen. Artboard selection happens in the builder, so one loader
-/// per file serves every artboard.
-final Map<String, rive.FileLoader> _riveLoaderCache = {};
+  /// See [DrawnMascot.hopOnLoad]. Ignored for SVGs.
+  final bool hopOnLoad;
 
-rive.FileLoader _sharedRiveLoader(String assetPath) {
-  return _riveLoaderCache.putIfAbsent(
-    assetPath,
-    // Flutter renderer: the Rive renderer needs a GPU context and
-    // aborts under flutter_tester (widget tests).
-    () =>
-        rive.FileLoader.fromAsset(assetPath, riveFactory: rive.Factory.flutter),
-  );
-}
+  /// See [DrawnMascot.waveCount]. Ignored for SVGs.
+  final int waveCount;
 
-class _MascotImageState extends State<MascotImage> {
-  rive.FileLoader? _fileLoader;
-
-  @override
-  void initState() {
-    super.initState();
-    _resolveLoader();
-  }
-
-  @override
-  void didUpdateWidget(covariant MascotImage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Artboard changes are handled by the builder's key; only the asset
-    // path decides which shared loader to use.
-    if (oldWidget.assetPath != widget.assetPath) {
-      _resolveLoader();
-    }
-  }
-
-  void _resolveLoader() {
-    _fileLoader = widget.assetPath.endsWith('.riv')
-        ? _sharedRiveLoader(widget.assetPath)
-        : null;
-  }
+  /// See [DrawnMascot.routine]; it animates a mascot that is not the hero.
+  /// Ignored for SVGs.
+  final MascotRoutine? routine;
 
   @override
   Widget build(BuildContext context) {
-    final fileLoader = _fileLoader;
-    if (fileLoader == null) {
-      return SvgPicture.asset(
-        widget.assetPath,
-        width: widget.width,
-        height: widget.height,
-      );
+    final drawn = drawnMascotStage(assetPath);
+    if (drawn == null) {
+      return SvgPicture.asset(assetPath, width: width, height: height);
     }
-    final artboardName = widget.artboardName;
     return SizedBox(
-      width: widget.width,
-      height: widget.height,
-      // The Rive render box is not a repaint boundary; without one every
-      // sibling animation repaints the artboard too.
-      child: RepaintBoundary(
-        child: rive.RiveWidgetBuilder(
-          // Force a fresh builder when the target artboard changes; the
-          // builder resolves its artboard once on load.
-          key: ValueKey('${widget.assetPath}#${artboardName ?? ''}'),
-          fileLoader: fileLoader,
-          artboardSelector: artboardName == null
-              ? rive.ArtboardSelector.byDefault()
-              : rive.ArtboardSelector.byName(artboardName),
-          onLoaded: (state) => widget.onRiveInit?.call(state.controller),
-          builder: (context, state) => switch (state) {
-            rive.RiveLoaded(:final controller) => rive.RiveWidget(
-              controller: controller,
-            ),
-            _ => SizedBox(width: widget.width, height: widget.height),
-          },
+      width: width,
+      height: height,
+      child: LayoutBuilder(
+        builder: (_, constraints) => Center(
+          child: DrawnMascot(
+            speciesId: drawn.speciesId,
+            stage: drawn.stage,
+            size: constraints.biggest.shortestSide,
+            animate: hero || routine != null,
+            wavesOnTap: wavesOnTap,
+            hopOnLoad: hopOnLoad,
+            waveCount: waveCount,
+            routine: routine,
+          ),
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/mascot/data/models/egg_model.dart';
@@ -30,8 +31,9 @@ const _user = AppUserModel(
   eggPendingDiscovery: true,
 );
 
-/// Every celebration here is closed while its write is still pending:
-/// offline, a Firestore write only completes on server ack.
+/// Discovery and evolution close while their write is still pending:
+/// offline, a Firestore write only completes on server ack. Hatching
+/// waits for the name, which a transaction rejects fast offline.
 void main() {
   late _MockMascotRepository repo;
 
@@ -166,37 +168,107 @@ void main() {
     });
   });
 
-  testWidgets('naming a hatched mascot dismisses before the write lands', (
-    tester,
-  ) async {
-    when(
-      () => repo.updateMascotName(any(), any(), any()),
-    ).thenAnswer((_) => Completer<void>().future);
+  group('egg hatching', () {
     var dismissed = false;
-    sizeViewport(tester);
-    await tester.pumpWidget(
-      createTestWidget(
-        overrides: overrides(),
-        child: EggHatchingCelebration(
-          hatchedMascot: _mascot,
-          onDismiss: () => dismissed = true,
+
+    Future<void> nameIt(WidgetTester tester) async {
+      dismissed = false;
+      sizeViewport(tester);
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: overrides(),
+          child: EggHatchingCelebration(
+            hatchedMascot: _mascot,
+            onDismiss: () => dismissed = true,
+          ),
         ),
-      ),
-    );
-    ProviderScope.containerOf(
-      tester.element(find.byType(EggHatchingCelebration)),
-    ).listen(currentUserProvider, (_, _) {});
-    await tester.pump(durationReveal);
-    await tester.pump(durationCelebration);
+      );
+      ProviderScope.containerOf(
+        tester.element(find.byType(EggHatchingCelebration)),
+      ).listen(currentUserProvider, (_, _) {});
+      await tester.pump(eggHatchingPromptDelay);
+      await tester.pump(const Duration(milliseconds: 500));
 
-    await tester.pump(const Duration(milliseconds: 500));
+      await tester.enterText(find.byType(TextField), 'Pip');
+      tester.widget<FilledButton>(find.byType(FilledButton)).onPressed!();
+      await settle(tester);
+    }
 
-    await tester.enterText(find.byType(TextField), 'Pip');
-    tester.widget<FilledButton>(find.byType(FilledButton)).onPressed!();
-    await settle(tester);
+    testWidgets('it stays open while the name is written', (tester) async {
+      when(
+        () => repo.updateMascotName(any(), any(), any()),
+      ).thenAnswer((_) => Completer<void>().future);
 
-    expect(dismissed, isTrue);
-    verify(() => repo.updateMascotName('u', 'm', 'Pip')).called(1);
-    await flush(tester);
+      await nameIt(tester);
+
+      expect(dismissed, isFalse);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(
+        tester.widget<FilledButton>(find.byType(FilledButton)).onPressed,
+        isNull,
+      );
+      await flush(tester);
+    });
+
+    testWidgets('a failed write keeps it open with an error', (tester) async {
+      when(
+        () => repo.updateMascotName(any(), any(), any()),
+      ).thenThrow(Exception('denied'));
+
+      await nameIt(tester);
+
+      expect(dismissed, isFalse);
+      final l10n = AppLocalizations.of(
+        tester.element(find.byType(EggHatchingCelebration)),
+      );
+      expect(find.text(l10n.errorGeneric), findsOneWidget);
+      expect(
+        tester.widget<FilledButton>(find.byType(FilledButton)).onPressed,
+        isNotNull,
+      );
+      await flush(tester);
+    });
+
+    testWidgets('Later closes it, only after a failed write', (tester) async {
+      final failed = Completer<void>();
+      when(
+        () => repo.updateMascotName(any(), any(), any()),
+      ).thenAnswer((_) => failed.future);
+
+      await nameIt(tester);
+      final later = find.text(
+        AppLocalizations.of(
+          tester.element(find.byType(EggHatchingCelebration)),
+        ).challengeDialogLater,
+      );
+      expect(later, findsNothing);
+
+      failed.completeError(Exception('offline'));
+      await settle(tester);
+      // Lets the name input finish sliding into place.
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.tap(later);
+
+      expect(dismissed, isTrue);
+      await flush(tester);
+    });
+
+    testWidgets('it closes once the name is stored, before activation', (
+      tester,
+    ) async {
+      when(
+        () => repo.updateMascotName(any(), any(), any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => repo.setActiveMascot(any(), any()),
+      ).thenAnswer((_) => Completer<void>().future);
+
+      await nameIt(tester);
+
+      expect(dismissed, isTrue);
+      verify(() => repo.updateMascotName('u', 'm', 'Pip')).called(1);
+      verify(() => repo.setActiveMascot('u', 'm')).called(1);
+      await flush(tester);
+    });
   });
 }

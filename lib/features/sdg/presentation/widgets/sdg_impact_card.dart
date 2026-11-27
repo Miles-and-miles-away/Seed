@@ -58,9 +58,9 @@ class SdgImpactCard extends ConsumerWidget {
               Expanded(
                 child: _StatTile(
                   icon: Icons.eco,
-                  value: formatCO2Compact(stats.co2SavedGrams),
+                  value: formatCO2Compact(stats.co2SavedGrams, l10n.localeName),
                   label: l10n.sdgCo2SavedForGoal(
-                    formatCO2Compact(stats.co2SavedGrams),
+                    formatCO2Compact(stats.co2SavedGrams, l10n.localeName),
                   ),
                   color: goalColor,
                 ),

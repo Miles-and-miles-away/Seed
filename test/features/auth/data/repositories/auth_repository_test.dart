@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:seed_app/core/constants/app_constants.dart';
+import 'package:seed_app/core/utils/auth_error_mapper.dart';
 import 'package:seed_app/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/datasources/user_remote_datasource.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
@@ -38,6 +39,7 @@ void main() {
       const AppUserModel(uid: 'fallback', email: 'fallback@x.com'),
     );
     registerFallbackValue(<String, dynamic>{});
+    registerFallbackValue(Duration.zero);
   });
 
   setUp(() {
@@ -81,7 +83,11 @@ void main() {
         );
         when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
 
-        final result = await repository.signInWithEmailAndPassword(email, 'pw');
+        final result = await repository.signInWithEmailAndPassword(
+          email,
+          'pw',
+          language: 'es',
+        );
 
         expect(result, existing);
         verifyNever(() => userDs.updateUser(any(), any()));
@@ -101,11 +107,49 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => stale);
       when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithEmailAndPassword(email, 'pw');
+      final result = await repository.signInWithEmailAndPassword(
+        email,
+        'pw',
+        language: 'es',
+      );
 
       expect(result.emailVerified, isTrue);
       verify(
-        () => userDs.updateUser(uid, {AppConstants.fieldEmailVerified: true}),
+        () => userDs.updateUser(uid, {
+          AppConstants.fieldEmail: email,
+          AppConstants.fieldEmailVerified: true,
+        }),
+      ).called(1);
+    });
+
+    test('syncs an email changed in Auth to Firestore', () async {
+      final user = fakeFirebaseUser();
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.signInWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
+
+      const stale = AppUserModel(
+        uid: uid,
+        email: 'old@example.com',
+        emailVerified: true,
+      );
+      when(() => userDs.getUser(uid)).thenAnswer((_) async => stale);
+      when(() => userDs.updateUser(uid, any())).thenAnswer((_) async {});
+
+      final result = await repository.signInWithEmailAndPassword(
+        email,
+        'pw',
+        language: 'es',
+      );
+
+      expect(result.email, email);
+      verify(
+        () => userDs.updateUser(uid, {
+          AppConstants.fieldEmail: email,
+          AppConstants.fieldEmailVerified: true,
+        }),
       ).called(1);
     });
 
@@ -119,12 +163,132 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => null);
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithEmailAndPassword(email, 'pw');
+      final result = await repository.signInWithEmailAndPassword(
+        email,
+        'pw',
+        language: 'es',
+      );
 
       expect(result.uid, uid);
       expect(result.email, email);
+      expect(result.language, 'es');
       expect(result.createdAt, isNotNull);
       verify(() => userDs.createUser(any())).called(1);
+    });
+  });
+
+  group('offline user read', () {
+    test('sign-in rethrows and never creates over the unread doc', () async {
+      final user = fakeFirebaseUser();
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.signInWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
+      when(() => userDs.getUser(uid)).thenThrow(
+        FirebaseException(plugin: 'cloud_firestore', code: 'unavailable'),
+      );
+
+      await expectLater(
+        repository.signInWithEmailAndPassword(email, 'pw', language: 'es'),
+        throwsA(isA<FirebaseException>()),
+      );
+      verifyNever(() => userDs.createUser(any()));
+    });
+
+    test('ensureUserDoc creates only via createUserIfAbsent', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(user.reload).thenAnswer((_) async {});
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final captured = verify(
+        () => userDs.createUserIfAbsent(
+          captureAny(),
+          isCurrent: captureAny(named: 'isCurrent'),
+        ),
+      ).captured;
+      final created = captured.first as AppUserModel;
+      final isCurrent = captured.last as Future<bool> Function();
+      expect(created.uid, uid);
+      expect(created.email, email);
+      expect(created.language, 'es');
+      expect(await isCurrent(), isTrue);
+      when(() => authDs.currentUser).thenReturn(null);
+      expect(await isCurrent(), isFalse);
+      verifyNever(() => userDs.createUser(any()));
+    });
+
+    test('ensureUserDoc does not recreate a deleted account', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(
+        user.reload,
+      ).thenThrow(FirebaseAuthException(code: 'user-not-found'));
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final isCurrent =
+          verify(
+                () => userDs.createUserIfAbsent(
+                  any(),
+                  isCurrent: captureAny(named: 'isCurrent'),
+                ),
+              ).captured.single
+              as Future<bool> Function();
+      expect(await isCurrent(), isFalse);
+    });
+
+    test('ensureUserDoc rethrows a reload that failed offline', () async {
+      final user = fakeFirebaseUser();
+      when(() => authDs.currentUser).thenReturn(user);
+      when(
+        user.reload,
+      ).thenThrow(FirebaseAuthException(code: 'network-request-failed'));
+      when(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      ).thenAnswer((_) async {});
+
+      await repository.ensureUserDoc(language: 'es');
+
+      final isCurrent =
+          verify(
+                () => userDs.createUserIfAbsent(
+                  any(),
+                  isCurrent: captureAny(named: 'isCurrent'),
+                ),
+              ).captured.single
+              as Future<bool> Function();
+      await expectLater(isCurrent(), throwsA(isA<FirebaseAuthException>()));
+    });
+
+    test('ensureUserDoc does nothing when signed out', () async {
+      when(() => authDs.currentUser).thenReturn(null);
+
+      await repository.ensureUserDoc(language: 'es');
+
+      verifyNever(
+        () => userDs.createUserIfAbsent(
+          any(),
+          isCurrent: any(named: 'isCurrent'),
+        ),
+      );
     });
   });
 
@@ -142,12 +306,30 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.uid, uid);
       expect(result.email, email);
       expect(result.emailVerified, isFalse);
       verify(() => authDs.sendEmailVerification()).called(1);
+      verify(() => userDs.createUser(any())).called(1);
+    });
+
+    test('creates the Firestore doc even when the send fails', () async {
+      final user = fakeFirebaseUser(emailVerified: false);
+      final credential = _MockCredential();
+      when(() => credential.user).thenReturn(user);
+      when(
+        () => authDs.createUserWithEmailAndPassword(email, 'pw'),
+      ).thenAnswer((_) async => credential);
+      when(() => authDs.sendEmailVerification()).thenThrow(Exception('send'));
+      when(() => userDs.createUser(any())).thenAnswer((_) async {});
+
+      await expectLater(
+        repository.createUserWithEmailAndPassword(email, 'pw', language: 'es'),
+        throwsException,
+      );
       verify(() => userDs.createUser(any())).called(1);
     });
 
@@ -167,6 +349,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, 'x' * AppConstants.maxDisplayNameLength);
@@ -186,6 +369,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         email,
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, isNull);
@@ -201,7 +385,7 @@ void main() {
       when(() => userDs.getUser(uid)).thenAnswer((_) async => null);
       when(() => userDs.createUser(any())).thenAnswer((_) async {});
 
-      final result = await repository.signInWithGoogle();
+      final result = await repository.signInWithGoogle(language: 'es');
 
       expect(result.uid, uid);
       verify(() => userDs.createUser(any())).called(1);
@@ -219,7 +403,7 @@ void main() {
       );
       when(() => userDs.getUser(uid)).thenAnswer((_) async => existing);
 
-      final result = await repository.signInWithApple();
+      final result = await repository.signInWithApple(language: 'es');
 
       expect(result, existing);
     });
@@ -313,13 +497,28 @@ void main() {
   });
 
   group('deleteAccount', () {
-    test('runs the server-side deletion then signs out locally', () async {
+    setUp(() {
+      when(
+        () => authDs.reauthenticateWithSocialProvider(),
+      ).thenAnswer((_) async => null);
       when(() => userDs.deleteUser()).thenAnswer((_) async {});
       when(() => authDs.signOut()).thenAnswer((_) async {});
+      when(() => userDs.clearLocalCache()).thenAnswer((_) async {});
+      when(() => authDs.refreshIdToken()).thenAnswer((_) async {});
+    });
 
+    test('re-authenticates, deletes server-side, signs out, clears the '
+        'cache', () async {
       await repository.deleteAccount();
 
-      verifyInOrder([() => userDs.deleteUser(), () => authDs.signOut()]);
+      verifyInOrder([
+        () => authDs.reauthenticateWithSocialProvider(),
+        () => authDs.refreshIdToken(),
+        () => userDs.deleteUser(),
+        () => authDs.signOut(),
+        () => userDs.clearLocalCache(),
+      ]);
+      verifyNever(() => authDs.revokeAppleSignIn(any()));
     });
 
     test('does not sign out when the server-side deletion fails', () async {
@@ -329,11 +528,91 @@ void main() {
 
       verifyNever(() => authDs.signOut());
     });
+
+    for (final (code, failure) in <(String, Exception)>[
+      ('sign-in-cancelled', AuthException(code: 'sign-in-cancelled')),
+      ('sign-in-offline', AuthException(code: 'sign-in-offline')),
+      ('user-mismatch', FirebaseAuthException(code: 'user-mismatch')),
+    ]) {
+      test('does not delete when re-authentication fails: $code', () async {
+        when(
+          () => authDs.reauthenticateWithSocialProvider(),
+        ).thenThrow(failure);
+
+        await expectLater(repository.deleteAccount(), throwsA(failure));
+
+        verifyNever(() => userDs.deleteUser());
+      });
+    }
+
+    group('with an Apple authorization code', () {
+      setUp(() {
+        when(
+          () => authDs.reauthenticateWithSocialProvider(),
+        ).thenAnswer((_) async => 'code');
+      });
+
+      test('revokes the Apple grant before deleting', () async {
+        when(() => authDs.revokeAppleSignIn('code')).thenAnswer((_) async {});
+
+        await repository.deleteAccount();
+
+        verifyInOrder([
+          () => authDs.revokeAppleSignIn('code'),
+          () => userDs.deleteUser(),
+          () => authDs.signOut(),
+        ]);
+      });
+
+      test('still deletes when revocation fails', () async {
+        when(
+          () => authDs.revokeAppleSignIn('code'),
+        ).thenThrow(FirebaseAuthException(code: 'invalid-credential'));
+
+        await repository.deleteAccount();
+
+        verify(() => userDs.deleteUser()).called(1);
+      });
+    });
   });
 
   group('simple delegations', () {
-    test('signOut forwards', () async {
+    test('signOut clears the local cache once writes are synced', () async {
+      when(
+        () => userDs.pendingWritesSynced(any()),
+      ).thenAnswer((_) async => true);
       when(() => authDs.signOut()).thenAnswer((_) async {});
+      when(() => userDs.clearLocalCache()).thenAnswer((_) async {});
+
+      await repository.signOut();
+
+      verifyInOrder([
+        () => userDs.pendingWritesSynced(any()),
+        () => authDs.signOut(),
+        () => userDs.clearLocalCache(),
+      ]);
+    });
+
+    test('signOut keeps the cache while writes are unsynced', () async {
+      when(
+        () => userDs.pendingWritesSynced(any()),
+      ).thenAnswer((_) async => false);
+      when(() => authDs.signOut()).thenAnswer((_) async {});
+
+      await repository.signOut();
+
+      verify(() => authDs.signOut()).called(1);
+      verifyNever(() => userDs.clearLocalCache());
+    });
+
+    test('signOut survives a cache-clear failure', () async {
+      when(
+        () => userDs.pendingWritesSynced(any()),
+      ).thenAnswer((_) async => true);
+      when(() => authDs.signOut()).thenAnswer((_) async {});
+      when(
+        () => userDs.clearLocalCache(),
+      ).thenThrow(FirebaseException(plugin: 'cloud_firestore'));
 
       await repository.signOut();
 
@@ -411,6 +690,7 @@ void main() {
       final result = await repository.createUserWithEmailAndPassword(
         'a@b.com',
         'pw',
+        language: 'es',
       );
 
       expect(result.displayName, exact);

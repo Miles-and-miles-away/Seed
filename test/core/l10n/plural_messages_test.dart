@@ -20,17 +20,35 @@ void main() {
       expect(en.profileDaysActive(7), '7 days');
       expect(en.challengeDays(1), '1 day');
       expect(en.challengeDays(3), '3 days');
+      expect(en.factPairsFinished(1), 'All pairs found in 1 move');
+      expect(en.factPairsFinished(9), 'All pairs found in 9 moves');
     });
 
     test('Spanish has distinct singular and plural forms', () {
       expect(es.pointsLabel(1), isNot(es.pointsLabel(2)));
       expect(es.profileDaysActive(1), isNot(es.profileDaysActive(2)));
+      expect(es.factPairsFinished(1), 'Todas las parejas en 1 movimiento');
+      expect(es.factPairsFinished(9), 'Todas las parejas en 9 movimientos');
+      expect(es.factRecallFinished(1, 5), '1 acierto de 5');
+      expect(es.factRecallFinished(0, 5), '0 aciertos de 5');
+      expect(es.factRecallFinished(4, 5), '4 aciertos de 5');
+      expect(es.challengeStreakDays(1), 'Racha de desafíos: 1 día');
+      expect(es.challengeStreakDays(3), 'Racha de desafíos: 3 días');
     });
 
     test('Japanese renders counts without crashing (single form)', () {
       expect(ja.pointsLabel(1), contains('1'));
       expect(ja.pointsLabel(5), contains('5'));
       expect(ja.challengeDays(3), contains('3'));
+      expect(ja.factPairsFinished(9), contains('9'));
+      expect(ja.factRecallFinished(1, 5), '5問中1問正解');
+    });
+
+    test('large counts use the locale digit grouping', () {
+      expect(en.pointsLabel(12345), '12,345 points');
+      expect(es.pointsLabel(12345), '12.345 puntos');
+      expect(ja.pointsLabel(12345), contains('12,345'));
+      expect(es.profileNextLevel(12345), contains('12.345'));
     });
   });
 }

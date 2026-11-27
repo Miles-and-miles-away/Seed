@@ -49,7 +49,7 @@ flutter build ipa --release --obfuscate --split-debug-info=build/debug-info
 - **Frontend:** Flutter 3.49.0-0.1.pre / Dart 3.14.0
 - **State Management:** Riverpod 3.x with code generation
 - **Navigation:** go_router 17.x
-- **Backend:** Firebase (Auth, Firestore, FCM, Storage)
+- **Backend:** Firebase (Auth, Firestore, FCM)
 - **Code Generation:** Freezed 3.x for immutable data classes
 
 ### Directory Structure
@@ -175,10 +175,6 @@ Defined in `lib/core/constants/app_constants.dart`:
 - Mocking: `mocktail`
 - Run all: `flutter test`
 - Run single: `flutter test test/path/to/file_test.dart`
-- Rive: tests that render `.riv` mascots need the rive_native host
-  library (gitignored under `build/`). If they fail with a missing
-  `loadRiveFile` symbol, run once:
-  `dart run rive_native:setup --clean --platform macos`
 
 ### Firestore security-rules tests
 Rules (`firestore.rules`) can't be tested by the Dart suite

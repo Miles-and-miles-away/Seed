@@ -56,11 +56,8 @@ class EcoDexProgressHeader extends ConsumerWidget {
                   ],
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.info_outline, size: 18),
+              InfoIconButton(
                 tooltip: l10n.ecoDexInfoTooltip,
-                color: theme.colorScheme.onSurfaceVariant,
-                visualDensity: VisualDensity.compact,
                 onPressed: () => InfoSheet.show(
                   context,
                   title: l10n.ecoDexInfoTitle,

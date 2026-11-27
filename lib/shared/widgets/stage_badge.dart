@@ -32,11 +32,15 @@ class StageBadge extends StatelessWidget {
         children: [
           Icon(Icons.star, size: 16, color: iconColor ?? foreground),
           const SizedBox(width: spacingSm),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: foreground,
-              fontWeight: FontWeight.w600,
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

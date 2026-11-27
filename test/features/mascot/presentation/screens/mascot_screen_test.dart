@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/mascot/data/mascot_species_loader.dart';
+import 'package:seed_app/features/mascot/data/models/egg_model.dart';
 import 'package:seed_app/features/mascot/data/models/mascot_model.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot.dart';
+import 'package:seed_app/features/mascot/presentation/drawn/drawn_mascot_painter.dart';
 import 'package:seed_app/features/mascot/presentation/providers/mascot_providers.dart';
 import 'package:seed_app/features/mascot/presentation/screens/mascot_screen.dart';
+import 'package:seed_app/features/mascot/presentation/widgets/mascot_display.dart';
 
 import '../../../../helpers/test_helpers.dart';
 
@@ -26,8 +31,7 @@ const _testUser = AppUserModel(uid: 'u1', email: 'u@example.com');
 void main() {
   // The real mascotSpeciesDataProvider loads bundled assets so the species
   // ("seed") resolves and the screen renders past its loading spinner.
-  final overrides = [
-    userOverride(_testUser),
+  final mascotOverrides = [
     activeMascotProvider.overrideWith((_) => Stream.value(_testMascot)),
     allMascotsProvider.overrideWith((_) => Stream.value([_testMascot])),
   ];
@@ -41,11 +45,17 @@ void main() {
     await tester.runAsync(loadMascotSpecies);
   }
 
-  Future<void> pumpMascotScreen(WidgetTester tester) async {
+  Future<void> pumpMascotScreen(
+    WidgetTester tester, {
+    AppUserModel user = _testUser,
+  }) async {
     sizeViewport(tester);
     await warmSpeciesBundle(tester);
     await tester.pumpWidget(
-      createTestWidget(overrides: overrides, child: const MascotScreen()),
+      createTestWidget(
+        overrides: [userOverride(user), ...mascotOverrides],
+        child: const MascotScreen(),
+      ),
     );
     // The "Our Journey" title only appears once the active mascot + species
     // have resolved.
@@ -60,13 +70,53 @@ void main() {
   }
 
   group('MascotScreen', () {
+    testWidgets('while loading, offers a titled app bar with back', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          overrides: [
+            userOverride(_testUser),
+            activeMascotProvider.overrideWith((_) => Stream.value(null)),
+          ],
+          child: Builder(
+            builder: (context) => TextButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(builder: (_) => const MascotScreen()),
+              ),
+              child: const Text('open'),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('open'));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+
+      final appBar = find.byType(AppBar);
+      expect(
+        find.descendant(of: appBar, matching: find.text('Mascot')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: appBar, matching: find.byType(BackButton)),
+        findsOneWidget,
+      );
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      await tester.tap(find.byType(BackButton));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(MascotScreen), findsNothing);
+    });
+
     testWidgets('renders the Our Journey section and mascot name', (
       tester,
     ) async {
       await pumpMascotScreen(tester);
 
       expect(find.text('Our Journey'), findsOneWidget);
-      expect(find.text('Sprouty'), findsOneWidget);
+      expect(find.text('Sprouty'), findsNWidgets(2));
 
       await disposeAndFlush(tester);
     });
@@ -79,10 +129,85 @@ void main() {
       // DateFormat.yMMMd('en') for DateTime(2026, 1, 1).
       expect(find.text('Jan 1, 2026'), findsOneWidget);
       // formatCO2Compact(1500) -> "1.5kg".
-      expect(find.text('1.5kg'), findsOneWidget);
+      expect(find.text('1.5${unitSpace}kg'), findsOneWidget);
       // Exact count depends on today's date; just assert the label exists.
       expect(find.text('Days together'), findsOneWidget);
 
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('tapping the code-drawn mascot waves', (tester) async {
+      await pumpMascotScreen(tester);
+
+      final hero = find.descendant(
+        of: find.byType(MascotDisplay),
+        matching: find.byType(DrawnMascot),
+      );
+
+      await tester.tap(hero);
+      for (var i = 0; i < 50; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+
+      final paint = tester.widget<CustomPaint>(
+        find.descendant(of: hero, matching: find.byType(CustomPaint)),
+      );
+      expect((paint.painter! as DrawnMascotPainter).pose.armR, greaterThan(1));
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('one mascot and no egg: says how to earn an egg', (
+      tester,
+    ) async {
+      await pumpMascotScreen(tester);
+
+      expect(
+        find.textContaining('reaches Level 25, you find an egg'),
+        findsOneWidget,
+      );
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('an egg shows the days left and the reset rule', (
+      tester,
+    ) async {
+      await pumpMascotScreen(
+        tester,
+        user: _testUser.copyWith(
+          egg: EggModel(receivedAt: DateTime(2026), hatchingStreakDays: 12),
+        ),
+      );
+
+      expect(find.byIcon(Icons.egg_outlined), findsOneWidget);
+      expect(
+        find.text(
+          'Log actions on 18 more days to hatch your egg. '
+          'Miss a day and the count starts again.',
+        ),
+        findsOneWidget,
+      );
+      await disposeAndFlush(tester);
+    });
+
+    testWidgets('an egg with a missed day says the count started again', (
+      tester,
+    ) async {
+      await pumpMascotScreen(
+        tester,
+        user: _testUser.copyWith(
+          egg: EggModel(
+            receivedAt: DateTime(2020),
+            hatchingStreakDays: 12,
+            lastHatchingActivityDate: DateTime(2020),
+          ),
+        ),
+      );
+
+      expect(
+        find.text("You missed a day, so your egg's count started again."),
+        findsOneWidget,
+      );
+      expect(find.text('Day 0/30'), findsOneWidget);
       await disposeAndFlush(tester);
     });
 

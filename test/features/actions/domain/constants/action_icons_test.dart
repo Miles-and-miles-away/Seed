@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/actions/domain/constants/action_icons.dart';
 
+import '../../../../helpers/dataset_helpers.dart';
+
 void main() {
   group('actionIconMap', () {
     test('contains expected icon entries', () {
@@ -24,6 +26,20 @@ void main() {
       expect(actionIconMap['volunteer_activism'], Icons.volunteer_activism);
       expect(actionIconMap['school'], Icons.school);
       expect(actionIconMap['handshake'], Icons.handshake);
+    });
+
+    test('covers every icon name in the seeded action library', () {
+      final actions = rawDatasetList(
+        'data/seed/co2_actions_database.json',
+        'actions',
+      );
+      for (final action in actions) {
+        expect(
+          actionIconMap,
+          contains(action['icon_name']),
+          reason: '${action['action_id']} falls back to the default icon',
+        );
+      }
     });
 
     test('all values are valid IconData', () {

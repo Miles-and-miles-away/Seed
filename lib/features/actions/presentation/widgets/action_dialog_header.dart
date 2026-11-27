@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// The tinted top band of the action dialogs: icon, title and an
 /// optional [trailing] widget beneath them.
@@ -36,8 +37,9 @@ class ActionDialogHeader extends StatelessWidget {
         children: [
           Icon(icon, size: 48, color: iconColor),
           const SizedBox(height: spacingMd),
-          Text(
+          PhraseText(
             title,
+            minLineWidth: phraseDialogMinLineWidth,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Reusable error widget that replaces raw `Text('Error: $error')`
 /// patterns with a styled, localized display.
@@ -34,7 +35,9 @@ class ErrorDisplay extends StatelessWidget {
     if (compact) {
       final messageText = Text(
         message ?? l10n.errorGeneric,
-        style: TextStyle(color: colorScheme.error, fontSize: 13),
+        style: Theme.of(
+          context,
+        ).textTheme.bodySmall?.copyWith(color: colorScheme.error),
         textAlign: TextAlign.center,
       );
       if (onRetry == null) return messageText;
@@ -53,7 +56,7 @@ class ErrorDisplay extends StatelessWidget {
       children: [
         Icon(Icons.error_outline, color: colorScheme.error, size: 32),
         const SizedBox(height: spacingSm),
-        Text(
+        PhraseText(
           message ?? l10n.errorGeneric,
           style: TextStyle(color: colorScheme.error),
           textAlign: TextAlign.center,

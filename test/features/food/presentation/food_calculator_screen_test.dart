@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/food/food.dart';
 import 'package:seed_app/shared/widgets/comparison_widgets.dart';
 
@@ -24,12 +25,26 @@ const _beans = FoodItem(
   kgCo2ePerKg: 1.79,
 );
 
+const _tierTwoBeef = FoodItem(
+  id: 'tier_two_beef',
+  group: 'meat',
+  nameEn: 'Farm beef',
+  nameJa: '',
+  nameEs: '',
+  kgCo2ePerKg: 60,
+  sourceTier: 2,
+);
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  Widget buildApp() => createTestWidget(
+  Widget buildApp({Locale? locale, ThemeData? theme}) => createTestWidget(
+    locale: locale,
+    theme: theme,
     overrides: [
-      foodItemsProvider.overrideWith((_) async => const [_beef, _beans]),
+      foodItemsProvider.overrideWith(
+        (_) async => const [_beef, _beans, _tierTwoBeef],
+      ),
     ],
     child: const FoodCalculatorScreen(),
   );
@@ -71,8 +86,8 @@ void main() {
       await addIngredient(tester, itemName: 'Beef', grams: '50');
 
       expect(find.byType(OptionEntryCard), findsNWidgets(2));
-      expect(find.text('150 g'), findsOneWidget);
-      expect(find.text('50 g'), findsOneWidget);
+      expect(find.text('150${unitSpace}g'), findsOneWidget);
+      expect(find.text('50${unitSpace}g'), findsOneWidget);
     });
 
     testWidgets('both columns built shows the delta and the bank action', (
@@ -94,6 +109,16 @@ void main() {
       expect(find.textContaining('less than Beef'), findsNothing);
     });
 
+    testWidgets('a meal of only 0 g ingredients is not built', (tester) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addIngredient(tester, itemName: 'Beans', grams: '0');
+      await addIngredient(tester, itemName: 'Beef', grams: '200', column: 1);
+
+      expect(find.text('Build both options to compare them'), findsOneWidget);
+      expect(find.textContaining('as a choice I took today'), findsNothing);
+    });
+
     testWidgets('a sub-20% gap gets no verdict and no bank action', (
       tester,
     ) async {
@@ -109,6 +134,31 @@ void main() {
       expect(find.textContaining('too close to call'), findsOneWidget);
       expect(find.textContaining('less than'), findsNothing);
       expect(find.text('Log Option A as a choice I took today'), findsNothing);
+    });
+
+    testWidgets('identical meals say too close, not build both', (
+      tester,
+    ) async {
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addIngredient(tester, itemName: 'Beans', grams: '200');
+      await addIngredient(tester, itemName: 'Beans', grams: '200', column: 1);
+
+      expect(find.text('Build both options to compare them'), findsNothing);
+      expect(find.textContaining('too close to call'), findsOneWidget);
+    });
+
+    testWidgets('a cross-source block does not cite the 20% bar', (
+      tester,
+    ) async {
+      // 6 g against 10 g: a 40% gap under the 50% cross-source floor.
+      await tester.pumpWidget(buildApp());
+      await tester.pumpAndSettle();
+      await addIngredient(tester, itemName: 'Farm beef', grams: '0.1');
+      await addIngredient(tester, itemName: 'Beef', grams: '0.1', column: 1);
+
+      expect(find.textContaining('20%'), findsNothing);
+      expect(find.text('Not a big enough difference to log'), findsOneWidget);
     });
 
     testWidgets('removing an ingredient empties the column again', (
@@ -129,9 +179,18 @@ void main() {
       await tester.pumpWidget(buildApp());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(Co2eAmount).first);
+      await tester.tap(
+        find.descendant(
+          of: find.byType(Co2eAmount).first,
+          matching: find.byType(Text),
+        ),
+      );
       await tester.pumpAndSettle();
       expect(find.text('What is CO2e?'), findsOneWidget);
     });
   });
+
+  stressWidthLayoutTests(
+    (locale, theme) => buildApp(locale: locale, theme: theme),
+  );
 }

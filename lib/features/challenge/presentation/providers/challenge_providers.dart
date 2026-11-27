@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/utils/date_helpers.dart';
+import 'package:seed_app/features/actions/data/models/action_model.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/data/challenge_templates_data.dart';
 import 'package:seed_app/features/challenge/domain/models/active_multi_day_challenge.dart';
@@ -44,6 +47,27 @@ Future<DailyChallengeTemplate?> todayChallenge(Ref ref) async {
     user.recentChallengeIds,
     data.daily,
   );
+}
+
+/// Today's challenge with the library action it names.
+typedef ChallengeAction = ({
+  DailyChallengeTemplate challenge,
+  ActionModel? action,
+});
+
+/// Null action when the library failed to load or lacks the id in the
+/// challenge's category, so the card falls back to naming the category.
+@riverpod
+AsyncValue<ChallengeAction?> todayChallengeAction(Ref ref) {
+  final challenge = ref.watch(todayChallengeProvider).value;
+  if (challenge == null) return const AsyncData(null);
+  final library = ref.watch(actionLibraryProvider);
+  // A refresh keeps the old list, so the card does not blink out.
+  if (!library.hasValue && !library.hasError) return const AsyncLoading();
+  final action = library.value?.firstWhereOrNull(
+    (a) => a.id == challenge.actionId && a.category == challenge.category,
+  );
+  return AsyncData((challenge: challenge, action: action));
 }
 
 /// Whether today's daily challenge is completed.

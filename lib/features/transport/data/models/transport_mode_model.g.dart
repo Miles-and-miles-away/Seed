@@ -17,6 +17,8 @@ _TransportMode _$TransportModeFromJson(Map<String, dynamic> json) =>
       perVehicle: json['per_vehicle'] as bool? ?? false,
       maxOccupants: (json['max_occupants'] as num?)?.toInt() ?? 1,
       calculationNotes: json['calculation_notes'] as String? ?? '',
+      calculationNotesJa: json['calculation_notes_ja'] as String? ?? '',
+      calculationNotesEs: json['calculation_notes_es'] as String? ?? '',
       sources:
           (json['sources'] as List<dynamic>?)
               ?.map((e) => EmissionSource.fromJson(e as Map<String, dynamic>))
@@ -35,5 +37,7 @@ Map<String, dynamic> _$TransportModeToJson(_TransportMode instance) =>
       'per_vehicle': instance.perVehicle,
       'max_occupants': instance.maxOccupants,
       'calculation_notes': instance.calculationNotes,
+      'calculation_notes_ja': instance.calculationNotesJa,
+      'calculation_notes_es': instance.calculationNotesEs,
       'sources': instance.sources,
     };

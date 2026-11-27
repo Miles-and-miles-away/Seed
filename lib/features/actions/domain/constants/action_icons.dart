@@ -21,6 +21,7 @@ const actionIconMap = <String, IconData>{
   'bolt': Icons.bolt,
   'power': Icons.power_off,
   'dry_cleaning': Icons.dry_cleaning,
+  'checkroom': Icons.checkroom,
   'water_drop': Icons.water_drop,
   'shower': Icons.shower,
   'local_grocery': Icons.local_grocery_store,
@@ -71,6 +72,12 @@ const actionIconMap = <String, IconData>{
   'smartphone': Icons.smartphone,
   'build': Icons.build,
   'soap': Icons.soap,
+  'directions_car': Icons.directions_car,
+  'home': Icons.home,
+  'local_library': Icons.local_library,
+  'currency_exchange': Icons.currency_exchange,
+  'biotech': Icons.biotech,
+  'chair': Icons.chair,
 };
 
 /// Returns the icon for the given icon name string.

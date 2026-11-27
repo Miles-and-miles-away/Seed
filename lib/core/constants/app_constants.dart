@@ -7,8 +7,21 @@ abstract class AppConstants {
   // months at ~150 points/day; stage 2 ~1 week, stage 3 ~4 weeks.
   static const levelScalingFactor = 1.05;
 
-  // Reminder limits
-  static const maxRemindersPerUser = 5;
+  // Daily challenge reminder
+  static const defaultReminderHour = 18;
+  static const defaultReminderMinute = 0;
+
+  /// Days of one-shot reminders queued ahead, at most; a lapsed user
+  /// hears nothing after this many days without opening the app.
+  static const reminderDaysAhead = 14;
+
+  // Action reminders
+  static const maxActionReminders = 10;
+  static const defaultReminderRepeats = 5;
+  static const maxReminderRepeats = 99;
+
+  /// iOS keeps at most this many pending local notifications per app.
+  static const maxPendingNotifications = 64;
 
   // Firebase collections
   static const collectionUsers = 'users';
@@ -40,8 +53,18 @@ abstract class AppConstants {
   static const maxMascotsPerUser = 20;
   static const maxMascotNameLength = 20;
 
+  // Matches the per-write totalCo2Grams cap in firestore.rules.
+  static const maxBankCo2Grams = 100000000;
+
+  // Matches the uniqueActionIds size cap in firestore.rules.
+  static const maxUniqueActionIds = 2000;
+
+  // Matches the customActions name size cap (UTF-16 units) in firestore.rules.
+  static const maxCustomActionNameLength = 500;
+
   // Auth throttling
   static const authCooldownSeconds = 3;
+  static const verificationResendCooldownSeconds = 60;
 
   // User profile limits
   static const maxDisplayNameLength = 50;
@@ -59,6 +82,9 @@ abstract class AppConstants {
   static const fieldCurrentStreak = 'currentStreak';
   static const fieldLongestStreak = 'longestStreak';
   static const fieldLastActionDate = 'lastActionDate';
+  static const fieldLastActionUtcOffsetMinutes = 'lastActionUtcOffsetMinutes';
+  static const fieldLastCustomActionAt = 'lastCustomActionAt';
+  static const fieldLastCustomActionId = 'lastCustomActionId';
   static const fieldTotalCo2Grams = 'totalCo2Grams';
   static const fieldTotalActionsCount = 'totalActionsCount';
   static const fieldCategoryActionCounts = 'categoryActionCounts';
@@ -69,6 +95,7 @@ abstract class AppConstants {
   static const fieldEgg = 'egg';
   static const fieldEggPendingDiscovery = 'eggPendingDiscovery';
   static const fieldEggPendingDiscoverySince = 'eggPendingDiscoverySince';
+  static const fieldEmail = 'email';
   static const fieldEmailVerified = 'emailVerified';
   static const fieldSettings = 'settings';
   static const fieldLanguage = 'language';
@@ -105,12 +132,15 @@ abstract class AppConstants {
   static const fieldLastHatchingActivityDate = 'lastHatchingActivityDate';
 
   // Firestore settings nested fields
-  static const fieldReminderSchedules = 'reminderSchedules';
-  static const fieldSmartRemindersEnabled = 'smartRemindersEnabled';
+  static const fieldReminderHour = 'reminderHour';
+  static const fieldReminderMinute = 'reminderMinute';
+  static const fieldActionRemindersEnabled = 'actionRemindersEnabled';
+  static const fieldActionReminders = 'actionReminders';
   static const fieldAnalyticsEnabled = 'analyticsEnabled';
   static const fieldThemeMode = 'themeMode';
   static const fieldSeenStreakMilestones = 'seenStreakMilestones';
   static const fieldWalkthroughFound = 'walkthroughFound';
+  static const fieldGreetedDate = 'greetedDate';
 
   // Firestore action library fields
   static const fieldIsActive = 'isActive';
@@ -134,12 +164,6 @@ abstract class AppConstants {
   static const fieldCurrentDay = 'currentDay';
   static const fieldTargetDays = 'targetDays';
   static const fieldLastCompletionDate = 'lastCompletionDate';
-
-  // Firestore reminder schedule nested fields
-  static const fieldHour = 'hour';
-  static const fieldMinute = 'minute';
-  static const fieldIsEnabled = 'isEnabled';
-  static const fieldLabel = 'label';
 }
 
 /// The two comparison options a Phase 8 calculator holds: A and B.

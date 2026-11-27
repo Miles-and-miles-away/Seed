@@ -20,11 +20,7 @@ mixin _$EvolutionStageModel {
  int get level;/// The local asset path to the mascot image for this stage.
  String get assetPath;/// The English name of this evolution stage.
  String get nameEn;/// The Japanese name of this evolution stage.
- String get nameJa;/// The Rive artboard to render for this stage, for `.riv` assets
-/// containing multiple stage artboards (e.g. coral_mascot.riv).
-/// Null falls back to the file's default artboard. Must match the
-/// editor artboard name exactly (case-sensitive).
- String? get artboardName;/// The Spanish name of this evolution stage.
+ String get nameJa;/// The Spanish name of this evolution stage.
  String get nameEs;
 /// Create a copy of EvolutionStageModel
 /// with the given fields replaced by the non-null parameter values.
@@ -39,20 +35,20 @@ $EvolutionStageModelCopyWith<EvolutionStageModel> get copyWith => _$EvolutionSta
 @override
 bool operator ==(Object other) {
   final _this = this as EvolutionStageModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EvolutionStageModel&&(identical(other.level, _this.level) || other.level == _this.level)&&(identical(other.assetPath, _this.assetPath) || other.assetPath == _this.assetPath)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.artboardName, _this.artboardName) || other.artboardName == _this.artboardName)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EvolutionStageModel&&(identical(other.level, _this.level) || other.level == _this.level)&&(identical(other.assetPath, _this.assetPath) || other.assetPath == _this.assetPath)&&(identical(other.nameEn, _this.nameEn) || other.nameEn == _this.nameEn)&&(identical(other.nameJa, _this.nameJa) || other.nameJa == _this.nameJa)&&(identical(other.nameEs, _this.nameEs) || other.nameEs == _this.nameEs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as EvolutionStageModel;
-  return Object.hash(runtimeType,_this.level,_this.assetPath,_this.nameEn,_this.nameJa,_this.artboardName,_this.nameEs);
+  return Object.hash(runtimeType,_this.level,_this.assetPath,_this.nameEn,_this.nameJa,_this.nameEs);
 }
 
 @override
 String toString() {
   final _this = this as EvolutionStageModel;
-  return 'EvolutionStageModel(level: ${_this.level}, assetPath: ${_this.assetPath}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, artboardName: ${_this.artboardName}, nameEs: ${_this.nameEs})';
+  return 'EvolutionStageModel(level: ${_this.level}, assetPath: ${_this.assetPath}, nameEn: ${_this.nameEn}, nameJa: ${_this.nameJa}, nameEs: ${_this.nameEs})';
 }
 
 
@@ -63,7 +59,7 @@ abstract mixin class $EvolutionStageModelCopyWith<$Res>  {
   factory $EvolutionStageModelCopyWith(EvolutionStageModel value, $Res Function(EvolutionStageModel) _then) = _$EvolutionStageModelCopyWithImpl;
 @useResult
 $Res call({
- int level, String assetPath, String nameEn, String nameJa, String? artboardName, String nameEs
+ int level, String assetPath, String nameEn, String nameJa, String nameEs
 });
 
 
@@ -80,14 +76,13 @@ class _$EvolutionStageModelCopyWithImpl<$Res>
 
 /// Create a copy of EvolutionStageModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? level = null,Object? assetPath = null,Object? nameEn = null,Object? nameJa = null,Object? artboardName = freezed,Object? nameEs = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? level = null,Object? assetPath = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,}) {
   return _then(EvolutionStageModel(
 level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
 as int,assetPath: null == assetPath ? _self.assetPath : assetPath // ignore: cast_nullable_to_non_nullable
 as String,nameEn: null == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
 as String,nameJa: null == nameJa ? _self.nameJa : nameJa // ignore: cast_nullable_to_non_nullable
-as String,artboardName: freezed == artboardName ? _self.artboardName : artboardName // ignore: cast_nullable_to_non_nullable
-as String?,nameEs: null == nameEs ? _self.nameEs : nameEs // ignore: cast_nullable_to_non_nullable
+as String,nameEs: null == nameEs ? _self.nameEs : nameEs // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -173,10 +168,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int level,  String assetPath,  String nameEn,  String nameJa,  String? artboardName,  String nameEs)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int level,  String assetPath,  String nameEn,  String nameJa,  String nameEs)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EvolutionStageModel() when $default != null:
-return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.artboardName,_that.nameEs);case _:
+return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.nameEs);case _:
   return orElse();
 
 }
@@ -194,10 +189,10 @@ return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.artb
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int level,  String assetPath,  String nameEn,  String nameJa,  String? artboardName,  String nameEs)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int level,  String assetPath,  String nameEn,  String nameJa,  String nameEs)  $default,) {final _that = this;
 switch (_that) {
 case _EvolutionStageModel():
-return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.artboardName,_that.nameEs);case _:
+return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.nameEs);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -214,10 +209,10 @@ return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.artb
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int level,  String assetPath,  String nameEn,  String nameJa,  String? artboardName,  String nameEs)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int level,  String assetPath,  String nameEn,  String nameJa,  String nameEs)?  $default,) {final _that = this;
 switch (_that) {
 case _EvolutionStageModel() when $default != null:
-return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.artboardName,_that.nameEs);case _:
+return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.nameEs);case _:
   return null;
 
 }
@@ -229,7 +224,7 @@ return $default(_that.level,_that.assetPath,_that.nameEn,_that.nameJa,_that.artb
 @JsonSerializable()
 
 class _EvolutionStageModel implements EvolutionStageModel {
-  const _EvolutionStageModel({required this.level, required this.assetPath, required this.nameEn, required this.nameJa, this.artboardName, this.nameEs = ''});
+  const _EvolutionStageModel({required this.level, required this.assetPath, required this.nameEn, required this.nameJa, this.nameEs = ''});
   factory _EvolutionStageModel.fromJson(Map<String, dynamic> json) => _$EvolutionStageModelFromJson(json);
 
 /// The level threshold required to reach this stage.
@@ -240,11 +235,6 @@ class _EvolutionStageModel implements EvolutionStageModel {
 @override final  String nameEn;
 /// The Japanese name of this evolution stage.
 @override final  String nameJa;
-/// The Rive artboard to render for this stage, for `.riv` assets
-/// containing multiple stage artboards (e.g. coral_mascot.riv).
-/// Null falls back to the file's default artboard. Must match the
-/// editor artboard name exactly (case-sensitive).
-@override final  String? artboardName;
 /// The Spanish name of this evolution stage.
 @override@JsonKey() final  String nameEs;
 
@@ -261,18 +251,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _EvolutionStageModel&&(identical(other.level, level) || other.level == level)&&(identical(other.assetPath, assetPath) || other.assetPath == assetPath)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.artboardName, artboardName) || other.artboardName == artboardName)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _EvolutionStageModel&&(identical(other.level, level) || other.level == level)&&(identical(other.assetPath, assetPath) || other.assetPath == assetPath)&&(identical(other.nameEn, nameEn) || other.nameEn == nameEn)&&(identical(other.nameJa, nameJa) || other.nameJa == nameJa)&&(identical(other.nameEs, nameEs) || other.nameEs == nameEs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,level,assetPath,nameEn,nameJa,artboardName,nameEs);
+    return Object.hash(runtimeType,level,assetPath,nameEn,nameJa,nameEs);
 }
 
 @override
 String toString() {
-    return 'EvolutionStageModel(level: $level, assetPath: $assetPath, nameEn: $nameEn, nameJa: $nameJa, artboardName: $artboardName, nameEs: $nameEs)';
+    return 'EvolutionStageModel(level: $level, assetPath: $assetPath, nameEn: $nameEn, nameJa: $nameJa, nameEs: $nameEs)';
 }
 
 
@@ -283,7 +273,7 @@ abstract mixin class _$EvolutionStageModelCopyWith<$Res> implements $EvolutionSt
   factory _$EvolutionStageModelCopyWith(_EvolutionStageModel value, $Res Function(_EvolutionStageModel) _then) = __$EvolutionStageModelCopyWithImpl;
 @override @useResult
 $Res call({
- int level, String assetPath, String nameEn, String nameJa, String? artboardName, String nameEs
+ int level, String assetPath, String nameEn, String nameJa, String nameEs
 });
 
 
@@ -300,14 +290,13 @@ class __$EvolutionStageModelCopyWithImpl<$Res>
 
 /// Create a copy of EvolutionStageModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? level = null,Object? assetPath = null,Object? nameEn = null,Object? nameJa = null,Object? artboardName = freezed,Object? nameEs = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? level = null,Object? assetPath = null,Object? nameEn = null,Object? nameJa = null,Object? nameEs = null,}) {
   return _then(_EvolutionStageModel(
 level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
 as int,assetPath: null == assetPath ? _self.assetPath : assetPath // ignore: cast_nullable_to_non_nullable
 as String,nameEn: null == nameEn ? _self.nameEn : nameEn // ignore: cast_nullable_to_non_nullable
 as String,nameJa: null == nameJa ? _self.nameJa : nameJa // ignore: cast_nullable_to_non_nullable
-as String,artboardName: freezed == artboardName ? _self.artboardName : artboardName // ignore: cast_nullable_to_non_nullable
-as String?,nameEs: null == nameEs ? _self.nameEs : nameEs // ignore: cast_nullable_to_non_nullable
+as String,nameEs: null == nameEs ? _self.nameEs : nameEs // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

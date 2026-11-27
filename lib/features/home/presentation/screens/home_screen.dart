@@ -6,6 +6,7 @@ import 'package:seed_app/core/constants/app_constants.dart';
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/external_link.dart';
+import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/auth/presentation/providers/auth_providers.dart';
 import 'package:seed_app/features/challenge/challenge.dart';
 import 'package:seed_app/features/eco_fact/presentation/widgets/mail_icon_button.dart';
@@ -14,9 +15,13 @@ import 'package:seed_app/features/home/presentation/widgets/my_goal_card.dart';
 import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/sdg/presentation/providers/sdg_providers.dart';
 import 'package:seed_app/features/sdg/presentation/widgets/sdg_carousel.dart';
+import 'package:seed_app/features/settings/settings.dart';
 import 'package:seed_app/features/walkthrough/walkthrough.dart';
 import 'package:seed_app/shared/providers/clock_provider.dart';
+import 'package:seed_app/shared/providers/day_change_provider.dart';
 import 'package:seed_app/shared/services/streak_service.dart';
+import 'package:seed_app/shared/widgets/celebration_overlay.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 import 'package:seed_app/shared/widgets/stage_badge.dart';
 
 /// The main home screen of the Seed app
@@ -28,6 +33,7 @@ class HomeScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final hasMascot = ref.watch(hasMascotProvider);
+    final mascotsLoaded = ref.watch(allMascotsProvider).hasValue;
 
     return WalkthroughTrigger(
       item: WalkthroughItem.intro,
@@ -47,7 +53,7 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
                 centerTitle: true,
-                actions: const [MailIconButton()],
+                actions: const [MailIconButton(), SettingsIconButton()],
               ),
 
               // Main content
@@ -58,7 +64,7 @@ class HomeScreen extends ConsumerWidget {
                     // Mascot section or selection prompt
                     if (hasMascot)
                       _buildMascotSection(context, ref)
-                    else
+                    else if (mascotsLoaded)
                       _buildMascotSelectionPrompt(context, ref, l10n),
                     const SizedBox(height: spacingMd),
 
@@ -82,8 +88,9 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: spacingSm),
-                    Text(
+                    PhraseText(
                       l10n.homeExploreGoalsSubtitle,
+                      minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -135,62 +142,100 @@ class HomeScreen extends ConsumerWidget {
     final locale = Localizations.localeOf(context).languageCode;
 
     final mascot = ref.watch(activeMascotProvider).value;
-    final user = ref.watch(currentUserProvider).value;
+    final (streak, lastActionDate, lastOffset, points) = ref.watch(
+      currentUserProvider.select((async) {
+        final user = async.value;
+        return (
+          user?.currentStreak ?? 0,
+          user?.lastActionDate,
+          user?.lastActionUtcOffsetMinutes,
+          user?.points ?? 0,
+        );
+      }),
+    );
     final stageName = ref.watch(stageLocalizedNameProvider(locale));
+    // Rebuilds at midnight, so a streak broken overnight reads 0.
+    ref.watch(dayChangeProvider);
+    final introPending = ref.watch(
+      walkthroughPendingProvider(WalkthroughItem.intro),
+    );
 
     return MascotHousing(
       child: Column(
         children: [
-          // Mascot display
-          GestureDetector(
-            onTap: () => context.push(appRoutes.mascot),
-            child: const MascotDisplay(size: 160),
+          Semantics(
+            container: true,
+            button: true,
+            label: l10n.mascotLinkTitle,
+            child: GestureDetector(
+              onTap: () => context.push(appRoutes.mascot),
+              // A celebration covers the hero, so its ticker stops.
+              child: ValueListenableBuilder<int>(
+                valueListenable: celebrationsPending(context),
+                builder: (context, pending, child) =>
+                    TickerMode(enabled: pending == 0, child: child!),
+                child: MascotDisplay(size: 160, greets: !introPending),
+              ),
+            ),
           ),
 
           const SizedBox(height: spacingMd),
 
-          // Mascot name
-          Text(
-            mascot?.name ?? '',
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: colorScheme.onPrimaryContainer,
+          MascotGreetingBubble(
+            child: Column(
+              children: [
+                // Mascot name
+                Text(
+                  mascot?.name ?? '',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: colorScheme.onPrimaryContainer,
+                  ),
+                ),
+
+                const SizedBox(height: spacingXs),
+
+                // Evolution stage badge
+                StageBadge(
+                  label: stageName == null
+                      ? l10n.levelLabel(mascot?.mascotLevel ?? 1)
+                      : l10n.stageWithLevel(
+                          stageName,
+                          mascot?.mascotLevel ?? 1,
+                        ),
+                  background: colorScheme.primary.withValues(
+                    alpha: opacitySubtle,
+                  ),
+                  foreground: colorScheme.primary,
+                ),
+
+                const SizedBox(height: spacingLg),
+
+                // Quick stats row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildQuickStat(
+                      context,
+                      Icons.local_fire_department,
+                      // displayedStreak shows 0 once a missed day has
+                      // already broken the streak (the stored value is
+                      // only corrected at the next log).
+                      '${displayedStreak(storedStreak: streak, lastActionDate: lastActionDate, lastActionUtcOffsetMinutes: lastOffset, now: ref.watch(clockProvider)())}',
+                      l10n.profileCurrentStreak,
+                      Colors.orange,
+                    ),
+                    _buildQuickStat(
+                      context,
+                      Icons.star_outline,
+                      formatDecimal(points, locale, maxDigits: 0),
+                      l10n.homePoints,
+                      colorScheme.primary,
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-
-          const SizedBox(height: spacingXs),
-
-          // Evolution stage badge
-          StageBadge(
-            label: '$stageName (${l10n.levelLabel(mascot?.mascotLevel ?? 1)})',
-            background: colorScheme.primary.withValues(alpha: opacitySubtle),
-            foreground: colorScheme.primary,
-          ),
-
-          const SizedBox(height: spacingLg),
-
-          // Quick stats row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildQuickStat(
-                context,
-                Icons.local_fire_department,
-                // displayedStreak shows 0 once a missed day has
-                // already broken the streak (the stored value is
-                // only corrected at the next log).
-                '${displayedStreak(storedStreak: user?.currentStreak ?? 0, lastActionDate: user?.lastActionDate, now: ref.watch(clockProvider)())}',
-                l10n.profileCurrentStreak,
-                Colors.orange,
-              ),
-              _buildQuickStat(
-                context,
-                Icons.star_outline,
-                '${user?.points ?? 0}',
-                l10n.homePoints,
-                colorScheme.primary,
-              ),
-            ],
           ),
         ],
       ),
@@ -269,7 +314,6 @@ class HomeScreen extends ConsumerWidget {
           MascotAvatar(
             assetPath:
                 firstStage?.assetPath ?? 'assets/images/mascot/seed_stage1.svg',
-            artboardName: firstStage?.artboardName,
           ),
 
           const SizedBox(height: spacingLg),
@@ -285,8 +329,9 @@ class HomeScreen extends ConsumerWidget {
 
           const SizedBox(height: spacingSm),
 
-          Text(
+          PhraseText(
             l10n.mascotSelectionSubtitle,
+            minLineWidth: phraseNarrowestScreenWidth - 4 * spacingXxl,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: colorScheme.onPrimaryContainer.withValues(
                 alpha: opacityHeavy,

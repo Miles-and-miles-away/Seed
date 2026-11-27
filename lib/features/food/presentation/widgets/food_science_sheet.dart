@@ -17,13 +17,14 @@ void showFoodScienceSheet(
   ScienceSheet.show(
     context,
     title: item.name(languageCode),
-    markdown: _body(l10n, item),
+    markdown: _body(l10n, item, languageCode),
   );
 }
 
-String _body(AppLocalizations l10n, FoodItem item) => scienceMarkdown(
-  l10n,
-  factorLine: foodItemFactorLabel(l10n, item),
-  notes: item.calculationNotes,
-  sources: item.sources,
-);
+String _body(AppLocalizations l10n, FoodItem item, String languageCode) =>
+    scienceMarkdown(
+      l10n,
+      factorLine: foodItemFactorLabel(l10n, item),
+      notes: item.notes(languageCode),
+      sources: item.sources,
+    );

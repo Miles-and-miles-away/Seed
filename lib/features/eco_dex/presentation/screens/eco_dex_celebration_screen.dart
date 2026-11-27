@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart' hide Durations;
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
+import 'package:seed_app/core/utils/app_logger.dart';
 import 'package:seed_app/features/eco_dex/data/models/eco_dex_entry_model.dart';
+import 'package:seed_app/features/eco_dex/presentation/providers/eco_dex_providers.dart';
 import 'package:seed_app/features/eco_dex/presentation/widgets/eco_dex_entry_image.dart';
 import 'package:seed_app/shared/widgets/balanced_text.dart';
 import 'package:seed_app/shared/widgets/celebration_overlay.dart';
 import 'package:seed_app/shared/widgets/confetti_painter.dart';
+import 'package:seed_app/shared/widgets/phrase_text.dart';
 
 /// Full-screen celebration shown when the user discovers an Eco-Dex
 /// entry. The fact itself is the reward, so it takes center stage.
@@ -42,79 +46,82 @@ class EcoDexCelebrationScreen extends StatelessWidget {
       children: [
         const TimedConfettiLayer(),
         SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CelebrationTitle(l10n.ecoDexDiscoveryTitle),
-                const SizedBox(height: spacingSm),
-                // The unlock condition sits directly under the title:
-                // it is the answer to "what did I just do?".
-                BalancedText(
-                  entry.hint(locale),
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: opacityHeavy),
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
-                const SizedBox(height: spacingXxl),
-                Container(
-                      width: 140,
-                      height: 140,
-                      padding: const EdgeInsets.all(spacingLg),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: ClipOval(
-                        child: EcoDexEntryImage(
-                          iconName: entry.iconName,
-                          size: 96,
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: spacingXxl),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CelebrationTitle(l10n.ecoDexDiscoveryTitle),
+                  const SizedBox(height: spacingSm),
+                  // The unlock condition sits directly under the title:
+                  // it is the answer to "what did I just do?".
+                  BalancedText(
+                    entry.hint(locale),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: Colors.white.withValues(alpha: opacityHeavy),
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                  const SizedBox(height: spacingXxl),
+                  Container(
+                        width: 140,
+                        height: 140,
+                        padding: const EdgeInsets.all(spacingLg),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
+                        child: ClipOval(
+                          child: EcoDexEntryImage(
+                            iconName: entry.iconName,
+                            size: 96,
+                          ),
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(duration: durationFast)
+                      .scale(
+                        begin: const Offset(0.3, 0.3),
+                        end: const Offset(1, 1),
+                        curve: Curves.elasticOut,
+                        duration: 800.ms,
                       ),
-                    )
-                    .animate()
-                    .fadeIn(duration: 400.ms)
-                    .scale(
-                      begin: const Offset(0.3, 0.3),
-                      end: const Offset(1, 1),
-                      curve: Curves.elasticOut,
-                      duration: 800.ms,
-                    ),
-                const SizedBox(height: spacingXxl),
-                Text(
-                  l10n.ecoDexEntryTitle(entry.name(locale)),
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
-                const SizedBox(height: spacingMd),
-                Text(
-                  entry.fact(locale),
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: Colors.white.withValues(alpha: opacityHeavy),
-                  ),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
-                const SizedBox(height: spacingHuge),
-                CelebrationButton(
-                  label: l10n.ecoDexDiscoveryAcknowledge,
-                  onPressed: onDismiss,
-                  delay: 800.ms,
-                ),
-                if (remainingInQueue > 0) ...[
-                  const SizedBox(height: spacingMd),
+                  const SizedBox(height: spacingXxl),
                   Text(
-                    l10n.ecoDexDiscoveryMoreQueued(remainingInQueue),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.white.withValues(alpha: opacityMedium),
+                    l10n.ecoDexEntryTitle(entry.name(locale)),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
+                  const SizedBox(height: spacingMd),
+                  PhraseText(
+                    entry.fact(locale),
+                    minLineWidth: phraseNarrowestScreenWidth - 2 * spacingXxl,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: Colors.white.withValues(alpha: opacityHeavy),
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
+                  const SizedBox(height: spacingHuge),
+                  CelebrationButton(
+                    label: l10n.ecoDexDiscoveryAcknowledge,
+                    onPressed: onDismiss,
+                    delay: 800.ms,
+                  ),
+                  if (remainingInQueue > 0) ...[
+                    const SizedBox(height: spacingMd),
+                    Text(
+                      l10n.ecoDexDiscoveryMoreQueued(remainingInQueue),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.white.withValues(alpha: opacityMedium),
+                      ),
+                    ).animate().fadeIn(delay: 900.ms, duration: 400.ms),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),
@@ -143,5 +150,35 @@ Future<void> showEcoDexCelebrations(
         onDismiss: onDismiss,
       ),
     );
+  }
+}
+
+/// Records newly unlocked Eco-Dex entries, celebrates the ones no other
+/// caller has claimed, and returns every unlocked id. See
+/// [EcoDexDiscoveryNotifier.discoverNewEntries] for [minActionsCount].
+Future<List<String>> discoverAndCelebrateEcoDex(
+  BuildContext context,
+  WidgetRef ref, {
+  int? minActionsCount,
+}) async {
+  try {
+    final (:unlocked, :claimed) = await ref
+        .read(ecoDexDiscoveryProvider.notifier)
+        .discoverNewEntries(minActionsCount: minActionsCount);
+    if (claimed.isEmpty || !context.mounted) return unlocked;
+    final ecoDex = await ref.read(ecoDexDataProvider.future);
+    final byId = {for (final e in ecoDex.entries) e.id: e};
+    final entries = claimed.map((id) => byId[id]).whereType<EcoDexEntry>();
+    if (!context.mounted) return unlocked;
+    await showEcoDexCelebrations(context, entries: entries.toList());
+    return unlocked;
+  } on Object catch (error, stack) {
+    // A failed discovery must not stop the log flow behind it.
+    appLogger.error(
+      'Eco-Dex discovery failed',
+      error: error,
+      stackTrace: stack,
+    );
+    return const [];
   }
 }

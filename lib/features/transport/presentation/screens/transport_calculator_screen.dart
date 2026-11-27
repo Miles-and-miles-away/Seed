@@ -6,6 +6,8 @@ import 'package:seed_app/core/constants/ui_constants.dart';
 import 'package:seed_app/core/l10n/generated/app_localizations.dart';
 import 'package:seed_app/core/utils/helpers.dart';
 import 'package:seed_app/features/actions/domain/enums/action_category.dart';
+import 'package:seed_app/features/actions/presentation/providers/actions_providers.dart';
+import 'package:seed_app/features/mascot/mascot.dart';
 import 'package:seed_app/features/progress/domain/entities/impact_equivalency.dart';
 import 'package:seed_app/features/progress/domain/services/impact_equivalencies.dart';
 import 'package:seed_app/features/progress/presentation/providers/progress_providers.dart';
@@ -292,8 +294,11 @@ class _TransportCalculatorScreenState
     List<List<JourneyLeg>> options,
     ComparisonSummary? summary,
   ) {
-    if (summary == null || summary.deltaGrams <= 0) {
+    if (summary == null) {
       return CalculatorHint(l10n.calculatorNeedBothOptions);
+    }
+    if (summary.deltaGrams.round() <= 0) {
+      return CalculatorHint(l10n.calculatorSameEmissions);
     }
     // On screen the options are the column names; naming a single
     // leg read as an arbitrary pick from the list. The banked action
@@ -317,12 +322,19 @@ class _TransportCalculatorScreenState
           accentColor: ActionCategory.transport.color,
           headline: l10n.transportComparisonDelta(
             bestLabel,
-            formatCO2Compact(summary.deltaGrams.round()),
+            formatCO2Compact(summary.deltaGrams.round(), l10n.localeName),
             worstLabel,
             summary.deltaPercent.round(),
           ),
           equivalencyText: (trees != null && trees >= 0.05)
-              ? l10n.transportComparisonTreesEquiv(trees.toStringAsFixed(1))
+              ? l10n.transportComparisonTreesEquiv(
+                  formatDecimal(
+                    trees,
+                    l10n.localeName,
+                    minDigits: 1,
+                    maxDigits: 1,
+                  ),
+                )
               : null,
           basisNotes: _basisNotes(l10n, modesById, options),
         ),
@@ -345,6 +357,8 @@ class _TransportCalculatorScreenState
                     locale,
                   ),
                   summary.deltaGrams,
+                  [for (final e in options[summary.bestIndex]) e.modeId],
+                  [for (final e in options[summary.worstIndex]) e.modeId],
                 ),
           icon: const Icon(Icons.eco),
           label: Text(l10n.transportLogChoiceCta(bestLabel)),
@@ -378,6 +392,8 @@ class _TransportCalculatorScreenState
     String chosenLabel,
     String baselineLabel,
     double deltaGrams,
+    List<String> chosenIds,
+    List<String> baselineIds,
   ) => bankAndReport(
     context,
     log: () => ref
@@ -385,11 +401,17 @@ class _TransportCalculatorScreenState
         .logChoice(
           name: l10n.transportCustomActionName(chosenLabel, baselineLabel),
           co2Grams: deltaGrams.round(),
+          chosenIds: chosenIds,
+          baselineIds: baselineIds,
         ),
     successMessage: l10n.transportChoiceLoggedMessage(
-      formatCO2Compact(deltaGrams.round()),
+      formatCO2Compact(deltaGrams.round(), l10n.localeName),
     ),
     onSuccess: () {
+      MascotCheer.show(
+        context,
+        streakDays: ref.read(actionLogProvider).value?.firstLogStreakDays,
+      );
       ref.read(journeyOptionsProvider.notifier).clear();
       setState(() {
         for (final cities in _legCities) {

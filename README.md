@@ -15,8 +15,8 @@ grows as you keep it up.
 - **Log an action** from a library of thoroughly researched actions, or define your
   own. Points scale with the CO2 avoided, so a week without a car is worth
   more than a week of remembering a tote bag.
-- **Raise a mascot** through increasing levels and evolution stages, animated in
-  Rive.
+- **Raise a mascot** through increasing levels and evolution stages, drawn and
+  animated in code.
 - **Work out your own numbers** with the food and transport calculators. Each
   has a methodology screen showing the emission factors it used.
 - **Follow all 17 UN Sustainable Development Goals**, each with an original
@@ -33,7 +33,7 @@ grows as you keep it up.
 
 Flutter 3.44 on Dart 3.8. Riverpod 3 with code generation for state,
 go_router 17 for navigation, Freezed 3 for immutable models, fl_chart for
-charts, Rive for the mascot. Firebase for Auth, Firestore, Storage,
+charts, CustomPainter for the mascot. Firebase for Auth, Firestore, Storage,
 Messaging, Analytics, Crashlytics, Performance and App Check. Cloud
 Functions in TypeScript.
 
@@ -89,9 +89,10 @@ Sources and terms for all third-party content are recorded in
   exercise them against the Firestore emulator.
 - `flutter analyze --fatal-infos` over `flutter_lints` with `strict-casts`,
   `strict-inference` and `strict-raw-types`.
-- GitHub Actions. `ci.yml` runs three jobs: Flutter analyze and test, Cloud
-  Functions (Node 22, ESLint, tsc, Jest), and the rules suite on a Temurin 21
-  JDK. `build.yml` builds an Android APK on every pull request into `main`.
+- GitHub Actions. `ci.yml` runs Flutter analyze and test, Cloud Functions
+  (Node 22, ESLint, tsc, Jest), and the rules suite on a Temurin 21 JDK.
+  `build.yml` builds a release Android bundle on every pull request, and an
+  iOS simulator app when a native input changes.
 - Release builds are obfuscated with split debug info.
 
 ## Running it

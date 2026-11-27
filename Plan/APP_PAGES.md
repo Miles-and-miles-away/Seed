@@ -18,28 +18,33 @@ shell and the pushed Log Action screen so every primary screen shows it):
 | 0     | Home         | `/home`         | home              |
 | 1     | Progress     | `/progress`     | calendar_today    |
 | —     | Log Action   | `/log-action`   | add_circle (push) |
-| 2     | Mascot       | `/mascot`       | pets              |
+| 2     | Explore      | `/explore`      | explore           |
 | 3     | Profile      | `/profile`      | person            |
 
 On the Log Action screen (a pushed route outside the shell) the same bar's
 tabs use `context.go` to jump straight into the chosen shell branch.
 
+Anything that explains a term carries the violet info glyph
+(`InfoIconButton` / `TermWithInfo`). Nothing else uses the violet, and
+only the labelled Settings About row reuses the glyph.
+
 First-login walkthrough (`lib/features/walkthrough/`): until the user
-has found a feature, its anchor
-carries a gold `WalkthroughShimmer` sweep, and the first time its
-surface opens a `WalkthroughTrigger` pops the mascot's explanation over
-it, with the checklist of things still to find under the last page.
-Anchors: the Progress and Log Action nav items, the daily challenge
-card, the SDG carousel, the mail icon, and the calculator and quiz
-icons on Log Action. Nothing is pending until a mascot exists and any
-evolution or egg celebration has been shown; the intro then pops on
-Home, and only after it do the items shimmer. One explanation per tap:
-the challenge card explains itself before opening Log Action (whose
-trigger is off when opened by category), and its completed state ticks
-silently so the eco-fact inbox can explain itself. Finding the last
-item ends with a confetti page. State is the
-`settings.walkthroughFound` list on the user doc; Settings > Replay
-walkthrough empties it.
+has found a feature, its anchor carries a gold `WalkthroughShimmer`
+sweep, and the first time its surface opens a `WalkthroughTrigger` pops
+the mascot's explanation over it, with the checklist of things still to
+find under the last page. Anchors: the Progress, Log Action and Explore
+nav items (Explore sweeps while the calculators or the quiz is pending),
+the daily challenge card, the SDG carousel, the mail icon, and the quiz
+tile on the Explore screen; the Explore screen itself explains the
+calculators, with a spotlight on each tile in turn. Nothing is pending
+until a mascot exists and any evolution or egg celebration has been
+shown; the intro then pops on Home, and only after it do the items
+shimmer. One explanation per tap: the challenge card explains itself
+before opening Log Action (whose trigger is off when opened by
+category), and its completed state ticks silently so the eco-fact inbox
+can explain itself. Finding the last item ends with a confetti page.
+State is the `settings.walkthroughFound` list on the user doc;
+Settings > Replay walkthrough empties it.
 
 Auth redirect logic (in `router.dart`):
 - Unauthenticated -> `/login`
@@ -55,14 +60,28 @@ Shown while auth state resolves; redirects based on user state.
 ### Login (`/login`)
 Email/password sign-in plus social sign-in (Google, Apple on iOS).
 - Links: `/register`
-- Functionality: email/password fields, password visibility toggle, forgot
-  password dialog, Google button, Apple button (iOS).
+- Functionality: language pill (top right: globe plus the current
+  language's native name; opens the language picker sheet), email/password
+  fields, password visibility toggle, forgot password dialog, Google
+  button, Apple button (iOS).
+- First launch: the language picker sheet opens once over the screen,
+  with the device language pre-selected. A tap applies a language and
+  closes it; dismissing keeps following the device language. Either way
+  it never opens again on this device, nor after any sign-in.
+
+### Language picker sheet (modal, no route)
+Opened by the first launch on Login and by the language pill on Login
+and Register.
+- Functionality: title and hint, then English / Español / 日本語 tiles
+  (the Language Settings tiles); one tap applies the language and closes
+  the sheet.
 
 ### Register (`/register`)
 Create account with email/password and accept terms.
 - Links: `/terms`, `/privacy`, `/login`
-- Functionality: email/password/confirm fields, T&C checkbox with
-  tappable inline links, Google/Apple sign-up.
+- Functionality: language pill (as on Login), email/password/confirm
+  fields, T&C checkbox with tappable inline links, Google/Apple sign-up.
+  A new account starts in the language on screen.
 
 ### Email Verification (`/verify-email`)
 Post-registration verification gate.
@@ -78,20 +97,40 @@ One-time species pick and naming after sign-up.
 
 Main hub with mascot summary, challenges, and SDG carousel.
 - Links:
-  - `/mascot` (tap mascot display)
+  - `/home/mascot` (tap mascot display, a button labelled "Your mascot")
   - `/mascot-selection` (if no mascot)
   - `/home/sdg/:goalNumber` (SDG carousel tap)
   - `/home/daily-fact` (mail icon in app bar)
+  - `/profile/settings` (settings gear in app bar; pushed on the Home tab)
   - `/home/challenges` (multi-day challenge card)
   - `/log-action` (bottom nav, via shell)
-  - `/log-action?category=<category>` (incomplete daily challenge card)
+  - `/log-action?category=<category>&action=<id>` (incomplete daily
+    challenge card; `category` alone if the library lacks the action)
   - External: UN SDG page (`AppConstants.sdgGoalsUrl`)
-- Functionality: mascot card with streak/points, daily challenge card
-  (tap when incomplete jumps to the actions for its category),
+- Functionality: settings gear beside the mail icon in the app bar,
+  mascot card with streak/points, daily challenge card in a tertiary
+  shade (names one action; any action in its category completes it;
+  tap opens Log Action filtered to the category with that action
+  first; once complete, the whole card opens today's eco-fact; a bell
+  in its top corner, outlined while off and filled while on, opens a
+  sheet with the daily challenge reminder switch and time, on both the
+  open and the completed card),
   multi-day challenge card, My Goal card (shows the user's personal
   sustainability goal or a set-goal prompt; tap opens the goal picker
-  sheet), infinite SDG carousel under an "Explore the SDG Goals" header,
+  sheet), infinite SDG carousel under a "Discover the SDGs" header
+  (official UN goal icons bundled per app language, EN/JA/ES),
   "Learn more at UN.org" external link.
+- Daily greeting: on the first Home visit of a day with no log yet,
+  the mascot waves (a smile under reduced motion), and a speech bubble
+  covers the name, stage and stats for 4 s. The bubble says "Welcome
+  back!" with "{n}-day streak! Log an action to keep it." while
+  the streak is live, else "Log an action to start a new streak." It
+  plays as soon as the mascot is loaded and on screen (not while
+  covered, on another tab, during the walkthrough intro or while an
+  evolution or egg celebration is pending). The check runs again when
+  the day changes. Once a day: the greeted day is stored in
+  `settings.greetedDate`, so a cold start the same day does not greet
+  again. Never for a user who has not logged yet.
 
 ### SDG Detail (`/home/sdg/:goalNumber`)
 Individual SDG goal with targets, resources, actions, impact cards, and a
@@ -99,7 +138,8 @@ global progress chart.
 - Links:
   - `/home/sdg/{prev}` and `/home/sdg/{next}` (goal nav buttons)
   - External: SDG resource URLs
-- Functionality: prev/next goal navigation, resource link tiles, action
+- Functionality: localised official goal icon in the header,
+  prev/next goal navigation, resource link tiles, action
   and impact cards, progress chart that opens a full-screen zoomable view
   (pushed route, no path of its own).
 
@@ -113,6 +153,40 @@ Single fact display; locked until the day's challenge is complete.
 - Links: none
 - Functionality: fact card, auto-mark as viewed, locked state UI.
 
+### Mascot (`/home/mascot`)
+Active mascot with evolution timeline and multi-mascot collection.
+Pushed (never `go`) so Home's SDG carousel keeps its place; the bottom
+nav stays visible and the tab it was opened from stays selected.
+- Reached from: tapping the mascot on Home; the Your mascot row on
+  Profile.
+- Links: none
+- Functionality: rename (edit/check/cancel), switch-mascot dialog,
+  mascot thumbnails (always shown, with the egg at the end when one
+  exists), a line under them that gives the days left to hatch the egg
+  and the reset rule (after a missed day it says the count started
+  again), or the level that earns an egg while a species is unowned,
+  evolution timeline (stage names sit below each
+  stage card, up to two lines), next-evolution progress. While the
+  mascot loads the screen shows a spinner under a "Mascot" app bar with
+  a back arrow.
+- Tapping the mascot makes it wave.
+
+### Mascot Lab (`/home/mascot/lab`, debug builds only)
+Preview of the code-drawn (v3) mascots and their celebration routines
+(PDR_MASCOT_REDESIGN). The route and its entry point do not exist in
+release builds.
+- Reached from: the flask icon in the Mascot app bar.
+- Links: none
+- Functionality: the selected code-drawn hero (breathes, blinks,
+  follows the pointer, waves when tapped) beside its 48 dp static
+  twin, chips that play a routine on the hero from its start (idle,
+  dance, cheer, evolve, hatch), a static cast of every code-drawn stage
+  (tap one to select it), and an app bar button that fires the smile
+  trigger. The hatch chip hatches stage 1 of the selected species from
+  an egg, as the real egg hatch does. The evolve chip plays the smoke
+  that hides the previous stage and clears on the selected stage (on
+  stage 2 when stage 1 is selected).
+
 ### Challenges (`/home/challenges`)
 List of six multi-day challenges with state (completed / active /
 available / blocked).
@@ -124,9 +198,11 @@ available / blocked).
 
 Rainbow sun daily-goal tracker plus three segmented views: Calendar,
 Impact, and Eco-Dex.
-- Links: `/progress/history`
-- Functionality: segmented control (Calendar / Impact / Eco-Dex),
-  daily target picker for first-time users, calendar grid. Supports a
+- Links: none (see Action History below)
+- Functionality: segmented control (Calendar / Impact / Eco-Dex; text
+  labels only, no icons, scaled together when a translation is too long
+  for its segment), daily target picker for first-time users, calendar
+  grid. Supports a
   `?tab=` query parameter (`calendar` / `impact` / `ecodex`) so other
   screens can deep-link to a specific segment.
 
@@ -138,7 +214,8 @@ burgers), and trend / category charts of the same window.
   (EPA, DEFRA, Our World in Data) opened via `url_launcher`.
 - Functionality: time-period selector (Today / Week / Month / All
   Time); headline kg total card with period-over-period comparison
-  badge; static four-card equivalencies row with info-icon sheet showing
+  badge; four equivalency cards (a 2 x 2 grid below 600pt wide, one
+  row of four on wider layouts) with an info-icon sheet showing
   per-equivalency explainer, formula, and tappable source citation;
   daily-trend scatter chart with dashed mean line; category donut
   (Top 5 + Other) with center kg total and color-dot legend. Charts
@@ -162,6 +239,10 @@ never points).
 
 ### Action History (`/progress/history`)
 Timeline of logged actions grouped by date with running points total.
+Action names show in the current language, falling back to the name
+stored at log time for banked calculator choices.
+- Reached from: no UI entry point today; the route exists and is
+  reachable only by deep link.
 - Links: none
 - Functionality: read-only list, retry on error.
 
@@ -171,15 +252,12 @@ Pushed route — not a shell branch, but shows the shared bottom nav so users
 navigate via the tabs. The implicit AppBar back arrow is suppressed
 (`automaticallyImplyLeading: false`) so the bottom nav is the single,
 unambiguous exit. Browse and log actions.
-- Links: bottom nav tabs (`context.go` to Home/Progress/Mascot/Profile);
-  `/transport-calculator`, `/food-calculator` and `/energy-calculator` —
-  all three reached via the AppBar calculator chooser (transport / food /
-  home energy, live since 8.17), and transport and food additionally from
-  the "Log a Custom Transport action" / "Log a Custom Food action" cards
-  shown only in their category views; `/energy-explore` and
-  `/quiz` from two AppBar icons beside the calculator chooser,
-  shown in every category (decision E8); inline
-  confirmation dialog / science bottom sheet
+- Links: bottom nav tabs (`context.go` to Home/Progress/Explore/Profile);
+  `/transport-calculator` and `/food-calculator` from the "Log a Custom
+  Transport action" / "Log a Custom Food action" cards shown only in
+  their category views; inline confirmation dialog / science bottom
+  sheet. The calculators and the energy teaching surfaces live on the
+  Explore tab.
 - Tile height: the grid sizes a cell to the tile's content
   (`ActionLogScreen.tileHeightFor`) rather than to a fraction of its
   width. A 0.9 aspect ratio made a 179pt cell 199pt tall for a tile that
@@ -188,23 +266,55 @@ unambiguous exit. Browse and log actions.
   not inflate with it; tests pin that the tallest tile still fits at
   scale 1.0, 1.3 and 2.0 (2026-09-02).
 - Query params: `category` pre-selects the matching category tab on open
-  (unknown values fall back to "All").
-- Functionality: three AppBar icons -- the calculator chooser
-  (`calculate_outlined`, opens the calculators bottom sheet), "Where
-  your energy goes" (`bolt`, the app's own energy glyph) and "Higher or
-  lower?" (`quiz_outlined`). The latter two are not category-dependent:
-  they are teaching surfaces rather than actions to log, and the problem
-  decision E8 resolved was exactly that they were buried. The chooser
-  sheet's three tiles carry their own category colours. Then search, category
-  tabs, sort dropdown, SDG filter chips, action cards with log
-  confirmation and science info; and one custom-action tile in the
+  (unknown values fall back to "All"); an `action` parameter pins that
+  action first for the visit, under every sort and ahead of the
+  custom-action tile, ringed in the scheme's tertiary colour; `log=1`
+  (the tap on an action reminder) opens that action's log dialog
+  instead, with no pin or ring, since the action is not the challenge.
+  A reminder tap while the action log is open replaces it rather than
+  stacking a second one; a tap made while signed out is dropped.
+- Reminder bell: the top-right corner of every library action card
+  (hidden on learn-only actions and the custom-action tiles) opens the
+  "Remind me" sheet: time, weekday toggles (Monday first in every
+  language), and Forever or a number of times with the last reminder's
+  date shown. Counting starts tomorrow when the action is already
+  logged today; days skipped by a later log still count, so the last
+  day never moves. The bell is outlined with no reminder, filled in the
+  category colour once one is set, and filled in grey while the Action
+  reminders switch on Reminders is off. A reminder whose last time has
+  passed drops off. Up to 10 action reminders; at the limit the bell
+  shows a snackbar whose Manage button opens Reminders instead.
+- Functionality: no AppBar actions, so the title renders at full size in
+  every language. Search, category tabs, sort dropdown (Shuffle by
+  default, a new order each visit; a chosen sort is kept until the app
+  is closed or the account changes), SDG filter chips, action cards with
+  log confirmation (the science sheet opens from the info glyph on the
+  dialog's description panel); and one custom-action tile in the
   transport and food category views -- "Log a Custom Transport action"
   and "Log a Custom Food action". The energy category has no such tile:
   its calculator banks nothing (decision 8.18), and a tile in a grid of
   loggable actions promises a log it cannot deliver, so the energy
-  calculator is reached from the AppBar chooser only (2026-09-02). An
-  empty filter result shows the "No actions found" state with no tile at
-  all.
+  calculator is reached from the Explore tab only. An empty filter
+  result shows the "No actions found" state with no tile at all.
+- Search matches the EN/JA/ES name and description of every action,
+  ignoring case, accents and surrounding spaces ("carton" finds
+  "Reciclar cartón").
+- After a log (here or from SDG detail): the points animation and
+  snackbar(s). The day's first log shows the dance cheer: the jump
+  cheer's mascot dances in place of the jump, with a speech bubble
+  over its head ("Streak started!" or "{n}-day streak!"). The log
+  that brings today's count exactly to the daily goal (the user's
+  target, else 3) shows the jump cheer
+  (`MascotCheer.show`: a mascot rising in the root overlay to the
+  bottom third of the space above the bottom nav or keyboard, jumping
+  to its middle once loaded with its eyes on the user, sinking after
+  3 s; a smile under reduced motion). Then any Eco-Dex
+  and streak celebrations. A log that completes the daily challenge
+  opens the Eco Fact Inbox instead of cheering. Neither the cheer nor
+  the inbox plays while an evolution or egg celebration is pending.
+  The cheer also stands aside for any other celebration, showing or
+  queued, and the inbox opens once those close. Only one cheer shows
+  at a time, so a first log that also reaches the goal dances.
 
 ### Calculator colouring (all three)
 
@@ -226,6 +336,35 @@ on a fill it cannot be read against. The raw colours are fills, not ink: amber r
 orange 2.2:1, so figures in the raw colour would be unreadable. A test
 pins the contrast for every category on both themes (2026-09-02).
 
+## Tab 2 -- Explore (`/explore`)
+
+Calculators and games as a top-level destination, each a labelled tile
+with a one-line description; every tile pushes its full-screen route.
+- Links:
+  - Calculators: `/transport-calculator` (Transport),
+    `/food-calculator` (Food), `/energy-calculator` (Home energy)
+  - Learn and play: `/energy-explore` (Where your energy goes),
+    `/quiz` (Higher or lower?), `/fact-pairs` (Fact pairs),
+    `/fact-recall` (Fact recall)
+- Functionality: two sections of `ExploreTile`s, each a tinted disc
+  (category colour, icon in its readable tone; the quiz takes the
+  scheme's primary, Fact pairs `categoryLearning` blue grey, Fact recall
+  `categoryAdvocacy` pink), title, subtitle and chevron. Until the
+  user has discovered enough Eco-Dex entries (5 for Fact pairs, 10 for
+  Fact recall), a fact game tile reads "N of M Eco-Dex entries
+  discovered" and a lock replaces the chevron; it stays tappable and
+  opens the game's locked view. Until the user document has loaded the
+  tile shows neither, so an unlocked user never sees a lock flash. The
+  calculators
+  walkthrough pops here with a spotlight on the tile each page explains
+  (transport, food, home energy, then the ranking), the bubble in the
+  taller band beside it with its button always on screen; a tile off
+  screen, or a band too short for the bubble, gets the full scrim and a
+  centred bubble instead. The quiz tile shimmers until the quiz is
+  found. No info icon: every tile carries its own subtitle. The fact
+  game tiles dim with the others during the walkthrough but have no
+  shimmer and no walkthrough item.
+
 ## Transport Calculator (`/transport-calculator`)
 
 Pushed full-screen route (Phase 8). Educational side-by-side journey
@@ -233,13 +372,14 @@ comparison: two option columns (A and B) are built at once and
 totalled live. There is no separate comparison screen — the delta,
 its equivalency, the data-honesty basis notes and the banking action
 are folded in under the columns.
-- Reached from: the AppBar calculator chooser on the Log Action screen
-  (transport tile), and the "Log a Custom Transport action" card
-  shown in that screen's transport category view (kept off the bottom
-  nav to hold it at five buttons).
+- Reached from: the Explore tab (Transport tile), and the "Log a Custom
+  Transport action" card shown in the Log Action screen's transport
+  category view.
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-mode science sheets and
-  external source URLs open from info icons / tappable links.
+  external source URLs open from info icons / tappable links. A
+  sheet's calculation notes follow the app language; source names and
+  quotes stay as published.
 - Layout: an optional journey-level From/To city pair at the top (the
   trip being compared), the two option columns down the middle, the
   result panel, and an "Add leg" button under each column. Columns
@@ -282,9 +422,9 @@ are folded in under the columns.
   leg: if the leg's cities imply a different DEFRA band than the air
   mode picked, the correct band is used and a note says so, so a short
   hop can never be priced as long-haul.
-- Each column shows its total as a tappable CO2e amount (opens a
-  plain-language definition of the unit) and a magnitude bar scaled to
-  the worse column, with the lower one highlighted.
+- Each column shows its total as a CO2e amount with the info glyph
+  (opens a plain-language definition of the unit) and a magnitude bar
+  scaled to the worse column, with the lower one highlighted.
 - Result panel: "Option A emits N CO2e less than Option B (P% lower)"
   — never "saves" (data-review copy rule). The options are named by
   column, not by an item inside them, which read as an arbitrary pick
@@ -302,6 +442,7 @@ are folded in under the columns.
 - Both columns survive navigating away and back (keepAlive providers);
   they reset on app restart or after banking a choice, and nothing is
   persisted to Firestore.
+- Banking a choice also shows the jump cheer (see Log Action).
 
 ### Methodology & Sources (pushed within the feature)
 Markdown page (8.4): scope, occupancy, radiative forcing (1.7×,
@@ -320,13 +461,14 @@ meal comparison. Mirrors the transport calculator exactly (shared
 `OptionColumn`, `OptionEntryCard`, `ComparisonDeltaCard`,
 `Co2eAmount`), minus occupancy and cities.
 Never awards points inside the tool.
-- Reached from: the AppBar calculator chooser on the Log Action screen
-  (food tile), and the "Log a Custom Food action" card shown in that
-  screen's food category view (kept off the bottom nav to hold it at
-  five buttons).
+- Reached from: the Explore tab (Food tile), and the "Log a Custom Food
+  action" card shown in the Log Action screen's food category view.
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-item science sheets and
-  external source URLs open from info icons / tappable links.
+  external source URLs open from info icons / tappable links. A
+  sheet's calculation notes follow the app language where the item has
+  a translation and fall back to English otherwise; source names and
+  quotes stay as published.
 - Layout: two option columns down the middle, each with its own
   "Add ingredient" button underneath, and the result panel below.
   There is no item-chip pool and no drag-and-drop: the food dataset
@@ -369,6 +511,7 @@ Never awards points inside the tool.
   compare them".
 - Both columns survive navigating away and back (keepAlive providers);
   they reset on app restart or after banking a choice.
+- Banking a choice also shows the jump cheer (see Log Action).
 
 ### Methodology & Sources (pushed within the feature)
 Markdown page (8.10): cradle-to-retail scope incl. land-use change
@@ -390,14 +533,14 @@ routine comparison, same two-column shape as the other calculators
 awards points and has no banking button (decision 8.18 --
 a shorter shower has no verifiable counterfactual, and the action
 library already covers the same behaviours).
-- Reached from: the AppBar calculator chooser on the Log Action screen
-  (home energy tile) -- and only there. It has no card in the energy
-  category view: that grid is for actions that can be logged, and this
-  calculator banks nothing (decision 8.18). Kept off the bottom nav to
-  hold it at five buttons.
+- Reached from: the Explore tab (Home energy tile) -- and only there.
+  It has no card in the energy category view: that grid is for actions
+  that can be logged, and this calculator banks nothing (decision
+  8.18).
 - Links (internal Navigator pushes, not named routes): Methodology &
   Sources screen (AppBar science icon). Per-behavior science sheets
-  open from the picker's info icons.
+  open from the picker's info icons. A sheet's calculation notes
+  follow the app language; source names and quotes stay as published.
 - Layout: two option columns with an "Add usage" button under each and
   the result panel below. Adding opens the grouped behavior picker
   (recents on top), then a quantity editor with preset chips over an
@@ -407,9 +550,9 @@ library already covers the same behaviours).
   otherwise it reads "No winner here" as a proper heading with the real
   reason stated underneath, in a tinted panel. The reason used to sit
   behind a "Why not?" dialog, which read as a dead end (2026-09-02).
-  The option bars and totals carry the category colour, as transport's
-  and food's do. When a verdict passes, the grid-invariant multiple
-  leads ("Option B costs 2.3x as much CO2e as Option A", decision E7),
+  The option bars and the crowned total carry the category colour, as
+  transport's and food's do. When a verdict passes, the grid-invariant
+  multiple leads ("Option B costs 2.3x as much CO2e as Option A", decision E7),
   computed in kWh; the gram delta and a phone-charge equivalency
   (anchored on the dataset's own `phone_charge` row, electricity
   deltas only) sit beneath, over basis notes naming the 458 g CO2e/kWh
@@ -439,8 +582,8 @@ enforced in one widget.
 Pushed full-screen route (decision E8). "Where your energy goes"
 promoted out of the methodology page into its own surface: the ranked
 table is the screen.
-- Reached from: the `bar_chart` AppBar icon on the Log Action screen,
-  visible in every category.
+- Reached from: the Explore tab (Where your energy goes tile,
+  `bar_chart`).
 - Layout: a 2x2 grid of equally sized baseline buttons switching the
   measuring baseline (LED hour / phone charge / kettle litre / fan hour
   -- each one a dataset row with a one-unit default preset, never an
@@ -483,23 +626,46 @@ table is the screen.
 
 ## Higher or Lower (`/quiz`)
 
-Pushed full-screen route (decision E8). Two cards, names only: drag the
-one you think has the bigger footprint to the top.
-- Reached from: the `quiz_outlined` AppBar icon on the Log Action
-  screen, visible in every category.
+Pushed full-screen route (decision E8). Two cards, names only: tap or
+drag up the one you think produces more carbon.
+- Reached from: the Explore tab (Higher or lower? tile,
+  `quiz_outlined`).
 - Rounds rotate at random between home energy, food and transport, and
   each round is drawn wholly from one domain. A PAIR never mixes
   domains: a serving of beef against an hour of LED light would set a
   cradle-to-retail lifecycle figure beside an operational one. The line
   above the tokens names the round's dataset and what one card of it
   measures (a use, a serving, a passenger-kilometre).
-- Layout: a streak / session-best row, the round's basis line, then the
+- Layout: a streak / session-best row, the question "Which produces
+  more carbon?" (the same wording as the walkthrough and the Explore
+  tile), the round's basis line, the instruction "Tap or drag up the
+  one that produces more" (above the tokens, so a 320x568 phone shows
+  it in round 1 without a scroll that could land on a token), then the
   two tokens side by side, tinted with their domain's category colour
-  and always the same size (stretched inside an `IntrinsicHeight`, or a
-  wrapped title leaves one token taller). HIGHER and LOWER label the
-  zones above and below. After the answer: the figures, correct/wrong
-  copy, a "Keep going" button, a "Ladder so far" list of the cards
-  revealed in the current run, and the basis plus no-points footnotes.
+  and always the same size (`QuizTokenPair` lays both out and sets them
+  to the taller one's height; an `IntrinsicHeight` mis-measured some
+  titles, because a paragraph's intrinsic sizes depend on the order
+  they are asked in). Each token ends in an info button, at the same
+  height in both tokens. Token text never breaks inside a word: a word
+  too wide for the token shrinks the text instead (`NoWordBreak`), and
+  Japanese phrases are sized to the token's real width, so a wider
+  phone keeps more of them whole. Every multi-line text on the page
+  goes through `PhraseText`, so no Japanese line ends on a lone
+  character. HIGHER and LOWER label the zones above and below. On the
+  first round of each visit an up chevron sits over each token, in the
+  swing room so nothing moves when it goes; it bobs three times then
+  rests (still under reduced motion, and still while the first-visit
+  walkthrough is up, bobbing once it closes) and goes on the first drag
+  or answer, and does not return after "Keep going" or "Start again".
+  After the answer: the figures, correct/wrong copy, a "Keep going"
+  button, a "Ladder so far" list of the cards revealed in the current
+  run, and the basis plus no-points footnotes.
+- Info sheet (`QuizItemSheet`): the item's name, its type (the
+  dataset's group label), the amount compared (the token's subtitle, or
+  the basis line when it has none) and the round's basis note. No
+  figure before the answer, since it would give the round away; after
+  it, the token's figure and a "Where this number comes from" button
+  that swaps to the item's science sheet. Opening it never answers.
 - Interaction: the two tokens ride opposite ends of one wheel. Dragging
   either turns it -- up on the right and down on the left are the same
   motion -- so lifting one lowers the other and both swing inward along
@@ -511,7 +677,14 @@ one you think has the bigger footprint to the top.
   because a true circle of that width would end the turn with the two
   tokens overlapping. The drag is damped below 1:1 so it feels weighted,
   needs 0.3 rad to commit (a nudge is not an answer), and pops into
-  place on `elasticOut` with a medium-impact haptic.
+  place on `elasticOut` with a medium-impact haptic. Or tap a token: it
+  answers the same way, with the same turn and haptic. To a screen
+  reader each token is one button (name and amount, "Choose this one",
+  a tap action, no scroll actions), and after the answer its label
+  carries the figure; the verdict and the streak are announced. The
+  transform is the token's outermost layer and the swing room sits
+  inside the row, so a swung token still takes taps, its info button
+  included. After the answer a drag on a token scrolls the page.
 - No figures until the answer is in: showing one card's multiple up
   front handed over most of the answer.
 - Deck rules: each deck drops the rows it cannot rank honestly -- gas
@@ -522,8 +695,15 @@ one you think has the bigger footprint to the top.
   Consecutive cards must differ by at least each calculator's own bar
   (20%), so a pair that displays identically is never asked; line
   drying's zero is dealable because it holds on any grid. Cards deal
-  without replacement and reshuffle when the pile empties. The deck
-  model (`lib/shared/domain/quiz_deck.dart`) is domain-generic.
+  without replacement and reshuffle when the pile empties, and each
+  pair goes on screen in a random order, since the second card is drawn
+  against the first. The deck model (`lib/shared/domain/quiz_deck.dart`)
+  is domain-generic.
+- Warm-up: while the streak is under 3 (the start of every run,
+  including after a miss), a round's two cards must be at least 3x
+  apart; from a streak of 3 the 20% bar applies. If the deck has no
+  card that far from the first, the round falls back to the 20% bar
+  rather than ending the run.
 - A wrong answer ends the run: the streak and the ladder reset, and the
   session best keeps the maximum. Only that best-streak int survives
   leaving the screen (a keepAlive notifier); it does not survive an app
@@ -532,19 +712,141 @@ one you think has the bigger footprint to the top.
   all three datasets equally, and only started in `energy` because
   energy was the first deck it had.
 
-## Tab 2 — Mascot (`/mascot`)
+## Fact Pairs (`/fact-pairs`)
 
-Active mascot with evolution timeline and multi-mascot collection.
-- Links: none
-- Functionality: rename (edit/check/cancel), switch-mascot dialog,
-  mascot thumbnails, next-evolution progress.
+Pushed full-screen route. A memory game over facts from across the app:
+turn two cards at a time to match each fact's clue (what the figure
+measures, such as "Share of world CO2 from aviation") to its key figure.
+Decisions in `PDR_FACT_GAMES.md`.
+- Reached from: the Explore tab (Fact pairs tile, `style`).
+- Pool: eco-facts whose date is in `unlockedFactDates` or
+- A right answer that beats the session best plays a one-second confetti
+  burst (no mascot; none under reduced motion). A tie does not.
+  `viewedFactDates` (the inbox's rule), one per `dayOfYear`, with a key
+  figure (unread facts count, so a match can show a fact the user
+  skipped); every SDG goal and library action with a key figure, since
+  their screens are open to all; and discovered Eco-Dex entries with a
+  key figure. A fact with no clue is left out. Sources take turns, so no two cards in a row on the deal
+  come from one source while another has facts left.
+- Board: 6 pairs (3 x 4) from 6 distinct figures, 3 pairs (3 x 2) from 3
+  to 5. Never two equal figures on one board, compared on `keyFigureEn`
+  because JA and ES can write one value two ways. Three columns at text
+  scale 1.0, two taller ones above it. Faces keep the user's text size
+  and wrap between words, never inside one: a word or JA figure run
+  wider than the face scales that face down instead. JA figures break
+  only after 万/億/兆 before a digit, at a space, or before a unit word
+  of two or more characters (1万 / 5,400 / リットル).
+- Layout: the rule line, a wrapping status row (pairs found, moves),
+  the grid, and the no-points footnote. Face down shows an eco glyph on
+  `primaryContainer`, face up the text on `surfaceContainerHigh`
+  (figures in bold primary), matched `tertiaryContainer` with a check.
+- Interaction: tap to turn (a 3D flip, none under reduced motion). A
+  miss stays up for 1.2 s, and taps meanwhile are ignored. A match
+  opens the fact in full over the board, so it never depends on
+  scrolling: an eco-fact's text and source, an SDG goal's whole
+  description (both in the info sheet), an action's info sheet
+  (`ActionScienceBottomSheet`) or the Eco-Dex entry's sheet
+  (`EcoDexEntrySheet`), the same sheets Fact recall opens. Tapping a
+  matched card opens its fact again. The last match opens no sheet:
+  it scrolls the finish panel (move count and "Play again") into view
+  and plays the win celebration (`MascotCheer`: confetti, and
+  the mascot rising from the bottom edge to smile, then sinking back;
+  no confetti or slide under reduced motion). Screen readers
+  hear each turned card, then "Pair found" or "Not a pair", in one
+  announcement, plus the finish line on the last match and the new
+  board's pair count after Play again.
+- Locked until 5 Eco-Dex entries are discovered: a centred lock, a
+  line saying the game opens once enough Eco-Dex entries are
+  discovered, the progress count and an "Open the Eco-Dex" button
+  (Progress, Eco-Dex tab). The Explore tile shows the same count and a
+  lock. The locked view and pool are shared by the fact games.
+- The board is widget state: a pool reload keeps it, a locale change
+  deals a new one. Awards nothing and persists nothing; no best score,
+  since board sizes differ. Analytics: `fact_pairs_opened`,
+  `fact_pairs_finished {pairs, moves}`.
+- Lives in `lib/features/fact_games/`.
+
+## Fact Recall (`/fact-recall`)
+
+Pushed full-screen route. A quiz over facts from across the app and the
+calculators: each question blanks a fact's key figure and offers three
+figures.
+- Reached from: the Explore tab (Fact recall tile, `psychology_outlined`).
+- Pool and lock: the same pool as Fact pairs plus the calculator
+  comparisons, which every user gets; locked until 10 Eco-Dex entries
+  are discovered (shared locked view). A round asks up to 5 facts with
+  distinct figures, taking sources in turn (eco-facts, SDG goals,
+  action info, Eco-Dex entries, and the calculator comparisons as one
+  source, in a shuffled order) so no two questions in a row come from
+  one source while another has facts left; "Play again" asks facts the
+  last round left out first.
+- Calculator comparisons: a curated set in `calculator_facts.dart`, each
+  two items on one basis (food per 100 g or 100 ml, transport per
+  passenger-km, with a car at one occupant and said to be driven alone,
+  energy per unit of electricity, where the grid factor cancels), drawn
+  from Higher or Lower's deck items plus those cars. The multiple is
+  computed from the data at runtime: "N times" with one decimal under
+  10x, whole above, and a whole percentage more under 2x. The sentence
+  is per comparison in the ARB files; the title is the calculator's
+  name. A comparison whose data no longer fits its sentence drops out.
+- Decoys: a calculator comparison's decoys are always its own figure
+  scaled (below), since another fact's multiple could sit too close.
+  Other facts take two other facts' real key figures in the answer's exact
+  format where there are any, drawn from every playable fact (locked
+  ones too; a decoy is a bare number with no title). Otherwise the
+  answer's own numbers scaled (a quarter, half, double, four times,
+  rounded to two significant figures, at least 1.8x apart), so a range
+  gets ranges; the answer then sits low, middle or high. Scaling never
+  drops a multiple to 1x or below (a comparison's to below 2x, a
+  format its answer never takes; a comparison also scales by 1.5x and
+  2.25x, at least 1.4x apart, so its answer can still sit in the
+  middle), takes a share past 100% (a
+  comparison's "N% more" may pass it), or puts a number below 1 before a
+  scale word ("0,9 billones"); in English 1,000 of a scale word carries
+  up ("1.8 billion"). Otherwise real figures in the
+  answer's unit or its family (mass, time, money and so on). A decoy is
+  never a figure the blanked text already states whole ("20 °C" in the
+  text does not rule out "20 times"), and the answer is never the only
+  one written differently.
+- Layout: the rule line, a wrapping status row (question N of 5,
+  score), the question card (title, then the text with a blank; after
+  an answer the full text with the figure in bold primary) and the
+  no-points footnote, scrolling. A panel pinned at the bottom holds the
+  result line ("Right!" or "Not this time. It's X."; after a wrong
+  answer an "Explore this fact" link beneath it), the three answers
+  and Next, so they never leave the screen; Next is always there,
+  disabled until the question is answered, and the answers scroll inside
+  the panel only past 45% of the screen height. Card text wraps between
+  words; a word too wide for a line at large text shrinks the text
+  instead, and JA figures and the blank never split.
+- Interaction: one tap answers and locks the three; the right answer
+  turns `tertiaryContainer` with a check, a wrong choice
+  `errorContainer` with a cross. Next scrolls the body back to the top.
+  "Explore this fact" shows the fact in full in the same sheet a Fact
+  pairs match opens (eco-fact with its source, SDG goal, action info,
+  Eco-Dex entry), over the round; a calculator comparison instead
+  pushes its calculator (`/food-calculator`, `/transport-calculator`,
+  `/energy-calculator`). Closing the sheet or Back returns to the same
+  question.
+  After the last question "See score" replaces the body with the score
+  and "Play again"; a perfect round also plays the win celebration
+  (see Fact Pairs). Screen readers hear the card as one label (the
+  blank read as "blank"), the verdict on each answer, the new question
+  after Next and the score at the end.
+- The round is widget state: a pool reload keeps the question, a locale
+  change deals a new round from question 1. Awards nothing and persists
+  nothing. Analytics: `fact_recall_opened`, `fact_recall_finished
+  {questions, correct}` on the last answer.
+- Lives in `lib/features/fact_games/`.
 
 ## Tab 3 — Profile (`/profile`)
 
 User stats (level, streak, CO2 saved, total actions) and evolution
 stage.
-- Links: `/profile/settings`, `/progress?tab=ecodex`
-- Functionality: settings icon in app bar, sign-out button, stat
+- Links: `/profile/settings`, `/home/mascot`, `/progress?tab=ecodex`
+- Functionality: settings gear in app bar, a "Your mascot" row under
+  the level card (pets icon, the mascot's name, pushes the Mascot
+  screen; hidden while the user has no mascot), sign-out button, stat
   cards, Eco-Dex preview card (up to 3 most recent discoveries + "+N
   more" chip and a "X / Y discovered" counter; thumbnail tap opens
   the entry fact sheet, card tap deep-links to the Eco-Dex segment
@@ -552,46 +854,88 @@ stage.
 
 ### Settings (`/profile/settings`)
 Settings hub.
+- Reached from: the gear in the Home app bar and the gear in the
+  Profile app bar.
 - Links:
   - `/profile/settings/language`
+  - `/profile/settings/reminders` (Manage reminders)
   - `/profile/settings/account`
   - `/profile/settings/feedback` (Send Feedback)
   - `/profile/settings/about`
-- Functionality: language selector, theme picker, "Replay
+- Functionality: Manage reminders tile (see below), language selector, theme picker, "Replay
   walkthrough" tile under Support (confirm dialog, then clears the
   user's `settings.walkthroughFound` and opens Home so the intro pops
   straight away), analytics toggle, section tiles.
-- Note: the Notifications section is hidden while the reminder feature
-  is postponed (the route below still exists but is unreachable from
-  the UI).
+- Notifications section, at the top, two fixed tiles:
+  - Manage reminders: opens Reminders. Its subtitle reads "Notifications
+    are blocked" while a reminder switch is on but the OS blocks them.
+  - Notification style: opens the OS notification settings for Seed,
+    where sound, vibration and banners are set (per channel on Android:
+    "Daily challenge reminder" and "Action reminders").
 
-### Notification Settings (`.../settings/notifications`) — hidden
-Feature postponed; no UI entry points to this route.
+### Reminders (`.../settings/reminders`)
+- Reached from: Manage reminders in Settings, and the Manage button on
+  the action-reminder limit snackbar. The daily reminder part is also
+  in a sheet from the bell on the Home daily challenge card.
 - Links: none
-- Functionality: master notifications toggle (off by default; turning
-  it on requests OS notification permission and stays off if denied),
-  smart-reminders toggle,
-  reminder list (up to 5) with add / edit / delete, time picker.
-  Settings are persisted but no notification is ever scheduled (see
-  notes in `lib/shared/providers/notification_providers.dart`).
+- Functionality:
+  - Daily challenge reminder toggle (off by default) and a reminder-time
+    tile (system time picker, default 18:00, disabled while the toggle
+    is off). One local notification a day nudges the user to complete
+    the daily challenge that unlocks the eco-fact; once today's
+    challenge is done, today's reminder is dropped.
+  - Action reminders toggle, a line explaining the bell and the limit
+    of 10, then one tile per action reminder sorted by action name
+    (action icon, name, days, time and last day; a tap opens the
+    reminder sheet to edit or delete it, even while the toggle is off),
+    or an empty state. Reminders are set from the bell on an action
+    card, and saving the first one switches the toggle on once the OS
+    allows notifications.
+  - Turning a toggle on requests OS notification permission; a refusal
+    leaves it off and shows a snackbar with an "Open settings" action.
+    While a toggle is on but the OS blocks notifications, a red
+    "Notifications are blocked" tile leads the screen, rechecked on
+    every resume.
+- Reminder queue: one-shot notifications for the next fortnight,
+  refreshed on every app open, on resume and whenever a setting, the
+  challenge or today's logs change, so they stop after two weeks away.
+  A refresh replaces the pending notifications and removes from the
+  tray only the reminders of earlier days. It skips the OS calls when
+  the queue is unchanged, or while the settings or action library fail
+  to load. A sign-out clears the whole tray.
+  iOS holds 64 pending notifications per app: the 14 daily
+  challenge reminders come first and action reminders take the rest,
+  soonest first, which covers about five days with all ten set for
+  every day.
 
 ### Language Settings (`.../settings/language`)
 - Links: none
 - Functionality: English / Spanish / Japanese tiles, live app switching.
+  A pick applies to this device and the account (and, on Android 13+,
+  the system per-app language, which also follows the account's
+  language at sign-in unless an OS-side change is active). The language
+  shown is the device language until a pick. A pick is sticky: changing
+  the phone's language afterwards does not change the app's. The one
+  exception is the Android 13+ per-app language, which the app itself
+  sets and so follows when the user edits it in system settings.
+  Signing out keeps the language on screen.
 
 ### Account Settings (`.../settings/account`)
 - Links: `/login` (on account deletion)
 - Functionality: profile section (display name dialog, My Goal picker
   sheet with presets + free text), change email dialog, change password
-  dialog, delete account dialog with re-authentication.
+  dialog, "Download My Data" (shares a JSON export of the user doc and
+  its subcollections through the system share sheet), delete account
+  dialog with re-authentication.
 
 ### About (`.../settings/about`)
 - Links:
   - `/privacy` (canonical legal route)
   - `/terms` (canonical legal route)
   - External: licenses page (system)
+  - External: UN SDG icon guidelines (UNIC Tokyo page in JA)
 - Functionality: app version, privacy/terms tiles, licenses button,
-  SDG acknowledgement.
+  SDG acknowledgement, SDG icons credit tile.
 
 ### Feedback (`.../settings/feedback`)
 - Functionality: structured form with category chips (Bug / Feature /
@@ -611,7 +955,7 @@ register screen can link to it. Wraps `LegalDocumentScreen`.
 ### Legal Document (internal)
 Reusable template for legal docs — title, sections, last-updated date.
 Not routable directly.
-The same content is published at https://seed-3d48d.web.app/privacy,
+The same content is published at https://seedahabit.com/privacy,
 /terms and /delete-account for the store listings; see the Legal Pages
 section of `DEPLOYMENT_STRATEGY.md` for the rebuild command.
 
@@ -635,18 +979,22 @@ All values are full paths suitable for `context.push` / `context.go`.
 | `energyCalculator`        | `/energy-calculator`              |
 | `energyExplore`           | `/energy-explore`                 |
 | `quiz`                    | `/quiz`                           |
+| `factPairs`               | `/fact-pairs`                     |
+| `factRecall`              | `/fact-recall`                    |
 | `home`                    | `/home`                           |
 | `progress`                | `/progress`                       |
-| `mascot`                  | `/mascot`                         |
+| `explore`                 | `/explore`                        |
 | `profile`                 | `/profile`                        |
+| `mascot`                  | `/home/mascot`                    |
+| `mascotLab` (debug only)  | `/home/mascot/lab`                |
 | `dailyFact`               | `/home/daily-fact`                |
 | `challenges`              | `/home/challenges`                |
 | `sdgDetail(n)`            | `/home/sdg/{n}`                   |
 | `dailyFactDetail(key)`    | `/home/daily-fact/{key}`          |
 | `actionHistory`           | `/progress/history`               |
 | `settings`                | `/profile/settings`               |
-| `settingsNotifications`   | `/profile/settings/notifications` |
 | `settingsLanguage`        | `/profile/settings/language`      |
+| `settingsReminders`       | `/profile/settings/reminders`     |
 | `settingsAccount`         | `/profile/settings/account`       |
 | `settingsAbout`           | `/profile/settings/about`         |
 | `settingsFeedback`        | `/profile/settings/feedback`      |

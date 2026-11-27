@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:seed_app/features/auth/data/models/app_user_model.dart';
 import 'package:seed_app/features/progress/data/models/daily_summary_model.dart';
@@ -46,6 +47,7 @@ void main() {
       DailySummaryModel? todaySummary,
       bool needsSetup = false,
       int? dailyGoalTarget,
+      Locale? locale,
     }) {
       final testUser =
           user ??
@@ -75,6 +77,7 @@ void main() {
       return createTestWidget(
         firebaseAuth: mockFirebaseAuth,
         firestore: fakeFirestore,
+        locale: locale,
         overrides: [
           userOverride(testUser),
           needsDailyTargetSetupProvider.overrideWithValue(needsSetup),
@@ -90,6 +93,31 @@ void main() {
         ],
         child: const ProgressScreen(),
       );
+    }
+
+    for (final width in testPhoneWidths) {
+      testWidgets('the Japanese segments stay on one line at ${width}pt', (
+        tester,
+      ) async {
+        sizeViewport(tester, size: Size(width, 900));
+        await tester.pumpWidget(buildTestWidget(locale: const Locale('ja')));
+        await tester.pumpAndSettle();
+
+        expect(tester.takeException(), isNull);
+        for (final label in ['カレンダー', 'インパクト', 'エコ図鑑']) {
+          final paragraph = tester.renderObject<RenderParagraph>(
+            find.text(label),
+          );
+          expect(
+            paragraph.size.width,
+            greaterThanOrEqualTo(
+              paragraph.getMaxIntrinsicWidth(double.infinity),
+            ),
+            reason: label,
+          );
+        }
+        expect(find.text('目標を達成して太陽を育てよう！'), findsOneWidget);
+      });
     }
 
     testWidgets('shows DailyTargetPicker for first-time users', (tester) async {
